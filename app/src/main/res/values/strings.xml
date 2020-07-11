@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TickTrack</string>
+    <string name="title_clock">Clock</string>
+    <string name="title_counter">Counter</string>
+    <string name="title_timer">Timer</string>
+    <string name="title_stopwatch">StopWatch</string>
+</resources>

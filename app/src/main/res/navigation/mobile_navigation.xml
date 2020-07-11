@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.theflopguyproductions.ticktrack.ui.home.HomeFragment"
+        android:label="@string/title_clock"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_counter"
+        android:name="com.theflopguyproductions.ticktrack.ui.counter.CounterFragment"
+        android:label="@string/title_counter"
+        tools:layout="@layout/fragment_counter" />
+
+    <fragment
+        android:id="@+id/navigation_stopwatch"
+        android:name="com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment"
+        android:label="@string/title_stopwatch"
+        tools:layout="@layout/fragment_stopwatch" />
+
+    <fragment
+        android:id="@+id/navigation_timer"
+        android:name="com.theflopguyproductions.ticktrack.ui.timer.TimerFragment"
+        android:label="@string/title_timer"
+        tools:layout="@layout/fragment_timer" />
+</navigation>
