@@ -42,7 +42,7 @@ public class AnalogClock extends View {
             if (mEnableSeconds) {
                 final long now = System.currentTimeMillis();
                 final long delay = SECOND_IN_MILLIS - now % SECOND_IN_MILLIS;
-                postDelayed(this, delay);
+                postDelayed(this, 1000);
             }
         }
     };

@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.ui.home;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +24,11 @@ import com.theflopguyproductions.ticktrack.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static android.os.Looper.getMainLooper;
 
 public class HomeFragment extends Fragment {
 
@@ -30,7 +36,8 @@ public class HomeFragment extends Fragment {
     private Toolbar homeToolbar;
     private TextView timeTextBig;
     private TextView  timeTextSmall;
-    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,19 +48,16 @@ public class HomeFragment extends Fragment {
         timeTextBig = root.findViewById(R.id.expandedTimeText);
         timeTextSmall = root.findViewById(R.id.miniTimeText);
 
-        new Runnable(){
-
-        }
-
-        Thread clockThread = new Thread(){
+        final Handler someHandler = new Handler(getMainLooper());
+        someHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                super.run();
-                timeTextSmall.setText(sdf.format(new Date()));
+                timeTextSmall.setText(sdf.format(System.currentTimeMillis()));
                 timeTextBig.setText(sdf.format(new Date()));
+                someHandler.postDelayed(this, 1000);
             }
-        };
-        clockThread.start();
+        }, 0);
+
         overflowMenuSetup();
 
         return root;
