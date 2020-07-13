@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                     if(fragment instanceof HomeFragment) {
                         ((HomeFragment) fragment).fabClicked();
                     }
+                    if(fragment instanceof CounterFragment) {
+                        ((CounterFragment) fragment).fabClicked();
+                    }
                     if(fragment instanceof StopwatchFragment) {
                         ((StopwatchFragment) fragment).fabClicked();
                     }
@@ -88,12 +91,8 @@ public class MainActivity extends AppCompatActivity {
                             return true;
 
                         case R.id.navigation_counter:
-                            if(isDisabled){
-                                dissolveFAB(fab);
-                                isDisabled=false;
-                            }
+                            animateFAB(drawablePlus, fab);
                             openFragment(counterFragment);
-
                             return true;
 
                         case R.id.navigation_stopwatch:

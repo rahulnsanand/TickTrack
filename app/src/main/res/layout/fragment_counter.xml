@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,61 +7,71 @@
     android:background="#000000"
     tools:context=".ui.counter.CounterFragment">
 
-    <TextView
-        android:id="@+id/counterText"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/counterRecycleView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="216dp"
-        android:text="TextView"
-        android:textColor="@color/SoftWhite"
-        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
-        android:id="@+id/minusbtn"
-        android:layout_width="165dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="252dp"
-        android:layout_marginTop="200dp"
-        android:rotation="90"
-        android:textAlignment="center"
-        app:button_background="@drawable/shape_button"
-        app:button_image_height="100dp"
-        app:button_image_width="50dp"
-        app:has_activate_state="false"
-        android:hapticFeedbackEnabled="true"
-        app:initial_state="disabled"
-        app:inner_text="l"
-        app:inner_text_background="@drawable/shape_rounded"
-        app:inner_text_color="@color/SoftWhite"
-        app:inner_text_size="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterText"
-        android:gravity="center_horizontal" />
+<!--    <TextView-->
+<!--        android:id="@+id/counterText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="216dp"-->
+<!--        android:text="TextView"-->
+<!--        android:textColor="@color/SoftWhite"-->
+<!--        android:textSize="48sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
-        android:id="@+id/plusbtn"
-        android:layout_width="165dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="200dp"
-        android:rotation="90"
-        app:button_background="@drawable/shape_button"
-        app:button_image_height="100dp"
-        app:button_image_width="50dp"
-        app:button_left_padding="100dp"
-        app:button_right_padding="100dp"
-        app:button_top_padding="100dp"
-        app:button_bottom_padding="100dp"
-        app:has_activate_state="false"
-        android:hapticFeedbackEnabled="true"
-        app:initial_state="disabled"
-        app:inner_text="+"
-        app:inner_text_background="@drawable/shape_rounded"
-        app:inner_text_color="@color/SoftWhite"
-        app:inner_text_size="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterText" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton-->
+<!--        android:id="@+id/minusbtn"-->
+<!--        android:layout_width="165dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginEnd="252dp"-->
+<!--        android:layout_marginTop="200dp"-->
+<!--        android:rotation="90"-->
+<!--        android:textAlignment="center"-->
+<!--        app:button_background="@drawable/shape_button"-->
+<!--        app:button_image_height="100dp"-->
+<!--        app:button_image_width="50dp"-->
+<!--        app:has_activate_state="false"-->
+<!--        android:hapticFeedbackEnabled="true"-->
+<!--        app:initial_state="disabled"-->
+<!--        app:inner_text="l"-->
+<!--        app:inner_text_background="@drawable/shape_rounded"-->
+<!--        app:inner_text_color="@color/SoftWhite"-->
+<!--        app:inner_text_size="25sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/counterText"-->
+<!--        android:gravity="center_horizontal" />-->
+
+<!--    <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton-->
+<!--        android:id="@+id/plusbtn"-->
+<!--        android:layout_width="165dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginStart="252dp"-->
+<!--        android:layout_marginTop="200dp"-->
+<!--        android:rotation="90"-->
+<!--        app:button_background="@drawable/shape_button"-->
+<!--        app:button_image_height="100dp"-->
+<!--        app:button_image_width="50dp"-->
+<!--        app:button_left_padding="100dp"-->
+<!--        app:button_right_padding="100dp"-->
+<!--        app:button_top_padding="100dp"-->
+<!--        app:button_bottom_padding="100dp"-->
+<!--        app:has_activate_state="false"-->
+<!--        android:hapticFeedbackEnabled="true"-->
+<!--        app:initial_state="disabled"-->
+<!--        app:inner_text="+"-->
+<!--        app:inner_text_background="@drawable/shape_rounded"-->
+<!--        app:inner_text_color="@color/SoftWhite"-->
+<!--        app:inner_text_size="25sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/counterText" />-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
