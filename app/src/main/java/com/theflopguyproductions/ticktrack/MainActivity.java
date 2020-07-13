@@ -1,10 +1,8 @@
 package com.theflopguyproductions.ticktrack;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,22 +13,21 @@ import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar homeToolbar;
     private BottomNavigationView bottomNavigationView;
-    public FloatingActionButton fab;
+    public static FloatingActionButton fab;
+    private static HomeFragment homeFragment = new HomeFragment();
+    private static StopwatchFragment stopwatchFragment = new StopwatchFragment();
+    private static CounterFragment counterFragment = new CounterFragment();
+    private static TimerFragment timerFragment = new TimerFragment();
+    private static boolean isDisabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        openFragment(HomeFragment.newInstance("", ""));
-        floatingActionButton("Home",1);
+        openFragment(HomeFragment.newInstance(true, true));
+        animateFAB(drawablePlus, fab);
 
         //floatingActionButton("Home",1);
 //
@@ -67,7 +64,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 for(Fragment fragment : getSupportFragmentManager().getFragments()) {
                     if(fragment instanceof HomeFragment) {
-                        ((HomeFragment) fragment).someFunction();
+                        ((HomeFragment) fragment).fabClicked();
+                    }
+                    if(fragment instanceof StopwatchFragment) {
+                        ((StopwatchFragment) fragment).fabClicked();
+                    }
+                    if(fragment instanceof TimerFragment) {
+                        ((TimerFragment) fragment).fabClicked();
                     }
                 }
             }
@@ -80,20 +83,40 @@ public class MainActivity extends AppCompatActivity {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
-                            floatingActionButton("Home",1);
-                            openFragment(HomeFragment.newInstance("", ""));
+                            animateFAB(drawablePlus, fab);
+                            openFragment(homeFragment);
                             return true;
+
                         case R.id.navigation_counter:
-                            floatingActionButton("Counter",2);
-                            openFragment(CounterFragment.newInstance("", ""));
+                            if(isDisabled){
+                                dissolveFAB(fab);
+                                isDisabled=false;
+                            }
+                            openFragment(counterFragment);
+
                             return true;
+
                         case R.id.navigation_stopwatch:
-                            floatingActionButton("Stopwatch",3);
-                            openFragment(StopwatchFragment.newInstance("", ""));
+                            if(StopwatchFragment.isEnabled()){
+                                animateFAB(drawablePause,fab);
+                                openFragment(stopwatchFragment);
+                            }
+                            else{
+                                animateFAB(drawablePlay, fab);
+                                openFragment(StopwatchFragment.newInstance(false));
+                            }
                             return true;
+
                         case R.id.navigation_timer:
-                            floatingActionButton("Timer",4);
-                            openFragment(TimerFragment.newInstance("", ""));
+                            if(TimerFragment.isEnabled()){
+                                animateFAB(drawablePause, fab);
+                                openFragment(timerFragment);
+                            }
+                            else{
+                                animateFAB(drawablePlay, fab);
+                                openFragment(TimerFragment.newInstance(false));
+                            }
+
                             return true;
                     }
                     return false;
@@ -135,31 +158,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int drawablePlus = R.drawable.ic_add_white_24;
-    private int drawablePlay = R.drawable.ic_baseline_play_arrow_24;;
+    private int drawablePlay = R.drawable.ic_play_white_24;
+    private int drawablePause = R.drawable.ic_pause_white_24;
 
-
-    public void floatingActionButton(final String text, int fabStat){
-        if(fabStat==1){
-            animateFAB(drawablePlus, fab);
-        }
-        if(fabStat==2){
-            dissolveFAB(fab);
-        }
-        if(fabStat==3){
-            animateFAB(drawablePlay, fab);
-        }
-        if(fabStat==4){
-            animateFAB(drawablePlay, fab);
-        }
-
-
-    }
-
-
-
-    private void animateFAB(final int icon, final FloatingActionButton fab){
+    public static void animateFAB(final int icon, final FloatingActionButton fab){
         fab.animate()
-                .setDuration(100)
+                .setDuration(150)
                 .scaleX(1.1f)
                 .scaleY(1.1f)
                 .withEndAction(new Runnable() {
@@ -174,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         fab.setImageResource(icon);
+                                        isDisabled=true;
                                         fab.animate()
                                                 .setDuration(80)
                                                 .scaleX(1.1f)
@@ -198,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void dissolveFAB(final FloatingActionButton fab){
+
         fab.animate()
                 .setDuration(100)
                 .scaleX(1.1f)
@@ -205,15 +211,21 @@ public class MainActivity extends AppCompatActivity {
                 .withEndAction(new Runnable() {
                     @Override
                     public void run() {
-
                         fab.animate()
-                                .setDuration(80)
+                                .setDuration(250)
                                 .scaleX(0)
                                 .scaleY(0)
+                                .withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        fab.setImageResource(0);
+                                    }
+                                })
                                 .start();
                     }
                 })
                 .start();
     }
+
 
 }

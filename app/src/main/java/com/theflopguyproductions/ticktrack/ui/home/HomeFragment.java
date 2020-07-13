@@ -2,40 +2,21 @@ package com.theflopguyproductions.ticktrack.ui.home;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.theflopguyproductions.ticktrack.MainActivity;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.utils.AnalogClock;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static android.os.Looper.getMainLooper;
-import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 public class HomeFragment extends Fragment {
 
@@ -44,20 +25,29 @@ public class HomeFragment extends Fragment {
     final Handler someHandler = new Handler(getMainLooper());
     private SimpleDateFormat sdf = new SimpleDateFormat("hh:mma E, d MMMM ''yy");
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static boolean isEnabled;
+    public static boolean isDisabled;
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+
+    public boolean isDisabled() {
+        return isDisabled;
+    }
+
+    private static final String ENABLED_PARAM = "param1";
+    private static final String DISABLED_PARAM = "param2";
 
     public HomeFragment() {
     }
 
-    public static HomeFragment newInstance(String param1, String param2) {
+    public static HomeFragment newInstance(boolean enabled, boolean disabled) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putBoolean(ENABLED_PARAM, enabled);
+        args.putBoolean(DISABLED_PARAM, disabled);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,8 +56,8 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            isEnabled = getArguments().getBoolean(ENABLED_PARAM);
+            isDisabled = getArguments().getBoolean(DISABLED_PARAM);
         }
     }
 
@@ -92,9 +82,9 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void someFunction() {
+    public void fabClicked() {
 
-        Toast.makeText(getContext(),"This worked",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"Add Alarm",Toast.LENGTH_SHORT).show();
 
     }
 }
