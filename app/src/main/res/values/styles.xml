@@ -1,21 +1,12 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryLightColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryLightColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryLightColor</item>
-    </style>
-
     <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryDarkColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryDarkColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
-        <item name="colorAccent">@color/secondaryLightColor</item>
+        <item name="colorPrimary">@color/TrueBlack</item>
+        <item name="colorPrimaryDark">@color/TrueBlack</item>
+        <item name="colorSecondary">@color/TrueAccent</item>
     </style>
+
+
 
 </resources>

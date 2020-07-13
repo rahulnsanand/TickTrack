@@ -13,13 +13,37 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
 
 public class TimerFragment extends Fragment {
 
     private TimerViewModel mViewModel;
 
-    public static TimerFragment newInstance() {
-        return new TimerFragment();
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+
+    public TimerFragment() {
+    }
+
+    public static TimerFragment newInstance(String param1, String param2) {
+        TimerFragment fragment = new TimerFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override

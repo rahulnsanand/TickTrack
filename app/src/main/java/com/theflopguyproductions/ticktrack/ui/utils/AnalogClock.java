@@ -34,7 +34,7 @@ public class AnalogClock extends View {
         }
     };
 
-    private final Runnable mClockTick = new Runnable() {
+    private Runnable mClockTick = new Runnable() {
         @Override
         public void run() {
             onTimeChanged();
@@ -42,7 +42,7 @@ public class AnalogClock extends View {
             if (mEnableSeconds) {
                 final long now = System.currentTimeMillis();
                 final long delay = SECOND_IN_MILLIS - now % SECOND_IN_MILLIS;
-                postDelayed(this, 1000);
+                postDelayed(this, delay);
             }
         }
     };
@@ -190,7 +190,7 @@ public class AnalogClock extends View {
         drawable.setBounds(-midX, -midY, midX, midY);
     }
 
-    private void onTimeChanged() {
+    public void onTimeChanged() {
         mTime.setTimeInMillis(System.currentTimeMillis());
         setContentDescription(DateFormat.format(mDescFormat, mTime));
         invalidate();
