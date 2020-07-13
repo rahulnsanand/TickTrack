@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryDarkColor">#000000</color>
-    <color name="primaryDAccentColor">#151515</color>
-    <color name="secondaryDarkColor">#000000</color>
-    <color name="secondaryDAccentColor">#0088a3</color>
-    <color name="primaryDarkTextColor">#ffffff</color>
-    <color name="secondaryDarkTextColor">#FFFFFF</color>
-
-
-    <color name="primaryLightColor">#000000</color>
-    <color name="primaryLAccentColor">#000000</color>
-    <color name="secondaryLightColor">#00b8d4</color>
-    <color name="secondaryLAccentColor">#0088a3</color>
-    <color name="primaryLightTextColor">#ffffff</color>
-    <color name="secondaryLightTextColor">#000000</color>
+    <color name="TrueBlack">#000000</color>
+    <color name="Gray">#151515</color>
+    <color name="TrueAccent">#0088a3</color>
+    <color name="TrueWhite">#ffffff</color>
+    <color name="SoftWhite">#EFEFEF</color>
 
 </resources>

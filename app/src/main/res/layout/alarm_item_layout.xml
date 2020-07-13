@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@color/primaryDarkColor">
+    android:background="@color/TrueBlack">
 
     <TextView
         android:id="@+id/HourMinuteText"
@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="12:25"
-        android:textColor="@color/primaryDarkTextColor"
+        android:textColor="@color/TrueWhite"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="pm"
-        android:textColor="@color/primaryDarkTextColor"
+        android:textColor="@color/TrueWhite"
         app:layout_constraintBottom_toBottomOf="@+id/HourMinuteText"
         app:layout_constraintStart_toEndOf="@+id/HourMinuteText" />
 
@@ -40,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:text="Tomorrow"
-        android:textColor="@color/primaryDarkTextColor"
+        android:textColor="@color/TrueWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HourMinuteText" />

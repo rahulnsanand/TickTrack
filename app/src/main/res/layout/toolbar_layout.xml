@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/primaryDAccentColor">
+    android:background="@color/TrueBlack">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -16,8 +16,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mainActivityToolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:background="@color/TrueBlack"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:layout_height="?attr/actionBarSize">
 
             <TextView
                 android:id="@+id/textView"
@@ -39,7 +42,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/primaryDAccentColor"
+        android:background="@color/Gray"
         app:layout_constraintBottom_toBottomOf="@+id/appBarLayout"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 

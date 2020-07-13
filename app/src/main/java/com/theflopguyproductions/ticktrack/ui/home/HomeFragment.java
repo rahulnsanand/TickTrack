@@ -20,7 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.theflopguyproductions.ticktrack.MainActivity;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.utils.AnalogClock;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,65 +35,66 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static android.os.Looper.getMainLooper;
+import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private Toolbar homeToolbar;
     private TextView timeTextBig;
-    private TextView  timeTextSmall;
-    private SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+    final Handler someHandler = new Handler(getMainLooper());
+    private SimpleDateFormat sdf = new SimpleDateFormat("hh:mma E, d MMMM ''yy");
 
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
+    public HomeFragment() {
+    }
+
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        homeToolbar = root.findViewById(R.id.miniToolbar);
         timeTextBig = root.findViewById(R.id.expandedTimeText);
-        timeTextSmall = root.findViewById(R.id.miniTimeText);
 
-        final Handler someHandler = new Handler(getMainLooper());
         someHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                timeTextSmall.setText(sdf.format(System.currentTimeMillis()));
-                timeTextBig.setText(sdf.format(new Date()));
+                timeTextBig.setText(sdf.format(System.currentTimeMillis()));
                 someHandler.postDelayed(this, 1000);
             }
         }, 0);
 
-        overflowMenuSetup();
 
         return root;
     }
 
-    public void overflowMenuSetup(){
-        homeToolbar.inflateMenu(R.menu.overflow_menu);
 
-        homeToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+    public void someFunction() {
 
-                switch (item.getItemId()) {
+        Toast.makeText(getContext(),"This worked",Toast.LENGTH_SHORT).show();
 
-                    case R.id.settings_menu:
-                        Toast.makeText(getContext(),"Settings",Toast.LENGTH_SHORT).show();
-                        // Not implemented here
-                        return false;
-                    case R.id.about_menu:
-                        Toast.makeText(getContext(),"About",Toast.LENGTH_SHORT).show();
-                        // Do Fragment menu item stuff here
-                        return true;
-
-                    default:
-                        break;
-                }
-
-                return false;
-            }
-        });
     }
-
 }
