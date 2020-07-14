@@ -1,30 +1,22 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.theflopguyproductions.ticktrack.MainActivity;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
-import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
-import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.OnActiveListener;
-import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
+import com.theflopguyproductions.ticktrack.ui.dialogs.CounterCreator;
 
 import java.util.ArrayList;
 
@@ -40,9 +32,9 @@ public class CounterFragment extends Fragment {
     private Vibrator hapticFeed;
 
     private RecyclerView recyclerView;
-    private CounterAdapter counterAdapter;
+    private static CounterAdapter counterAdapter;
     private RecyclerView.LayoutManager recyclerLayoutManager;
-    ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
+    private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
 
     private static final String DISABLED_PARAM = "param2";
 
@@ -102,16 +94,26 @@ public class CounterFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(counterAdapter);
 
-
         return root;
     }
 
+    public void showNoticeDialog() {
+        CounterCreator dialog = new CounterCreator(getActivity());
+        dialog.show();
+    }
+
     public void fabClicked() {
+        showNoticeDialog();
+    }
+
+    public static void onDialogPositiveClick(String label, String lastUpdate, int color) {
         CounterData counterData = new CounterData();
-        counterData.setCounterLabel("LABEL");
-        counterData.setCountValue("VALUE");
-        counterData.setLastUpdateTimeStamp("TIMESTAMP");
+        counterData.setCounterLabel(label);
+        counterData.setCountValue("0");
+        counterData.setLastUpdateTimeStamp(lastUpdate);
+        counterData.setLabelColor(color);
         counterDataArrayList.add(counterData);
         counterAdapter.notifyData(counterDataArrayList);
     }
+
 }

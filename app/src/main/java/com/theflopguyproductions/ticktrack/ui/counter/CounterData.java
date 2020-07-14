@@ -4,6 +4,15 @@ public class CounterData {
     String lastUpdateTimeStamp;
     String countValue;
     String counterLabel;
+    int labelColor;
+
+    public int getLabelColor() {
+        return labelColor;
+    }
+
+    public void setLabelColor(int labelColor) {
+        this.labelColor = labelColor;
+    }
 
     public String getLastUpdateTimeStamp() {
         return lastUpdateTimeStamp;
