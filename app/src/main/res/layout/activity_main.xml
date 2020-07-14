@@ -52,7 +52,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="70dp"
-        android:backgroundTint="@color/TrueAccent" />
+        android:backgroundTint="@color/SoftWhite"
+        app:backgroundTint="@color/TrueAccent"
+        app:borderWidth="2dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
