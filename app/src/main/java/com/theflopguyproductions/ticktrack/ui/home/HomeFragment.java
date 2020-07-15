@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.ui.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.ui.dialogs.AlarmDelete;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.AlarmCreator;
 import com.theflopguyproductions.ticktrack.ui.utils.AlarmSlideDeleteHelper;
 import com.theflopguyproductions.ticktrack.ui.utils.CounterSlideDeleteHelper;
 
@@ -118,21 +120,23 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
 
     public void fabClicked() {
 
-//        Intent intent = new Intent(getContext(), AlarmCreator.class);
-//        startActivity(intent);
+        Intent intent = new Intent(getContext(), AlarmCreator.class);
+        startActivity(intent);
 
-        AlarmData alarmData = new AlarmData();
-        alarmData.setAlarmAmPm("pm");
-        alarmData.setAlarmTime("12:00");
-        alarmData.setAlarmColor(1);
-        alarmData.setAlarmLabel("Gucci");
-        alarmData.setAlarmMode(true);
-        alarmData.setAlarmNextOccurrence("IDK");
-        alarmDataArrayList.add(0,alarmData);
-        alarmAdapter.notifyData(alarmDataArrayList);
+//        AlarmData alarmData = new AlarmData();
+//        alarmData.setAlarmAmPm("pm");
+//        alarmData.setAlarmTime("12:00");
+//        alarmData.setAlarmColor(1);
+//        alarmData.setAlarmLabel("Gucci");
+//        alarmData.setAlarmMode(true);
+//        alarmData.setAlarmNextOccurrence("IDK");
+//        alarmDataArrayList.add(0,alarmData);
+//        alarmAdapter.notifyData(alarmDataArrayList);
 
         Toast.makeText(getContext(),"Add Alarm",Toast.LENGTH_SHORT).show();
     }
+
+
     String deletedAlarm = null;
     @Override
     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
@@ -149,7 +153,6 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         deleteItem(position);
         Toast.makeText(activity, "Deleted alarm " + alarmLabel, Toast.LENGTH_SHORT).show();
     }
-
     public static void noToDelete(RecyclerView.ViewHolder viewHolder) {
         alarmAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
     }
