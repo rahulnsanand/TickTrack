@@ -1,11 +1,9 @@
 package com.theflopguyproductions.ticktrack.ui.dialogs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,23 +12,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 public class CounterCreator extends Dialog{
 
     public Activity activity;
-    Animation fromRight;
 
     public CounterCreator(Activity activity){
         super(activity);
@@ -45,10 +37,9 @@ public class CounterCreator extends Dialog{
         View view = activity.getLayoutInflater().inflate(R.layout.counter_create_dialog, new ConstraintLayout(activity), false);
         setContentView(view);
 
-        fromRight = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
         counterLabel = (EditText) view.findViewById(R.id.counterLabelText);
-        createButton = (Button) view.findViewById(R.id.createButton);
-        cancelButton = (Button) view.findViewById(R.id.cancelButton);
+        createButton = (Button) view.findViewById(R.id.yesButton);
+        cancelButton = (Button) view.findViewById(R.id.noButton);
         final ChipGroup chipGroup = (ChipGroup) view.findViewById(R.id.counterThemeGroup);
 
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
