@@ -15,14 +15,18 @@ import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar homeToolbar;
-    private BottomNavigationView bottomNavigationView;
+    private static Toolbar homeToolbar;
+    private static BottomNavigationView bottomNavigationView;
     public static FloatingActionButton fab;
+    private static ConstraintLayout mainActivityLayout;
+
     private static HomeFragment homeFragment = new HomeFragment();
     private static StopwatchFragment stopwatchFragment = new StopwatchFragment();
     private static CounterFragment counterFragment = new CounterFragment();
@@ -37,25 +41,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.nav_view);
         homeToolbar = findViewById(R.id.mainActivityToolbar);
         fab = findViewById(R.id.floatingButton);
+        mainActivityLayout = findViewById(R.id.constraintLayout);
 
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         openFragment(HomeFragment.newInstance(true, true));
         animateFAB(drawablePlus, fab);
-
-        //floatingActionButton("Home",1);
-//
-//        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//
-//        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-//
-//        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-//            @Override
-//            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-//
-//                floatingActionButton(String.valueOf(navController.getCurrentDestination().getId()));
-//            }
-//        });
 
         overflowMenuSetup();
 
@@ -201,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
     }
 
-    private void dissolveFAB(final FloatingActionButton fab){
+    private static void dissolveFAB(final FloatingActionButton fab){
 
         fab.animate()
                 .setDuration(100)
@@ -226,5 +217,16 @@ public class MainActivity extends AppCompatActivity {
                 .start();
     }
 
+    public void dissolveElements(){
+
+        dissolveFAB(fab);
+        bottomNavigationView.setVisibility(View.GONE);
+        homeToolbar.setVisibility(View.GONE);
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(mainActivityLayout);
+        constraintSet.connect(R.id.nav_host_fragment,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.TOP,0);
+        constraintSet.connect(R.id.nav_host_fragment,ConstraintSet.TOP,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,0);
+        constraintSet.applyTo(mainActivityLayout);
+    }
 
 }

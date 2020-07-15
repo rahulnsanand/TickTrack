@@ -7,14 +7,17 @@
         <item name="colorSecondary">@color/TrueAccent</item>
     </style>
 
-    <style name="PauseDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
+    <style name="createdDialog">
+        <item name="android:windowEnterAnimation">@anim/from_right</item>
+        <item name="android:windowExitAnimation">@anim/to_right</item>
     </style>
 
-    <style name="PauseDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/spin_in</item>
-        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    <style name="cancelDialog">
+        <item name="android:windowEnterAnimation">@anim/from_right</item>
     </style>
 
+    <style name="acceptDialog">
+        <item name="android:windowExitAnimation">@anim/to_right</item>
+    </style>
 
 </resources>

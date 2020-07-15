@@ -5,7 +5,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,10 +23,10 @@ import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 
 import java.util.Random;
 
-public class CounterCreator extends Dialog implements View.OnClickListener {
+public class CounterCreator extends Dialog{
 
     public Activity activity;
-    public Dialog dialog;
+    Animation fromRight;
 
     public CounterCreator(Activity activity){
         super(activity);
@@ -34,16 +37,17 @@ public class CounterCreator extends Dialog implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         View view = activity.getLayoutInflater().inflate(R.layout.counter_create_dialog, new ConstraintLayout(activity), false);
         setContentView(view);
+
+        fromRight = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
         counterLabel = (EditText) view.findViewById(R.id.counterLabelText);
-        nebulaChip = (Chip) view.findViewById(R.id.nebulaTheme);
-        gargantuaChip = (Chip) view.findViewById(R.id.gargantuaTheme);
-        vortexChip = (Chip) view.findViewById(R.id.vortexTheme);
-        unicornChip = (Chip) view.findViewById(R.id.unicornTheme);
         createButton = (Button) view.findViewById(R.id.createButton);
         cancelButton = (Button) view.findViewById(R.id.cancelButton);
         final ChipGroup chipGroup = (ChipGroup) view.findViewById(R.id.counterThemeGroup);
+
+        getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
@@ -70,22 +74,28 @@ public class CounterCreator extends Dialog implements View.OnClickListener {
             }
         });
 
-        createButton.setOnClickListener(this);
-        cancelButton.setOnClickListener(this);
-
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CounterFragment.onDialogPositiveClick(counterLabel.getText().toString(),lastModifiedDefault,counterColor);
+                counterColor= getRandomNumber(1,5);
+                dismiss();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                counterColor= getRandomNumber(1,5);
+                dismiss();
+            }
+        });
     }
 
 
     public EditText counterLabel;
-    public int counterColor= getRandomNumber(1,4);;
+    public int counterColor= getRandomNumber(1,5);
 
     public String lastModifiedDefault = "Created at";
-    public ChipGroup chipGroup;
-    public Chip randomChip;
-    public Chip nebulaChip;
-    public Chip vortexChip;
-    public Chip gargantuaChip;
-    public Chip unicornChip;
 
     public Button createButton;
     public Button cancelButton;
@@ -94,21 +104,4 @@ public class CounterCreator extends Dialog implements View.OnClickListener {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()){
-            case R.id.createButton:
-                CounterFragment.onDialogPositiveClick(counterLabel.getText().toString(),lastModifiedDefault,counterColor);
-                counterColor= getRandomNumber(1,4);;
-                break;
-            case R.id.cancelButton:
-                counterColor= getRandomNumber(1,4);;
-                dismiss();
-                break;
-            default:
-                break;
-        }
-        dismiss();
-    }
 }
