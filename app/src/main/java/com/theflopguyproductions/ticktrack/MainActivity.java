@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static BottomNavigationView bottomNavigationView;
     public static FloatingActionButton fab;
     private static ConstraintLayout mainActivityLayout;
+    private static Context staticContext;
 
     private static HomeFragment homeFragment = new HomeFragment();
     private static StopwatchFragment stopwatchFragment = new StopwatchFragment();
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        staticContext = this;
 
         bottomNavigationView = findViewById(R.id.nav_view);
         homeToolbar = findViewById(R.id.mainActivityToolbar);
@@ -217,16 +220,9 @@ public class MainActivity extends AppCompatActivity {
                 .start();
     }
 
-    public void dissolveElements(){
-
-        dissolveFAB(fab);
-        bottomNavigationView.setVisibility(View.GONE);
-        homeToolbar.setVisibility(View.GONE);
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(mainActivityLayout);
-        constraintSet.connect(R.id.nav_host_fragment,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.TOP,0);
-        constraintSet.connect(R.id.nav_host_fragment,ConstraintSet.TOP,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,0);
-        constraintSet.applyTo(mainActivityLayout);
+    public static void counterActivity(int position){
+        CounterFragment.counterLayout(staticContext,position);
     }
+
 
 }
