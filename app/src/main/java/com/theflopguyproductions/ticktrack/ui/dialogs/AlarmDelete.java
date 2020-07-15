@@ -7,26 +7,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
+import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
 
-public class CounterDelete  extends Dialog {
+public class AlarmDelete  extends Dialog {
     public Activity activity;
     int position;
-    private String counterName;
+    private String alarmLabel;
     RecyclerView.ViewHolder viewHolder;
     TextView dialogMessage;
 
-    public CounterDelete(Activity activity, int position, String counterName, RecyclerView.ViewHolder viewHolder){
+    public AlarmDelete(Activity activity, int position, String counterName, RecyclerView.ViewHolder viewHolder) {
         super(activity);
         this.viewHolder = viewHolder;
-        this.counterName = counterName;
+        this.alarmLabel = counterName;
         this.position = position;
         this.activity = activity;
     }
@@ -36,40 +36,38 @@ public class CounterDelete  extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        View view = activity.getLayoutInflater().inflate(R.layout.alert_delete_dialog, new ConstraintLayout(activity), false);
+        View view = activity.getLayoutInflater().inflate(R.layout.alert_delete_dialog, new CoordinatorLayout(activity), false);
         setContentView(view);
 
         yesButton = (Button) view.findViewById(R.id.yesButton);
         noButton = (Button) view.findViewById(R.id.noButton);
         dialogMessage = (TextView) view.findViewById(R.id.deleteDialogMessage);
-        dialogMessage.setText("Delete counter "+counterName+"?");
+        dialogMessage.setText("Delete alarm " + alarmLabel + "?");
+
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CounterFragment.yesToDelete(position, activity, counterName);
+                HomeFragment.yesToDelete(position, activity, alarmLabel);
                 dismiss();
             }
         });
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CounterFragment.noToDelete(viewHolder);
+                HomeFragment.noToDelete(viewHolder);
                 dismiss();
             }
         });
         setOnCancelListener(new OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                CounterFragment.noToDelete(viewHolder);
+                HomeFragment.noToDelete(viewHolder);
                 dismiss();
             }
         });
     }
-
-
-    public EditText deleteLabel;
 
     public Button yesButton;
     public Button noButton;

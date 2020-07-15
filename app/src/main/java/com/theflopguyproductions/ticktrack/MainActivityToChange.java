@@ -21,7 +21,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityToChange extends AppCompatActivity {
 
     private static Toolbar homeToolbar;
     private static BottomNavigationView bottomNavigationView;

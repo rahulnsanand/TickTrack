@@ -1,7 +1,6 @@
 package com.theflopguyproductions.ticktrack.ui.counter.activity.counter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CounterActivity extends AppCompatActivity {
 
@@ -42,7 +40,7 @@ public class CounterActivity extends AppCompatActivity {
 
 
         CounterText = findViewById(R.id.counterText);
-        backButton = findViewById(R.id.counterActivityBackButton);
+        backButton = findViewById(R.id.alarmActivityBackButton);
         counterLabel = findViewById(R.id.counterLabelToolbar);
         plusButton = findViewById(R.id.plusbtn);
         minusButton = findViewById(R.id.minusbtn);
