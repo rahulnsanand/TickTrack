@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.theflopguyproductions.ticktrack.MainActivity;
 import com.theflopguyproductions.ticktrack.R;
 
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
     @Override
     public void onBindViewHolder(RecyclerItemViewHolder holder, final int position) {
-        Log.d("onBindViewHolder ", myList.size() + "");
         holder.countValue.setText(myList.get(position).getCountValue());
         holder.counterLabel.setText(myList.get(position).getCounterLabel());
         holder.lastModified.setText(myList.get(position).getLastUpdateTimeStamp());
@@ -48,19 +48,15 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
     private void setColor(RecyclerItemViewHolder holder) {
         if(holder.itemColor==1){
             holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_blue);
-            System.out.println("Nebula - Blue");
         }
         if(holder.itemColor==2){
             holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_black);
-            System.out.println("Gargantua - Black");
         }
         if(holder.itemColor==3){
             holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_green);
-            System.out.println("Vortex - Green");
         }
         if(holder.itemColor==4){
             holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_purple);
-            System.out.println("Unicorn - Purple");
         }
     }
 
@@ -69,7 +65,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         return(null != myList?myList.size():0);
     }
     public void notifyData(ArrayList<CounterData> myList) {
-        Log.d("notifyData ", myList.size() + "");
         this.myList = myList;
         notifyDataSetChanged();
     }
@@ -94,7 +89,9 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             countLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Position:" + Integer.toString(getPosition()), Toast.LENGTH_SHORT).show();
+
+                    //CounterFragment.counterLayout(getAdapterPosition());
+                    Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -15,7 +15,7 @@
         android:id="@+id/navigation_counter"
         android:name="com.theflopguyproductions.ticktrack.ui.counter.CounterFragment"
         android:label="@string/title_counter"
-        tools:layout="@layout/fragment_counter" />
+        tools:layout="@layout/fragment_counter_tab" />
 
     <fragment
         android:id="@+id/navigation_stopwatch"
