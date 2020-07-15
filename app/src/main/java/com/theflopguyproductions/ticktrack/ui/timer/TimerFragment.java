@@ -14,10 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.theflopguyproductions.ticktrack.MainActivity;
+import com.theflopguyproductions.ticktrack.MainActivityToChange;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
-import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchViewModel;
 
 public class TimerFragment extends Fragment {
 
@@ -70,11 +68,11 @@ public class TimerFragment extends Fragment {
     public void fabClicked() {
 
         if(fabState){
-            MainActivity.animateFAB(drawablePlay, MainActivity.fab);
+            MainActivityToChange.animateFAB(drawablePlay, MainActivityToChange.fab);
             fabState=false;
         }
         else{
-            MainActivity.animateFAB(drawablePause, MainActivity.fab);
+            MainActivityToChange.animateFAB(drawablePause, MainActivityToChange.fab);
             fabState=true;
         }
 

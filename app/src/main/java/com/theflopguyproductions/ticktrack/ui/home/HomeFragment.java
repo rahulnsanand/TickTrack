@@ -1,7 +1,9 @@
 package com.theflopguyproductions.ticktrack.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +12,32 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.counter.CounterAdapter;
+import com.theflopguyproductions.ticktrack.ui.dialogs.AlarmDelete;
+import com.theflopguyproductions.ticktrack.ui.utils.AlarmSlideDeleteHelper;
+import com.theflopguyproductions.ticktrack.ui.utils.CounterSlideDeleteHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
+import static android.content.Context.VIBRATOR_SERVICE;
 import static android.os.Looper.getMainLooper;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
-    private HomeViewModel homeViewModel;
     private TextView timeTextBig;
     final Handler someHandler = new Handler(getMainLooper());
     private SimpleDateFormat sdf = new SimpleDateFormat("hh:mma E, d MMMM ''yy");
 
     public static boolean isEnabled;
     public static boolean isDisabled;
+    private static Vibrator hapticFeed;
 
     public boolean isEnabled() {
         return isEnabled;
@@ -61,13 +72,20 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private static ArrayList<AlarmData> alarmDataArrayList = new ArrayList<>();
+    private static AlarmAdapter alarmAdapter;
+    private RecyclerView alarmRecyclerView;
+
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         timeTextBig = root.findViewById(R.id.expandedTimeText);
+        alarmRecyclerView = root.findViewById(R.id.alarmRecyclerView);
+        hapticFeed = (Vibrator) getContext().getSystemService(VIBRATOR_SERVICE);
 
         someHandler.postDelayed(new Runnable() {
             @Override
@@ -77,14 +95,70 @@ public class HomeFragment extends Fragment {
             }
         }, 0);
 
+        buildRecyclerView();
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new AlarmSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(alarmRecyclerView);
 
         return root;
     }
 
+    private void buildRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        alarmRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        alarmRecyclerView.setHasFixedSize(true);
+
+//        Collections.sort(alarmDataArrayList);
+
+        alarmAdapter = new AlarmAdapter(alarmDataArrayList);
+        alarmRecyclerView.setLayoutManager(layoutManager);
+        alarmRecyclerView.setAdapter(alarmAdapter);
+        alarmAdapter.notifyDataSetChanged();
+    }
 
     public void fabClicked() {
 
-        Toast.makeText(getContext(),"Add Alarm",Toast.LENGTH_SHORT).show();
+//        Intent intent = new Intent(getContext(), AlarmCreator.class);
+//        startActivity(intent);
 
+        AlarmData alarmData = new AlarmData();
+        alarmData.setAlarmAmPm("pm");
+        alarmData.setAlarmTime("12:00");
+        alarmData.setAlarmColor(1);
+        alarmData.setAlarmLabel("Gucci");
+        alarmData.setAlarmMode(true);
+        alarmData.setAlarmNextOccurrence("IDK");
+        alarmDataArrayList.add(0,alarmData);
+        alarmAdapter.notifyData(alarmDataArrayList);
+
+        Toast.makeText(getContext(),"Add Alarm",Toast.LENGTH_SHORT).show();
     }
+    String deletedAlarm = null;
+    @Override
+    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof AlarmAdapter.RecyclerItemViewHolder) {
+            deletedAlarm = alarmDataArrayList.get(viewHolder.getAdapterPosition()).getAlarmLabel();
+            position = viewHolder.getAdapterPosition();
+
+            AlarmDelete alarmDelete = new AlarmDelete(getActivity(), position, deletedAlarm, viewHolder);
+            alarmDelete.show();
+
+        }
+    }
+    public static void yesToDelete(int position, Activity activity, String alarmLabel) {
+        deleteItem(position);
+        Toast.makeText(activity, "Deleted alarm " + alarmLabel, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void noToDelete(RecyclerView.ViewHolder viewHolder) {
+        alarmAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+    }
+    public static void deleteItem(int position){
+        alarmDataArrayList.remove(position);
+        //StoreCounter();
+        hapticFeed.vibrate(50);
+        alarmAdapter.notifyData(alarmDataArrayList);
+    }
+
+
 }

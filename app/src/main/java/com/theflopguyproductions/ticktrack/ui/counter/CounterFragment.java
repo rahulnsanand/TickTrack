@@ -1,18 +1,11 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +19,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.activity.counter.CounterActivity;
 import com.theflopguyproductions.ticktrack.ui.dialogs.CounterCreator;
 import com.theflopguyproductions.ticktrack.ui.dialogs.CounterDelete;
-import com.theflopguyproductions.ticktrack.ui.utils.RecyclerItemTouchHelper;
+import com.theflopguyproductions.ticktrack.ui.utils.CounterSlideDeleteHelper;
 
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
@@ -42,15 +34,14 @@ import java.util.Collections;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.VIBRATOR_SERVICE;
-import static com.google.android.material.color.MaterialColors.ALPHA_FULL;
 
-public class CounterFragment extends Fragment  implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class CounterFragment extends Fragment  implements CounterSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
 
 
     private static Context context;
     private static Vibrator hapticFeed;
-    private RecyclerView recyclerView;
+    private RecyclerView counterRecyclerView;
     private static CounterAdapter counterAdapter;
     private RecyclerView.LayoutManager recyclerLayoutManager;
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
@@ -78,7 +69,7 @@ public class CounterFragment extends Fragment  implements RecyclerItemTouchHelpe
 
     }
 
-
+    RecyclerView.ViewHolder viewHolder;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -88,11 +79,11 @@ public class CounterFragment extends Fragment  implements RecyclerItemTouchHelpe
 
         context = getContext();
         loadCounterData();
-        recyclerView = root.findViewById(R.id.counterRecycleView);
+        counterRecyclerView = root.findViewById(R.id.counterRecycleView);
         buildRecyclerView();
 
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new CounterSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(counterRecyclerView);
 
         return root;
     }
@@ -137,14 +128,14 @@ public class CounterFragment extends Fragment  implements RecyclerItemTouchHelpe
 
     private void buildRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(true);
+        counterRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        counterRecyclerView.setHasFixedSize(true);
 
         Collections.sort(counterDataArrayList);
 
         counterAdapter = new CounterAdapter(counterDataArrayList);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(counterAdapter);
+        counterRecyclerView.setLayoutManager(layoutManager);
+        counterRecyclerView.setAdapter(counterAdapter);
         counterAdapter.notifyDataSetChanged();
     }
 
@@ -184,12 +175,9 @@ public class CounterFragment extends Fragment  implements RecyclerItemTouchHelpe
     }
 
     public static void counterLayout(Context context, int position){
-
-        System.out.println(counterDataArrayList.get(position).countValue);
         Intent intent = new Intent(context, CounterActivity.class);
         intent.putExtra("currentPosition",position);
         context.startActivity(intent);
-
     }
 
     public static void deleteItem(int position){

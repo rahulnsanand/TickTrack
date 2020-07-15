@@ -12,10 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.theflopguyproductions.ticktrack.MainActivity;
+import com.theflopguyproductions.ticktrack.MainActivityToChange;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
-import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
 
 public class StopwatchFragment extends Fragment {
 
@@ -73,11 +71,11 @@ public class StopwatchFragment extends Fragment {
     public void fabClicked() {
 
         if(fabState){
-            MainActivity.animateFAB(drawablePlay, MainActivity.fab);
+            MainActivityToChange.animateFAB(drawablePlay, MainActivityToChange.fab);
             fabState=false;
         }
         else{
-            MainActivity.animateFAB(drawablePause, MainActivity.fab);
+            MainActivityToChange.animateFAB(drawablePause, MainActivityToChange.fab);
             fabState=true;
         }
 

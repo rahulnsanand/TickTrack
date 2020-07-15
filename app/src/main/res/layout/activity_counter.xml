@@ -18,7 +18,7 @@
 
 
         <ImageButton
-            android:id="@+id/counterActivityBackButton"
+            android:id="@+id/alarmActivityBackButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/TrueBlack"

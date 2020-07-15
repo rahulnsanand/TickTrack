@@ -8,7 +8,7 @@
     android:background="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/view_background"
+        android:id="@+id/alarmBackgroundLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="2dp"
@@ -20,25 +20,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/delete_icon"-->
-        <!--            android:layout_width="@dimen/ic_delete"-->
-        <!--            android:layout_height="@dimen/ic_delete"-->
-        <!--            android:layout_alignParentRight="true"-->
-        <!--            android:layout_centerVertical="true"-->
-        <!--            android:layout_marginRight="@dimen/padd_10"-->
-        <!--            android:src="@drawable/ic_delete_white_24dp" />-->
-
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_centerVertical="true"-->
-        <!--            android:layout_marginRight="@dimen/padd_10"-->
-        <!--            android:layout_toLeftOf="@id/delete_icon"-->
-        <!--            android:text="@string/delete"-->
-        <!--            android:textColor="#fff"-->
-        <!--            android:textSize="13dp" />-->
 
         <ImageView
             android:id="@+id/imageView"

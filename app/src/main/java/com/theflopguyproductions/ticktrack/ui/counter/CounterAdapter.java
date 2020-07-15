@@ -1,6 +1,5 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
-import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,11 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.theflopguyproductions.ticktrack.MainActivity;
+import com.theflopguyproductions.ticktrack.MainActivityToChange;
 import com.theflopguyproductions.ticktrack.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import static android.content.Context.VIBRATOR_SERVICE;
 
 public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.RecyclerItemViewHolder>   {
 
@@ -94,14 +91,15 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             countLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainActivity.counterActivity(getAdapterPosition());
+                    MainActivityToChange.counterActivity(getAdapterPosition());
                     Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 }
             });
             countLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    CounterFragment.deleteItem(getAdapterPosition());
+//                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
+
                     return false;
                 }
             });
