@@ -21,6 +21,10 @@ import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class CounterCreator extends Dialog{
@@ -95,7 +99,7 @@ public class CounterCreator extends Dialog{
     public EditText counterLabel;
     public int counterColor= getRandomNumber(1,5);
 
-    public String lastModifiedDefault = "Created at";
+    public Timestamp lastModifiedDefault = new Timestamp(System.currentTimeMillis());
 
     public Button createButton;
     public Button cancelButton;

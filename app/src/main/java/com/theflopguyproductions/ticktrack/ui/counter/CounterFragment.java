@@ -1,45 +1,53 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.theflopguyproductions.ticktrack.MainActivity;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.activity.counter.CounterActivity;
 import com.theflopguyproductions.ticktrack.ui.dialogs.CounterCreator;
+import com.theflopguyproductions.ticktrack.ui.utils.RecyclerItemTouchHelper;
 
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.VIBRATOR_SERVICE;
+import static com.google.android.material.color.MaterialColors.ALPHA_FULL;
 
-public class CounterFragment extends Fragment {
+public class CounterFragment extends Fragment  implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
-//    private SwipeButton plusButton;
-//    private SwipeButton minusButton;
-//    private TextView CounterText;
-//    private int newCount=0;
 
-    private Vibrator hapticFeed;
+
     private static Context context;
+    private static Vibrator hapticFeed;
     private RecyclerView recyclerView;
     private static CounterAdapter counterAdapter;
     private RecyclerView.LayoutManager recyclerLayoutManager;
@@ -67,48 +75,21 @@ public class CounterFragment extends Fragment {
 
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_counter_tab, container, false);
-
-//        CounterText = root.findViewById(R.id.counterText);
-//        CounterText.setText(""+newCount);
-//        plusButton = root.findViewById(R.id.plusbtn);
-//        minusButton = root.findViewById(R.id.minusbtn);
-
-        hapticFeed = (Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE);
-
-//        plusButton.setOnActiveListener(new OnActiveListener() {
-//            @Override
-//            public void onActive() {
-//                newCount+=1;
-//                hapticFeed.vibrate(50);
-//                CounterText.setText(""+newCount);
-//            }
-//
-//        });
-//        minusButton.setOnActiveListener(new OnActiveListener() {
-//            @Override
-//            public void onActive() {
-//                if(newCount>=1){
-//                    hapticFeed.vibrate(50);
-//                    newCount-=1;
-//                    CounterText.setText(""+newCount);
-//                }
-//            }
-//
-//        });
-
+        hapticFeed = (Vibrator) getContext().getSystemService(VIBRATOR_SERVICE);
 
         context = getContext();
-
-        loadRecycleCounter();
+        loadCounterData();
         recyclerView = root.findViewById(R.id.counterRecycleView);
         buildRecyclerView();
 
-
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         return root;
     }
@@ -122,16 +103,23 @@ public class CounterFragment extends Fragment {
         showNoticeDialog();
     }
 
-    public static void onDialogPositiveClick(String label, String lastUpdate, int color) {
+    public static void onDialogPositiveClick(String label, Timestamp lastUpdate, int color) {
 
         CounterData counterData = new CounterData();
         counterData.setCounterLabel(label);
-        counterData.setCountValue("0");
-        counterData.setLastUpdateTimeStamp(lastUpdate);
+        counterData.setCountValue(0);
+        counterData.setTimestamp(lastUpdate);
         counterData.setLabelColor(color);
         counterDataArrayList.add(0,counterData);
         counterAdapter.notifyData(counterDataArrayList);
         StoreCounter();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadCounterData();
+        buildRecyclerView();
     }
 
     private static void StoreCounter() {
@@ -148,12 +136,16 @@ public class CounterFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
+
+        Collections.sort(counterDataArrayList);
+
         counterAdapter = new CounterAdapter(counterDataArrayList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(counterAdapter);
+        counterAdapter.notifyDataSetChanged();
     }
 
-    private static void loadRecycleCounter(){
+    private static void loadCounterData(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CounterData", null);
@@ -165,18 +157,63 @@ public class CounterFragment extends Fragment {
         }
     }
 
-    //static MainActivity mainActivity = new MainActivity();
-    public void counterLayout(int position){
-        System.out.println(counterDataArrayList.get(position).countValue);
-        Intent intent = new Intent(getActivity(), CounterActivity.class);
-        startActivity(intent);
+    String deletedCounter = null;
+
+    @Override
+    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof CounterAdapter.RecyclerItemViewHolder) {
+            deletedCounter = counterDataArrayList.get(viewHolder.getAdapterPosition()).getCounterLabel();
+            position = viewHolder.getAdapterPosition();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Delete counter "+deletedCounter);
+            builder.setTitle("Are you sure?");
+            builder.setCancelable(false);
+            final int finalPosition = position;
+            builder.setPositiveButton(
+                            "Yes",
+                            new DialogInterface
+                                    .OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which){
+                                    deleteItem(finalPosition);
+                                    Toast.makeText(getContext(), "Deleted Counter" + deletedCounter, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+            builder.setNegativeButton(
+                            "No",
+                            new DialogInterface
+                                    .OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which){
+                                    dialog.cancel();
+                                    counterAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                                }
+                            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+
+        }
     }
+    public static void counterLayout(Context context, int position){
+
+        System.out.println(counterDataArrayList.get(position).countValue);
+
+        Intent intent = new Intent(context, CounterActivity.class);
+        intent.putExtra("currentPosition",position);
+        context.startActivity(intent);
+
+    }
+
 
 
     public static void deleteItem(int position){
         counterDataArrayList.remove(position);
         StoreCounter();
+        hapticFeed.vibrate(50);
         counterAdapter.notifyData(counterDataArrayList);
     }
+
 
 }

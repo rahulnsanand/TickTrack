@@ -85,7 +85,8 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Nebula"
-            app:chipIcon="@drawable/round_rect_blue" />
+            app:chipIcon="@drawable/round_rect_blue"
+            />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/gargantuaTheme"

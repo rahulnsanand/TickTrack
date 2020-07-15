@@ -1,22 +1,22 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.MainActivity;
 import com.theflopguyproductions.ticktrack.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.RecyclerItemViewHolder>   {
 
@@ -34,16 +34,21 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         return holder;
     }
 
-
     @Override
     public void onBindViewHolder(RecyclerItemViewHolder holder, final int position) {
-        holder.countValue.setText(myList.get(position).getCountValue());
+        holder.countValue.setText(""+myList.get(position).getCountValue());
         holder.counterLabel.setText(myList.get(position).getCounterLabel());
-        holder.lastModified.setText(myList.get(position).getLastUpdateTimeStamp());
+
+        if(myList.get(position).getTimestamp()!=null){
+            holder.lastModified.setText("Last modified : "+timestampReadableFormat.format(myList.get(position).getTimestamp()));
+        }
+
         holder.itemColor = myList.get(position).getLabelColor();
         setColor(holder);
         mLastPosition = position;
     }
+
+    private static final SimpleDateFormat timestampReadableFormat =  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     private void setColor(RecyclerItemViewHolder holder) {
         if(holder.itemColor==1){
@@ -75,9 +80,8 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         private final TextView counterLabel;
         private final TextView lastModified;
         private ConstraintLayout countLayout;
-
         private int itemColor;
-        private ConstraintLayout coloredLayout;
+        public ConstraintLayout coloredLayout;
 
         public RecyclerItemViewHolder(final View parent) {
             super(parent);
@@ -86,12 +90,19 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             lastModified = (TextView) parent.findViewById(R.id.lastUpdated);
             countLayout = (ConstraintLayout) parent.findViewById(R.id.countRecycleLayout);
             coloredLayout = (ConstraintLayout) parent.findViewById(R.id.counterItem);
+
             countLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //CounterFragment.counterLayout(getAdapterPosition());
+                    MainActivity.counterActivity(getAdapterPosition());
                     Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            countLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    CounterFragment.deleteItem(getAdapterPosition());
+                    return false;
                 }
             });
         }

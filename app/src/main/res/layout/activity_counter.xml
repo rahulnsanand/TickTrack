@@ -6,14 +6,39 @@
     android:layout_height="match_parent"
     android:background="@color/TrueBlack"
     tools:context=".ui.counter.activity.counter.CounterActivity">
-    <androidx.appcompat.widget.Toolbar
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CounterItemToolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/TrueBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+
+        <ImageButton
+            android:id="@+id/counterActivityBackButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/TrueBlack"
+            android:src="@drawable/ic_back_white_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/counterLabelToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Counter Label"
+            android:textColor="@color/SoftWhite"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,10 +46,8 @@
         android:background="@color/TrueBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CounterItemToolbar"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/CounterItemToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,7 +61,7 @@
             android:id="@+id/counterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="216dp"
+            android:layout_marginTop="100dp"
             android:text="TextView"
             android:textColor="@color/SoftWhite"
             android:textSize="48sp"
@@ -51,7 +74,7 @@
             android:layout_width="165dp"
             android:layout_height="50dp"
             android:layout_marginTop="200dp"
-            android:layout_marginEnd="252dp"
+            android:layout_marginBottom="32dp"
             android:gravity="center_horizontal"
             android:hapticFeedbackEnabled="true"
             android:rotation="90"
@@ -65,6 +88,7 @@
             app:inner_text_background="@drawable/shape_rounded"
             app:inner_text_color="@color/SoftWhite"
             app:inner_text_size="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/counterText" />
 
@@ -72,8 +96,8 @@
             android:id="@+id/plusbtn"
             android:layout_width="165dp"
             android:layout_height="50dp"
-            android:layout_marginStart="252dp"
             android:layout_marginTop="200dp"
+            android:layout_marginBottom="32dp"
             android:hapticFeedbackEnabled="true"
             android:rotation="90"
             app:button_background="@drawable/shape_button"
@@ -89,7 +113,8 @@
             app:inner_text_background="@drawable/shape_rounded"
             app:inner_text_color="@color/SoftWhite"
             app:inner_text_size="25sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/counterText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
