@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.activity.counter.CounterActivity;
 import com.theflopguyproductions.ticktrack.ui.dialogs.CounterCreator;
+import com.theflopguyproductions.ticktrack.ui.dialogs.CounterDelete;
 import com.theflopguyproductions.ticktrack.ui.utils.RecyclerItemTouchHelper;
 
 import java.lang.reflect.Type;
@@ -67,6 +69,7 @@ public class CounterFragment extends Fragment  implements RecyclerItemTouchHelpe
         fragment.setArguments(args);
         return fragment;
     }
+
 
 
     @Override
@@ -164,49 +167,30 @@ public class CounterFragment extends Fragment  implements RecyclerItemTouchHelpe
         if (viewHolder instanceof CounterAdapter.RecyclerItemViewHolder) {
             deletedCounter = counterDataArrayList.get(viewHolder.getAdapterPosition()).getCounterLabel();
             position = viewHolder.getAdapterPosition();
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("Delete counter "+deletedCounter);
-            builder.setTitle("Are you sure?");
-            builder.setCancelable(false);
-            final int finalPosition = position;
-            builder.setPositiveButton(
-                            "Yes",
-                            new DialogInterface
-                                    .OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which){
-                                    deleteItem(finalPosition);
-                                    Toast.makeText(getContext(), "Deleted Counter" + deletedCounter, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-            builder.setNegativeButton(
-                            "No",
-                            new DialogInterface
-                                    .OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which){
-                                    dialog.cancel();
-                                    counterAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                                }
-                            });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
+
+            CounterDelete counterDelete = new CounterDelete(getActivity(), position, deletedCounter, viewHolder);
+            counterDelete.show();
 
         }
     }
+
+    public static void yesToDelete(int position, Activity activity, String CounterName) {
+        deleteItem(position);
+        Toast.makeText(activity, "Deleted Counter " + CounterName, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void noToDelete(RecyclerView.ViewHolder viewHolder) {
+        counterAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+    }
+
     public static void counterLayout(Context context, int position){
 
         System.out.println(counterDataArrayList.get(position).countValue);
-
         Intent intent = new Intent(context, CounterActivity.class);
         intent.putExtra("currentPosition",position);
         context.startActivity(intent);
 
     }
-
-
 
     public static void deleteItem(int position){
         counterDataArrayList.remove(position);
