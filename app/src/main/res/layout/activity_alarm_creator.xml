@@ -90,7 +90,8 @@
                         android:text="This alarm will ring tomorrow"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:animateLayoutChanges="true"/>
 
                     <TimePicker
                         android:id="@+id/timePicker"
@@ -114,7 +115,8 @@
                     android:layout_height="match_parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/alarmChangeButton">
+                    app:layout_constraintTop_toBottomOf="@+id/alarmChangeButton"
+                    android:animateLayoutChanges="true">
 
                     <ImageButton
                         android:id="@+id/calendarDownButton"
@@ -146,7 +148,8 @@
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/repeatText" />
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
+                        android:animateLayoutChanges="true"/>
 
                     <com.theflopguyproductions.ticktrack.ui.utils.datepicker.CalendarView
                         android:id="@+id/calendarView"
@@ -167,7 +170,8 @@
                         app:selectionColor="@color/SoftWhite"
                         app:selectionLabelColor="@color/TrueAccent"
                         app:todayLabelColor="@color/TrueAccent"
-                        app:type="many_days_picker" />
+                        app:type="many_days_picker"
+                        android:animateLayoutChanges="true"/>
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/daysRepeatChipGroup"
@@ -177,7 +181,8 @@
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/repeatText">
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
+                        android:animateLayoutChanges="true">
 
                         <ToggleButton
                             android:id="@+id/sundayToggle"
@@ -295,6 +300,11 @@
                     android:id="@+id/ringtoneBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/dark_layout_button_default"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/RepeatDivider">
 
                     <TextView
@@ -338,6 +348,11 @@
                     android:id="@+id/vibrateBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/dark_layout_button_default"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ringtoneDivider">
 
                     <TextView
@@ -355,7 +370,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <CheckBox
-                        android:id="@+id/checkBox"
+                        android:id="@+id/vibrateCheckBox"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginTop="16dp"
@@ -385,6 +400,9 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/dark_layout_button_default"
+                    android:focusable="true"
+                    android:clickable="true"
                     app:layout_constraintTop_toBottomOf="@+id/alarmVibrateDivider">
 
                     <TextView
@@ -394,7 +412,9 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="TextView"
+                        android:autoText="true"
+                        android:inputType="textPersonName"
+                        android:text="Set an alarm label"
                         android:textColor="@color/TrueAccent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

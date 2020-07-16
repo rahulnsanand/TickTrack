@@ -1,17 +1,22 @@
 package com.theflopguyproductions.ticktrack.ui.home.activity.alarm;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.dialogs.CounterCreator;
+import com.theflopguyproductions.ticktrack.ui.dialogs.GetAlarmLabelDialog;
 import com.theflopguyproductions.ticktrack.ui.utils.datepicker.CalendarView;
 
 import java.text.SimpleDateFormat;
@@ -19,22 +24,32 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AlarmCreator extends AppCompatActivity {
 
     ImageButton alarmBack, calendarDownButton, calendarUpButton, saveButton;
-    Button alarmSave;
-    TextView tomorrowRingText, nextOccurrence;
+    ConstraintLayout alarmLabelButton, alarmRingtoneButton, alarmVibrateLayout;
+    static TextView tomorrowRingText, nextOccurrence, repeatLabel, alarmLabel;
     ChipGroup dayChipGroup;
     CalendarView calendarView;
     ArrayList<Date> selectedDates;
     Map<Integer, Boolean> repeatDays;
+    TimePicker timePicker;
+    int timePickerHour, timePickerMinute;
+    boolean isVibrateOn;
+    CheckBox vibrateCheckBox;
     public static int hour, minute;
     SimpleDateFormat format = new SimpleDateFormat("EE, d MMMM, ''yy");
+    String showCaseTimeChosen = "";
 
     ToggleButton sundayCheck, mondayCheck, tuesdayCheck, wednesdayCheck, thursdayCheck, fridayCheck, saturdayCheck;
+
+    public static void yesToDelete(String text) {
+        alarmLabel.setText(text);
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -60,6 +75,15 @@ public class AlarmCreator extends AppCompatActivity {
         fridayCheck = findViewById(R.id.fridayToggle);
         saturdayCheck = findViewById(R.id.saturdayToggle);
         saveButton = findViewById(R.id.saveButton);
+        timePicker = findViewById(R.id.timePicker);
+        repeatLabel = findViewById(R.id.repeatText);
+        vibrateCheckBox = findViewById(R.id.vibrateCheckBox);
+        isVibrateOn = vibrateCheckBox.isChecked();
+        alarmLabel = findViewById(R.id.alarmLabel);
+        alarmLabel.setText("No label set");
+        alarmLabelButton = findViewById(R.id.alarmLabelBackground);
+        alarmRingtoneButton = findViewById(R.id.ringtoneBackground);
+        alarmVibrateLayout = findViewById(R.id.vibrateBackground);
 
         repeatDays = new HashMap<>();
 
@@ -91,6 +115,16 @@ public class AlarmCreator extends AppCompatActivity {
                     }
                 };
 
+        timePicker.setOnTimeChangedListener((timePicker, hourOfDay, minuteOfDay) -> {
+            showCaseTimeChosen = hourOfDay%12+":"+minuteOfDay+((hourOfDay>=12) ? " pm" : " am");
+            timePickerHour = hourOfDay;
+            timePickerMinute = minuteOfDay;
+            tomorrowRingText.animate().alpha(0.0f).setDuration(60).withEndAction(() -> {
+                tomorrowRingText.setText(getNextOccurrence());
+                tomorrowRingText.animate().alpha(1.0f).setDuration(60);
+            });
+        });
+
         sundayCheck.setOnCheckedChangeListener(toggleListener);
         mondayCheck.setOnCheckedChangeListener(toggleListener);
         tuesdayCheck.setOnCheckedChangeListener(toggleListener);
@@ -119,7 +153,56 @@ public class AlarmCreator extends AppCompatActivity {
         });
 
         saveButton.setOnClickListener(view -> {
+            //Save Instance
         });
+
+        alarmLabelButton.setOnClickListener(view -> showLabelDialog());
+
+        alarmRingtoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        alarmVibrateLayout.setOnClickListener(view -> toggleCheckBox());
+        vibrateCheckBox.setOnCheckedChangeListener((compoundButton, b) -> isVibrateOn = compoundButton.isChecked());
+    }
+
+    private boolean isRepeating(){
+        return mondayCheck.isChecked() && tuesdayCheck.isChecked() && wednesdayCheck.isChecked() &&
+                thursdayCheck.isChecked() && fridayCheck.isChecked() && saturdayCheck.isChecked() && sundayCheck.isChecked();
+    }
+
+    private void toggleCheckBox() {
+        if(isVibrateOn){
+            vibrateCheckBox.setChecked(false);
+        }
+        else{
+            vibrateCheckBox.setChecked(true);
+        }
+    }
+
+    public void showLabelDialog() {
+        GetAlarmLabelDialog dialog = new GetAlarmLabelDialog(this);
+        dialog.show();
+    }
+
+    private boolean isToday(int hour, int minute){
+        Date date = new Date();   // given date
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(date);   // assigns calendar to given date
+        int time24 = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+        int time12 = calendar.get(Calendar.HOUR);        // gets hour in 12h format
+        int timeMinute = calendar.get(Calendar.MINUTE);
+
+        if(time24<hour){
+            return true;
+        }
+        else if(time24==hour){
+            return timeMinute < minute;
+        }
+        return false;
     }
 
     private void setRepeatDays(CompoundButton compoundButton, int day){
@@ -129,7 +212,10 @@ public class AlarmCreator extends AppCompatActivity {
         else{
             repeatDays.put(day,false);
         }
-        tomorrowRingText.setText(getNextOccurrence());
+        tomorrowRingText.animate().alpha(0.0f).setDuration(60).withEndAction(() -> {
+            tomorrowRingText.setText(getNextOccurrence());
+            tomorrowRingText.animate().alpha(1.0f).setDuration(60);
+        });
     }
 
     private ArrayList<Integer> getRepeatDays(){
@@ -147,12 +233,31 @@ public class AlarmCreator extends AppCompatActivity {
     private void showOccurrence() {
         repeatDays.clear();
         resetRepeatDays();
+        repeatLabel.setText("Custom");
+        calendarView.setVisibility(View.GONE);
+
+        calendarUpButton.setVisibility(View.INVISIBLE);
+        calendarDownButton.setVisibility(View.VISIBLE);
         nextOccurrence.setVisibility(View.VISIBLE);
         dayChipGroup.setVisibility(View.GONE);
+    }
+    private void hideCalendar() {
+        repeatLabel.setText("Repeat");
         calendarView.setVisibility(View.GONE);
-        calendarUpButton.setVisibility(View.GONE);
+
+        calendarUpButton.setVisibility(View.INVISIBLE);
         calendarDownButton.setVisibility(View.VISIBLE);
-        tomorrowRingText.setVisibility(View.INVISIBLE);
+        tomorrowRingText.setVisibility(View.VISIBLE);
+        nextOccurrence.setVisibility(View.GONE);
+        dayChipGroup.setVisibility(View.VISIBLE);
+    }
+    private void showCalendar(){
+        calendarView.setVisibility(View.VISIBLE);
+
+        calendarDownButton.setVisibility(View.INVISIBLE);
+        calendarUpButton.setVisibility(View.VISIBLE);
+        nextOccurrence.setVisibility(View.GONE);
+        dayChipGroup.setVisibility(View.GONE);
     }
 
     private String getNextOccurrence(){
@@ -162,23 +267,56 @@ public class AlarmCreator extends AppCompatActivity {
         int dayNumber = today.get(Calendar.DAY_OF_WEEK);
         ArrayList<Integer> receivedOnDays = getRepeatDays();
         Collections.sort(receivedOnDays);
+
         if(receivedOnDays.size()>0){
-            if(dayNumber>Collections.max(receivedOnDays)){
-                return "This alarm will ring next "+getDay(Collections.min(receivedOnDays));
-            }
-            else if(dayNumber<Collections.min(receivedOnDays)){
-                return "This alarm will ring next "+getDay(Collections.max(receivedOnDays));
-            }
-            else if(receivedOnDays.contains(dayNumber)){
-                return "This alarm will ring today at "+getDay(dayNumber);
+            if(receivedOnDays.contains(dayNumber)){
+                if(isToday(timePickerHour, timePickerMinute)){
+                    return "This alarm will ring today at "+timePickerHour%12+":"+timePickerMinute+" "+((timePickerHour>=12) ? "pm" : "am");
+                }
+                else{
+                    if(dayNumber==Collections.max(receivedOnDays)){
+                        return "This alarm will ring next "+getDay(Collections.min(receivedOnDays));
+                    }
+                    else{
+                        return "This alarm will ring next "+getDay(nextOccurrenceRight(receivedOnDays,dayNumber));
+                    }
+                }
             }
             else{
-                return "This alarm will ring next "+getDay(Collections.max(receivedOnDays));
+                if(dayNumber>Collections.max(receivedOnDays)){
+                    return "This alarm will ring next "+getDay(Collections.min(receivedOnDays));
+                }
+                else if(dayNumber<Collections.max(receivedOnDays) && dayNumber>Collections.min(receivedOnDays)){
+                    return "This alarm will ring next "+getDay(nextOccurrenceRight(receivedOnDays,dayNumber));
+                }
+                else if(dayNumber<Collections.min(receivedOnDays)){
+                    return "This alarm will ring next "+getDay(Collections.min(receivedOnDays));
+                }
             }
         }
         else{
-            return "This alarm will ring tomorrow";
+            if(!isRepeating()){
+                if(isToday(timePickerHour, timePickerMinute)){
+                    return "This alarm will ring today";
+                }
+            }
         }
+        return "This alarm will ring tomorrow";
+    }
+
+    private int nextOccurrenceRight(ArrayList<Integer> receivedDays, int today){
+        int nextOccurrenceValue=0;
+        int checkCount = 0;
+
+        if(receivedDays!=null){
+            for(int i = 0; i < receivedDays.size(); i++){
+                while(today<receivedDays.get(i) && checkCount==0){
+                    nextOccurrenceValue=receivedDays.get(i);
+                    checkCount++;
+                }
+            }
+        }
+        return nextOccurrenceValue;
     }
 
     private void resetRepeatDays(){
@@ -197,26 +335,9 @@ public class AlarmCreator extends AppCompatActivity {
         return cal;
     }
 
-    private void hideCalendar() {
-        nextOccurrence.setVisibility(View.GONE);
-        dayChipGroup.setVisibility(View.VISIBLE);
-        calendarView.setVisibility(View.GONE);
-        calendarUpButton.setVisibility(View.GONE);
-        calendarDownButton.setVisibility(View.VISIBLE);
-        tomorrowRingText.setVisibility(View.VISIBLE);
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-    }
-
-    private void showCalendar(){
-        nextOccurrence.setVisibility(View.GONE);
-        dayChipGroup.setVisibility(View.GONE);
-        calendarView.setVisibility(View.VISIBLE);
-        calendarDownButton.setVisibility(View.GONE);
-        calendarUpButton.setVisibility(View.VISIBLE);
     }
 
     public String getDay(int i){
