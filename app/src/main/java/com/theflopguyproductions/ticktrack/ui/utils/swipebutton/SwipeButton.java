@@ -26,9 +26,6 @@ import androidx.core.content.ContextCompat;
 
 import com.theflopguyproductions.ticktrack.R;
 
-/**
- * Created by leandroferreira on 07/03/17.
- */
 
 public class SwipeButton extends RelativeLayout {
 

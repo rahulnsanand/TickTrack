@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.ui.utils;
+package com.theflopguyproductions.ticktrack.ui.utils.deletehelper;
 
 import android.graphics.Canvas;
 import android.view.View;
@@ -6,12 +6,12 @@ import android.view.View;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.theflopguyproductions.ticktrack.ui.counter.CounterAdapter;
+import com.theflopguyproductions.ticktrack.ui.home.AlarmAdapter;
 
-public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
+public class AlarmSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
 
-    public CounterSlideDeleteHelper(int dragDirs, int swipeDirs, CounterSlideDeleteHelper.RecyclerItemTouchHelperListener listener) {
+    public AlarmSlideDeleteHelper(int dragDirs, int swipeDirs, AlarmSlideDeleteHelper.RecyclerItemTouchHelperListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;
     }
@@ -24,7 +24,7 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).coloredLayout;
+            final View foregroundView = ((AlarmAdapter.RecyclerItemViewHolder) viewHolder).alarmLayout;
 
             getDefaultUIUtil().onSelected(foregroundView);
         }
@@ -34,14 +34,14 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).coloredLayout;
+        final View foregroundView = ((AlarmAdapter.RecyclerItemViewHolder) viewHolder).alarmLayout;
         getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).coloredLayout;
+        final View foregroundView = ((AlarmAdapter.RecyclerItemViewHolder) viewHolder).alarmLayout;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
@@ -49,7 +49,7 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).coloredLayout;
+        final View foregroundView = ((AlarmAdapter.RecyclerItemViewHolder) viewHolder).alarmLayout;
 
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/4, dY,
                 actionState, isCurrentlyActive);

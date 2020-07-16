@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="24dp"
+    android:orientation="vertical"
+    tools:context="com.theflopguyproductions.ticktrack.testToDelete.CalendarTrials">
+
+
+
+    <Button
+        android:id="@+id/openManyDayPickerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Many days picker" />
+
+    <Button
+        android:id="@+id/openManyDaysPickerDialogButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Many days picker (dialog)" />
+
+
+</LinearLayout>
