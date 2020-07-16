@@ -45,31 +45,19 @@ public class CounterDelete  extends Dialog {
         dialogMessage.setText("Delete counter "+counterName+"?");
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
-        yesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CounterFragment.yesToDelete(position, activity, counterName);
-                dismiss();
-            }
+        yesButton.setOnClickListener(view12 -> {
+            CounterFragment.yesToDelete(position, activity, counterName);
+            dismiss();
         });
-        noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CounterFragment.noToDelete(viewHolder);
-                dismiss();
-            }
+        noButton.setOnClickListener(view1 -> {
+            CounterFragment.noToDelete(viewHolder);
+            dismiss();
         });
-        setOnCancelListener(new OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                CounterFragment.noToDelete(viewHolder);
-                dismiss();
-            }
+        setOnCancelListener(dialogInterface -> {
+            CounterFragment.noToDelete(viewHolder);
+            dismiss();
         });
     }
-
-
-    public EditText deleteLabel;
 
     public Button yesButton;
     public Button noButton;
