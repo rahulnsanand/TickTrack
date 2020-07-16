@@ -19,11 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.ui.dialogs.AlarmDelete;
 import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.AlarmCreator;
-import com.theflopguyproductions.ticktrack.ui.utils.AlarmSlideDeleteHelper;
-import com.theflopguyproductions.ticktrack.ui.utils.CounterSlideDeleteHelper;
+import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.AlarmSlideDeleteHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -119,6 +117,8 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     }
 
     public void fabClicked() {
+
+
 
         Intent intent = new Intent(getContext(), AlarmCreator.class);
         startActivity(intent);

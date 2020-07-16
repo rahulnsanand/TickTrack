@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:gravity="top|left"
+            android:tint="@android:color/holo_green_dark"
+            android:src="@drawable/round_rect_blue" />
+    </item>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:tint="@android:color/holo_red_dark"
+            android:src="@drawable/round_rect_blue" />
+    </item>
+
+    <item android:left="80dp">
+        <bitmap
+            android:gravity="right"
+            android:tint="@android:color/holo_blue_dark"
+            android:src="@drawable/round_rect_blue"/>
+    </item>
+</layer-list>

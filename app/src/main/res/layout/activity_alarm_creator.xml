@@ -108,145 +108,176 @@
                         app:layout_constraintTop_toBottomOf="@+id/alarmNextOccurenceText" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/repeatText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Repeat"
-                    android:textColor="@color/TrueWhite"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/alarmChangeButton" />
-
-                <ImageButton
-                    android:id="@+id/calendarButton"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/repeatText"
-                    app:layout_constraintTop_toBottomOf="@+id/alarmChangeButton"
-                    app:srcCompat="@drawable/ic_calendar_white_24" />
-
-                <TextView
-                    android:id="@+id/calendarNextOccurence"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="Next ring: Wednesday (22 July)"
-                    android:textColor="@color/TrueAccent"
-                    android:textSize="18sp"
-                    android:visibility="visible"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/repeatBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/repeatText" />
+                    app:layout_constraintTop_toBottomOf="@+id/alarmChangeButton">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/daysRepeatChipGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/repeatText">
+                    <ImageButton
+                        android:id="@+id/calendarDownButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_white_arrow_down_24" />
 
-                    <ToggleButton
-                        android:id="@+id/sundayToggle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_toggle_button"
-                        android:textAllCaps="false"
+                    <ImageButton
+                        android:id="@+id/calendarUpButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_white_arrow_up_24" />
+
+                    <TextView
+                        android:id="@+id/calendarNextOccurence"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Next ring: Wednesday (22 July)"
+                        android:textColor="@color/TrueAccent"
+                        android:textSize="18sp"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText" />
+
+                    <com.theflopguyproductions.ticktrack.ui.utils.datepicker.CalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:abbreviationsBarColor="@color/Gray"
+                        app:abbreviationsLabelsColor="@android:color/white"
+                        app:anotherMonthsDaysLabelsColor="@color/Gray"
+                        app:daysLabelsColor="@android:color/white"
+                        app:disabledDaysLabelsColor="@color/roboto_calendar_circle_1"
+                        app:eventsEnabled="false"
+                        app:headerColor="@color/TrueBlack"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
+                        app:pagesColor="@color/Gray"
+                        app:selectionColor="@color/SoftWhite"
+                        app:selectionLabelColor="@color/TrueAccent"
+                        app:todayLabelColor="@color/TrueAccent"
+                        app:type="many_days_picker" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/daysRepeatChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText">
+
+                        <ToggleButton
+                            android:id="@+id/sundayToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="S"
+                            android:textOn="S" />
+
+                        <ToggleButton
+                            android:id="@+id/mondayToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="M"
+                            android:textOn="M" />
+
+                        <ToggleButton
+                            android:id="@+id/tuesdayToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="T"
+                            android:textOn="T" />
+
+                        <ToggleButton
+                            android:id="@+id/wednesdayToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="W"
+                            android:textOn="W" />
+
+                        <ToggleButton
+                            android:id="@+id/thursdayToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="T"
+                            android:textOn="T" />
+
+                        <ToggleButton
+                            android:id="@+id/fridayToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="F"
+                            android:textOn="F" />
+
+                        <ToggleButton
+                            android:id="@+id/saturdayToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="S"
+                            android:textOn="S" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:id="@+id/repeatText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Repeat"
                         android:textColor="@color/TrueWhite"
-                        android:textOff="S"
-                        android:textOn="S" />
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <ToggleButton
-                        android:id="@+id/mondayToggle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_toggle_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/TrueWhite"
-                        android:textOff="M"
-                        android:textOn="M" />
-
-                    <ToggleButton
-                        android:id="@+id/tuesdayToggle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_toggle_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/TrueWhite"
-                        android:textOff="T"
-                        android:textOn="T" />
-
-                    <ToggleButton
-                        android:id="@+id/wednesdayToggle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_toggle_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/TrueWhite"
-                        android:textOff="W"
-                        android:textOn="W" />
-
-                    <ToggleButton
-                        android:id="@+id/thursdayToggle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_toggle_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/TrueWhite"
-                        android:textOff="T"
-                        android:textOn="T" />
-
-                    <ToggleButton
-                        android:id="@+id/fridayToggle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_toggle_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/TrueWhite"
-                        android:textOff="F"
-                        android:textOn="F" />
-
-                    <ToggleButton
-                        android:id="@+id/saturdayToggle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_toggle_button"
-                        android:textAllCaps="false"
-                        android:textColor="@color/TrueWhite"
-                        android:textOff="S"
-                        android:textOn="S" />
-
-                </com.google.android.material.chip.ChipGroup>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/RepeatDivider"
@@ -256,7 +287,7 @@
                     android:background="@color/Gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/daysRepeatChipGroup">
+                    app:layout_constraintTop_toBottomOf="@id/repeatBackground">
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -20,10 +20,19 @@
         <item name="android:windowExitAnimation">@anim/to_right</item>
     </style>
 
+
+
     <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/TrueAccent</item>
         <item name="colorPrimary">@color/Gray</item>
         <item name="colorPrimaryDark">@color/Gray</item>
     </style>
+    <color name="daysLabelColor">#8A000000</color>
+    <color name="currentMonthDayColor">#de000000</color>
+    <color name="nextMonthDayColor">#1F000000</color>
+    <color name="disabledDialogButtonColor">#1F000000</color>
+    <color name="itemHighlightColor">#1F000000</color>
+    <color name="itemFocusedColor">#1A000000</color>
+    <color name="defaultColor">#2962FF</color>
 
 </resources>
