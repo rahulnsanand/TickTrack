@@ -32,7 +32,6 @@ public class AlarmCreator extends AppCompatActivity {
                 finish();
             }
         });
-        alarmSave = (Button) findViewById(R.id.alarmSaveButton);
 
 
     }
