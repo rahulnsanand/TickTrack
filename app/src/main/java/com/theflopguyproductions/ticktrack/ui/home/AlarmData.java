@@ -1,29 +1,68 @@
 package com.theflopguyproductions.ticktrack.ui.home;
 
+import android.net.Uri;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
 public class AlarmData implements Comparable<AlarmData> {
 
+    int alarmHour;
+    int alarmMinute;
+    int alarmTheme;
+    ArrayList<Calendar> calendarRepeatDays;
+    ArrayList<Calendar> calendarRepeatWeeks;
+    Uri alarmRingTone;
 
-    String alarmTime;
     String alarmLabel;
-    boolean alarmMode;
-    String alarmNextOccurrence;
-    String alarmAmPm;
-    int AlarmColor;
+    boolean alarmVibrate;
 
-    public int getAlarmColor() {
-        return AlarmColor;
+    public int getAlarmHour() {
+        return alarmHour;
     }
 
-    public void setAlarmColor(int alarmColor) {
-        AlarmColor = alarmColor;
+    public void setAlarmHour(int alarmHour) {
+        this.alarmHour = alarmHour;
     }
 
-    public String getAlarmTime() {
-        return alarmTime;
+    public int getAlarmMinute() {
+        return alarmMinute;
     }
 
-    public void setAlarmTime(String alarmTime) {
-        this.alarmTime = alarmTime;
+    public void setAlarmMinute(int alarmMinute) {
+        this.alarmMinute = alarmMinute;
+    }
+
+    public int getAlarmTheme() {
+        return alarmTheme;
+    }
+
+    public void setAlarmTheme(int alarmTheme) {
+        this.alarmTheme = alarmTheme;
+    }
+
+    public ArrayList<Calendar> getCalendarRepeatDays() {
+        return calendarRepeatDays;
+    }
+
+    public void setCalendarRepeatDays(ArrayList<Calendar> calendarRepeatDays) {
+        this.calendarRepeatDays = calendarRepeatDays;
+    }
+
+    public ArrayList<Calendar> getCalendarRepeatWeeks() {
+        return calendarRepeatWeeks;
+    }
+
+    public void setCalendarRepeatWeeks(ArrayList<Calendar> calendarRepeatWeeks) {
+        this.calendarRepeatWeeks = calendarRepeatWeeks;
+    }
+
+    public Uri getAlarmRingTone() {
+        return alarmRingTone;
+    }
+
+    public void setAlarmRingTone(Uri alarmRingTone) {
+        this.alarmRingTone = alarmRingTone;
     }
 
     public String getAlarmLabel() {
@@ -34,28 +73,12 @@ public class AlarmData implements Comparable<AlarmData> {
         this.alarmLabel = alarmLabel;
     }
 
-    public boolean isAlarmMode() {
-        return alarmMode;
+    public boolean isAlarmVibrate() {
+        return alarmVibrate;
     }
 
-    public void setAlarmMode(boolean alarmMode) {
-        this.alarmMode = alarmMode;
-    }
-
-    public String getAlarmNextOccurrence() {
-        return alarmNextOccurrence;
-    }
-
-    public void setAlarmNextOccurrence(String alarmNextOccurrence) {
-        this.alarmNextOccurrence = alarmNextOccurrence;
-    }
-
-    public String getAlarmAmPm() {
-        return alarmAmPm;
-    }
-
-    public void setAlarmAmPm(String alarmAmPm) {
-        this.alarmAmPm = alarmAmPm;
+    public void setAlarmVibrate(boolean alarmVibrate) {
+        this.alarmVibrate = alarmVibrate;
     }
 
     @Override

@@ -442,6 +442,91 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/alarmThemeBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/alarmLabelDivider">
+
+                    <TextView
+                        android:id="@+id/alarmThemeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Theme"
+                        android:textColor="@color/TrueWhite"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/alarmThemeGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:alwaysDrawnWithCache="true"
+                        android:animateLayoutChanges="true"
+                        android:clickable="true"
+                        android:focusable="auto"
+                        android:visibility="visible"
+                        app:checkedChip="@id/randomTheme"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/alarmThemeLabel"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/defaultAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:checked="true"
+                            android:text="Default" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/nebulaAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Nebula"
+                            app:chipIcon="@drawable/round_rect_blue" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/vortexAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Vortex"
+                            app:chipIcon="@drawable/round_rect_green" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/unicornAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Unicorn"
+                            app:chipIcon="@drawable/round_rect_purple" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/gargantuaAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Gargantua"
+                            app:chipIcon="@drawable/round_rect_black" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

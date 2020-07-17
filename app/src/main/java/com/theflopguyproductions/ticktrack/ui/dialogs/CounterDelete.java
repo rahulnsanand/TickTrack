@@ -3,6 +3,8 @@ package com.theflopguyproductions.ticktrack.ui.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
+
+import java.util.Objects;
 
 public class CounterDelete  extends Dialog {
     public Activity activity;
@@ -38,6 +42,7 @@ public class CounterDelete  extends Dialog {
 
         View view = activity.getLayoutInflater().inflate(R.layout.alert_delete_dialog, new ConstraintLayout(activity), false);
         setContentView(view);
+        Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         yesButton = (Button) view.findViewById(R.id.yesButton);
         noButton = (Button) view.findViewById(R.id.noButton);

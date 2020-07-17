@@ -12,10 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
 
-        <activity android:name=".testToDelete.CalendarTrials">
-
-        </activity>
-
         <activity android:name=".ui.home.activity.alarm.AlarmCreator" />
         <activity android:name=".ui.counter.activity.counter.CounterActivity" />
         <activity
