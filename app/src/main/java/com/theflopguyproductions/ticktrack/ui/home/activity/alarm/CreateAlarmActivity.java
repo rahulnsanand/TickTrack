@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.RingtoneManager;
@@ -46,9 +47,10 @@ public class CreateAlarmActivity extends AppCompatActivity {
     static int alarmSaveTheme;
     static ArrayList<Date> repeatCustomDates;
     static ArrayList<Integer> repeatDaysInWeek;
-    static Uri alarmSaveRingTone;
+    static String alarmSaveRingTone;
     static String alarmSaveLabel;
     static boolean alarmSaveVibrate;
+    static Context context;
 
 
     public void setLabel(String text) {
@@ -71,12 +73,17 @@ public class CreateAlarmActivity extends AppCompatActivity {
     public void saveAlarm() {
         alarmSaveVibrate = isVibrateOn; //Works
         alarmSaveLabel = getLabel(); //Works
-        alarmSaveRingTone  = alarmRingtoneUri; //Works
+        alarmSaveRingTone  = alarmRingTone; //Works
         repeatDaysInWeek = getRepeatDays(); //Works
         repeatCustomDates = selectedDates; //Works
         alarmSaveTheme = alarmColor; //Works
         alarmSaveMinute = timePicker.getCurrentMinute(); //Works
         alarmSaveHour = timePicker.getCurrentHour(); //Works
+
+        if(alarmSaveLabel.equals("Set alarm label")){
+            alarmSaveLabel="";
+        }
+
         HomeFragment.onSaveAlarm(alarmSaveHour,alarmSaveMinute,alarmSaveTheme,repeatCustomDates,repeatDaysInWeek,alarmSaveRingTone,alarmSaveLabel,alarmSaveVibrate);
         finish();
     }
@@ -230,6 +237,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
         alarmVibrateLayout = findViewById(R.id.vibrateBackground);
         alarmValue = findViewById(R.id.alarmRingtoneValue);
         chipGroup = findViewById(R.id.alarmThemeGroup);
+        context = this;
 
         repeatDays = new HashMap<>();
         alarmColor = 0;
@@ -476,7 +484,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == Activity.RESULT_OK && requestCode == 5) {
-            alarmRingtoneUri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            Uri alarmRingtoneUri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
 
             if (alarmRingtoneUri != null) {
                 this.alarmRingTone = alarmRingtoneUri.toString();
@@ -511,6 +519,5 @@ public class CreateAlarmActivity extends AppCompatActivity {
     String alarmRingTone;
     CompoundButton.OnCheckedChangeListener toggleListener;
     SimpleDateFormat format = new SimpleDateFormat("EE, d MMMM ''yy");
-    static Uri alarmRingtoneUri;
 
 }

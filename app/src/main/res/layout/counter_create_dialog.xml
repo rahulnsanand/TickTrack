@@ -46,6 +46,7 @@
         android:layout_marginTop="24dp"
         android:text="Background Theme"
         android:textColor="@color/SoftWhite"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
         android:animateLayoutChanges="true"
         android:clickable="true"
         android:focusable="auto"
-        android:visibility="visible"
+        android:visibility="gone"
         app:checkedChip="@id/randomTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,8 +86,7 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Nebula"
-            app:chipIcon="@drawable/round_rect_blue"
-            />
+            app:chipIcon="@drawable/round_rect_blue" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/gargantuaTheme"

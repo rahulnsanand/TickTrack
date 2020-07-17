@@ -153,19 +153,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:animateLayoutChanges="true"
                         android:text="Next ring: Wednesday (22 July)"
                         android:textColor="@color/TrueAccent"
                         android:textSize="18sp"
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
-                        android:animateLayoutChanges="true"/>
+                        app:layout_constraintTop_toBottomOf="@id/repeatEditText" />
 
                     <com.theflopguyproductions.ticktrack.ui.utils.datepicker.CalendarView
                         android:id="@+id/calendarEditView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:animateLayoutChanges="true"
                         android:visibility="gone"
                         app:abbreviationsBarColor="@color/Gray"
                         app:abbreviationsLabelsColor="@android:color/white"
@@ -176,24 +178,23 @@
                         app:headerColor="@color/TrueBlack"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
+                        app:layout_constraintTop_toBottomOf="@id/repeatEditText"
                         app:pagesColor="@color/Gray"
                         app:selectionColor="@color/SoftWhite"
                         app:selectionLabelColor="@color/TrueAccent"
                         app:todayLabelColor="@color/TrueAccent"
-                        app:type="many_days_picker"
-                        android:animateLayoutChanges="true"/>
+                        app:type="many_days_picker" />
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/daysEditRepeatChipGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:animateLayoutChanges="true"
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
-                        android:animateLayoutChanges="true">
+                        app:layout_constraintTop_toBottomOf="@+id/repeatEditText">
 
                         <ToggleButton
                             android:id="@+id/sundayEditToggle"
@@ -337,7 +338,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="alarmDefaultRingTone"
+                        android:text="Default ringtone"
                         android:textColor="@color/TrueAccent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -457,6 +458,7 @@
                     android:id="@+id/alarmEditThemeBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/alarmEditLabelDivider">

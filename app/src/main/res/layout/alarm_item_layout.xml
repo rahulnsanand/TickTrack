@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,7 +67,6 @@
             android:text="TextView"
             android:textColor="@color/TrueWhite"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/alarmOccurence"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/alarmTime" />
 
@@ -93,7 +92,8 @@
             android:text="Tomorrow"
             android:textColor="@color/TrueWhite"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/alarmLabel" />
 
         <Switch
             android:id="@+id/alarmSwitch"

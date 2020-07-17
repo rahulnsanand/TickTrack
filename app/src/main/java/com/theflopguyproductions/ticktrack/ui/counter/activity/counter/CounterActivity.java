@@ -53,43 +53,31 @@ public class CounterActivity extends AppCompatActivity {
         counterDataArrayList = gson.fromJson(json, type);
 
 
-        currentPosition = getIntent().getIntExtra("currentPosition",0);
+        currentPosition = getIntent().getIntExtra("currentCounterPosition",0);
         currentCount = counterDataArrayList.get(currentPosition).getCountValue();
         counterLabel.setText(counterDataArrayList.get(currentPosition).getCounterLabel());
 
         CounterText.setText(""+counterDataArrayList.get(currentPosition).getCountValue());
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        backButton.setOnClickListener(view -> finish());
+
+        plusButton.setOnActiveListener(() -> {
+            currentCount+=1;
+            counterDataArrayList.get(currentPosition).setCountValue(currentCount);
+            counterDataArrayList.get(currentPosition).setTimestamp(new Timestamp(System.currentTimeMillis()));
+            hapticFeed.vibrate(50);
+            CounterText.setText(""+counterDataArrayList.get(currentPosition).getCountValue());
+            storeData();
         });
 
-        plusButton.setOnActiveListener(new OnActiveListener() {
-            @Override
-            public void onActive() {
-                currentCount+=1;
-                counterDataArrayList.get(currentPosition).setCountValue(currentCount);
-                counterDataArrayList.get(currentPosition).setTimestamp(new Timestamp(System.currentTimeMillis()));
+        minusButton.setOnActiveListener(() -> {
+            if(currentCount>=1){
                 hapticFeed.vibrate(50);
+                currentCount-=1;
+                counterDataArrayList.get(currentPosition).setCountValue(currentCount);
                 CounterText.setText(""+counterDataArrayList.get(currentPosition).getCountValue());
                 storeData();
             }
-        });
-
-        minusButton.setOnActiveListener(new OnActiveListener() {
-            @Override
-            public void onActive() {
-                if(currentCount>=1){
-                    hapticFeed.vibrate(50);
-                    currentCount-=1;
-                    counterDataArrayList.get(currentPosition).setCountValue(currentCount);
-                    CounterText.setText(""+counterDataArrayList.get(currentPosition).getCountValue());
-                    storeData();
-                }
-            }
-
         });
 
     }

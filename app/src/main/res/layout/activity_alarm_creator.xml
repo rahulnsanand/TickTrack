@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/TrueBlack"
-    tools:context=".ui.home.activity.alarm.AlarmCreator">
+    tools:context=".ui.home.activity.alarm.CreateAlarmActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -326,7 +326,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="alarmDefaultRingTone"
+                        android:text="Default ringtone"
                         android:textColor="@color/TrueAccent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -446,6 +446,7 @@
                     android:id="@+id/alarmThemeBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/alarmLabelDivider">
