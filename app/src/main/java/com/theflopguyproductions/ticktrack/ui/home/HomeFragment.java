@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.dialogs.AlarmDelete;
-import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.AlarmCreator;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.CreateAlarmActivity;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.AlarmSlideDeleteHelper;
 
 import java.text.SimpleDateFormat;
@@ -120,20 +120,20 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     }
 
     public void fabClicked() {
-        Intent intent = new Intent(getContext(), AlarmCreator.class);
+        Intent intent = new Intent(getContext(), CreateAlarmActivity.class);
         startActivity(intent);
         Toast.makeText(getContext(),"Add Alarm",Toast.LENGTH_SHORT).show();
     }
 
-    public static void onSaveAlarm(int alarmHour, int alarmMinute, int alarmTheme, ArrayList<Calendar> calendarRepeatDays,
-                                   ArrayList<Calendar> calendarRepeatWeeks, Uri alarmRingTone, String alarmLabel, boolean alarmVibrate){
+    public static void onSaveAlarm(int alarmHour, int alarmMinute, int alarmTheme, ArrayList<Date> calendarRepeatDays,
+                                   ArrayList<Integer> calendarRepeatWeeks, Uri alarmRingTone, String alarmLabel, boolean alarmVibrate){
 
         AlarmData alarmData = new AlarmData();
         alarmData.setAlarmHour(alarmHour);
         alarmData.setAlarmMinute(alarmMinute);
         alarmData.setAlarmTheme(alarmTheme);
-        alarmData.setCalendarRepeatDays(calendarRepeatDays);
-        alarmData.setCalendarRepeatWeeks(calendarRepeatWeeks);
+        alarmData.setRepeatCustomDates(calendarRepeatDays);
+        alarmData.setRepeatDaysInWeek(calendarRepeatWeeks);
         alarmData.setAlarmRingTone(alarmRingTone);
         alarmData.setAlarmLabel(alarmLabel);
         alarmData.setAlarmVibrate(alarmVibrate);

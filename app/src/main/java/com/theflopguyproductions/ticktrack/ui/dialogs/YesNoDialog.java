@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.AlarmCreator;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.CreateAlarmActivity;
 
 import java.util.Objects;
 
@@ -45,11 +45,11 @@ public class YesNoDialog extends Dialog {
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         yesButton.setOnClickListener(view12 -> {
-            AlarmCreator.saveAlarm();
+            ((CreateAlarmActivity)getContext()).saveAlarm();
             dismiss();
         });
         noButton.setOnClickListener(view1 -> {
-            AlarmCreator.discardAlarm();
+            ((CreateAlarmActivity)getContext()).discardAlarm();
             dismiss();
         });
         setOnCancelListener(dialogInterface -> dismiss());

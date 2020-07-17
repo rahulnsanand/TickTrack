@@ -3,19 +3,32 @@ package com.theflopguyproductions.ticktrack.ui.home;
 import android.net.Uri;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 
 public class AlarmData implements Comparable<AlarmData> {
 
     int alarmHour;
     int alarmMinute;
     int alarmTheme;
-    ArrayList<Calendar> calendarRepeatDays;
-    ArrayList<Calendar> calendarRepeatWeeks;
+    ArrayList<Date> repeatCustomDates;
+    ArrayList<Integer> repeatDaysInWeek;
     Uri alarmRingTone;
-
     String alarmLabel;
     boolean alarmVibrate;
+
+    @Override
+    public String toString() {
+        return "AlarmData{" +
+                "alarmHour=" + alarmHour +
+                ", alarmMinute=" + alarmMinute +
+                ", alarmTheme=" + alarmTheme +
+                ", calendarRepeatDays=" + repeatCustomDates +
+                ", calendarRepeatWeeks=" + repeatDaysInWeek +
+                ", alarmRingTone=" + alarmRingTone +
+                ", alarmLabel='" + alarmLabel + '\'' +
+                ", alarmVibrate=" + alarmVibrate +
+                '}';
+    }
 
     public int getAlarmHour() {
         return alarmHour;
@@ -41,20 +54,20 @@ public class AlarmData implements Comparable<AlarmData> {
         this.alarmTheme = alarmTheme;
     }
 
-    public ArrayList<Calendar> getCalendarRepeatDays() {
-        return calendarRepeatDays;
+    public ArrayList<Date> getRepeatCustomDates() {
+        return repeatCustomDates;
     }
 
-    public void setCalendarRepeatDays(ArrayList<Calendar> calendarRepeatDays) {
-        this.calendarRepeatDays = calendarRepeatDays;
+    public void setRepeatCustomDates(ArrayList<Date> repeatCustomDates) {
+        this.repeatCustomDates = repeatCustomDates;
     }
 
-    public ArrayList<Calendar> getCalendarRepeatWeeks() {
-        return calendarRepeatWeeks;
+    public ArrayList<Integer> getRepeatDaysInWeek() {
+        return repeatDaysInWeek;
     }
 
-    public void setCalendarRepeatWeeks(ArrayList<Calendar> calendarRepeatWeeks) {
-        this.calendarRepeatWeeks = calendarRepeatWeeks;
+    public void setRepeatDaysInWeek(ArrayList<Integer> repeatDaysInWeek) {
+        this.repeatDaysInWeek = repeatDaysInWeek;
     }
 
     public Uri getAlarmRingTone() {
