@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.EditAlarmActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 
@@ -35,6 +36,8 @@ public class MainActivityToChange extends AppCompatActivity {
     private static TimerFragment timerFragment = new TimerFragment();
     private static boolean isDisabled = false;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class MainActivityToChange extends AppCompatActivity {
 
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        openFragment(HomeFragment.newInstance(true, true));
+        openFragment(new HomeFragment());
         animateFAB(drawablePlus, fab);
 
         overflowMenuSetup();
@@ -224,5 +227,8 @@ public class MainActivityToChange extends AppCompatActivity {
         CounterFragment.counterLayout(staticContext,position);
     }
 
+    public static void editAlarmActivity(int adapterPosition) {
+        HomeFragment.openEditActivity(staticContext,adapterPosition);
+    }
 
 }
