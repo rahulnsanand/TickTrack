@@ -50,7 +50,6 @@ public class CounterFragment extends Fragment  implements CounterSlideDeleteHelp
 
     private static final String DISABLED_PARAM = "param2";
 
-
     public CounterFragment() {
     }
 
@@ -61,8 +60,6 @@ public class CounterFragment extends Fragment  implements CounterSlideDeleteHelp
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +174,7 @@ public class CounterFragment extends Fragment  implements CounterSlideDeleteHelp
 
     public static void counterLayout(Context context, int position){
         Intent intent = new Intent(context, CounterActivity.class);
-        intent.putExtra("currentPosition",position);
+        intent.putExtra("currentCounterPosition",position);
         context.startActivity(intent);
     }
 
@@ -187,6 +184,4 @@ public class CounterFragment extends Fragment  implements CounterSlideDeleteHelp
         hapticFeed.vibrate(50);
         counterAdapter.notifyData(counterDataArrayList);
     }
-
-
 }

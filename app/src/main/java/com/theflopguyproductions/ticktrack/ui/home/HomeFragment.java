@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
 
     public static void openEditActivity(Context staticContext, int adapterPosition) {
         Intent intent = new Intent(staticContext, EditAlarmActivity.class);
-        intent.putExtra("currentPosition",adapterPosition);
+        intent.putExtra("currentAlarmPosition",adapterPosition);
         staticContext.startActivity(intent);
     }
 
@@ -74,8 +74,14 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadAlarmData();
+        buildRecyclerView();
+    }
 
-    private static ArrayList<AlarmData> alarmDataArrayList = new ArrayList<>();
+    private static ArrayList<AlarmData> alarmDataArrayList;
     private static AlarmAdapter alarmAdapter;
     private RecyclerView alarmRecyclerView;
 
@@ -122,7 +128,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     }
 
     public static void onSaveAlarm(int alarmHour, int alarmMinute, int alarmTheme, ArrayList<Date> calendarRepeatDays,
-                                   ArrayList<Integer> calendarRepeatWeeks, Uri alarmRingTone, String alarmLabel, boolean alarmVibrate){
+                                   ArrayList<Integer> calendarRepeatWeeks, String alarmRingTone, String alarmLabel, boolean alarmVibrate){
 
         AlarmData alarmData = new AlarmData();
         alarmData.setAlarmHour(alarmHour);
@@ -146,6 +152,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         editor.putString("AlarmData", json);
         editor.apply();
     }
+
     private static void loadAlarmData(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -180,7 +187,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     }
     public static void deleteItem(int position){
         alarmDataArrayList.remove(position);
-        //StoreCounter();
+        storeAlarm();
         hapticFeed.vibrate(50);
         alarmAdapter.notifyData(alarmDataArrayList);
     }

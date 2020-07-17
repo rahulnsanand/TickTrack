@@ -44,7 +44,7 @@ public class GetAlarmLabelDialog extends Dialog {
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         yesButton.setOnClickListener(view12 -> {
-            ((CreateAlarmActivity)getContext()).setLabel(alarmLabel.getText().toString());
+            ((CreateAlarmActivity) activity).setLabel(alarmLabel.getText().toString());
             dismiss();
         });
         noButton.setOnClickListener(view1 -> dismiss());

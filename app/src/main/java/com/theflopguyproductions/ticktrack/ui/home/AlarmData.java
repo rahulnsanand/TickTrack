@@ -12,23 +12,9 @@ public class AlarmData implements Comparable<AlarmData> {
     int alarmTheme;
     ArrayList<Date> repeatCustomDates;
     ArrayList<Integer> repeatDaysInWeek;
-    Uri alarmRingTone;
+    String alarmRingTone;
     String alarmLabel;
     boolean alarmVibrate;
-
-    @Override
-    public String toString() {
-        return "AlarmData{" +
-                "alarmHour=" + alarmHour +
-                ", alarmMinute=" + alarmMinute +
-                ", alarmTheme=" + alarmTheme +
-                ", calendarRepeatDays=" + repeatCustomDates +
-                ", calendarRepeatWeeks=" + repeatDaysInWeek +
-                ", alarmRingTone=" + alarmRingTone +
-                ", alarmLabel='" + alarmLabel + '\'' +
-                ", alarmVibrate=" + alarmVibrate +
-                '}';
-    }
 
     public int getAlarmHour() {
         return alarmHour;
@@ -70,11 +56,11 @@ public class AlarmData implements Comparable<AlarmData> {
         this.repeatDaysInWeek = repeatDaysInWeek;
     }
 
-    public Uri getAlarmRingTone() {
+    public String getAlarmRingTone() {
         return alarmRingTone;
     }
 
-    public void setAlarmRingTone(Uri alarmRingTone) {
+    public void setAlarmRingTone(String alarmRingTone) {
         this.alarmRingTone = alarmRingTone;
     }
 
