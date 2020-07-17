@@ -1,7 +1,9 @@
 package com.theflopguyproductions.ticktrack.ui.home;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,16 +21,23 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.counter.CounterData;
+import com.theflopguyproductions.ticktrack.ui.counter.activity.counter.CounterActivity;
 import com.theflopguyproductions.ticktrack.ui.dialogs.AlarmDelete;
 import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.CreateAlarmActivity;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.EditAlarmActivity;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.AlarmSlideDeleteHelper;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.VIBRATOR_SERVICE;
 import static android.os.Looper.getMainLooper;
 
@@ -42,54 +51,42 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     public static boolean isDisabled;
     private static Vibrator hapticFeed;
 
+    private static Context context;
+
+    public static void openEditActivity(Context staticContext, int adapterPosition) {
+        Intent intent = new Intent(staticContext, EditAlarmActivity.class);
+        intent.putExtra("currentPosition",adapterPosition);
+        staticContext.startActivity(intent);
+    }
+
     public boolean isEnabled() {
         return isEnabled;
     }
-
 
     public boolean isDisabled() {
         return isDisabled;
     }
 
-    private static final String ENABLED_PARAM = "param1";
-    private static final String DISABLED_PARAM = "param2";
-
     public HomeFragment() {
-    }
-
-    public static HomeFragment newInstance(boolean enabled, boolean disabled) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putBoolean(ENABLED_PARAM, enabled);
-        args.putBoolean(DISABLED_PARAM, disabled);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            isEnabled = getArguments().getBoolean(ENABLED_PARAM);
-            isDisabled = getArguments().getBoolean(DISABLED_PARAM);
-        }
     }
 
     private static ArrayList<AlarmData> alarmDataArrayList = new ArrayList<>();
     private static AlarmAdapter alarmAdapter;
     private RecyclerView alarmRecyclerView;
 
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
+        context = getContext();
         timeTextBig = root.findViewById(R.id.expandedTimeText);
         alarmRecyclerView = root.findViewById(R.id.alarmRecyclerView);
         hapticFeed = (Vibrator) getContext().getSystemService(VIBRATOR_SERVICE);
-
         someHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -99,10 +96,9 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         }, 0);
 
         buildRecyclerView();
-
+        loadAlarmData();
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new AlarmSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(alarmRecyclerView);
-
         return root;
     }
 
@@ -139,18 +135,31 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         alarmData.setAlarmVibrate(alarmVibrate);
         alarmDataArrayList.add(0,alarmData);
         alarmAdapter.notifyData(alarmDataArrayList);
-
         storeAlarm();
     }
 
     private static void storeAlarm() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(alarmDataArrayList);
+        editor.putString("AlarmData", json);
+        editor.apply();
+    }
+    private static void loadAlarmData(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("AlarmData", null);
+        Type type = new TypeToken<ArrayList<AlarmData>>() {}.getType();
+        alarmDataArrayList = gson.fromJson(json, type);
 
-
-
+        if(alarmDataArrayList == null){
+            alarmDataArrayList = new ArrayList<>();
+        }
     }
 
-
     String deletedAlarm = null;
+
     @Override
     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof AlarmAdapter.RecyclerItemViewHolder) {
@@ -175,6 +184,5 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         hapticFeed.vibrate(50);
         alarmAdapter.notifyData(alarmDataArrayList);
     }
-
 
 }

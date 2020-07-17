@@ -4,6 +4,544 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/TrueBlack"
     tools:context=".ui.home.activity.alarm.EditAlarmActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/alarmEditItemToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+
+        <ImageButton
+            android:id="@+id/alarmEditActivityBackButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/TrueBlack"
+            android:src="@drawable/ic_back_white_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Edit alarm"
+            android:textColor="@color/SoftWhite"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/alarmEditActivityBackButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/saveEditButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_white_tick_24" />
+
+        <ImageButton
+            android:id="@+id/deleteEditButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/saveEditButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete_white_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/alarmEditBodyConstraint"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarmEditItemToolbar">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainEditScrollContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/alarmEditChangeButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_rect_blue"
+                    android:minHeight="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/alarmEditNextOccurenceText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="This alarm will ring tomorrow"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:animateLayoutChanges="true"/>
+
+                    <TimePicker
+                        android:id="@+id/timeEditPicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:amPmBackgroundColor="@color/Gray"
+                        android:amPmTextColor="@color/SoftWhite"
+                        android:headerBackground="@color/Gray"
+                        android:numbersBackgroundColor="@color/Gray"
+                        android:numbersSelectorColor="@color/TrueAccent"
+                        android:numbersTextColor="@color/SoftWhite"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/alarmEditNextOccurenceText" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/repeatEditBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alarmEditChangeButton"
+                    android:animateLayoutChanges="true">
+
+                    <ImageButton
+                        android:id="@+id/calendarEditDownButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_white_arrow_down_24" />
+
+                    <ImageButton
+                        android:id="@+id/calendarEditUpButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_white_arrow_up_24" />
+
+                    <TextView
+                        android:id="@+id/calendarEditNextOccurence"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Next ring: Wednesday (22 July)"
+                        android:textColor="@color/TrueAccent"
+                        android:textSize="18sp"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
+                        android:animateLayoutChanges="true"/>
+
+                    <com.theflopguyproductions.ticktrack.ui.utils.datepicker.CalendarView
+                        android:id="@+id/calendarEditView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:abbreviationsBarColor="@color/Gray"
+                        app:abbreviationsLabelsColor="@android:color/white"
+                        app:anotherMonthsDaysLabelsColor="@color/Gray"
+                        app:daysLabelsColor="@android:color/white"
+                        app:disabledDaysLabelsColor="@color/roboto_calendar_circle_1"
+                        app:eventsEnabled="false"
+                        app:headerColor="@color/TrueBlack"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
+                        app:pagesColor="@color/Gray"
+                        app:selectionColor="@color/SoftWhite"
+                        app:selectionLabelColor="@color/TrueAccent"
+                        app:todayLabelColor="@color/TrueAccent"
+                        app:type="many_days_picker"
+                        android:animateLayoutChanges="true"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/daysEditRepeatChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/repeatText"
+                        android:animateLayoutChanges="true">
+
+                        <ToggleButton
+                            android:id="@+id/sundayEditToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="S"
+                            android:textOn="S" />
+
+                        <ToggleButton
+                            android:id="@+id/mondayEditToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="M"
+                            android:textOn="M" />
+
+                        <ToggleButton
+                            android:id="@+id/tuesdayEditToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="T"
+                            android:textOn="T" />
+
+                        <ToggleButton
+                            android:id="@+id/wednesdayEditToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="W"
+                            android:textOn="W" />
+
+                        <ToggleButton
+                            android:id="@+id/thursdayEditToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="T"
+                            android:textOn="T" />
+
+                        <ToggleButton
+                            android:id="@+id/fridayEditToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="F"
+                            android:textOn="F" />
+
+                        <ToggleButton
+                            android:id="@+id/saturdayEditToggle"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/circle_toggle_button"
+                            android:textAllCaps="false"
+                            android:textColor="@color/TrueWhite"
+                            android:textOff="S"
+                            android:textOn="S" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:id="@+id/repeatEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Repeat"
+                        android:textColor="@color/TrueWhite"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/RepeatEditDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/Gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/repeatEditBackground">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ringtoneEditBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dark_layout_button_default"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/RepeatEditDivider">
+
+                    <TextView
+                        android:id="@+id/alarmEditRingTone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Alarm Ringtone"
+                        android:textColor="@color/TrueWhite"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/alarmEditRingtoneValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="alarmDefaultRingTone"
+                        android:textColor="@color/TrueAccent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/alarmEditRingTone" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ringtoneEditDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/Gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ringtoneEditBackground">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vibrateEditBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/dark_layout_button_default"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ringtoneEditDivider">
+
+                    <TextView
+                        android:id="@+id/alarmEditVibrateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Vibrate"
+                        android:textColor="@color/TrueWhite"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <CheckBox
+                        android:id="@+id/vibrateEditCheckBox"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:focusable="auto"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/alarmEditVibrateDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/Gray"
+                    app:layout_constraintTop_toBottomOf="@id/vibrateEditBackground">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/alarmEditLabelBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/dark_layout_button_default"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:layout_constraintTop_toBottomOf="@+id/alarmEditVibrateDivider">
+
+                    <TextView
+                        android:id="@+id/alarmEditLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:autoText="true"
+                        android:inputType="textPersonName"
+                        android:text="Set an alarm label"
+                        android:textColor="@color/TrueAccent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/alarmEditLabelText" />
+
+                    <TextView
+                        android:id="@+id/alarmEditLabelText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Label"
+                        android:textColor="@color/TrueWhite"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/alarmEditLabelDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/Gray"
+                    app:layout_constraintTop_toBottomOf="@+id/alarmEditLabelBackground">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/alarmEditThemeBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/alarmEditLabelDivider">
+
+                    <TextView
+                        android:id="@+id/alarmEditThemeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Theme"
+                        android:textColor="@color/TrueWhite"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/alarmEditThemeGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:alwaysDrawnWithCache="true"
+                        android:animateLayoutChanges="true"
+                        android:clickable="true"
+                        android:focusable="auto"
+                        android:visibility="visible"
+                        app:checkedChip="@id/randomTheme"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/alarmEditThemeLabel"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/defaultEditAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:checked="true"
+                            android:text="Default" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/nebulaEditAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Nebula"
+                            app:chipIcon="@drawable/round_rect_blue" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/vortexEditAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Vortex"
+                            app:chipIcon="@drawable/round_rect_green" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/unicornEditAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Unicorn"
+                            app:chipIcon="@drawable/round_rect_purple" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/gargantuaEditAlarmTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Gargantua"
+                            app:chipIcon="@drawable/round_rect_black" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.theflopguyproductions.ticktrack.MainActivityToChange;
 import com.theflopguyproductions.ticktrack.R;
 
 import java.text.SimpleDateFormat;
@@ -181,7 +182,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
             alarmBackgroundLayout = parent.findViewById(R.id.alarmBackgroundLayout);
 
             alarmLayout.setOnClickListener(v -> {
-                //MainActivityToChange.counterActivity(getAdapterPosition());
+                MainActivityToChange.editAlarmActivity(getAdapterPosition());
                 Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
             });
         }

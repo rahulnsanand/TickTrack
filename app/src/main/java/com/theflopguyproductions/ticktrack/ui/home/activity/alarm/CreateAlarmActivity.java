@@ -94,11 +94,6 @@ public class CreateAlarmActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private int alarmExists(){
-
-        return 1;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +114,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
         });
 
         alarmBack.setOnClickListener(view -> {
-
+            finish();
         });
 
     }
