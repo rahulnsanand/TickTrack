@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.ui.home;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -25,6 +26,8 @@ import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.AlarmSlideDelet
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 import static android.os.Looper.getMainLooper;
@@ -117,23 +120,33 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     }
 
     public void fabClicked() {
-
-
-
         Intent intent = new Intent(getContext(), AlarmCreator.class);
         startActivity(intent);
-
-//        AlarmData alarmData = new AlarmData();
-//        alarmData.setAlarmAmPm("pm");
-//        alarmData.setAlarmTime("12:00");
-//        alarmData.setAlarmColor(1);
-//        alarmData.setAlarmLabel("Gucci");
-//        alarmData.setAlarmMode(true);
-//        alarmData.setAlarmNextOccurrence("IDK");
-//        alarmDataArrayList.add(0,alarmData);
-//        alarmAdapter.notifyData(alarmDataArrayList);
-
         Toast.makeText(getContext(),"Add Alarm",Toast.LENGTH_SHORT).show();
+    }
+
+    public static void onSaveAlarm(int alarmHour, int alarmMinute, int alarmTheme, ArrayList<Calendar> calendarRepeatDays,
+                                   ArrayList<Calendar> calendarRepeatWeeks, Uri alarmRingTone, String alarmLabel, boolean alarmVibrate){
+
+        AlarmData alarmData = new AlarmData();
+        alarmData.setAlarmHour(alarmHour);
+        alarmData.setAlarmMinute(alarmMinute);
+        alarmData.setAlarmTheme(alarmTheme);
+        alarmData.setCalendarRepeatDays(calendarRepeatDays);
+        alarmData.setCalendarRepeatWeeks(calendarRepeatWeeks);
+        alarmData.setAlarmRingTone(alarmRingTone);
+        alarmData.setAlarmLabel(alarmLabel);
+        alarmData.setAlarmVibrate(alarmVibrate);
+        alarmDataArrayList.add(0,alarmData);
+        alarmAdapter.notifyData(alarmDataArrayList);
+
+        storeAlarm();
+    }
+
+    private static void storeAlarm() {
+
+
+
     }
 
 

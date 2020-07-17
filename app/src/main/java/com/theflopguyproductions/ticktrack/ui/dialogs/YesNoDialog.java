@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -17,37 +17,41 @@ import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.AlarmCreator;
 
 import java.util.Objects;
 
-public class GetAlarmLabelDialog extends Dialog {
+public class YesNoDialog extends Dialog {
 
-    public Activity activity;
-    private EditText alarmLabel;
-    public Button yesButton;
-    public Button noButton;
+    Activity activity;
 
-    public GetAlarmLabelDialog(Activity activity){
+    public YesNoDialog(Activity activity) {
         super(activity);
         this.activity = activity;
     }
+
+    private TextView dialogTitle;
+    public Button yesButton;
+    public Button noButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        View view = activity.getLayoutInflater().inflate(R.layout.alarm_label_dialog, new ConstraintLayout(activity), false);
+        View view = activity.getLayoutInflater().inflate(R.layout.yes_no_dialog, new ConstraintLayout(activity), false);
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        yesButton = view.findViewById(R.id.okLabel);
-        noButton = view.findViewById(R.id.cancelLabel);
-        alarmLabel = view.findViewById(R.id.alarmLabelField);
+        yesButton = view.findViewById(R.id.yesDialogButton);
+        noButton = view.findViewById(R.id.noDialogButton);
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         yesButton.setOnClickListener(view12 -> {
-            AlarmCreator.setLabel(alarmLabel.getText().toString());
+            AlarmCreator.saveAlarm();
             dismiss();
         });
-        noButton.setOnClickListener(view1 -> dismiss());
+        noButton.setOnClickListener(view1 -> {
+            AlarmCreator.discardAlarm();
+            dismiss();
+        });
         setOnCancelListener(dialogInterface -> dismiss());
     }
 

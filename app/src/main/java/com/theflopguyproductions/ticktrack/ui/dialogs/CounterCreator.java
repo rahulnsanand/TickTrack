@@ -2,6 +2,8 @@ package com.theflopguyproductions.ticktrack.ui.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +21,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class CounterCreator extends Dialog{
 
@@ -36,6 +39,7 @@ public class CounterCreator extends Dialog{
 
         View view = activity.getLayoutInflater().inflate(R.layout.counter_create_dialog, new ConstraintLayout(activity), false);
         setContentView(view);
+        Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         counterLabel = (EditText) view.findViewById(R.id.counterLabelText);
         createButton = (Button) view.findViewById(R.id.yesButton);
