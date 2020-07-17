@@ -13,7 +13,7 @@ import android.widget.EditText;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.AlarmCreator;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.CreateAlarmActivity;
 
 import java.util.Objects;
 
@@ -44,7 +44,7 @@ public class GetAlarmLabelDialog extends Dialog {
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         yesButton.setOnClickListener(view12 -> {
-            AlarmCreator.setLabel(alarmLabel.getText().toString());
+            ((CreateAlarmActivity)getContext()).setLabel(alarmLabel.getText().toString());
             dismiss();
         });
         noButton.setOnClickListener(view1 -> dismiss());

@@ -53,7 +53,7 @@ public class CounterActivity extends AppCompatActivity {
         counterDataArrayList = gson.fromJson(json, type);
 
 
-        currentPosition = (int) getIntent().getIntExtra("currentPosition",0);
+        currentPosition = getIntent().getIntExtra("currentPosition",0);
         currentCount = counterDataArrayList.get(currentPosition).getCountValue();
         counterLabel.setText(counterDataArrayList.get(currentPosition).getCounterLabel());
 

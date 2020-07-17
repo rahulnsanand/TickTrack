@@ -67,7 +67,7 @@ public class CounterCreator extends Dialog{
                         counterColor=4;
                     }
                     if(chip.getText().toString().equals("Random")){
-                        counterColor = getRandomNumber(1,4);
+                        counterColor = 2;
                     }
                 }
             }
@@ -77,14 +77,14 @@ public class CounterCreator extends Dialog{
             @Override
             public void onClick(View view) {
                 CounterFragment.onDialogPositiveClick(counterLabel.getText().toString(),lastModifiedDefault,counterColor);
-                counterColor= getRandomNumber(1,5);
+                counterColor= 2;
                 dismiss();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                counterColor= getRandomNumber(1,5);
+                counterColor= 2;
                 dismiss();
             }
         });
@@ -92,15 +92,12 @@ public class CounterCreator extends Dialog{
 
 
     public EditText counterLabel;
-    public int counterColor= getRandomNumber(1,5);
+    public int counterColor= 2;
 
     public Timestamp lastModifiedDefault = new Timestamp(System.currentTimeMillis());
 
     public Button createButton;
     public Button cancelButton;
 
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
-    }
 
 }

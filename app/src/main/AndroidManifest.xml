@@ -11,14 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-
-        <activity android:name=".ui.home.activity.alarm.AlarmCreator" />
+        <activity android:name=".ui.home.activity.alarm.EditAlarmActivity"></activity>
+        <activity android:name=".ui.home.activity.alarm.CreateAlarmActivity" />
         <activity android:name=".ui.counter.activity.counter.CounterActivity" />
         <activity
             android:name=".MainActivityToChange"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

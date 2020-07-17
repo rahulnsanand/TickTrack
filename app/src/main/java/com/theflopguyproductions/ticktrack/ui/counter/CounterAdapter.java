@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.MainActivityToChange;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.CreateAlarmActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,26 +83,20 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
         public RecyclerItemViewHolder(final View parent) {
             super(parent);
-            countValue = (TextView) parent.findViewById(R.id.counterValue);
-            counterLabel = (TextView) parent.findViewById(R.id.counterLabel);
-            lastModified = (TextView) parent.findViewById(R.id.lastUpdated);
-            countLayout = (ConstraintLayout) parent.findViewById(R.id.countRecycleLayout);
-            coloredLayout = (ConstraintLayout) parent.findViewById(R.id.counterItem);
+            countValue = parent.findViewById(R.id.counterValue);
+            counterLabel = parent.findViewById(R.id.counterLabel);
+            lastModified = parent.findViewById(R.id.lastUpdated);
+            countLayout = parent.findViewById(R.id.countRecycleLayout);
+            coloredLayout = parent.findViewById(R.id.counterItem);
 
-            countLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainActivityToChange.counterActivity(getAdapterPosition());
-                    Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                }
+            countLayout.setOnClickListener(v -> {
+                MainActivityToChange.counterActivity(getAdapterPosition());
+                Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
             });
-            countLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
+            countLayout.setOnLongClickListener(view -> {
 //                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
 
-                    return false;
-                }
+                return false;
             });
         }
 

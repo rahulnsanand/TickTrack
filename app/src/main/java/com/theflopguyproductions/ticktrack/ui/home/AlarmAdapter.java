@@ -70,18 +70,18 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
         return nextOccurrenceValue;
     }
 
-    private String getNextOccurrence(ArrayList<Calendar> calendarRepeatDays, ArrayList<Calendar> calendarRepeatWeeks){
-
-        if(calendarRepeatDays.size()>0 && !(calendarRepeatWeeks.size() >0)){
-                //CUSTOM ALARM OCCURRENCE
-        }
-        else if(calendarRepeatWeeks.size()>0 && !(calendarRepeatDays.size() >0)){
-            //WEEKLY ALARM OCCURRENCE
-        }
-        else{
-           
-        }
-    }
+//    private String getNextOccurrence(ArrayList<Calendar> calendarRepeatDays, ArrayList<Calendar> calendarRepeatWeeks){
+//
+//        if(calendarRepeatDays.size()>0 && !(calendarRepeatWeeks.size() >0)){
+//                //CUSTOM ALARM OCCURRENCE
+//        }
+//        else if(calendarRepeatWeeks.size()>0 && !(calendarRepeatDays.size() >0)){
+//            //WEEKLY ALARM OCCURRENCE
+//        }
+//        else{
+//
+//        }
+//    }
 
     private boolean isToday(int hour, int minute){
         Date date = new Date();   // given date
@@ -180,12 +180,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
             alarmLayout = parent.findViewById(R.id.alarmLayout);
             alarmBackgroundLayout = parent.findViewById(R.id.alarmBackgroundLayout);
 
-            alarmLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //MainActivityToChange.counterActivity(getAdapterPosition());
-                    Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                }
+            alarmLayout.setOnClickListener(v -> {
+                //MainActivityToChange.counterActivity(getAdapterPosition());
+                Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
             });
         }
     }

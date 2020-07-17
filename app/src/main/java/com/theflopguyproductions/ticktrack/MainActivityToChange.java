@@ -23,15 +23,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivityToChange extends AppCompatActivity {
 
-    private static Toolbar homeToolbar;
+    private Toolbar homeToolbar;
     private static BottomNavigationView bottomNavigationView;
     public static FloatingActionButton fab;
     private static ConstraintLayout mainActivityLayout;
     private static Context staticContext;
 
-    private static HomeFragment homeFragment = new HomeFragment();
+    private HomeFragment homeFragment = new HomeFragment();
     private static StopwatchFragment stopwatchFragment = new StopwatchFragment();
-    private static CounterFragment counterFragment = new CounterFragment();
+    private CounterFragment counterFragment = new CounterFragment();
     private static TimerFragment timerFragment = new TimerFragment();
     private static boolean isDisabled = false;
 
