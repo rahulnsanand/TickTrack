@@ -70,11 +70,22 @@ public class CreateAlarmActivity extends AppCompatActivity {
         }
     }
 
+    private void getCurrentCustomCheck() {
+        selectedDates=new ArrayList<>();
+        if(calendarView.getSelectedDates().size()>0){
+            for (Calendar calendar : calendarView.getSelectedDates()) {
+                selectedDates.add(calendar.getTime());
+                onCalendarValueChosen();
+            }
+        }
+    }
+
     public void saveAlarm() {
         alarmSaveVibrate = isVibrateOn; //Works
         alarmSaveLabel = getLabel(); //Works
         alarmSaveRingTone  = alarmRingTone; //Works
         repeatDaysInWeek = getRepeatDays(); //Works
+        getCurrentCustomCheck();
         repeatCustomDates = selectedDates; //Works
         alarmSaveTheme = alarmColor; //Works
         alarmSaveMinute = timePicker.getCurrentMinute(); //Works
@@ -84,7 +95,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
             alarmSaveLabel="";
         }
 
-        HomeFragment.onSaveAlarm(alarmSaveHour,alarmSaveMinute,alarmSaveTheme,repeatCustomDates,repeatDaysInWeek,alarmSaveRingTone,alarmSaveLabel,alarmSaveVibrate);
+        HomeFragment.onSaveAlarm(alarmSaveHour,alarmSaveMinute,alarmSaveTheme,repeatCustomDates,repeatDaysInWeek,alarmSaveRingTone,alarmSaveLabel,alarmSaveVibrate, true);
         finish();
     }
 

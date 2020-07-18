@@ -59,6 +59,12 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         staticContext.startActivity(intent);
     }
 
+    public static void toggleAlarmOnOff(int adapterPosition, boolean check) {
+        alarmDataArrayList.get(adapterPosition).setAlarmOnOff(check);
+        storeAlarm();
+    }
+
+
     public boolean isEnabled() {
         return isEnabled;
     }
@@ -128,7 +134,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     }
 
     public static void onSaveAlarm(int alarmHour, int alarmMinute, int alarmTheme, ArrayList<Date> calendarRepeatDays,
-                                   ArrayList<Integer> calendarRepeatWeeks, String alarmRingTone, String alarmLabel, boolean alarmVibrate){
+                                   ArrayList<Integer> calendarRepeatWeeks, String alarmRingTone, String alarmLabel, boolean alarmVibrate,  boolean alarmOnOff){
 
         AlarmData alarmData = new AlarmData();
         alarmData.setAlarmHour(alarmHour);
@@ -139,6 +145,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         alarmData.setAlarmRingTone(alarmRingTone);
         alarmData.setAlarmLabel(alarmLabel);
         alarmData.setAlarmVibrate(alarmVibrate);
+        alarmData.setAlarmOnOff(alarmOnOff);
         alarmDataArrayList.add(0,alarmData);
         alarmAdapter.notifyData(alarmDataArrayList);
         storeAlarm();

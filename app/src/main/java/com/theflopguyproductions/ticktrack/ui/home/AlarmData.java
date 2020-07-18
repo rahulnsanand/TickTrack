@@ -15,6 +15,15 @@ public class AlarmData implements Comparable<AlarmData> {
     String alarmRingTone;
     String alarmLabel;
     boolean alarmVibrate;
+    boolean alarmOnOff;
+
+    public boolean isAlarmOnOff() {
+        return alarmOnOff;
+    }
+
+    public void setAlarmOnOff(boolean alarmOnOff) {
+        this.alarmOnOff = alarmOnOff;
+    }
 
     public int getAlarmHour() {
         return alarmHour;
