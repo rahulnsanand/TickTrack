@@ -95,16 +95,28 @@ public class EditAlarmActivity extends AppCompatActivity {
         alarmDataArrayList.get(currentPosition).setAlarmVibrate(isVibrateOn);
         alarmDataArrayList.get(currentPosition).setAlarmRingTone(alarmRingTone);
         alarmDataArrayList.get(currentPosition).setRepeatDaysInWeek(getRepeatDays());
+        getCurrentCustomCheck();
         alarmDataArrayList.get(currentPosition).setRepeatCustomDates(selectedDates);
         alarmDataArrayList.get(currentPosition).setAlarmTheme(alarmColor);
         alarmDataArrayList.get(currentPosition).setAlarmMinute(timePicker.getCurrentMinute());
         alarmDataArrayList.get(currentPosition).setAlarmHour(timePicker.getCurrentHour());
+        alarmDataArrayList.get(currentPosition).setAlarmOnOff(true);
         if(getLabel().equals("Set alarm label")){
             alarmDataArrayList.get(currentPosition).setAlarmLabel("");
         } else{
             alarmDataArrayList.get(currentPosition).setAlarmLabel(getLabel());
         }
 
+    }
+
+    private void getCurrentCustomCheck() {
+        selectedDates=new ArrayList<>();
+        if(calendarView.getSelectedDates().size()>0){
+            for (Calendar calendar : calendarView.getSelectedDates()) {
+                selectedDates.add(calendar.getTime());
+                onCalendarValueChosen();
+            }
+        }
     }
 
     public void discardAlarm() {
@@ -126,11 +138,10 @@ public class EditAlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_alarm);
 
         initVariables();
-        retrieveData();
-        presetValues();
-
         initWeeklyToggleListener();
         initTimePickerListener();
+        retrieveData();
+        presetValues();
         setValueListeners();
 
         saveButton.setOnClickListener(view -> {
@@ -276,6 +287,9 @@ public class EditAlarmActivity extends AppCompatActivity {
         if(alarmRetLabel.equals("")){
             alarmRetLabel="Set alarm label";
         }
+        if(repeatRetCustomDates==null){
+            repeatRetCustomDates = new ArrayList<>();
+        }
 
     }
 
@@ -286,8 +300,10 @@ public class EditAlarmActivity extends AppCompatActivity {
         alarmColor = alarmRetTheme;
         timePicker.setCurrentHour(alarmRetHour);
         timePicker.setCurrentMinute(alarmRetMinute);
+        timePickerHour = timePicker.getCurrentHour();
+        timePickerMinute = timePicker.getCurrentMinute();
 
-        if(repeatRetCustomDates!=null && !(repeatRetDaysInWeek.size() >0)){
+        if(repeatRetCustomDates.size()>0 && !(repeatRetDaysInWeek.size()>0)){
             tomorrowRingText.setVisibility(View.INVISIBLE);
             dayChipGroup.setVisibility(View.INVISIBLE);
             nextOccurrence.setVisibility(View.VISIBLE);
@@ -298,7 +314,7 @@ public class EditAlarmActivity extends AppCompatActivity {
             nextOccurrence.setText("Next ring: "+format.format(repeatRetCustomDates.get(0)));
             setCalendarSelection(repeatRetCustomDates);
         }
-        else if(repeatRetDaysInWeek.size()>0 && repeatRetCustomDates==null){
+        else if(repeatRetDaysInWeek.size()>0 && !(repeatRetCustomDates.size() >0)){
             tomorrowRingText.setVisibility(View.VISIBLE);
             nextOccurrence.setVisibility(View.INVISIBLE);
             dayChipGroup.setVisibility(View.VISIBLE);
@@ -310,6 +326,7 @@ public class EditAlarmActivity extends AppCompatActivity {
                 repeatDays.put(repeatRetDaysInWeek.get(i),true);
             }
             setChipSelected(repeatRetDaysInWeek);
+            tomorrowRingText.setText(nextOccurrenceText());
         }
         else{
             initDefaultLayoutVisible();

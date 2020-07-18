@@ -38,6 +38,7 @@ public class MainActivityToChange extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -229,6 +230,10 @@ public class MainActivityToChange extends AppCompatActivity {
 
     public static void editAlarmActivity(int adapterPosition) {
         HomeFragment.openEditActivity(staticContext,adapterPosition);
+    }
+
+    public static void alarmOnOffToggle(int adapterPosition, boolean check) {
+        HomeFragment.toggleAlarmOnOff(adapterPosition, check);
     }
 
 }

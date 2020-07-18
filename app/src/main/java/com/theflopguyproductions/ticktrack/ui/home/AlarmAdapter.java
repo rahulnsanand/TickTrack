@@ -45,7 +45,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
         else{
             holder.alarmLabel.setText(myList.get(position).getAlarmLabel());
         }
-        holder.alarmMode.setChecked(true);
+        holder.alarmOnOffMode.setChecked(myList.get(position).isAlarmOnOff());
 
         String alarmAmPm = ((myList.get(position).getAlarmHour()>=12) ? "pm" : "am");
         holder.alarmAMPM.setText(alarmAmPm);
@@ -55,52 +55,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
         setColor(holder, myList.get(position).getAlarmTheme());
         mLastPosition = position;
     }
-
-    private int nextOccurrenceRight(ArrayList<Integer> receivedDays, int today){
-        int nextOccurrenceValue=0;
-        int checkCount = 0;
-
-        if(receivedDays!=null){
-            for(int i = 0; i < receivedDays.size(); i++){
-                while(today<receivedDays.get(i) && checkCount==0){
-                    nextOccurrenceValue=receivedDays.get(i);
-                    checkCount++;
-                }
-            }
-        }
-        return nextOccurrenceValue;
-    }
-
-//    private String getNextOccurrence(ArrayList<Calendar> calendarRepeatDays, ArrayList<Calendar> calendarRepeatWeeks){
-//
-//        if(calendarRepeatDays.size()>0 && !(calendarRepeatWeeks.size() >0)){
-//                //CUSTOM ALARM OCCURRENCE
-//        }
-//        else if(calendarRepeatWeeks.size()>0 && !(calendarRepeatDays.size() >0)){
-//            //WEEKLY ALARM OCCURRENCE
-//        }
-//        else{
-//
-//        }
-//    }
-
-    private boolean isToday(int hour, int minute){
-        Date date = new Date();   // given date
-        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-        calendar.setTime(date);   // assigns calendar to given date
-        int time24 = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
-        int time12 = calendar.get(Calendar.HOUR);        // gets hour in 12h format
-        int timeMinute = calendar.get(Calendar.MINUTE);
-
-        if(time24<hour){
-            return true;
-        }
-        else if(time24==hour){
-            return timeMinute < minute;
-        }
-        return false;
-    }
-
 
     private String getHour12(int hour){
         if(hour<10 && hour !=0){
@@ -127,8 +81,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
         }
         return ""+minute;
     }
-
-    private static final SimpleDateFormat timestampReadableFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     private void setColor(RecyclerItemViewHolder holder, int itemColor) {
         if (itemColor == 1) {
@@ -164,7 +116,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
         private final TextView alarmLabel;
         private final TextView alarmOccurrence;
         private final TextView alarmAMPM;
-        private final Switch alarmMode;
+        private final Switch alarmOnOffMode;
 
         public ConstraintLayout alarmLayout;
         public ConstraintLayout alarmBackgroundLayout;
@@ -176,7 +128,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
             alarmTime = parent.findViewById(R.id.alarmTime);
             alarmOccurrence = parent.findViewById(R.id.alarmOccurence);
             alarmAMPM = parent.findViewById(R.id.amPmText);
-            alarmMode = parent.findViewById(R.id.alarmSwitch);
+            alarmOnOffMode = parent.findViewById(R.id.alarmSwitch);
 
             alarmLayout = parent.findViewById(R.id.alarmLayout);
             alarmBackgroundLayout = parent.findViewById(R.id.alarmBackgroundLayout);
@@ -184,6 +136,14 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.RecyclerItem
             alarmLayout.setOnClickListener(v -> {
                 MainActivityToChange.editAlarmActivity(getAdapterPosition());
                 Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            });
+
+            alarmOnOffMode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean check = alarmOnOffMode.isChecked();
+                    MainActivityToChange.alarmOnOffToggle(getAdapterPosition(), check);
+                }
             });
         }
     }
