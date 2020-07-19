@@ -46,7 +46,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
     static int alarmSaveHour;
     static int alarmSaveMinute;
     static int alarmSaveTheme;
-    static ArrayList<Date> repeatCustomDates;
+    static ArrayList<Calendar> repeatCustomDates;
     static ArrayList<Integer> repeatDaysInWeek;
     static String alarmSaveRingTone;
     static String alarmSaveLabel;
@@ -75,7 +75,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
         selectedDates=new ArrayList<>();
         if(calendarView.getSelectedDates().size()>0){
             for (Calendar calendar : calendarView.getSelectedDates()) {
-                selectedDates.add(calendar.getTime());
+                selectedDates.add(calendar);
                 onCalendarValueChosen();
             }
         }
@@ -146,10 +146,10 @@ public class CreateAlarmActivity extends AppCompatActivity {
             selectedDates=new ArrayList<>();
             if(calendarView.getSelectedDates().size()>0){
                 for (Calendar calendar : calendarView.getSelectedDates()) {
-                    selectedDates.add(calendar.getTime());
+                    selectedDates.add(calendar);
                     onCalendarValueChosen();
                 }
-                nextOccurrence.setText("Next ring: "+format.format(selectedDates.get(0)));
+                nextOccurrence.setText("Next ring: "+format.format(selectedDates.get(0).getTime()));
             }
             else{
                 onCalendarValueNotChosen();
@@ -530,7 +530,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
     TextView tomorrowRingText, nextOccurrence, repeatLabel, alarmLabel, alarmValue;
     ChipGroup dayChipGroup;
     CalendarView calendarView;
-    static ArrayList<Date> selectedDates;
+    static ArrayList<Calendar> selectedDates;
     static Map<Integer, Boolean> repeatDays;
     TimePicker timePicker;
     public static int alarmColor,timePickerHour, timePickerMinute;
