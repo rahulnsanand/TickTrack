@@ -65,8 +65,6 @@ public class MainActivityToChange extends AppCompatActivity {
 
         overflowMenuSetup();
 
-        notificationExample();
-
         fab.setOnClickListener(view -> {
             for(Fragment fragment : getSupportFragmentManager().getFragments()) {
                 if(fragment instanceof HomeFragment) {
@@ -87,51 +85,6 @@ public class MainActivityToChange extends AppCompatActivity {
 
     }
 
-    private void notificationExample() {
-
-        createNotificationChannel();
-
-        RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_test_layout);
-        contentView.setImageViewResource(R.id.image, R.mipmap.ic_launcher);
-        contentView.setTextViewText(R.id.title, "Custom notification");
-        contentView.setTextViewText(R.id.text, "This is a custom layout");
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "TESTING")
-                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setCustomContentView(contentView)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        Notification notification = builder.build();
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notification.defaults |= Notification.DEFAULT_SOUND;
-        notification.defaults |= Notification.DEFAULT_VIBRATE;
-
-        Intent snoozeIntent = new Intent(this, MyBroadcastReceiver.class);
-        snoozeIntent.setAction(ACTION_SNOOZE);
-        snoozeIntent.putExtra("notification", notification);
-        snoozeIntent.putExtra("Notification ID", 0);
-        PendingIntent snoozePendingIntent =
-                PendingIntent.getBroadcast(this, 0, snoozeIntent, 0);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(0, notification);
-
-    }
-
-    private void createNotificationChannel() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "TESTING";
-            String description = "Testing Content Channel Description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("TESTING", name, importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {

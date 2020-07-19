@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     }
 
     public static void onSaveAlarm(int alarmHour, int alarmMinute, int alarmTheme, ArrayList<Calendar> weeklyRepeat,
-                                   ArrayList<Integer> customRepeat, String alarmRingTone, String alarmLabel, boolean alarmVibrate,  boolean alarmOnOff){
+                                   ArrayList<Integer> customRepeat, String alarmRingTone, String alarmLabel, boolean alarmVibrate,  boolean alarmOnOff, int alarmRequestCode){
 
         AlarmData alarmData = new AlarmData();
         alarmData.setAlarmHour(alarmHour);
@@ -147,6 +147,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         alarmData.setAlarmLabel(alarmLabel);
         alarmData.setAlarmVibrate(alarmVibrate);
         alarmData.setAlarmOnOff(alarmOnOff);
+        alarmData.setAlarmRequestCode(alarmRequestCode);
         alarmDataArrayList.add(0,alarmData);
         alarmAdapter.notifyData(alarmDataArrayList);
         storeAlarm();
