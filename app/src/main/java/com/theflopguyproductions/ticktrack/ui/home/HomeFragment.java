@@ -80,6 +80,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public void onResume() {
         super.onResume();

@@ -87,13 +87,16 @@ public class EditAlarmActivity extends AppCompatActivity {
     }
 
     public void saveAlarm() {
+        alarmDataArrayList.get(currentPosition).setAlarmOnOff(false);
+        updateData();
+        TickTrackAlarmManager.cancelAlarm(currentPosition, this);
         updateArrayList();
         updateData();
+        TickTrackAlarmManager.setAlarm(currentPosition,this);
         finish();
     }
 
     private void updateArrayList() {
-
         alarmDataArrayList.get(currentPosition).setAlarmVibrate(isVibrateOn);
         alarmDataArrayList.get(currentPosition).setAlarmRingTone(alarmRingTone);
         alarmDataArrayList.get(currentPosition).setRepeatDaysInWeek(getRepeatDays());
@@ -647,8 +650,6 @@ public class EditAlarmActivity extends AppCompatActivity {
         String json = gson.toJson(alarmDataArrayList);
         editor.putString("AlarmData", json);
         editor.apply();
-
-        TickTrackAlarmManager.setAlarm(currentPosition,this);
     }
 
     int alarmRetHour;
