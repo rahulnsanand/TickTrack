@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.ui.home;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +34,7 @@ import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.EditAlarmActiv
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.AlarmSlideDeleteHelper;
 
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,8 +50,6 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     final Handler someHandler = new Handler(getMainLooper());
     private SimpleDateFormat sdf = new SimpleDateFormat("hh:mma E, d MMMM ''yy");
 
-    public static boolean isEnabled;
-    public static boolean isDisabled;
     private static Vibrator hapticFeed;
 
     private static Context context;
@@ -62,15 +63,6 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
     public static void toggleAlarmOnOff(int adapterPosition, boolean check) {
         alarmDataArrayList.get(adapterPosition).setAlarmOnOff(check);
         storeAlarm();
-    }
-
-
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public boolean isDisabled() {
-        return isDisabled;
     }
 
     public HomeFragment() {
@@ -149,6 +141,7 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         alarmDataArrayList.add(0,alarmData);
         alarmAdapter.notifyData(alarmDataArrayList);
         storeAlarm();
+        //setAlarm();
     }
 
     private static void storeAlarm() {
@@ -158,6 +151,8 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         String json = gson.toJson(alarmDataArrayList);
         editor.putString("AlarmData", json);
         editor.apply();
+
+        //TODO SET ALARM HERE
     }
 
     private static void loadAlarmData(){
@@ -197,6 +192,40 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         storeAlarm();
         hapticFeed.vibrate(50);
         alarmAdapter.notifyData(alarmDataArrayList);
+    }
+
+    public static void getNextRepeat(){
+
+    }
+
+    public static void setAlarm(){
+
+        if(alarmDataArrayList!=null){
+            for(int i = 0; i < alarmDataArrayList.size(); i++){
+                if(alarmDataArrayList.get(i).isAlarmOnOff()) {
+
+                    //System.out.println(alarmDataArrayList.get(i).getAlarmHour() + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                    int hour, minute;
+                    hour = alarmDataArrayList.get(i).getAlarmHour();
+                    minute = alarmDataArrayList.get(i).getAlarmMinute();
+
+                    ArrayList<Date> customDateList = alarmDataArrayList.get(i).getRepeatCustomDates();
+                    for(int j = 0; j <customDateList.size(); j ++){
+//
+//                        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+//                        Calendar cal = Calendar.getInstance();
+//                        cal.set(Calendar.DATE,customDateList.get(j).getTime());
+//                        cal.set(Calendar.HOUR_OF_DAY, hour);
+//                        cal.set(Calendar.MINUTE, minute);
+//                        System.out.println(cal+"<<<<<<<<<<<<<<<<<<<<<<<<");
+//                        Intent intent = new Intent(context, AlertReceiver.class);
+//                        intent.putExtra("myAction", "mDoNotify");
+//                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0);
+//                        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                    }
+                }
+            }
+        }
     }
 
 }

@@ -1,16 +1,22 @@
 package com.theflopguyproductions.ticktrack;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.theflopguyproductions.ticktrack.background.MyBroadcastReceiver;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
-import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.EditAlarmActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 
@@ -18,12 +24,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivityToChange extends AppCompatActivity {
 
+    private static final String ACTION_SNOOZE = "GUCCISNOOZE";
     private Toolbar homeToolbar;
     private static BottomNavigationView bottomNavigationView;
     public static FloatingActionButton fab;
@@ -57,27 +65,72 @@ public class MainActivityToChange extends AppCompatActivity {
 
         overflowMenuSetup();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for(Fragment fragment : getSupportFragmentManager().getFragments()) {
-                    if(fragment instanceof HomeFragment) {
-                        ((HomeFragment) fragment).fabClicked();
-                    }
-                    if(fragment instanceof CounterFragment) {
-                        ((CounterFragment) fragment).fabClicked();
-                    }
-                    if(fragment instanceof StopwatchFragment) {
-                        ((StopwatchFragment) fragment).fabClicked();
-                    }
-                    if(fragment instanceof TimerFragment) {
-                        ((TimerFragment) fragment).fabClicked();
-                    }
+        notificationExample();
+
+        fab.setOnClickListener(view -> {
+            for(Fragment fragment : getSupportFragmentManager().getFragments()) {
+                if(fragment instanceof HomeFragment) {
+                    ((HomeFragment) fragment).fabClicked();
+                }
+                if(fragment instanceof CounterFragment) {
+                    ((CounterFragment) fragment).fabClicked();
+                }
+                if(fragment instanceof StopwatchFragment) {
+                    ((StopwatchFragment) fragment).fabClicked();
+                }
+                if(fragment instanceof TimerFragment) {
+                    ((TimerFragment) fragment).fabClicked();
                 }
             }
         });
 
 
+    }
+
+    private void notificationExample() {
+
+        createNotificationChannel();
+
+        RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_test_layout);
+        contentView.setImageViewResource(R.id.image, R.mipmap.ic_launcher);
+        contentView.setTextViewText(R.id.title, "Custom notification");
+        contentView.setTextViewText(R.id.text, "This is a custom layout");
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "TESTING")
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setCustomContentView(contentView)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Notification notification = builder.build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+
+        Intent snoozeIntent = new Intent(this, MyBroadcastReceiver.class);
+        snoozeIntent.setAction(ACTION_SNOOZE);
+        snoozeIntent.putExtra("notification", notification);
+        snoozeIntent.putExtra("Notification ID", 0);
+        PendingIntent snoozePendingIntent =
+                PendingIntent.getBroadcast(this, 0, snoozeIntent, 0);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, notification);
+
+    }
+
+    private void createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "TESTING";
+            String description = "Testing Content Channel Description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("TESTING", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
