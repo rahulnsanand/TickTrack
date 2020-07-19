@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -88,6 +89,7 @@ public class EditAlarmActivity extends AppCompatActivity {
         updateArrayList();
         updateData();
         finish();
+        setAlarm();
     }
 
     private void updateArrayList() {
@@ -336,10 +338,14 @@ public class EditAlarmActivity extends AppCompatActivity {
         alarmLabel.setText(alarmRetLabel);
         vibrateCheckBox.setChecked(alarmRetVibrate);
         if(alarmRingTone!=null) {
-            alarmRingToneText.setText(alarmRingTone);
+            Uri alarmPresetTone = Uri.parse(alarmRingTone);
+            Ringtone ringtonePresetAlarm = RingtoneManager.getRingtone(getApplicationContext(), alarmPresetTone);
+            alarmRingToneText.setText(ringtonePresetAlarm.getTitle(this));
         }
         else{
-            alarmRingToneText.setText("Default ringtone");
+            Uri alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            Ringtone ringtoneAlarm = RingtoneManager.getRingtone(getApplicationContext(), alarmTone);
+            alarmRingToneText.setText(ringtoneAlarm.getTitle(this));
         }
     }
 
@@ -615,9 +621,13 @@ public class EditAlarmActivity extends AppCompatActivity {
 
             if (alarmRingtoneUri != null) {
                 this.alarmRingTone = alarmRingtoneUri.toString();
-                alarmValue.setText(getAlarmRingtone(alarmRingtoneUri));
+                Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmRingtoneUri);
+                alarmValue.setText(ringtone.getTitle(getApplicationContext()));
             } else {
-                this.alarmRingTone = null;
+                Uri alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                this.alarmRingTone = alarmTone.toString();
+                Ringtone ringtoneAlarm = RingtoneManager.getRingtone(getApplicationContext(), alarmTone);
+                alarmValue.setText(ringtoneAlarm.getTitle(this));
             }
         }
     }
@@ -642,6 +652,19 @@ public class EditAlarmActivity extends AppCompatActivity {
         String json = gson.toJson(alarmDataArrayList);
         editor.putString("AlarmData", json);
         editor.apply();
+
+        //TODO SET ALARM HERE
+    }
+
+    public static void setAlarm(){
+
+        if(alarmDataArrayList!=null){
+            for(int i = 0; i < alarmDataArrayList.size(); i++){
+                if(alarmDataArrayList.get(i).isAlarmOnOff()){
+                    System.out.println(alarmDataArrayList.get(i).getAlarmHour()+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                }
+            }
+        }
     }
 
     int alarmRetHour;

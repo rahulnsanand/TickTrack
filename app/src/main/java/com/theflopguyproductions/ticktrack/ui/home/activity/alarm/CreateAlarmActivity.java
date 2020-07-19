@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -253,6 +254,12 @@ public class CreateAlarmActivity extends AppCompatActivity {
         repeatDays = new HashMap<>();
         alarmColor = 0;
         calendarView.setMinimumDate(yesterday());
+
+        if(alarmValue.getText().toString().equals("")) {
+            Uri alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            Ringtone ringtoneAlarm = RingtoneManager.getRingtone(getApplicationContext(), alarmTone);
+            alarmValue.setText(ringtoneAlarm.getTitle(this));
+        }
     }
 
     private void initWeeklyToggleListener() {
@@ -499,9 +506,13 @@ public class CreateAlarmActivity extends AppCompatActivity {
 
             if (alarmRingtoneUri != null) {
                 this.alarmRingTone = alarmRingtoneUri.toString();
-                alarmValue.setText(getAlarmRingtone(alarmRingtoneUri));
+                Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmRingtoneUri);
+                alarmValue.setText(ringtone.getTitle(getApplicationContext()));
             } else {
-                this.alarmRingTone = null;
+                Uri alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                this.alarmRingTone = alarmTone.toString();
+                Ringtone ringtoneAlarm = RingtoneManager.getRingtone(getApplicationContext(), alarmTone);
+                alarmValue.setText(ringtoneAlarm.getTitle(this));
             }
         }
     }
