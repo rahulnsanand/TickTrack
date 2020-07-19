@@ -31,6 +31,7 @@
 
         <receiver android:name=".background.MyBroadcastReceiver">
             <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="me.proft.alarms.ACTION_ALARM" />
             </intent-filter>
         </receiver>
