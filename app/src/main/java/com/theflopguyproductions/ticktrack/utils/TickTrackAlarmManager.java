@@ -1,14 +1,19 @@
 package com.theflopguyproductions.ticktrack.utils;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.theflopguyproductions.ticktrack.background.MyBroadcastReceiver;
 import com.theflopguyproductions.ticktrack.ui.home.AlarmData;
+import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.DismissAlarmActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -17,6 +22,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 public class TickTrackAlarmManager {
@@ -53,19 +59,23 @@ public class TickTrackAlarmManager {
             if(customDateList.size()>0 && !(weeklyRepeat.size() >0)){ //CUSTOM DATE REPEAT ALARM
                 for (int j = 0; j < customDateList.size(); j++) {
 
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                     Calendar cal = Calendar.getInstance();
                     cal.set(Calendar.DAY_OF_MONTH, customDateList.get(j).get(Calendar.DAY_OF_MONTH));
                     cal.set(Calendar.MONTH, customDateList.get(j).get(Calendar.MONTH));
                     cal.set(Calendar.YEAR, customDateList.get(j).get(Calendar.YEAR));
                     cal.set(Calendar.HOUR_OF_DAY, hour);
                     cal.set(Calendar.MINUTE, minute);
+                    cal.set(Calendar.SECOND,0);
+
                     System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                     System.out.println(">>>>>>>>>>  Day     "+cal.get(Calendar.DAY_OF_MONTH));
                     System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
                     System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
                     System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
                     System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                    System.out.println(">>>>>>>>>>  Second  "+cal.get(Calendar.SECOND));
+
 
                 }
             }
@@ -74,12 +84,15 @@ public class TickTrackAlarmManager {
                 cal.set(Calendar.DATE,nextOccurrenceText(hour, minute, weeklyRepeat));
                 cal.set(Calendar.HOUR_OF_DAY, hour);
                 cal.set(Calendar.MINUTE, minute);
+                cal.set(Calendar.SECOND,0);
 
                 System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                 System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
                 System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
                 System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
                 System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                System.out.println(">>>>>>>>>>  Second  "+cal.get(Calendar.SECOND));
+
             }
             else{
                 if(isToday(hour,minute)){ //TODAY ALARM
@@ -87,23 +100,33 @@ public class TickTrackAlarmManager {
                     cal.set(Calendar.DATE, getToday());
                     cal.set(Calendar.HOUR_OF_DAY, hour);
                     cal.set(Calendar.MINUTE, minute);
+                    cal.set(Calendar.SECOND,0);
+
+                    Intent intent = new Intent(context, MyBroadcastReceiver.class);
+                    intent.setAction(MyBroadcastReceiver.ACTION_ALARM);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmDataArrayList.get(position).getAlarmRequestCode(), intent, PendingIntent.FLAG_ONE_SHOT);
+                    ((AlarmManager) context.getSystemService(ALARM_SERVICE)).setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),  pendingIntent);
 
                     System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                     System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
                     System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
                     System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
                     System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                    System.out.println(">>>>>>>>>>  Second  "+cal.get(Calendar.SECOND));
                 } else{ //TOMORROW ALARM
                     Calendar cal = Calendar.getInstance();
                     cal.set(Calendar.DATE,getTomorrow());
                     cal.set(Calendar.HOUR_OF_DAY, hour);
                     cal.set(Calendar.MINUTE, minute);
+                    cal.set(Calendar.SECOND,0);
 
                     System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                     System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
                     System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
                     System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
                     System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                    System.out.println(">>>>>>>>>>  Second  "+cal.get(Calendar.SECOND));
+
                 }
             }
 
@@ -237,6 +260,15 @@ public class TickTrackAlarmManager {
                     cal.set(Calendar.HOUR_OF_DAY, hour);
                     cal.set(Calendar.MINUTE, minute);
 
+                    Intent intent = new Intent(context, MyBroadcastReceiver.class);
+
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmDataArrayList.get(position).getAlarmRequestCode(), intent, PendingIntent.FLAG_ONE_SHOT);
+
+                    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+                    alarmManager.cancel(pendingIntent);
+
+
                     System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                     System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
                     System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
@@ -260,6 +292,9 @@ public class TickTrackAlarmManager {
         }
     }
 
+    public static void stopAlarm(){
+
+    }
 
 
     public static void setAlarmBackup(int position, Context context){
@@ -279,7 +314,7 @@ public class TickTrackAlarmManager {
             if(customDateList.size()>0 && !(weeklyRepeat.size() >0)){
                 for (int j = 0; j < customDateList.size(); j++) {
 
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
                     Calendar cal = Calendar.getInstance();
                     cal.set(Calendar.DAY_OF_MONTH, customDateList.get(j).get(Calendar.DAY_OF_MONTH));
                     cal.set(Calendar.MONTH, customDateList.get(j).get(Calendar.MONTH));
@@ -411,4 +446,13 @@ public class TickTrackAlarmManager {
         }
     }
 
+
+    public static class AlarmReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            Log.d("-", "Receiver3");
+        }
+    }
+
 }
+
+

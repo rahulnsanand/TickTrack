@@ -97,6 +97,10 @@ public class EditAlarmActivity extends AppCompatActivity {
     }
 
     private void updateArrayList() {
+
+        int alarmRequestID = (int) Calendar.getInstance().getTimeInMillis();
+
+        alarmDataArrayList.get(currentPosition).setAlarmRequestCode(alarmRequestID);
         alarmDataArrayList.get(currentPosition).setAlarmVibrate(isVibrateOn);
         alarmDataArrayList.get(currentPosition).setAlarmRingTone(alarmRingTone);
         alarmDataArrayList.get(currentPosition).setRepeatDaysInWeek(getRepeatDays());

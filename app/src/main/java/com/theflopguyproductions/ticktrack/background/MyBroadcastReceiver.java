@@ -5,19 +5,19 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
+    public static final String ACTION_ALARM = "en.proft.alarms.ACTION_ALARM";
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        if(action=="GUCCISNOOZE"){
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
-            Notification notification = intent.getParcelableExtra("notification") ;
-            int i = intent.getIntExtra("Notification ID",0);
-            if(notification!=null){
-                System.out.println("HELLO");
-                notificationManager.cancel(i);
-            }
+
+        if (ACTION_ALARM.equals(intent.getAction())) {
+            Toast.makeText(context, "Alarm....", Toast.LENGTH_LONG).show();
+            Intent service1 = new Intent(context, MyAlarmService.class);
+            context.startService(service1);
         }
+
     }
 }

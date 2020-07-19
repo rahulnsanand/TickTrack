@@ -1,22 +1,33 @@
 package com.theflopguyproductions.ticktrack.ui.home;
 
-import android.net.Uri;
+import android.app.PendingIntent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class AlarmData implements Comparable<AlarmData> {
 
     int alarmHour;
     int alarmMinute;
     int alarmTheme;
+    int alarmRequestCode;
+
     ArrayList<Calendar> repeatCustomDates;
     ArrayList<Integer> repeatDaysInWeek;
     String alarmRingTone;
     String alarmLabel;
     boolean alarmVibrate;
     boolean alarmOnOff;
+
+
+
+    public int getAlarmRequestCode() {
+        return alarmRequestCode;
+    }
+
+    public void setAlarmRequestCode(int alarmRequestCode) {
+        this.alarmRequestCode = alarmRequestCode;
+    }
 
     public boolean isAlarmOnOff() {
         return alarmOnOff;

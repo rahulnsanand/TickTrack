@@ -92,11 +92,13 @@ public class CreateAlarmActivity extends AppCompatActivity {
         alarmSaveMinute = timePicker.getCurrentMinute(); //Works
         alarmSaveHour = timePicker.getCurrentHour(); //Works
 
+        int alarmRequestID = (int) Calendar.getInstance().getTimeInMillis();
+
         if(alarmSaveLabel.equals("Set alarm label")){
             alarmSaveLabel="";
         }
 
-        HomeFragment.onSaveAlarm(alarmSaveHour,alarmSaveMinute,alarmSaveTheme,repeatCustomDates,repeatDaysInWeek,alarmSaveRingTone,alarmSaveLabel,alarmSaveVibrate, true);
+        HomeFragment.onSaveAlarm(alarmSaveHour,alarmSaveMinute,alarmSaveTheme,repeatCustomDates,repeatDaysInWeek,alarmSaveRingTone,alarmSaveLabel,alarmSaveVibrate, true, alarmRequestID);
         finish();
     }
 
