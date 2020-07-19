@@ -55,7 +55,7 @@ public class EditAlarmActivity extends AppCompatActivity {
     TextView tomorrowRingText, nextOccurrence, repeatLabel, alarmLabel, alarmValue, alarmRingToneText;
     ChipGroup dayChipGroup;
     CalendarView calendarView;
-    static ArrayList<Date> selectedDates;
+    static ArrayList<Calendar> selectedDates;
     static Map<Integer, Boolean> repeatDays;
     TimePicker timePicker;
     public static int alarmColor,timePickerHour, timePickerMinute, currentPosition;
@@ -115,7 +115,7 @@ public class EditAlarmActivity extends AppCompatActivity {
         selectedDates=new ArrayList<>();
         if(calendarView.getSelectedDates().size()>0){
             for (Calendar calendar : calendarView.getSelectedDates()) {
-                selectedDates.add(calendar.getTime());
+                selectedDates.add(calendar);
                 onCalendarValueChosen();
             }
         }
@@ -164,7 +164,7 @@ public class EditAlarmActivity extends AppCompatActivity {
             selectedDates=new ArrayList<>();
             if(calendarView.getSelectedDates().size()>0){
                 for (Calendar calendar : calendarView.getSelectedDates()) {
-                    selectedDates.add(calendar.getTime());
+                    selectedDates.add(calendar);
                     onCalendarValueChosen();
                 }
                 nextOccurrence.setText("Next ring: "+format.format(selectedDates.get(0)));
@@ -313,7 +313,7 @@ public class EditAlarmActivity extends AppCompatActivity {
             calendarDownButton.setVisibility(View.VISIBLE);
             repeatLabel.setText("Custom repeat");
 
-            nextOccurrence.setText("Next ring: "+format.format(repeatRetCustomDates.get(0)));
+            nextOccurrence.setText("Next ring: "+format.format(repeatRetCustomDates.get(0).getTime()));
             setCalendarSelection(repeatRetCustomDates);
         }
         else if(repeatRetDaysInWeek.size()>0 && !(repeatRetCustomDates.size() >0)){
@@ -374,13 +374,8 @@ public class EditAlarmActivity extends AppCompatActivity {
 
     }
 
-    public void setCalendarSelection(ArrayList<Date> repeatCustomDates){
-        List<Calendar> selectedDates = new ArrayList<>();
-        for(int i = 0 ; i < repeatCustomDates.size(); i ++){
-            Calendar adderCal = Calendar.getInstance();
-            adderCal.setTime(repeatCustomDates.get(i));
-            selectedDates.add(adderCal);
-        }
+    public void setCalendarSelection(ArrayList<Calendar> repeatCustomDates){
+        List<Calendar> selectedDates = new ArrayList<>(repeatCustomDates);
         calendarView.setSelectedDates(selectedDates);
     }
 
@@ -670,7 +665,7 @@ public class EditAlarmActivity extends AppCompatActivity {
     int alarmRetHour;
     int alarmRetMinute;
     int alarmRetTheme;
-    ArrayList<Date> repeatRetCustomDates;
+    ArrayList<Calendar> repeatRetCustomDates;
     ArrayList<Integer> repeatRetDaysInWeek;
     String alarmRetRingTone;
     String alarmRetLabel;

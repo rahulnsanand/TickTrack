@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.ui.home;
 import android.net.Uri;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AlarmData implements Comparable<AlarmData> {
@@ -10,7 +11,7 @@ public class AlarmData implements Comparable<AlarmData> {
     int alarmHour;
     int alarmMinute;
     int alarmTheme;
-    ArrayList<Date> repeatCustomDates;
+    ArrayList<Calendar> repeatCustomDates;
     ArrayList<Integer> repeatDaysInWeek;
     String alarmRingTone;
     String alarmLabel;
@@ -49,11 +50,11 @@ public class AlarmData implements Comparable<AlarmData> {
         this.alarmTheme = alarmTheme;
     }
 
-    public ArrayList<Date> getRepeatCustomDates() {
+    public ArrayList<Calendar> getRepeatCustomDates() {
         return repeatCustomDates;
     }
 
-    public void setRepeatCustomDates(ArrayList<Date> repeatCustomDates) {
+    public void setRepeatCustomDates(ArrayList<Calendar> repeatCustomDates) {
         this.repeatCustomDates = repeatCustomDates;
     }
 
