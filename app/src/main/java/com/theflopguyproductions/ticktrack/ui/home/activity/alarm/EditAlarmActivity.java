@@ -36,6 +36,7 @@ import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
 import com.theflopguyproductions.ticktrack.ui.utils.datepicker.CalendarView;
 import com.theflopguyproductions.ticktrack.ui.utils.datepicker.EventDay;
 import com.theflopguyproductions.ticktrack.ui.utils.datepicker.listeners.OnDayClickListener;
+import com.theflopguyproductions.ticktrack.utils.TickTrackAlarmManager;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
@@ -89,7 +90,6 @@ public class EditAlarmActivity extends AppCompatActivity {
         updateArrayList();
         updateData();
         finish();
-        setAlarm();
     }
 
     private void updateArrayList() {
@@ -167,7 +167,7 @@ public class EditAlarmActivity extends AppCompatActivity {
                     selectedDates.add(calendar);
                     onCalendarValueChosen();
                 }
-                nextOccurrence.setText("Next ring: "+format.format(selectedDates.get(0)));
+                nextOccurrence.setText("Next ring: "+format.format(selectedDates.get(0).getTime()));
             }
             else{
                 onCalendarValueNotChosen();
@@ -648,18 +648,7 @@ public class EditAlarmActivity extends AppCompatActivity {
         editor.putString("AlarmData", json);
         editor.apply();
 
-        //TODO SET ALARM HERE
-    }
-
-    public static void setAlarm(){
-
-        if(alarmDataArrayList!=null){
-            for(int i = 0; i < alarmDataArrayList.size(); i++){
-                if(alarmDataArrayList.get(i).isAlarmOnOff()){
-                    System.out.println(alarmDataArrayList.get(i).getAlarmHour()+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                }
-            }
-        }
+        TickTrackAlarmManager.setAlarm(currentPosition,this);
     }
 
     int alarmRetHour;
