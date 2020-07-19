@@ -22,44 +22,49 @@
 
             <com.theflopguyproductions.ticktrack.ui.utils.AnalogClock
                 android:id="@+id/expandedClockAnalog"
-                android:layout_width="260dp"
-                android:layout_height="260dp"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
                 android:layout_below="@+id/textView"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40px"
                 android:elevation="10dp"
                 app:showSecondHand="true" />
-            <TextView
-                android:id="@+id/currentZoneText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="30dp"
-                android:textSize="13sp"
-                android:elevation="10dp"
-                android:text="Current time zone"
-                android:textAlignment="center" />
-            <TextView
-                android:id="@+id/expandedTimeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:textSize="15sp"
-                android:text="time"
-                android:elevation="10dp"
-                android:textColor="@color/TrueWhite"
-                android:textAlignment="center" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/miniToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/TrueBlack"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:layout_collapseMode="pin">
+                app:layout_collapseMode="pin"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
             </androidx.appcompat.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/currentZoneText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="215dp"
+                android:layout_marginBottom="30dp"
+                android:elevation="10dp"
+                android:text="Current time zone"
+                android:textAlignment="center"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/expandedTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="215dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                android:text="time"
+                android:textAlignment="center"
+                android:textColor="@color/TrueWhite"
+                android:textSize="15sp" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
