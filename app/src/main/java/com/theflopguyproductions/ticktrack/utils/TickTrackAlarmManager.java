@@ -37,6 +37,7 @@ public class TickTrackAlarmManager {
 
     }
 
+
     public static void setAlarm(int position, Context context){
 
         loadAlarmData(context);
@@ -49,9 +50,7 @@ public class TickTrackAlarmManager {
             ArrayList<Calendar> customDateList = alarmDataArrayList.get(position).getRepeatCustomDates();
             ArrayList<Integer> weeklyRepeat = alarmDataArrayList.get(position).getRepeatDaysInWeek();
 
-            System.out.println("========================================================================================");
-
-            if(customDateList.size()>0 && !(weeklyRepeat.size() >0)){
+            if(customDateList.size()>0 && !(weeklyRepeat.size() >0)){ //CUSTOM DATE REPEAT ALARM
                 for (int j = 0; j < customDateList.size(); j++) {
 
                     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -70,7 +69,7 @@ public class TickTrackAlarmManager {
 
                 }
             }
-            else if(weeklyRepeat.size()>0 && !(customDateList.size() >0)){
+            else if(weeklyRepeat.size()>0 && !(customDateList.size() >0)){ //WEEKLY REPEAT ALARM
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.DATE,nextOccurrenceText(hour, minute, weeklyRepeat));
                 cal.set(Calendar.HOUR_OF_DAY, hour);
@@ -83,9 +82,9 @@ public class TickTrackAlarmManager {
                 System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
             }
             else{
-                if(isToday(hour,minute)){
+                if(isToday(hour,minute)){ //TODAY ALARM
                     Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.DATE,getToday());
+                    cal.set(Calendar.DATE, getToday());
                     cal.set(Calendar.HOUR_OF_DAY, hour);
                     cal.set(Calendar.MINUTE, minute);
 
@@ -94,7 +93,7 @@ public class TickTrackAlarmManager {
                     System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
                     System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
                     System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
-                } else{
+                } else{ //TOMORROW ALARM
                     Calendar cal = Calendar.getInstance();
                     cal.set(Calendar.DATE,getTomorrow());
                     cal.set(Calendar.HOUR_OF_DAY, hour);
@@ -108,10 +107,10 @@ public class TickTrackAlarmManager {
                 }
             }
 
-            System.out.println("========================================================================================");
         }
 
     }
+
     private static int getToday() {
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.DATE);
@@ -188,6 +187,157 @@ public class TickTrackAlarmManager {
     }
 
     public static void cancelAlarm(int position, Context context){
+        loadAlarmData(context);
+
+
+        if (!alarmDataArrayList.get(position).isAlarmOnOff()) {
+
+            int hour, minute;
+            hour = alarmDataArrayList.get(position).getAlarmHour();
+            minute = alarmDataArrayList.get(position).getAlarmMinute();
+            ArrayList<Calendar> customDateList = alarmDataArrayList.get(position).getRepeatCustomDates();
+            ArrayList<Integer> weeklyRepeat = alarmDataArrayList.get(position).getRepeatDaysInWeek();
+
+            System.out.println("==========================CANCEL=======================================");
+
+            if(customDateList.size()>0 && !(weeklyRepeat.size() >0)){
+                for (int j = 0; j < customDateList.size(); j++) {
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.DAY_OF_MONTH, customDateList.get(j).get(Calendar.DAY_OF_MONTH));
+                    cal.set(Calendar.MONTH, customDateList.get(j).get(Calendar.MONTH));
+                    cal.set(Calendar.YEAR, customDateList.get(j).get(Calendar.YEAR));
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                    System.out.println(">>>>>>>>>>  Day     "+cal.get(Calendar.DAY_OF_MONTH));
+                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+
+                }
+            }
+            else if(weeklyRepeat.size()>0 && !(customDateList.size() >0)){
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DATE,nextOccurrenceText(hour, minute, weeklyRepeat));
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, minute);
+
+                System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+            }
+            else{
+                if(isToday(hour,minute)){
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.DATE,getToday());
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+
+                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                } else{
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.DATE,getTomorrow());
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+
+                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                }
+            }
+
+            System.out.println("========================================================================================");
+        }
+    }
+
+
+
+    public static void setAlarmBackup(int position, Context context){
+
+        loadAlarmData(context);
+
+        if (alarmDataArrayList.get(position).isAlarmOnOff()) {
+
+            int hour, minute;
+            hour = alarmDataArrayList.get(position).getAlarmHour();
+            minute = alarmDataArrayList.get(position).getAlarmMinute();
+            ArrayList<Calendar> customDateList = alarmDataArrayList.get(position).getRepeatCustomDates();
+            ArrayList<Integer> weeklyRepeat = alarmDataArrayList.get(position).getRepeatDaysInWeek();
+
+            System.out.println("========================================================================================");
+
+            if(customDateList.size()>0 && !(weeklyRepeat.size() >0)){
+                for (int j = 0; j < customDateList.size(); j++) {
+
+                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.DAY_OF_MONTH, customDateList.get(j).get(Calendar.DAY_OF_MONTH));
+                    cal.set(Calendar.MONTH, customDateList.get(j).get(Calendar.MONTH));
+                    cal.set(Calendar.YEAR, customDateList.get(j).get(Calendar.YEAR));
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                    System.out.println(">>>>>>>>>>  Day     "+cal.get(Calendar.DAY_OF_MONTH));
+                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+
+                }
+            }
+            else if(weeklyRepeat.size()>0 && !(customDateList.size() >0)){
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DATE,nextOccurrenceText(hour, minute, weeklyRepeat));
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, minute);
+
+                System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+            }
+            else{
+                if(isToday(hour,minute)){
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.DATE,getToday());
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+
+                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                } else{
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.DATE,getTomorrow());
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+
+                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
+                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
+                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
+                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
+                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
+                }
+            }
+
+            System.out.println("========================================================================================");
+        }
+
+    }
+    public static void cancelAlarmBackup(int position, Context context){
         loadAlarmData(context);
 
 
