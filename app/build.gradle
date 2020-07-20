@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storePassword 'logmein'
+            keyAlias 'theflopguy'
+            keyPassword 'logmein'
+            storeFile file('D:\\SharedProjects\\TickTrackReleaseConfig.jks')
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
 
@@ -12,12 +20,15 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
