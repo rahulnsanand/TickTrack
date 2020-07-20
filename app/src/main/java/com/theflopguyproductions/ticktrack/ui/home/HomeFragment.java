@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -100,11 +101,13 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         timeTextBig = root.findViewById(R.id.expandedTimeText);
         alarmRecyclerView = root.findViewById(R.id.alarmRecyclerView);
         hapticFeed = (Vibrator) getContext().getSystemService(VIBRATOR_SERVICE);
+
+
         someHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 timeTextBig.setText(sdf.format(System.currentTimeMillis()));
-                someHandler.postDelayed(this, 1000);
+                someHandler.postDelayed(this, 50000);
             }
         }, 0);
 
@@ -161,8 +164,6 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         String json = gson.toJson(alarmDataArrayList);
         editor.putString("AlarmData", json);
         editor.apply();
-
-        //TODO SET ALARM HERE
     }
 
     private static void loadAlarmData(){
@@ -174,7 +175,80 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
 
         if(alarmDataArrayList == null){
             alarmDataArrayList = new ArrayList<>();
+            loadDefaultAlarm();
+            loadAlarmData();
         }
+    }
+
+    private static void loadDefaultAlarm() {
+
+        Uri alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+
+        set8AM_MTWTF(alarmTone.toString(), true);
+        set6AM(alarmTone.toString(), true);
+        set930AM_SS(alarmTone.toString(), true);
+        set10PM(alarmTone.toString(), true);
+
+        for(int i =0; i <alarmDataArrayList.size(); i ++){
+            TickTrackAlarmManager.setAlarm(i, context);
+            toggleAlarmOnOff(i,false);
+        }
+
+    }
+
+    private static void set8AM_MTWTF(String alarmRingTone, boolean onOff){
+
+        ArrayList<Calendar> repeatCustomDates = new ArrayList<>(); //Works
+        ArrayList<Integer> repeatDaysInWeek = new ArrayList<>(); //Works
+        int alarmSaveHour;
+        int alarmSaveMinute;
+
+        repeatDaysInWeek.add(2);
+        repeatDaysInWeek.add(3);
+        repeatDaysInWeek.add(4);
+        repeatDaysInWeek.add(5);
+        repeatDaysInWeek.add(6);
+
+        alarmSaveMinute = 0; //Works
+        alarmSaveHour = 8; //Works
+        onSaveAlarm(alarmSaveHour,alarmSaveMinute,0,repeatCustomDates,repeatDaysInWeek,alarmRingTone,"TickTrack Alarm",true, onOff, 1);
+
+    }
+    private static void set6AM(String alarmRingTone, boolean onOff){
+        ArrayList<Calendar> repeatCustomDates = new ArrayList<>(); //Works
+        ArrayList<Integer> repeatDaysInWeek = new ArrayList<>(); //Works
+        int alarmSaveHour;
+        int alarmSaveMinute;
+        alarmSaveMinute = 0; //Works
+        alarmSaveHour = 6; //Works
+
+        onSaveAlarm(alarmSaveHour,alarmSaveMinute,0,repeatCustomDates,repeatDaysInWeek,alarmRingTone,"TickTrack Alarm",true, onOff, 2);
+
+    }
+    private static void set930AM_SS(String alarmRingTone, boolean onOff){
+        ArrayList<Calendar> repeatCustomDates = new ArrayList<>(); //Works
+        ArrayList<Integer> repeatDaysInWeek = new ArrayList<>(); //Works
+        int alarmSaveHour;
+        int alarmSaveMinute;
+        repeatDaysInWeek.add(1);
+        repeatDaysInWeek.add(7);
+
+        alarmSaveMinute = 30; //Works
+        alarmSaveHour = 9; //Works
+
+        onSaveAlarm(alarmSaveHour,alarmSaveMinute,0,repeatCustomDates,repeatDaysInWeek,alarmRingTone,"TickTrack Alarm",true, onOff, 3);
+
+    }
+    private static void set10PM(String alarmRingTone, boolean onOff){
+        ArrayList<Calendar> repeatCustomDates = new ArrayList<>(); //Works
+        ArrayList<Integer> repeatDaysInWeek = new ArrayList<>(); //Works
+        int alarmSaveHour;
+        int alarmSaveMinute;
+        alarmSaveMinute = 0; //Works
+        alarmSaveHour = 22; //Works
+
+        onSaveAlarm(alarmSaveHour,alarmSaveMinute,0,repeatCustomDates,repeatDaysInWeek,alarmRingTone,"TickTrack Alarm",true, onOff, 4);
+
     }
 
     String deletedAlarm = null;
@@ -208,153 +282,5 @@ public class HomeFragment extends Fragment implements AlarmSlideDeleteHelper.Rec
         alarmAdapter.notifyData(alarmDataArrayList);
 
     }
-
-//    public static void setAlarm(int position){
-//        loadAlarmData();
-//        if (alarmDataArrayList.get(position).isAlarmOnOff()) {
-//
-//            int hour, minute;
-//            hour = alarmDataArrayList.get(position).getAlarmHour();
-//            minute = alarmDataArrayList.get(position).getAlarmMinute();
-//            ArrayList<Calendar> customDateList = alarmDataArrayList.get(position).getRepeatCustomDates();
-//            ArrayList<Integer> weeklyRepeat = alarmDataArrayList.get(position).getRepeatDaysInWeek();
-//
-//            System.out.println("========================================================================================");
-//
-//            if(customDateList.size()>0 && !(weeklyRepeat.size() >0)){
-//                for (int j = 0; j < customDateList.size(); j++) {
-//
-//                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//                    Calendar cal = Calendar.getInstance();
-//                    cal.set(Calendar.DAY_OF_MONTH, customDateList.get(j).get(Calendar.DAY_OF_MONTH));
-//                    cal.set(Calendar.MONTH, customDateList.get(j).get(Calendar.MONTH));
-//                    cal.set(Calendar.YEAR, customDateList.get(j).get(Calendar.YEAR));
-//                    cal.set(Calendar.HOUR_OF_DAY, hour);
-//                    cal.set(Calendar.MINUTE, minute);
-//                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
-//                    System.out.println(">>>>>>>>>>  Day     "+cal.get(Calendar.DAY_OF_MONTH));
-//                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
-//                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
-//                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
-//                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
-//
-//                }
-//            }
-//            else if(weeklyRepeat.size()>0 && !(customDateList.size() >0)){
-//                Calendar cal = Calendar.getInstance();
-//                cal.set(Calendar.DATE,nextOccurrenceText(hour, minute, weeklyRepeat));
-//                cal.set(Calendar.HOUR_OF_DAY, hour);
-//                cal.set(Calendar.MINUTE, minute);
-//
-//                System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
-//                System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
-//                System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
-//                System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
-//                System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
-//            }
-//            else{
-//                if(isToday(hour,minute)){
-//                    Calendar cal = Calendar.getInstance();
-//                    cal.set(Calendar.DATE,getToday());
-//                    cal.set(Calendar.HOUR_OF_DAY, hour);
-//                    cal.set(Calendar.MINUTE, minute);
-//
-//                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
-//                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
-//                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
-//                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
-//                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
-//                } else{
-//                    Calendar cal = Calendar.getInstance();
-//                    cal.set(Calendar.DATE,getTomorrow());
-//                    cal.set(Calendar.HOUR_OF_DAY, hour);
-//                    cal.set(Calendar.MINUTE, minute);
-//
-//                    System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
-//                    System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
-//                    System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
-//                    System.out.println(">>>>>>>>>>  Hour    "+cal.get(Calendar.HOUR_OF_DAY));
-//                    System.out.println(">>>>>>>>>>  Minute  "+cal.get(Calendar.MINUTE));
-//                }
-//            }
-//
-//            System.out.println("========================================================================================");
-//        }
-//
-//    }
-//    private static int getToday() {
-//        Calendar calendar = Calendar.getInstance();
-//        return calendar.get(Calendar.DATE);
-//    }
-//    private static int nextOccurrenceText(int setHour, int setMinute, ArrayList<Integer> receivedOnDays){
-//        Calendar today = Calendar.getInstance();
-//        int dayNumber = today.get(Calendar.DAY_OF_WEEK);
-//        Collections.sort(receivedOnDays);
-//
-//        if(receivedOnDays.size()>0){
-//            if(receivedOnDays.contains(dayNumber)){
-//                if(isToday(setHour, setMinute)){
-//                    return today.get(Calendar.DATE);
-//                } else{
-//                    if(dayNumber==Collections.max(receivedOnDays)){
-//                        today.set(Calendar.DAY_OF_WEEK, Collections.min(receivedOnDays));
-//                        return today.get(Calendar.DATE)+7;
-//                    } else{
-//                        today.set(Calendar.DAY_OF_WEEK, nextOccurrenceRight(receivedOnDays,dayNumber));
-//                        return today.get(Calendar.DATE);
-//                    }
-//                }
-//            } else{
-//                if(dayNumber>Collections.max(receivedOnDays)){
-//                    today.set(Calendar.DAY_OF_WEEK, Collections.min(receivedOnDays));
-//                    return today.get(Calendar.DATE);
-//                } else if(dayNumber<Collections.max(receivedOnDays) && dayNumber>Collections.min(receivedOnDays)){
-//                    today.set(Calendar.DAY_OF_WEEK, nextOccurrenceRight(receivedOnDays,dayNumber));
-//                    return today.get(Calendar.DATE);
-//                } else if(dayNumber<Collections.min(receivedOnDays)){
-//                    today.set(Calendar.DAY_OF_WEEK, Collections.min(receivedOnDays));
-//                    return today.get(Calendar.DATE);
-//                }
-//            }
-//        } else{
-//            if(isToday(setHour, setMinute)){
-//                return today.get(Calendar.DATE);
-//            }
-//        }
-//        return today.get(Calendar.DATE)+1;
-//    }
-//    private static boolean isToday(int hour, int minute){
-//        Date date = new Date();
-//        Calendar calendar = GregorianCalendar.getInstance();
-//        calendar.setTime(date);
-//        int time24 = calendar.get(Calendar.HOUR_OF_DAY);
-//        int timeMinute = calendar.get(Calendar.MINUTE);
-//
-//        if(time24<hour){
-//            return true;
-//        }
-//        else if(time24==hour){
-//            return timeMinute < minute;
-//        }
-//        return false;
-//    }
-//    private static int getTomorrow(){
-//        Calendar calendar = Calendar.getInstance();
-//        return calendar.get(Calendar.DATE)+1;
-//    }
-//    private static int nextOccurrenceRight(ArrayList<Integer> receivedDays, int today){
-//        int nextOccurrenceValue=0;
-//        int checkCount = 0;
-//
-//        if(receivedDays!=null){
-//            for(int i = 0; i < receivedDays.size(); i++){
-//                while(today<receivedDays.get(i) && checkCount==0){
-//                    nextOccurrenceValue=receivedDays.get(i);
-//                    checkCount++;
-//                }
-//            }
-//        }
-//        return nextOccurrenceValue;
-//    }
 
 }

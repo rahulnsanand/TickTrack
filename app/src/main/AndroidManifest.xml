@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
         android:allowBackup="true"
@@ -13,9 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+        <service
+            android:name=".background.AlarmService"
+            />
 
-        <activity android:name=".ui.home.activity.alarm.DismissAlarmActivity"/>
-
+        <activity
+            android:name=".ui.home.activity.alarm.DismissAlarmActivity"
+            android:screenOrientation="sensorPortrait"
+            android:showOnLockScreen="true" />
         <activity android:name=".ui.home.activity.alarm.EditAlarmActivity" />
         <activity android:name=".ui.home.activity.alarm.CreateAlarmActivity" />
         <activity android:name=".ui.counter.activity.counter.CounterActivity" />
@@ -29,13 +35,14 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".background.MyBroadcastReceiver">
+        <receiver
+            android:name=".background.MyBroadcastReceiver"
+            android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="me.proft.alarms.ACTION_ALARM" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

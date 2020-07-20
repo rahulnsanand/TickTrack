@@ -68,6 +68,8 @@ public class TickTrackAlarmManager {
                     cal.set(Calendar.MINUTE, minute);
                     cal.set(Calendar.SECOND,0);
 
+                    System.out.println(">>>>>>>>>>  CUSTOM");
+
                     System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                     System.out.println(">>>>>>>>>>  Day     "+cal.get(Calendar.DAY_OF_MONTH));
                     System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
@@ -86,6 +88,7 @@ public class TickTrackAlarmManager {
                 cal.set(Calendar.MINUTE, minute);
                 cal.set(Calendar.SECOND,0);
 
+                System.out.println(">>>>>>>>>>  WEEKLY");
                 System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                 System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
                 System.out.println(">>>>>>>>>>  Year    "+cal.get(Calendar.YEAR));
@@ -104,8 +107,11 @@ public class TickTrackAlarmManager {
 
                     Intent intent = new Intent(context, MyBroadcastReceiver.class);
                     intent.setAction(MyBroadcastReceiver.ACTION_ALARM);
+
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmDataArrayList.get(position).getAlarmRequestCode(), intent, PendingIntent.FLAG_ONE_SHOT);
                     ((AlarmManager) context.getSystemService(ALARM_SERVICE)).setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),  pendingIntent);
+
+                    System.out.println(">>>>>>>>>>  TODAY");
 
                     System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                     System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
@@ -119,6 +125,8 @@ public class TickTrackAlarmManager {
                     cal.set(Calendar.HOUR_OF_DAY, hour);
                     cal.set(Calendar.MINUTE, minute);
                     cal.set(Calendar.SECOND,0);
+
+                    System.out.println(">>>>>>>>>>  TOMORROW");
 
                     System.out.println(">>>>>>>>>>  Date    "+cal.get(Calendar.DATE));
                     System.out.println(">>>>>>>>>>  Month   "+cal.get(Calendar.MONTH));
@@ -536,12 +544,6 @@ public class TickTrackAlarmManager {
         }
     }
 
-
-    public static class AlarmReceiver extends BroadcastReceiver {
-        public void onReceive(Context context, Intent intent) {
-            Log.d("-", "Receiver3");
-        }
-    }
 
 }
 
