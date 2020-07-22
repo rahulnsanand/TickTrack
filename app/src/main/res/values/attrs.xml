@@ -62,4 +62,28 @@
         <enum name="many_days_picker" value="2"/>
         <enum name="range_picker" value="3"/>
     </attr>
+
+    <declare-styleable name="MontserratTextView">
+        <attr name="typeface"/>
+    </declare-styleable>
+
+    <attr name="typeface" format="enum">
+        <enum name="montserrat_thin" value="0"/>
+        <enum name="montserrat_thin_italic" value="1"/>
+        <enum name="montserrat_light" value="2"/>
+        <enum name="montserrat_light_italic" value="3"/>
+        <enum name="montserrat_regular" value="4"/>
+        <enum name="montserrat_italic" value="5"/>
+        <enum name="montserrat_medium" value="6"/>
+        <enum name="montserrat_medium_italic" value="7"/>
+        <enum name="montserrat_bold" value="8"/>
+        <enum name="montserrat_bold_italic" value="9"/>
+        <enum name="montserrat_black" value="10"/>
+        <enum name="montserrat_black_italic" value="11"/>
+        <enum name="montserrat_semi_bold" value="12"/>
+        <enum name="montserrat_semi_bold_italic" value="13"/>
+        <enum name="montserrat_extra_light" value="14"/>
+        <enum name="montserrat_extra_light_italic" value="15"/>
+    </attr>
+
 </resources>

@@ -22,11 +22,12 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark"
             android:layout_height="?attr/actionBarSize">
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_horizontal"
+                app:typeface="montserrat_semi_bold_italic"
                 android:layout_marginLeft="16dp"
                 android:background="#00000000"
                 android:text="TickTrack"
