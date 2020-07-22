@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/TrueBlack"
-    tools:context=".ui.home.activity.alarm.EditAlarmActivity">
+    tools:context="com.theflopguyproductions.ticktrack.ui.home.activity.alarm.EditAlarmActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

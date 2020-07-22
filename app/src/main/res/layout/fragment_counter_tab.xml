@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".ui.counter.CounterFragment">
+    tools:context="com.theflopguyproductions.ticktrack.ui.counter.CounterFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/counterRecycleView"

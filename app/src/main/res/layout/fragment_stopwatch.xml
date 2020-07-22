@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/TrueBlack"
-    tools:context=".ui.stopwatch.StopwatchFragment">
+    tools:context="com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment">
 
     <TextView
         android:id="@+id/text_notifications"
