@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/TrueBlack"
-    tools:context=".ui.counter.activity.counter.CounterActivity">
+    tools:context="com.theflopguyproductions.ticktrack.ui.counter.activity.counter.CounterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CounterItemToolbar"
