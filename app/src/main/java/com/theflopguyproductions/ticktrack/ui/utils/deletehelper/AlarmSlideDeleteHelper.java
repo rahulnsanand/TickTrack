@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.theflopguyproductions.ticktrack.ui.home.AlarmAdapter;
+import com.theflopguyproductions.ticktrack.ui.alarm.AlarmAdapter;
 
 public class AlarmSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;

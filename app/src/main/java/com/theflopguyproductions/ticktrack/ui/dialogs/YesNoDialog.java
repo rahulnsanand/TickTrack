@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.home.activity.alarm.CreateAlarmActivity;
+import com.theflopguyproductions.ticktrack.ui.alarm.activity.alarm.CreateAlarmActivity;
 
 import java.util.Objects;
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.theflopguyproductions.ticktrack.ui.home.activity.alarm.DismissAlarmActivity">
+    tools:context="com.theflopguyproductions.ticktrack.ui.alarm.activity.alarm.DismissAlarmActivity">
 
     <Button
         android:id="@+id/dismissAlarmButton"

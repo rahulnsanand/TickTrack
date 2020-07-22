@@ -1,22 +1,14 @@
 package com.theflopguyproductions.ticktrack;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.theflopguyproductions.ticktrack.background.MyBroadcastReceiver;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
-import com.theflopguyproductions.ticktrack.ui.home.HomeFragment;
+import com.theflopguyproductions.ticktrack.ui.alarm.HomeFragment;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 
@@ -24,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -60,16 +50,16 @@ public class MainActivityToChange extends AppCompatActivity {
 
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        openFragment(new HomeFragment());
+        openFragment(new CounterFragment());
         animateFAB(drawablePlus, fab);
 
         overflowMenuSetup();
 
         fab.setOnClickListener(view -> {
             for(Fragment fragment : getSupportFragmentManager().getFragments()) {
-                if(fragment instanceof HomeFragment) {
-                    ((HomeFragment) fragment).fabClicked();
-                }
+//                if(fragment instanceof HomeFragment) {
+//                    ((HomeFragment) fragment).fabClicked();
+//                }
                 if(fragment instanceof CounterFragment) {
                     ((CounterFragment) fragment).fabClicked();
                 }
@@ -89,10 +79,11 @@ public class MainActivityToChange extends AppCompatActivity {
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
-                        case R.id.navigation_home:
-                            animateFAB(drawablePlus, fab);
-                            openFragment(homeFragment);
-                            return true;
+
+//                        case R.id.navigation_home:
+//                            animateFAB(drawablePlus, fab);
+//                            openFragment(homeFragment);
+//                            return true;
 
                         case R.id.navigation_counter:
                             animateFAB(drawablePlus, fab);
