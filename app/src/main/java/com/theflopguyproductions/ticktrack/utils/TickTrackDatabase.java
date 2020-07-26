@@ -67,4 +67,16 @@ public class TickTrackDatabase {
         return counterDataArrayList;
     }
 
+    public static int getThemeMode(Activity activity){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        return sharedPreferences.getInt("ThemeMode", 1);
+    }
+
+    public static void setThemeMode(Activity activity, int mode){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("ThemeMode", mode);
+        editor.apply();
+    }
+
 }

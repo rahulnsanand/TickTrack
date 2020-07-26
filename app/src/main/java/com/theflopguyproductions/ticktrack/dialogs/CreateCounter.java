@@ -54,20 +54,20 @@ public class CreateCounter extends Dialog {
             Chip chip = chipGroup.findViewById(checkedId);
             if(chip != null){
                 Toast.makeText(activity, chip.getText().toString(), Toast.LENGTH_LONG).show();
-                if(chip.getText().toString().equals("Red")){
+                if(chip.getText().toString().equals("Cherry")){
                     counterFlag=1;
                 }
-                if(chip.getText().toString().equals("Green")){
-                    counterFlag=3;
-                }
-                if(chip.getText().toString().equals("Orange")){
+                if(chip.getText().toString().equals("Lime")){
                     counterFlag=2;
                 }
-                if(chip.getText().toString().equals("Blue")){
+                if(chip.getText().toString().equals("Peach")){
+                    counterFlag=3;
+                }
+                if(chip.getText().toString().equals("Plum")){
                     counterFlag=4;
                 }
-                if(chip.getText().toString().equals("Purple")){
-                    counterFlag = 2;
+                if(chip.getText().toString().equals("Berry")){
+                    counterFlag = 5;
                 }
             }
         });

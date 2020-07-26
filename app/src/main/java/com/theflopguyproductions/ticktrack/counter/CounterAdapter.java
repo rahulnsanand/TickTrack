@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.counter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,26 +43,30 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         }
 
         holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
-        //setColor(holder);
+        setColor(holder);
+
         mLastPosition = position;
     }
 
     private static final SimpleDateFormat timestampReadableFormat =  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-//    private void setColor(RecyclerItemViewHolder holder) {
-//        if(holder.itemColor==1){
-//            holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_blue);
-//        }
-//        if(holder.itemColor==2){
-//            holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_black);
-//        }
-//        if(holder.itemColor==3){
-//            holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_green);
-//        }
-//        if(holder.itemColor==4){
-//            holder.coloredLayout.setBackgroundResource(R.drawable.round_rect_purple);
-//        }
-//    }
+    private void setColor(RecyclerItemViewHolder holder) {
+        if(holder.itemColor==1){
+            holder.counterFlag.setImageResource(R.drawable.ic_flag_red);
+        }
+        else if(holder.itemColor==2){
+            holder.counterFlag.setImageResource(R.drawable.ic_flag_green);
+        }
+        else if(holder.itemColor==3){
+            holder.counterFlag.setImageResource(R.drawable.ic_flag_orange);
+        }
+        else if(holder.itemColor==4){
+            holder.counterFlag.setImageResource(R.drawable.ic_flag_blue);
+        }
+        else if(holder.itemColor==5){
+            holder.counterFlag.setImageResource(R.drawable.ic_flag_purple);
+        }
+    }
 
     @Override
     public int getItemCount() {
@@ -78,6 +83,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         private TextView countValue, lastModified, counterLabel;
         private ConstraintLayout counterLayout;
         private int itemColor;
+        private ImageView counterFlag;
 
         public RecyclerItemViewHolder(@NonNull View parent) {
             super(parent);
@@ -86,6 +92,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             counterLabel = parent.findViewById(R.id.counterLabelItemTextView);
             lastModified = parent.findViewById(R.id.counterLastUpdateItemTextView);
             counterLayout = parent.findViewById(R.id.counterItemRootLayout);
+            counterFlag = parent.findViewById(R.id.counterFlagItemImageView);
 
             counterLayout.setOnClickListener(v -> {
 //                MainActivityToChange.counterActivity(getAdapterPosition());

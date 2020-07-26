@@ -34,13 +34,15 @@ public class CounterFragment extends Fragment {
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private static CounterAdapter counterAdapter;
     private RecyclerView counterRecyclerView;
-
+    private int themeMode=1;
     private FloatingActionButton counterFab;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_counter, container, false);
+
+        themeMode = TickTrackDatabase.getThemeMode(getActivity());
 
         counterDataArrayList = TickTrackDatabase.retrieveCounterList(requireActivity());
         counterRecyclerView = root.findViewById(R.id.counterRecycleView);
