@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
+import com.theflopguyproductions.ticktrack.ui.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 
@@ -83,6 +85,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
                     return false;
 
                 case R.id.settingsMenuItem:
+                    startActivity(new Intent(this, SettingsActivity.class));
                     Toast.makeText(getApplicationContext(),"Settings",Toast.LENGTH_SHORT).show();
                     return false;
 

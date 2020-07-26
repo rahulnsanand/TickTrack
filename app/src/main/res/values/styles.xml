@@ -9,6 +9,7 @@
     </style>
 
 
+
     <style name="createdDialog">
         <item name="android:windowEnterAnimation">@anim/from_right</item>
         <item name="android:windowExitAnimation">@anim/to_right</item>

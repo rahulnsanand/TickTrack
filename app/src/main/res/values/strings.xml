@@ -42,5 +42,7 @@
     <string name="material_calendar_positive_button">OK</string>
     <string name="material_calendar_negative_button">Cancel</string>
     <string name="title_activity_so_you_a_developer_huh">MainActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
 
 </resources>
