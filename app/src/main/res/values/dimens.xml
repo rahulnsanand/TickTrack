@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -10,4 +10,7 @@
     <dimen name="day_label_focus_size_events_enabled">34dp</dimen>
     <dimen name="day_label_size_events_disabled">38dp</dimen>
     <dimen name="day_label_focus_size_events_disabled">42dp</dimen>
+
+    <dimen name="design_bottom_navigation_height" tools:override="true">70dp</dimen> <!-- Bottom Navigation Icon Size Fixer -->
+
 </resources>

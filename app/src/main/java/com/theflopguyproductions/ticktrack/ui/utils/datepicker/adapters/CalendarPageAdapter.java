@@ -1,11 +1,11 @@
 package com.theflopguyproductions.ticktrack.ui.utils.datepicker.adapters;
 
 import android.content.Context;
-import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.utils.datepicker.extensions.CalendarGridView;

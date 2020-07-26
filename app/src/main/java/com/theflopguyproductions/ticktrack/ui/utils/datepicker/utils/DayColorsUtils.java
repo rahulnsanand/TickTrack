@@ -3,7 +3,6 @@ package com.theflopguyproductions.ticktrack.ui.utils.datepicker.utils;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-
 import com.theflopguyproductions.ticktrack.R;
 
 import java.util.Calendar;

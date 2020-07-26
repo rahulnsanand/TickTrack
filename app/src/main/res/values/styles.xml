@@ -7,18 +7,19 @@
         <item name="colorSecondary">@color/TrueAccent</item>
     </style>
 
-    <style name="createdDialog">
-        <item name="android:windowEnterAnimation">@anim/from_right</item>
-        <item name="android:windowExitAnimation">@anim/to_right</item>
-    </style>
 
-    <style name="cancelDialog">
-        <item name="android:windowEnterAnimation">@anim/from_right</item>
-    </style>
+<!--    <style name="createdDialog">-->
+<!--        <item name="android:windowEnterAnimation">@anim/from_right</item>-->
+<!--        <item name="android:windowExitAnimation">@anim/to_right</item>-->
+<!--    </style>-->
 
-    <style name="acceptDialog">
-        <item name="android:windowExitAnimation">@anim/to_right</item>
-    </style>
+<!--    <style name="cancelDialog">-->
+<!--        <item name="android:windowEnterAnimation">@anim/from_right</item>-->
+<!--    </style>-->
+
+<!--    <style name="acceptDialog">-->
+<!--        <item name="android:windowExitAnimation">@anim/to_right</item>-->
+<!--    </style>-->
 
 
 

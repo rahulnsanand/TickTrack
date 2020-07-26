@@ -41,5 +41,6 @@
     <string name="material_calendar_today_button">Today</string>
     <string name="material_calendar_positive_button">OK</string>
     <string name="material_calendar_negative_button">Cancel</string>
+    <string name="title_activity_so_you_a_developer_huh">MainActivity</string>
 
 </resources>

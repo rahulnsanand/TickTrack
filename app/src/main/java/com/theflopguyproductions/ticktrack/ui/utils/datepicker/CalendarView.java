@@ -3,13 +3,14 @@ package com.theflopguyproductions.ticktrack.ui.utils.datepicker;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.ColorRes;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.ColorRes;
+import androidx.viewpager.widget.ViewPager;
 
 import com.annimon.stream.Stream;
 import com.theflopguyproductions.ticktrack.R;

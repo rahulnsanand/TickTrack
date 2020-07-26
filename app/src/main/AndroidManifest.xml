@@ -14,34 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <service
-            android:name=".ui.alarm.AlarmService"
-            />
+        <activity
+            android:name=".SoYouADeveloperHuh"
+            android:label="@string/title_activity_so_you_a_developer_huh">
 
-        <activity
-            android:name=".ui.alarm.activity.alarm.DismissAlarmActivity"
-            android:screenOrientation="sensorPortrait"
-            android:showOnLockScreen="true" />
-        <activity android:name=".ui.alarm.activity.alarm.EditAlarmActivity" />
-        <activity android:name=".ui.alarm.activity.alarm.CreateAlarmActivity" />
-        <activity android:name=".ui.counter.activity.counter.CounterActivity" />
-        <activity
-            android:name=".MainActivityToChange"
-            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
-        <receiver
-            android:name=".ui.alarm.MyBroadcastReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>
