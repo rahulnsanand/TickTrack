@@ -5,27 +5,21 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_counter">
 
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_home"-->
-<!--        android:name="com.theflopguyproductions.ticktrack.ui.home.HomeFragment"-->
-<!--        android:label="@string/title_clock"-->
-<!--        tools:layout="@layout/fragment_home" />-->
-
     <fragment
         android:id="@+id/navigation_counter"
         android:name="com.theflopguyproductions.ticktrack.ui.counter.CounterFragment"
         android:label="@string/title_counter"
-        tools:layout="@layout/fragment_counter_tab" />
-
-    <fragment
-        android:id="@+id/navigation_stopwatch"
-        android:name="com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment"
-        android:label="@string/title_stopwatch"
-        tools:layout="@layout/fragment_stopwatch" />
+        tools:layout="@layout/fragment_counter" />
 
     <fragment
         android:id="@+id/navigation_timer"
         android:name="com.theflopguyproductions.ticktrack.ui.timer.TimerFragment"
         android:label="@string/title_timer"
         tools:layout="@layout/fragment_timer" />
+
+    <fragment
+        android:id="@+id/navigation_stopwatch"
+        android:name="com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment"
+        android:label="@string/title_stopwatch"
+        tools:layout="@layout/fragment_stopwatch" />
 </navigation>
