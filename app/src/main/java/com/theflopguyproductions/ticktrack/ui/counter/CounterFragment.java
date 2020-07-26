@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.ui.counter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,10 +25,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
 import com.theflopguyproductions.ticktrack.dialogs.CreateCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.CounterSlideDeleteHelper;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -39,19 +42,27 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private static CounterAdapter counterAdapter;
     private RecyclerView counterRecyclerView;
-    private int themeMode=1;
     private FloatingActionButton counterFab;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        counterDataArrayList = TickTrackDatabase.retrieveCounterList(getActivity());
+        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView);
+        buildRecyclerView();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_counter, container, false);
 
-        themeMode = TickTrackDatabase.getThemeMode(getActivity());
 
         counterDataArrayList = TickTrackDatabase.retrieveCounterList(requireActivity());
+
         counterRecyclerView = root.findViewById(R.id.counterRecycleView);
+        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView);
         buildRecyclerView();
+
         counterFab = root.findViewById(R.id.counterAddButton);
 
         counterFab.setOnClickListener(view -> {
@@ -114,5 +125,11 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         TickTrackDatabase.storeCounterList(counterDataArrayList, activity);
 //        hapticFeed.vibrate(50);
         counterAdapter.notifyData(counterDataArrayList);
+    }
+
+    public static void startCounterActivity(int adapterPosition, Activity activity) {
+        Intent intent = new Intent(activity, CounterActivity.class);
+        intent.putExtra("currentCounterPosition",adapterPosition);
+        activity.startActivity(intent);
     }
 }

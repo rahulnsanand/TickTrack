@@ -59,11 +59,9 @@ public class ThemeDialog extends Dialog {
 
         themeGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if(themeGroup.getCheckedRadioButtonId()==R.id.darkThemeRadioButton){
-                Toast.makeText(activity, "Dark", Toast.LENGTH_SHORT).show();
                 TickTrackDatabase.setThemeMode(activity, 2);
 
             } else {
-                Toast.makeText(activity, "Light", Toast.LENGTH_SHORT).show();
                 TickTrackDatabase.setThemeMode(activity, 1);
             }
             activity.startActivity(new Intent(activity,SettingsActivity.class));

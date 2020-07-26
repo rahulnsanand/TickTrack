@@ -13,12 +13,12 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private ConstraintLayout themeLayout;
-    private int themeMode;
-    private TextView themeName;
+    private ConstraintLayout themeLayout, rootLayout;
+    private TextView themeName, themeTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,24 +26,16 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         themeLayout = findViewById(R.id.themeSettingsLayout);
+        themeTitle = findViewById(R.id.themeSettingsLabel);
         themeName = findViewById(R.id.themeValueSettingsTextView);
-
-        setThemeText();
+        rootLayout = findViewById(R.id.generalRootLayout);
+        TickTrackThemeSetter.settingsActivityTheme(this, rootLayout, themeTitle, themeName);
 
         themeLayout.setOnClickListener(view -> {
-            ThemeDialog themeDialog = new ThemeDialog(this, themeMode);
+            ThemeDialog themeDialog = new ThemeDialog(this, TickTrackDatabase.getThemeMode(this));
             themeDialog.show();
         });
 
-    }
-
-    public void setThemeText(){
-        themeMode = TickTrackDatabase.getThemeMode(this);
-        if(themeMode==1){
-            themeName.setText("Light");
-        } else{
-            themeName.setText("Dark");
-        }
     }
 
     @Override

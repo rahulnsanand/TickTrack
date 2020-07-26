@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
 import java.text.SimpleDateFormat;
@@ -114,15 +115,15 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
             context=parent.getContext();
 
-//            counterLayout.setOnClickListener(v -> {
-////                MainActivityToChange.counterActivity(getAdapterPosition());
-//                Toast.makeText(parent.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-//            });
-//            counterLayout.setOnLongClickListener(view -> {
-////                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
-//
-//                return false;
-//            });
+            counterLayout.setOnClickListener(v -> {
+                CounterFragment.startCounterActivity(getAdapterPosition(), (Activity) context);
+                Toast.makeText(parent.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            });
+            counterLayout.setOnLongClickListener(view -> {
+//                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
+
+                return false;
+            });
 
         }
 
