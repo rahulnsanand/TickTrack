@@ -39,11 +39,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
         navView = findViewById(R.id.nav_view);
         mainToolbar = findViewById(R.id.mainActivityToolbar);
+        overflowMenuSetup();
 
         navView.setItemIconTintList(null);
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        overflowMenuSetup();
+
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
@@ -62,8 +63,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         }
         return false;
     };
-
-
 
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
