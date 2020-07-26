@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="TrueBlack">#000000</color>
+    <color name="Black">#000000</color>
     <color name="Gray">#151515</color>
-    <color name="TrueAccent">#0088a3</color>
-    <color name="TrueWhite">#ffffff</color>
-    <color name="SoftWhite">#EFEFEF</color>
-    <color name="black_overlay">#66000000</color>
+    <color name="Accent">#0088a3</color>
+    <color name="Light">#ffffff</color>
+    <color name="LightGray">#ebebeb</color>
+    <color name="DarkText">#151515</color>
+    <color name="LightText">#efefef</color>
+
+    <color name="red_matte">#810c0c</color>
+    <color name="green_matte">#1f4e03</color>
+    <color name="orange_matte">#762a04</color>
+    <color name="blue_matte">#013a55</color>
+    <color name="purple_matte">#570968</color>
 
 
     <color name="roboto_calendar_background">#FFFFFF</color>
@@ -18,5 +25,6 @@
     <color name="roboto_calendar_circle_1">#EB5757</color>
     <color name="roboto_calendar_circle_2">#55c6da</color>
     <color name="roboto_calendar_month_arrow">#55c6da</color>
+
 
 </resources>
