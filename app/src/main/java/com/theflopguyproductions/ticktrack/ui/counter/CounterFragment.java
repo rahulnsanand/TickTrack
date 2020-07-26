@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,17 +21,20 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.dialogs.CreateCounter;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
 public class CounterFragment extends Fragment {
 
-    private ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
+    private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
+    private static CounterAdapter counterAdapter;
     private RecyclerView counterRecyclerView;
-    private CounterAdapter counterAdapter;
+
     private FloatingActionButton counterFab;
 
 
@@ -43,7 +48,8 @@ public class CounterFragment extends Fragment {
         counterFab = root.findViewById(R.id.counterAddButton);
 
         counterFab.setOnClickListener(view -> {
-            
+            CreateCounter createCounter = new CreateCounter(getActivity());
+            createCounter.show();
         });
 
         return root;
@@ -60,6 +66,17 @@ public class CounterFragment extends Fragment {
         counterRecyclerView.setLayoutManager(layoutManager);
         counterRecyclerView.setAdapter(counterAdapter);
         counterAdapter.notifyDataSetChanged();
+    }
+
+    public static void createCounter(String counterLabel, Timestamp createdTimestamp, int counterFlag, Activity activity){
+        CounterData counterData = new CounterData();
+        counterData.setCounterLabel(counterLabel);
+        counterData.setCounterValue(0);
+        counterData.setCounterTimestamp(createdTimestamp);
+        counterData.setCounterFlag(counterFlag);
+        counterDataArrayList.add(0,counterData);
+        counterAdapter.notifyData(counterDataArrayList);
+        TickTrackDatabase.storeCounterList(counterDataArrayList, activity);
     }
 
 }

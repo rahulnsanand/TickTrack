@@ -2,17 +2,17 @@
     <!-- Base application theme. -->
     <style name="DarkTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/TrueBlack</item>
-        <item name="colorPrimaryDark">@color/TrueBlack</item>
-        <item name="colorSecondary">@color/TrueAccent</item>
+        <item name="colorPrimary">@color/Gray</item>
+        <item name="colorPrimaryDark">@color/Black</item>
+        <item name="colorSecondary">@color/Accent</item>
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
 
-<!--    <style name="createdDialog">-->
-<!--        <item name="android:windowEnterAnimation">@anim/from_right</item>-->
-<!--        <item name="android:windowExitAnimation">@anim/to_right</item>-->
-<!--    </style>-->
+    <style name="createdDialog">
+        <item name="android:windowEnterAnimation">@anim/from_right</item>
+        <item name="android:windowExitAnimation">@anim/to_right</item>
+    </style>
 
 <!--    <style name="cancelDialog">-->
 <!--        <item name="android:windowEnterAnimation">@anim/from_right</item>-->
@@ -25,7 +25,7 @@
 
 
     <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/TrueAccent</item>
+        <item name="colorAccent">@color/Accent</item>
         <item name="colorPrimary">@color/Gray</item>
         <item name="colorPrimaryDark">@color/Gray</item>
     </style>
