@@ -17,6 +17,7 @@ import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
+import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
 
         navView = findViewById(R.id.nav_view);
+        TickTrackThemeSetter.mainActivityTheme(navView, this);
+
         mainToolbar = findViewById(R.id.mainActivityToolbar);
         overflowMenuSetup();
 
@@ -104,4 +107,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TickTrackThemeSetter.mainActivityTheme(navView, this);
+    }
 }
