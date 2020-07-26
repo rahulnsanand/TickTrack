@@ -37,7 +37,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_semi_bold_italic" />
+                app:typeface="montserrat_medium" />
 
         </androidx.appcompat.widget.Toolbar>
 
