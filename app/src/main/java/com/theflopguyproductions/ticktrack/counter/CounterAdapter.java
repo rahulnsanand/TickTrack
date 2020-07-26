@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.counter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,8 +29,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
     }
 
     @NonNull
-    @Override
-    public CounterAdapter.RecyclerItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.counter_item_layout, parent, false);
         RecyclerItemViewHolder holder = new RecyclerItemViewHolder(view);
         return holder;
@@ -44,8 +46,23 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
         holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
         setColor(holder);
+        setTheme(holder);
 
         mLastPosition = position;
+    }
+
+    private void setTheme(RecyclerItemViewHolder holder) {
+        int theme = TickTrackDatabase.getThemeMode((Activity) holder.context);
+        if(theme == 1){
+            holder.counterLayout.setBackgroundResource(R.color.Light);
+            holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
+            holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.Gray));
+        } else {
+            holder.counterLayout.setBackgroundResource(R.color.Gray);
+            holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+        }
+        holder.countValue.setTextColor(holder.context.getResources().getColor(R.color.Accent));
     }
 
     private static final SimpleDateFormat timestampReadableFormat =  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -78,12 +95,13 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         notifyDataSetChanged();
     }
 
-    public class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
+    public static class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView countValue, lastModified, counterLabel;
-        private ConstraintLayout counterLayout;
+        public ConstraintLayout counterLayout;
         private int itemColor;
         private ImageView counterFlag;
+        private Context context;
 
         public RecyclerItemViewHolder(@NonNull View parent) {
             super(parent);
@@ -94,15 +112,17 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             counterLayout = parent.findViewById(R.id.counterItemRootLayout);
             counterFlag = parent.findViewById(R.id.counterFlagItemImageView);
 
-            counterLayout.setOnClickListener(v -> {
-//                MainActivityToChange.counterActivity(getAdapterPosition());
-                Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            });
-            counterLayout.setOnLongClickListener(view -> {
-//                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
+            context=parent.getContext();
 
-                return false;
-            });
+//            counterLayout.setOnClickListener(v -> {
+////                MainActivityToChange.counterActivity(getAdapterPosition());
+//                Toast.makeText(parent.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+//            });
+//            counterLayout.setOnLongClickListener(view -> {
+////                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
+//
+//                return false;
+//            });
 
         }
 
