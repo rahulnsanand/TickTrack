@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
@@ -99,7 +100,7 @@ public class CounterActivity extends AppCompatActivity {
 
         CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
 
-        backButton.setOnClickListener(view -> finish());
+        backButton.setOnClickListener(view -> onBackPressed());
 
         buttonSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             changeButtonVisibility(compoundButton);
@@ -178,6 +179,7 @@ public class CounterActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        startActivity(new Intent(this, SoYouADeveloperHuh.class));
         finish();
     }
 

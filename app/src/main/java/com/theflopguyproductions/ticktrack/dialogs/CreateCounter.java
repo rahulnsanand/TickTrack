@@ -49,6 +49,10 @@ public class CreateCounter extends Dialog {
         cancelCounterButton = view.findViewById(R.id.dismissCounterButton);
         final ChipGroup chipGroup = view.findViewById(R.id.counterFlagGroup);
 
+        int counterNumber = TickTrackDatabase.retrieveCounterNumber(activity);
+        String counterName = "Counter "+ counterNumber;
+        counterLabelText.setHint(counterName);
+
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -77,8 +81,6 @@ public class CreateCounter extends Dialog {
             if(counterLabelText.getText().toString().trim().length() > 0){
                 CounterFragment.createCounter(counterLabelText.getText().toString(),new Timestamp(System.currentTimeMillis()),counterFlag, this.activity,0,0,false, false, false);
             } else {
-                int counterNumber = TickTrackDatabase.retrieveCounterNumber(activity);
-                String counterName = "Counter "+ counterNumber;
                 TickTrackDatabase.storeCounterNumber(activity, counterNumber+1);
                 CounterFragment.createCounter(counterName,new Timestamp(System.currentTimeMillis()),counterFlag, this.activity, 0,0,false, false, false);
             }
