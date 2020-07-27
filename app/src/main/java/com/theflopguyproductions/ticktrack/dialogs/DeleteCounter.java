@@ -56,11 +56,11 @@ public class DeleteCounter  extends Dialog {
             dismiss();
         });
         noButton.setOnClickListener(view1 -> {
-            CounterFragment.refreshRecyclerView(viewHolder);
+            CounterFragment.refreshRecyclerView();
             dismiss();
         });
         setOnCancelListener(dialogInterface -> {
-            CounterFragment.refreshRecyclerView(viewHolder);
+            CounterFragment.refreshRecyclerView();
             dismiss();
         });
     }

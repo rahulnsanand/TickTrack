@@ -17,19 +17,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/counterActivityBackButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back_arrow_white_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
             android:id="@+id/counterActivityAppNameToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/app_name"
             android:textColor="@color/LightText"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/counterActivityBackButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="montserrat_medium"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
@@ -47,7 +59,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center">
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                 android:id="@+id/counterActivityValueTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,9 +69,10 @@
                 android:textSize="36sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:typeface="montserrat_semi_bold"/>
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                 android:id="@+id/counterActivityLabelTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -72,13 +85,14 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterActivityValueTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/counterActivityValueTextView"
+                app:typeface="montserrat_medium"/>
 
             <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
                 android:id="@+id/minusbtn"
                 android:layout_width="165dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="90dp"
                 android:gravity="center_horizontal"
                 android:hapticFeedbackEnabled="true"
@@ -95,14 +109,14 @@
                 app:inner_text_size="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchLayout"
                 app:layout_constraintVertical_bias="1.0" />
 
             <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
                 android:id="@+id/plusbtn"
                 android:layout_width="165dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="90dp"
                 android:hapticFeedbackEnabled="true"
                 android:rotation="90"
@@ -121,26 +135,15 @@
                 app:inner_text_size="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchLayout"
                 app:layout_constraintVertical_bias="1.0" />
-
-            <Switch
-                android:id="@+id/counterActivityButtonSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:textOff="Clicker"
-                android:textOn="Slider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterActivityLabelTextView" />
 
             <Button
                 android:id="@+id/plusButton"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="32dp"
                 android:backgroundTint="@android:color/transparent"
                 android:text="+"
                 android:textSize="72sp"
@@ -148,14 +151,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/minusbtn"
-                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView" />
+                app:layout_constraintTop_toTopOf="@+id/counterActivitySwitchLayout" />
 
             <Button
                 android:id="@+id/minusButton"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="32dp"
                 android:backgroundTint="@android:color/transparent"
                 android:text="-"
                 android:textSize="72sp"
@@ -163,19 +166,66 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/plusButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchLayout" />
 
-            <TextView
-                android:id="@+id/counterActivitySwitchModeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:text="TextView"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/counterActivitySwitchLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterActivityButtonSwitch" />
+                app:layout_constraintTop_toBottomOf="@+id/counterActivityLabelTextView">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/counterActivitySwitchLayoutUpperDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Switch
+                    android:id="@+id/counterActivityButtonSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textOff="Clicker"
+                    android:textOn="Slider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                    android:id="@+id/counterActivitySwitchModeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/counterActivityButtonSwitch"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_regular"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/counterActivitySwitchLayoutLowerDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

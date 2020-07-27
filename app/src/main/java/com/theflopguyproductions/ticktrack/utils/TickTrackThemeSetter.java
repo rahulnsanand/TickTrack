@@ -54,25 +54,35 @@ public class TickTrackThemeSetter {
 
     public static void counterActivityTheme(Activity activity, ConstraintLayout toolbar, ConstraintLayout rootLayout, int flagColor,
                                             Button plusButtonBig, Button minusButtonBig, SwipeButton plusButton, SwipeButton minusButton,
-                                            ScrollView counterActivityScrollView, TextView counterSwitchMode, Switch buttonSwitch){
+                                            ScrollView counterActivityScrollView, TextView counterSwitchMode, Switch buttonSwitch, ConstraintLayout switchLayout,
+                                            ConstraintLayout switchLowerDivider, ConstraintLayout switchUpperDivider){
 
         int checkTheme = TickTrackDatabase.getThemeMode(activity);
         toolbar.setBackgroundResource(counterActivityToolbarColor(flagColor));
 
         if(checkTheme==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
+            switchLayout.setBackgroundResource(R.color.LightGray);
             counterActivityScrollView.setBackgroundResource(R.color.LightGray);
+
             counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.DarkText));
             plusButtonBig.setTextColor(activity.getResources().getColor(R.color.DarkText));
             minusButtonBig.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
+            switchLowerDivider.setBackgroundResource(R.color.Gray);
+            switchUpperDivider.setBackgroundResource(R.color.Gray);
+
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
+            switchLayout.setBackgroundResource(R.color.Black);
             counterActivityScrollView.setBackgroundResource(R.color.Black);
+
             counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.LightText));
             plusButtonBig.setTextColor(activity.getResources().getColor(R.color.LightText));
             minusButtonBig.setTextColor(activity.getResources().getColor(R.color.LightText));
 
+            switchUpperDivider.setBackgroundResource(R.color.LightGray);
+            switchLowerDivider.setBackgroundResource(R.color.LightGray);
         }
 
     }

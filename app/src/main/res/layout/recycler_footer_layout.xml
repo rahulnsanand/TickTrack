@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="130dp">
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/recylerFooterTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,5 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:typeface="montserrat_extra_light_italic"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
