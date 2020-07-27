@@ -50,16 +50,19 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
     @Override
     public void onBindViewHolder(@NonNull CounterAdapter.RecyclerItemViewHolder holder, int position) {
+
         holder.setIsRecyclable(false);
+
+        int theme = TickTrackDatabase.getThemeMode((Activity) holder.context);
+
         if(position == counterDataArrayList.size()) {
-//            holder.button.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show();
-//                }
-//            });
-        }
-        else {
+            if(theme == 1){
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
+            } else {
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            }
+            holder.footerCounterTextView.setText("Gotta replace this");
+        } else {
             holder.countValue.setText(""+counterDataArrayList.get(position).getCounterValue());
             holder.counterLabel.setText(counterDataArrayList.get(position).getCounterLabel());
 
@@ -69,7 +72,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
             holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
             setColor(holder);
-            setTheme(holder);
+            setTheme(holder, theme);
 
             holder.counterLayout.setOnClickListener(v -> {
                 CounterFragment.startCounterActivity(position, (Activity) holder.context);
@@ -77,17 +80,14 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             });
             holder.counterLayout.setOnLongClickListener(view -> {
 //                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
-
                 return false;
             });
-
         }
 
         mLastPosition = position;
     }
 
-    private void setTheme(RecyclerItemViewHolder holder) {
-        int theme = TickTrackDatabase.getThemeMode((Activity) holder.context);
+    private void setTheme(RecyclerItemViewHolder holder, int theme) {
         if(theme == 1){
             holder.counterLayout.setBackgroundResource(R.color.Light);
             holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
@@ -137,6 +137,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         private int itemColor;
         private ImageView counterFlag;
         private Context context;
+        private TextView footerCounterTextView;
 
         public RecyclerItemViewHolder(@NonNull View parent) {
             super(parent);
@@ -146,6 +147,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             lastModified = parent.findViewById(R.id.counterLastUpdateItemTextView);
             counterLayout = parent.findViewById(R.id.counterItemRootLayout);
             counterFlag = parent.findViewById(R.id.counterFlagItemImageView);
+            footerCounterTextView = parent.findViewById(R.id.recylerFooterTextView);
 
             context=parent.getContext();
 

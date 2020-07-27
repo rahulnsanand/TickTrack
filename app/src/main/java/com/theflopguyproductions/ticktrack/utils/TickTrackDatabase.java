@@ -15,6 +15,18 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class TickTrackDatabase {
 
+    public static void storeCounterNumber(Activity activity, int updateNumber){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("CounterNumber", updateNumber);
+        editor.apply();
+    }
+
+    public static int retrieveCounterNumber(Activity activity){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        return sharedPreferences.getInt("CounterNumber", 1);
+    }
+
     public static void storeCounterList(ArrayList<CounterData> counterDataArrayList, Activity activity){
 
         SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
