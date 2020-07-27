@@ -44,5 +44,12 @@
     <string name="title_activity_so_you_a_developer_huh">MainActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
+    <string-array name="footer_string_array">
+        <item>That\'s it folks!</item>
+        <item>See ya later alligator!</item>
+        <item>Imagine something cool here</item>
+        <item>Tick… Track… Tick… Track…</item>
+        <item>Should I motivate you here?</item>
+    </string-array>
 
 </resources>

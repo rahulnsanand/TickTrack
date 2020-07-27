@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,16 +30,16 @@ public class CounterActivity extends AppCompatActivity {
     private TextView CounterText, counterLabel, counterSwitchMode;
     private int currentCount, currentPosition;
     private ArrayList<CounterData> counterDataArrayList;
-    ConstraintLayout toolbar, rootLayout;
+    ConstraintLayout toolbar, rootLayout, switchLayout, switchUpperDivider, switchLowerDivider;
     int flagColor;
-    //private ImageButton backButton;
+    private ImageButton backButton;
 
 
     @Override
     protected void onResume() {
         super.onResume();
         flagColor = counterDataArrayList.get(currentPosition).getCounterFlag();
-        TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig, plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch);
+        TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig, plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class CounterActivity extends AppCompatActivity {
 
 
         CounterText = findViewById(R.id.counterActivityValueTextView);
-        //backButton = findViewById(R.id.alarmActivityBackButton);
+        backButton = findViewById(R.id.counterActivityBackButton);
         counterLabel = findViewById(R.id.counterActivityLabelTextView);
         plusButton = findViewById(R.id.plusbtn);
         minusButton = findViewById(R.id.minusbtn);
@@ -62,20 +63,26 @@ public class CounterActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.counterActivityToolbar);
         rootLayout = findViewById(R.id.counterActivityLayout);
+        switchLayout = findViewById(R.id.counterActivitySwitchLayout);
+        switchUpperDivider = findViewById(R.id.counterActivitySwitchLayoutUpperDivider);
+        switchLowerDivider = findViewById(R.id.counterActivitySwitchLayoutLowerDivider);
+
         currentPosition = getIntent().getIntExtra("currentCounterPosition",0);
 
         counterDataArrayList = TickTrackDatabase.retrieveCounterList(this);
 
         flagColor = counterDataArrayList.get(currentPosition).getCounterFlag();
 
-        TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig, plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch);
+        TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
+                plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch,
+                switchLayout, switchLowerDivider, switchUpperDivider);
 
         currentCount = counterDataArrayList.get(currentPosition).getCounterValue();
         counterLabel.setText(counterDataArrayList.get(currentPosition).getCounterLabel());
 
         CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
 
-        //backButton.setOnClickListener(view -> finish());
+        backButton.setOnClickListener(view -> finish());
 
         buttonSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             changeButtonVisibility(compoundButton);

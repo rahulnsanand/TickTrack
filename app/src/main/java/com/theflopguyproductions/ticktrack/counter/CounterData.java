@@ -1,7 +1,5 @@
 package com.theflopguyproductions.ticktrack.counter;
 
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-
 import java.sql.Timestamp;
 
 public class CounterData implements Comparable<CounterData>{
@@ -44,6 +42,15 @@ public class CounterData implements Comparable<CounterData>{
 
     @Override
     public int compareTo(CounterData counterData) {
-        return 0;
+        int check = this.getCounterTimestamp().compareTo(counterData.getCounterTimestamp());
+
+        if(check<=0){
+            if(check==0){
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+        return -1;
     }
 }

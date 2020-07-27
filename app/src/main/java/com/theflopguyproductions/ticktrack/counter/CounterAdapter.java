@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.counter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.RecyclerItemViewHolder> {
 
@@ -47,6 +50,10 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
     public int getItemViewType(int position) {
         return (position == counterDataArrayList.size()) ? R.layout.recycler_footer_layout : R.layout.counter_item_layout;
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull CounterAdapter.RecyclerItemViewHolder holder, int position) {
@@ -61,13 +68,16 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             } else {
                 holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightText));
             }
-            holder.footerCounterTextView.setText("Gotta replace this");
+            Resources resources = holder.context.getResources();
+            String[] footerArray = resources.getStringArray(R.array.footer_string_array);
+            int randomFooter = new Random().nextInt(footerArray.length);
+            holder.footerCounterTextView.setText(footerArray[randomFooter]);
         } else {
             holder.countValue.setText(""+counterDataArrayList.get(position).getCounterValue());
             holder.counterLabel.setText(counterDataArrayList.get(position).getCounterLabel());
 
             if(counterDataArrayList.get(position).getCounterTimestamp()!=null){
-                holder.lastModified.setText("Last modified : "+timestampReadableFormat.format(counterDataArrayList.get(position).getCounterTimestamp()));
+                holder.lastModified.setText("Last edited: "+TimeAgo.getTimeAgo(counterDataArrayList.get(position).getCounterTimestamp()));
             }
 
             holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
@@ -77,10 +87,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             holder.counterLayout.setOnClickListener(v -> {
                 CounterFragment.startCounterActivity(position, (Activity) holder.context);
                 Toast.makeText(holder.context, "Position:" + position, Toast.LENGTH_SHORT).show();
-            });
-            holder.counterLayout.setOnLongClickListener(view -> {
-//                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
-                return false;
             });
         }
 
@@ -100,8 +106,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         holder.countValue.setTextColor(holder.context.getResources().getColor(R.color.Accent));
     }
 
-    private static final SimpleDateFormat timestampReadableFormat =  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
     private void setColor(RecyclerItemViewHolder holder) {
         if(holder.itemColor==1){
             holder.counterFlag.setImageResource(R.drawable.ic_flag_red);
@@ -113,10 +117,10 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             holder.counterFlag.setImageResource(R.drawable.ic_flag_orange);
         }
         else if(holder.itemColor==4){
-            holder.counterFlag.setImageResource(R.drawable.ic_flag_blue);
+            holder.counterFlag.setImageResource(R.drawable.ic_flag_purple);
         }
         else if(holder.itemColor==5){
-            holder.counterFlag.setImageResource(R.drawable.ic_flag_purple);
+            holder.counterFlag.setImageResource(R.drawable.ic_flag_blue);
         }
     }
 

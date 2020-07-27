@@ -47,6 +47,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     @Override
     public void onResume() {
         super.onResume();
+
         counterDataArrayList = TickTrackDatabase.retrieveCounterList(getActivity());
         TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView);
         buildRecyclerView();
@@ -58,7 +59,6 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
 
         counterDataArrayList = TickTrackDatabase.retrieveCounterList(requireActivity());
-
         counterRecyclerView = root.findViewById(R.id.counterRecycleView);
         TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView);
         buildRecyclerView();
@@ -82,6 +82,8 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterRecyclerView.setHasFixedSize(true);
 
         Collections.sort(counterDataArrayList);
+
+        TickTrackDatabase.storeCounterList(counterDataArrayList, getActivity());
 
         counterAdapter = new CounterAdapter(counterDataArrayList);
         counterRecyclerView.setLayoutManager(layoutManager);
@@ -117,7 +119,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         deleteItem(position, activity);
         Toast.makeText(activity, "Deleted Counter " + counterName, Toast.LENGTH_SHORT).show();
     }
-    public static void refreshRecyclerView(RecyclerView.ViewHolder viewHolder){
+    public static void refreshRecyclerView(){
         counterAdapter.notifyDataSetChanged();
     }
     public static void deleteItem(int position, Activity activity){
@@ -129,7 +131,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
     public static void startCounterActivity(int adapterPosition, Activity activity) {
         Intent intent = new Intent(activity, CounterActivity.class);
-        intent.putExtra("currentCounterPosition",adapterPosition);
+        intent.putExtra("currentCounterPosition", adapterPosition);
         activity.startActivity(intent);
     }
 }
