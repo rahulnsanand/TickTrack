@@ -2,7 +2,6 @@ package com.theflopguyproductions.ticktrack.utils;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -27,33 +26,40 @@ public class TickTrackThemeSetter {
         }
     }
 
-    public static void settingsActivityTheme(Activity activity, ConstraintLayout backgroundLayout, TextView themeTitle, TextView themeLabel){
+    public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, ScrollView settingsScrollView, ConstraintLayout themeLayout){
         int checkTheme = TickTrackDatabase.getThemeMode(activity);
+
         if(checkTheme==1){
-            backgroundLayout.setBackgroundResource(R.color.LightGray);
+            settingsScrollView.setBackgroundResource(R.color.LightGray);
+            themeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             themeTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setText("Light");
         } else {
-            backgroundLayout.setBackgroundResource(R.color.Black);
+            settingsScrollView.setBackgroundResource(R.color.Black);
+            themeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             themeTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setText("Dark");
         }
     }
 
-    public static void counterFragmentTheme(Activity activity, RecyclerView recyclerView){
+    public static void counterFragmentTheme(Activity activity, RecyclerView recyclerView, ConstraintLayout counterFragmentRootLayout, TextView noCounterText){
         int checkTheme = TickTrackDatabase.getThemeMode(activity);
         if(checkTheme==1){
+            counterFragmentRootLayout.setBackgroundResource(R.color.LightGray);
             recyclerView.setBackgroundResource(R.color.LightGray);
+            noCounterText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
 
         } else {
+            counterFragmentRootLayout.setBackgroundResource(R.color.Black);
             recyclerView.setBackgroundResource(R.color.Black);
+            noCounterText.setTextColor(activity.getResources().getColor(R.color.LightText) );
         }
     }
 
     public static void counterActivityTheme(Activity activity, ConstraintLayout toolbar, ConstraintLayout rootLayout, int flagColor,
-                                            Button plusButtonBig, Button minusButtonBig, SwipeButton plusButton, SwipeButton minusButton,
+                                            ConstraintLayout plusButtonBig, ConstraintLayout minusButtonBig, TextView plusText, TextView minusText, SwipeButton plusButton, SwipeButton minusButton,
                                             ScrollView counterActivityScrollView, TextView counterSwitchMode, Switch buttonSwitch, ConstraintLayout switchLayout,
                                             ConstraintLayout switchLowerDivider, ConstraintLayout switchUpperDivider){
 
@@ -66,11 +72,13 @@ public class TickTrackThemeSetter {
             counterActivityScrollView.setBackgroundResource(R.color.LightGray);
 
             counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            plusButtonBig.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            minusButtonBig.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            plusText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            minusText.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
-            switchLowerDivider.setBackgroundResource(R.color.Gray);
-            switchUpperDivider.setBackgroundResource(R.color.Gray);
+            switchLowerDivider.setBackgroundResource(R.color.GrayOnLight);
+            switchUpperDivider.setBackgroundResource(R.color.GrayOnLight);
 
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
@@ -78,11 +86,14 @@ public class TickTrackThemeSetter {
             counterActivityScrollView.setBackgroundResource(R.color.Black);
 
             counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.LightText));
-            plusButtonBig.setTextColor(activity.getResources().getColor(R.color.LightText));
-            minusButtonBig.setTextColor(activity.getResources().getColor(R.color.LightText));
+            plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            plusText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            minusText.setTextColor(activity.getResources().getColor(R.color.LightText));
 
-            switchUpperDivider.setBackgroundResource(R.color.LightGray);
-            switchLowerDivider.setBackgroundResource(R.color.LightGray);
+
+            switchUpperDivider.setBackgroundResource(R.color.GrayOnDark);
+            switchLowerDivider.setBackgroundResource(R.color.GrayOnDark);
         }
 
     }

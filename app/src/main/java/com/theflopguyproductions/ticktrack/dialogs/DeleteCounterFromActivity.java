@@ -2,31 +2,30 @@ package com.theflopguyproductions.ticktrack.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 
 import java.util.Objects;
 
-public class DeleteCounter  extends Dialog {
+public class DeleteCounterFromActivity extends Dialog {
     public Activity activity;
     int position;
     private String counterName;
     TextView dialogMessage;
 
-    public DeleteCounter(Activity activity, int position, String counterName){
+    public DeleteCounterFromActivity(Activity activity, int position, String counterName){
         super(activity);
         this.counterName = counterName;
         this.position = position;
@@ -51,14 +50,10 @@ public class DeleteCounter  extends Dialog {
 
         yesButton.setOnClickListener(view12 -> {
             CounterFragment.deleteCounter(position, activity, counterName);
+            activity.startActivity(new Intent(activity, SoYouADeveloperHuh.class));
             dismiss();
         });
         noButton.setOnClickListener(view1 -> {
-            CounterFragment.refreshRecyclerView();
-            dismiss();
-        });
-        setOnCancelListener(dialogInterface -> {
-            CounterFragment.refreshRecyclerView();
             cancel();
         });
     }

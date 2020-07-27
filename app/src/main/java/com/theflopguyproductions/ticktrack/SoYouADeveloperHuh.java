@@ -89,7 +89,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
                 case R.id.settingsMenuItem:
                     startActivity(new Intent(this, SettingsActivity.class));
-                    Toast.makeText(getApplicationContext(),"Settings",Toast.LENGTH_SHORT).show();
                     return false;
 
                 case R.id.feedbackMenuItem:
@@ -111,5 +110,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         TickTrackThemeSetter.mainActivityTheme(navView, this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
