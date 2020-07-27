@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.widget.ScrollView;
 import android.widget.Switch;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -11,7 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.counter.activity.CounterEditActivity;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
+
+import org.w3c.dom.Text;
 
 public class TickTrackThemeSetter {
 
@@ -113,4 +117,49 @@ public class TickTrackThemeSetter {
         return R.color.Accent;
     }
 
+    public static void counterEditActivityTheme(Activity activity, ConstraintLayout counterLabelLayout,
+                                                ConstraintLayout counterValueLayout, ConstraintLayout counterMilestoneLayout,
+                                                ConstraintLayout counterFlagLayout, ConstraintLayout counterButtonModeLayout,
+                                                ConstraintLayout counterNotificationLayout, ConstraintLayout counterEditRootLayout,
+                                                ConstraintLayout counterEditToolbarLayout,
+                                                TextView counterLabel, TextView counterValue, TextView counterMilestone, TextView counterButtonMode,
+                                                TextView notificationDetail, TextView milestoneDetail, int flagColor) {
+
+        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+        counterEditToolbarLayout.setBackgroundResource(counterActivityToolbarColor(flagColor));
+        if(checkTheme==1){
+            counterLabelLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            counterValueLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            counterMilestoneLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            counterFlagLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            counterButtonModeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            counterNotificationLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            counterEditRootLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+
+            counterLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterMilestone.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterButtonMode.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            notificationDetail.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            milestoneDetail.setTextColor(activity.getResources().getColor(R.color.DarkText));
+
+
+        } else {
+            counterLabelLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            counterValueLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            counterMilestoneLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            counterFlagLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            counterButtonModeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            counterNotificationLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            counterEditRootLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+
+            counterLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterValue.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterMilestone.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterButtonMode.setTextColor(activity.getResources().getColor(R.color.LightText));
+            notificationDetail.setTextColor(activity.getResources().getColor(R.color.LightText));
+            milestoneDetail.setTextColor(activity.getResources().getColor(R.color.LightText));
+
+        }
+    }
 }
