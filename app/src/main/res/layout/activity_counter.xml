@@ -17,91 +17,168 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/counterActivityAppNameToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/app_name"
+            android:textColor="@color/LightText"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/counterActivityLayout"
-        android:layout_width="0dp"
+    <ScrollView
+        android:id="@+id/counterActivityScrollView"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterActivityToolbar">
 
-        <TextView
-            android:id="@+id/counterActivityValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:text="0"
-            android:textColor="@color/Accent"
-            android:textSize="36sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/counterActivityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/counterActivityLabelTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="TextView"
-            android:textColor="@color/Accent"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/counterActivityValueTextView" />
+            <TextView
+                android:id="@+id/counterActivityValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:text="0"
+                android:textColor="@color/Accent"
+                android:textSize="36sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
-            android:id="@+id/minusbtn"
-            android:layout_width="165dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginBottom="90dp"
-            android:gravity="center_horizontal"
-            android:hapticFeedbackEnabled="true"
-            android:rotation="90"
-            android:textAlignment="center"
-            app:button_background="@drawable/shape_button"
-            app:button_image_height="100dp"
-            app:button_image_width="50dp"
-            app:has_activate_state="false"
-            app:initial_state="disabled"
-            app:inner_text="l"
-            app:inner_text_background="@drawable/shape_rounded"
-            app:inner_text_color="@color/LightText"
-            app:inner_text_size="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/counterActivityLabelTextView"
-            app:layout_constraintVertical_bias="1.0" />
+            <TextView
+                android:id="@+id/counterActivityLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="@color/Accent"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivityValueTextView" />
 
-        <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
-            android:id="@+id/plusbtn"
-            android:layout_width="165dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginBottom="90dp"
-            android:hapticFeedbackEnabled="true"
-            android:rotation="90"
-            app:button_background="@drawable/shape_button"
-            app:button_bottom_padding="100dp"
-            app:button_image_height="100dp"
-            app:button_image_width="50dp"
-            app:button_left_padding="100dp"
-            app:button_right_padding="100dp"
-            app:button_top_padding="100dp"
-            app:has_activate_state="false"
-            app:initial_state="disabled"
-            app:inner_text="+"
-            app:inner_text_background="@drawable/shape_rounded"
-            app:inner_text_color="@color/LightText"
-            app:inner_text_size="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/counterActivityLabelTextView"
-            app:layout_constraintVertical_bias="1.0" />
+            <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
+                android:id="@+id/minusbtn"
+                android:layout_width="165dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginBottom="90dp"
+                android:gravity="center_horizontal"
+                android:hapticFeedbackEnabled="true"
+                android:rotation="90"
+                android:textAlignment="center"
+                app:button_background="@drawable/shape_button"
+                app:button_image_height="100dp"
+                app:button_image_width="50dp"
+                app:has_activate_state="false"
+                app:initial_state="disabled"
+                app:inner_text="l"
+                app:inner_text_background="@drawable/shape_rounded"
+                app:inner_text_color="@color/LightText"
+                app:inner_text_size="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
+                android:id="@+id/plusbtn"
+                android:layout_width="165dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginBottom="90dp"
+                android:hapticFeedbackEnabled="true"
+                android:rotation="90"
+                app:button_background="@drawable/shape_button"
+                app:button_bottom_padding="100dp"
+                app:button_image_height="100dp"
+                app:button_image_width="50dp"
+                app:button_left_padding="100dp"
+                app:button_right_padding="100dp"
+                app:button_top_padding="100dp"
+                app:has_activate_state="false"
+                app:initial_state="disabled"
+                app:inner_text="+"
+                app:inner_text_background="@drawable/shape_rounded"
+                app:inner_text_color="@color/LightText"
+                app:inner_text_size="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Switch
+                android:id="@+id/counterActivityButtonSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:textOff="Clicker"
+                android:textOn="Slider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivityLabelTextView" />
+
+            <Button
+                android:id="@+id/plusButton"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="64dp"
+                android:backgroundTint="@android:color/transparent"
+                android:text="+"
+                android:textSize="72sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/minusbtn"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView" />
+
+            <Button
+                android:id="@+id/minusButton"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="64dp"
+                android:backgroundTint="@android:color/transparent"
+                android:text="-"
+                android:textSize="72sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/plusButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchModeTextView" />
+
+            <TextView
+                android:id="@+id/counterActivitySwitchModeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterActivityButtonSwitch" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

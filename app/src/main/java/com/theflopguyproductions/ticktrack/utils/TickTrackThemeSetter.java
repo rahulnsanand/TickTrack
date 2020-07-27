@@ -2,6 +2,9 @@ package com.theflopguyproductions.ticktrack.utils;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
+import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 
 public class TickTrackThemeSetter {
 
@@ -46,6 +50,46 @@ public class TickTrackThemeSetter {
         } else {
             recyclerView.setBackgroundResource(R.color.Black);
         }
+    }
+
+    public static void counterActivityTheme(Activity activity, ConstraintLayout toolbar, ConstraintLayout rootLayout, int flagColor,
+                                            Button plusButtonBig, Button minusButtonBig, SwipeButton plusButton, SwipeButton minusButton,
+                                            ScrollView counterActivityScrollView, TextView counterSwitchMode, Switch buttonSwitch){
+
+        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+        toolbar.setBackgroundResource(counterActivityToolbarColor(flagColor));
+
+        if(checkTheme==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            counterActivityScrollView.setBackgroundResource(R.color.LightGray);
+            counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            plusButtonBig.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            minusButtonBig.setTextColor(activity.getResources().getColor(R.color.DarkText));
+
+        } else {
+            rootLayout.setBackgroundResource(R.color.Black);
+            counterActivityScrollView.setBackgroundResource(R.color.Black);
+            counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.LightText));
+            plusButtonBig.setTextColor(activity.getResources().getColor(R.color.LightText));
+            minusButtonBig.setTextColor(activity.getResources().getColor(R.color.LightText));
+
+        }
+
+    }
+
+    private static int counterActivityToolbarColor(int flagColor){
+        if(flagColor == 1){
+            return R.color.red_matte;
+        } else if(flagColor == 2){
+            return R.color.green_matte;
+        } else if(flagColor == 3){
+            return R.color.orange_matte;
+        } else if(flagColor == 4){
+            return R.color.blue_matte;
+        } else if(flagColor == 5){
+            return R.color.purple_matte;
+        }
+        return R.color.Accent;
     }
 
 }

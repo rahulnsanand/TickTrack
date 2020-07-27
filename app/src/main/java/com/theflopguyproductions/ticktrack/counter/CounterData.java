@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.counter;
 
+import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
+
 import java.sql.Timestamp;
 
 public class CounterData implements Comparable<CounterData>{
