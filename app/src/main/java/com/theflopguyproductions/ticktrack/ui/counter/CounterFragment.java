@@ -118,7 +118,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         Toast.makeText(activity, "Deleted Counter " + counterName, Toast.LENGTH_SHORT).show();
     }
     public static void refreshRecyclerView(RecyclerView.ViewHolder viewHolder){
-        counterAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+        counterAdapter.notifyDataSetChanged();
     }
     public static void deleteItem(int position, Activity activity){
         counterDataArrayList.remove(position);
