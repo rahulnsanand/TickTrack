@@ -7,6 +7,10 @@
     <color name="LightGray">#ebebeb</color>
     <color name="DarkText">#151515</color>
     <color name="LightText">#efefef</color>
+    <color name="GrayOnDark">#222222</color>
+    <color name="GrayOnLight">#CACACA</color>
+
+    <color name="Clickable">#40CACACA</color>
 
     <color name="red_matte">#810c0c</color>
     <color name="green_matte">#1f4e03</color>

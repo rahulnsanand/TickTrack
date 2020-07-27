@@ -3,6 +3,8 @@ package com.theflopguyproductions.ticktrack.ui.settings;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,8 +19,10 @@ import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private ConstraintLayout themeLayout, rootLayout;
+    private ConstraintLayout themeLayout;
     private TextView themeName, themeTitle;
+    private ImageButton backButton;
+    private ScrollView settingsScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +32,17 @@ public class SettingsActivity extends AppCompatActivity {
         themeLayout = findViewById(R.id.themeSettingsLayout);
         themeTitle = findViewById(R.id.themeSettingsLabel);
         themeName = findViewById(R.id.themeValueSettingsTextView);
-        rootLayout = findViewById(R.id.generalRootLayout);
-        TickTrackThemeSetter.settingsActivityTheme(this, rootLayout, themeTitle, themeName);
+        backButton = findViewById(R.id.settingsActivityBackButton);
+        settingsScrollView = findViewById(R.id.settingsActivityScrollView);
+
+        TickTrackThemeSetter.settingsActivityTheme(this, themeTitle, themeName, settingsScrollView, themeLayout);
 
         themeLayout.setOnClickListener(view -> {
             ThemeDialog themeDialog = new ThemeDialog(this, TickTrackDatabase.getThemeMode(this));
             themeDialog.show();
         });
+
+        backButton.setOnClickListener(view -> onBackPressed());
 
     }
 

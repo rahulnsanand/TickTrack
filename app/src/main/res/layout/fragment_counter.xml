@@ -14,20 +14,33 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/ic_add_white_24"
+        app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/counterRecycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layoutAnimation="@anim/recycler_animation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        android:id="@+id/counterFragmentNoCounterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a counter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layoutAnimation="@anim/recycler_animation"/>
+        app:typeface="montserrat_medium_italic"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

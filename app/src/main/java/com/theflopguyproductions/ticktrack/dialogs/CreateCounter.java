@@ -44,10 +44,10 @@ public class CreateCounter extends Dialog {
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        counterLabelText = (EditText) view.findViewById(R.id.counterLabelInputText);
-        createCounterButton = (Button) view.findViewById(R.id.createCounterButton);
-        cancelCounterButton = (Button) view.findViewById(R.id.dismissCounterButton);
-        final ChipGroup chipGroup = (ChipGroup) view.findViewById(R.id.counterFlagGroup);
+        counterLabelText = view.findViewById(R.id.counterLabelInputText);
+        createCounterButton = view.findViewById(R.id.createCounterButton);
+        cancelCounterButton = view.findViewById(R.id.dismissCounterButton);
+        final ChipGroup chipGroup = view.findViewById(R.id.counterFlagGroup);
 
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
@@ -73,18 +73,18 @@ public class CreateCounter extends Dialog {
             }
         });
 
-        createCounterButton.setOnClickListener((View.OnClickListener) view1 -> {
+        createCounterButton.setOnClickListener(view1 -> {
             if(counterLabelText.getText().toString().trim().length() > 0){
-                CounterFragment.createCounter(counterLabelText.getText().toString(),new Timestamp(System.currentTimeMillis()),counterFlag, this.activity);
+                CounterFragment.createCounter(counterLabelText.getText().toString(),new Timestamp(System.currentTimeMillis()),counterFlag, this.activity,0,0,false, false, false);
             } else {
                 int counterNumber = TickTrackDatabase.retrieveCounterNumber(activity);
                 String counterName = "Counter "+ counterNumber;
                 TickTrackDatabase.storeCounterNumber(activity, counterNumber+1);
-                CounterFragment.createCounter(counterName,new Timestamp(System.currentTimeMillis()),counterFlag, this.activity);
+                CounterFragment.createCounter(counterName,new Timestamp(System.currentTimeMillis()),counterFlag, this.activity, 0,0,false, false, false);
             }
             dismiss();
         });
-        cancelCounterButton.setOnClickListener((View.OnClickListener) view12 -> {
+        cancelCounterButton.setOnClickListener(view12 -> {
             dismiss();
         });
     }
