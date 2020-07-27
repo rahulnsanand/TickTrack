@@ -31,23 +31,57 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
     @NonNull
     public RecyclerItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.counter_item_layout, parent, false);
-        RecyclerItemViewHolder holder = new RecyclerItemViewHolder(view);
-        return holder;
+
+        View itemView;
+
+        if(viewType == R.layout.counter_item_layout){
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.counter_item_layout, parent, false);
+        } else {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_footer_layout, parent, false);
+        }
+
+        return new RecyclerItemViewHolder(itemView);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == counterDataArrayList.size()) ? R.layout.recycler_footer_layout : R.layout.counter_item_layout;
     }
 
     @Override
     public void onBindViewHolder(@NonNull CounterAdapter.RecyclerItemViewHolder holder, int position) {
-        holder.countValue.setText(""+counterDataArrayList.get(position).getCounterValue());
-        holder.counterLabel.setText(counterDataArrayList.get(position).getCounterLabel());
-
-        if(counterDataArrayList.get(position).getCounterTimestamp()!=null){
-            holder.lastModified.setText("Last modified : "+timestampReadableFormat.format(counterDataArrayList.get(position).getCounterTimestamp()));
+        holder.setIsRecyclable(false);
+        if(position == counterDataArrayList.size()) {
+//            holder.button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show();
+//                }
+//            });
         }
+        else {
+            holder.countValue.setText(""+counterDataArrayList.get(position).getCounterValue());
+            holder.counterLabel.setText(counterDataArrayList.get(position).getCounterLabel());
 
-        holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
-        setColor(holder);
-        setTheme(holder);
+            if(counterDataArrayList.get(position).getCounterTimestamp()!=null){
+                holder.lastModified.setText("Last modified : "+timestampReadableFormat.format(counterDataArrayList.get(position).getCounterTimestamp()));
+            }
+
+            holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
+            setColor(holder);
+            setTheme(holder);
+
+            holder.counterLayout.setOnClickListener(v -> {
+                CounterFragment.startCounterActivity(position, (Activity) holder.context);
+                Toast.makeText(holder.context, "Position:" + position, Toast.LENGTH_SHORT).show();
+            });
+            holder.counterLayout.setOnLongClickListener(view -> {
+//                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
+
+                return false;
+            });
+
+        }
 
         mLastPosition = position;
     }
@@ -88,7 +122,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
     @Override
     public int getItemCount() {
-        return(null != counterDataArrayList?counterDataArrayList.size():0);
+        return counterDataArrayList.size() + 1;
     }
 
     public void notifyData(ArrayList<CounterData> myList) {
@@ -115,19 +149,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
             context=parent.getContext();
 
-            counterLayout.setOnClickListener(v -> {
-                CounterFragment.startCounterActivity(getAdapterPosition(), (Activity) context);
-                Toast.makeText(parent.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            });
-            counterLayout.setOnLongClickListener(view -> {
-//                    Toast.makeText(itemView.getContext(), myList.get(getAdapterPosition()).getCounterLabel(), Toast.LENGTH_SHORT).show();
-
-                return false;
-            });
-
         }
-
-
-
     }
 }
