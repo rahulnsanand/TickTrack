@@ -41,7 +41,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private static CounterAdapter counterAdapter;
-    private RecyclerView counterRecyclerView;
+    private static RecyclerView counterRecyclerView;
     private FloatingActionButton counterFab;
 
     @Override
@@ -89,6 +89,8 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterRecyclerView.setLayoutManager(layoutManager);
         counterRecyclerView.setAdapter(counterAdapter);
         counterAdapter.notifyDataSetChanged();
+        counterRecyclerView.scheduleLayoutAnimation();
+
     }
 
     public static void createCounter(String counterLabel, Timestamp createdTimestamp, int counterFlag, Activity activity){
@@ -99,6 +101,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterData.setCounterFlag(counterFlag);
         counterDataArrayList.add(0,counterData);
         counterAdapter.notifyData(counterDataArrayList);
+        counterRecyclerView.scheduleLayoutAnimation();
         TickTrackDatabase.storeCounterList(counterDataArrayList, activity);
     }
 
@@ -127,6 +130,8 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         TickTrackDatabase.storeCounterList(counterDataArrayList, activity);
 //        hapticFeed.vibrate(50);
         counterAdapter.notifyData(counterDataArrayList);
+        counterRecyclerView.scheduleLayoutAnimation();
+
     }
 
     public static void startCounterActivity(int adapterPosition, Activity activity) {
@@ -134,4 +139,5 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         intent.putExtra("currentCounterPosition", adapterPosition);
         activity.startActivity(intent);
     }
+
 }
