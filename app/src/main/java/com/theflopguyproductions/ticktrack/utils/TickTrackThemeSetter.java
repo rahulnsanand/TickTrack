@@ -81,6 +81,7 @@ public class TickTrackThemeSetter {
             minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
             minusText.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
+
             switchLowerDivider.setBackgroundResource(R.color.GrayOnLight);
             switchUpperDivider.setBackgroundResource(R.color.GrayOnLight);
 

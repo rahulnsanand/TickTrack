@@ -127,7 +127,7 @@
                 app:has_activate_state="false"
                 app:initial_state="disabled"
                 app:inner_text="l"
-                app:inner_text_background="@drawable/shape_rounded"
+                app:inner_text_background="@drawable/swipe_button_static_dark"
                 app:inner_text_color="@color/LightText"
                 app:inner_text_size="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -153,9 +153,9 @@
                 app:has_activate_state="false"
                 app:initial_state="disabled"
                 app:inner_text="+"
-                app:inner_text_background="@drawable/shape_rounded"
                 app:inner_text_color="@color/LightText"
                 app:inner_text_size="25sp"
+                app:inner_text_background="@drawable/swipe_button_static_dark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/counterActivityLabelTextView"
@@ -238,11 +238,12 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:textOff="Clicker"
-                    android:textOn="Slider"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:thumb="@drawable/switch_thumb_selector"
+                    android:track="@drawable/switch_track_selector"
+                    android:switchMinWidth="50dp"/>
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterActivitySwitchModeTextView"
