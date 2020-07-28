@@ -103,12 +103,25 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/counterEditActivityLabelDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/Accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityLabelLayout">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/counterEditActivityValueLayout"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityLabelLayout">
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityLabelDivider">
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivityValueTitle"
@@ -118,12 +131,12 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="Counter value"
-                    android:textSize="18sp"
                     android:textColor="@color/Accent"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivityValueTextView"
@@ -140,7 +153,20 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/counterEditActivityValueTitle"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/counterEditActivityValueDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/Accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityValueLayout">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -150,7 +176,7 @@
                 android:layout_height="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityValueLayout">
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityValueDivider">
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivitySignificantTitle"
@@ -159,11 +185,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="Milestone"
-                    android:textSize="18sp"
                     android:textColor="@color/Accent"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivitySignificantTextView"
@@ -179,7 +205,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/counterEditActivitySignificantDescription"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivitySignificantDescription"
@@ -192,47 +218,152 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivitySignificantTitle"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/counterEditActivityMilestoneDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/Accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivitySignificantLayout">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/counterEditActivityFlagLayout"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:minHeight="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterEditActivitySignificantLayout">
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityMilestoneDivider">
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivityFlagTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="32dp"
                     android:text="Counter flag"
-                    android:textSize="18sp"
                     android:textColor="@color/Accent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
 
                 <ImageView
                     android:id="@+id/counterEditActivityFlagImageView"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/counterEditActivityFlagTitle"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_flag_red" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/counterEditActivityFlagChipLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/counterEditActivityFlagTitle"
+                    app:layout_constraintVertical_bias="0.56">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/counterEditActivityFlagGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:alwaysDrawnWithCache="true"
+                        android:animateLayoutChanges="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/counterEditActivityCherryFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cherry"
+                            android:checkable="true"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            android:textSize="14sp"
+                            app:chipIcon="@drawable/ic_flag_red" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/counterEditActivityLimeFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Lime"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            app:chipIcon="@drawable/ic_flag_green" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/counterEditActivityPeachFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Peach"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            app:chipIcon="@drawable/ic_flag_orange" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/counterEditActivityPlumFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Plum"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            app:chipIcon="@drawable/ic_flag_purple" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/counterEditActivityBerryFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Berry"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            app:chipIcon="@drawable/ic_flag_blue" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/counterEditActivityFlagDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/Accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityFlagLayout">
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -241,7 +372,7 @@
                 android:layout_height="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityFlagLayout">
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityFlagDivider">
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivityButtonModeTitle"
@@ -250,11 +381,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="Counter button mode"
-                    android:textSize="18sp"
                     android:textColor="@color/Accent"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
 
                 <Switch
                     android:id="@+id/counterEditActivityButtonModeSwitch"
@@ -281,7 +412,21 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivityButtonModeTitle"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/counterEditActivityButtonModeDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/Accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityButtonModeLayout">
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -291,7 +436,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/counterEditActivityDeleteButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityButtonModeLayout"
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityButtonModeDivider"
                 app:layout_constraintVertical_bias="0.0">
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
@@ -301,11 +446,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="Notification Bar"
-                    android:textSize="18sp"
                     android:textColor="@color/Accent"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
 
                 <Switch
                     android:id="@+id/counterEditActivityNotificationSwitch"
@@ -332,7 +477,21 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNotificationTitle"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_medium" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/counterEditActivityNotificationDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/Accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNotificationLayout">
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button

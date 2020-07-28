@@ -121,12 +121,12 @@ public class TickTrackThemeSetter {
                                                 ConstraintLayout counterValueLayout, ConstraintLayout counterMilestoneLayout,
                                                 ConstraintLayout counterFlagLayout, ConstraintLayout counterButtonModeLayout,
                                                 ConstraintLayout counterNotificationLayout, ConstraintLayout counterEditRootLayout,
-                                                ConstraintLayout counterEditToolbarLayout,
                                                 TextView counterLabel, TextView counterValue, TextView counterMilestone, TextView counterButtonMode,
-                                                TextView notificationDetail, TextView milestoneDetail, int flagColor) {
+                                                TextView notificationDetail, TextView milestoneDetail, int flagColor,
+                                                ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
+                                                ConstraintLayout buttonDivider, ConstraintLayout notificationDivider) {
 
         int checkTheme = TickTrackDatabase.getThemeMode(activity);
-        counterEditToolbarLayout.setBackgroundResource(counterActivityToolbarColor(flagColor));
         if(checkTheme==1){
             counterLabelLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             counterValueLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -143,6 +143,12 @@ public class TickTrackThemeSetter {
             notificationDetail.setTextColor(activity.getResources().getColor(R.color.DarkText));
             milestoneDetail.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
+            labelDivider.setBackgroundResource(R.color.GrayOnLight);
+            valueDivider.setBackgroundResource(R.color.GrayOnLight);
+            milestoneDivider.setBackgroundResource(R.color.GrayOnLight);
+            buttonDivider.setBackgroundResource(R.color.GrayOnLight);
+            notificationDivider.setBackgroundResource(R.color.GrayOnLight);
+            flagDivider.setBackgroundResource(R.color.GrayOnLight);
 
         } else {
             counterLabelLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
@@ -159,6 +165,14 @@ public class TickTrackThemeSetter {
             counterButtonMode.setTextColor(activity.getResources().getColor(R.color.LightText));
             notificationDetail.setTextColor(activity.getResources().getColor(R.color.LightText));
             milestoneDetail.setTextColor(activity.getResources().getColor(R.color.LightText));
+
+            labelDivider.setBackgroundResource(R.color.GrayOnDark);
+            valueDivider.setBackgroundResource(R.color.GrayOnDark);
+            milestoneDivider.setBackgroundResource(R.color.GrayOnDark);
+            buttonDivider.setBackgroundResource(R.color.GrayOnDark);
+            notificationDivider.setBackgroundResource(R.color.GrayOnDark);
+            flagDivider.setBackgroundResource(R.color.GrayOnDark);
+
 
         }
     }

@@ -28,7 +28,7 @@ public class SingleInputDialog extends Dialog {
     private Activity activity;
     public EditText inputText;
     public Button okButton, cancelButton;
-    public TextView helperText;
+    public TextView helperText, saveChangesText;
     private String currentLabel;
 
     public SingleInputDialog(Activity activity, String currentLabel){
@@ -56,6 +56,7 @@ public class SingleInputDialog extends Dialog {
         inputText = view.findViewById(R.id.labelDialogInputText);
         helperText = view.findViewById(R.id.labelDialogHelpText);
         inputText.setText(currentLabel);
+        saveChangesText = findViewById(R.id.labelDialogSaveChangesText);
     }
 
 }
