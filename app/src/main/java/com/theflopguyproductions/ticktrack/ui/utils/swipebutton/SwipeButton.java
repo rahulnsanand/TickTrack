@@ -184,7 +184,7 @@ public class SwipeButton extends RelativeLayout {
             if (backgroundDrawable != null) {
                 background.setBackground(backgroundDrawable);
             } else {
-                background.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rounded));
+                background.setBackground(ContextCompat.getDrawable(context, R.drawable.swipe_button_static_light));
             }
 
             if (trailEnabled) {
