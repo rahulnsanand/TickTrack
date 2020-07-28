@@ -154,6 +154,7 @@ public class CounterActivity extends AppCompatActivity {
             if(currentCount>=1){
                 currentCount-=1;
                 counterDataArrayList.get(currentPosition).setCounterValue(currentCount);
+                counterDataArrayList.get(currentPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
                 CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
                 TickTrackDatabase.storeCounterList(counterDataArrayList, this);
             }

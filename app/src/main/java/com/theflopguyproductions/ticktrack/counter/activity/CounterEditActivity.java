@@ -106,6 +106,7 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void startNotificationService() {
         Intent intent = new Intent(this, CounterNotification.class);
+        intent.putExtra("counterPosition", currentPosition);
         intent.setAction(CounterNotification.ACTION_START_COUNTER_SERVICE);
         startService(intent);
     }
