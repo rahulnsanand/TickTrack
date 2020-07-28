@@ -22,11 +22,13 @@ public class TickTrack extends Application {
         super.onCreate();
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context. NOTIFICATION_SERVICE ) ;
             createCounterChannel(mNotificationManager);
             createGeneralChannel(mNotificationManager);
             createStopwatchChannel(mNotificationManager);
             createTimerChannel(mNotificationManager);
+
         }
 
     }
@@ -115,6 +117,7 @@ public class TickTrack extends Application {
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
         notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+        notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 

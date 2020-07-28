@@ -11,19 +11,27 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
 import java.lang.reflect.Type;
@@ -40,7 +48,7 @@ public class CounterNotificationService extends Service {
     private static ArrayList<CounterData> counterDataList = new ArrayList<>();
     NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
 
-    RemoteViews collapsedView, expandedView;
+    RemoteViews collapsedView, expandedView, headsUpView;
     Notification notification;
     NotificationCompat.Builder notificationBuilder;
     NotificationManager notificationManager;
@@ -109,22 +117,17 @@ public class CounterNotificationService extends Service {
             switch (action) {
                 case ACTION_START_COUNTER_SERVICE:
                     startForegroundService();
-                    Toast.makeText(getApplicationContext(), "Foreground service is started.", Toast.LENGTH_LONG).show();
                     break;
                 case ACTION_STOP_COUNTER_SERVICE:
-                    Toast.makeText(getApplicationContext(), "You click Cancel button.", Toast.LENGTH_LONG).show();
                     stopForegroundService();
                     break;
                 case ACTION_PLUS:
-                    Toast.makeText(getApplicationContext(), "You click Play button.", Toast.LENGTH_LONG).show();
                     plusButtonPressed();
                     break;
                 case ACTION_MINUS:
-                    Toast.makeText(getApplicationContext(), "You click Pause button.", Toast.LENGTH_LONG).show();
                     minusButtonPressed();
                     break;
                 case ACTION_KILL_NOTIFICATIONS:
-                    Toast.makeText(getApplicationContext(), "You Kill.", Toast.LENGTH_LONG).show();
                     killNotifications();
                     break;
             }
@@ -152,9 +155,8 @@ public class CounterNotificationService extends Service {
             return R.drawable.ic_flag_purple;
         } else if(counterDataList.get(currentCounterPosition).getCounterFlag()==5){
             return R.drawable.ic_flag_blue;
-        } else {
-            return R.drawable.ic_round_flag_light_24;
         }
+        return 0;
     }
 
     private void minusButtonPressed() {
@@ -163,8 +165,9 @@ public class CounterNotificationService extends Service {
             counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
             counterDataList.get(currentCounterPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
             storeCounterList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
-            bigTextStyle.bigText("Value: "+counterValue);
-            startForegroundService();
+            expandedView.setTextViewText(R.id.counterNotificationExpandedValueTextView, counterValue+"");
+            collapsedView.setTextViewText(R.id.counterNotificationCollapsedValueTextView, counterValue+"");
+            notifyNotification();
         }
     }
 
@@ -173,7 +176,6 @@ public class CounterNotificationService extends Service {
         counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
         counterDataList.get(currentCounterPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
         storeCounterList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
-        bigTextStyle.bigText("Value: "+counterValue);
         expandedView.setTextViewText(R.id.counterNotificationExpandedValueTextView, counterValue+"");
         collapsedView.setTextViewText(R.id.counterNotificationCollapsedValueTextView, counterValue+"");
         notifyNotification();
@@ -233,9 +235,9 @@ public class CounterNotificationService extends Service {
     }
 
     private void stopForegroundService() {
-        notificationCounterFalse();
         stopForeground(true);
         stopSelf();
+        notificationCounterFalse();
     }
 
     private void killNotifications(){
@@ -261,29 +263,60 @@ public class CounterNotificationService extends Service {
                 R.layout.notification_counter_collapsed_layout);
         expandedView = new RemoteViews(getPackageName(),
                 R.layout.notification_counter_expanded_layout);
+        headsUpView = new RemoteViews(getPackageName(),
+                R.layout.notification_counter_headsup_layout);
 
-        collapsedView.setImageViewResource(R.id.counterNotificationCollapsedFlagImageView, getFlag());
+        headsUpView.setTextViewText(R.id.counterNotificationHeadsUpTitleTextView, counterLabel+" counter notification added!");
+
+
+        if(getFlag()!=0){
+            collapsedView.setImageViewResource(R.id.counterNotificationCollapsedFlagImageView, getFlag());
+            expandedView.setImageViewResource(R.id.counterNotificationExpandedFlagImageView, getFlag());
+        } else {
+            expandedView.setViewVisibility(R.id.counterNotificationExpandedFlagImageView, View.INVISIBLE);
+            collapsedView.setViewVisibility(R.id.counterNotificationCollapsedFlagImageView, View.INVISIBLE);
+
+        }
+
         collapsedView.setTextViewText(R.id.counterNotificationCollapsedLabelTextView, counterLabel);
         collapsedView.setTextViewText(R.id.counterNotificationCollapsedValueTextView, counterValue+"");
 
-        expandedView.setImageViewResource(R.id.counterNotificationExpandedFlagImageView, getFlag());
+
         expandedView.setTextViewText(R.id.counterNotificationExpandedLabelTextView, counterLabel);
         expandedView.setTextViewText(R.id.counterNotificationExpandedValueTextView, counterValue+"");
 
         Intent plusIntent = new Intent(this, CounterNotificationService.class);
         plusIntent.setAction(ACTION_PLUS);
-        plusIntent.putExtra("counterPosition", currentCounterPosition);
-
         PendingIntent pendingPlusIntent = PendingIntent.getService(this, counterRequestID, plusIntent, 0);
-
         expandedView.setOnClickPendingIntent(R.id.counterNotificationExpandedPlusImageButton, pendingPlusIntent);
+
+        Intent minusIntent = new Intent(this, CounterNotificationService.class);
+        minusIntent.setAction(ACTION_MINUS);
+        PendingIntent pendingMinusIntent = PendingIntent.getService(this, counterRequestID, minusIntent, 0);
+        expandedView.setOnClickPendingIntent(R.id.counterNotificationExpandedMinusImageButton, pendingMinusIntent);
+
+        Intent cancelIntent = new Intent(this, CounterNotificationService.class);
+        cancelIntent.setAction(ACTION_STOP_COUNTER_SERVICE);
+        PendingIntent pendingCancelIntent = PendingIntent.getService(this, counterRequestID, cancelIntent, 0);
+        expandedView.setOnClickPendingIntent(R.id.counterNotificationExpandedCloseImageButton, pendingCancelIntent);
+
+        Intent resultIntent = new Intent(this, CounterActivity.class);
+        resultIntent.putExtra("currentCounterPosition", currentCounterPosition);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notificationBuilder = new NotificationCompat.Builder(this,TickTrack.COUNTER_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setCustomContentView(collapsedView)
                 .setCustomBigContentView(expandedView)
+                .setCustomHeadsUpContentView(headsUpView)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setOnlyAlertOnce(true);;
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOnlyAlertOnce(true)
+                .setContentIntent(resultPendingIntent);
 
     }
 
