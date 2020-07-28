@@ -50,7 +50,7 @@ public class CounterNotificationService extends Service {
     public static final String ACTION_START_COUNTER_SERVICE = "ACTION_START_COUNTER_SERVICE";
 
     public static final String ACTION_STOP_COUNTER_SERVICE = "ACTION_STOP_COUNTER_SERVICE";
-
+    public static final String ACTION_KILL_NOTIFICATIONS = "ACTION_KILL_NOTIFICATIONS";
     public static final String ACTION_PLUS = "ACTION_PLUS";
 
     public static final String ACTION_MINUS = "ACTION_MINUS";
@@ -122,6 +122,10 @@ public class CounterNotificationService extends Service {
                 case ACTION_MINUS:
                     Toast.makeText(getApplicationContext(), "You click Pause button.", Toast.LENGTH_LONG).show();
                     minusButtonPressed();
+                    break;
+                case ACTION_KILL_NOTIFICATIONS:
+                    Toast.makeText(getApplicationContext(), "You Kill.", Toast.LENGTH_LONG).show();
+                    killNotifications();
                     break;
             }
         }
@@ -232,6 +236,10 @@ public class CounterNotificationService extends Service {
         notificationCounterFalse();
         stopForeground(true);
         stopSelf();
+    }
+
+    private void killNotifications(){
+        stopForeground(true);
     }
 
     private void notificationCounterTrue() {
