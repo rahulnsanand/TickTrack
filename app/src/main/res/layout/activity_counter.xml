@@ -80,6 +80,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
+            <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
+                android:id="@+id/counterActivityLottieAnimationView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/plusButton"
+                app:lottie_rawRes="@raw/lottie_fireworks"
+                app:lottie_loop="true"/>
+
             <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                 android:id="@+id/counterActivityValueTextView"
                 android:layout_width="wrap_content"

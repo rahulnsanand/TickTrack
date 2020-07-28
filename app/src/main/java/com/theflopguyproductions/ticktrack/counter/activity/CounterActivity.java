@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -21,6 +22,7 @@ import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
+import com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
@@ -41,6 +43,7 @@ public class CounterActivity extends AppCompatActivity {
     int flagColor;
     private ImageButton backButton, deleteButton, editButton;
     private Activity activity;
+    LottieAnimationView lottieAnimationView;
 
 
     @Override
@@ -50,6 +53,7 @@ public class CounterActivity extends AppCompatActivity {
         TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
                 plusText, minusText,
                 plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider);
+        milestoneItIs();
     }
 
     @Override
@@ -68,6 +72,8 @@ public class CounterActivity extends AppCompatActivity {
         plusButtonBig = findViewById(R.id.plusButton);
         minusButtonBig =findViewById(R.id.minusButton);
         buttonSwitch = findViewById(R.id.counterActivityButtonSwitch);
+        lottieAnimationView = findViewById(R.id.counterActivityLottieAnimationView);
+
         activity = this;
 
         counterSwitchMode = findViewById(R.id.counterActivitySwitchModeTextView);
@@ -119,6 +125,30 @@ public class CounterActivity extends AppCompatActivity {
             counterDelete.show();
         });
 
+        milestoneItIs();
+
+    }
+
+    private final Handler mHandler = new Handler();
+
+    private void milestoneItIs() {
+        if(counterDataArrayList.get(currentPosition).getCounterSignificantCount()>0){
+            if(currentCount==counterDataArrayList.get(currentPosition).getCounterSignificantCount()){
+                lottieAnimationView.playAnimation();
+                lottieAnimationView.setVisibility(View.VISIBLE);
+
+                mHandler.postDelayed(() -> {
+                    lottieAnimationView.cancelAnimation();
+                    lottieAnimationView.setVisibility(View.INVISIBLE);
+                }, 5000);
+
+            } else {
+                lottieAnimationView.cancelAnimation();
+            }
+        } else {
+            lottieAnimationView.setVisibility(View.INVISIBLE);
+            lottieAnimationView.cancelAnimation();
+        }
     }
 
     private void changeButtonVisibility(CompoundButton compoundButton){
@@ -148,6 +178,7 @@ public class CounterActivity extends AppCompatActivity {
             counterDataArrayList.get(currentPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
             CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
             TickTrackDatabase.storeCounterList(counterDataArrayList, this);
+            milestoneItIs();
         });
 
         minusButton.setOnActiveListener(() -> {
@@ -157,6 +188,7 @@ public class CounterActivity extends AppCompatActivity {
                 counterDataArrayList.get(currentPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
                 CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
                 TickTrackDatabase.storeCounterList(counterDataArrayList, this);
+                milestoneItIs();
             }
         });
         plusButtonBig.setOnClickListener(view -> {
@@ -165,6 +197,7 @@ public class CounterActivity extends AppCompatActivity {
             counterDataArrayList.get(currentPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
             CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
             TickTrackDatabase.storeCounterList(counterDataArrayList, this);
+            milestoneItIs();
         });
 
         minusButtonBig.setOnClickListener(view -> {
@@ -173,6 +206,7 @@ public class CounterActivity extends AppCompatActivity {
                 counterDataArrayList.get(currentPosition).setCounterValue(currentCount);
                 CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
                 TickTrackDatabase.storeCounterList(counterDataArrayList, this);
+                milestoneItIs();
             }
         });
     }
