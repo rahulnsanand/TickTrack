@@ -4,24 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
-import com.theflopguyproductions.ticktrack.counter.notification.CounterNotification;
+import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
@@ -79,10 +77,10 @@ public class CounterEditActivity extends AppCompatActivity {
         counterNotificationSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
                 counterDataArrayList.get(currentPosition).setCounterPersistentNotification(true);
-                startNotificationService();
+
             } else {
                 counterDataArrayList.get(currentPosition).setCounterPersistentNotification(false);
-                stopNotificationService();
+
             }
             isChanged = true;
         });
@@ -99,15 +97,15 @@ public class CounterEditActivity extends AppCompatActivity {
     }
 
     private void stopNotificationService() {
-        Intent intent = new Intent(this, CounterNotification.class);
-        intent.setAction(CounterNotification.ACTION_STOP_COUNTER_SERVICE);
+        Intent intent = new Intent(this, CounterNotificationService.class);
+        intent.setAction(CounterNotificationService.ACTION_STOP_COUNTER_SERVICE);
         startService(intent);
     }
 
     private void startNotificationService() {
-        Intent intent = new Intent(this, CounterNotification.class);
-        intent.putExtra("counterPosition", currentPosition);
-        intent.setAction(CounterNotification.ACTION_START_COUNTER_SERVICE);
+        Intent intent = new Intent(this, CounterNotificationService.class);
+        TickTrackDatabase.setCurrentCounterNotificationID(this, currentPosition);
+        intent.setAction(CounterNotificationService.ACTION_START_COUNTER_SERVICE);
         startService(intent);
     }
 
@@ -384,13 +382,27 @@ public class CounterEditActivity extends AppCompatActivity {
             }
             counterDataArrayList.get(currentPosition).setCounterFlag(getCounterFlag());
             counterDataArrayList.get(currentPosition).setCounterSwipeMode(counterButtonSwitch.isChecked());
-            counterDataArrayList.get(currentPosition).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
-
+            if(counterNotificationSwitch.isChecked()){
+                counterDataArrayList.get(currentPosition).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
+                revertAllOtherChecks();
+                startNotificationService();
+            } else {
+                counterDataArrayList.get(currentPosition).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
+                stopNotificationService();
+            }
             TickTrackDatabase.storeCounterList(counterDataArrayList, activity);
 
             isChanged = false;
         }
         onBackPressed();
+    }
+
+    private void revertAllOtherChecks() {
+        for(int i = 0; i < counterDataArrayList.size(); i++){
+            if(i!=currentPosition){
+                counterDataArrayList.get(i).setCounterPersistentNotification(false);
+            }
+        }
     }
 
     private int getCounterFlag() {

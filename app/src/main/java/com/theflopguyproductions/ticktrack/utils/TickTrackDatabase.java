@@ -91,4 +91,16 @@ public class TickTrackDatabase {
         editor.apply();
     }
 
+    public static int getCurrentCounterNotificationID(Activity activity){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        return sharedPreferences.getInt("CounterNotificationPosition", 0);
+    }
+
+    public static void setCurrentCounterNotificationID(Activity activity, int currentPosition){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("CounterNotificationPosition", currentPosition);
+        editor.apply();
+    }
+
 }
