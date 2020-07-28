@@ -98,7 +98,7 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void stopNotificationService() {
         Intent intent = new Intent(this, CounterNotificationService.class);
-        intent.setAction(CounterNotificationService.ACTION_STOP_COUNTER_SERVICE);
+        intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
         startService(intent);
     }
 
@@ -388,7 +388,6 @@ public class CounterEditActivity extends AppCompatActivity {
                 startNotificationService();
             } else {
                 counterDataArrayList.get(currentPosition).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
-                stopNotificationService();
             }
             TickTrackDatabase.storeCounterList(counterDataArrayList, activity);
 
@@ -398,6 +397,7 @@ public class CounterEditActivity extends AppCompatActivity {
     }
 
     private void revertAllOtherChecks() {
+        stopNotificationService();
         for(int i = 0; i < counterDataArrayList.size(); i++){
             if(i!=currentPosition){
                 counterDataArrayList.get(i).setCounterPersistentNotification(false);
