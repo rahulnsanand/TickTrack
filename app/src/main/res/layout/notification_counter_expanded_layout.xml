@@ -4,19 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notificationCounterExpandedRootLayout"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="wrap_content"
+    android:minWidth="100dp"
+    android:minHeight="80dp">
 
 
     <TextView
         android:id="@+id/counterNotificationExpandedLabelTextView"
+        style="@style/NotificationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_toEndOf="@+id/counterNotificationExpandedFlagImageView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         android:text="TextView"
-        android:textColor="@color/LightText" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/counterNotificationExpandedValueTextView"
@@ -24,31 +27,31 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
         android:text="TextView"
-        android:textColor="@color/Accent" />
+        android:textColor="@color/Accent"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/counterNotificationExpandedFlagImageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignTop="@+id/counterNotificationExpandedLabelTextView"
+        android:layout_alignBottom="@+id/counterNotificationExpandedLabelTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/counterNotificationExpandedLabelTextView"
         app:srcCompat="@drawable/ic_flag_blue" />
 
     <ImageButton
         android:id="@+id/counterNotificationExpandedPlusImageButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/counterNotificationExpandedFlagImageView"
+        android:layout_below="@+id/counterNotificationExpandedValueTextView"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_add_white_24"
         android:text="Button"
@@ -58,25 +61,23 @@
         android:id="@+id/counterNotificationExpandedMinusImageButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/counterNotificationExpandedFlagImageView"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/counterNotificationExpandedValueTextView"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:layout_toStartOf="@id/counterNotificationExpandedPlusImageButton"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_arrow_left" />
+        android:src="@drawable/ic_round_minus_white_24"
+        android:tint="@color/Accent" />
 
     <ImageButton
         android:id="@+id/counterNotificationExpandedCloseImageButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/counterNotificationExpandedFlagImageView"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/counterNotificationExpandedValueTextView"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:layout_toStartOf="@id/counterNotificationExpandedMinusImageButton"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_round_tick_white_24" />
+        android:src="@drawable/ic_round_close_white_24"
+        android:tint="@color/GrayOnLight" />
 </RelativeLayout>

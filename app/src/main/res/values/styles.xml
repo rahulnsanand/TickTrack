@@ -9,7 +9,13 @@
         <item name="colorOnSecondary">@color/LightText</item>
     </style>
 
-
+    <style name="NotificationTitle">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
+    <style name="NotificationText">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="createdDialog">
         <item name="android:windowEnterAnimation">@anim/from_right</item>
