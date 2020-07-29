@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
@@ -45,7 +47,14 @@ public class CounterActivity extends AppCompatActivity {
     private ImageButton backButton, deleteButton, editButton;
     private Activity activity;
     LottieAnimationView lottieAnimationView;
+    private SharedPreferences sharedPreferences;
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sharedPreferences = this.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
 
     @Override
     protected void onResume() {
@@ -56,6 +65,15 @@ public class CounterActivity extends AppCompatActivity {
                 plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider);
         milestoneItIs();
     }
+
+
+
+    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
+        counterDataArrayList = TickTrackDatabase.retrieveCounterList(activity);
+        if (s.equals("CounterData")){
+            CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +92,7 @@ public class CounterActivity extends AppCompatActivity {
         minusButtonBig =findViewById(R.id.minusButton);
         buttonSwitch = findViewById(R.id.counterActivityButtonSwitch);
         lottieAnimationView = findViewById(R.id.counterActivityLottieAnimationView);
+        sharedPreferences = this.getSharedPreferences("TickTrackData",MODE_PRIVATE);
 
         activity = this;
 
@@ -102,6 +121,7 @@ public class CounterActivity extends AppCompatActivity {
                 plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch,
                 switchLayout, switchLowerDivider, switchUpperDivider);
 
+
         currentCount = counterDataArrayList.get(currentPosition).getCounterValue();
         counterLabel.setText(counterDataArrayList.get(currentPosition).getCounterLabel());
 
@@ -122,13 +142,20 @@ public class CounterActivity extends AppCompatActivity {
         });
 
         deleteButton.setOnClickListener(view -> {
-            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, currentPosition, counterDataArrayList.get(currentPosition).getCounterLabel());
+            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, currentPosition, counterDataArrayList.get(currentPosition).getCounterLabel(),
+                    counterDataArrayList.get(currentPosition).getCounterID(), sharedPreferenceChangeListener);
+
             counterDelete.show();
         });
 
         milestoneItIs();
 
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+
     }
+
+
 
     private final Handler mHandler = new Handler();
 
@@ -180,6 +207,7 @@ public class CounterActivity extends AppCompatActivity {
             CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
             TickTrackDatabase.storeCounterList(counterDataArrayList, this);
             milestoneItIs();
+            refreshNotificationStatus();
         });
 
         minusButton.setOnActiveListener(() -> {
@@ -190,6 +218,7 @@ public class CounterActivity extends AppCompatActivity {
                 CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
                 TickTrackDatabase.storeCounterList(counterDataArrayList, this);
                 milestoneItIs();
+                refreshNotificationStatus();
             }
         });
         plusButtonBig.setOnClickListener(view -> {
@@ -199,6 +228,7 @@ public class CounterActivity extends AppCompatActivity {
             CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
             TickTrackDatabase.storeCounterList(counterDataArrayList, this);
             milestoneItIs();
+            refreshNotificationStatus();
         });
 
         minusButtonBig.setOnClickListener(view -> {
@@ -208,13 +238,21 @@ public class CounterActivity extends AppCompatActivity {
                 CounterText.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
                 TickTrackDatabase.storeCounterList(counterDataArrayList, this);
                 milestoneItIs();
+                refreshNotificationStatus();
             }
         });
     }
-
+    private void refreshNotificationStatus() {
+        if(counterDataArrayList.get(currentPosition).isCounterPersistentNotification()){
+            Intent intent = new Intent(this, CounterNotificationService.class);
+            intent.setAction(CounterNotificationService.ACTION_REFRESH_SERVICE);
+            startService(intent);
+        }
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         startActivity(new Intent(this, SoYouADeveloperHuh.class));
         finish();
     }

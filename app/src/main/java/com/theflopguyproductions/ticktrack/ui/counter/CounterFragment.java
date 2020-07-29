@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.INotificationSideChannel;
@@ -41,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class CounterFragment extends Fragment implements CounterSlideDeleteHelper.RecyclerItemTouchHelperListener{
 
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
@@ -49,15 +52,33 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     private FloatingActionButton counterFab;
     private static TextView noCounterText;
     private ConstraintLayout counterFragmentRootLayout;
+    private Activity activity;
+    private SharedPreferences sharedPreferences;
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        counterDataArrayList = TickTrackDatabase.retrieveCounterList(getActivity());
-        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText);
-        buildRecyclerView(getActivity());
+        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+//
+//        counterDataArrayList = TickTrackDatabase.retrieveCounterList(activity);
+//        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText);
+//        buildRecyclerView(getActivity());
     }
+
+    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
+        counterDataArrayList = TickTrackDatabase.retrieveCounterList(activity);
+        if (s.equals("CounterData")){
+            buildRecyclerView(getActivity());
+        }
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +88,8 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterRecyclerView = root.findViewById(R.id.counterRecycleView);
         noCounterText = root.findViewById(R.id.counterFragmentNoCounterText);
         counterFragmentRootLayout = root.findViewById(R.id.counterRootLayout);
-
+        activity = getActivity();
+        buildRecyclerView(getActivity());
         TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText);
 
         counterFab = root.findViewById(R.id.counterAddButton);
@@ -79,6 +101,8 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new CounterSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(counterRecyclerView);
+        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         return root;
     }
@@ -160,5 +184,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         intent.putExtra("currentCounterPosition", adapterPosition);
         activity.startActivity(intent);
     }
+
+
 
 }

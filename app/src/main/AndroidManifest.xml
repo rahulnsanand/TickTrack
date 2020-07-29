@@ -17,16 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
 
-        <activity android:name=".counter.activity.CounterEditActivity"
-            android:parentActivityName=".counter.activity.CounterActivity"/>
+        <activity android:name=".counter.activity.CounterEditActivity"/>
 
         <activity android:name=".counter.activity.CounterActivity"
             android:parentActivityName=".SoYouADeveloperHuh"/>
 
         <activity
             android:name=".ui.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".SoYouADeveloperHuh"/>
+            android:label="@string/title_activity_settings"/>
 
         <activity
             android:name=".SoYouADeveloperHuh"
