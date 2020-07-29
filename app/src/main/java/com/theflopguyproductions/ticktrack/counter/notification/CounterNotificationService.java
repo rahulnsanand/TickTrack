@@ -46,17 +46,15 @@ public class CounterNotificationService extends Service {
     private static int counterValue;
     private static int counterRequestID;
     private static ArrayList<CounterData> counterDataList = new ArrayList<>();
-    NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
 
     RemoteViews collapsedView, expandedView, headsUpView;
-    Notification notification;
     NotificationCompat.Builder notificationBuilder;
     NotificationManager notificationManager;
 
     private static final String TAG_COUNTER_SERVICE = "COUNTER_SERVICE";
 
     public static final String ACTION_START_COUNTER_SERVICE = "ACTION_START_COUNTER_SERVICE";
-
+    public static final String ACTION_REFRESH_SERVICE = "ACTION_REFRESH_SERVICE";
     public static final String ACTION_STOP_COUNTER_SERVICE = "ACTION_STOP_COUNTER_SERVICE";
     public static final String ACTION_KILL_NOTIFICATIONS = "ACTION_KILL_NOTIFICATIONS";
     public static final String ACTION_PLUS = "ACTION_PLUS";
@@ -108,6 +106,7 @@ public class CounterNotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null) {
+
             String action = intent.getAction();
 
             initializeValues();
@@ -130,6 +129,11 @@ public class CounterNotificationService extends Service {
                 case ACTION_MINUS:
                     if(currentCounterPosition!=-1){
                         minusButtonPressed();
+                    }
+                    break;
+                case ACTION_REFRESH_SERVICE:
+                    if(currentCounterPosition!=-1){
+                        refreshCountValue(getSharedPreferences("TickTrackData", MODE_PRIVATE));
                     }
                     break;
                 case ACTION_KILL_NOTIFICATIONS:
@@ -195,6 +199,7 @@ public class CounterNotificationService extends Service {
 
         notificationCounterTrue();
         setupCustomNotification();
+
 
 //        Intent intent = new Intent();
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, counterRequestID, intent, 0);
@@ -262,7 +267,7 @@ public class CounterNotificationService extends Service {
     private void notificationCounterFalse() {
         counterDataList.get(currentCounterPosition).setCounterPersistentNotification(false);
         storeCounterList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
-        setCurrentCounterNotificationID(0);
+        setCurrentCounterNotificationID(null);
     }
 
     private void setupCustomNotification(){
@@ -360,11 +365,18 @@ public class CounterNotificationService extends Service {
         return -1;
     }
 
-    public void setCurrentCounterNotificationID(int currentPosition){
+    public void setCurrentCounterNotificationID(String currentPosition) {
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("CounterNotificationPosition", currentPosition);
+        editor.putString("CounterNotificationID", currentPosition);
         editor.apply();
     }
 
+    public void refreshCountValue(SharedPreferences sharedPreferences){
+        if(notificationBuilder!=null){
+            retrieveCounterList(sharedPreferences);
+            notificationBuilder.setContentText("Value: "+counterValue+"");
+            notifyNotification();
+        }
+    }
 }

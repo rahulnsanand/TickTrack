@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -44,6 +45,14 @@ public class CounterEditActivity extends AppCompatActivity {
     private ChipGroup counterFlagGroup;
     private Chip cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag;
     private boolean flagLayoutOpen, isChanged = false;
+    private SharedPreferences sharedPreferences;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sharedPreferences = this.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,7 @@ public class CounterEditActivity extends AppCompatActivity {
         currentPosition = getIntent().getIntExtra("CurrentPosition",0);
         int flagColor = counterDataArrayList.get(currentPosition).getCounterFlag();
         activity = this;
+        sharedPreferences = this.getSharedPreferences("TickTrackData",MODE_PRIVATE);
 
         initVariables();
 
@@ -71,7 +81,7 @@ public class CounterEditActivity extends AppCompatActivity {
         flagValueCheck();
 
         saveButton.setOnClickListener(view -> saveData());
-
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
     private void setupOnCheckedListeners() {
@@ -153,6 +163,13 @@ public class CounterEditActivity extends AppCompatActivity {
         plumFlag = findViewById(R.id.counterEditActivityPlumFlag);
         berryFlag = findViewById(R.id.counterEditActivityBerryFlag);
     }
+
+    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
+        counterDataArrayList = TickTrackDatabase.retrieveCounterList(activity);
+        if (s.equals("CounterData")){
+            counterValue.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
+        }
+    };
 
     private void setupPrefixValues() {
         setFlagColor(counterDataArrayList.get(currentPosition).getCounterFlag());
@@ -296,9 +313,9 @@ public class CounterEditActivity extends AppCompatActivity {
         counterFlagLayout.setOnClickListener(view -> flagGroupVisibilityToggle());
         counterButtonModeLayout.setOnClickListener(view -> toggleButtonMode());
         counterNotificationLayout.setOnClickListener(view -> toggleNotificationSwitch());
-
         deleteButton.setOnClickListener(view -> {
-            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, currentPosition, counterDataArrayList.get(currentPosition).getCounterLabel());
+            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, currentPosition, counterDataArrayList.get(currentPosition).getCounterLabel(),
+                    counterDataArrayList.get(currentPosition).getCounterID(), sharedPreferenceChangeListener);
             counterDelete.show();
         });
         backButton.setOnClickListener(view -> onBackPressed());
