@@ -18,6 +18,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.UniqueIdGenerator;
 
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -79,10 +80,10 @@ public class CreateCounter extends Dialog {
 
         createCounterButton.setOnClickListener(view1 -> {
             if(counterLabelText.getText().toString().trim().length() > 0){
-                CounterFragment.createCounter(counterLabelText.getText().toString(),new Timestamp(System.currentTimeMillis()),counterFlag, this.activity,0,0,false, false, false);
+                CounterFragment.createCounter(counterLabelText.getText().toString(),new Timestamp(System.currentTimeMillis()),counterFlag, this.activity,0,0,false, false, false, UniqueIdGenerator.getUniqueCounterID());
             } else {
                 TickTrackDatabase.storeCounterNumber(activity, counterNumber+1);
-                CounterFragment.createCounter(counterName,new Timestamp(System.currentTimeMillis()),counterFlag, this.activity, 0,0,false, false, false);
+                CounterFragment.createCounter(counterName,new Timestamp(System.currentTimeMillis()),counterFlag, this.activity, 0,0,false, false, false, UniqueIdGenerator.getUniqueCounterID());
             }
             dismiss();
         });

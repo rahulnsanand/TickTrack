@@ -6,8 +6,16 @@ public class CounterData implements Comparable<CounterData>{
 
     int counterValue, counterFlag, counterSignificantCount;
     boolean counterSignificantExist, counterSwipeMode, counterPersistentNotification;
-    String counterLabel;
+    String counterLabel, counterID;
     Timestamp counterTimestamp;
+
+    public String getCounterID() {
+        return counterID;
+    }
+
+    public void setCounterID(String counterID) {
+        this.counterID = counterID;
+    }
 
     public boolean isCounterPersistentNotification() {
         return counterPersistentNotification;

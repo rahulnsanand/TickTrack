@@ -107,8 +107,7 @@ public class CounterNotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null)
-        {
+        if(intent != null) {
             String action = intent.getAction();
 
             initializeValues();
@@ -116,16 +115,22 @@ public class CounterNotificationService extends Service {
             assert action != null;
             switch (action) {
                 case ACTION_START_COUNTER_SERVICE:
-                    startForegroundService();
+                    if(currentCounterPosition!=-1) {
+                        startForegroundService();
+                    }
                     break;
                 case ACTION_STOP_COUNTER_SERVICE:
                     stopForegroundService();
                     break;
                 case ACTION_PLUS:
-                    plusButtonPressed();
+                    if(currentCounterPosition!=-1){
+                        plusButtonPressed();
+                    }
                     break;
                 case ACTION_MINUS:
-                    minusButtonPressed();
+                    if(currentCounterPosition!=-1){
+                        minusButtonPressed();
+                    }
                     break;
                 case ACTION_KILL_NOTIFICATIONS:
                     killNotifications();
@@ -136,12 +141,14 @@ public class CounterNotificationService extends Service {
     }
 
     private void initializeValues() {
-        currentCounterPosition = getCurrentCounterNotificationID();
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
         counterDataList = retrieveCounterList(sharedPreferences);
-        counterLabel = counterDataList.get(currentCounterPosition).getCounterLabel();
-        counterValue = counterDataList.get(currentCounterPosition).getCounterValue();
-        counterRequestID = (int) counterDataList.get(currentCounterPosition).getCounterTimestamp().getTime();
+        currentCounterPosition = getCurrentCounterNotificationID();
+        if(currentCounterPosition!=-1){
+            counterLabel = counterDataList.get(currentCounterPosition).getCounterLabel();
+            counterValue = counterDataList.get(currentCounterPosition).getCounterValue();
+            counterRequestID = (int) counterDataList.get(currentCounterPosition).getCounterTimestamp().getTime();
+        }
     }
 
     public int getFlag(){
@@ -341,7 +348,16 @@ public class CounterNotificationService extends Service {
 
     public int getCurrentCounterNotificationID(){
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
-        return sharedPreferences.getInt("CounterNotificationPosition", 0);
+        return getCurrentPosition(sharedPreferences.getString("CounterNotificationID", null));
+    }
+
+    private int getCurrentPosition(String counterNotificationID) {
+        for(int i = 0; i <counterDataList.size(); i++){
+            if(counterNotificationID.equals(counterDataList.get(i).getCounterID())){
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void setCurrentCounterNotificationID(int currentPosition){

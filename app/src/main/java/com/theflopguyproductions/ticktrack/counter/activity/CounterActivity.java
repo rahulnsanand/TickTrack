@@ -29,6 +29,7 @@ import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CounterActivity extends AppCompatActivity {
 
