@@ -110,7 +110,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     }
 
     public static void createCounter(String counterLabel, Timestamp createdTimestamp, int counterFlag, Activity activity, int significantCount,
-                                     int countValue, boolean isSignificant, boolean isSwipe, boolean isPersistent){
+                                     int countValue, boolean isSignificant, boolean isSwipe, boolean isPersistent, String uniqueCounterID){
         CounterData counterData = new CounterData();
         counterData.setCounterLabel(counterLabel);
         counterData.setCounterValue(countValue);
@@ -120,6 +120,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterData.setCounterSignificantExist(isSignificant);
         counterData.setCounterSwipeMode(isSwipe);
         counterData.setCounterPersistentNotification(isPersistent);
+        counterData.setCounterID(uniqueCounterID);
         counterDataArrayList.add(0,counterData);
         buildRecyclerView(activity);
         counterRecyclerView.scheduleLayoutAnimation();

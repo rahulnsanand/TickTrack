@@ -105,7 +105,7 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void startNotificationService() {
         Intent intent = new Intent(this, CounterNotificationService.class);
-        TickTrackDatabase.setCurrentCounterNotificationID(this, currentPosition);
+        TickTrackDatabase.setCurrentCounterNotificationID(this, counterDataArrayList.get(currentPosition).getCounterID());
         intent.setAction(CounterNotificationService.ACTION_START_COUNTER_SERVICE);
         startService(intent);
     }
