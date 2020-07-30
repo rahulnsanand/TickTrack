@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
@@ -156,5 +157,18 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             context=parent.getContext();
 
         }
+    }
+}
+
+class CounterDiffUtil extends DiffUtil.ItemCallback<CounterData> {
+
+    @Override
+    public boolean areItemsTheSame(@NonNull CounterData oldItem, @NonNull CounterData newItem) {
+        return oldItem.getCounterID().equals(newItem.getCounterID());
+    }
+
+    @Override
+    public boolean areContentsTheSame(@NonNull CounterData oldItem, @NonNull CounterData newItem) {
+        return oldItem == newItem;
     }
 }

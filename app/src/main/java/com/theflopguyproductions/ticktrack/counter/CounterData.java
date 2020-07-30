@@ -1,8 +1,10 @@
 package com.theflopguyproductions.ticktrack.counter;
 
+import androidx.annotation.NonNull;
+
 import java.sql.Timestamp;
 
-public class CounterData implements Comparable<CounterData>{
+public class CounterData implements Comparable<CounterData>, Cloneable{
 
     int counterValue, counterFlag, counterSignificantCount;
     boolean counterSignificantExist, counterSwipeMode, counterPersistentNotification;
@@ -93,5 +95,20 @@ public class CounterData implements Comparable<CounterData>{
             }
         }
         return -1;
+    }
+
+    @NonNull
+    @Override
+    public CounterData clone() {
+
+        CounterData clone;
+        try {
+            clone = (CounterData) super.clone();
+
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e); //should not happen
+        }
+
+        return clone;
     }
 }
