@@ -25,4 +25,10 @@ public class UniqueIdGenerator {
 
         return moduleName+"_"+currentTime+"_"+randomValue;
     }
+
+    public static Integer getUniqueIntegerTimerID(){
+
+        return random.nextInt(9999);
+    }
+
 }

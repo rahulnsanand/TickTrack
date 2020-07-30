@@ -31,7 +31,6 @@
 <!--    </style>-->
 
 
-
     <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/Accent</item>
         <item name="colorPrimary">@color/Gray</item>

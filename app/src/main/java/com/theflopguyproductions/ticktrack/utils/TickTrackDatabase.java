@@ -53,12 +53,12 @@ public class TickTrackDatabase {
         return counterDataArrayList;
     }
 
-    public static void storeTimerList(ArrayList<TimerData> counterDataArrayList, Activity activity){
+    public static void storeTimerList(ArrayList<TimerData> timerDataArrayList, Activity activity){
 
         SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(counterDataArrayList);
+        String json = gson.toJson(timerDataArrayList);
         editor.putString("TimerData", json);
         editor.apply();
 
@@ -70,13 +70,14 @@ public class TickTrackDatabase {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerData", null);
         Type type = new TypeToken<ArrayList<TimerData>>() {}.getType();
-        ArrayList<TimerData> counterDataArrayList = gson.fromJson(json, type);
+        ArrayList<TimerData> timerDataArrayList = gson.fromJson(json, type);
 
-        if(counterDataArrayList == null){
-            counterDataArrayList = new ArrayList<>();
+        if(timerDataArrayList == null){
+            timerDataArrayList = new ArrayList<>();
         }
 
-        return counterDataArrayList;
+        return timerDataArrayList;
+
     }
 
     public static int getThemeMode(Activity activity){
