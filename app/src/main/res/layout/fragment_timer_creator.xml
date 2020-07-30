@@ -8,13 +8,280 @@
     tools:context=".ui.timer.TimerCreatorFragment">
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fragment Creator"
+    <ScrollView
+        android:id="@+id/timerCreatorRootScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/timerCreatorRootLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <NumberPicker
+                android:id="@+id/timerCreatorFragmentMinuteNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                android:id="@+id/timerCreatorFragmentSecondsLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="seconds"
+                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentSecondNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentSecondNumberPicker"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentSecondNumberPicker"
+                app:typeface="montserrat_regular"/>
+
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                android:id="@+id/timerCreatorFragmentHourLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hours"
+                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentHourNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentHourNumberPicker"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentHourNumberPicker"
+                app:typeface="montserrat_regular"/>
+
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                android:id="@+id/timerCreatorFragmentMinutesLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="minutes"
+                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentMinuteNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentMinuteNumberPicker"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentMinuteNumberPicker"
+                app:typeface="montserrat_regular"/>
+
+            <NumberPicker
+                android:id="@+id/timerCreatorFragmentSecondNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/timerCreatorFragmentMinuteNumberPicker"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/timerCreatorFragmentFlagRootLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="90dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelRootLayout"
+                app:layout_constraintVertical_bias="0.0"
+                android:animateLayoutChanges="true">
+
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                    android:id="@+id/timerCreatorFragmentFlagTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Flag"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_regular"/>
+
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Set flag"
+                    android:textColor="@color/Accent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentFlagTitleTextView"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:typeface="montserrat_regular" />
+
+                <ImageView
+                    android:id="@+id/timerCreatorFragmentFlagImageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:src="@drawable/ic_flag_blue"
+                    app:layout_constraintBottom_toTopOf="@+id/timerCreatorFragmentFlagOptionsRootLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/timerCreatorFragmentFlagTitleTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/timerCreatorFragmentFlagOptionsRootLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/timerCreatorFragmentFlagChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/timerCreatorRedFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Cherry"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            android:textSize="14sp"
+                            app:chipIcon="@drawable/ic_flag_red" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/timerCreatorGreenFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Lime"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            android:textSize="14sp"
+                            app:chipIcon="@drawable/ic_flag_green" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/timerCreatorOrangeFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Peach"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            android:textSize="14sp"
+                            app:chipIcon="@drawable/ic_flag_orange" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/timerCreatorPurpleFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Plum"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            android:textSize="14sp"
+                            app:chipIcon="@drawable/ic_flag_purple" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/timerCreatorBlueFlag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checkable="true"
+                            android:text="Berry"
+                            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+                            android:textSize="14sp"
+                            app:chipIcon="@drawable/ic_flag_blue" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/timerCreatorFragmentLabelRootLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentMinutesLabelTextView">
+
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Set label"
+                    android:textColor="@color/Accent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelTitleTextView"
+                    app:typeface="montserrat_regular"/>
+
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                    android:id="@+id/timerCreatorFragmentLabelTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Label"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_regular"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <NumberPicker
+                android:id="@+id/timerCreatorFragmentHourNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/timerCreatorFragmentMinuteNumberPicker"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/timerCreateFragmentPlayFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:src="@drawable/ic_round_play_white_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_round_close_white_24"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/timerCreateFragmentPlayFAB"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

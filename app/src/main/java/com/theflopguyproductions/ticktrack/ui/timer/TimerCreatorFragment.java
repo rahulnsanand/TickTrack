@@ -1,66 +1,75 @@
 package com.theflopguyproductions.ticktrack.ui.timer;
 
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.theflopguyproductions.ticktrack.R;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TimerCreatorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
+import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.UniqueIdGenerator;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
 public class TimerCreatorFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FloatingActionButton timerCreateFAB;
+    private ArrayList<TimerData> timerDataArrayList= new ArrayList<>();
+    private Activity activity;
 
-    public TimerCreatorFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TimerCreatorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TimerCreatorFragment newInstance(String param1, String param2) {
-        TimerCreatorFragment fragment = new TimerCreatorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timer_creator, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_timer_creator, container, false);
+        activity = getActivity();
+
+        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+
+        timerCreateFAB = view.findViewById(R.id.timerCreateFragmentPlayFAB);
+
+        timerCreateFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createTimer();
+            }
+        });
+
+        return view;
     }
+
+    private void createTimer() {
+        TimerData timerData = new TimerData();
+        timerData.setTimerCreateTimeStamp(new Timestamp(System.currentTimeMillis()));
+        timerData.setTimerFlag(0);
+        timerData.setTimerHour(10);
+        timerData.setTimerMinute(40);
+        timerData.setTimerSecond(0);
+        timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
+        timerData.setTimerIntegerID(UniqueIdGenerator.getUniqueIntegerTimerID());
+        timerData.setTimerOn(true);
+        timerDataArrayList.add(0,timerData);
+        TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
+
+        Intent timerIntent = new Intent(activity, TimerActivity.class);
+        timerIntent.putExtra("timerID", UniqueIdGenerator.getUniqueTimerID());
+        startActivity(timerIntent);
+
+    }
+
+
 }

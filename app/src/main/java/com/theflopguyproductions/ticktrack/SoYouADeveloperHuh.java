@@ -30,16 +30,22 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.Timer;
+
 public class SoYouADeveloperHuh extends AppCompatActivity {
 
     private Toolbar mainToolbar;
     private BottomNavigationView navView;
+    private int defaultFragmentID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_so_you_a_developer_huh);
 
+        int receivedFragmentID = getIntent().getIntExtra("FragmentID",defaultFragmentID);
+
+        openFragment(getFragment(receivedFragmentID));
 
         navView = findViewById(R.id.nav_view);
         TickTrackThemeSetter.mainActivityTheme(navView, this);
@@ -51,6 +57,18 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
 
+    }
+
+    public Fragment getFragment(int id){
+        if(id==1){
+            return new CounterFragment();
+        } else if(id==2){
+            return new TimerFragment();
+        } else if(id==3){
+            return new StopwatchFragment();
+        } else {
+            return new CounterFragment();
+        }
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {

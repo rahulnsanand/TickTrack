@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".application.TickTrack"
@@ -16,16 +16,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-
-        <activity android:name=".counter.activity.CounterEditActivity"/>
-
-        <activity android:name=".counter.activity.CounterActivity"
-            android:parentActivityName=".SoYouADeveloperHuh"/>
-
+        <activity android:name=".timer.activity.TimerActivity"></activity>
+        <activity android:name=".counter.activity.CounterEditActivity" />
+        <activity
+            android:name=".counter.activity.CounterActivity"
+            android:parentActivityName=".SoYouADeveloperHuh" />
         <activity
             android:name=".ui.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"/>
-
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".SoYouADeveloperHuh"
             android:label="@string/title_activity_so_you_a_developer_huh">
@@ -40,7 +38,6 @@
             android:name=".counter.notification.CounterNotificationService"
             android:enabled="true"
             android:exported="true" />
-
     </application>
 
 </manifest>
