@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.ui.timer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
 import java.util.ArrayList;
@@ -32,6 +34,15 @@ public class TimerFragment extends Fragment {
 
     private Fragment timerCreatorFragment = new TimerCreatorFragment();
     private Fragment timerRecyclerFragment = new TimerRecyclerFragment();
+
+    public static void startTimerActivity(int position, Activity context) {
+        Intent timerIntent = new Intent(context, TimerActivity.class);
+        ArrayList<TimerData> timerData;
+        timerData = TickTrackDatabase.retrieveTimerList(context);
+        timerIntent.putExtra("timerID",timerData.get(position).getTimerID());
+        context.startActivity(timerIntent);
+
+    }
 
 
     @Override
@@ -51,6 +62,9 @@ public class TimerFragment extends Fragment {
     private void displayCreatorView() {
         floatingActionButton.setVisibility(View.INVISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        Bundle creatorBundle = new Bundle();
+        creatorBundle.putBoolean("IsFirst",true);
+        timerCreatorFragment.setArguments(creatorBundle);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, timerCreatorFragment).commit();
     }
 

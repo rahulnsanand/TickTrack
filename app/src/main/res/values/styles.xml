@@ -36,6 +36,15 @@
         <item name="colorPrimary">@color/Gray</item>
         <item name="colorPrimaryDark">@color/Gray</item>
     </style>
+
+    <style name="DarkNumberPicker">
+        <item name="android:textColorPrimary">@color/DarkText</item>
+    </style>
+
+    <style name="LightNumberPicker">
+        <item name="android:textColorPrimary">@color/LightText</item>
+    </style>
+
     <color name="daysLabelColor">#8A000000</color>
     <color name="currentMonthDayColor">#de000000</color>
     <color name="nextMonthDayColor">#1F000000</color>

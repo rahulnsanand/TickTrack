@@ -63,18 +63,22 @@ public class CreateCounter extends Dialog {
                 if(chip.getText().toString().equals("Cherry")){
                     counterFlag=1;
                 }
-                if(chip.getText().toString().equals("Lime")){
+                else if(chip.getText().toString().equals("Lime")){
                     counterFlag=2;
                 }
-                if(chip.getText().toString().equals("Peach")){
+                else if(chip.getText().toString().equals("Peach")){
                     counterFlag=3;
                 }
-                if(chip.getText().toString().equals("Plum")){
+                else if(chip.getText().toString().equals("Plum")){
                     counterFlag=4;
                 }
-                if(chip.getText().toString().equals("Berry")){
+                else if(chip.getText().toString().equals("Berry")){
                     counterFlag = 5;
+                } else {
+                    counterFlag = 0;
                 }
+            } else {
+                counterFlag = 0;
             }
         });
 
