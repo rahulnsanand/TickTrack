@@ -45,7 +45,8 @@ public class SingleInputDialog extends Dialog {
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_text_item, new ConstraintLayout(activity), false);
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        
+        getWindow().getAttributes().windowAnimations = R.style.createdDialog;
+
         initVariables(view);
 
     }

@@ -46,7 +46,10 @@ public class TimerFragment extends Fragment {
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+
+        assert activity != null;
+        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
 
         if(timerDataArrayList.size()>0){
             displayRecyclerView();
@@ -55,16 +58,14 @@ public class TimerFragment extends Fragment {
         }
 
         floatingActionButton.setOnClickListener(view1 -> {
-            displayCreatorView();
+            addTimer();
         });
     }
 
     private void displayCreatorView() {
         floatingActionButton.setVisibility(View.INVISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        Bundle creatorBundle = new Bundle();
-        creatorBundle.putBoolean("IsFirst",true);
-        timerCreatorFragment.setArguments(creatorBundle);
+        TickTrackDatabase.setFirstTimer(activity, true);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, timerCreatorFragment).commit();
     }
 
@@ -72,6 +73,13 @@ public class TimerFragment extends Fragment {
         floatingActionButton.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, timerRecyclerFragment).commit();
+    }
+
+    private void addTimer(){
+        floatingActionButton.setVisibility(View.INVISIBLE);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        TickTrackDatabase.setFirstTimer(activity, false);
+        transaction.replace(R.id.timerFragmentInnerFragmentContainer, timerCreatorFragment).commit();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

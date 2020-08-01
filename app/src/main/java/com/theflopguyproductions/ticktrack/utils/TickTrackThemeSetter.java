@@ -20,6 +20,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.activity.CounterEditActivity;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackChronometer;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 
 import org.w3c.dom.Text;
@@ -234,7 +236,7 @@ public class TickTrackThemeSetter {
     }
 
     public static void timerActivityTheme(Activity activity, ConstraintLayout toolBar, int flagColor, ConstraintLayout timerRootLayout,
-                                          Chronometer chronometer){
+                                          TickTrackChronometer chronometer, TickTrackProgressBar backgroundProgressBar){
 
         toolBar.setBackgroundResource(timerActivityToolbarColor(flagColor));
 
@@ -245,11 +247,14 @@ public class TickTrackThemeSetter {
             timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
 
             chronometer.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            backgroundProgressBar.setBarColor(R.color.GrayOnLight);
 
         } else {
             timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
 
             chronometer.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            backgroundProgressBar.setBarColor(R.color.GrayOnDark);
+
 
 
         }

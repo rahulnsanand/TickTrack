@@ -53,6 +53,18 @@ public class TickTrackDatabase {
         return counterDataArrayList;
     }
 
+    public static void setFirstTimer(Activity activity, boolean status){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isFirstTimer", status);
+        editor.apply();
+    }
+
+    public static boolean isFirstTimer(Activity activity){
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("isFirstTimer", true);
+    }
+
     public static void storeTimerList(ArrayList<TimerData> timerDataArrayList, Activity activity){
 
         SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
