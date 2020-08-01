@@ -6,11 +6,35 @@ public class TimerData implements Comparable<TimerData> {
 
 
     int timerHour, timerMinute, timerSecond, timerIntegerID, timerFlag;
-    int timerHourLeft, timerMinuteLeft, timerSecondLeft;
+    int timerHourLeft, timerMinuteLeft, timerSecondLeft, timerMilliSecondLeft;
+    long timeLeftInMillis;
     Timestamp timerCreateTimeStamp;
     String timerID, timerLabel;
-    boolean timerOn;
+    boolean timerOn, timerPause;
 
+    public int getTimerMilliSecondLeft() {
+        return timerMilliSecondLeft;
+    }
+
+    public void setTimerMilliSecondLeft(int timerMilliSecondLeft) {
+        this.timerMilliSecondLeft = timerMilliSecondLeft;
+    }
+
+    public boolean isTimerPause() {
+        return timerPause;
+    }
+
+    public void setTimerPause(boolean timerPause) {
+        this.timerPause = timerPause;
+    }
+
+    public long getTimeLeftInMillis() {
+        return timeLeftInMillis;
+    }
+
+    public void setTimeLeftInMillis(long timeLeftInMillis) {
+        this.timeLeftInMillis = timeLeftInMillis;
+    }
 
     public int getTimerHourLeft() {
         return timerHourLeft;

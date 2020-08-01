@@ -28,6 +28,7 @@ import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 import com.theflopguyproductions.ticktrack.utils.UniqueIdGenerator;
 
 import java.sql.Timestamp;
@@ -319,6 +320,8 @@ public class TimerCreatorFragment extends Fragment {
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntegerID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setTimerOn(true);
+        timerData.setTimerPause(false);
+        timerData.setTimeLeftInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond));
         timerDataArrayList.add(0,timerData);
         TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
 

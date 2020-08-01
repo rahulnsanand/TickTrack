@@ -16,7 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".timer.activity.TimerActivity"></activity>
+        <service
+            android:name=".timer.TimerService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".timer.activity.TimerActivity" />
         <activity android:name=".counter.activity.CounterEditActivity" />
         <activity
             android:name=".counter.activity.CounterActivity"
