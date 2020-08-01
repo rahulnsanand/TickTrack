@@ -20,14 +20,11 @@ import java.util.Objects;
 
 public class DeleteTimer extends Dialog {
     public Activity activity;
-    int position;
-    private String timerName;
-    TextView dialogMessage;
 
-    public DeleteTimer(Activity activity, int position, String counterName){
+    public TextView dialogMessage;
+
+    public DeleteTimer(Activity activity){
         super(activity);
-        this.timerName = counterName;
-        this.position = position;
         this.activity = activity;
     }
 
@@ -44,21 +41,9 @@ public class DeleteTimer extends Dialog {
         noButton = view.findViewById(R.id.dismissDeleteCounterButton);
         dialogMessage = view.findViewById(R.id.deleteCounterTextView);
 
-        dialogMessage.setText("Delete timer "+timerName+"?");
+
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
-        yesButton.setOnClickListener(view12 -> {
-            TimerRecyclerFragment.deleteTimer(position, activity, timerName);
-            dismiss();
-        });
-        noButton.setOnClickListener(view1 -> {
-            TimerRecyclerFragment.refreshRecyclerView();
-            dismiss();
-        });
-        setOnCancelListener(dialogInterface -> {
-            TimerRecyclerFragment.refreshRecyclerView();
-            cancel();
-        });
     }
 
     public Button yesButton;

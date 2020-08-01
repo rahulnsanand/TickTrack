@@ -119,8 +119,26 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             deletedTimer = timerDataArrayList.get(viewHolder.getAdapterPosition()).getTimerLabel();
             position = viewHolder.getAdapterPosition();
 
-            DeleteTimer timerDelete = new DeleteTimer(getActivity(), position, deletedTimer);
+            DeleteTimer timerDelete = new DeleteTimer(activity);
             timerDelete.show();
+            int finalPosition = position;
+            if(!deletedTimer.equals("Set label")){
+                timerDelete.dialogMessage.setText("Delete timer "+deletedTimer+"?");
+            } else {
+                timerDelete.dialogMessage.setText("Delete timer ?");
+            }
+            timerDelete.yesButton.setOnClickListener(view -> {
+                TimerRecyclerFragment.deleteTimer(finalPosition, activity, deletedTimer);
+                timerDelete.dismiss();
+            });
+            timerDelete.noButton.setOnClickListener(view -> {
+                TimerRecyclerFragment.refreshRecyclerView();
+                timerDelete.dismiss();
+            });
+            timerDelete.setOnCancelListener(dialogInterface -> {
+                TimerRecyclerFragment.refreshRecyclerView();
+                timerDelete.cancel();
+            });
 
         }
     }
