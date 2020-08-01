@@ -246,7 +246,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private void setupOnClickListeners() {
 
         counterLabelLayout.setOnClickListener(view -> {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(currentPosition).getCounterLabel());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity, counterLabel.getText().toString());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
             labelDialog.inputText.setVisibility(View.VISIBLE);

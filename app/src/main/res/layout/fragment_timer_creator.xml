@@ -12,6 +12,7 @@
         android:id="@+id/timerCreatorRootScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="#FFFFFF"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <NumberPicker
-                android:id="@+id/timerCreatorFragmentMinuteNumberPicker"
+            <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.DarkModeNumberPicker
+                android:id="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -32,38 +33,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
-                android:id="@+id/timerCreatorFragmentSecondsLabelTextView"
+            <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.LightModeNumberPicker
+                android:id="@+id/timerCreatorFragmentMinuteLightNumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="seconds"
-                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentSecondNumberPicker"
-                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentSecondNumberPicker"
-                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentSecondNumberPicker"
-                app:typeface="montserrat_regular"/>
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
-                android:id="@+id/timerCreatorFragmentHourLabelTextView"
+
+            <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.LightModeNumberPicker
+                android:id="@+id/timerCreatorFragmentHourLightNumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="hours"
-                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentHourNumberPicker"
-                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentHourNumberPicker"
-                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentHourNumberPicker"
-                app:typeface="montserrat_regular"/>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
-                android:id="@+id/timerCreatorFragmentMinutesLabelTextView"
+            <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.DarkModeNumberPicker
+                android:id="@+id/timerCreatorFragmentHourDarkNumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="minutes"
-                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentMinuteNumberPicker"
-                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentMinuteNumberPicker"
-                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentMinuteNumberPicker"
-                app:typeface="montserrat_regular"/>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <NumberPicker
-                android:id="@+id/timerCreatorFragmentSecondNumberPicker"
+            <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.DarkModeNumberPicker
+                android:id="@+id/timerCreatorFragmentSecondDarkNumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -71,8 +76,50 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/timerCreatorFragmentMinuteNumberPicker"
+                app:layout_constraintStart_toEndOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.LightModeNumberPicker
+                android:id="@+id/timerCreatorFragmentSecondLightNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                android:id="@+id/timerCreatorFragmentSecondsLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="seconds"
+                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentSecondDarkNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentSecondDarkNumberPicker"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentSecondDarkNumberPicker"
+                app:typeface="montserrat_regular" />
+
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                android:id="@+id/timerCreatorFragmentHourLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hours"
+                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentHourDarkNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentHourDarkNumberPicker"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentHourDarkNumberPicker"
+                app:typeface="montserrat_regular" />
+
+            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                android:id="@+id/timerCreatorFragmentMinutesLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="minutes"
+                app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
+                app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
+                app:typeface="montserrat_regular" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/timerCreatorFragmentFlagRootLayout"
@@ -80,12 +127,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="90dp"
+                android:animateLayoutChanges="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelRootLayout"
-                app:layout_constraintVertical_bias="0.0"
-                android:animateLayoutChanges="true">
+                app:layout_constraintVertical_bias="0.0">
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/timerCreatorFragmentFlagTitleTextView"
@@ -97,10 +144,10 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_regular"/>
+                    app:typeface="montserrat_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/timerCreatorFragmentFlagTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -126,7 +173,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/timerCreatorFragmentFlagTitleTextView"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/timerCreatorFragmentFlagOptionsRootLayout"
@@ -136,7 +184,7 @@
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9">
+                    app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentFlagTextView">
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/timerCreatorFragmentFlagChipGroup"
@@ -149,7 +197,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:singleSelection="true">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/timerCreatorRedFlag"
@@ -215,7 +264,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentMinutesLabelTextView">
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/timerCreatorFragmentLabelTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -228,7 +277,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelTitleTextView"
-                    app:typeface="montserrat_regular"/>
+                    app:typeface="montserrat_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/timerCreatorFragmentLabelTitleTextView"
@@ -242,21 +291,10 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_regular"/>
+                    app:typeface="montserrat_regular" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <NumberPicker
-                android:id="@+id/timerCreatorFragmentHourNumberPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/timerCreatorFragmentMinuteNumberPicker"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -273,7 +311,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/timerCreateFragmentDiscardFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

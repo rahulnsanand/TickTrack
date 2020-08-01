@@ -2,6 +2,12 @@ package com.theflopguyproductions.ticktrack.utils;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
+import android.util.Log;
+import android.view.View;
+import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextClock;
@@ -11,11 +17,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.activity.CounterEditActivity;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 
 import org.w3c.dom.Text;
+
+import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class TickTrackThemeSetter {
 
@@ -176,5 +186,87 @@ public class TickTrackThemeSetter {
 
 
         }
+    }
+
+    public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView){
+        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+        if(checkTheme==1){
+            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+
+        } else {
+            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+
+        }
+    }
+
+    public static void timerCreateTheme(Activity activity, NumberPicker hourPicker, NumberPicker minutePicker, NumberPicker secondPicker, NumberPicker hourLightPicker, NumberPicker minuteLightPicker,
+                                        NumberPicker secondLightPicker, TextView hourLabel, TextView minuteLabel, TextView secondLabel, TextView timerLabelText,
+                                        TextView timerFlagText, ConstraintLayout timerCreateRootLayout ){
+        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+        if(checkTheme==1){
+            timerCreateRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+
+            hourLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            minuteLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            secondLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            timerLabelText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            timerFlagText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+
+            hourLightPicker.setVisibility(View.INVISIBLE);
+            minuteLightPicker.setVisibility(View.INVISIBLE);
+            secondLightPicker.setVisibility(View.INVISIBLE);
+
+
+        } else {
+            timerCreateRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+
+            hourLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
+            minuteLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
+            secondLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
+            timerLabelText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            timerFlagText.setTextColor(activity.getResources().getColor(R.color.LightText));
+
+            hourPicker.setVisibility(View.INVISIBLE);
+            minutePicker.setVisibility(View.INVISIBLE);
+            secondPicker.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
+    public static void timerActivityTheme(Activity activity, ConstraintLayout toolBar, int flagColor, ConstraintLayout timerRootLayout,
+                                          Chronometer chronometer){
+
+        toolBar.setBackgroundResource(timerActivityToolbarColor(flagColor));
+
+        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+
+        if(checkTheme==1){
+
+            timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+
+            chronometer.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+
+        } else {
+            timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+
+            chronometer.setTextColor(activity.getResources().getColor(R.color.LightText) );
+
+
+        }
+    }
+
+    private static int timerActivityToolbarColor(int flagColor){
+        if(flagColor == 1){
+            return R.color.red_matte;
+        } else if(flagColor == 2){
+            return R.color.green_matte;
+        } else if(flagColor == 3){
+            return R.color.orange_matte;
+        } else if(flagColor == 4){
+            return R.color.purple_matte;
+        } else if(flagColor == 5){
+            return R.color.blue_matte;
+        }
+        return R.color.Accent;
     }
 }

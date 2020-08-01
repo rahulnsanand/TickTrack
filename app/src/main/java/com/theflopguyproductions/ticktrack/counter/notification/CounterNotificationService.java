@@ -47,7 +47,7 @@ public class CounterNotificationService extends Service {
     private static int counterRequestID;
     private static ArrayList<CounterData> counterDataList = new ArrayList<>();
 
-    RemoteViews collapsedView, expandedView, headsUpView;
+    RemoteViews collapsedView, expandedView;
     NotificationCompat.Builder notificationBuilder;
     NotificationManager notificationManager;
 
@@ -279,10 +279,6 @@ public class CounterNotificationService extends Service {
                 R.layout.notification_counter_collapsed_layout);
         expandedView = new RemoteViews(getPackageName(),
                 R.layout.notification_counter_expanded_layout);
-        headsUpView = new RemoteViews(getPackageName(),
-                R.layout.notification_counter_headsup_layout);
-
-        headsUpView.setTextViewText(R.id.counterNotificationHeadsUpTitleTextView, counterLabel+" counter notification added!");
 
 
         if(getFlag()!=0){

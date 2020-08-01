@@ -55,7 +55,7 @@ public class SingleInputDialog extends Dialog {
         cancelButton = view.findViewById(R.id.labelDialogCancelButton);
         inputText = view.findViewById(R.id.labelDialogInputText);
         helperText = view.findViewById(R.id.labelDialogHelpText);
-        inputText.setText(currentLabel);
+        inputText.setHint(currentLabel);
         saveChangesText = findViewById(R.id.labelDialogSaveChangesText);
     }
 

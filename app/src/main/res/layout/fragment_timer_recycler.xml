@@ -16,13 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        android:id="@+id/timerFragmentNoTimerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fragment Recyclers"
+        android:text="Create a timer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="montserrat_medium_italic"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

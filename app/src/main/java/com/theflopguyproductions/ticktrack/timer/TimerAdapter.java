@@ -19,6 +19,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
+import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
@@ -67,25 +68,34 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
             holder.footerCounterTextView.setText(footerArray[randomFooter]);
         } else {
 
-            holder.timerTitle.setText("HOURS:MINUTES:SECONDS");
-            holder.timerLabel.setText("LABEL");
-            holder.timerDurationLeft.setText("DURATION LEFT");
+            holder.timerTitle.setText(timerDataArrayList.get(position).getTimerHour()+":"+timerDataArrayList.get(position).getTimerMinute()+":"+timerDataArrayList.get(position)
+            .getTimerSecond());
+
+            if(!timerDataArrayList.get(position).getTimerLabel().equals("Set label")) {
+                holder.timerLabel.setText(timerDataArrayList.get(position).getTimerLabel());
+            } else {
+                holder.timerLabel.setVisibility(View.INVISIBLE);
+            }
+
+            if(timerDataArrayList.get(position).isTimerOn()){
+                holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                holder.timerDurationLeft.setText("DURATION LEFT");
+                holder.timerPauseResetButton.setVisibility(View.VISIBLE);
+            } else {
+                holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                holder.timerDurationLeft.setText("DURATION LEFT");
+                holder.timerPauseResetButton.setVisibility(View.INVISIBLE);
+            }
 
 
-//            holder.countValue.setText(""+timerDataArrayList.get(position).getCounterValue());
-//            holder.counterLabel.setText(timerDataArrayList.get(position).getCounterLabel());
-//
-//            if(timerDataArrayList.get(position).getCounterTimestamp()!=null){
-//                holder.lastModified.setText("Last edited: "+ TimeAgo.getTimeAgo(counterDataArrayList.get(position).getCounterTimestamp()));
-//            }
-//
-//            holder.itemColor = timerDataArrayList.get(position).getCounterFlag();
 
-//            setColor(holder);
-//            setTheme(holder, theme);
+            holder.itemColor = timerDataArrayList.get(position).timerFlag;
+
+            setColor(holder);
+            setTheme(holder, theme);
 
             holder.timerLayout.setOnClickListener(v -> {
-                CounterFragment.startCounterActivity(position, (Activity) holder.context);
+                TimerFragment.startTimerActivity(position, (Activity) holder.context);
                 Toast.makeText(holder.context, "Position:" + position, Toast.LENGTH_SHORT).show();
             });
         }
@@ -95,11 +105,11 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
 
     private void setTheme(TimerAdapter.RecyclerItemViewHolder holder, int theme) {
         if(theme == 1){
-            holder.timerLayout.setBackgroundResource(R.color.Light);
+            holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.Gray));
         } else {
-            holder.timerLayout.setBackgroundResource(R.color.Gray);
+            holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.LightText));
         }
@@ -122,6 +132,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
         }
         else if(holder.itemColor==5){
             holder.timerFlag.setImageResource(R.drawable.ic_flag_blue);
+        } else {
+            holder.timerFlag.setVisibility(View.INVISIBLE);
         }
     }
 

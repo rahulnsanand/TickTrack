@@ -96,11 +96,11 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
 
     private void setTheme(RecyclerItemViewHolder holder, int theme) {
         if(theme == 1){
-            holder.counterLayout.setBackgroundResource(R.color.Light);
+            holder.counterLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
             holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.Gray));
         } else {
-            holder.counterLayout.setBackgroundResource(R.color.Gray);
+            holder.counterLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
             holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
             holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.LightText));
         }
