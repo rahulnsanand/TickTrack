@@ -2,32 +2,30 @@ package com.theflopguyproductions.ticktrack.timer.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
-import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.TimerEditDialog;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
-import com.theflopguyproductions.ticktrack.ui.utils.TickTrackChronometer;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity {
 
@@ -35,12 +33,16 @@ public class TimerActivity extends AppCompatActivity {
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private int currentPosition = 0;
     private ConstraintLayout timerActivityToolbar, timerActivityRootLayout;
-    private TickTrackChronometer timerChronometer;
+    private TextView timerHourMinute, timerMillis;
     private TickTrackProgressBar timerProgressBar, timerProgressBarBackground;
     private FloatingActionButton playPauseFAB, resetFAB;
     private ImageButton backButton, editButton, deleteButton;
     private TextView labelTextView;
     private Activity activity;
+    private boolean isRunning = false, isPause = false;
+    private CountDownTimer countDownTimer;
+
+    private long timerLeftMillis, timerMaxLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +54,135 @@ public class TimerActivity extends AppCompatActivity {
         initVariables();
         if(timerID!=null){
             currentPosition = getCurrentPosition(timerID);
-            TickTrackThemeSetter.timerActivityTheme(this, timerActivityToolbar, timerDataArrayList.get(currentPosition).getTimerFlag() , timerActivityRootLayout, timerChronometer,
-                    timerProgressBarBackground);
+            isRunning = timerDataArrayList.get(currentPosition).isTimerOn();
+            isPause = timerDataArrayList.get(currentPosition).isTimerPause();
+            TickTrackThemeSetter.timerActivityTheme(this, timerActivityToolbar, timerDataArrayList.get(currentPosition).getTimerFlag() ,
+                    timerActivityRootLayout, timerHourMinute, timerMillis,timerProgressBarBackground);
 
             prefixValues();
 
             setOnClickListeners();
 
+            updateTimerText();
+
+            timerProgressBarBackground.setInstantProgress((float) 1);
+
+
+            if(isRunning && !isPause){
+
+                playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
+                startTimer();
+            } else if(isPause){
+                prefixPauseValues();
+            } else {
+                timerProgressBar.setInstantProgress((float) 1);
+                playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+            }
+
+
+
         } else {
             onBackPressed();
         }
+    }
+
+    private void prefixPauseValues() {
+        int hours = timerDataArrayList.get(currentPosition).getTimerHourLeft();
+        int minutes = timerDataArrayList.get(currentPosition).getTimerMinuteLeft();
+        int seconds = timerDataArrayList.get(currentPosition).getTimerSecondLeft();
+        int milliseconds = timerDataArrayList.get(currentPosition).getTimerMilliSecondLeft();
+
+        timerLeftMillis = TimeAgo.getTimerDataInMillis(hours,minutes,seconds);
+        timerLeftMillis += milliseconds;
+
+        timerProgressBar.setInstantProgress(getCurrentStep(timerLeftMillis, timerMaxLength));
+
+        String timeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", hours,minutes,seconds);
+        String milliSecondLeft = String.format(Locale.getDefault(), "%02d", milliseconds);
+        timerHourMinute.setText(timeLeft);
+        timerMillis.setText(milliSecondLeft);
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+        resetFAB.setVisibility(View.VISIBLE);
+
+    }
+
+    private float getCurrentStep(long currentValue, long maxLength){
+        return ((currentValue-0f)/(maxLength-0f)) *(1f-0f)+0f;
+    }
+
+    public void startTimer(){
+        countDownTimer = new CountDownTimer(timerLeftMillis, 10) {
+            @Override
+            public void onTick(long l) {
+                timerLeftMillis = l;
+                updateTimerText();
+                timerProgressBar.setProgress(getCurrentStep(timerLeftMillis, timerMaxLength));
+            }
+            @Override
+            public void onFinish() {
+                resetTimer();
+                playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+                timerDataArrayList.get(currentPosition).setTimerOn(false);
+                timerDataArrayList.get(currentPosition).setTimerPause(false);
+                TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+                isPause = timerDataArrayList.get(currentPosition).isTimerPause();
+                isRunning = timerDataArrayList.get(currentPosition).isTimerOn();
+            }
+        }.start();
+        timerDataArrayList.get(currentPosition).setTimerOn(true);
+        timerDataArrayList.get(currentPosition).setTimerPause(false);
+        TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+        isPause = timerDataArrayList.get(currentPosition).isTimerPause();
+        isRunning = timerDataArrayList.get(currentPosition).isTimerOn();
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
+        resetFAB.setVisibility(View.INVISIBLE);
+    }
+
+    private void updateTimerText() {
+
+        int hours = (int) (timerLeftMillis/(1000*60*60));
+        int minutes = (int) (timerLeftMillis%(1000*60*60))/(1000*60);
+        int seconds = (int) (timerLeftMillis%(1000*60*60))%(1000*60)/1000;
+        int milliseconds = (int) (timerLeftMillis%(1000*60*60))%(1000*60)/10%100;
+
+        String timeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", hours,minutes,seconds);
+        String milliSecondLeft = String.format(Locale.getDefault(), "%02d", milliseconds);
+        timerHourMinute.setText(timeLeft);
+        timerMillis.setText(milliSecondLeft);
+    }
+
+    public void pauseTimer(){
+        countDownTimer.cancel();
+
+        int hours = (int) (timerLeftMillis/(1000*60*60));
+        int minutes = (int) (timerLeftMillis%(1000*60*60))/(1000*60);
+        int seconds = (int) (timerLeftMillis%(1000*60*60))%(1000*60)/1000;
+        int milliseconds = (int) (timerLeftMillis%(1000*60*60))%(1000*60)/10%100;
+
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+        resetFAB.setVisibility(View.VISIBLE);
+        timerDataArrayList.get(currentPosition).setTimerOn(true);
+        timerDataArrayList.get(currentPosition).setTimerPause(true);
+        timerDataArrayList.get(currentPosition).setTimerHourLeft(hours);
+        timerDataArrayList.get(currentPosition).setTimerMinuteLeft(minutes);
+        timerDataArrayList.get(currentPosition).setTimerSecondLeft(seconds);
+        timerDataArrayList.get(currentPosition).setTimerMilliSecondLeft(milliseconds);
+        TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+
+        isPause = timerDataArrayList.get(currentPosition).isTimerPause();
+        isRunning = timerDataArrayList.get(currentPosition).isTimerOn();
+    }
+
+    public void resetTimer(){
+
+        timerLeftMillis = timerDataArrayList.get(currentPosition).getTimeLeftInMillis();
+        updateTimerText();
+        timerProgressBar.setProgress(1);
+        resetFAB.setVisibility(View.INVISIBLE);
+
+        timerDataArrayList.get(currentPosition).setTimerOn(false);
+        timerDataArrayList.get(currentPosition).setTimerPause(false);
+        TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
     }
 
     private void prefixValues() {
@@ -72,7 +193,12 @@ public class TimerActivity extends AppCompatActivity {
             labelTextView.setText("Timer");
         }
 
-
+        timerLeftMillis = timerDataArrayList.get(currentPosition).getTimeLeftInMillis();
+        timerMaxLength = timerLeftMillis;
+        timerProgressBar.setLinearProgress(true);
+        timerProgressBar.setSpinSpeed(2.500f);
+        timerProgressBarBackground.setLinearProgress(true);
+        timerProgressBarBackground.setSpinSpeed(2.500f);
     }
 
     private void setOnClickListeners() {
@@ -121,6 +247,16 @@ public class TimerActivity extends AppCompatActivity {
             });
         });
 
+        playPauseFAB.setOnClickListener(view -> {
+            if(isRunning && !isPause){
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        });
+
+        resetFAB.setOnClickListener(view -> resetTimer());
+
     }
 
     private static int timerActivityToolbarColor(int flagColor){
@@ -141,7 +277,8 @@ public class TimerActivity extends AppCompatActivity {
 
         timerActivityRootLayout = findViewById(R.id.timerActivityRootLayout);
         timerActivityToolbar = findViewById(R.id.timerActivityToolbarLayout);
-        timerChronometer = findViewById(R.id.timerActivityTimeLeftTextView);
+        timerHourMinute = findViewById(R.id.timerActivityTimeLeftTextView);
+        timerMillis = findViewById(R.id.timerActivityTimeLeftMillisTextView);
         timerProgressBar = findViewById(R.id.timerActivityTimerProgressBar);
         timerProgressBarBackground = findViewById(R.id.timerActivityTimerProgressBarStatic);
         playPauseFAB = findViewById(R.id.timerActivityPlayPauseFAB);
@@ -151,9 +288,8 @@ public class TimerActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.timerActivityDeleteImageButton);
         labelTextView = findViewById(R.id.timerActivityLabelTextView);
 
-        timerChronometer.setTypeface(ResourcesCompat.getFont(this,R.font.montserrat_medium));
 
-        timerProgressBar.setProgress(50f);
+
 
     }
 

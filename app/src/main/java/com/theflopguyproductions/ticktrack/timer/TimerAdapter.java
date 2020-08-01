@@ -74,20 +74,25 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
             if(!timerDataArrayList.get(position).getTimerLabel().equals("Set label")) {
                 holder.timerLabel.setText(timerDataArrayList.get(position).getTimerLabel());
             } else {
-                holder.timerLabel.setVisibility(View.INVISIBLE);
+                holder.timerLabel.setVisibility(View.GONE);
             }
 
-            if(timerDataArrayList.get(position).isTimerOn()){
+            int hourLeft = timerDataArrayList.get(position).getTimerHourLeft();
+            int minuteLeft = timerDataArrayList.get(position).getTimerMinuteLeft();
+            int secondLeft = timerDataArrayList.get(position).getTimerSecondLeft();
+
+            if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause()){
+                holder.timerPauseResetButton.setText("Pause");
                 holder.timerDurationLeft.setVisibility(View.VISIBLE);
-                holder.timerDurationLeft.setText("DURATION LEFT");
-                holder.timerPauseResetButton.setVisibility(View.VISIBLE);
+                holder.timerDurationLeft.setText(TimeAgo.getTimerDurationLeft(hourLeft, minuteLeft, secondLeft));
+            } else if (timerDataArrayList.get(position).isTimerPause()){
+                holder.timerPauseResetButton.setText("Reset");
+                holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                holder.timerDurationLeft.setText(TimeAgo.getTimerDurationLeft(hourLeft, minuteLeft, secondLeft));
             } else {
-                holder.timerDurationLeft.setVisibility(View.INVISIBLE);
-                holder.timerDurationLeft.setText("DURATION LEFT");
-                holder.timerPauseResetButton.setVisibility(View.INVISIBLE);
+                holder.timerPauseResetButton.setText("Start");
+                holder.timerDurationLeft.setVisibility(View.GONE);
             }
-
-
 
             holder.itemColor = timerDataArrayList.get(position).timerFlag;
 
@@ -96,7 +101,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
 
             holder.timerLayout.setOnClickListener(v -> {
                 TimerFragment.startTimerActivity(position, (Activity) holder.context);
-                Toast.makeText(holder.context, "Position:" + position, Toast.LENGTH_SHORT).show();
             });
         }
 
