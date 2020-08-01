@@ -22,12 +22,6 @@ public class TimeAgo {
     public final static long ONE_DAY = ONE_HOUR * 24;
     public static long DAYS = 0;
 
-    public static void setupVariables(Timestamp timestamp){
-        SECONDS=TimeUnit.MILLISECONDS.toSeconds(now.getTime() - timestamp.getTime());
-        MINUTES=TimeUnit.MILLISECONDS.toMinutes(now.getTime() - timestamp.getTime());
-        HOURS=TimeUnit.MILLISECONDS.toHours(now.getTime() - timestamp.getTime());
-        DAYS=TimeUnit.MILLISECONDS.toDays(now.getTime() - timestamp.getTime());
-    }
     public static String getTimeAgo(Timestamp timestamp) {
 
         long createdAt = timestamp.getTime();
@@ -85,4 +79,132 @@ public class TimeAgo {
         }
         return time;
     }
+
+    public static String getTimerTitle(int hour, int minute, int second){
+
+        String perfectHour = hour+"";
+        String perfectMinute = minute+"";
+        String perfectSecond = second+"";
+
+        if(hour<10){ perfectHour = appendHour(hour); }
+        if(minute<10){ perfectMinute = appendMinute(minute); }
+        if(second<10){ perfectSecond = appendSecond(second); }
+
+        if(hour>0){
+            if(hour==1){
+                if(minute==1){
+                    if(second==1){
+                        return perfectHour+"hr "+perfectMinute+"min "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hr "+perfectMinute+"min ";
+                    } else {
+                        return perfectHour+"hr "+perfectMinute+"min "+perfectSecond+"secs";
+                    }
+                } else if(minute==0) {
+                    if(second==1){
+                        return perfectHour+"hr "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hr ";
+                    } else {
+                        return perfectHour+"hr "+perfectSecond+"secs";
+                    }
+                }
+                else {
+                    if(second==1){
+                        return perfectHour+"hr "+perfectMinute+"mins "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hr "+perfectMinute+"mins ";
+                    } else {
+                        return perfectHour+"hr "+perfectMinute+"mins "+perfectSecond+"secs";
+                    }
+                }
+            } else {
+                if(minute==1){
+                    if(second==1){
+                        return perfectHour+"hrs "+perfectMinute+"min "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hrs "+perfectMinute+"min ";
+                    } else {
+                        return perfectHour+"hrs "+perfectMinute+"min "+perfectSecond+"secs";
+                    }
+                } else if(minute==0) {
+                    if(second==1){
+                        return perfectHour+"hrs "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hrs ";
+                    } else {
+                        return perfectHour+"hrs "+perfectSecond+"secs";
+                    }
+                }
+                else {
+                    if(second==1){
+                        return perfectHour+"hrs "+perfectMinute+"mins "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hrs "+perfectMinute+"mins ";
+                    } else {
+                        return perfectHour+"hrs "+perfectMinute+"mins "+perfectSecond+"secs";
+                    }
+                }
+            }
+        } else if(hour==0) {
+            if(minute>0){
+                if(minute==1){
+                    if(second==1){
+                        return perfectMinute+"min "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectMinute+"min ";
+                    } else {
+                        return perfectMinute+"min "+perfectSecond+"secs";
+                    }
+                } else {
+                    if(second==1){
+                        return perfectMinute+"mins "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectMinute+"mins ";
+                    } else {
+                        return perfectMinute+"mins "+perfectSecond+"secs";
+                    }
+                }
+            } else if(minute==0){
+                if(second>0){
+                    if(second==1){
+                        return perfectSecond+"sec";
+                    } else {
+                        return perfectSecond+"secs";
+                    }
+                } else {
+                    return "Invalid timer";
+                }
+            } else {
+                return "Invalid timer";
+            }
+        } else {
+            return "Invalid timer";
+        }
+    }
+
+    private static String appendSecond(int second) {
+        if(second>10){
+            return second+"";
+        } else {
+            return "0"+second;
+        }
+    }
+
+    private static String appendMinute(int minute) {
+        if(minute>10){
+            return minute+"";
+        } else {
+            return "0"+minute;
+        }
+    }
+
+    private static String appendHour(int hour) {
+        if(hour>10){
+            return hour+"";
+        } else {
+            return "0"+hour;
+        }
+    }
+
 }

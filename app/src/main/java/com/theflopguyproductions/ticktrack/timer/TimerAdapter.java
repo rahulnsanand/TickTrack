@@ -68,8 +68,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
             holder.footerCounterTextView.setText(footerArray[randomFooter]);
         } else {
 
-            holder.timerTitle.setText(timerDataArrayList.get(position).getTimerHour()+":"+timerDataArrayList.get(position).getTimerMinute()+":"+timerDataArrayList.get(position)
-            .getTimerSecond());
+            holder.timerTitle.setText(TimeAgo.getTimerTitle(timerDataArrayList.get(position).getTimerHour(),timerDataArrayList.get(position).getTimerMinute(),
+                    timerDataArrayList.get(position).getTimerSecond()));
 
             if(!timerDataArrayList.get(position).getTimerLabel().equals("Set label")) {
                 holder.timerLabel.setText(timerDataArrayList.get(position).getTimerLabel());

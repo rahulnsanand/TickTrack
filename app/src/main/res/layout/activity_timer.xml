@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".timer.activity.TimerActivity">
@@ -85,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Chronometer
+                <com.theflopguyproductions.ticktrack.ui.utils.TickTrackChronometer
                     android:id="@+id/timerActivityTimeLeftTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,18 +96,26 @@
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar" />
 
-                <ProgressBar
+                <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
                     android:id="@+id/timerActivityTimerProgressBar"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
                     android:layout_marginTop="32dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:max="100"
-                    android:progress="100"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/progressbar_circle"/>
+                    wheel:matProg_barColor="@color/Accent"
+                    wheel:matProg_rimWidth="10dp"
+                    android:elevation="2dp"/>
+
+                <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
+                    android:id="@+id/timerActivityTimerProgressBarStatic"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/timerActivityPlayPauseFAB"
@@ -119,7 +128,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@drawable/ic_round_pause_white_24" />
+                    app:srcCompat="@drawable/ic_round_pause_white_24"
+                    android:focusable="true" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/timerActivityResetFAB"
