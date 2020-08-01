@@ -12,13 +12,16 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
+import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.TimerEditDialog;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackChronometer;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
@@ -94,8 +97,32 @@ public class TimerActivity extends AppCompatActivity {
             });
             timerEditDialog.cancelButton.setOnClickListener(view12 -> timerEditDialog.dismiss());
         });
+        String deletedTimer = timerDataArrayList.get(currentPosition).getTimerLabel();
+        deleteButton.setOnClickListener(view -> {
+            DeleteTimer deleteTimer = new DeleteTimer(activity);
+            deleteTimer.show();
+            if(!deletedTimer.equals("Set label")){
+                deleteTimer.dialogMessage.setText("Delete timer "+deletedTimer+"?");
+            } else {
+                deleteTimer.dialogMessage.setText("Delete timer ?");
+            }
+            deleteTimer.yesButton.setOnClickListener(view1 -> {
+                TimerRecyclerFragment.deleteTimer(currentPosition, activity, deletedTimer);
+                onBackPressed();
+                deleteTimer.dismiss();
+            });
+            deleteTimer.noButton.setOnClickListener(view1 -> {
+                TimerRecyclerFragment.refreshRecyclerView();
+                deleteTimer.dismiss();
+            });
+            deleteTimer.setOnCancelListener(dialogInterface -> {
+                TimerRecyclerFragment.refreshRecyclerView();
+                deleteTimer.cancel();
+            });
+        });
 
     }
+
     private static int timerActivityToolbarColor(int flagColor){
         if(flagColor == 1){
             return R.color.red_matte;

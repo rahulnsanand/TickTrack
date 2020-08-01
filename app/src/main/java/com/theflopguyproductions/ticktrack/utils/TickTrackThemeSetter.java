@@ -237,26 +237,16 @@ public class TickTrackThemeSetter {
 
     public static void timerActivityTheme(Activity activity, ConstraintLayout toolBar, int flagColor, ConstraintLayout timerRootLayout,
                                           TickTrackChronometer chronometer, TickTrackProgressBar backgroundProgressBar){
-
         toolBar.setBackgroundResource(timerActivityToolbarColor(flagColor));
-
         int checkTheme = TickTrackDatabase.getThemeMode(activity);
-
         if(checkTheme==1){
-
             timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
-
             chronometer.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             backgroundProgressBar.setBarColor(R.color.GrayOnLight);
-
         } else {
             timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
-
             chronometer.setTextColor(activity.getResources().getColor(R.color.LightText) );
             backgroundProgressBar.setBarColor(R.color.GrayOnDark);
-
-
-
         }
     }
 
