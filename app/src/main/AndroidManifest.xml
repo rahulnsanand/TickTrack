@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
         <service
-            android:name=".timer.TimerService"
+            android:name=".timer.service.TimerService"
             android:enabled="true"
             android:exported="true"></service>
 
@@ -38,6 +38,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".timer.service.TimerBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".counter.notification.CounterNotificationService"
