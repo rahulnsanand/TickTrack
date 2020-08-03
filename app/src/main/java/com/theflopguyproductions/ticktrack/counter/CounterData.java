@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.counter;
 
+import android.os.CountDownTimer;
+
 import androidx.annotation.NonNull;
 
 import java.sql.Timestamp;
@@ -10,6 +12,7 @@ public class CounterData implements Comparable<CounterData>, Cloneable{
     boolean counterSignificantExist, counterSwipeMode, counterPersistentNotification;
     String counterLabel, counterID;
     Timestamp counterTimestamp;
+    CountDownTimer timerCountDown;
 
     public String getCounterID() {
         return counterID;

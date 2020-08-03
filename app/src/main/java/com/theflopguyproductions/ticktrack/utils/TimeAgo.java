@@ -207,7 +207,7 @@ public class TimeAgo {
         }
     }
 
-    public static long getTimerDataInMillis(int pickedHour, int pickedMinute, int pickedSecond) {
+    public static long getTimerDataInMillis(int pickedHour, int pickedMinute, int pickedSecond, int pickedMilliSeconds) {
         long resultMillis = 0l;
 
         if(pickedHour>0){
@@ -219,6 +219,9 @@ public class TimeAgo {
         if(pickedSecond>0){
             resultMillis += pickedSecond*1000;
         }
+        if(pickedMilliSeconds>0){
+            resultMillis += pickedMilliSeconds;
+        }
 
         return resultMillis;
     }
@@ -227,96 +230,38 @@ public class TimeAgo {
 
         if(hourLeft>1){
             if(minuteLeft>1){
-                if(secondLeft>1){
-                    return hourLeft+" hours"+minuteLeft+" minutes"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return hourLeft+" hours"+minuteLeft+" minutes remaining";
-                } else if(secondLeft==1){
-                    return hourLeft+" hours"+minuteLeft+" minutes"+secondLeft+" second remaining";
-                } else {
-                    return hourLeft+" hours"+minuteLeft+" minutes remaining";
-                }
+                return "less than "+hourLeft+" hours"+minuteLeft+" minutes remaining";
             } else if(minuteLeft==0){
-                if(secondLeft>0){
-                    return hourLeft+" hours"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return hourLeft+" hours"+secondLeft+" seconds remaining";
-                } else {
-                    return hourLeft+" hours remaining";
-                }
+                return "less than "+hourLeft+" hours remaining";
             } else if(minuteLeft==1){
-                if(secondLeft>0){
-                    return hourLeft+" hours"+minuteLeft+" minute"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return hourLeft+" hours"+minuteLeft+" minute"+secondLeft+" seconds remaining";
-                } else {
-                    return hourLeft+" hours"+minuteLeft+" minute remaining";
-                }
+                return "less than "+hourLeft+" hours"+minuteLeft+" minute remaining";
             } else {
-                return hourLeft+" hours"+secondLeft+" seconds remaining";
+                return "less than "+hourLeft+" hours"+secondLeft+" seconds remaining";
             }
         } else if(hourLeft==0){
             if(minuteLeft>1){
-                if(secondLeft>1){
-                    return minuteLeft+" minutes"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return minuteLeft+" minutes remaining";
-                } else if(secondLeft==1){
-                    return minuteLeft+" minutes"+secondLeft+" second remaining";
-                } else {
-                    return minuteLeft+" minutes remaining";
-                }
+                return "less than "+minuteLeft+" minutes remaining";
+
             } else if(minuteLeft==0){
-                if(secondLeft>0){
-                    return secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return secondLeft+" seconds remaining";
-                } else {
-                    return "";
-                }
+                return "less than a minute remaining";
+
             } else if(minuteLeft==1){
-                if(secondLeft>0){
-                    return minuteLeft+" minute"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return minuteLeft+" minute"+secondLeft+" seconds remaining";
-                } else {
-                    return minuteLeft+" minute remaining";
-                }
+                return "less than a minute remaining";
             } else {
-                return secondLeft+" seconds remaining";
+                return "less than a minute remaining";
             }
         } else if(hourLeft==1) {
             if(minuteLeft>1){
-                if(secondLeft>1){
-                    return hourLeft+" hour"+minuteLeft+" minutes"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return hourLeft+" hour"+minuteLeft+" minutes remaining";
-                } else if(secondLeft==1){
-                    return hourLeft+" hour"+minuteLeft+" minutes"+secondLeft+" second remaining";
-                } else {
-                    return hourLeft+" hour"+minuteLeft+" minutes remaining";
-                }
+                return "less than "+hourLeft+" hour"+minuteLeft+" minutes remaining";
             } else if(minuteLeft==0){
-                if(secondLeft>0){
-                    return hourLeft+" hour"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return hourLeft+" hour"+secondLeft+" seconds remaining";
-                } else {
-                    return hourLeft+" hour remaining";
-                }
+                return "less than "+hourLeft+" hour remaining";
             } else if(minuteLeft==1){
-                if(secondLeft>0){
-                    return hourLeft+" hour"+minuteLeft+" minute"+secondLeft+" seconds remaining";
-                } else if(secondLeft==0){
-                    return hourLeft+" hour"+minuteLeft+" minute"+secondLeft+" seconds remaining";
-                } else {
-                    return hourLeft+" hour"+minuteLeft+" minute remaining";
-                }
+                return "less than "+hourLeft+" hour"+minuteLeft+" minute remaining";
             } else {
-                return hourLeft+" hour"+secondLeft+" seconds remaining";
+                return hourLeft+" hour remaining";
             }
         } else {
-            return secondLeft+" seconds remaining";
+            return "a few seconds left";
         }
     }
 }

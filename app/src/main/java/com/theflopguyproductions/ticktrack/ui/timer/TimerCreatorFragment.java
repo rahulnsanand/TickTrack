@@ -319,9 +319,8 @@ public class TimerCreatorFragment extends Fragment {
         timerData.setTimerLabel(timerLabelText.getText().toString());
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntegerID(UniqueIdGenerator.getUniqueIntegerTimerID());
-        timerData.setTimerOn(true);
-        timerData.setTimerPause(false);
-        timerData.setTimeLeftInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond));
+        timerData.setTimeLeftInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
+        timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerDataArrayList.add(0,timerData);
         TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
 
@@ -330,7 +329,7 @@ public class TimerCreatorFragment extends Fragment {
         }
 
         Intent timerIntent = new Intent(activity, TimerActivity.class);
-        timerIntent.putExtra("timerID", UniqueIdGenerator.getUniqueTimerID());
+        timerIntent.putExtra("timerID", timerData.getTimerID());
         startActivity(timerIntent);
 
     }
