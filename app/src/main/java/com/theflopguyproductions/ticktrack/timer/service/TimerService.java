@@ -79,7 +79,9 @@ public class TimerService extends Service {
     }
 
     private void stopTimerService() {
-        killNotifications();
+        if(!(timerServiceData.size() >0)){
+            killNotifications();
+        }
     }
     private void startTimerService() {
         startForegroundService();
@@ -197,7 +199,9 @@ public class TimerService extends Service {
     }
 
     private void updateTimerServiceData(){
+
         timerServiceData = retrieveTimerServiceDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+
         if(timerServiceData.size()>1){
             System.out.println("MORE NOTIFICATION");
             notificationBuilder.setContentTitle(timerServiceData.size()+" TickTrack timers running");
@@ -214,6 +218,7 @@ public class TimerService extends Service {
             System.out.println("KILL NOTIFICATION");
             stopTimerService();
         }
+
     }
 
     public void notifyNotification(){

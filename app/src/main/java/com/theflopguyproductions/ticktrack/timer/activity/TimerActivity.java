@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.style.TtsSpan;
 import android.view.View;
 import android.widget.ImageButton;
@@ -63,6 +64,8 @@ public class TimerActivity extends AppCompatActivity {
     private long resumeTimeInMillis, currentTimeInMillis;
 
     private CountDownTimer countDownTimer;
+    private String action;
+    private Handler progressBarPreHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +80,19 @@ public class TimerActivity extends AppCompatActivity {
         tickTrackDatabase = new TickTrackDatabase(activity);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
+        action = getIntent().getAction();
+
         if(timerIDString!=null){
 
             setupCurrentTimerInitValues();
 
+            timerActivityToolbar.setBackgroundResource(timerActivityToolbarColor(timerDataArrayList.get(timerCurrentPosition).getTimerFlag()));
+            if(!timerDataArrayList.get(timerCurrentPosition).getTimerLabel().equals("Set a label")){
+                labelTextView.setText(timerDataArrayList.get(timerCurrentPosition).getTimerLabel());
+            }
+
             if(isRunning && !isPause){
-
                 if((timerDataArrayList.get(timerCurrentPosition).getTimerEndTimeInMillis()-System.currentTimeMillis())<0){
-                    System.out.println("INVALID TIMER RAN");
-
                     timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
                     timerDataArrayList.get(timerCurrentPosition).setTimerOn(false);
                     timerDataArrayList.get(timerCurrentPosition).setTimerReset(true);
@@ -97,7 +104,6 @@ public class TimerActivity extends AppCompatActivity {
                     prefixStaticTimerValues(TimeAgo.getTimerDataInMillis(timerDataArrayList.get(timerCurrentPosition).getTimerHour(),timerDataArrayList.get(timerCurrentPosition).getTimerMinute(),
                             timerDataArrayList.get(timerCurrentPosition).getTimerSecond(),0));
                 } else {
-                    //TODO TIMER IS RUNNING IN BACKGROUND
                     isPause = false;
                     isRunning = true;
                     prefixOnResumeValues();
@@ -106,20 +112,14 @@ public class TimerActivity extends AppCompatActivity {
 
             } else if(isPause && isRunning){
 
-                //TODO TIMER IS ON PAUSE
                 prefixPauseTimerValues(timerDataArrayList.get(timerCurrentPosition).getTimeLeftInMillis());
 
             } else if(isReset && !isPause){
 
-                //TODO TIMER IS RESET
                 prefixStaticTimerValues(TimeAgo.getTimerDataInMillis(timerDataArrayList.get(timerCurrentPosition).getTimerHour(),timerDataArrayList.get(timerCurrentPosition).getTimerMinute(),
                         timerDataArrayList.get(timerCurrentPosition).getTimerSecond(),0));
 
             } else {
-
-                //TODO RUN NEW TIMER
-
-                System.out.println("ELSE RAN:");
 
                 isNew = true;
                 prefixStaticTimerValues(TimeAgo.getTimerDataInMillis(timerDataArrayList.get(timerCurrentPosition).getTimerHour(),timerDataArrayList.get(timerCurrentPosition).getTimerMinute(),
@@ -228,7 +228,11 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void prefixStaticTimerValues(long staticTimeValues) {
-        timerProgressBar.setProgress(1);
+
+        if(timerProgressBar.getProgress()!=1){
+            progressBarPreHandler.postDelayed(() -> timerProgressBar.setProgress(1), 400);
+        }
+
         resetFAB.setVisibility(View.INVISIBLE);
         playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
         staticHours = (int) (staticTimeValues/(1000*60*60));
@@ -292,6 +296,7 @@ public class TimerActivity extends AppCompatActivity {
         isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
         isReset = timerDataArrayList.get(timerCurrentPosition).isTimerReset();
         tickTrackDatabase.storeTimerList(timerDataArrayList);
+        timerProgressBar.setProgress(1);
         prefixStaticTimerValues(timerDataArrayList.get(timerCurrentPosition).getTimerTotalTimeInMillis());
     }
 
@@ -382,6 +387,7 @@ public class TimerActivity extends AppCompatActivity {
         editButton = findViewById(R.id.timerActivityEditImageButton);
         deleteButton = findViewById(R.id.timerActivityDeleteImageButton);
         labelTextView = findViewById(R.id.timerActivityLabelTextView);
+
         timerProgressBar.setLinearProgress(true);
         timerProgressBar.setSpinSpeed(2.500f);
         timerProgressBarBackground.setLinearProgress(true);
@@ -402,6 +408,12 @@ public class TimerActivity extends AppCompatActivity {
         if(isRunning && !isPause && !isNew){
             System.out.println("START TIMER RAN");
             startTimer(resumeTimeInMillis);
+        }
+        if(action!=null){
+            if(action.equals("PAUSE_TIMER")){
+                pauseTimer();
+                cancelAlarmTimer();
+            }
         }
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
         timerServiceDataArrayList = retrieveTimerServiceDataList(sharedPreferences);

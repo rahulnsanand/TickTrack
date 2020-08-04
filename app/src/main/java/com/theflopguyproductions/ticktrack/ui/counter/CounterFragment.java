@@ -64,6 +64,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         if (s.equals("CounterData")){
+            Collections.sort(counterDataArrayList);
             counterAdapter.diffUtilsChangeData(counterDataArrayList);
         }
     };

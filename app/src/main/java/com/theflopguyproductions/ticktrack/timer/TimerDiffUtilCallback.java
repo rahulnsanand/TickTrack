@@ -30,6 +30,8 @@ public class TimerDiffUtilCallback extends DiffUtil.Callback  {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return newList.get(newItemPosition).timerEndTimeInMillis == oldList.get(oldItemPosition).timerEndTimeInMillis;
+        return newList.get(newItemPosition).isTimerOn() == oldList.get(oldItemPosition).isTimerOn() &&
+                newList.get(newItemPosition).isTimerPause() == oldList.get(oldItemPosition).isTimerPause() &&
+                newList.get(newItemPosition).isTimerReset() == oldList.get(oldItemPosition).isTimerReset();
     }
 }
