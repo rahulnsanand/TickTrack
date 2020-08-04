@@ -73,11 +73,9 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase);
         buildRecyclerView(activity);
 
-//        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText);
-
-
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new TimerSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(timerRecyclerView);
+
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
@@ -155,6 +153,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         if (s.equals("TimerData")){
+            Collections.sort(timerDataArrayList);
             timerAdapter.diffUtilsChangeData(timerDataArrayList);
         }
     };

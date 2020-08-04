@@ -2,7 +2,10 @@ package com.theflopguyproductions.ticktrack.timer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +15,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
+import com.theflopguyproductions.ticktrack.timer.service.TimerServiceData;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataViewHolder> {
 
@@ -46,6 +58,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
         return new timerDataViewHolder(itemView);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull timerDataViewHolder holder, int position) {
@@ -73,20 +86,42 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
-            int hourLeft = timerDataArrayList.get(position).getTimerHourLeft();
-            int minuteLeft = timerDataArrayList.get(position).getTimerMinuteLeft();
-            int secondLeft = timerDataArrayList.get(position).getTimerSecondLeft();
-
             if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause()){
                 holder.timerPauseResetButton.setText("Pause");
+                holder.timerPauseResetButton.setOnClickListener(view -> {
+                    Intent timerIntent = new Intent(context, TimerActivity.class);
+                    timerIntent.setAction("PAUSE_TIMER");
+                    timerIntent.putExtra("timerID", timerDataArrayList.get(position).getTimerID());
+                    context.startActivity(timerIntent);
+                });
                 holder.timerDurationLeft.setVisibility(View.VISIBLE);
-                holder.timerDurationLeft.setText(TimeAgo.getTimerDurationLeft(hourLeft, minuteLeft, secondLeft));
+                holder.timerDurationLeft.setText("Timer running");
             } else if (timerDataArrayList.get(position).isTimerPause()){
                 holder.timerPauseResetButton.setText("Reset");
+                holder.timerPauseResetButton.setOnClickListener(view -> {
+                    timerDataArrayList.get(position).setTimerOn(false);
+                    timerDataArrayList.get(position).setTimerPause(false);
+                    timerDataArrayList.get(position).setTimerReset(true);
+                    TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
+                    tickTrackDatabase.storeTimerList(timerDataArrayList);
+                    holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                    holder.timerPauseResetButton.setVisibility(View.INVISIBLE);
+                });
                 holder.timerDurationLeft.setVisibility(View.VISIBLE);
-                holder.timerDurationLeft.setText(TimeAgo.getTimerDurationLeft(hourLeft, minuteLeft, secondLeft));
+                holder.timerDurationLeft.setText("Timer paused");
+
             } else {
                 holder.timerPauseResetButton.setText("Start");
+                holder.timerPauseResetButton.setOnClickListener(view -> {
+                    timerDataArrayList.get(position).setTimerOn(false);
+                    timerDataArrayList.get(position).setTimerPause(false);
+                    timerDataArrayList.get(position).setTimerReset(false);
+                    TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
+                    tickTrackDatabase.storeTimerList(timerDataArrayList);
+                    Intent timerIntent = new Intent(context, TimerActivity.class);
+                    timerIntent.putExtra("timerID", timerDataArrayList.get(position).getTimerID());
+                    context.startActivity(timerIntent);
+                });
                 holder.timerDurationLeft.setVisibility(View.GONE);
             }
 
@@ -95,11 +130,11 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             setColor(holder);
             setTheme(holder, theme);
 
-            holder.timerLayout.setOnClickListener(v -> {
-                TimerFragment.startTimerActivity(position, (Activity) holder.context);
-            });
+            holder.timerLayout.setOnClickListener(v -> TimerFragment.startTimerActivity(holder.getAdapterPosition(), (Activity) holder.context));
+
         }
     }
+
 
     private void setTheme(timerDataViewHolder holder, int theme) {
         if(theme == 1){
