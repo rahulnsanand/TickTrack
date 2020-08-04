@@ -31,8 +31,8 @@ import java.util.Objects;
 
 public class TickTrackThemeSetter {
 
-    public static void mainActivityTheme(BottomNavigationView bottomNavigationView, Activity activity){
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+    public static void mainActivityTheme(BottomNavigationView bottomNavigationView, Activity activity, TickTrackDatabase tickTrackDatabase){
+        int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
              bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.DarkText)));
@@ -42,8 +42,9 @@ public class TickTrackThemeSetter {
         }
     }
 
-    public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, ScrollView settingsScrollView, ConstraintLayout themeLayout){
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+    public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, ScrollView settingsScrollView, ConstraintLayout themeLayout
+            , TickTrackDatabase tickTrackDatabase){
+        int checkTheme = tickTrackDatabase.getThemeMode();
 
         if(checkTheme==1){
             settingsScrollView.setBackgroundResource(R.color.LightGray);
@@ -60,8 +61,9 @@ public class TickTrackThemeSetter {
         }
     }
 
-    public static void counterFragmentTheme(Activity activity, RecyclerView recyclerView, ConstraintLayout counterFragmentRootLayout, TextView noCounterText){
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+    public static void counterFragmentTheme(Activity activity, RecyclerView recyclerView, ConstraintLayout counterFragmentRootLayout, TextView noCounterText
+            , TickTrackDatabase tickTrackDatabase){
+        int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             counterFragmentRootLayout.setBackgroundResource(R.color.LightGray);
             recyclerView.setBackgroundResource(R.color.LightGray);
@@ -77,9 +79,9 @@ public class TickTrackThemeSetter {
     public static void counterActivityTheme(Activity activity, ConstraintLayout toolbar, ConstraintLayout rootLayout, int flagColor,
                                             ConstraintLayout plusButtonBig, ConstraintLayout minusButtonBig, TextView plusText, TextView minusText, SwipeButton plusButton, SwipeButton minusButton,
                                             ScrollView counterActivityScrollView, TextView counterSwitchMode, Switch buttonSwitch, ConstraintLayout switchLayout,
-                                            ConstraintLayout switchLowerDivider, ConstraintLayout switchUpperDivider){
+                                            ConstraintLayout switchLowerDivider, ConstraintLayout switchUpperDivider, TickTrackDatabase tickTrackDatabase){
 
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+        int checkTheme = tickTrackDatabase.getThemeMode();
         toolbar.setBackgroundResource(counterActivityToolbarColor(flagColor));
 
         if(checkTheme==1){
@@ -137,9 +139,9 @@ public class TickTrackThemeSetter {
                                                 TextView counterLabel, TextView counterValue, TextView counterMilestone, TextView counterButtonMode,
                                                 TextView notificationDetail, TextView milestoneDetail, int flagColor,
                                                 ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
-                                                ConstraintLayout buttonDivider, ConstraintLayout notificationDivider) {
+                                                ConstraintLayout buttonDivider, ConstraintLayout notificationDivider, TickTrackDatabase tickTrackDatabase) {
 
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+        int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             counterLabelLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             counterValueLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -190,8 +192,8 @@ public class TickTrackThemeSetter {
         }
     }
 
-    public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView){
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+    public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView, TickTrackDatabase tickTrackDatabase){
+        int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
 
@@ -203,8 +205,8 @@ public class TickTrackThemeSetter {
 
     public static void timerCreateTheme(Activity activity, NumberPicker hourPicker, NumberPicker minutePicker, NumberPicker secondPicker, NumberPicker hourLightPicker, NumberPicker minuteLightPicker,
                                         NumberPicker secondLightPicker, TextView hourLabel, TextView minuteLabel, TextView secondLabel, TextView timerLabelText,
-                                        TextView timerFlagText, ConstraintLayout timerCreateRootLayout ){
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+                                        TextView timerFlagText, ConstraintLayout timerCreateRootLayout, TickTrackDatabase tickTrackDatabase ){
+        int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             timerCreateRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
 
@@ -236,9 +238,9 @@ public class TickTrackThemeSetter {
     }
 
     public static void timerActivityTheme(Activity activity, ConstraintLayout toolBar, int flagColor, ConstraintLayout timerRootLayout,
-                                          TextView chronometer, TextView timerMillisText, TickTrackProgressBar backgroundProgressBar){
+                                          TextView chronometer, TextView timerMillisText, TickTrackProgressBar backgroundProgressBar, TickTrackDatabase tickTrackDatabase){
         toolBar.setBackgroundResource(timerActivityToolbarColor(flagColor));
-        int checkTheme = TickTrackDatabase.getThemeMode(activity);
+        int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
             chronometer.setTextColor(activity.getResources().getColor(R.color.DarkText) );

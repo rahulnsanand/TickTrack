@@ -24,6 +24,7 @@ import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
+import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,8 @@ import java.util.Timer;
 
 public class SoYouADeveloperHuh extends AppCompatActivity {
 
+    TickTrackDatabase tickTrackDatabase;
+
     private Toolbar mainToolbar;
     private BottomNavigationView navView;
     private int defaultFragmentID = 0;
@@ -56,8 +59,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
         openFragment(getFragment(receivedFragmentID));
 
+        tickTrackDatabase = new TickTrackDatabase(this);
+
         navView = findViewById(R.id.nav_view);
-        TickTrackThemeSetter.mainActivityTheme(navView, this);
+        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase);
 
         mainToolbar = findViewById(R.id.mainActivityToolbar);
         overflowMenuSetup();
@@ -138,14 +143,14 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        TickTrackThemeSetter.mainActivityTheme(navView, this);
+        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        TickTrackThemeSetter.mainActivityTheme(navView, this);
+        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase);
 
     }
 

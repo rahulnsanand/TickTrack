@@ -27,6 +27,8 @@ import java.util.ArrayList;
 
 public class TimerFragment extends Fragment {
 
+    static TickTrackDatabase tickTrackDatabase;
+
     private FloatingActionButton floatingActionButton;
 
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
@@ -38,7 +40,7 @@ public class TimerFragment extends Fragment {
     public static void startTimerActivity(int position, Activity context) {
         Intent timerIntent = new Intent(context, TimerActivity.class);
         ArrayList<TimerData> timerData;
-        timerData = TickTrackDatabase.retrieveTimerList(context);
+        timerData = tickTrackDatabase.retrieveTimerList();
         timerIntent.putExtra("timerID",timerData.get(position).getTimerID());
         context.startActivity(timerIntent);
 
@@ -49,7 +51,8 @@ public class TimerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         assert activity != null;
-        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+        tickTrackDatabase = new TickTrackDatabase(activity);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
         if(timerDataArrayList.size()>0){
             displayRecyclerView();
@@ -65,7 +68,7 @@ public class TimerFragment extends Fragment {
     private void displayCreatorView() {
         floatingActionButton.setVisibility(View.INVISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        TickTrackDatabase.setFirstTimer(activity, true);
+        tickTrackDatabase.setFirstTimer(true);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, timerCreatorFragment).commit();
     }
 
@@ -78,7 +81,7 @@ public class TimerFragment extends Fragment {
     private void addTimer(){
         floatingActionButton.setVisibility(View.INVISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        TickTrackDatabase.setFirstTimer(activity, false);
+        tickTrackDatabase.setFirstTimer(false);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, timerCreatorFragment).commit();
     }
 
@@ -91,7 +94,8 @@ public class TimerFragment extends Fragment {
         activity = getActivity();
 
         assert activity != null;
-        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+        tickTrackDatabase = new TickTrackDatabase(activity);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
 
         return root;

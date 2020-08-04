@@ -26,6 +26,9 @@ import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import java.util.Objects;
 
 public class DeleteCounterFromActivity extends Dialog {
+
+    TickTrackDatabase tickTrackDatabase;
+
     public Activity activity;
     int position;
     private String counterName, counterID;
@@ -52,6 +55,8 @@ public class DeleteCounterFromActivity extends Dialog {
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        tickTrackDatabase = new TickTrackDatabase(activity);
+
         yesButton = view.findViewById(R.id.acceptDeleteCounterButton);
         noButton = view.findViewById(R.id.dismissDeleteCounterButton);
         dialogMessage = view.findViewById(R.id.deleteCounterTextView);
@@ -72,7 +77,7 @@ public class DeleteCounterFromActivity extends Dialog {
 
     public void killNotification() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        if(TickTrackDatabase.getCurrentCounterNotificationID(activity).equals(counterID)){
+        if(tickTrackDatabase.getCurrentCounterNotificationID().equals(counterID)){
             Intent intent = new Intent(activity, CounterNotificationService.class);
             intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
             activity.startService(intent);

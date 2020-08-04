@@ -31,6 +31,8 @@ import java.util.ArrayList;
 
 public class CounterEditActivity extends AppCompatActivity {
 
+    TickTrackDatabase tickTrackDatabase;
+
     private int currentPosition;
     private ImageButton backButton, saveButton;
     private ImageView counterFlag;
@@ -59,10 +61,11 @@ public class CounterEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_edit);
 
-        counterDataArrayList = TickTrackDatabase.retrieveCounterList(this);
+        activity = this;
+        tickTrackDatabase = new TickTrackDatabase(activity);
+        counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         currentPosition = getIntent().getIntExtra("CurrentPosition",0);
         int flagColor = counterDataArrayList.get(currentPosition).getCounterFlag();
-        activity = this;
         sharedPreferences = this.getSharedPreferences("TickTrackData",MODE_PRIVATE);
 
         initVariables();
@@ -70,7 +73,7 @@ public class CounterEditActivity extends AppCompatActivity {
         TickTrackThemeSetter.counterEditActivityTheme(this, counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout,
                 counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout,
                 counterLabel, counterValue, counterMilestone, counterButtonMode, counterNotificationDetail, counterMilestoneDetail, flagColor,
-                counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider);
+                counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider, tickTrackDatabase);
 
         setupPrefixValues();
 
@@ -115,7 +118,7 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void startNotificationService() {
         Intent intent = new Intent(this, CounterNotificationService.class);
-        TickTrackDatabase.setCurrentCounterNotificationID(this, counterDataArrayList.get(currentPosition).getCounterID());
+        tickTrackDatabase.setCurrentCounterNotificationID(counterDataArrayList.get(currentPosition).getCounterID());
         intent.setAction(CounterNotificationService.ACTION_START_COUNTER_SERVICE);
         startService(intent);
     }
@@ -165,7 +168,7 @@ public class CounterEditActivity extends AppCompatActivity {
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
-        counterDataArrayList = TickTrackDatabase.retrieveCounterList(activity);
+        counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         if (s.equals("CounterData")){
             counterValue.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
         }
@@ -220,7 +223,7 @@ public class CounterEditActivity extends AppCompatActivity {
             berryFlag.setChecked(true);
         } else {
             counterEditToolbarLayout.setBackgroundResource(R.color.Accent);
-            if(TickTrackDatabase.getThemeMode(this)==1){
+            if(tickTrackDatabase.getThemeMode()==1){
                 counterFlag.setImageResource(R.drawable.ic_round_flag_dark_24);
             } else {
                 counterFlag.setImageResource(R.drawable.ic_round_flag_light_24);
@@ -407,7 +410,7 @@ public class CounterEditActivity extends AppCompatActivity {
             } else {
                 counterDataArrayList.get(currentPosition).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
             }
-            TickTrackDatabase.storeCounterList(counterDataArrayList, activity);
+            tickTrackDatabase.storeCounterList(counterDataArrayList);
 
             isChanged = false;
         }

@@ -34,6 +34,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
+    static TickTrackDatabase tickTrackDatabase;
 
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
@@ -50,7 +51,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
     public static void deleteItem(int position, Activity activity){
         timerDataArrayList.remove(position);
-        TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
         buildRecyclerView(activity);
         timerRecyclerView.scheduleLayoutAnimation();
 
@@ -66,13 +67,14 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         activity = getActivity();
 
         assert activity != null;
-        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+        tickTrackDatabase = new TickTrackDatabase(activity);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         timerRecyclerView = root.findViewById(R.id.timerFragmentRecyclerView);
 
         noTimerText = root.findViewById(R.id.timerFragmentNoTimerText);
         timerRecyclerRootLayout = root.findViewById(R.id.timerRecyclerRootLayout);
 
-        TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView);
+        TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase);
         buildRecyclerView(activity);
 
         //TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText);
@@ -98,7 +100,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
             Collections.sort(timerDataArrayList);
 
-            TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
 
             timerRecyclerView.setLayoutManager(layoutManager);
             timerRecyclerView.setAdapter(timerAdapter);
@@ -158,7 +160,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
-        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         if (s.equals("TimerData")){
             buildRecyclerView(getActivity());
         }

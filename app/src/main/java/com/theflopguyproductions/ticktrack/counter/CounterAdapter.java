@@ -20,81 +20,20 @@ import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.RecyclerItemViewHolder> {
+public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterDataViewHolder> {
 
     private ArrayList<CounterData> counterDataArrayList;
-    int mLastPosition = 0;
+    private Context context;
 
-    public CounterAdapter(ArrayList<CounterData> myList) {
-        this.counterDataArrayList = myList;
+    public CounterAdapter(Context context, ArrayList<CounterData> counterDataArrayList){
+        this.context = context;
+        this.counterDataArrayList = counterDataArrayList;
     }
 
-    @NonNull
-    public RecyclerItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View itemView;
-
-        if(viewType == R.layout.counter_item_layout){
-            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.counter_item_layout, parent, false);
-        } else {
-            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_footer_layout, parent, false);
-        }
-
-        return new RecyclerItemViewHolder(itemView);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (position == counterDataArrayList.size()) ? R.layout.recycler_footer_layout : R.layout.counter_item_layout;
-    }
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull CounterAdapter.RecyclerItemViewHolder holder, int position) {
-
-        holder.setIsRecyclable(false);
-
-        int theme = TickTrackDatabase.getThemeMode((Activity) holder.context);
-
-        if(position == counterDataArrayList.size()) {
-            if(theme == 1){
-                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
-            } else {
-                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightText));
-            }
-            Resources resources = holder.context.getResources();
-            String[] footerArray = resources.getStringArray(R.array.footer_string_array);
-            int randomFooter = new Random().nextInt(footerArray.length);
-            holder.footerCounterTextView.setText(footerArray[randomFooter]);
-        } else {
-            holder.countValue.setText(""+counterDataArrayList.get(position).getCounterValue());
-            holder.counterLabel.setText(counterDataArrayList.get(position).getCounterLabel());
-
-            if(counterDataArrayList.get(position).getCounterTimestamp()!=null){
-                holder.lastModified.setText("Last edited: "+TimeAgo.getTimeAgo(counterDataArrayList.get(position).getCounterTimestamp()));
-            }
-
-            holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
-            setColor(holder);
-            setTheme(holder, theme);
-
-            holder.counterLayout.setOnClickListener(v -> {
-                CounterFragment.startCounterActivity(position, (Activity) holder.context);
-                Toast.makeText(holder.context, "Position:" + position, Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        mLastPosition = position;
-    }
-
-    private void setTheme(RecyclerItemViewHolder holder, int theme) {
+    private void setTheme(counterDataViewHolder holder, int theme) {
         if(theme == 1){
             holder.counterLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
@@ -107,7 +46,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         holder.countValue.setTextColor(holder.context.getResources().getColor(R.color.Accent));
     }
 
-    private void setColor(RecyclerItemViewHolder holder) {
+    private void setColor(counterDataViewHolder holder) {
         if(holder.itemColor==1){
             holder.counterFlag.setImageResource(R.drawable.ic_flag_red);
         }
@@ -125,17 +64,69 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         }
     }
 
+    @NonNull
+    @Override
+    public counterDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(context).inflate(R.layout.counter_item_layout, parent, false);
+
+        return new counterDataViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull counterDataViewHolder holder, int position) {
+
+        int currentTheme = holder.tickTrackDatabase.getThemeMode();
+
+        if(position == counterDataArrayList.size()) {
+            if(currentTheme == 1){
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
+            } else {
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            }
+            Resources resources = holder.context.getResources();
+            String[] footerArray = resources.getStringArray(R.array.footer_string_array);
+            int randomFooter = new Random().nextInt(footerArray.length);
+            holder.footerCounterTextView.setText(footerArray[randomFooter]);
+        } else {
+            holder.countValue.setText(""+counterDataArrayList.get(position).getCounterValue());
+            holder.counterLabel.setText(counterDataArrayList.get(position).getCounterLabel());
+
+            if(counterDataArrayList.get(position).getCounterTimestamp()!=null){
+                holder.lastModified.setText("Last edited: "+ TimeAgo.getTimeAgo(counterDataArrayList.get(position).getCounterTimestamp()));
+            }
+
+            holder.itemColor = counterDataArrayList.get(position).getCounterFlag();
+            setColor(holder);
+            setTheme(holder, currentTheme);
+
+            holder.counterLayout.setOnClickListener(v -> {
+                CounterFragment.startCounterActivity(counterDataArrayList.get(holder.getAdapterPosition()).counterID, (Activity) holder.context);
+                Toast.makeText(holder.context, "Position:" + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+
     @Override
     public int getItemCount() {
-        return counterDataArrayList.size() + 1;
+        return counterDataArrayList.size();
     }
 
-    public void notifyData(ArrayList<CounterData> myList) {
-        this.counterDataArrayList = myList;
-        notifyDataSetChanged();
+    public void updateData(ArrayList<CounterData> counterDataArrayList){
+        this.counterDataArrayList.clear();
+        this.counterDataArrayList.addAll(counterDataArrayList);
     }
 
-    public static class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
+    public void diffUtilsChangeData(ArrayList<CounterData> counterDataArrayList){
+
+        CounterDiffUtilCallback counterDiffUtilCallback = new CounterDiffUtilCallback(counterDataArrayList, this.counterDataArrayList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(counterDiffUtilCallback, false);
+        diffResult.dispatchUpdatesTo(this);
+        this.counterDataArrayList = counterDataArrayList;
+
+    }
+
+    public static class counterDataViewHolder extends RecyclerView.ViewHolder {
 
         private TextView countValue, lastModified, counterLabel;
         public ConstraintLayout counterLayout;
@@ -143,8 +134,9 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
         private ImageView counterFlag;
         private Context context;
         private TextView footerCounterTextView;
+        TickTrackDatabase tickTrackDatabase;
 
-        public RecyclerItemViewHolder(@NonNull View parent) {
+        public counterDataViewHolder(@NonNull View parent) {
             super(parent);
 
             countValue = parent.findViewById(R.id.counterValueItemTextView);
@@ -155,20 +147,8 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Recycler
             footerCounterTextView = parent.findViewById(R.id.recylerFooterTextView);
 
             context=parent.getContext();
+            tickTrackDatabase = new TickTrackDatabase(context);
 
         }
-    }
-}
-
-class CounterDiffUtil extends DiffUtil.ItemCallback<CounterData> {
-
-    @Override
-    public boolean areItemsTheSame(@NonNull CounterData oldItem, @NonNull CounterData newItem) {
-        return oldItem.getCounterID().equals(newItem.getCounterID());
-    }
-
-    @Override
-    public boolean areContentsTheSame(@NonNull CounterData oldItem, @NonNull CounterData newItem) {
-        return oldItem == newItem;
     }
 }
