@@ -254,7 +254,6 @@ public class TimerActivity extends AppCompatActivity {
                 currentTimeInMillis = l;
                 updateTimerTextView(currentTimeInMillis);
                 timerProgressBar.setProgress(getCurrentStep(currentTimeInMillis, timerMaxLength));
-                TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
             }
             @Override
             public void onFinish() {
@@ -264,6 +263,7 @@ public class TimerActivity extends AppCompatActivity {
                 timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
                 timerDataArrayList.get(timerCurrentPosition).setTimerReset(true);
                 TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+                timerDataArrayList  = TickTrackDatabase.retrieveTimerList(activity);
                 isPause = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
                 isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
             }
@@ -273,6 +273,7 @@ public class TimerActivity extends AppCompatActivity {
         timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
         timerDataArrayList.get(timerCurrentPosition).setTimerReset(false);
         TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
         isPause = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
         isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
         isReset = timerDataArrayList.get(timerCurrentPosition).isTimerReset();
@@ -401,14 +402,6 @@ public class TimerActivity extends AppCompatActivity {
         }
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
         timerServiceDataArrayList = retrieveTimerServiceDataList(sharedPreferences);
-
-        removeServiceData(sharedPreferences);
-
-        //TODO REFRESH TIMERSERVICE DATA ACTION
-        if(isMyServiceRunning(TimerService.class)){
-            stopNotificationService();
-        }
-
     }
 
     @Override
@@ -424,87 +417,15 @@ public class TimerActivity extends AppCompatActivity {
                 countDownTimer.cancel();
             }
             SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
-            timerServiceDataArrayList = retrieveTimerServiceDataList(sharedPreferences);
-
             addServiceData(sharedPreferences);
-
-            //TODO ADD TIMER SERVICE ACTION
-            if (!isMyServiceRunning(TimerService.class)) {
+            if(!isMyServiceRunning(TimerService.class)){
                 startNotificationService();
             }
-            refreshTimerService();
         }
         TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
     }
 
-
     private ArrayList<TimerServiceData> timerServiceDataArrayList = new ArrayList<>();
-
-    private void setAlarmTimer(){
-
-        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(activity, TimerBroadcastReceiver.class);
-        intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
-        intent.putExtra("timerStringID", timerIDString);
-        intent.putExtra("timerIntegerID",timerIDInteger);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(activity, timerIDInteger, intent, 0);
-        alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                currentTimeInMillis+System.currentTimeMillis(),
-                alarmPendingIntent
-        );
-    }
-
-    private void refreshTimerService() {
-        Intent intent = new Intent(this, TimerService.class);
-        intent.putExtra("timerStringID", timerIDString);
-        intent.putExtra("timerIntegerID", timerIDInteger);
-        intent.setAction(TimerService.ACTION_REFRESH_TIMER);
-        startService(intent);
-    }
-
-    private void addServiceData(SharedPreferences sharedPreferences) {
-
-        TimerServiceData timerServiceData = new TimerServiceData();
-        timerServiceData.setEndTimeInMillis(currentTimeInMillis+System.currentTimeMillis());
-        timerServiceData.setTimerIDInteger(timerIDInteger);
-        timerServiceData.setTimerIDString(timerIDString);
-        timerServiceDataArrayList.add(timerServiceData);
-        storeTimerServiceData(sharedPreferences);
-
-    }
-
-    private void startNotificationService() {
-        Intent intent = new Intent(this, TimerService.class);
-        intent.setAction(TimerService.ACTION_START_TIMER_SERVICE);
-        startService(intent);
-    }
-
-    private void cancelAlarmTimer(){
-
-
-        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(activity, TimerBroadcastReceiver.class);
-        intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(activity, timerIDInteger, intent, 0);
-        alarmManager.cancel(alarmPendingIntent);
-    }
-
-    private void removeServiceData(SharedPreferences sharedPreferences) {
-        for(int i = 0; i < timerServiceDataArrayList.size(); i++){
-            if(timerServiceDataArrayList.get(i).getTimerIDInteger()==timerIDInteger){
-                timerServiceDataArrayList.remove(i);
-                storeTimerServiceData(sharedPreferences);
-                return;
-            }
-        }
-    }
-    private void stopNotificationService() {
-        Intent intent = new Intent(this, TimerService.class);
-        intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
-        startService(intent);
-    }
-
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -513,6 +434,29 @@ public class TimerActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void startNotificationService() {
+        Intent intent = new Intent(this, TimerService.class);
+        intent.setAction(TimerService.ACTION_START_TIMER_SERVICE);
+        startService(intent);
+    }
+
+    private void addServiceData(SharedPreferences sharedPreferences) {
+
+        for(int i = 0; i <timerServiceDataArrayList.size(); i++){
+            if(timerServiceDataArrayList.get(i).getTimerIDInteger()==timerIDInteger){
+                return;
+            }
+        }
+
+        TimerServiceData timerServiceData = new TimerServiceData();
+        timerServiceData.setEndTimeInMillis(currentTimeInMillis+System.currentTimeMillis());
+        timerServiceData.setTimerIDInteger(timerIDInteger);
+        timerServiceData.setTimerIDString(timerIDString);
+        timerServiceDataArrayList.add(timerServiceData);
+        storeTimerServiceData(sharedPreferences);
+
     }
     private ArrayList<TimerServiceData> retrieveTimerServiceDataList(SharedPreferences sharedPreferences){
 
@@ -535,6 +479,43 @@ public class TimerActivity extends AppCompatActivity {
         editor.putString("TimerServiceData", json);
         editor.apply();
 
+    }
+
+    private void setAlarmTimer(){
+
+        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(activity, TimerBroadcastReceiver.class);
+        intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+        intent.putExtra("timerIntegerID", timerIDInteger);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(activity, timerIDInteger, intent, 0);
+        alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                currentTimeInMillis+System.currentTimeMillis(),
+                alarmPendingIntent
+        );
+    }
+
+    private void cancelAlarmTimer(){
+
+        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(activity, TimerBroadcastReceiver.class);
+        intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(activity, timerIDInteger, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
+        removeServiceData(sharedPreferences);
+        timerServiceDataArrayList = retrieveTimerServiceDataList(sharedPreferences);
+    }
+
+    private void removeServiceData(SharedPreferences sharedPreferences) {
+        for(int i = 0; i < timerServiceDataArrayList.size(); i++){
+            if(timerServiceDataArrayList.get(i).getTimerIDInteger()==timerIDInteger){
+                timerServiceDataArrayList.remove(i);
+                storeTimerServiceData(sharedPreferences);
+                return;
+            }
+        }
     }
 
 }
