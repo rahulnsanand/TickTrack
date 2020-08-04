@@ -226,15 +226,13 @@ public class TimeAgo {
         return resultMillis;
     }
 
-    public static String getTimerDurationLeft(int hourLeft, int minuteLeft, int secondLeft){
+    public static String getTimerDurationLeft(int hourLeft, int minuteLeft, int secondLeft) {
 
         if(hourLeft>1){
             if(minuteLeft>1){
                 return "less than "+hourLeft+" hours"+minuteLeft+" minutes remaining";
             } else if(minuteLeft==0){
                 return "less than "+hourLeft+" hours remaining";
-            } else if(minuteLeft==1){
-                return "less than "+hourLeft+" hours"+minuteLeft+" minute remaining";
             } else {
                 return "less than "+hourLeft+" hours"+secondLeft+" seconds remaining";
             }
@@ -245,8 +243,6 @@ public class TimeAgo {
             } else if(minuteLeft==0){
                 return "less than a minute remaining";
 
-            } else if(minuteLeft==1){
-                return "less than a minute remaining";
             } else {
                 return "less than a minute remaining";
             }
@@ -255,8 +251,6 @@ public class TimeAgo {
                 return "less than "+hourLeft+" hour"+minuteLeft+" minutes remaining";
             } else if(minuteLeft==0){
                 return "less than "+hourLeft+" hour remaining";
-            } else if(minuteLeft==1){
-                return "less than "+hourLeft+" hour"+minuteLeft+" minute remaining";
             } else {
                 return hourLeft+" hour remaining";
             }
@@ -264,4 +258,6 @@ public class TimeAgo {
             return "a few seconds left";
         }
     }
+
+
 }

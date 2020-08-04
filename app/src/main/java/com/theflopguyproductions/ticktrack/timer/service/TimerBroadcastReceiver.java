@@ -25,7 +25,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
     private ArrayList<TimerServiceData> timerServiceDataArrayList = new ArrayList<>();
 
     private int timerIDInteger;
-    private String timerStringID;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -41,7 +40,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
 
             timerIDInteger = intent.getIntExtra("timerIntegerID",0);
-            timerStringID = intent.getStringExtra("timerStringID");
             timerServiceDataArrayList = retrieveTimerServiceDataList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
             removeServiceData(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
             if(isMyServiceRunning(TimerService.class, context)){

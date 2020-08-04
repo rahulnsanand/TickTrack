@@ -1,6 +1,9 @@
 package com.theflopguyproductions.ticktrack;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -13,6 +16,10 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.theflopguyproductions.ticktrack.timer.service.TimerService;
+import com.theflopguyproductions.ticktrack.timer.service.TimerServiceData;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
@@ -30,6 +37,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Timer;
 
 public class SoYouADeveloperHuh extends AppCompatActivity {
@@ -133,8 +142,24 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        TickTrackThemeSetter.mainActivityTheme(navView, this);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
+
 }
