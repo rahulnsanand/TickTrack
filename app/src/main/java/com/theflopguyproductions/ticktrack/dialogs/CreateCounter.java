@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.method.TimeKeyListener;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class CreateCounter extends Dialog {
+
+    private TickTrackDatabase tickTrackDatabase;
 
     public Activity activity;
     public int counterFlag= 0;
@@ -45,12 +48,14 @@ public class CreateCounter extends Dialog {
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        tickTrackDatabase = new TickTrackDatabase(getContext());
+
         counterLabelText = view.findViewById(R.id.counterLabelInputText);
         createCounterButton = view.findViewById(R.id.createCounterButton);
         cancelCounterButton = view.findViewById(R.id.dismissCounterButton);
         final ChipGroup chipGroup = view.findViewById(R.id.counterFlagGroup);
 
-        int counterNumber = TickTrackDatabase.retrieveCounterNumber(activity);
+        int counterNumber = tickTrackDatabase.retrieveCounterNumber();
         String counterName = "Counter "+ counterNumber;
         counterLabelText.setHint(counterName);
 
@@ -86,7 +91,7 @@ public class CreateCounter extends Dialog {
             if(counterLabelText.getText().toString().trim().length() > 0){
                 CounterFragment.createCounter(counterLabelText.getText().toString(),new Timestamp(System.currentTimeMillis()),counterFlag, this.activity,0,0,false, false, false, UniqueIdGenerator.getUniqueCounterID());
             } else {
-                TickTrackDatabase.storeCounterNumber(activity, counterNumber+1);
+                tickTrackDatabase.storeCounterNumber(counterNumber+1);
                 CounterFragment.createCounter(counterName,new Timestamp(System.currentTimeMillis()),counterFlag, this.activity, 0,0,false, false, false, UniqueIdGenerator.getUniqueCounterID());
             }
             dismiss();

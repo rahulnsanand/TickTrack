@@ -29,6 +29,8 @@ import java.util.Objects;
 
 public class ThemeDialog extends Dialog {
 
+    TickTrackDatabase tickTrackDatabase;
+
     private Activity activity;
     private RadioGroup themeGroup;
     private RadioButton darkButton, lightButton;
@@ -51,6 +53,8 @@ public class ThemeDialog extends Dialog {
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
+        tickTrackDatabase = new TickTrackDatabase(activity);
+
         themeGroup = view.findViewById(R.id.themeSettingRadioGroup);
         darkButton = view.findViewById(R.id.darkThemeRadioButton);
         lightButton = view.findViewById(R.id.lightThemeRadioButton);
@@ -59,10 +63,10 @@ public class ThemeDialog extends Dialog {
 
         themeGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if(themeGroup.getCheckedRadioButtonId()==R.id.darkThemeRadioButton){
-                TickTrackDatabase.setThemeMode(activity, 2);
+                tickTrackDatabase.setThemeMode(2);
 
             } else {
-                TickTrackDatabase.setThemeMode(activity, 1);
+                tickTrackDatabase.setThemeMode(1);
             }
             activity.startActivity(new Intent(activity,SettingsActivity.class));
         });

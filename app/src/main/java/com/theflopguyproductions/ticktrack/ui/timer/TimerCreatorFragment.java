@@ -36,6 +36,8 @@ import java.util.ArrayList;
 
 public class TimerCreatorFragment extends Fragment {
 
+    TickTrackDatabase tickTrackDatabase;
+
     private ArrayList<TimerData> timerDataArrayList= new ArrayList<>();
     private Activity activity;
 
@@ -58,14 +60,15 @@ public class TimerCreatorFragment extends Fragment {
         activity = getActivity();
 
         assert activity != null;
-        isFirst = TickTrackDatabase.isFirstTimer(activity);
+        tickTrackDatabase = new TickTrackDatabase(activity);
+        isFirst = tickTrackDatabase.isFirstTimer();
 
-        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
         initVariables(view);
 
         TickTrackThemeSetter.timerCreateTheme(activity, hourDarkPicker, minuteDarkPicker, secondDarkPicker,hourLightPicker, minuteLightPicker, secondLightPicker, timerHoursText, timerMinutesText, timerSecondsText,
-                timerLabelTitle, timerFlagTitle, timerCreatorRootLayout);
+                timerLabelTitle, timerFlagTitle, timerCreatorRootLayout, tickTrackDatabase);
 
         timeChangeListener();
 
@@ -220,7 +223,7 @@ public class TimerCreatorFragment extends Fragment {
             timerFlagImage.setImageResource(R.drawable.ic_flag_blue);
             blueFlag.setChecked(true);
         } else {
-            if(TickTrackDatabase.getThemeMode(activity)==1){
+            if(tickTrackDatabase.getThemeMode()==1){
                 timerFlagImage.setImageResource(R.drawable.ic_round_flag_dark_24);
             } else {
                 timerFlagImage.setImageResource(R.drawable.ic_round_flag_light_24);
@@ -322,10 +325,10 @@ public class TimerCreatorFragment extends Fragment {
         timerData.setTimeLeftInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerDataArrayList.add(0,timerData);
-        TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
 
         if(isFirst){
-            TickTrackDatabase.setFirstTimer(activity,false);
+            tickTrackDatabase.setFirstTimer(false);
         }
 
         Intent timerIntent = new Intent(activity, TimerActivity.class);

@@ -1,6 +1,6 @@
 package com.theflopguyproductions.ticktrack.utils;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
@@ -15,21 +15,24 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class TickTrackDatabase {
 
-    public static void storeCounterNumber(Activity activity, int updateNumber){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    private SharedPreferences sharedPreferences;
+
+    public TickTrackDatabase(Context context) {
+        sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    }
+
+    public void storeCounterNumber(int updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CounterNumber", updateNumber);
         editor.apply();
     }
 
-    public static int retrieveCounterNumber(Activity activity){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    public int retrieveCounterNumber(){
         return sharedPreferences.getInt("CounterNumber", 1);
     }
 
-    public static void storeCounterList(ArrayList<CounterData> counterDataArrayList, Activity activity){
+    public void storeCounterList(ArrayList<CounterData> counterDataArrayList){
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(counterDataArrayList);
@@ -38,9 +41,8 @@ public class TickTrackDatabase {
 
     }
 
-    public static ArrayList<CounterData> retrieveCounterList(Activity activity){
+    public ArrayList<CounterData> retrieveCounterList(){
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CounterData", null);
         Type type = new TypeToken<ArrayList<CounterData>>() {}.getType();
@@ -53,21 +55,18 @@ public class TickTrackDatabase {
         return counterDataArrayList;
     }
 
-    public static void setFirstTimer(Activity activity, boolean status){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    public void setFirstTimer(boolean status){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isFirstTimer", status);
         editor.apply();
     }
 
-    public static boolean isFirstTimer(Activity activity){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    public boolean isFirstTimer(){
         return sharedPreferences.getBoolean("isFirstTimer", true);
     }
 
-    public static void storeTimerList(ArrayList<TimerData> timerDataArrayList, Activity activity){
+    public void storeTimerList(ArrayList<TimerData> timerDataArrayList){
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(timerDataArrayList);
@@ -76,9 +75,8 @@ public class TickTrackDatabase {
 
     }
 
-    public static ArrayList<TimerData> retrieveTimerList(Activity activity){
+    public ArrayList<TimerData> retrieveTimerList(){
 
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerData", null);
         Type type = new TypeToken<ArrayList<TimerData>>() {}.getType();
@@ -92,25 +90,21 @@ public class TickTrackDatabase {
 
     }
 
-    public static int getThemeMode(Activity activity){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    public int getThemeMode(){
         return sharedPreferences.getInt("ThemeMode", 1);
     }
 
-    public static void setThemeMode(Activity activity, int mode){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    public void setThemeMode(int mode){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("ThemeMode", mode);
         editor.apply();
     }
 
-    public static String getCurrentCounterNotificationID(Activity activity){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    public String getCurrentCounterNotificationID(){
         return sharedPreferences.getString("CounterNotificationID", null);
     }
 
-    public static void setCurrentCounterNotificationID(Activity activity, String currentCounterID){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+    public void setCurrentCounterNotificationID(String currentCounterID){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("CounterNotificationID", currentCounterID);
         editor.apply();

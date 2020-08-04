@@ -42,6 +42,8 @@ import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity {
 
+    TickTrackDatabase tickTrackDatabase;
+
     private ConstraintLayout timerActivityToolbar, timerActivityRootLayout;
     private TextView timerHourMinute, timerMillis, labelTextView;
     private FloatingActionButton playPauseFAB, resetFAB;
@@ -72,7 +74,8 @@ public class TimerActivity extends AppCompatActivity {
 
         timerIDString = getIntent().getStringExtra("timerID");
         activity = this;
-        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+        tickTrackDatabase = new TickTrackDatabase(activity);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
         if(timerIDString!=null){
 
@@ -90,7 +93,7 @@ public class TimerActivity extends AppCompatActivity {
                     isRunning = false;
                     isReset = true;
                     isNew = false;
-                    TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
+                    tickTrackDatabase.storeTimerList(timerDataArrayList);
                     prefixStaticTimerValues(TimeAgo.getTimerDataInMillis(timerDataArrayList.get(timerCurrentPosition).getTimerHour(),timerDataArrayList.get(timerCurrentPosition).getTimerMinute(),
                             timerDataArrayList.get(timerCurrentPosition).getTimerSecond(),0));
                 } else {
@@ -161,7 +164,7 @@ public class TimerActivity extends AppCompatActivity {
                     timerDataArrayList.get(timerCurrentPosition).setTimerFlag(timerEditDialog.currentFlag);
                     timerActivityToolbar.setBackgroundResource(timerActivityToolbarColor(timerEditDialog.currentFlag));
                 }
-                TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+                tickTrackDatabase.storeTimerList(timerDataArrayList);
                 timerEditDialog.dismiss();
             });
             timerEditDialog.cancelButton.setOnClickListener(view12 -> timerEditDialog.dismiss());
@@ -262,8 +265,8 @@ public class TimerActivity extends AppCompatActivity {
                 timerDataArrayList.get(timerCurrentPosition).setTimerOn(false);
                 timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
                 timerDataArrayList.get(timerCurrentPosition).setTimerReset(true);
-                TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
-                timerDataArrayList  = TickTrackDatabase.retrieveTimerList(activity);
+                tickTrackDatabase.storeTimerList(timerDataArrayList);
+                timerDataArrayList  = tickTrackDatabase.retrieveTimerList();
                 isPause = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
                 isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
             }
@@ -272,8 +275,8 @@ public class TimerActivity extends AppCompatActivity {
         timerDataArrayList.get(timerCurrentPosition).setTimerOn(true);
         timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
         timerDataArrayList.get(timerCurrentPosition).setTimerReset(false);
-        TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
-        timerDataArrayList = TickTrackDatabase.retrieveTimerList(activity);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         isPause = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
         isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
         isReset = timerDataArrayList.get(timerCurrentPosition).isTimerReset();
@@ -288,7 +291,7 @@ public class TimerActivity extends AppCompatActivity {
         isPause = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
         isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
         isReset = timerDataArrayList.get(timerCurrentPosition).isTimerReset();
-        TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
         prefixStaticTimerValues(timerDataArrayList.get(timerCurrentPosition).getTimerTotalTimeInMillis());
     }
 
@@ -309,7 +312,7 @@ public class TimerActivity extends AppCompatActivity {
         timerDataArrayList.get(timerCurrentPosition).setTimerSecondLeft(seconds);
         timerDataArrayList.get(timerCurrentPosition).setTimerMilliSecondLeft(milliseconds);
         timerDataArrayList.get(timerCurrentPosition).setTimeLeftInMillis(currentTimeInMillis);
-        TickTrackDatabase.storeTimerList(timerDataArrayList, activity);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
 
         isPause = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
         isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
@@ -412,7 +415,7 @@ public class TimerActivity extends AppCompatActivity {
             timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
             timerDataArrayList.get(timerCurrentPosition).setTimerOn(true);
             timerDataArrayList.get(timerCurrentPosition).setTimerReset(false);
-            TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
             if (countDownTimer != null) {
                 countDownTimer.cancel();
             }
@@ -422,7 +425,7 @@ public class TimerActivity extends AppCompatActivity {
                 startNotificationService();
             }
         }
-        TickTrackDatabase.storeTimerList(timerDataArrayList,activity);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
     }
 
     private ArrayList<TimerServiceData> timerServiceDataArrayList = new ArrayList<>();

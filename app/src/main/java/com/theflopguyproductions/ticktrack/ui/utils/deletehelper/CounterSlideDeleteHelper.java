@@ -23,7 +23,7 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).counterLayout;
+            final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
 
             getDefaultUIUtil().onSelected(foregroundView);
         }
@@ -33,14 +33,14 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).counterLayout;
+        final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
         getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).counterLayout;
+        final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
@@ -48,7 +48,7 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((CounterAdapter.RecyclerItemViewHolder) viewHolder).counterLayout;
+        final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
 
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
                 actionState, isCurrentlyActive);

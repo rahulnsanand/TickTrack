@@ -54,7 +54,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
     public void onBindViewHolder(@NonNull RecyclerItemViewHolder holder, int position) {
         holder.setIsRecyclable(false);
 
-        int theme = TickTrackDatabase.getThemeMode((Activity) holder.context);
+        int theme = holder.tickTrackDatabase.getThemeMode();
 
         if(position == timerDataArrayList.size()) {
             if(theme == 1){
@@ -165,6 +165,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
         private TextView footerCounterTextView;
         private Button timerPauseResetButton;
 
+        TickTrackDatabase tickTrackDatabase;
+
         public RecyclerItemViewHolder(@NonNull View parent) {
             super(parent);
 
@@ -177,6 +179,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
             footerCounterTextView = parent.findViewById(R.id.recylerFooterTextView);
 
             context=parent.getContext();
+            tickTrackDatabase = new TickTrackDatabase(context);
 
         }
     }

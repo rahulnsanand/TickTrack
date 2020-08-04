@@ -16,6 +16,8 @@ import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private TickTrackDatabase tickTrackDatabase;
+
     private ConstraintLayout themeLayout;
     private TextView themeName, themeTitle;
     private ImageButton backButton;
@@ -32,10 +34,12 @@ public class SettingsActivity extends AppCompatActivity {
         backButton = findViewById(R.id.settingsActivityBackButton);
         settingsScrollView = findViewById(R.id.settingsActivityScrollView);
 
-        TickTrackThemeSetter.settingsActivityTheme(this, themeTitle, themeName, settingsScrollView, themeLayout);
+        tickTrackDatabase = new TickTrackDatabase(this);
+
+        TickTrackThemeSetter.settingsActivityTheme(this, themeTitle, themeName, settingsScrollView, themeLayout, tickTrackDatabase);
 
         themeLayout.setOnClickListener(view -> {
-            ThemeDialog themeDialog = new ThemeDialog(this, TickTrackDatabase.getThemeMode(this));
+            ThemeDialog themeDialog = new ThemeDialog(this, tickTrackDatabase.getThemeMode());
             themeDialog.show();
         });
 
