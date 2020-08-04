@@ -1,18 +1,17 @@
-package com.theflopguyproductions.ticktrack.counter;
+package com.theflopguyproductions.ticktrack.timer;
 
 import androidx.recyclerview.widget.DiffUtil;
 
 import java.util.ArrayList;
 
-public class CounterDiffUtilCallback extends DiffUtil.Callback {
+public class TimerDiffUtilCallback extends DiffUtil.Callback  {
 
-    ArrayList<CounterData> newList, oldList;
+    ArrayList<TimerData> newList, oldList;
 
-    public CounterDiffUtilCallback(ArrayList<CounterData> newList, ArrayList<CounterData> oldList) {
+    public TimerDiffUtilCallback(ArrayList<TimerData> newList, ArrayList<TimerData> oldList) {
         this.newList = newList;
         this.oldList = oldList;
     }
-
 
     @Override
     public int getOldListSize() {
@@ -26,12 +25,11 @@ public class CounterDiffUtilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return newList.get(newItemPosition).counterID.equals(oldList.get(oldItemPosition).counterID);
+        return newList.get(newItemPosition).timerID.equals(oldList.get(oldItemPosition).timerID);
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return newList.get(newItemPosition).counterValue == oldList.get(oldItemPosition).counterValue;
+        return newList.get(newItemPosition).timerEndTimeInMillis == oldList.get(oldItemPosition).timerEndTimeInMillis;
     }
-
 }

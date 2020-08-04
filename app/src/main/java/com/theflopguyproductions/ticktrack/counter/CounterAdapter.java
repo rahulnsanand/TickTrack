@@ -68,9 +68,15 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
     @Override
     public counterDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.counter_item_layout, parent, false);
+        View itemView;
 
-        return new counterDataViewHolder(view);
+        if(viewType == R.layout.counter_item_layout){
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.counter_item_layout, parent, false);
+        } else {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_footer_layout, parent, false);
+        }
+
+        return new counterDataViewHolder(itemView);
     }
 
     @Override
@@ -108,8 +114,16 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return (position == counterDataArrayList.size()) ? R.layout.recycler_footer_layout : R.layout.counter_item_layout;
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+    @Override
     public int getItemCount() {
-        return counterDataArrayList.size();
+        return counterDataArrayList.size()+1;
     }
 
     public void updateData(ArrayList<CounterData> counterDataArrayList){
