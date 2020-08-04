@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
-import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.timer.TimerAdapter;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
@@ -45,16 +43,14 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static TimerAdapter timerAdapter;
 
     public static void deleteTimer(int position, Activity activity, String timerName) {
-        deleteItem(position, activity);
+        deleteItem(position);
         Toast.makeText(activity, "Deleted Timer " + timerName, Toast.LENGTH_SHORT).show();
     }
 
-    public static void deleteItem(int position, Activity activity){
+    public static void deleteItem(int position){
+        timerAdapter.notifyItemRemoved(position);
         timerDataArrayList.remove(position);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-        buildRecyclerView(activity);
-        timerRecyclerView.scheduleLayoutAnimation();
-
     }
 
     public static void refreshRecyclerView() {
@@ -77,7 +73,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase);
         buildRecyclerView(activity);
 
-        //TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText);
+//        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText);
 
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new TimerSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
@@ -89,23 +85,20 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     }
 
     private static void buildRecyclerView(Activity activity) {
-        timerAdapter = new TimerAdapter(timerDataArrayList);
+
+        timerAdapter = new TimerAdapter(activity, timerDataArrayList);
 
         if(timerDataArrayList.size()>0){
             timerRecyclerView.setVisibility(View.VISIBLE);
             noTimerText.setVisibility(View.INVISIBLE);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
-            timerRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            timerRecyclerView.setHasFixedSize(true);
 
             Collections.sort(timerDataArrayList);
 
-            tickTrackDatabase.storeTimerList(timerDataArrayList);
-
-            timerRecyclerView.setLayoutManager(layoutManager);
+            timerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            timerRecyclerView.setItemAnimator(new DefaultItemAnimator());
             timerRecyclerView.setAdapter(timerAdapter);
-            timerAdapter.notifyDataSetChanged();
-            timerRecyclerView.scheduleLayoutAnimation();
+
+            timerAdapter.diffUtilsChangeData(timerDataArrayList);
 
         } else {
             timerRecyclerView.setVisibility(View.INVISIBLE);
@@ -117,7 +110,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     String deletedTimer = null;
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof TimerAdapter.RecyclerItemViewHolder) {
+        if (viewHolder instanceof TimerAdapter.timerDataViewHolder) {
             deletedTimer = timerDataArrayList.get(viewHolder.getAdapterPosition()).getTimerLabel();
             position = viewHolder.getAdapterPosition();
 
@@ -162,9 +155,8 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         if (s.equals("TimerData")){
-            buildRecyclerView(getActivity());
+            timerAdapter.diffUtilsChangeData(timerDataArrayList);
         }
     };
-
 
 }

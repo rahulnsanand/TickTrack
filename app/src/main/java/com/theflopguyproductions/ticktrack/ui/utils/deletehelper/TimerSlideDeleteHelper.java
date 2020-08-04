@@ -24,7 +24,7 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((TimerAdapter.RecyclerItemViewHolder) viewHolder).timerLayout;
+            final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
 
             getDefaultUIUtil().onSelected(foregroundView);
         }
@@ -34,14 +34,14 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((TimerAdapter.RecyclerItemViewHolder) viewHolder).timerLayout;
+        final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
         getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((TimerAdapter.RecyclerItemViewHolder) viewHolder).timerLayout;
+        final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
@@ -49,7 +49,7 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((TimerAdapter.RecyclerItemViewHolder) viewHolder).timerLayout;
+        final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
 
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
                 actionState, isCurrentlyActive);

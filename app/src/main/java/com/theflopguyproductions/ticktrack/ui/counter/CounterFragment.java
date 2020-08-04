@@ -109,7 +109,6 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
             Collections.sort(counterDataArrayList);
 
-            counterAdapter = new CounterAdapter(activity, counterDataArrayList);
             counterRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             counterRecyclerView.setItemAnimator(new DefaultItemAnimator());
             counterRecyclerView.setAdapter(counterAdapter);

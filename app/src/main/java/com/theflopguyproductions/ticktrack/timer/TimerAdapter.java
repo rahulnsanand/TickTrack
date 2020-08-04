@@ -9,16 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
-import com.theflopguyproductions.ticktrack.counter.CounterData;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
@@ -26,33 +23,32 @@ import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItemViewHolder> {
+public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataViewHolder> {
 
-    int mLastPosition = 0;
     private ArrayList<TimerData> timerDataArrayList;
+    private Context context;
 
-    public TimerAdapter(ArrayList<TimerData> myList) {
-        this.timerDataArrayList = myList;
+    public TimerAdapter(Context context, ArrayList<TimerData> timerDataArrayList) {
+        this.context = context;
+        this.timerDataArrayList = timerDataArrayList;
     }
 
     @NonNull
-    public TimerAdapter.RecyclerItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public timerDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView;
 
         if(viewType == R.layout.timer_item_layout){
-            //TODO CHANGE ITEM LAYOUT
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.timer_item_layout, parent, false);
         } else {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_footer_layout, parent, false);
         }
 
-        return new TimerAdapter.RecyclerItemViewHolder(itemView);
+        return new timerDataViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerItemViewHolder holder, int position) {
-        holder.setIsRecyclable(false);
+    public void onBindViewHolder(@NonNull timerDataViewHolder holder, int position) {
 
         int theme = holder.tickTrackDatabase.getThemeMode();
 
@@ -103,11 +99,9 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
                 TimerFragment.startTimerActivity(position, (Activity) holder.context);
             });
         }
-
-        mLastPosition = position;
     }
 
-    private void setTheme(TimerAdapter.RecyclerItemViewHolder holder, int theme) {
+    private void setTheme(timerDataViewHolder holder, int theme) {
         if(theme == 1){
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
@@ -121,7 +115,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
         holder.timerPauseResetButton.setTextColor(holder.context.getResources().getColor(R.color.Accent));
     }
 
-    private void setColor(TimerAdapter.RecyclerItemViewHolder holder) {
+    private void setColor(timerDataViewHolder holder) {
         if(holder.itemColor==1){
             holder.timerFlag.setImageResource(R.drawable.ic_flag_red);
         }
@@ -154,8 +148,16 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
         return position;
     }
 
+    public void diffUtilsChangeData(ArrayList<TimerData> timerDataArrayList){
 
-    public static class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
+        TimerDiffUtilCallback timerDiffUtilCallback = new TimerDiffUtilCallback(timerDataArrayList, this.timerDataArrayList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(timerDiffUtilCallback, false);
+        diffResult.dispatchUpdatesTo(this);
+        this.timerDataArrayList = timerDataArrayList;
+
+    }
+
+    public static class timerDataViewHolder extends RecyclerView.ViewHolder {
 
         private TextView timerTitle, timerLabel, timerDurationLeft;
         public ConstraintLayout timerLayout;
@@ -167,7 +169,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerItem
 
         TickTrackDatabase tickTrackDatabase;
 
-        public RecyclerItemViewHolder(@NonNull View parent) {
+        public timerDataViewHolder(@NonNull View parent) {
             super(parent);
 
             timerTitle = parent.findViewById(R.id.timerTitleItemTextView);
