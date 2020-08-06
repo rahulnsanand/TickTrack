@@ -239,6 +239,9 @@ public class TimerVisibleActivity extends AppCompatActivity {
                 startTimer(currentTimeInMillis);
             } else if(isStop) {
                 resetFAB.setVisibility(View.INVISIBLE);
+                timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(timerDataArrayList.get(timerCurrentPosition).getTimerEndTimeInMillis());
+                tickTrackDatabase.storeTimerList(timerDataArrayList);
+                timerDataArrayList = tickTrackDatabase.retrieveTimerList();
                 stopTimer();
             }
             else {
@@ -246,8 +249,12 @@ public class TimerVisibleActivity extends AppCompatActivity {
                     presetResumeValues();
                     startTimer(currentTimeInMillis);
                 } else {
+                    resetFAB.setVisibility(View.INVISIBLE);
+                    timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(timerDataArrayList.get(timerCurrentPosition).getTimerEndTimeInMillis());
+                    tickTrackDatabase.storeTimerList(timerDataArrayList);
+                    timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+                    stopTimer();
                     //TODO Preset Negative Timer and Blink with Stop Button Here. Post Which, Setup the stock Variables on STOP called.
-                    presetStockValues();
                 }
             }
         } else if(isRunning && isPause && !isReset){
@@ -476,9 +483,10 @@ public class TimerVisibleActivity extends AppCompatActivity {
         timerMillis.setVisibility(View.GONE);
         timerStopHandler = new Handler();
         timerBlinkHandler = new Handler();
-        if(timerDataArrayList.get(timerCurrentPosition).getTimerStopTime() != -1){
+        if(timerDataArrayList.get(timerCurrentPosition).getTimerStopTime() == -1){
             System.out.println("TIMER STOP RECEIVED");
             StartTime = System.currentTimeMillis() + (System.currentTimeMillis() - timerDataArrayList.get(timerCurrentPosition).getTimerStopTime());
+            System.out.println(System.currentTimeMillis() - timerDataArrayList.get(timerCurrentPosition).getTimerStopTime());
         } else {
             System.out.println("NEW TIMER STOP");
             StartTime = System.currentTimeMillis();
@@ -495,12 +503,15 @@ public class TimerVisibleActivity extends AppCompatActivity {
     }
 
     private void updateStopTimeText() {
-        System.out.println(UpdateTime);
-        int hours = (int) TimeUnit.MILLISECONDS.toHours(UpdateTime);
-        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(UpdateTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(UpdateTime)));
-        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(UpdateTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(UpdateTime)));
 
-        String hourLeft = String.format(Locale.getDefault(),"-%02d:%02d:%02d",hours,minutes,seconds);
+        System.out.println(UpdateTime);
+        float totalSeconds = (UpdateTime - StartTime) / 1000F;
+        System.out.println(totalSeconds+"ADASDHAOSDJASP");
+        float hours = totalSeconds/120;
+        float minutes = (totalSeconds%120)/60;
+        float seconds = ((totalSeconds%120)%60);
+
+        String hourLeft = String.format(Locale.getDefault(),"-%02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
         timerHourMinute.setText(hourLeft);
     }
 
@@ -510,8 +521,11 @@ public class TimerVisibleActivity extends AppCompatActivity {
         if(timerCurrentPosition!=-1){
             if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause()){
                 if(!timerDataArrayList.get(timerCurrentPosition).isTimerStop()){
-                    System.out.println("SAVED");
                     timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(StartTime);
+                    if(timerStopHandler!=null && timerBlinkHandler!=null){
+                        timerStopHandler.removeCallbacks(runnable);
+                        timerBlinkHandler.removeCallbacks(blinkRunnable);
+                    }
                 }
                 timerDataArrayList.get(timerCurrentPosition).setTimerEndTimeInMillis(countDownTimerMillis+System.currentTimeMillis());
             }
