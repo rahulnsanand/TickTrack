@@ -8,10 +8,26 @@ public class TimerData implements Comparable<TimerData> {
     int timerHour, timerMinute, timerSecond, timerIntegerID, timerFlag;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
-    long timerEndTimeInMillis, timerTotalTimeInMillis;
+    long timerEndTimeInMillis, timerTotalTimeInMillis, timerStopTime;
     Timestamp timerCreateTimeStamp;
     String timerStringID, timerLabel;
-    boolean timerOn, timerPause, timerReset, isNew;
+    boolean timerOn, timerPause, timerReset, isNew, timerStop;
+
+    public long getTimerStopTime() {
+        return timerStopTime;
+    }
+
+    public void setTimerStopTime(long timerStopTime) {
+        this.timerStopTime = timerStopTime;
+    }
+
+    public boolean isTimerStop() {
+        return timerStop;
+    }
+
+    public void setTimerStop(boolean timerStop) {
+        this.timerStop = timerStop;
+    }
 
     public boolean isNew() {
         return isNew;
