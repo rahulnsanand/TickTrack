@@ -30,5 +30,7 @@
     <color name="roboto_calendar_circle_2">#55c6da</color>
     <color name="roboto_calendar_month_arrow">#55c6da</color>
 
+    <color name="black_overlay">#66000000</color>
+
 
 </resources>

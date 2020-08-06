@@ -16,12 +16,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+        <activity
+            android:name=".timer.ringer.TimerRingerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="TickTrackTimer"
+            android:theme="@style/FullscreenTheme"></activity>
+
         <service
             android:name=".timer.service.TimerService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
-        <activity android:name=".timer.activity.TimerActivity" />
+        <service
+            android:name=".timer.service.TimerRingService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".timer.activity.TimerVisibleActivity" />
+
         <activity android:name=".counter.activity.CounterEditActivity" />
         <activity
             android:name=".counter.activity.CounterActivity"

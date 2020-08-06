@@ -1,6 +1,9 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,15 +11,20 @@ import android.content.SharedPreferences;
 import android.os.UserHandle;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -35,7 +43,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
 
-            String toastText = "Tick Track Reboot";
+            String toastText = "TickTrack Reboot";
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
 
         } else if(Objects.equals(intent.getAction(), ACTION_TIMER_BROADCAST)){
@@ -44,8 +52,11 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
             timerIDInteger = intent.getIntExtra("timerIntegerID",0);
-            System.out.println(timerIDInteger+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             timerServiceDataArrayList = retrieveTimerServiceDataList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
+
+            Intent timerRingIntent = new Intent(context, TimerRingerActivity.class);
+
+            showNotificationNew(context, "TITLE", "MESSAGE", timerRingIntent, 1);
 
             removeServiceData(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
             alterTimerData(tickTrackDatabase);
@@ -54,6 +65,29 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             }
         }
 
+    }
+
+    private static void showNotificationNew(final Context context, final String title, final String message, final Intent intent, final int notificationId) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context.getApplicationContext())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setVibrate(new long[0])
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
+                .setOngoing(true);
+
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            notificationBuilder.setChannelId(TickTrack.COUNTER_NOTIFICATION);
+        }
+
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(notificationId, notificationBuilder.build());
     }
 
     private void alterTimerData(TickTrackDatabase tickTrackDatabase) {
