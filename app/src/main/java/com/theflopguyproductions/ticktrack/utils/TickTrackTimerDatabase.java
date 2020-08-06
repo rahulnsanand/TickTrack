@@ -21,7 +21,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class TickTrackTimerDatabase {
 
-    private int currentTimerPosition = -1;
     private Context context;
     private SharedPreferences sharedPreferences;
 
@@ -32,13 +31,13 @@ public class TickTrackTimerDatabase {
     }
 
 
-    public int currentServicePosition(int timerIntegerID, ArrayList<TimerServiceData> timerServiceDataArrayList){
+    public int currentServiceDataPosition(int timerIntegerID, ArrayList<TimerServiceData> timerServiceDataArrayList){
         for(int i = 0; i < timerServiceDataArrayList.size(); i++){
             if(timerServiceDataArrayList.get(i).getTimerIDInteger() == timerIntegerID){
-                this.currentTimerPosition = i;
+                return i;
             }
         }
-        return this.currentTimerPosition;
+        return -1;
     }
 
 
