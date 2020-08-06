@@ -2,9 +2,7 @@ package com.theflopguyproductions.ticktrack.ui.timer;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -25,7 +23,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
-import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerVisibleActivity;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
@@ -47,7 +45,7 @@ public class TimerCreatorFragment extends Fragment {
     private ChipGroup timerCreateFlagChipGroup;
     private Chip redFlag, greenFlag, orangeFlag, purpleFlag, blueFlag;
     private NumberPicker hourDarkPicker, minuteDarkPicker, secondDarkPicker, hourLightPicker, minuteLightPicker, secondLightPicker;
-    private FloatingActionButton timerCreateFAB, timerDiscardFAB;
+    private FloatingActionButton timerCreateFAB;
     private boolean hasChanged = false, isExpanded = false, isFirst = true;
     private int pickedHour=0, pickedMinute=0, pickedSecond=0, flagCheck = 0;
 
@@ -84,7 +82,7 @@ public class TimerCreatorFragment extends Fragment {
             }
         });
 
-        timerDiscardFAB.setOnClickListener(view14 -> discardTimer());
+
 
         return view;
     }
@@ -234,7 +232,7 @@ public class TimerCreatorFragment extends Fragment {
     private void initVariables(View view) {
 
         timerCreateFAB = view.findViewById(R.id.timerCreateFragmentPlayFAB);
-        timerDiscardFAB = view.findViewById(R.id.timerCreateFragmentDiscardFAB);
+
         hourDarkPicker = view.findViewById(R.id.timerCreatorFragmentHourDarkNumberPicker);
         minuteDarkPicker = view.findViewById(R.id.timerCreatorFragmentMinuteDarkNumberPicker);
         secondDarkPicker = view.findViewById(R.id.timerCreatorFragmentSecondDarkNumberPicker);
@@ -263,11 +261,7 @@ public class TimerCreatorFragment extends Fragment {
         timerCreatorFlagExpandLayout.setVisibility(View.GONE);
         timerCreateFAB.setVisibility(View.INVISIBLE); //TODO ANIMATE FAB DISSOLVE
 
-        if(isFirst){
-            timerDiscardFAB.setVisibility(View.INVISIBLE);
-        } else {
-            timerDiscardFAB.setVisibility(View.VISIBLE);
-        }
+
 
         hourDarkPicker.setMaxValue(99);
         hourDarkPicker.setMinValue(0);
@@ -320,10 +314,13 @@ public class TimerCreatorFragment extends Fragment {
         timerData.setTimerMinute(pickedMinute);
         timerData.setTimerSecond(pickedSecond);
         timerData.setTimerLabel(timerLabelText.getText().toString());
-        timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
+        timerData.setTimerStringID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntegerID(UniqueIdGenerator.getUniqueIntegerTimerID());
-        timerData.setTimeLeftInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
+        timerData.setNew(true);
+        timerData.setTimerPause(false);
+        timerData.setTimerOn(true);
+        timerData.setTimerReset(false);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
 
@@ -331,17 +328,13 @@ public class TimerCreatorFragment extends Fragment {
             tickTrackDatabase.setFirstTimer(false);
         }
 
-        Intent timerIntent = new Intent(activity, TimerActivity.class);
-        timerIntent.putExtra("timerID", timerData.getTimerID());
+        Intent timerIntent = new Intent(activity, TimerVisibleActivity.class);
+        timerIntent.putExtra("timerID", timerData.getTimerStringID());
         startActivity(timerIntent);
 
     }
 
-    private void discardTimer(){
-        Intent intent = new Intent(activity, SoYouADeveloperHuh.class);
-        intent.putExtra("FragmentID", 2);
-        startActivity(intent);
-    }
+
 
     private boolean isCreateOn(){
         return !(pickedSecond == 0 && pickedHour == 0 && pickedMinute == 0);

@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.ui.timer;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -71,7 +73,6 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         timerRecyclerRootLayout = root.findViewById(R.id.timerRecyclerRootLayout);
 
         TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase);
-        buildRecyclerView(activity);
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new TimerSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(timerRecyclerView);
@@ -79,6 +80,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
+        buildRecyclerView(activity);
         return root;
     }
 
@@ -123,6 +125,13 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             timerDelete.yesButton.setOnClickListener(view -> {
                 TimerRecyclerFragment.deleteTimer(finalPosition, activity, deletedTimer);
                 timerDelete.dismiss();
+                if(timerDataArrayList.size()>0){
+                    timerRecyclerView.setVisibility(View.VISIBLE);
+                    noTimerText.setVisibility(View.INVISIBLE);
+                } else {
+                    timerRecyclerView.setVisibility(View.INVISIBLE);
+                    noTimerText.setVisibility(View.VISIBLE);
+                }
             });
             timerDelete.noButton.setOnClickListener(view -> {
                 TimerRecyclerFragment.refreshRecyclerView();
@@ -148,6 +157,25 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         super.onResume();
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        timerAdapter.notifyDataSetChanged();
+        if (mBundleRecyclerViewState != null) {
+            Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+            timerRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        timerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        timerAdapter.notifyDataSetChanged();
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
@@ -158,4 +186,13 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         }
     };
 
+    private static Bundle mBundleRecyclerViewState;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBundleRecyclerViewState = new Bundle();
+        Parcelable listState = timerRecyclerView.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
+    }
 }

@@ -25,13 +25,15 @@ public class TimerDiffUtilCallback extends DiffUtil.Callback  {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return newList.get(newItemPosition).timerID.equals(oldList.get(oldItemPosition).timerID);
+        return newList.get(newItemPosition).timerStringID.equals(oldList.get(oldItemPosition).timerStringID);
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         return newList.get(newItemPosition).isTimerOn() == oldList.get(oldItemPosition).isTimerOn() &&
                 newList.get(newItemPosition).isTimerPause() == oldList.get(oldItemPosition).isTimerPause() &&
-                newList.get(newItemPosition).isTimerReset() == oldList.get(oldItemPosition).isTimerReset();
+                newList.get(newItemPosition).isTimerReset() == oldList.get(oldItemPosition).isTimerReset() &&
+                newList.get(newItemPosition).getTimerFlag() == oldList.get(oldItemPosition).getTimerFlag() &&
+                newList.get(newItemPosition).getTimerLabel().equals(oldList.get(oldItemPosition).getTimerLabel());
     }
 }

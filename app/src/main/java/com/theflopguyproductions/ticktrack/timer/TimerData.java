@@ -6,11 +6,20 @@ public class TimerData implements Comparable<TimerData> {
 
 
     int timerHour, timerMinute, timerSecond, timerIntegerID, timerFlag;
-    int timerHourLeft, timerMinuteLeft, timerSecondLeft, timerMilliSecondLeft;
-    long timeLeftInMillis, timerEndTimeInMillis, timerTotalTimeInMillis;
+    int timerHourLeft, timerMinuteLeft, timerSecondLeft;
+    float timerMilliSecondLeft;
+    long timerEndTimeInMillis, timerTotalTimeInMillis;
     Timestamp timerCreateTimeStamp;
-    String timerID, timerLabel;
-    boolean timerOn, timerPause, timerReset;
+    String timerStringID, timerLabel;
+    boolean timerOn, timerPause, timerReset, isNew;
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
+    }
 
     public long getTimerTotalTimeInMillis() {
         return timerTotalTimeInMillis;
@@ -84,20 +93,12 @@ public class TimerData implements Comparable<TimerData> {
         this.timerSecondLeft = timerSecondLeft;
     }
 
-    public int getTimerMilliSecondLeft() {
+    public float getTimerMilliSecondLeft() {
         return timerMilliSecondLeft;
     }
 
-    public void setTimerMilliSecondLeft(int timerMilliSecondLeft) {
+    public void setTimerMilliSecondLeft(float timerMilliSecondLeft) {
         this.timerMilliSecondLeft = timerMilliSecondLeft;
-    }
-
-    public long getTimeLeftInMillis() {
-        return timeLeftInMillis;
-    }
-
-    public void setTimeLeftInMillis(long timeLeftInMillis) {
-        this.timeLeftInMillis = timeLeftInMillis;
     }
 
     public long getTimerEndTimeInMillis() {
@@ -116,12 +117,12 @@ public class TimerData implements Comparable<TimerData> {
         this.timerCreateTimeStamp = timerCreateTimeStamp;
     }
 
-    public String getTimerID() {
-        return timerID;
+    public String getTimerStringID() {
+        return timerStringID;
     }
 
-    public void setTimerID(String timerID) {
-        this.timerID = timerID;
+    public void setTimerStringID(String timerStringID) {
+        this.timerStringID = timerStringID;
     }
 
     public String getTimerLabel() {
