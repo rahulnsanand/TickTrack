@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.os.UserHandle;
 import android.widget.Toast;
 
@@ -100,9 +101,12 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
         }
         if(currentPosition>=0){
             System.out.println(currentPosition+"<<<<<<<<< POSITION");
-            timerDataArrayList.get(currentPosition).setTimerPause(false);
-            timerDataArrayList.get(currentPosition).setTimerOn(false);
-            timerDataArrayList.get(currentPosition).setTimerReset(true);
+            timerDataArrayList.get(currentPosition).setTimerEndTimeInMillis(System.currentTimeMillis());
+            System.out.println(timerDataArrayList.get(currentPosition).getTimerEndTimeInMillis()+"<<<< END IME IN MILLIS");
+            //TODO HANDLE STOP SERVICE HERE
+//            timerDataArrayList.get(currentPosition).setTimerPause(false);
+//            timerDataArrayList.get(currentPosition).setTimerOn(false);
+//            timerDataArrayList.get(currentPosition).setTimerReset(true);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
         }
     }

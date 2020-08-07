@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -122,7 +123,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
                     return false;
 
                 case R.id.settingsMenuItem:
-                    startActivity(new Intent(this, SettingsActivity.class));
+                    Intent intent = new Intent(this, SettingsActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     return false;
 
                 case R.id.feedbackMenuItem:
@@ -164,7 +167,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
     }
 
 }

@@ -33,6 +33,7 @@ public class TimerFragment extends Fragment {
 
     public static void startTimerActivity(int position, Activity context) {
         Intent timerIntent = new Intent(context, TimerVisibleActivity.class);
+        timerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         ArrayList<TimerData> timerData;
         timerData = tickTrackDatabase.retrieveTimerList();
         timerIntent.putExtra("timerID",timerData.get(position).getTimerStringID());
@@ -72,7 +73,6 @@ public class TimerFragment extends Fragment {
     private void displayCreatorView() {
         floatingActionButton.setVisibility(View.INVISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.from_right, R.anim.to_right);
         tickTrackDatabase.setFirstTimer(true);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
     }
@@ -81,7 +81,6 @@ public class TimerFragment extends Fragment {
         timerDiscardFAB.setVisibility(View.INVISIBLE);
         floatingActionButton.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.from_right, R.anim.to_right);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer,  new TimerRecyclerFragment()).commit();
     }
 
@@ -94,7 +93,6 @@ public class TimerFragment extends Fragment {
         }
         floatingActionButton.setVisibility(View.INVISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.from_right, R.anim.to_right);
         tickTrackDatabase.setFirstTimer(false);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
     }

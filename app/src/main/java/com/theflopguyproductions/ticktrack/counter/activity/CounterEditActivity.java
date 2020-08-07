@@ -112,12 +112,14 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void stopNotificationService() {
         Intent intent = new Intent(this, CounterNotificationService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
         startService(intent);
     }
 
     private void startNotificationService() {
         Intent intent = new Intent(this, CounterNotificationService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         tickTrackDatabase.setCurrentCounterNotificationID(counterDataArrayList.get(currentPosition).getCounterID());
         intent.setAction(CounterNotificationService.ACTION_START_COUNTER_SERVICE);
         startService(intent);
@@ -446,9 +448,9 @@ public class CounterEditActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(!isChanged){
             Intent intent = new Intent(this, CounterActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("currentCounterPosition", currentPosition);
             startActivity(intent);
-            finish();
         } else {
             SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(currentPosition).getCounterLabel());
             labelDialog.show();
@@ -463,9 +465,9 @@ public class CounterEditActivity extends AppCompatActivity {
             });
             labelDialog.cancelButton.setOnClickListener(view12 -> {
                 Intent intent = new Intent(this, CounterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("currentCounterPosition", currentPosition);
                 startActivity(intent);
-                finish();
             });
         }
     }

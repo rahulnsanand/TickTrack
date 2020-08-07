@@ -80,6 +80,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerPauseResetButton.setText("Pause");
                 holder.timerPauseResetButton.setOnClickListener(view -> {
                     Intent timerIntent = new Intent(context, TimerVisibleActivity.class);
+                    timerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     timerIntent.putExtra("timerID", timerDataArrayList.get(holder.getAdapterPosition()).getTimerStringID());
                     context.startActivity(timerIntent);
                 });
@@ -108,6 +109,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                     TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     Intent timerIntent = new Intent(context, TimerVisibleActivity.class);
+                    timerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     timerIntent.putExtra("timerID", timerDataArrayList.get(position).getTimerStringID());
                     context.startActivity(timerIntent);
                 });
