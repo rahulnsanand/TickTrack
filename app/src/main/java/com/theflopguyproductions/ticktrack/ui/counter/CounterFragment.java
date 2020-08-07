@@ -175,6 +175,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
     public static void startCounterActivity(String counterID, Activity activity) {
         Intent intent = new Intent(activity, CounterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("currentCounterPosition", counterID);
         activity.startActivity(intent);
     }

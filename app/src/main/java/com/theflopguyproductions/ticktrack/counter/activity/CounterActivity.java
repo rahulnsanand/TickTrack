@@ -141,6 +141,8 @@ public class CounterActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(view -> {
             Intent intent = new Intent(activity, CounterEditActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             intent.putExtra("CurrentPosition",currentPosition);
             startActivity(intent);
         });
@@ -264,8 +266,9 @@ public class CounterActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        startActivity(new Intent(this, SoYouADeveloperHuh.class));
-        finish();
+        Intent intent = new Intent(this, SoYouADeveloperHuh.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 }
