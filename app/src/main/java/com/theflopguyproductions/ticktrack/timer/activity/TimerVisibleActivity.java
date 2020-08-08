@@ -258,9 +258,7 @@ public class TimerVisibleActivity extends AppCompatActivity {
                 presetStockValues();
                 startTimer(currentTimeInMillis);
             } else if(isStop) {
-                System.out.println("huluhul984654uhuluhuluhuluh");
                 resetFAB.setVisibility(View.INVISIBLE);
-                timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(timerDataArrayList.get(timerCurrentPosition).getTimerEndTimeInMillis());
                 tickTrackDatabase.storeTimerList(timerDataArrayList);
                 timerDataArrayList = tickTrackDatabase.retrieveTimerList();
                 stopTimer();
@@ -271,9 +269,7 @@ public class TimerVisibleActivity extends AppCompatActivity {
                     presetResumeValues();
                     startTimer(currentTimeInMillis);
                 } else {
-                    System.out.println("huluhuluhuluhuluhuluh");
                     resetFAB.setVisibility(View.INVISIBLE);
-                    timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(timerDataArrayList.get(timerCurrentPosition).getTimerEndTimeInMillis());
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     timerDataArrayList = tickTrackDatabase.retrieveTimerList();
                     stopTimer();
@@ -284,7 +280,6 @@ public class TimerVisibleActivity extends AppCompatActivity {
 
             presetPauseValues();
         } else if(!isRunning && !isPause && isReset){
-            System.out.println("huluhul984654uhuluhuluhuluh");
             presetStockValues();
         }
     }
@@ -394,6 +389,7 @@ public class TimerVisibleActivity extends AppCompatActivity {
             public void onFinished() {
                 activity.runOnUiThread(() -> {
                     timerDataArrayList.get(timerCurrentPosition).setTimerStop(true);
+                    timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(System.currentTimeMillis());
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     timerDataArrayList =  tickTrackDatabase.retrieveTimerList();
                     stopTimer();
@@ -479,7 +475,7 @@ public class TimerVisibleActivity extends AppCompatActivity {
 
     private Handler timerStopHandler;
     private Handler timerBlinkHandler;
-    long StopTime, UpdateTime = 0L;
+    float UpdateTime = 0L;
     boolean isBlink = false;
 
     public Runnable runnable = new Runnable() {
@@ -510,14 +506,10 @@ public class TimerVisibleActivity extends AppCompatActivity {
         timerBlinkHandler = new Handler();
 
         if(timerDataArrayList.get(timerCurrentPosition).getTimerStopTime() != -1){
-            float secondsPassedBG = (System.currentTimeMillis() - timerDataArrayList.get(timerCurrentPosition).getTimerStopTime()) / 1000F;
-            long secondsSet = timerDataArrayList.get(timerCurrentPosition).getTimerStopSeconds();
-            UpdateTime = secondsSet + (long)secondsPassedBG;
-            System.out.println("UPDATE TIMER +"+UpdateTime);
+            long stopTimeRetrieve = timerDataArrayList.get(timerCurrentPosition).getTimerStopTime();
+            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
         } else {
-            StopTime = System.currentTimeMillis();
-            timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(StopTime);
-            UpdateTime = 0L;
+            timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(System.currentTimeMillis());
         }
         timerProgressBar.setProgress(1);
         timerStopHandler.postDelayed(runnable, 0);
@@ -546,8 +538,6 @@ public class TimerVisibleActivity extends AppCompatActivity {
         if(timerCurrentPosition!=-1){
             if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause()){
                 if(timerDataArrayList.get(timerCurrentPosition).isTimerStop()){
-                    timerDataArrayList.get(timerCurrentPosition).setTimerStopTime(StopTime);
-                    timerDataArrayList.get(timerCurrentPosition).setTimerStopSeconds(UpdateTime);
                     if(timerStopHandler!=null && timerBlinkHandler!=null){
                         timerStopHandler.removeCallbacks(runnable);
                         timerBlinkHandler.removeCallbacks(blinkRunnable);
