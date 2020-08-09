@@ -20,10 +20,9 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
-import com.theflopguyproductions.ticktrack.timer.activity.TimerVisibleActivity;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
@@ -314,13 +313,10 @@ public class TimerCreatorFragment extends Fragment {
         timerData.setTimerMinute(pickedMinute);
         timerData.setTimerSecond(pickedSecond);
         timerData.setTimerLabel(timerLabelText.getText().toString());
-        timerData.setTimerStringID(UniqueIdGenerator.getUniqueTimerID());
-        timerData.setTimerIntegerID(UniqueIdGenerator.getUniqueIntegerTimerID());
+        timerData.setTimerID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
-        timerData.setNew(true);
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
-        timerData.setTimerReset(false);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
 
@@ -328,8 +324,9 @@ public class TimerCreatorFragment extends Fragment {
             tickTrackDatabase.setFirstTimer(false);
         }
 
-        Intent timerIntent = new Intent(activity, TimerVisibleActivity.class);
-        timerIntent.putExtra("timerID", timerData.getTimerStringID());
+        Intent timerIntent = new Intent(activity, TimerActivity.class);
+        timerIntent.setAction(TimerActivity.ACTION_TIMER_NEW_ADDITION);
+        timerIntent.putExtra("timerID", timerData.getTimerID());
         startActivity(timerIntent);
 
     }

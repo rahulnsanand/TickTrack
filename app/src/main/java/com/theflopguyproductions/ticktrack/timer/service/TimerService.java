@@ -105,12 +105,13 @@ public class TimerService extends Service {
         handler.removeCallbacks(refreshRunnable);
         stopForeground(true);
         stopSelf();
+        onDestroy();
     }
 
     @Override
     public void onDestroy() {
-        handler.removeCallbacks(refreshRunnable);
         super.onDestroy();
+        handler.removeCallbacks(refreshRunnable);
     }
 
     private void setupCustomNotification(){
@@ -123,7 +124,7 @@ public class TimerService extends Service {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                stackBuilder.getPendingIntent(2, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.COUNTER_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -133,8 +134,6 @@ public class TimerService extends Service {
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setContentIntent(resultPendingIntent);
-
-
 
         updateTimerServiceData();
 
@@ -147,22 +146,19 @@ public class TimerService extends Service {
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private ArrayList<Long> endTimes = new ArrayList<>();
     public static ArrayList<TimerData> retrieveTimerDataList(SharedPreferences sharedPreferences){
-
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerData", null);
         Type type = new TypeToken<ArrayList<TimerData>>() {}.getType();
         ArrayList<TimerData> timerData = gson.fromJson(json, type);
-
         if(timerData == null){
             timerData = new ArrayList<>();
         }
-
         return timerData;
     }
     private ArrayList<Long> getEndTimes() {
         ArrayList<Long> returnTimes = new ArrayList<>();
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            returnTimes.add(timerDataArrayList.get(i).getTimerEndedTimeInMillis());
+            returnTimes.add(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis());
         }
         return returnTimes;
     }
@@ -212,7 +208,6 @@ public class TimerService extends Service {
             System.out.println("KILL NOTIFICATION");
             stopTimerService();
         }
-
     }
 
     private int getAllOnTimers() {

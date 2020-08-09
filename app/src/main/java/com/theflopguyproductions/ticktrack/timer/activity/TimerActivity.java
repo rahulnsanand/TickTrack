@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.timer.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,6 @@ import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
-import com.theflopguyproductions.ticktrack.utils.TickTrackCountdownTimer;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.TickTrackTimerDatabase;
@@ -30,10 +30,12 @@ import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class TimerVisibleActivity extends AppCompatActivity {
+public class TimerActivity extends AppCompatActivity {
 
+    public static final String ACTION_TIMER_NEW_ADDITION = "ACTION_TIMER_NEW_ADDITION";
 
     TickTrackTimerDatabase tickTrackTimerDatabase;
     TickTrackDatabase tickTrackDatabase;
@@ -44,41 +46,18 @@ public class TimerVisibleActivity extends AppCompatActivity {
     private ImageButton backButton, editButton, deleteButton;
     private TickTrackProgressBar timerProgressBar, timerProgressBarBackground;
 
-    private String timerIDString;
-    private int timerIDInteger, timerCurrentPosition;
+    private int timerID, timerCurrentPosition;
     private Activity activity;
-    private boolean isRunning, isPause, isNew, isReset, isStop;
+    private boolean isTimerRunning, isTimerPaused, isTimerNew = false, isTimerRinging;
 
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
-
-    private int resumeHours, resumeMinutes, resumeSeconds;
     float resumeMilliseconds;
     private int pauseHours, pauseMinutes, pauseSeconds, pauseMilliseconds;
 
-    private long maxTimeInMillis, currentTimeInMillis, resumeTimeInMillis;
+    private long maxTimeInMillis, currentTimeInMillis;
 
-    private TickTrackCountdownTimer countDownTimer;
+    private CountDownTimer countDownTimer;
     private Handler progressBarPreHandler = new Handler();
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        TickTrackThemeSetter.timerActivityTheme(activity,timerActivityToolbar, timerDataArrayList.get(timerCurrentPosition).getTimerFlag(),timerActivityRootLayout,
-                timerHourMinute, timerMillis, timerProgressBarBackground, tickTrackDatabase);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        TickTrackThemeSetter.timerActivityTheme(activity,timerActivityToolbar, timerDataArrayList.get(timerCurrentPosition).getTimerFlag(),timerActivityRootLayout,
-                timerHourMinute, timerMillis, timerProgressBarBackground, tickTrackDatabase);
-        timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
-        if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
-            tickTrackTimerDatabase.stopNotificationService();
-        }
-        tickTrackTimerDatabase = new TickTrackTimerDatabase(activity);
-    }
 
     private void initVariables() {
 
@@ -161,14 +140,25 @@ public class TimerVisibleActivity extends AppCompatActivity {
         }
         return R.color.Accent;
     }
-
+    private int getCurrentTimerPosition() {
+        for(int i = 0; i < timerDataArrayList.size(); i ++){
+            if(timerDataArrayList.get(i).getTimerID()==timerID){
+                return i;
+            }
+        }
+        return -1;
+    }
+    private float getCurrentStep(long currentValue, long maxLength){
+        return ((currentValue-0f)/(maxLength-0f)) *(1f-0f)+0f;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
         initVariables();
 
-        timerIDString = getIntent().getStringExtra("timerID");
+        timerID = getIntent().getIntExtra("timerID", -1);
+        isTimerNew = Objects.equals(getIntent().getAction(), ACTION_TIMER_NEW_ADDITION);
 
         activity = this;
         tickTrackTimerDatabase = new TickTrackTimerDatabase(activity);
@@ -183,55 +173,12 @@ public class TimerVisibleActivity extends AppCompatActivity {
         setupFABListeners();
 
     }
-
-    private void setupFABListeners(){
-        playPauseFAB.setOnClickListener(view -> {
-            if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause() &&
-            !timerDataArrayList.get(timerCurrentPosition).isTimerReset()){
-                if(timerDataArrayList.get(timerCurrentPosition).isTimerStop()){
-                    killAndResetTimer();
-                } else {
-                    pauseTimer();
-                }
-            } else {
-                startTimer(currentTimeInMillis);
-            }
-        });
-
-        resetFAB.setOnClickListener(view -> resetTimer());
-    }
-
-    private void killAndResetTimer(){
-
-        timerStopHandler.removeCallbacks(runnable);
-        timerBlinkHandler.removeCallbacks(blinkRunnable);
-
-        timerMillis.setVisibility(View.VISIBLE);
-        timerProgressBar.setVisibility(View.VISIBLE);
-        resetTimer();
-        setupFABListeners();
-        timerDataArrayList.get(timerCurrentPosition).setTimerOn(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerReset(true);
-        timerDataArrayList.get(timerCurrentPosition).setNew(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerStop(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(-1);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-    }
-
     private void checkValuesInit() {
 
         timerCurrentPosition = getCurrentTimerPosition();
-        if(timerCurrentPosition!=-1){
+        if(timerCurrentPosition!=-1 && timerID!=-1){
 
-            isPause = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
-            isRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
-            isReset = timerDataArrayList.get(timerCurrentPosition).isTimerReset();
-            isNew = timerDataArrayList.get(timerCurrentPosition).isNew();
-            isStop = timerDataArrayList.get(timerCurrentPosition).isTimerStop();
-            maxTimeInMillis = timerDataArrayList.get(timerCurrentPosition).getTimerTotalTimeInMillis();
-            timerIDInteger = timerDataArrayList.get(timerCurrentPosition).getTimerIntegerID();
+            booleanRefresh();
 
             if(!timerDataArrayList.get(timerCurrentPosition).getTimerLabel().equals("Set label")){
                 labelTextView.setText(timerDataArrayList.get(timerCurrentPosition).getTimerLabel());
@@ -247,156 +194,93 @@ public class TimerVisibleActivity extends AppCompatActivity {
         }
     }
 
-    private int getCurrentTimerPosition() {
-        for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerStringID().equals(timerIDString)){
-                return i;
-            }
-        }
-        return -1;
+    private void booleanRefresh() {
+        isTimerPaused = timerDataArrayList.get(timerCurrentPosition).isTimerPause();
+        isTimerRunning = timerDataArrayList.get(timerCurrentPosition).isTimerOn();
+        isTimerRinging = timerDataArrayList.get(timerCurrentPosition).isTimerRinging();
+        maxTimeInMillis = timerDataArrayList.get(timerCurrentPosition).getTimerTotalTimeInMillis();
     }
 
     private void checkConditions() {
-        if (isRunning && !isPause && !isReset){
-            if(isNew){
+        if (isTimerRunning){
+            if(isTimerNew){
                 presetStockValues();
                 startTimer(currentTimeInMillis);
-            } else if(isStop) {
-                resetFAB.setVisibility(View.INVISIBLE);
-                tickTrackDatabase.storeTimerList(timerDataArrayList);
-                timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-                stopTimer();
-            }
-            else {
+            } else if(isTimerPaused){
+                presetPauseValues();
+            } else {
                 if((timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis()-System.currentTimeMillis())>0){
-
                     presetResumeValues();
                     startTimer(currentTimeInMillis);
                 } else {
                     resetFAB.setVisibility(View.INVISIBLE);
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+                    booleanRefresh();
                     stopTimer();
                 }
             }
-        } else if(isRunning && isPause && !isReset){
-
-            presetPauseValues();
-        } else if(!isRunning && !isPause && isReset){
+        } else {
             presetStockValues();
         }
     }
 
-    private void presetPauseValues() {
-
-        resetFAB.setVisibility(View.VISIBLE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
-
-        pauseHours = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerHourLeft());
-        pauseMinutes = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerMinuteLeft());
-        pauseSeconds = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerSecondLeft());
-        pauseMilliseconds = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerMilliSecondLeft());
-
-        currentTimeInMillis = TimeAgo.getTimerDataInMillis(pauseHours, pauseMinutes, pauseSeconds, pauseMilliseconds);
-
-        timerProgressBar.setInstantProgress(getCurrentStep(currentTimeInMillis, maxTimeInMillis));
-
-        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", pauseHours,pauseMinutes,pauseSeconds);
-        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", (int) Math.floor(pauseMilliseconds));
-
-        timerHourMinute.setText(resumeTimeLeft);
-        timerMillis.setText(resumeMillisLeft);
+    private void setupFABListeners(){
+        playPauseFAB.setOnClickListener(view -> {
+            if(isTimerRunning && !isTimerPaused){
+                if(isTimerRinging){
+                    System.out.println("KillTimer");
+                    killAndResetTimer();
+                } else {
+                    System.out.println("PauseTimer");
+                    pauseTimer();
+                }
+            } else {
+                System.out.println("StartTimer");
+                startTimer(currentTimeInMillis);
+            }
+        });
+        resetFAB.setOnClickListener(view -> resetTimer());
     }
 
-    private void postSetPauseValues(){
-        resetFAB.setVisibility(View.VISIBLE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+    private void updateTimerTextView(long countdownValue){
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(countdownValue);
+        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(countdownValue) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdownValue)));
+        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(countdownValue) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(countdownValue)));
+        float milliseconds = (float) (TimeUnit.MILLISECONDS.toMillis(countdownValue) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(countdownValue)))/10;
 
-        pauseHours = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerHourLeft());
-        pauseMinutes = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerMinuteLeft());
-        pauseSeconds = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerSecondLeft());
-        pauseMilliseconds = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerMilliSecondLeft());
+        String hourLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", hours,minutes,seconds);
+        String milliSecondLeft = String.format(Locale.getDefault(), "%02d", (int) Math.floor(milliseconds));
 
-        currentTimeInMillis = countDownTimerMillis;
-
-        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", pauseHours,pauseMinutes,pauseSeconds);
-        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", (int) Math.floor(pauseMilliseconds));
-
-        timerHourMinute.setText(resumeTimeLeft);
-        timerMillis.setText(resumeMillisLeft);
+        timerHourMinute.setText(hourLeft);
+        timerMillis.setText(milliSecondLeft);
     }
-
-    private void presetResumeValues() {
-
-        resumeTimeInMillis = timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - System.currentTimeMillis();
-        currentTimeInMillis = resumeTimeInMillis;
-        resetFAB.setVisibility(View.INVISIBLE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
-
-        resumeHours = (int) TimeUnit.MILLISECONDS.toHours(resumeTimeInMillis);
-        resumeMinutes = (int) (TimeUnit.MILLISECONDS.toMinutes(resumeTimeInMillis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(resumeTimeInMillis)));
-        resumeSeconds = (int) (TimeUnit.MILLISECONDS.toSeconds(resumeTimeInMillis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(resumeTimeInMillis)));
-        resumeMilliseconds = (float) (TimeUnit.MILLISECONDS.toMillis(resumeTimeInMillis) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(resumeTimeInMillis)))/10;
-
-
-        timerProgressBar.setInstantProgress(getCurrentStep(resumeTimeInMillis, maxTimeInMillis));
-
-        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", resumeHours,resumeMinutes,resumeSeconds);
-        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", (int) resumeMilliseconds);
-
-        timerHourMinute.setText(resumeTimeLeft);
-        timerMillis.setText(resumeMillisLeft);
-
-    }
-
-    private void presetStockValues() {
-        if(timerProgressBar.getProgress()!=1){
-            progressBarPreHandler.postDelayed(() -> timerProgressBar.setProgress(1), 400);
-        }
-
-        resetFAB.setVisibility(View.INVISIBLE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
-
-
-
-        int staticHours = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerHour());
-        int staticMinutes = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerMinute());
-        int staticSeconds = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerSecond());
-        int staticMilliseconds = 0;
-
-        currentTimeInMillis = TimeAgo.getTimerDataInMillis(staticHours, staticMinutes, staticSeconds, staticMilliseconds);
-
-        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", staticHours,staticMinutes,staticSeconds);
-        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", staticMilliseconds);
-
-        timerHourMinute.setText(resumeTimeLeft);
-        timerMillis.setText(resumeMillisLeft);
-    }
-
     long countDownTimerMillis;
     private void startTimer(long timeInMillis) {
 
         timerDataArrayList.get(timerCurrentPosition).setTimerAlarmEndTimeInMillis(timeInMillis+System.currentTimeMillis());
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        tickTrackTimerDatabase.setAlarm(timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis(), timerIDInteger);
+
+
+        tickTrackTimerDatabase.setAlarm(timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis(), timerID);
 
         countDownTimerMillis = timeInMillis;
 
-        countDownTimer = new TickTrackCountdownTimer(countDownTimerMillis, 1) {
+        countDownTimer = new CountDownTimer(countDownTimerMillis, 1) {
             @Override
             public void onTick(long l) {
                 activity.runOnUiThread(()->{
+                    System.out.println("TIMER TICK BITCH RUNNING");
                     countDownTimerMillis = l;
                     updateTimerTextView(countDownTimerMillis+1000);
                     timerProgressBar.setProgress(getCurrentStep(countDownTimerMillis, maxTimeInMillis));
                 });
             }
             @Override
-            public void onFinished() {
+            public void onFinish() {
                 activity.runOnUiThread(() -> {
                     System.out.println("ON FINISH BITCH");
-                    timerDataArrayList.get(timerCurrentPosition).setTimerStop(true);
                     timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     timerDataArrayList =  tickTrackDatabase.retrieveTimerList();
@@ -409,37 +293,13 @@ public class TimerVisibleActivity extends AppCompatActivity {
 
         timerDataArrayList.get(timerCurrentPosition).setTimerOn(true);
         timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerReset(false);
-        timerDataArrayList.get(timerCurrentPosition).setNew(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerStop(false);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList =  tickTrackDatabase.retrieveTimerList();
+        booleanRefresh();
         playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
         resetFAB.setVisibility(View.INVISIBLE);
 
     }
-
-    private void resetTimer() {
-
-
-        timerDataArrayList.get(timerCurrentPosition).setTimerOn(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerReset(true);
-        timerDataArrayList.get(timerCurrentPosition).setNew(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerStop(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(-1);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        timerProgressBar.setProgress(1);
-        presetStockValues();
-
-        if(timerStopHandler!=null && timerBlinkHandler!=null){
-            timerStopHandler.removeCallbacks(runnable);
-            timerBlinkHandler.removeCallbacks(blinkRunnable);
-        }
-
-    }
-
     private void pauseTimer() {
 
         countDownTimer.cancel();
@@ -455,9 +315,6 @@ public class TimerVisibleActivity extends AppCompatActivity {
 
         timerDataArrayList.get(timerCurrentPosition).setTimerOn(true);
         timerDataArrayList.get(timerCurrentPosition).setTimerPause(true);
-        timerDataArrayList.get(timerCurrentPosition).setNew(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerReset(false);
-        timerDataArrayList.get(timerCurrentPosition).setTimerStop(false);
         timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
         timerDataArrayList.get(timerCurrentPosition).setTimerHourLeft(hours);
         timerDataArrayList.get(timerCurrentPosition).setTimerMinuteLeft(minutes);
@@ -467,40 +324,144 @@ public class TimerVisibleActivity extends AppCompatActivity {
 
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        booleanRefresh();
 
         postSetPauseValues();
-        tickTrackTimerDatabase.cancelAlarm(timerIDInteger);
+        tickTrackTimerDatabase.cancelAlarm(timerID);
 
         if(timerStopHandler!=null && timerBlinkHandler!=null){
             timerStopHandler.removeCallbacks(runnable);
             timerBlinkHandler.removeCallbacks(blinkRunnable);
         }
     }
+    private void resetTimer() {
 
-    private float getCurrentStep(long currentValue, long maxLength){
-        return ((currentValue-0f)/(maxLength-0f)) *(1f-0f)+0f;
+        timerDataArrayList.get(timerCurrentPosition).setTimerOn(false);
+        timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
+        timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(-1);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        booleanRefresh();
+        timerProgressBar.setProgress(1);
+        presetStockValues();
+
+        if(timerStopHandler!=null && timerBlinkHandler!=null){
+            timerStopHandler.removeCallbacks(runnable);
+            timerBlinkHandler.removeCallbacks(blinkRunnable);
+        }
+
     }
 
-    private void updateTimerTextView(long countdownValue){
+    private void presetPauseValues() {
 
-        int hours = (int) TimeUnit.MILLISECONDS.toHours(countdownValue);
-        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(countdownValue) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdownValue)));
-        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(countdownValue) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(countdownValue)));
-        float milliseconds = (float) (TimeUnit.MILLISECONDS.toMillis(countdownValue) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(countdownValue)))/10;
+        resetFAB.setVisibility(View.VISIBLE);
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
 
-        String hourLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", hours,minutes,seconds);
+        pauseHours = timerDataArrayList.get(timerCurrentPosition).getTimerHourLeft();
+        pauseMinutes = timerDataArrayList.get(timerCurrentPosition).getTimerMinuteLeft();
+        pauseSeconds = timerDataArrayList.get(timerCurrentPosition).getTimerSecondLeft();
+        pauseMilliseconds = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerMilliSecondLeft());
 
-        String milliSecondLeft = String.format(Locale.getDefault(), "%02d", (int) Math.floor(milliseconds));
+        currentTimeInMillis = TimeAgo.getTimerDataInMillis(pauseHours, pauseMinutes, pauseSeconds, pauseMilliseconds);
 
-        timerHourMinute.setText(hourLeft);
-        timerMillis.setText(milliSecondLeft);
+        timerProgressBar.setInstantProgress(getCurrentStep(currentTimeInMillis, maxTimeInMillis));
+
+        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", pauseHours,pauseMinutes,pauseSeconds);
+        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", (int) Math.floor(pauseMilliseconds));
+
+        timerHourMinute.setText(resumeTimeLeft);
+        timerMillis.setText(resumeMillisLeft);
+    }
+    private void postSetPauseValues(){
+        resetFAB.setVisibility(View.VISIBLE);
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+
+        pauseHours = timerDataArrayList.get(timerCurrentPosition).getTimerHourLeft();
+        pauseMinutes = timerDataArrayList.get(timerCurrentPosition).getTimerMinuteLeft();
+        pauseSeconds = timerDataArrayList.get(timerCurrentPosition).getTimerSecondLeft();
+        pauseMilliseconds = (int) (timerDataArrayList.get(timerCurrentPosition).getTimerMilliSecondLeft());
+
+        currentTimeInMillis = countDownTimerMillis;
+
+        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", pauseHours,pauseMinutes,pauseSeconds);
+        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", (int) Math.floor(pauseMilliseconds));
+
+        timerHourMinute.setText(resumeTimeLeft);
+        timerMillis.setText(resumeMillisLeft);
+    }
+    private void presetResumeValues() {
+
+        long resumeTimeInMillis = timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - System.currentTimeMillis();
+        currentTimeInMillis = resumeTimeInMillis;
+        resetFAB.setVisibility(View.INVISIBLE);
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
+
+        int resumeHours = (int) TimeUnit.MILLISECONDS.toHours(resumeTimeInMillis);
+        int resumeMinutes = (int) (TimeUnit.MILLISECONDS.toMinutes(resumeTimeInMillis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(resumeTimeInMillis)));
+        int resumeSeconds = (int) (TimeUnit.MILLISECONDS.toSeconds(resumeTimeInMillis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(resumeTimeInMillis)));
+        resumeMilliseconds = (float) (TimeUnit.MILLISECONDS.toMillis(resumeTimeInMillis) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(resumeTimeInMillis)))/10;
+
+
+        timerProgressBar.setInstantProgress(getCurrentStep(resumeTimeInMillis, maxTimeInMillis));
+
+        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", resumeHours, resumeMinutes, resumeSeconds);
+        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", (int) resumeMilliseconds);
+
+        timerHourMinute.setText(resumeTimeLeft);
+        timerMillis.setText(resumeMillisLeft);
+
+    }
+
+    private void stopTimer(){
+
+        timerMillis.setVisibility(View.GONE);
+        timerStopHandler = new Handler();
+        timerBlinkHandler = new Handler();
+
+        timerDataArrayList.get(timerCurrentPosition).setTimerRinging(true);
+        if(timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis() != -1){
+            long stopTimeRetrieve = timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis();
+            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
+        } else {
+            timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
+            timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+            booleanRefresh();
+            stopTimer();
+        }
+        timerProgressBar.setProgress(1);
+        timerStopHandler.postDelayed(runnable, 0);
+        timerBlinkHandler.postDelayed(blinkRunnable, 0);
+
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_stop_white_24));
+
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        booleanRefresh();
+
+    }
+    private void killAndResetTimer(){
+
+        timerStopHandler.removeCallbacks(runnable);
+        timerBlinkHandler.removeCallbacks(blinkRunnable);
+
+        timerMillis.setVisibility(View.VISIBLE);
+        timerProgressBar.setVisibility(View.VISIBLE);
+        resetTimer();
+        setupFABListeners();
+        timerDataArrayList.get(timerCurrentPosition).setTimerOn(false);
+        timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
+        timerDataArrayList.get(timerCurrentPosition).setTimerRinging(false);
+        timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(-1);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        booleanRefresh();
     }
 
     private Handler timerStopHandler;
     private Handler timerBlinkHandler;
     float UpdateTime = 0L;
     boolean isBlink = false;
-
     public Runnable runnable = new Runnable() {
         public void run() {
             UpdateTime += 1;
@@ -509,7 +470,6 @@ public class TimerVisibleActivity extends AppCompatActivity {
             System.out.println("UpdateTextView");
         }
     };
-
     public Runnable blinkRunnable = new Runnable(){
         public void run(){
             if(isBlink){
@@ -525,28 +485,6 @@ public class TimerVisibleActivity extends AppCompatActivity {
         }
     };
 
-    private void stopTimer(){
-
-        timerMillis.setVisibility(View.GONE);
-        timerStopHandler = new Handler();
-        timerBlinkHandler = new Handler();
-
-        if(timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis() != -1){
-            long stopTimeRetrieve = timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis();
-            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
-        } else {
-            timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
-        }
-        timerProgressBar.setProgress(1);
-        timerStopHandler.postDelayed(runnable, 0);
-        timerBlinkHandler.postDelayed(blinkRunnable, 0);
-
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_stop_white_24));
-        playPauseFAB.setOnClickListener(view -> {
-            killAndResetTimer();
-        });
-    }
-
     private void updateStopTimeText() {
 
         float totalSeconds = UpdateTime;
@@ -556,6 +494,70 @@ public class TimerVisibleActivity extends AppCompatActivity {
 
         String hourLeft = String.format(Locale.getDefault(),"-%02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
         timerHourMinute.setText(hourLeft);
+    }
+
+    private void presetStockValues() {
+
+        if(timerProgressBar.getProgress()!=1){
+            progressBarPreHandler.postDelayed(() -> timerProgressBar.setProgress(1), 400);
+        }
+
+        resetFAB.setVisibility(View.INVISIBLE);
+        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+
+        int staticHours = timerDataArrayList.get(timerCurrentPosition).getTimerHour();
+        int staticMinutes = timerDataArrayList.get(timerCurrentPosition).getTimerMinute();
+        int staticSeconds = timerDataArrayList.get(timerCurrentPosition).getTimerSecond();
+        int staticMilliseconds = 0;
+
+        currentTimeInMillis = TimeAgo.getTimerDataInMillis(staticHours, staticMinutes, staticSeconds, staticMilliseconds);
+
+        String resumeTimeLeft = String.format(Locale.getDefault(),"%02d:%02d:%02d", staticHours,staticMinutes,staticSeconds);
+        String resumeMillisLeft = String.format(Locale.getDefault(), "%02d", staticMilliseconds);
+
+        timerHourMinute.setText(resumeTimeLeft);
+        timerMillis.setText(resumeMillisLeft);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        TickTrackThemeSetter.timerActivityTheme(activity,timerActivityToolbar, timerDataArrayList.get(timerCurrentPosition).getTimerFlag(),timerActivityRootLayout,
+                timerHourMinute, timerMillis, timerProgressBarBackground, tickTrackDatabase);
+        timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+            tickTrackTimerDatabase.stopNotificationService();
+        }
+        tickTrackTimerDatabase = new TickTrackTimerDatabase(activity);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(timerCurrentPosition!=-1){
+            if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause()){
+                System.out.println("TIMER WAS RUNNING");
+                timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(true);
+                if(!tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+                    tickTrackTimerDatabase.startNotificationService();
+                }
+            } else {
+                System.out.println("TIMER WAS NOT RUNNING");
+                timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
+                if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+                    tickTrackTimerDatabase.stopNotificationService();
+                }
+            }
+        }
+        if(timerStopHandler!=null && timerBlinkHandler!=null){
+            timerStopHandler.removeCallbacks(runnable);
+            timerBlinkHandler.removeCallbacks(blinkRunnable);
+        }
+        if(countDownTimer!=null){
+            countDownTimer.cancel();
+        }
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
     }
 
     @Override
@@ -580,9 +582,11 @@ public class TimerVisibleActivity extends AppCompatActivity {
             timerStopHandler.removeCallbacks(runnable);
             timerBlinkHandler.removeCallbacks(blinkRunnable);
         }
+        if(countDownTimer!=null){
+            countDownTimer.cancel();
+        }
         tickTrackDatabase.storeTimerList(timerDataArrayList);
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

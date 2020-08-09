@@ -18,13 +18,9 @@ import static android.content.Context.MODE_PRIVATE;
 public class TickTrackTimerDatabase {
 
     private Context context;
-    private SharedPreferences sharedPreferences;
-    private TickTrackDatabase tickTrackDatabase;
-    private ArrayList<TimerData> timerDataArrayList;
 
     public TickTrackTimerDatabase(Context context) {
         this.context = context;
-        this.sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
     }
 
     public void setAlarm(long endTime, int timerIntegerID){

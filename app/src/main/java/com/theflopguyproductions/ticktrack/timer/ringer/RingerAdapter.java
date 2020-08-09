@@ -41,9 +41,10 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
 
     }
 
-    private int getCurrentTimerPosition(String timerIDString){
+    private int getCurrentTimerPosition(int timerID){
         for(int i = 0; i <timerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).getTimerStringID().equals(timerIDString)){
+            if(timerDataArrayList.get(i)
+                    .getTimerID()==timerID){
                 return i;
             }
         }
@@ -57,7 +58,7 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
 
         int theme = holder.tickTrackDatabase.getThemeMode();
 
-        int currentPosition = getCurrentTimerPosition(timerDataArrayList.get(position).getTimerStringID());
+        int currentPosition = getCurrentTimerPosition(timerDataArrayList.get(position).getTimerID());
 
         if(theme == 1){
             holder.rootLayout.setBackgroundColor(holder.context.getResources().getColor(R.color.DarkText));

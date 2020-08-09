@@ -8,13 +8,13 @@ import java.sql.Timestamp;
 public class TimerData implements Comparable<TimerData> {
 
 
-    int timerHour, timerMinute, timerSecond, timerIntegerID, timerFlag;
+    int timerHour, timerMinute, timerSecond, timerID, timerFlag;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
     long timerAlarmEndTimeInMillis, timerTotalTimeInMillis, timerEndedTimeInMillis;
     Timestamp timerCreateTimeStamp;
-    String timerStringID, timerLabel;
-    boolean timerOn, timerPause, timerReset, isNew, timerStop;
+    String timerLabel;
+    boolean timerOn, timerPause;
 
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
@@ -83,21 +83,6 @@ public class TimerData implements Comparable<TimerData> {
         this.timerEndedTimeInMillis = timerEndedTimeInMillis;
     }
 
-    public boolean isTimerStop() {
-        return timerStop;
-    }
-
-    public void setTimerStop(boolean timerStop) {
-        this.timerStop = timerStop;
-    }
-
-    public boolean isNew() {
-        return isNew;
-    }
-
-    public void setNew(boolean aNew) {
-        isNew = aNew;
-    }
 
     public long getTimerTotalTimeInMillis() {
         return timerTotalTimeInMillis;
@@ -131,12 +116,12 @@ public class TimerData implements Comparable<TimerData> {
         this.timerSecond = timerSecond;
     }
 
-    public int getTimerIntegerID() {
-        return timerIntegerID;
+    public int getTimerID() {
+        return timerID;
     }
 
-    public void setTimerIntegerID(int timerIntegerID) {
-        this.timerIntegerID = timerIntegerID;
+    public void setTimerID(int timerID) {
+        this.timerID = timerID;
     }
 
     public int getTimerFlag() {
@@ -195,14 +180,6 @@ public class TimerData implements Comparable<TimerData> {
         this.timerCreateTimeStamp = timerCreateTimeStamp;
     }
 
-    public String getTimerStringID() {
-        return timerStringID;
-    }
-
-    public void setTimerStringID(String timerStringID) {
-        this.timerStringID = timerStringID;
-    }
-
     public String getTimerLabel() {
         return timerLabel;
     }
@@ -225,14 +202,6 @@ public class TimerData implements Comparable<TimerData> {
 
     public void setTimerPause(boolean timerPause) {
         this.timerPause = timerPause;
-    }
-
-    public boolean isTimerReset() {
-        return timerReset;
-    }
-
-    public void setTimerReset(boolean timerReset) {
-        this.timerReset = timerReset;
     }
 
     @Override
