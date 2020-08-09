@@ -157,11 +157,6 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         super.onResume();
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        timerAdapter.notifyDataSetChanged();
-        if (mBundleRecyclerViewState != null) {
-            Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
-            timerRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
-        }
     }
 
     @Override
@@ -186,13 +181,9 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         }
     };
 
-    private static Bundle mBundleRecyclerViewState;
-    private final String KEY_RECYCLER_STATE = "recycler_state";
+
     @Override
     public void onPause() {
         super.onPause();
-        mBundleRecyclerViewState = new Bundle();
-        Parcelable listState = timerRecyclerView.getLayoutManager().onSaveInstanceState();
-        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
     }
 }

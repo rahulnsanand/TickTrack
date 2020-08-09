@@ -1,5 +1,8 @@
 package com.theflopguyproductions.ticktrack.timer;
 
+import android.os.Handler;
+
+
 import java.sql.Timestamp;
 
 public class TimerData implements Comparable<TimerData> {
@@ -8,17 +11,76 @@ public class TimerData implements Comparable<TimerData> {
     int timerHour, timerMinute, timerSecond, timerIntegerID, timerFlag;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
-    long timerEndTimeInMillis, timerTotalTimeInMillis, timerStopTime;
+    long timerAlarmEndTimeInMillis, timerTotalTimeInMillis, timerEndedTimeInMillis;
     Timestamp timerCreateTimeStamp;
     String timerStringID, timerLabel;
     boolean timerOn, timerPause, timerReset, isNew, timerStop;
 
-    public long getTimerStopTime() {
-        return timerStopTime;
+    boolean isTimerRinging;
+    boolean isTimerNotificationOn;
+    private stoppedTimerListener stoppedTimerListener;
+    Handler timerHandler;
+    float updatedElapsedTime;
+
+    public boolean isTimerRinging() {
+        return isTimerRinging;
     }
 
-    public void setTimerStopTime(long timerStopTime) {
-        this.timerStopTime = timerStopTime;
+    public void setTimerRinging(boolean timerRinging) {
+        isTimerRinging = timerRinging;
+    }
+
+    public boolean isTimerNotificationOn() {
+        return isTimerNotificationOn;
+    }
+
+    public void setTimerNotificationOn(boolean timerNotificationOn) {
+        isTimerNotificationOn = timerNotificationOn;
+    }
+
+    public void setStoppedTimerListener(TimerData.stoppedTimerListener stoppedTimerListener) {
+        this.stoppedTimerListener = stoppedTimerListener;
+    }
+
+    private Runnable stoppedTimerElapsedTimeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (isTimerRinging) {
+                if (stoppedTimerListener != null) {
+                    increment();
+                    stoppedTimerListener.onTick(updatedElapsedTime);
+                    System.out.println(timerLabel+updatedElapsedTime+"<<<<");
+                }
+            } else {
+                timerHandler.removeCallbacks(this);
+                return;
+            }
+            timerHandler.postDelayed(this, 100);
+        }
+    };
+
+    private void increment() {
+        updatedElapsedTime += 1;
+    }
+
+    public void start(long timerEndTimeInMillis) {
+        if(timerEndTimeInMillis != -1){
+            updatedElapsedTime = (System.currentTimeMillis() - timerEndTimeInMillis) / 1000F;
+            isTimerRinging = true;
+            timerHandler.post(stoppedTimerElapsedTimeRunnable);
+        }
+    }
+
+    public interface stoppedTimerListener {
+        void onTick(float currentValue);
+    }
+
+    public long getTimerEndedTimeInMillis() {
+        return timerEndedTimeInMillis;
+    }
+
+    public void setTimerEndedTimeInMillis(long timerEndedTimeInMillis) {
+        this.timerEndedTimeInMillis = timerEndedTimeInMillis;
     }
 
     public boolean isTimerStop() {
@@ -117,12 +179,12 @@ public class TimerData implements Comparable<TimerData> {
         this.timerMilliSecondLeft = timerMilliSecondLeft;
     }
 
-    public long getTimerEndTimeInMillis() {
-        return timerEndTimeInMillis;
+    public long getTimerAlarmEndTimeInMillis() {
+        return timerAlarmEndTimeInMillis;
     }
 
-    public void setTimerEndTimeInMillis(long timerEndTimeInMillis) {
-        this.timerEndTimeInMillis = timerEndTimeInMillis;
+    public void setTimerAlarmEndTimeInMillis(long timerAlarmEndTimeInMillis) {
+        this.timerAlarmEndTimeInMillis = timerAlarmEndTimeInMillis;
     }
 
     public Timestamp getTimerCreateTimeStamp() {

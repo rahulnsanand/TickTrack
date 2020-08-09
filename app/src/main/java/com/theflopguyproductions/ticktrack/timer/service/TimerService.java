@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
+import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
 import java.lang.reflect.Type;
@@ -33,7 +34,6 @@ import java.util.concurrent.Future;
 
 public class TimerService extends Service {
 
-//    public static final String ACTION_REFRESH_TIMER = "ACTION_REFRESH_TIMER";
     public static final String ACTION_STOP_TIMER_SERVICE = "ACTION_STOP_TIMER_SERVICE";
     public static final String ACTION_START_TIMER_SERVICE = "ACTION_START_TIMER_SERVICE";
 
@@ -79,19 +79,19 @@ public class TimerService extends Service {
     }
 
     private void stopTimerService() {
-        if(!(timerServiceData.size() >0)){
+        timerDataArrayList = retrieveTimerDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        if(!(getAllOnTimers() > 0)){
             killNotifications();
         }
     }
     private void startTimerService() {
         startForegroundService();
         refreshingEverySecond();
-
     }
 
     private void initializeValues(){
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
-        timerServiceData = retrieveTimerServiceDataList(sharedPreferences);
+        timerDataArrayList = retrieveTimerDataList(sharedPreferences);
         endTimes = getEndTimes();
     }
 
@@ -102,6 +102,7 @@ public class TimerService extends Service {
     }
 
     private void killNotifications(){
+        handler.removeCallbacks(refreshRunnable);
         stopForeground(true);
         stopSelf();
     }
@@ -143,34 +144,25 @@ public class TimerService extends Service {
 
     }
 
-    private static ArrayList<TimerServiceData> timerServiceData = new ArrayList<>();
+    private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private ArrayList<Long> endTimes = new ArrayList<>();
-    public static ArrayList<TimerServiceData> retrieveTimerServiceDataList(SharedPreferences sharedPreferences){
+    public static ArrayList<TimerData> retrieveTimerDataList(SharedPreferences sharedPreferences){
 
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("TimerServiceData", null);
-        Type type = new TypeToken<ArrayList<TimerServiceData>>() {}.getType();
-        ArrayList<TimerServiceData> timerServiceData = gson.fromJson(json, type);
+        String json = sharedPreferences.getString("TimerData", null);
+        Type type = new TypeToken<ArrayList<TimerData>>() {}.getType();
+        ArrayList<TimerData> timerData = gson.fromJson(json, type);
 
-        if(timerServiceData == null){
-            timerServiceData = new ArrayList<>();
+        if(timerData == null){
+            timerData = new ArrayList<>();
         }
 
-        return timerServiceData;
-    }
-    public static void storeTimerServiceData(SharedPreferences sharedPreferences){
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(timerServiceData);
-        editor.putString("TimerServiceData", json);
-        editor.apply();
-
+        return timerData;
     }
     private ArrayList<Long> getEndTimes() {
         ArrayList<Long> returnTimes = new ArrayList<>();
-        for(int i = 0; i < timerServiceData.size(); i ++){
-            returnTimes.add(timerServiceData.get(i).getEndTimeInMillis());
+        for(int i = 0; i < timerDataArrayList.size(); i ++){
+            returnTimes.add(timerDataArrayList.get(i).getTimerEndedTimeInMillis());
         }
         return returnTimes;
     }
@@ -191,6 +183,7 @@ public class TimerService extends Service {
         public void run() {
             notifyNotification();
             handler.postDelayed(refreshRunnable, 1000);
+            System.out.println("UpdateNotification");
         }
     };
 
@@ -200,15 +193,16 @@ public class TimerService extends Service {
 
     private void updateTimerServiceData(){
 
-        timerServiceData = retrieveTimerServiceDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
-
-        if(timerServiceData.size()>1){
+        timerDataArrayList = retrieveTimerDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        int OnTimers = getAllOnTimers();
+        System.out.println("NOTIFICATION ON TIMER COUNT "+OnTimers);
+        if(OnTimers>1){
             System.out.println("MORE NOTIFICATION");
-            notificationBuilder.setContentTitle(timerServiceData.size()+" TickTrack timers running");
+            notificationBuilder.setContentTitle(OnTimers+" TickTrack timers running");
             String nextOccurrence = getNextOccurrence();
             notificationBuilder.setContentText("Next timer in "+nextOccurrence);
             notificationManagerCompat.notify(2, notificationBuilder.build());
-        } else if(timerServiceData.size()==1){
+        } else if(OnTimers==1){
             System.out.println("ONE NOTIFICATION");
             notificationBuilder.setContentTitle("TickTrack timer running");
             String nextOccurrence = getNextOccurrence();
@@ -219,6 +213,16 @@ public class TimerService extends Service {
             stopTimerService();
         }
 
+    }
+
+    private int getAllOnTimers() {
+        int result = 0;
+        for(int i = 0; i < timerDataArrayList.size(); i ++){
+            if(timerDataArrayList.get(i).isTimerNotificationOn()){
+                result++;
+            }
+        }
+        return result;
     }
 
     public void notifyNotification(){

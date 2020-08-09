@@ -47,7 +47,6 @@ public class CounterNotificationService extends Service {
     private static int counterRequestID;
     private static ArrayList<CounterData> counterDataList = new ArrayList<>();
 
-    RemoteViews collapsedView, expandedView;
     NotificationCompat.Builder notificationBuilder;
     NotificationManager notificationManager;
 
@@ -275,33 +274,10 @@ public class CounterNotificationService extends Service {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
-        collapsedView = new RemoteViews(getPackageName(),
-                R.layout.notification_counter_collapsed_layout);
-        expandedView = new RemoteViews(getPackageName(),
-                R.layout.notification_counter_expanded_layout);
-
-
-        if(getFlag()!=0){
-            collapsedView.setImageViewResource(R.id.counterNotificationCollapsedFlagImageView, getFlag());
-            expandedView.setImageViewResource(R.id.counterNotificationExpandedFlagImageView, getFlag());
-        } else {
-            expandedView.setViewVisibility(R.id.counterNotificationExpandedFlagImageView, View.INVISIBLE);
-            collapsedView.setViewVisibility(R.id.counterNotificationCollapsedFlagImageView, View.INVISIBLE);
-        }
-
-        collapsedView.setTextViewText(R.id.counterNotificationCollapsedLabelTextView, counterLabel);
-        collapsedView.setTextViewText(R.id.counterNotificationCollapsedValueTextView, counterValue+"");
-
-
-        expandedView.setTextViewText(R.id.counterNotificationExpandedLabelTextView, counterLabel);
-        expandedView.setTextViewText(R.id.counterNotificationExpandedValueTextView, counterValue+"");
-
         Intent plusIntent = new Intent(this, CounterNotificationService.class);
         plusIntent.setAction(ACTION_PLUS);
         PendingIntent pendingPlusIntent = PendingIntent.getService(this, counterRequestID, plusIntent, 0);
         NotificationCompat.Action plusAction = new NotificationCompat.Action(R.drawable.ic_add_white_24, "Plus", pendingPlusIntent);
-
-//        expandedView.setOnClickPendingIntent(R.id.counterNotificationExpandedPlusImageButton, pendingPlusIntent);
 
         Intent minusIntent = new Intent(this, CounterNotificationService.class);
         minusIntent.setAction(ACTION_MINUS);
