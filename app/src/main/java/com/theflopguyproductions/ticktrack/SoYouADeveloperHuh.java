@@ -1,26 +1,10 @@
 package com.theflopguyproductions.ticktrack;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.theflopguyproductions.ticktrack.timer.service.TimerService;
-import com.theflopguyproductions.ticktrack.timer.service.TimerServiceData;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
@@ -28,20 +12,11 @@ import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Timer;
 
 public class SoYouADeveloperHuh extends AppCompatActivity {
 
