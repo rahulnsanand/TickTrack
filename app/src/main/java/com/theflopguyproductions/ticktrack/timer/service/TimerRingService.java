@@ -1,10 +1,8 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -21,15 +19,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
-import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
-import com.theflopguyproductions.ticktrack.timer.activity.TimerVisibleActivity;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
-import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 
 public class TimerRingService extends Service {
@@ -167,7 +162,7 @@ public class TimerRingService extends Service {
     }
 
     private void startForegroundService() {
-        startForeground(1, notificationBuilder.build());
+        startForeground(3, notificationBuilder.build());
         Toast.makeText(this, "Timer Complete!", Toast.LENGTH_SHORT).show();
     }
 
@@ -222,11 +217,11 @@ public class TimerRingService extends Service {
 
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
-        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 4, killTimerIntent, 0);
+        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_add_white_24, "Stop", killTimerPendingIntent);
 
-        Intent resultIntent = new Intent(this, TimerVisibleActivity.class);
-        resultIntent.putExtra("timerID",timerDataArrayList.get(currentTimerPosition).getTimerStringID());
+        Intent resultIntent = new Intent(this, TimerActivity.class);
+        resultIntent.putExtra("timerID",timerDataArrayList.get(currentTimerPosition).getTimerID());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
@@ -269,7 +264,7 @@ public class TimerRingService extends Service {
     private int getSingleOnTimer() {
         for(int i=0; i<timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isTimerRinging()){
-                return timerDataArrayList.get(i).getTimerIntegerID();
+                return timerDataArrayList.get(i).getTimerID();
             }
         }
         return -1;
@@ -286,7 +281,7 @@ public class TimerRingService extends Service {
     }
     private int getCurrentTimerPosition(int timerIntegerID){
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerIntegerID()==timerIntegerID){
+            if(timerDataArrayList.get(i).getTimerID()==timerIntegerID){
                 return i;
             }
         }
@@ -297,8 +292,6 @@ public class TimerRingService extends Service {
             if(timerDataArrayList.get(i).isTimerRinging()){
                 timerDataArrayList.get(i).setTimerOn(false);
                 timerDataArrayList.get(i).setTimerPause(false);
-                timerDataArrayList.get(i).setTimerStop(true);
-                timerDataArrayList.get(i).setTimerReset(true);
                 timerDataArrayList.get(i).setTimerNotificationOn(false);
                 timerDataArrayList.get(i).setTimerRinging(false);
                 storeTimerList(sharedPreferences);

@@ -32,7 +32,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".timer.activity.TimerVisibleActivity" />
+        <activity android:name=".timer.activity.TimerActivity" />
 
         <activity android:name=".counter.activity.CounterEditActivity" />
         <activity

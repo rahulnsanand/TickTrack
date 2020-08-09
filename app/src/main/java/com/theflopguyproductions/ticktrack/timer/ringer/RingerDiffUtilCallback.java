@@ -27,7 +27,7 @@ public class RingerDiffUtilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return newList.get(newItemPosition).getTimerStringID().equals(oldList.get(oldItemPosition).getTimerStringID());
+        return newList.get(newItemPosition).getTimerID()==oldList.get(oldItemPosition).getTimerID();
     }
 
     @Override

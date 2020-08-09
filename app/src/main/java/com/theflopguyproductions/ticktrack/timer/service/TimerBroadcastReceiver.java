@@ -1,24 +1,15 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
 import android.app.ActivityManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import androidx.core.app.NotificationCompat;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.application.TickTrack;
-import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
-import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -53,6 +44,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             int position = getCurrentTimerPosition(timerIDInteger);
             if(position!=-1){
                 timerDataArrayList.get(position).setTimerRinging(true);
+                timerDataArrayList.get(position).setTimerNotificationOn(false);
                 storeTimerList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
             }
 
@@ -64,7 +56,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     private int getCurrentTimerPosition(int timerIntegerID){
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerIntegerID()==timerIntegerID){
+            if(timerDataArrayList.get(i).getTimerID()==timerIntegerID){
                 return i;
             }
         }

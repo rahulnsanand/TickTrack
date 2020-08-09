@@ -13,9 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
-import com.theflopguyproductions.ticktrack.timer.activity.TimerVisibleActivity;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
 import java.util.ArrayList;
@@ -32,11 +31,11 @@ public class TimerFragment extends Fragment {
 
 
     public static void startTimerActivity(int position, Activity context) {
-        Intent timerIntent = new Intent(context, TimerVisibleActivity.class);
+        Intent timerIntent = new Intent(context, TimerActivity.class);
         timerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         ArrayList<TimerData> timerData;
         timerData = tickTrackDatabase.retrieveTimerList();
-        timerIntent.putExtra("timerID",timerData.get(position).getTimerStringID());
+        timerIntent.putExtra("timerID",timerData.get(position).getTimerID());
         context.startActivity(timerIntent);
 
     }
