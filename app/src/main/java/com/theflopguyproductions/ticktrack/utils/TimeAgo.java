@@ -228,36 +228,34 @@ public class TimeAgo {
 
     public static String getTimerDurationLeft(int hourLeft, int minuteLeft, int secondLeft) {
 
-        if(hourLeft>1){
-            if(minuteLeft>1){
-                return "less than "+hourLeft+" hours"+minuteLeft+" minutes remaining";
-            } else if(minuteLeft==0){
-                return "less than "+hourLeft+" hours remaining";
+        if(hourLeft>0){
+            if(minuteLeft>0 && minuteLeft!=1 && secondLeft>0){
+                if(minuteLeft==59){
+                    return "less than "+(hourLeft+1)+" hrs remaining";
+                } else {
+                    return "less than "+hourLeft+" hrs "+(minuteLeft+1)+" mins remaining";
+                }
+            } else if(minuteLeft>0 && minuteLeft!=1 && secondLeft==0) {
+                return "less than "+hourLeft+" hrs "+minuteLeft+" mins remaining";
+            } else if(minuteLeft==1 && secondLeft>0) {
+                return "less than " + hourLeft + " hrs " + minuteLeft + 1 + " mins remaining";
             } else {
-                return "less than "+hourLeft+" hours"+secondLeft+" seconds remaining";
-            }
-        } else if(hourLeft==0){
-            if(minuteLeft>1){
-                return "less than "+minuteLeft+" minutes remaining";
-
-            } else if(minuteLeft==0){
-                return "less than a minute remaining";
-
-            } else {
-                return "less than a minute remaining";
-            }
-        } else if(hourLeft==1) {
-            if(minuteLeft>1){
-                return "less than "+hourLeft+" hour"+minuteLeft+" minutes remaining";
-            } else if(minuteLeft==0){
-                return "less than "+hourLeft+" hour remaining";
-            } else {
-                return hourLeft+" hour remaining";
+                return "less than "+hourLeft+" hrs remaining";
             }
         } else {
-            return "a few seconds left";
+            if(minuteLeft>0 && minuteLeft!=1 && secondLeft>0){
+                if(minuteLeft==59){
+                    return "less than "+(hourLeft+1)+" hrs remaining";
+                } else {
+                    return "less than "+(minuteLeft+1)+" mins remaining";
+                }
+            } else if(minuteLeft>0 && minuteLeft!=1 && secondLeft==0) {
+                return "less than "+minuteLeft+" mins remaining";
+            } else if(minuteLeft==1 && secondLeft>0) {
+                return "less than " + (minuteLeft+1) + " mins remaining";
+            } else {
+                return "less than a minute remaining";
+            }
         }
     }
-
-
 }

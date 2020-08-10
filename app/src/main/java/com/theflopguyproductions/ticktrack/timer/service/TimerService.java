@@ -28,9 +28,7 @@ import com.theflopguyproductions.ticktrack.utils.TimeAgo;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class TimerService extends Service {
 
@@ -80,10 +78,13 @@ public class TimerService extends Service {
 
     private void stopTimerService() {
         timerDataArrayList = retrieveTimerDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
-        if(!(getAllOnTimers() > 0)){
+        if(getAllOnTimers() == 0){
+            System.out.println("KILL HERE ALSO CAME");
+            stopForeground(true);
             killNotifications();
         }
     }
+
     private void startTimerService() {
         startForegroundService();
         refreshingEverySecond();
@@ -102,8 +103,8 @@ public class TimerService extends Service {
     }
 
     private void killNotifications(){
+
         handler.removeCallbacks(refreshRunnable);
-        stopForeground(true);
         stopSelf();
         onDestroy();
     }
@@ -126,7 +127,7 @@ public class TimerService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(2, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.COUNTER_NOTIFICATION)
+        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.TIMER_RUNNING_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -138,7 +139,7 @@ public class TimerService extends Service {
         updateTimerServiceData();
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            notificationBuilder.setChannelId(TickTrack.COUNTER_NOTIFICATION);
+            notificationBuilder.setChannelId(TickTrack.TIMER_RUNNING_NOTIFICATION);
         }
 
     }
@@ -158,7 +159,9 @@ public class TimerService extends Service {
     private ArrayList<Long> getEndTimes() {
         ArrayList<Long> returnTimes = new ArrayList<>();
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            returnTimes.add(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis());
+            if(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis()!=-1){
+                returnTimes.add(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis());
+            }
         }
         return returnTimes;
     }
@@ -166,10 +169,11 @@ public class TimerService extends Service {
     private String getNextOccurrence() {
         endTimes = getEndTimes();
         long lowest = Collections.min(endTimes);
-        int hours = (int) ((lowest-System.currentTimeMillis())/(1000*60*60));
-        int minutes = (int) ((lowest-System.currentTimeMillis())%(1000*60*60))/(1000*60);
-        int seconds = (int) ((lowest-System.currentTimeMillis())%(1000*60*60))%(1000*60)/1000;
-        System.out.println(hours+"+"+minutes+"+"+seconds);
+        long differenceFromNow = lowest - System.currentTimeMillis();
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(differenceFromNow);
+        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(differenceFromNow) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(differenceFromNow)));
+        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(differenceFromNow) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(differenceFromNow)));
+
         return TimeAgo.getTimerDurationLeft(hours, minutes, seconds);
     }
 
@@ -205,7 +209,7 @@ public class TimerService extends Service {
             notificationBuilder.setContentText("Next timer in "+nextOccurrence);
             notificationManagerCompat.notify(2, notificationBuilder.build());
         } else {
-            System.out.println("KILL NOTIFICATION");
+            System.out.println("KILL NOTIFICATION >>>"+getAllOnTimers());
             stopTimerService();
         }
     }
