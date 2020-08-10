@@ -18,6 +18,7 @@ import androidx.core.app.TaskStackBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
@@ -36,7 +37,7 @@ public class TimerRingService extends Service {
     private NotificationManagerCompat notificationManagerCompat;
 
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
-    private int currentTimerPosition, timerCount = 0;
+    private int timerCount = 0;
     final Handler handler = new Handler();
 
     public TimerRingService(){
@@ -97,12 +98,43 @@ public class TimerRingService extends Service {
     }
 
     private void stopTimers() {
+        showShutDownNotification();
         stopForeground(true);
         stopTimerRinging(getSharedPreferences("TickTrackData", MODE_PRIVATE));
         handler.removeCallbacks(refreshRunnable);
         stopSelf();
         onDestroy();
     }
+
+    private void showShutDownNotification() {
+
+        notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+
+        Intent resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder = new NotificationCompat.Builder(this,TickTrack.TIMER_COMPLETE_NOTIFICATION)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setVibrate(new long[0])
+                .setOnlyAlertOnce(true)
+                .setOngoing(false)
+                .setContentIntent(resultPendingIntent);
+
+        notificationBuilder.setContentTitle("TickTrack Timer Stopped");
+        notificationBuilder.setContentText("Swipe to dismiss");
+
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            notificationBuilder.setChannelId(TickTrack.TIMER_COMPLETE_NOTIFICATION);
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -118,19 +150,20 @@ public class TimerRingService extends Service {
                 setupStopAllNotification();
             } else {
                 setupCustomNotification();
-                if(getSingleOnTimer()!=-1){
-                    currentTimerPosition = getCurrentTimerPosition(getSingleOnTimer());
-                }
             }
         }
     }
     float UpdateTime = 0L;
     final Runnable refreshRunnable = new Runnable() {
         public void run() {
-            UpdateTime += 1;
-            updateStopTimeText();
-            notifyNotification();
-            handler.postDelayed(refreshRunnable, 1000);
+            if(UpdateTime != -1){
+                UpdateTime += 1;
+                if(!(getAllOnTimers() > 1)){
+                    updateStopTimeText();
+                }
+                notifyNotification();
+                handler.postDelayed(refreshRunnable, 1000);
+            }
         }
     };
 
@@ -190,7 +223,7 @@ public class TimerRingService extends Service {
 
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
-        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 4, killTimerIntent, 0);
+        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop all", killTimerPendingIntent);
 
         Intent resultIntent = new Intent(this, TimerRingerActivity.class);
@@ -230,7 +263,7 @@ public class TimerRingService extends Service {
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
         Intent resultIntent = new Intent(this, TimerActivity.class);
-        resultIntent.putExtra("timerID",timerDataArrayList.get(currentTimerPosition).getTimerID());
+        resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
@@ -249,9 +282,9 @@ public class TimerRingService extends Service {
 
         notificationBuilder.addAction(killTimers);
 
-        String timerLabel = timerDataArrayList.get(currentTimerPosition).getTimerLabel();
+        String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
         if(!timerLabel.equals("Set label")){
-            notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(currentTimerPosition).getTimerLabel());
+            notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
         } else {
             notificationBuilder.setContentTitle("TickTrack Timer");
         }
@@ -260,11 +293,11 @@ public class TimerRingService extends Service {
             notificationBuilder.setChannelId(TickTrack.TIMER_COMPLETE_NOTIFICATION);
         }
 
-        if(timerDataArrayList.get(currentTimerPosition).getTimerEndedTimeInMillis() != -1){
-            long stopTimeRetrieve = timerDataArrayList.get(currentTimerPosition).getTimerEndedTimeInMillis();
+        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1){
+            long stopTimeRetrieve = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis();
             UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
         } else {
-            timerDataArrayList.get(currentTimerPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
+            UpdateTime = -1;
         }
 
         refreshingEverySecond();
@@ -304,7 +337,6 @@ public class TimerRingService extends Service {
                 timerDataArrayList.get(i).setTimerNotificationOn(false);
                 timerDataArrayList.get(i).setTimerRinging(false);
                 storeTimerList(sharedPreferences);
-                return;
             }
         }
     }
