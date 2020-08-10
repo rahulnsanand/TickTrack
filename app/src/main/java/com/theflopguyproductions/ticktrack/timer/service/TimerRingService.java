@@ -97,9 +97,16 @@ public class TimerRingService extends Service {
     }
 
     private void stopTimers() {
-        stopTimerRinging(getSharedPreferences("TickTrackData",MODE_PRIVATE));
         stopForeground(true);
+        stopTimerRinging(getSharedPreferences("TickTrackData", MODE_PRIVATE));
+        handler.removeCallbacks(refreshRunnable);
         stopSelf();
+        onDestroy();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(refreshRunnable);
     }
 
     private void initializeValues() {
@@ -150,13 +157,15 @@ public class TimerRingService extends Service {
         timerDataArrayList = retrieveTimerList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
         int OnTimers = getAllOnTimers();
         if(OnTimers==1){
-            System.out.println("ONE NOTIFICATION");
-            notificationBuilder.setContentTitle("TickTrack timer running");
-            String nextOccurrence = "getNextOccurrence()";
-            notificationBuilder.setContentText("Next timer in "+nextOccurrence);
-            notificationManagerCompat.notify(2, notificationBuilder.build());
+            System.out.println("ONE RINGER NOTIFICATION");
+            notificationBuilder.setContentTitle("TickTrack timer");
+            notificationManagerCompat.notify(3, notificationBuilder.build());
+        } else if(OnTimers>1) {
+            System.out.println("MORE RINGER NOTIFICATION");
+            notificationBuilder.setContentTitle("TickTrack timers");
+            notificationManagerCompat.notify(3, notificationBuilder.build());
         } else {
-            System.out.println("KILL NOTIFICATION");
+            System.out.println("KILL RINGER NOTIFICATION");
             stopRingerService();
         }
     }
@@ -182,7 +191,7 @@ public class TimerRingService extends Service {
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 4, killTimerIntent, 0);
-        NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_add_white_24, "Stop all", killTimerPendingIntent);
+        NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop all", killTimerPendingIntent);
 
         Intent resultIntent = new Intent(this, TimerRingerActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -190,7 +199,7 @@ public class TimerRingService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        notificationBuilder = new NotificationCompat.Builder(this,TickTrack.COUNTER_NOTIFICATION)
+        notificationBuilder = new NotificationCompat.Builder(this,TickTrack.TIMER_COMPLETE_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -207,7 +216,7 @@ public class TimerRingService extends Service {
         notificationBuilder.setContentText(timerCount+" timers complete");
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            notificationBuilder.setChannelId(TickTrack.COUNTER_NOTIFICATION);
+            notificationBuilder.setChannelId(TickTrack.TIMER_COMPLETE_NOTIFICATION);
         }
     }
 
@@ -218,7 +227,7 @@ public class TimerRingService extends Service {
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
-        NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_add_white_24, "Stop", killTimerPendingIntent);
+        NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
         Intent resultIntent = new Intent(this, TimerActivity.class);
         resultIntent.putExtra("timerID",timerDataArrayList.get(currentTimerPosition).getTimerID());
@@ -227,7 +236,7 @@ public class TimerRingService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        notificationBuilder = new NotificationCompat.Builder(this,TickTrack.COUNTER_NOTIFICATION)
+        notificationBuilder = new NotificationCompat.Builder(this,TickTrack.TIMER_COMPLETE_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -248,7 +257,7 @@ public class TimerRingService extends Service {
         }
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            notificationBuilder.setChannelId(TickTrack.COUNTER_NOTIFICATION);
+            notificationBuilder.setChannelId(TickTrack.TIMER_COMPLETE_NOTIFICATION);
         }
 
         if(timerDataArrayList.get(currentTimerPosition).getTimerEndedTimeInMillis() != -1){

@@ -14,7 +14,8 @@ public class TickTrack extends Application {
 
     public static final String COUNTER_NOTIFICATION = "TICK_TRACK_COUNTER";
     public static final String STOPWATCH_NOTIFICATION = "TICK_TRACK_STOPWATCH";
-    public static final String TIMER_NOTIFICATION = "TICK_TRACK_TIMER";
+    public static final String TIMER_RUNNING_NOTIFICATION = "TIMER_RUNNING_NOTIFICATION";
+    public static final String TIMER_COMPLETE_NOTIFICATION = "TIMER_COMPLETE_NOTIFICATION";
     public static final String GENERAL_NOTIFICATION = "TICK_TRACK_GENERAL";
 
     @Override
@@ -28,6 +29,7 @@ public class TickTrack extends Application {
             createGeneralChannel(mNotificationManager);
             createStopwatchChannel(mNotificationManager);
             createTimerChannel(mNotificationManager);
+            createTimerCompleteChannel(mNotificationManager);
 
         }
 
@@ -64,9 +66,32 @@ public class TickTrack extends Application {
                 .setUsage(AudioAttributes. USAGE_ALARM )
                 .build() ;
 
+        int importance = NotificationManager.IMPORTANCE_LOW ;
+        NotificationChannel notificationChannel = new
+                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Timer Running Notifications" , importance) ;
+        notificationChannel.enableLights( true ) ;
+        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.enableVibration( true ) ;
+        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+
+//            notificationChannel.setSound(sound , audioAttributes) ;
+
+        assert mNotificationManager != null;
+        mNotificationManager.createNotificationChannel(notificationChannel) ;
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createTimerCompleteChannel(NotificationManager mNotificationManager) {
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
+                .setUsage(AudioAttributes. USAGE_ALARM )
+                .build() ;
+
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( TIMER_NOTIFICATION , "Timer Notifications" , importance) ;
+                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Timer Complete Notifications" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;

@@ -41,22 +41,21 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             timerIDInteger = intent.getIntExtra("timerIntegerID",0);
             timerDataArrayList = retrieveTimerData(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
 
-            int position = getCurrentTimerPosition(timerIDInteger);
+            int position = getCurrentTimerPosition();
             if(position!=-1){
                 timerDataArrayList.get(position).setTimerRinging(true);
                 timerDataArrayList.get(position).setTimerNotificationOn(false);
                 storeTimerList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
-            }
-
-            if(!isMyServiceRunning(TimerRingService.class, context)){
-                startNotificationService(context);
+                if(!isMyServiceRunning(TimerRingService.class, context)){
+                    startNotificationService(context);
+                }
             }
         }
     }
 
-    private int getCurrentTimerPosition(int timerIntegerID){
+    private int getCurrentTimerPosition(){
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerID()==timerIntegerID){
+            if(timerDataArrayList.get(i).getTimerID()==timerIDInteger){
                 return i;
             }
         }
@@ -75,7 +74,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     private void startNotificationService(Context context) {
         Intent intent = new Intent(context, TimerRingService.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(TimerRingService.ACTION_ADD_TIMER_FINISH);
         context.startService(intent);
     }
