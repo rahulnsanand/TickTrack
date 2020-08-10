@@ -493,7 +493,6 @@ public class TimerActivity extends AppCompatActivity {
             UpdateTime += 1;
             updateStopTimeText();
             timerStopHandler.postDelayed(this,1000);
-            System.out.println("UpdateTextView");
         }
     };
     public Runnable blinkRunnable = new Runnable(){
@@ -506,8 +505,6 @@ public class TimerActivity extends AppCompatActivity {
                 timerProgressBar.setVisibility(View.INVISIBLE);
             }
             timerBlinkHandler.postDelayed(blinkRunnable, 500);
-            System.out.println("BlinkyBlinky");
-            Log.i("TAG","BLINK");
         }
     };
 
@@ -564,11 +561,18 @@ public class TimerActivity extends AppCompatActivity {
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(timerCurrentPosition!=-1){
-            if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause()){
+            if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause() && !timerDataArrayList.get(timerCurrentPosition).isTimerRinging()){
                 System.out.println("TIMER WAS RUNNING");
-                timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(true);
-                if(!tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
-                    tickTrackTimerDatabase.startNotificationService();
+                if(!isTimerRinging){
+                    timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(true);
+                    if(!tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+                        tickTrackTimerDatabase.startNotificationService();
+                    }
+                } else {
+                    timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
+                    if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+                        tickTrackTimerDatabase.stopNotificationService();
+                    }
                 }
             } else {
                 System.out.println("TIMER WAS NOT RUNNING");

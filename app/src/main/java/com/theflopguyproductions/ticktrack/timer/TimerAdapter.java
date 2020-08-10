@@ -84,70 +84,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
-            if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause()){
-                holder.timerPauseResetButton.setText("Pause");
-                holder.timerPauseResetButton.setOnClickListener(view -> {
-                    Intent timerIntent = new Intent(context, TimerActivity.class);
-                    timerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    timerIntent.putExtra("timerID", timerDataArrayList.get(holder.getAdapterPosition()).getTimerID());
-                    context.startActivity(timerIntent);
-                });
-                holder.timerDurationLeft.setVisibility(View.VISIBLE);
-
-                resumeTimeInMillis = timerDataArrayList.get(position).getTimerAlarmEndTimeInMillis() - System.currentTimeMillis();
-                holder.countDownTimer = new CountDownTimer(resumeTimeInMillis, 1) {
-                    @Override
-                    public void onTick(long l) {
-                        holder.timerDurationLeft.setText("Timer running");
-                        resumeTimeInMillis = l;
-                        holder.timerDurationLeft.setText(updateTimerTextView(resumeTimeInMillis+1000));
-                    }
-                    @Override
-                    public void onFinish() {
-                        this.cancel();
-
-                        holder.timerDurationLeft.setText("Timer running");
-                        timerDataArrayList.get(position).setTimerEndedTimeInMillis(System.currentTimeMillis());
-                        tickTrackDatabase.storeTimerList(timerDataArrayList);
-                        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-
-                        if(timerDataArrayList.get(position).getTimerEndedTimeInMillis() != -1){
-                            long stopTimeRetrieve = timerDataArrayList.get(position).getTimerEndedTimeInMillis();
-                        } else {
-                            holder.timerPauseResetButton.setText("Start");
-                            holder.timerDurationLeft.setVisibility(View.GONE);
-                        }
-
-                    }
-                }.start();
-
-            } else if (timerDataArrayList.get(position).isTimerPause()){
-                holder.timerPauseResetButton.setText("Reset");
-                holder.timerPauseResetButton.setOnClickListener(view -> {
-                    timerDataArrayList.get(position).setTimerOn(false);
-                    timerDataArrayList.get(position).setTimerPause(false);
-                    tickTrackDatabase.storeTimerList(timerDataArrayList);
-                    timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-                    holder.timerDurationLeft.setVisibility(View.INVISIBLE);
-                    holder.timerPauseResetButton.setVisibility(View.INVISIBLE);
-                });
-                holder.timerDurationLeft.setVisibility(View.VISIBLE);
-                holder.timerDurationLeft.setText("Timer paused");
-
-            } else {
-                holder.timerPauseResetButton.setText("Start");
-                holder.timerPauseResetButton.setOnClickListener(view -> {
-                    timerDataArrayList.get(position).setTimerOn(false);
-                    timerDataArrayList.get(position).setTimerPause(false);
-                    tickTrackDatabase.storeTimerList(timerDataArrayList);
-                    timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-                    Intent timerIntent = new Intent(context, TimerActivity.class);
-                    timerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    timerIntent.putExtra("timerID", timerDataArrayList.get(position).getTimerID());
-                    context.startActivity(timerIntent);
-                });
-                holder.timerDurationLeft.setVisibility(View.GONE);
-            }
+            
 
             holder.itemColor = timerDataArrayList.get(position).timerFlag;
 

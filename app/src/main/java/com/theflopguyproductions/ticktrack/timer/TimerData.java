@@ -206,6 +206,6 @@ public class TimerData implements Comparable<TimerData> {
 
     @Override
     public int compareTo(TimerData timerData) {
-        return 0;
+        return Long.compare(this.timerTotalTimeInMillis, timerData.getTimerTotalTimeInMillis());
     }
 }
