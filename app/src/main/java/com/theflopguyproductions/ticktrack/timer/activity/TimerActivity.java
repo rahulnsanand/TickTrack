@@ -291,7 +291,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onTick(long l) {
                 activity.runOnUiThread(()->{
                     countDownTimerMillis = l;
-                    updateTimerTextView(countDownTimerMillis+1000);
+                    updateTimerTextView(countDownTimerMillis);
                     timerProgressBar.setProgress(getCurrentStep(countDownTimerMillis, maxTimeInMillis));
                 });
             }
@@ -510,7 +510,7 @@ public class TimerActivity extends AppCompatActivity {
 
     private void updateStopTimeText() {
 
-        float totalSeconds = UpdateTime;
+        float totalSeconds = UpdateTime-1;
         float hours = totalSeconds/3600;
         float minutes = totalSeconds/60%60;
         float seconds = totalSeconds%60;
@@ -562,7 +562,6 @@ public class TimerActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(timerCurrentPosition!=-1){
             if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause() && !timerDataArrayList.get(timerCurrentPosition).isTimerRinging()){
-                System.out.println("TIMER WAS RUNNING");
                 if(!isTimerRinging){
                     timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(true);
                     if(!tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
@@ -575,7 +574,6 @@ public class TimerActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                System.out.println("TIMER WAS NOT RUNNING");
                 timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
                 if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
                     tickTrackTimerDatabase.stopNotificationService();
@@ -599,7 +597,6 @@ public class TimerActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(timerCurrentPosition!=-1){
             if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause()){
-                System.out.println("TIMER WAS RUNNING");
                 if(!isTimerRinging){
                     timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(true);
                     if(!tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
@@ -612,7 +609,6 @@ public class TimerActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                System.out.println("TIMER WAS NOT RUNNING");
                 timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
                 if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
                     tickTrackTimerDatabase.stopNotificationService();
