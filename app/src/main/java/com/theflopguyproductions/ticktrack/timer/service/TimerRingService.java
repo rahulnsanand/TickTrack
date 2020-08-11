@@ -226,7 +226,7 @@ public class TimerRingService extends Service {
     }
 
     private void updateStopTimeText() {
-        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1){
+        if (timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1) {
             UpdateTime = (System.currentTimeMillis() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis()) / 1000F;
         }
 
@@ -252,13 +252,10 @@ public class TimerRingService extends Service {
         timerDataArrayList = retrieveTimerList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
         int OnTimers = getAllOnTimers();
         if(OnTimers==1){
-            System.out.println("ONE RINGER NOTIFICATION");
             notificationManagerCompat.notify(3, notificationBuilder.build());
         } else if(OnTimers>1) {
-            System.out.println("MORE RINGER NOTIFICATION");
             notificationManagerCompat.notify(3, notificationBuilder.build());
         } else {
-            System.out.println("KILL RINGER NOTIFICATION");
             stopRingerService();
         }
     }

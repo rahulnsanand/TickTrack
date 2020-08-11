@@ -1,15 +1,18 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.PowerManager;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -49,6 +52,13 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                 storeTimerList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);
+                    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+                    if( myKM.inKeyguardRestrictedInputMode()) {
+                        System.out.println("LOCKED LOCKED LOCKED CLOKECD");
+                        Intent resultIntent = new Intent(context, TimerRingerActivity.class);
+                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(resultIntent);
+                    }
                 }
                 if(isMyServiceRunning(TimerService.class, context)){
                     stopTimerNotification(context);

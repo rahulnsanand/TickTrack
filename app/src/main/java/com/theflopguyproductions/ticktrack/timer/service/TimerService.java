@@ -131,7 +131,7 @@ public class TimerService extends Service {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setContentIntent(resultPendingIntent);
