@@ -1,10 +1,21 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -14,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,6 +48,7 @@ public class TimerRingService extends Service {
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
 
+    private Uri alarmSound;
 
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private int timerCount = 0;
@@ -47,6 +60,8 @@ public class TimerRingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                + "://" + getPackageName() + "/raw/timer_beep.mp3");
         Log.d("TAG_TIMER_RANG_SERVICE", "My foreground service onCreate().");
     }
 
@@ -99,6 +114,14 @@ public class TimerRingService extends Service {
     }
 
     private void stopTimers() {
+        try {
+            if(mediaPlayer.isPlaying()){
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }
+        } catch (Exception ignored) {
+        }
+
         showShutDownNotification();
         stopForeground(true);
         stopTimerRinging(getSharedPreferences("TickTrackData", MODE_PRIVATE));
@@ -143,7 +166,6 @@ public class TimerRingService extends Service {
     }
 
     private void initializeValues() {
-        System.out.println("INITIALISED RINGER NOTIF");
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
         timerDataArrayList = retrieveTimerList(sharedPreferences);
         timerCount = getAllOnTimers();
@@ -261,6 +283,7 @@ public class TimerRingService extends Service {
     }
 
     private void startForegroundService() {
+        playAlarmSound(this);
         startForeground(3, notificationBuilder.build());
         Toast.makeText(this, "Timer Complete!", Toast.LENGTH_SHORT).show();
     }
@@ -327,16 +350,17 @@ public class TimerRingService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
+
+
         notificationBuilder = new NotificationCompat.Builder(this,TickTrack.TIMER_COMPLETE_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_CALL)
-                .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
-                .setContentIntent(resultPendingIntent);
+                .setContentIntent(resultPendingIntent)
+                .setSound(alarmSound);
 
         notificationBuilder.addAction(killTimers);
 
@@ -355,6 +379,41 @@ public class TimerRingService extends Service {
         setCustomOnce = true;
         setMultiOnce = false;
         refreshingEverySecond();
+    }
+
+    static MediaPlayer mediaPlayer;
+    public static void playAlarmSound (Context context) {
+
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                try {
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setLooping(true);
+                    mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
+                    AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.timer_beep);
+                    if (afd == null) return false;
+                    mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                    afd.close();
+
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                                .setUsage(AudioAttributes.USAGE_ALARM)
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .build());
+                    } else {
+                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                    }
+                    mediaPlayer.setVolume(1.0f, 1.0f);
+                    mediaPlayer.prepare();
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+
+        }.execute();
     }
 
     private int getSingleOnTimer() {
