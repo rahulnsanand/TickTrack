@@ -72,7 +72,7 @@ public class TickTrack extends Application {
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+        notificationChannel.setVibrationPattern( new long []{ 300 , 300 , 300 , 300 , 300 , 300 , 300 , 300 , 300 }) ;
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 

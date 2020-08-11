@@ -173,6 +173,20 @@
                     app:layout_constraintVertical_bias="1.0"
                     app:srcCompat="@drawable/ic_round_refresh_white_24" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/timerActivityPlusOneFAB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:clickable="true"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB"
+                    app:layout_constraintTop_toBottomOf="@+id/timerActivityTimerProgressBar"
+                    app:layout_constraintVertical_bias="1.0"
+                    wheel:srcCompat="@drawable/ic_baseline_plus_one_white_24" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

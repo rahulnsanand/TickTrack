@@ -11,7 +11,11 @@ public class TimerData implements Comparable<TimerData> {
     int timerHour, timerMinute, timerSecond, timerID, timerFlag;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
-    long timerAlarmEndTimeInMillis, timerTotalTimeInMillis, timerEndedTimeInMillis;
+    long timerAlarmEndTimeInMillis;
+    long timerTotalTimeInMillis;
+    long timerEndedTimeInMillis;
+
+    long timerTempMaxTimeInMillis;
     Timestamp timerCreateTimeStamp;
     String timerLabel;
     boolean timerOn, timerPause;
@@ -19,6 +23,13 @@ public class TimerData implements Comparable<TimerData> {
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
 
+    public long getTimerTempMaxTimeInMillis() {
+        return timerTempMaxTimeInMillis;
+    }
+
+    public void setTimerTempMaxTimeInMillis(long timerTempMaxTimeInMillis) {
+        this.timerTempMaxTimeInMillis = timerTempMaxTimeInMillis;
+    }
 
     public boolean isTimerRinging() {
         return isTimerRinging;
