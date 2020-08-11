@@ -33,6 +33,7 @@ public class TimerDiffUtilCallback extends DiffUtil.Callback  {
         return newList.get(newItemPosition).isTimerOn() == oldList.get(oldItemPosition).isTimerOn() &&
                 newList.get(newItemPosition).isTimerPause() == oldList.get(oldItemPosition).isTimerPause() &&
                 newList.get(newItemPosition).getTimerFlag() == oldList.get(oldItemPosition).getTimerFlag() &&
-                newList.get(newItemPosition).getTimerLabel().equals(oldList.get(oldItemPosition).getTimerLabel());
+                newList.get(newItemPosition).getTimerLabel().equals(oldList.get(oldItemPosition).getTimerLabel()) &&
+                newList.get(newItemPosition).isTimerRinging == oldList.get(oldItemPosition).isTimerRinging;
     }
 }
