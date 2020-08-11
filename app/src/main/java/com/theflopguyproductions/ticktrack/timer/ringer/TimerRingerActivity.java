@@ -2,24 +2,28 @@ package com.theflopguyproductions.ticktrack.timer.ringer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
+import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.ScrollingPagerIndicator;
+import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.SnappingRecyclerView;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.TickTrackTimerDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 
 public class TimerRingerActivity extends AppCompatActivity {
@@ -28,10 +32,13 @@ public class TimerRingerActivity extends AppCompatActivity {
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
     private Context context;
-    private RecyclerView timerStopRecyclerView;
+    private SnappingRecyclerView timerStopRecyclerView;
     private FloatingActionButton timerStopFAB;
     private ArrayList<TimerData> timerDataArrayList;
+    private ArrayList<TimerData> onlyOnTimersArrayList;
     private RingerAdapter timerStopAdapter;
+    private SharedPreferences sharedPreferences;
+    private ScrollingPagerIndicator recyclerIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,34 +47,114 @@ public class TimerRingerActivity extends AppCompatActivity {
 
         rootLayout = findViewById(R.id.timerRingActivityRootLayout);
         timerStopRecyclerView = findViewById(R.id.timerStopActivityRecyclerView);
+        timerStopRecyclerView.setHasFixedSize(true);
+        timerStopRecyclerView.enableViewScaling(true);
+        recyclerIndicator = findViewById(R.id.indicator);
+
         timerStopFAB = findViewById(R.id.timerStopActivityStopFAB);
 
         context = this;
         tickTrackDatabase = new TickTrackDatabase(context);
         tickTrackTimerDatabase = new TickTrackTimerDatabase(context);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-
+        refreshOnlyOnTimer();
         TickTrackThemeSetter.timerRecycleTheme(this, timerStopRecyclerView, tickTrackDatabase);
 
         buildRecyclerView(this);
+        timerStopAdapter.notifyDataSetChanged();
+
+        timerStopFAB.setOnClickListener(view -> stopTimers());
+        sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
     }
 
     private void buildRecyclerView(Activity activity) {
 
-        timerStopAdapter = new RingerAdapter(activity, timerDataArrayList);
+        timerStopAdapter = new RingerAdapter(activity, onlyOnTimersArrayList);
 
-        if(timerDataArrayList.size()>0){
+        if(onlyOnTimersArrayList.size()>0){
             timerStopRecyclerView.setVisibility(View.VISIBLE);
 
-            Collections.sort(timerDataArrayList);
-
-            timerStopRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            timerStopRecyclerView.setItemAnimator(new DefaultItemAnimator());
             timerStopRecyclerView.setAdapter(timerStopAdapter);
+            timerStopRecyclerView.setOrientation(SnappingRecyclerView.Orientation.VERTICAL);
+            recyclerIndicator.attachToRecyclerView(timerStopRecyclerView);
 
-            timerStopAdapter.diffUtilsChangeData(timerDataArrayList);
+            timerStopAdapter.diffUtilsChangeData(onlyOnTimersArrayList);
 
+        } else {
+            onBackPressed();
+        }
+    }
+
+    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        if (s.equals("TimerData")){
+            Collections.sort(timerDataArrayList);
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
+            refreshOnlyOnTimer();
+            if(onlyOnTimersArrayList.size()>0){
+                timerStopAdapter.diffUtilsChangeData(onlyOnTimersArrayList);
+            } else {
+                onBackPressed();
+            }
+        }
+    };
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
+
+    private void stopTimers() {
+        stopTimerRinging();
+        if(isMyServiceRunning(TimerRingService.class, context)){
+            killForeground();
+        }
+        finish();
+        overridePendingTransition(0, R.anim.to_right);
+    }
+    private void killForeground() {
+        Intent intent = new Intent(context, TimerRingService.class);
+        intent.setAction(TimerRingService.ACTION_KILL_ALL_TIMERS);
+        context.startService(intent);
+    }
+    private void stopTimerRinging() {
+        for(int i = 0; i < timerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).isTimerRinging()){
+                timerDataArrayList.get(i).setTimerOn(false);
+                timerDataArrayList.get(i).setTimerPause(false);
+                timerDataArrayList.get(i).setTimerNotificationOn(false);
+                timerDataArrayList.get(i).setTimerRinging(false);
+                tickTrackDatabase.storeTimerList(timerDataArrayList);
+            }
+        }
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void refreshOnlyOnTimer(){
+        onlyOnTimersArrayList = new ArrayList<>();
+        for(int i=0; i<timerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).isTimerRinging()){
+                onlyOnTimersArrayList.add(timerDataArrayList.get(i));
+            }
         }
     }
 }

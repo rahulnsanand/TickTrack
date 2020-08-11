@@ -20,7 +20,9 @@
             android:name=".timer.ringer.TimerRingerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="TickTrackTimer"
-            android:theme="@style/FullscreenTheme" />
+            android:theme="@style/FullscreenTheme" >
+
+        </activity>
 
         <service
             android:name=".timer.service.TimerService"

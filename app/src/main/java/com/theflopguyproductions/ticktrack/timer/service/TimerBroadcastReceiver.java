@@ -50,8 +50,17 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);
                 }
+                if(isMyServiceRunning(TimerService.class, context)){
+                    stopTimerNotification(context);
+                }
             }
         }
+    }
+
+    private void stopTimerNotification(Context context) {
+        Intent intent = new Intent(context, TimerService.class);
+        intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
+        context.startService(intent);
     }
 
     private int getCurrentTimerPosition(){

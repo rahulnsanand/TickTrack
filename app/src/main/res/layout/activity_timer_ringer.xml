@@ -8,14 +8,27 @@
     android:background="@color/Black"
     tools:context=".timer.ringer.TimerRingerActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.SnappingRecyclerView
         android:id="@+id/timerStopActivityRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:foregroundGravity="center_vertical|center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.ScrollingPagerIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:spi_orientation="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/timerStopActivityStopFAB"
