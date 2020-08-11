@@ -163,8 +163,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         private Context context;
         private TextView footerCounterTextView;
         private Button timerPauseResetButton;
-        private CountDownTimer countDownTimer;
-        private Handler timerStopHandler = new Handler();
 
         TickTrackDatabase tickTrackDatabase;
 
