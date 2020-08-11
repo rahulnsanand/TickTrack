@@ -184,7 +184,7 @@ public class TimerRingService extends Service {
     }
 
     private void refreshingEverySecond(){
-        handler.postDelayed(refreshRunnable, 1000);
+        handler.postDelayed(refreshRunnable, 1);
     }
 
     public void notifyNotification(){

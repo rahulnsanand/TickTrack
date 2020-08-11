@@ -137,8 +137,12 @@ public class TimerRingerActivity extends AppCompatActivity {
                 timerDataArrayList.get(i).setTimerNotificationOn(false);
                 timerDataArrayList.get(i).setTimerRinging(false);
                 tickTrackDatabase.storeTimerList(timerDataArrayList);
+
             }
         }
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        timerStopAdapter.diffUtilsChangeData(timerDataArrayList);
+        timerStopAdapter.notifyDataSetChanged();
     }
     private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

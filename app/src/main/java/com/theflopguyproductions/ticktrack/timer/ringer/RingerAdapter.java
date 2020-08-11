@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerDataViewHolder> {
 
     private ArrayList<TimerData> timerDataArrayList;
+    private Handler timerStopHandler = new Handler();
 
     public RingerAdapter(Context context, ArrayList<TimerData> timerDataArrayList) {
         this.timerDataArrayList = timerDataArrayList;
@@ -63,23 +64,19 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
 
         long stopTimeRetrieve = timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
         holder.UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
-        System.out.println(holder.UpdateTime+" Update time received");
 
         holder.timerRunnable = () -> {
-            if(holder.UpdateTime != -1){
+            if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
                 holder.UpdateTime += 1;
-                System.out.println("Updated TimerUpdate");
                 holder.timerValue.setText(updateTimerTextView(holder.UpdateTime));
-                holder.timerStopHandler.postDelayed(holder.timerRunnable, 1000);
+                timerStopHandler.postDelayed(holder.timerRunnable, 1000);
             }
         };
 
         if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
-            System.out.println("Runnable Starteed");
-            holder.timerStopHandler.postDelayed(holder.timerRunnable, 0);
+            timerStopHandler.postDelayed(holder.timerRunnable, 0);
         } else {
-            System.out.println("Else Runnable closed");
-            holder.timerStopHandler.removeCallbacks(holder.timerRunnable);
+            timerStopHandler.removeCallbacks(holder.timerRunnable);
         }
 
         setTheme(holder, theme);
@@ -94,10 +91,10 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
     }
     private void setTheme(RingerDataViewHolder holder, int theme) {
         if(theme == 1){
-            holder.rootLayout.setBackgroundResource(R.drawable.recycler_layout_light);
+//            holder.rootLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
         } else {
-            holder.rootLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
+//            holder.rootLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
         }
     }
@@ -131,7 +128,6 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         private ConstraintLayout rootLayout;
         private Context context;
         private TickTrackDatabase tickTrackDatabase;
-        private Handler timerStopHandler = new Handler();
         private Runnable timerRunnable;
         private float UpdateTime = 0L;
 
@@ -147,16 +143,6 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
             context=parent.getContext();
             tickTrackDatabase = new TickTrackDatabase(context);
 
-        }
-
-        private void updateStopTimeText(float UpdateTime) {
-
-            float hours = UpdateTime /3600;
-            float minutes = UpdateTime /60%60;
-            float seconds = UpdateTime %60;
-
-            String hourLeft = String.format(Locale.getDefault(),"-%02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
-            timerValue.setText(hourLeft);
         }
     }
 }
