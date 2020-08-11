@@ -19,11 +19,13 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
+import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.TimerEditDialog;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
@@ -228,10 +230,10 @@ public class TimerActivity extends AppCompatActivity {
                     presetResumeValues();
                     startTimer(currentTimeInMillis);
                 } else {
-                    resetFAB.setVisibility(View.INVISIBLE);
-                    plusOneFAB.setVisibility(View.VISIBLE);
-                    deleteButton.setVisibility(View.INVISIBLE);
-                    editButton.setVisibility(View.INVISIBLE);
+                    TickTrackAnimator.fabDissolve(resetFAB);
+                    TickTrackAnimator.fabUnDissolve(plusOneFAB);
+                    deleteButton.setVisibility(View.GONE);
+                    editButton.setVisibility(View.GONE);
                     timerDataArrayList.get(timerCurrentPosition).setTimerRinging(true);
                     timerDataArrayList.get(timerCurrentPosition).setTimerNotificationOn(false);
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
@@ -318,11 +320,12 @@ public class TimerActivity extends AppCompatActivity {
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList =  tickTrackDatabase.retrieveTimerList();
         booleanRefresh();
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
-        resetFAB.setVisibility(View.INVISIBLE);
-        deleteButton.setVisibility(View.INVISIBLE);
-        editButton.setVisibility(View.INVISIBLE);
-        plusOneFAB.setVisibility(View.VISIBLE);
+        TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
+
+        TickTrackAnimator.fabDissolve(resetFAB);
+        deleteButton.setVisibility(View.GONE);
+        editButton.setVisibility(View.GONE);
+        TickTrackAnimator.fabUnDissolve(plusOneFAB);
     }
     private void pauseTimer() {
 
@@ -384,11 +387,11 @@ public class TimerActivity extends AppCompatActivity {
 
     private void presetPauseValues() {
 
-        resetFAB.setVisibility(View.VISIBLE);
+        TickTrackAnimator.fabUnDissolve(resetFAB);
         deleteButton.setVisibility(View.VISIBLE);
         editButton.setVisibility(View.GONE);
-        plusOneFAB.setVisibility(View.GONE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+        TickTrackAnimator.fabDissolve(plusOneFAB);
+        TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
 
         pauseHours = timerDataArrayList.get(timerCurrentPosition).getTimerHourLeft();
         pauseMinutes = timerDataArrayList.get(timerCurrentPosition).getTimerMinuteLeft();
@@ -412,11 +415,11 @@ public class TimerActivity extends AppCompatActivity {
         timerMillis.setText(resumeMillisLeft);
     }
     private void postSetPauseValues(){
-        resetFAB.setVisibility(View.VISIBLE);
+        TickTrackAnimator.fabUnDissolve(resetFAB);
+        TickTrackAnimator.fabDissolve(plusOneFAB);
         deleteButton.setVisibility(View.VISIBLE);
         editButton.setVisibility(View.GONE);
-        plusOneFAB.setVisibility(View.GONE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+        TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
 
         pauseHours = timerDataArrayList.get(timerCurrentPosition).getTimerHourLeft();
         pauseMinutes = timerDataArrayList.get(timerCurrentPosition).getTimerMinuteLeft();
@@ -435,11 +438,11 @@ public class TimerActivity extends AppCompatActivity {
 
         long resumeTimeInMillis = timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - System.currentTimeMillis();
         currentTimeInMillis = resumeTimeInMillis;
-        resetFAB.setVisibility(View.INVISIBLE);
-        deleteButton.setVisibility(View.INVISIBLE);
-        editButton.setVisibility(View.INVISIBLE);
-        plusOneFAB.setVisibility(View.VISIBLE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
+        TickTrackAnimator.fabDissolve(resetFAB);
+        deleteButton.setVisibility(View.GONE);
+        editButton.setVisibility(View.GONE);
+        TickTrackAnimator.fabUnDissolve(plusOneFAB);
+        TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
 
         int resumeHours = (int) TimeUnit.MILLISECONDS.toHours(resumeTimeInMillis);
         int resumeMinutes = (int) (TimeUnit.MILLISECONDS.toMinutes(resumeTimeInMillis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(resumeTimeInMillis)));
@@ -483,7 +486,7 @@ public class TimerActivity extends AppCompatActivity {
         timerStopHandler.postDelayed(runnable, 0);
         timerBlinkHandler.postDelayed(blinkRunnable, 0);
 
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_stop_white_24));
+        TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_stop_white_24));
 
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
@@ -563,12 +566,11 @@ public class TimerActivity extends AppCompatActivity {
         if(timerProgressBar.getProgress()!=1){
             progressBarPreHandler.postDelayed(() -> timerProgressBar.setProgress(1), 400);
         }
-
-        resetFAB.setVisibility(View.INVISIBLE);
+        TickTrackAnimator.fabDissolve(resetFAB);
         deleteButton.setVisibility(View.VISIBLE);
         editButton.setVisibility(View.VISIBLE);
-        plusOneFAB.setVisibility(View.GONE);
-        playPauseFAB.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+        TickTrackAnimator.fabDissolve(plusOneFAB);
+        TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
 
         int staticHours = timerDataArrayList.get(timerCurrentPosition).getTimerHour();
         int staticMinutes = timerDataArrayList.get(timerCurrentPosition).getTimerMinute();
