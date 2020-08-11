@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataViewHolder> {
 
     private ArrayList<TimerData> timerDataArrayList;
+    private Handler timerStatusUpdateHandler = new Handler();
 
     public TimerAdapter(Context context, ArrayList<TimerData> timerDataArrayList) {
         this.timerDataArrayList = timerDataArrayList;
@@ -58,6 +59,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
         int theme = holder.tickTrackDatabase.getThemeMode();
 
+
+
         if(position == timerDataArrayList.size()) {
             if(theme == 1){
                 holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
@@ -69,7 +72,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             int randomFooter = new Random().nextInt(footerArray.length);
             holder.footerCounterTextView.setText(footerArray[randomFooter]);
         } else {
-
+            boolean isNotification = timerDataArrayList.get(holder.getAdapterPosition()).isTimerNotificationOn();
             holder.timerTitle.setText(TimeAgo.getTimerTitle(timerDataArrayList.get(position).getTimerHour(),timerDataArrayList.get(position).getTimerMinute(),
                     timerDataArrayList.get(position).getTimerSecond()));
 
@@ -79,7 +82,30 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
+            holder.stopTimeRetrieve = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis() - System.currentTimeMillis();
 
+            holder.timerRunnable = () -> {
+                if(isNotification){
+                    if(holder.stopTimeRetrieve>0){
+                        holder.stopTimeRetrieve -= 1000;
+                        holder.timerDurationLeft.setText(updateTimerTextView(holder.stopTimeRetrieve));
+                    } else {
+                        holder.timerDurationLeft.setText("Timer elapsed");
+                    }
+                    timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 1000);
+                }
+            };
+
+            if(isNotification){
+                timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 0);
+            } else {
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                if(timerDataArrayList.get(position).isTimerRinging()){
+                    holder.timerDurationLeft.setText("Timer elapsed");
+                } else {
+                    holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                }
+            }
 
             holder.itemColor = timerDataArrayList.get(position).timerFlag;
 
@@ -87,6 +113,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             setTheme(holder, theme);
 
             holder.timerLayout.setOnClickListener(v -> TimerFragment.startTimerActivity(holder.getAdapterPosition(), (Activity) holder.context));
+
+
 
         }
     }
@@ -163,6 +191,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         private Context context;
         private TextView footerCounterTextView;
         private Button timerPauseResetButton;
+        private Runnable timerRunnable;
+        private long stopTimeRetrieve;
 
         TickTrackDatabase tickTrackDatabase;
 

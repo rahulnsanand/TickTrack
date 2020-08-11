@@ -160,7 +160,6 @@ public class TimerRingService extends Service {
     final Runnable refreshRunnable = new Runnable() {
         public void run() {
             if(UpdateTime != -1){
-                UpdateTime += 1;
                 if(!(getAllOnTimers() > 1)){
                     oneTimerNotificationSetup();
                     updateStopTimeText();
@@ -169,7 +168,7 @@ public class TimerRingService extends Service {
                     setupStopAllNotification();
                 }
                 notifyNotification();
-                handler.postDelayed(refreshRunnable, 1000);
+                handler.postDelayed(refreshRunnable, 500);
             }
         }
     };
@@ -193,12 +192,6 @@ public class TimerRingService extends Service {
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1){
-            long stopTimeRetrieve = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis();
-            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
-        } else {
-            UpdateTime = -1;
-        }
 
         if(!setCustomOnce){
             notificationBuilder.setContentIntent(resultPendingIntent);
@@ -233,6 +226,9 @@ public class TimerRingService extends Service {
     }
 
     private void updateStopTimeText() {
+        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1){
+            UpdateTime = (System.currentTimeMillis() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis()) / 1000F;
+        }
 
         float totalSeconds = UpdateTime;
         float hours = totalSeconds/3600;
@@ -245,7 +241,7 @@ public class TimerRingService extends Service {
     }
 
     private void refreshingEverySecond(){
-        handler.postDelayed(refreshRunnable, 1000);
+        handler.postDelayed(refreshRunnable, 0);
     }
 
     public void notifyNotification(){
@@ -356,13 +352,6 @@ public class TimerRingService extends Service {
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.TIMER_COMPLETE_NOTIFICATION);
-        }
-
-        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1){
-            long stopTimeRetrieve = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis();
-            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
-        } else {
-            UpdateTime = -1;
         }
         notificationBuilder.setContentText("- 00:00:00");
         isCustom = true;

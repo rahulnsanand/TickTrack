@@ -442,16 +442,16 @@ public class TimerActivity extends AppCompatActivity {
         timerBlinkHandler = new Handler();
 
         timerDataArrayList.get(timerCurrentPosition).setTimerRinging(true);
-        if(timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis() != -1){
-            long stopTimeRetrieve = timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis();
-            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
-        } else {
-            timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
-            tickTrackDatabase.storeTimerList(timerDataArrayList);
-            timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-            booleanRefresh();
-            stopTimer();
-        }
+//        if(timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis() != -1){
+//            long stopTimeRetrieve = timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis();
+//            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
+//        } else {
+//            timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
+//            tickTrackDatabase.storeTimerList(timerDataArrayList);
+//            timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+//            booleanRefresh();
+//            stopTimer();
+//        }
         timerProgressBar.setProgress(1);
         timerStopHandler.postDelayed(runnable, 0);
         timerBlinkHandler.postDelayed(blinkRunnable, 0);
@@ -490,9 +490,8 @@ public class TimerActivity extends AppCompatActivity {
     boolean isBlink = false;
     public Runnable runnable = new Runnable() {
         public void run() {
-            UpdateTime += 1;
             updateStopTimeText();
-            timerStopHandler.postDelayed(this,1000);
+            timerStopHandler.postDelayed(this,500);
         }
     };
     public Runnable blinkRunnable = new Runnable(){
@@ -510,7 +509,11 @@ public class TimerActivity extends AppCompatActivity {
 
     private void updateStopTimeText() {
 
-        float totalSeconds = UpdateTime-1;
+        if(timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis() != -1){
+            UpdateTime = (System.currentTimeMillis() - timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis()) / 1000F;
+        }
+
+        float totalSeconds = UpdateTime;
         float hours = totalSeconds/3600;
         float minutes = totalSeconds/60%60;
         float seconds = totalSeconds%60;
