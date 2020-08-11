@@ -93,6 +93,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             noTimerText.setVisibility(View.INVISIBLE);
 
             Collections.sort(timerDataArrayList);
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
 
             timerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             timerRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -177,6 +178,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         if (s.equals("TimerData")){
             Collections.sort(timerDataArrayList);
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
             timerAdapter.diffUtilsChangeData(timerDataArrayList);
         }
     };

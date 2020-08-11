@@ -33,14 +33,9 @@ import java.util.concurrent.TimeUnit;
 public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataViewHolder> {
 
     private ArrayList<TimerData> timerDataArrayList;
-    private TickTrackDatabase tickTrackDatabase;
-    private Context context;
-    private long resumeTimeInMillis;
 
     public TimerAdapter(Context context, ArrayList<TimerData> timerDataArrayList) {
-        this.context = context;
         this.timerDataArrayList = timerDataArrayList;
-        tickTrackDatabase = new TickTrackDatabase(context);
     }
 
     @NonNull
@@ -84,7 +79,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
-            
+
 
             holder.itemColor = timerDataArrayList.get(position).timerFlag;
 

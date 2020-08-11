@@ -18,9 +18,7 @@ public class TimerData implements Comparable<TimerData> {
 
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
-    private stoppedTimerListener stoppedTimerListener;
-    Handler timerHandler;
-    float updatedElapsedTime;
+
 
     public boolean isTimerRinging() {
         return isTimerRinging;
@@ -36,43 +34,6 @@ public class TimerData implements Comparable<TimerData> {
 
     public void setTimerNotificationOn(boolean timerNotificationOn) {
         isTimerNotificationOn = timerNotificationOn;
-    }
-
-    public void setStoppedTimerListener(TimerData.stoppedTimerListener stoppedTimerListener) {
-        this.stoppedTimerListener = stoppedTimerListener;
-    }
-
-    private Runnable stoppedTimerElapsedTimeRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (isTimerRinging) {
-                if (stoppedTimerListener != null) {
-                    increment();
-                    stoppedTimerListener.onTick(updatedElapsedTime);
-                    System.out.println(timerLabel+updatedElapsedTime+"<<<<");
-                }
-            } else {
-                timerHandler.removeCallbacks(this);
-                return;
-            }
-            timerHandler.postDelayed(this, 100);
-        }
-    };
-
-    private void increment() {
-        updatedElapsedTime += 1;
-    }
-
-    public void start(long timerEndTimeInMillis) {
-        if(timerEndTimeInMillis != -1){
-            updatedElapsedTime = (System.currentTimeMillis() - timerEndTimeInMillis) / 1000F;
-            isTimerRinging = true;
-            timerHandler.post(stoppedTimerElapsedTimeRunnable);
-        }
-    }
-
-    public interface stoppedTimerListener {
-        void onTick(float currentValue);
     }
 
     public long getTimerEndedTimeInMillis() {

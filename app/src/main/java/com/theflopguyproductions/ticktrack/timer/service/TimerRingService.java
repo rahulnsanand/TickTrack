@@ -36,6 +36,8 @@ public class TimerRingService extends Service {
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
 
+    private boolean isCustom = true;
+
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private int timerCount = 0;
     final Handler handler = new Handler();
@@ -142,6 +144,7 @@ public class TimerRingService extends Service {
     }
 
     private void initializeValues() {
+        System.out.println("INITIALISED RINGER NOTIF");
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
         timerDataArrayList = retrieveTimerList(sharedPreferences);
         timerCount = getAllOnTimers();
@@ -160,6 +163,8 @@ public class TimerRingService extends Service {
                 UpdateTime += 1;
                 if(!(getAllOnTimers() > 1)){
                     updateStopTimeText();
+                } else if(isCustom){
+                    setupStopAllNotification();
                 }
                 notifyNotification();
                 handler.postDelayed(refreshRunnable, 1000);
@@ -191,11 +196,9 @@ public class TimerRingService extends Service {
         int OnTimers = getAllOnTimers();
         if(OnTimers==1){
             System.out.println("ONE RINGER NOTIFICATION");
-            notificationBuilder.setContentTitle("TickTrack timer");
             notificationManagerCompat.notify(3, notificationBuilder.build());
         } else if(OnTimers>1) {
             System.out.println("MORE RINGER NOTIFICATION");
-            notificationBuilder.setContentTitle("TickTrack timers");
             notificationManagerCompat.notify(3, notificationBuilder.build());
         } else {
             System.out.println("KILL RINGER NOTIFICATION");
@@ -246,11 +249,12 @@ public class TimerRingService extends Service {
         notificationBuilder.addAction(killTimers);
 
         notificationBuilder.setContentTitle("TickTrack Timers");
-        notificationBuilder.setContentText(timerCount+" timers complete");
+        notificationBuilder.setContentText(getAllOnTimers()+" timers complete");
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.TIMER_COMPLETE_NOTIFICATION);
         }
+        isCustom = false;
     }
 
     private void setupCustomNotification(){
@@ -300,6 +304,7 @@ public class TimerRingService extends Service {
             UpdateTime = -1;
         }
 
+        isCustom = true;
         refreshingEverySecond();
     }
 
