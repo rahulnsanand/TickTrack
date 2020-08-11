@@ -66,7 +66,7 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         holder.UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
 
         holder.timerRunnable = () -> {
-            if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+            if(timerDataArrayList.get(position).isTimerRinging()){
                 holder.UpdateTime += 1;
                 holder.timerValue.setText(updateTimerTextView(holder.UpdateTime));
                 timerStopHandler.postDelayed(holder.timerRunnable, 1000);

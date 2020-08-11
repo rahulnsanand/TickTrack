@@ -36,7 +36,6 @@ public class TimerRingService extends Service {
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
 
-    private boolean isCustom = true;
 
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private int timerCount = 0;
@@ -157,13 +156,16 @@ public class TimerRingService extends Service {
         }
     }
     float UpdateTime = 0L;
+    private boolean isCustom = true, setCustomOnce = false, setMultiOnce = false;
     final Runnable refreshRunnable = new Runnable() {
         public void run() {
             if(UpdateTime != -1){
                 UpdateTime += 1;
                 if(!(getAllOnTimers() > 1)){
+                    oneTimerNotificationSetup();
                     updateStopTimeText();
                 } else if(isCustom){
+                    multiTimerNotificationSetup();
                     setupStopAllNotification();
                 }
                 notifyNotification();
@@ -172,6 +174,64 @@ public class TimerRingService extends Service {
         }
     };
 
+    private void oneTimerNotificationSetup() {
+        isCustom = true;
+        String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
+        if(!timerLabel.equals("Set label")){
+            notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+        } else {
+            notificationBuilder.setContentTitle("TickTrack Timer");
+        }
+        Intent killTimerIntent = new Intent(this, TimerRingService.class);
+        killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
+        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
+        NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
+
+        Intent resultIntent = new Intent(this, TimerActivity.class);
+        resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1){
+            long stopTimeRetrieve = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis();
+            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
+        } else {
+            UpdateTime = -1;
+        }
+
+        if(!setCustomOnce){
+            notificationBuilder.setContentIntent(resultPendingIntent);
+            notificationBuilder.addAction(killTimers);
+            setCustomOnce = true;
+            setMultiOnce = false;
+        }
+    }
+
+    private void multiTimerNotificationSetup() {
+        isCustom = false;
+        notificationBuilder.setContentTitle("TickTrack Timers");
+        notificationBuilder.setContentText(getAllOnTimers()+" timers complete");
+        Intent killTimerIntent = new Intent(this, TimerRingService.class);
+        killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
+        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
+        NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop all", killTimerPendingIntent);
+
+        Intent resultIntent = new Intent(this, TimerRingerActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(!setMultiOnce){
+            notificationBuilder.setContentIntent(resultPendingIntent);
+            notificationBuilder.addAction(killTimers);
+            setMultiOnce = true;
+            setCustomOnce = false;
+        }
+
+    }
+
     private void updateStopTimeText() {
 
         float totalSeconds = UpdateTime;
@@ -179,12 +239,13 @@ public class TimerRingService extends Service {
         float minutes = totalSeconds/60%60;
         float seconds = totalSeconds%60;
 
-        String hourLeft = String.format(Locale.getDefault(),"-%02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
+        String hourLeft = String.format(Locale.getDefault(),"- %02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
         notificationBuilder.setContentText(hourLeft);
+
     }
 
     private void refreshingEverySecond(){
-        handler.postDelayed(refreshRunnable, 1);
+        handler.postDelayed(refreshRunnable, 1000);
     }
 
     public void notifyNotification(){
@@ -303,8 +364,10 @@ public class TimerRingService extends Service {
         } else {
             UpdateTime = -1;
         }
-
+        notificationBuilder.setContentText("- 00:00:00");
         isCustom = true;
+        setCustomOnce = true;
+        setMultiOnce = false;
         refreshingEverySecond();
     }
 
