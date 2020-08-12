@@ -25,6 +25,7 @@ import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
 import com.theflopguyproductions.ticktrack.dialogs.CreateCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.CounterSlideDeleteHelper;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
@@ -52,6 +53,13 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         super.onStop();
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        TickTrackAnimator.fabDissolve(counterFab);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        TickTrackAnimator.fabUnDissolve(counterFab);
     }
 
     @Override

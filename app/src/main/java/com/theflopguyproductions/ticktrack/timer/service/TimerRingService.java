@@ -40,6 +40,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static androidx.core.app.NotificationCompat.DEFAULT_SOUND;
+import static androidx.core.app.NotificationCompat.DEFAULT_VIBRATE;
+
 public class TimerRingService extends Service {
 
     public static final String ACTION_ADD_TIMER_FINISH = "ACTION_ADD_TIMER_FINISH";
@@ -316,7 +319,7 @@ public class TimerRingService extends Service {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_HIGH)
+                .setPriority(Notification.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
@@ -353,9 +356,10 @@ public class TimerRingService extends Service {
 
 
         notificationBuilder = new NotificationCompat.Builder(this,TickTrack.TIMER_COMPLETE_NOTIFICATION)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_old_timer_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setPriority(Notification.PRIORITY_HIGH)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
