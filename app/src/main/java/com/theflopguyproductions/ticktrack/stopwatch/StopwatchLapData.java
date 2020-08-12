@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.stopwatch;
 
-public class StopwatchLapData {
+import com.theflopguyproductions.ticktrack.timer.TimerData;
+
+public class StopwatchLapData implements Comparable<StopwatchLapData>{
 
     int lapNumber;
     long lapTimeInMillis;
@@ -19,5 +21,10 @@ public class StopwatchLapData {
 
     public void setLapTimeInMillis(long lapTimeInMillis) {
         this.lapTimeInMillis = lapTimeInMillis;
+    }
+
+    @Override
+    public int compareTo(StopwatchLapData stopwatchLapData) {
+        return 0;
     }
 }
