@@ -2,6 +2,8 @@ package com.theflopguyproductions.ticktrack;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,6 +32,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_so_you_a_developer_huh);
+
 
         int receivedFragmentID = getIntent().getIntExtra("FragmentID",defaultFragmentID);
 

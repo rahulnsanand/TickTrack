@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.Explode;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -122,6 +123,7 @@ public class TimerRingerActivity extends AppCompatActivity {
         super.onStop();
         sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        System.out.println("ON STOP RINGER ACTIVITY");
     }
 
     @Override
@@ -136,8 +138,7 @@ public class TimerRingerActivity extends AppCompatActivity {
         if(isMyServiceRunning(TimerRingService.class, context)){
             killForeground();
         }
-        finish();
-        overridePendingTransition(0, R.anim.to_right);
+        onStop();
     }
     private void killForeground() {
         Intent intent = new Intent(context, TimerRingService.class);

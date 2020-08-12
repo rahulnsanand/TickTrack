@@ -89,7 +89,7 @@ public class TickTrack extends Application {
                 .setUsage(AudioAttributes. USAGE_ALARM )
                 .build() ;
 
-        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        int importance = NotificationManager. IMPORTANCE_MAX ;
         NotificationChannel notificationChannel = new
                 NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Timer Complete Notifications" , importance) ;
         notificationChannel.enableLights( true ) ;

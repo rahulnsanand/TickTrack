@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
 import java.util.ArrayList;
@@ -43,6 +44,13 @@ public class TimerFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        TickTrackAnimator.fabUnDissolve(floatingActionButton);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        TickTrackAnimator.fabDissolve(floatingActionButton);
     }
 
     @Override
