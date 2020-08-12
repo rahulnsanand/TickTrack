@@ -42,12 +42,6 @@ public class TimerFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        TickTrackAnimator.fabUnDissolve(floatingActionButton);
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         TickTrackAnimator.fabDissolve(floatingActionButton);
@@ -60,15 +54,15 @@ public class TimerFragment extends Fragment {
         tickTrackDatabase = new TickTrackDatabase(activity);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         if(timerDataArrayList.size()>0){
-            timerDiscardFAB.setVisibility(View.INVISIBLE);
+            TickTrackAnimator.fabDissolve(timerDiscardFAB);
             displayRecyclerView();
         } else {
             displayCreatorView();
             isFirst = tickTrackDatabase.isFirstTimer();
             if(isFirst){
-                timerDiscardFAB.setVisibility(View.INVISIBLE);
+                TickTrackAnimator.fabDissolve(timerDiscardFAB);
             } else {
-                timerDiscardFAB.setVisibility(View.VISIBLE);
+                TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
             }
         }
         floatingActionButton.setOnClickListener(view1 -> {
@@ -78,15 +72,15 @@ public class TimerFragment extends Fragment {
     }
 
     private void displayCreatorView() {
-        floatingActionButton.setVisibility(View.INVISIBLE);
+        TickTrackAnimator.fabDissolve(floatingActionButton);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(true);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
     }
 
     private void displayRecyclerView() {
-        timerDiscardFAB.setVisibility(View.INVISIBLE);
-        floatingActionButton.setVisibility(View.VISIBLE);
+        TickTrackAnimator.fabDissolve(timerDiscardFAB);
+        TickTrackAnimator.fabUnDissolve(floatingActionButton);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer,  new TimerRecyclerFragment()).commit();
     }
@@ -94,11 +88,11 @@ public class TimerFragment extends Fragment {
     private void addTimer(){
         isFirst = tickTrackDatabase.isFirstTimer();
         if(isFirst){
-            timerDiscardFAB.setVisibility(View.INVISIBLE);
+            TickTrackAnimator.fabDissolve(timerDiscardFAB);
         } else {
-            timerDiscardFAB.setVisibility(View.VISIBLE);
+            TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
         }
-        floatingActionButton.setVisibility(View.INVISIBLE);
+        TickTrackAnimator.fabDissolve(floatingActionButton);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(false);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
