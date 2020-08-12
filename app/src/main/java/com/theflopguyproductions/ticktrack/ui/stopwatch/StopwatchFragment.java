@@ -117,7 +117,6 @@ public class StopwatchFragment extends Fragment {
         resetFAB = parent.findViewById(R.id.stopwatchFragmentResetFAB);
 
         backgroundProgressBar.setInstantProgress(1);
-
     }
 
     @Override
@@ -127,6 +126,9 @@ public class StopwatchFragment extends Fragment {
                 tickTrackDatabase, backgroundProgressBar);
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+
+        //TODO DELETE THIS MACHA
+        foregroundProgressBar.setProgress(1);
     }
 
     @Override
