@@ -472,16 +472,6 @@ public class TimerActivity extends AppCompatActivity {
         timerBlinkHandler = new Handler();
 
         timerDataArrayList.get(timerCurrentPosition).setTimerRinging(true);
-//        if(timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis() != -1){
-//            long stopTimeRetrieve = timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis();
-//            UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
-//        } else {
-//            timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
-//            tickTrackDatabase.storeTimerList(timerDataArrayList);
-//            timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-//            booleanRefresh();
-//            stopTimer();
-//        }
         timerProgressBar.setProgress(1);
         timerStopHandler.postDelayed(runnable, 0);
         timerBlinkHandler.postDelayed(blinkRunnable, 0);

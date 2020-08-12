@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.ui.stopwatch;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,9 @@ import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class StopwatchFragment extends Fragment {
 
@@ -38,6 +42,28 @@ public class StopwatchFragment extends Fragment {
 
     private ArrayList<StopwatchData> stopwatchDataArrayList = new ArrayList<>();
     private ArrayList<StopwatchLapData> stopwatchLapDataArrayList = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
+
+
+    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
+        stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+        stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
+        if (s.equals("StopwatchData")){
+            if(stopwatchLapDataArrayList.size()>0){
+                Collections.sort(stopwatchLapDataArrayList);
+                tickTrackDatabase.storeLapData(stopwatchLapDataArrayList);
+            }
+            if(stopwatchDataArrayList.size()>0){
+                if(!stopwatchDataArrayList.get(0).isRunning()){
+                    killAndResetStopwatch();
+                }
+            }
+        }
+    };
+
+    private void killAndResetStopwatch() {
+
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,9 +73,22 @@ public class StopwatchFragment extends Fragment {
         initVariables(root);
         initValues();
 
+        checkConditions();
+
         setupClickListeners();
 
+        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+
         return root;
+    }
+
+    private void checkConditions() {
+        if(stopwatchLapDataArrayList.size()>0){
+            stopwatchLapLayout.setVisibility(View.VISIBLE);
+        } else {
+            stopwatchLapLayout.setVisibility(View.GONE);
+        }
     }
 
     private void setupClickListeners() {
@@ -60,6 +99,8 @@ public class StopwatchFragment extends Fragment {
 
     private void initValues() {
         tickTrackDatabase = new TickTrackDatabase(activity);
+        stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+        stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
     }
 
     private void initVariables(View parent) {
@@ -84,5 +125,14 @@ public class StopwatchFragment extends Fragment {
         super.onStart();
         TickTrackThemeSetter.stopwatchFragmentTheme(activity, stopwatchRootLayout, stopwatchLapTitleText, stopwatchValueText,
                 tickTrackDatabase, backgroundProgressBar);
+        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 }
