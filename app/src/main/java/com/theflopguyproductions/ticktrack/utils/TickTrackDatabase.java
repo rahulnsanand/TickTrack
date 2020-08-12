@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 
 import java.lang.reflect.Type;
@@ -107,6 +109,48 @@ public class TickTrackDatabase {
     public void setCurrentCounterNotificationID(String currentCounterID){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("CounterNotificationID", currentCounterID);
+        editor.apply();
+    }
+
+    public ArrayList<StopwatchData> retrieveStopwatchData(){
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("StopwatchData", null);
+        Type type = new TypeToken<ArrayList<StopwatchData>>() {}.getType();
+        ArrayList<StopwatchData> stopwatchData = gson.fromJson(json, type);
+
+        if(stopwatchData == null){
+            stopwatchData = new ArrayList<>();
+        }
+
+        return stopwatchData;
+    }
+
+    public ArrayList<StopwatchLapData> retrieveStopwatchLapData(){
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("StopwatchLapData", null);
+        Type type = new TypeToken<ArrayList<StopwatchLapData>>() {}.getType();
+        ArrayList<StopwatchLapData> stopwatchLapData = gson.fromJson(json, type);
+
+        if(stopwatchLapData == null){
+            stopwatchLapData = new ArrayList<>();
+        }
+
+        return stopwatchLapData;
+    }
+
+    public void storeLapData(ArrayList<StopwatchLapData> stopwatchLapData){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(stopwatchLapData);
+        editor.putString("StopwatchLapData", json);
+        editor.apply();
+    }
+
+    public void storeStopwatchData(ArrayList<StopwatchData> stopwatchData){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(stopwatchData);
+        editor.putString("StopwatchData", json);
         editor.apply();
     }
 

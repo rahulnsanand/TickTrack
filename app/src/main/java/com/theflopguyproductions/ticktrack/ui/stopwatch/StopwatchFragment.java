@@ -17,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
+
+import java.util.ArrayList;
 
 public class StopwatchFragment extends Fragment {
 
@@ -32,6 +36,8 @@ public class StopwatchFragment extends Fragment {
     private Activity activity;
     private TickTrackDatabase tickTrackDatabase;
 
+    private ArrayList<StopwatchData> stopwatchDataArrayList = new ArrayList<>();
+    private ArrayList<StopwatchLapData> stopwatchLapDataArrayList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
