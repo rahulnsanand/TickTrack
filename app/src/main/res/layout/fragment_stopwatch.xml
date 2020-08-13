@@ -34,32 +34,47 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
-            <TextView
-                android:id="@+id/stopwatchFragmentMillisTextView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="32dp"
-                android:text="00"
-                android:textSize="30sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:animateLayoutChanges="true"
                 app:layout_constraintBottom_toBottomOf="@+id/stopwatchFragmentProgressForeground"
                 app:layout_constraintEnd_toEndOf="@+id/stopwatchFragmentProgressForeground"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/stopwatchFragmentProgressForeground"
-                app:layout_constraintTop_toTopOf="@+id/stopwatchFragmentProgressForeground" />
+                app:layout_constraintTop_toTopOf="@+id/stopwatchFragmentProgressForeground">
 
-            <TextView
-                android:id="@+id/stopwatchFragmentTimeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="00:00:00"
-                android:textSize="36sp"
-                app:layout_constraintBottom_toBottomOf="@+id/stopwatchFragmentMillisTextView"
-                app:layout_constraintEnd_toStartOf="@+id/stopwatchFragmentMillisTextView"
-                app:layout_constraintTop_toTopOf="@+id/stopwatchFragmentProgressForeground"
-                app:layout_constraintVertical_bias="1.0" />
+                <TextView
+                    android:id="@+id/stopwatchFragmentMillisTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="00"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/stopwatchFragmentTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="00"
+                    android:textSize="72sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/stopwatchFragmentMillisTextView"
+                    app:layout_constraintEnd_toStartOf="@+id/stopwatchFragmentMillisTextView"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
                 android:id="@+id/stopwatchFragmentProgressBackground"
@@ -93,14 +108,12 @@
                 android:id="@+id/stopwatchFragmentLapLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.80">
+                app:layout_constraintVertical_bias="0.8">
 
                 <TextView
                     android:id="@+id/stopwatchFragmentLapTextView"
@@ -116,7 +129,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/stopwatchFragmentRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
@@ -125,7 +138,11 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/stopwatchFragmentLapTextView" />
+                    app:layout_constraintTop_toBottomOf="@+id/stopwatchFragmentLapTextView"
+                    android:fadingEdge="horizontal"
+                    android:fadingEdgeLength="30dp"
+                    android:requiresFadingEdge="vertical"
+                    android:fillViewport="false"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

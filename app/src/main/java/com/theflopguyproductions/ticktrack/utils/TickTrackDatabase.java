@@ -33,6 +33,16 @@ public class TickTrackDatabase {
         return sharedPreferences.getInt("CounterNumber", 1);
     }
 
+    public void storeLapNumber(int updateNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("LapNumber", updateNumber);
+        editor.apply();
+    }
+
+    public int retrieveLapNumber(){
+        return sharedPreferences.getInt("LapNumber", 1);
+    }
+
     public void storeCounterList(ArrayList<CounterData> counterDataArrayList){
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
