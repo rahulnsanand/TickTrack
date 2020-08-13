@@ -270,18 +270,20 @@ public class TickTrackThemeSetter {
     }
 
     public static void stopwatchFragmentTheme(Activity activity, ConstraintLayout rootLayout, TextView lapTitleText, TextView stopwatchValueText, TickTrackDatabase tickTrackDatabase,
-                                              TickTrackProgressBar backgroundProgressBar){
+                                              TickTrackProgressBar backgroundProgressBar, TextView millisText){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
             lapTitleText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             stopwatchValueText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            millisText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             backgroundProgressBar.setBarColor(R.color.GrayOnLight);
         } else {
             rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
             lapTitleText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             stopwatchValueText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            millisText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             backgroundProgressBar.setBarColor(R.color.Black);
         }
 
