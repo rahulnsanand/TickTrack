@@ -11,10 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchAdapter;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
@@ -43,27 +47,23 @@ public class StopwatchFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private TickTrackStopwatchTimer tickTrackStopwatchTimer;
 
+    private static StopwatchAdapter stopwatchAdapter;
+
+
     private boolean isRunning = false;
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
-        if (s.equals("StopwatchData")){
+        if (s.equals("StopwatchLapData")){
             if(stopwatchLapDataArrayList.size()>0){
                 Collections.sort(stopwatchLapDataArrayList);
-                tickTrackDatabase.storeLapData(stopwatchLapDataArrayList);
+                stopwatchAdapter.diffUtilsChangeData(stopwatchLapDataArrayList);
             }
-            if(stopwatchDataArrayList.size()>0){
-                if(!stopwatchDataArrayList.get(0).isRunning()){
-                    killAndResetStopwatch();
-                }
-            }
+            buildRecyclerView(activity);
         }
     };
 
-    private void killAndResetStopwatch() {
-
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,12 +75,36 @@ public class StopwatchFragment extends Fragment {
 
         checkConditions();
 
+        buildRecyclerView(activity);
+
         setupClickListeners();
 
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         return root;
+    }
+
+    private void buildRecyclerView(Activity activity) {
+
+        stopwatchAdapter = new StopwatchAdapter(stopwatchLapDataArrayList);
+
+        if(stopwatchLapDataArrayList.size()>0){
+
+            stopwatchLapLayout.setVisibility(View.VISIBLE);
+
+            Collections.sort(stopwatchLapDataArrayList);
+
+            stopwatchLapRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            stopwatchLapRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            stopwatchLapRecyclerView.setAdapter(stopwatchAdapter);
+
+            stopwatchAdapter.diffUtilsChangeData(stopwatchLapDataArrayList);
+
+        } else {
+            stopwatchLapLayout.setVisibility(View.GONE);
+        }
+
     }
 
     private void checkConditions() {
@@ -104,9 +128,7 @@ public class StopwatchFragment extends Fragment {
         });
 
         resetFAB.setOnClickListener(view -> resetStopwatch());
-
         flagFAB.setOnClickListener(view -> lapStopwatch());
-
     }
 
     private void lapStopwatch() {

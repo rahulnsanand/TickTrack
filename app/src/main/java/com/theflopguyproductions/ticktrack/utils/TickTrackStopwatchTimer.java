@@ -47,20 +47,26 @@ public class TickTrackStopwatchTimer {
     static String getFormattedMillisecond(long elapsedTime) {
         int milliseconds = (int) ((elapsedTime % 1000) / 10);
         NumberFormat f = new DecimalFormat("00");
-        return "." + f.format(milliseconds);
+        return f.format(milliseconds);
     }
-    static String getFormattedHourMinute(long elapsedTime) {
+    static String getFormattedHourMinute(long elapsedTime, TextView hourMinute) {
         final StringBuilder displayTime = new StringBuilder();
         int seconds = (int) ((elapsedTime / 1000) % 60);
         int minutes = (int) (elapsedTime / (60 * 1000) % 60);
         int hours = (int) (elapsedTime / (60 * 60 * 1000));
         NumberFormat f = new DecimalFormat("00");
-        if (minutes == 0)
+        if (minutes == 0) {
             displayTime.append(f.format(seconds));
-        else if (hours == 0)
+            hourMinute.setTextSize(72);
+        }
+        else if (hours == 0) {
             displayTime.append(f.format(minutes)).append(":").append(f.format(seconds));
-        else
+            hourMinute.setTextSize(54);
+        }
+        else {
             displayTime.append(hours).append(":").append(f.format(minutes)).append(":").append(f.format(seconds));
+            hourMinute.setTextSize(38);
+        }
         return displayTime.toString();
     }
 
@@ -126,6 +132,15 @@ public class TickTrackStopwatchTimer {
             paused = false;
             handler.removeCallbacks(runnable);
         }
+        if(this.hourMinute!=null)
+            this.hourMinute.setText("00");
+
+        if(this.milliSecond!=null)
+            this.milliSecond.setText("00");
+
+        stopwatchLapData.clear();
+        tickTrackDatabase.storeLapNumber(0);
+        tickTrackDatabase.storeLapData(stopwatchLapData);
     }
 
     public void pause() {
@@ -157,12 +172,18 @@ public class TickTrackStopwatchTimer {
 
         if (!started)
             throw new IllegalStateException("Not Started");
+
+        int currentLapNumber = tickTrackDatabase.retrieveLapNumber();
+        if(!(currentLapNumber >=0)){
+            currentLapNumber = 0;
+        }
         StopwatchLapData stopwatchLapData = new StopwatchLapData();
-        stopwatchLapData.setLapNumber(this.stopwatchLapData.size()+1);
+        stopwatchLapData.setLapNumber(currentLapNumber+1);
         stopwatchLapData.setElapsedTimeInMillis(elapsedTime);
         stopwatchLapData.setLapTimeInMillis(lapTime);
         this.stopwatchLapData.add(stopwatchLapData);
         this.tickTrackDatabase.storeLapData(this.stopwatchLapData);
+        tickTrackDatabase.storeLapNumber(currentLapNumber+1);
         lapTime = 0;
 
     }
@@ -187,7 +208,7 @@ public class TickTrackStopwatchTimer {
             onTickListener.onTick(this);
 
         if (hourMinute != null) {
-            String hourMinute = getFormattedHourMinute(elapsedTime);
+            String hourMinute = getFormattedHourMinute(elapsedTime, this.hourMinute);
             this.hourMinute.setText(hourMinute);
         }
         if(milliSecond != null){
