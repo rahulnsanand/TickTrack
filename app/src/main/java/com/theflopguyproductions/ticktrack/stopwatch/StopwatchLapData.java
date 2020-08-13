@@ -6,6 +6,16 @@ public class StopwatchLapData implements Comparable<StopwatchLapData>{
 
     int lapNumber;
     long lapTimeInMillis;
+    long elapsedTimeInMillis;
+
+
+    public long getElapsedTimeInMillis() {
+        return elapsedTimeInMillis;
+    }
+
+    public void setElapsedTimeInMillis(long elapsedTimeInMillis) {
+        this.elapsedTimeInMillis = elapsedTimeInMillis;
+    }
 
     public int getLapNumber() {
         return lapNumber;
