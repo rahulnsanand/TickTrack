@@ -61,7 +61,5 @@ public class StopwatchData {
         this.lastUpdatedValue = lastUpdatedValue;
     }
 
-    public void weAreDying(){
-        
-    }
+
 }
