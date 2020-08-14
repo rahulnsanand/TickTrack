@@ -2,17 +2,8 @@ package com.theflopguyproductions.ticktrack.stopwatch;
 
 public class StopwatchData {
 
-    int stopwatchID;
     boolean isRunning, isPause, isNotification;
-    long startTimeInMillis;
-
-    public int getStopwatchID() {
-        return stopwatchID;
-    }
-
-    public void setStopwatchID(int stopwatchID) {
-        this.stopwatchID = stopwatchID;
-    }
+    long startTimeInMillis, recentRealTimeInMillis, recentLocalTimeInMillis, lastUpdatedValue;
 
     public boolean isRunning() {
         return isRunning;
@@ -44,5 +35,33 @@ public class StopwatchData {
 
     public void setStartTimeInMillis(long startTimeInMillis) {
         this.startTimeInMillis = startTimeInMillis;
+    }
+
+    public long getRecentRealTimeInMillis() {
+        return recentRealTimeInMillis;
+    }
+
+    public void setRecentRealTimeInMillis(long recentRealTimeInMillis) {
+        this.recentRealTimeInMillis = recentRealTimeInMillis;
+    }
+
+    public long getRecentLocalTimeInMillis() {
+        return recentLocalTimeInMillis;
+    }
+
+    public void setRecentLocalTimeInMillis(long recentLocalTimeInMillis) {
+        this.recentLocalTimeInMillis = recentLocalTimeInMillis;
+    }
+
+    public long getLastUpdatedValue() {
+        return lastUpdatedValue;
+    }
+
+    public void setLastUpdatedValue(long lastUpdatedValue) {
+        this.lastUpdatedValue = lastUpdatedValue;
+    }
+
+    public void weAreDying(){
+        
     }
 }
