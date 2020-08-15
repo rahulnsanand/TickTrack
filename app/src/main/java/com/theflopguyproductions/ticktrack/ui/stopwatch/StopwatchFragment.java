@@ -53,9 +53,8 @@ public class StopwatchFragment extends Fragment {
 
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
-        stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
-        stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
         if (s.equals("StopwatchLapData")){
+            stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
             if(stopwatchLapDataArrayList.size()>0){
                 Collections.sort(stopwatchLapDataArrayList);
                 stopwatchAdapter.diffUtilsChangeData(stopwatchLapDataArrayList);
@@ -191,6 +190,7 @@ public class StopwatchFragment extends Fragment {
 
         if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             System.out.println("Init Values Got Running and Not Paused");
+            tickTrackStopwatchTimer.setupResumeValues();
             TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
             TickTrackAnimator.fabDissolve(resetFAB);
             TickTrackAnimator.fabUnDissolve(flagFAB);
@@ -202,7 +202,7 @@ public class StopwatchFragment extends Fragment {
             TickTrackAnimator.fabDissolve(flagFAB);
         } else if(stopwatchDataArrayList.get(0).isRunning() && stopwatchDataArrayList.get(0).isPause()){
             System.out.println("Init Values Got Running and Paused");
-
+            tickTrackStopwatchTimer.setupPauseValues();
             TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
             TickTrackAnimator.fabUnDissolve(resetFAB);
             TickTrackAnimator.fabDissolve(flagFAB);
