@@ -66,7 +66,8 @@ public class StopwatchFragment extends Fragment {
                 stopwatchAdapter.diffUtilsChangeData(stopwatchLapDataArrayList);
             }
             buildRecyclerView(activity);
-        } else if(s.equals("StopwatchData")){
+        }
+        if(s.equals("StopwatchData")){
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
     };
