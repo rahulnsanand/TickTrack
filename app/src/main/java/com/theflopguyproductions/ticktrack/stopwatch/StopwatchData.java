@@ -4,6 +4,15 @@ public class StopwatchData {
 
     boolean isRunning, isPause, isNotification;
     long lastLapEndTimeInMillis, recentRealTimeInMillis, recentLocalTimeInMillis, lastUpdatedValueInMillis;
+    long progressValue;
+
+    public long getProgressValue() {
+        return progressValue;
+    }
+
+    public void setProgressValue(long progressValue) {
+        this.progressValue = progressValue;
+    }
 
     public boolean isRunning() {
         return isRunning;
