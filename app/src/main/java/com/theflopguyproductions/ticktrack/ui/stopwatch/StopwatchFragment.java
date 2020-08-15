@@ -114,13 +114,19 @@ public class StopwatchFragment extends Fragment {
 
         if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             System.out.println("checkConditions StartStopwatch Called");
-            startStopwatch();
+            resumeStopwatch();
         } else if(stopwatchDataArrayList.get(0).isPause()){
             System.out.println("checkConditions Pause Stopwatch Called");
             pauseStopwatch();
         } else {
             System.out.println("checkConditions RESET Stopwatch Called");
             resetStopwatch();
+        }
+    }
+
+    private void resumeStopwatch() {
+        if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
+            tickTrackStopwatchTimer.setupResumeValues();
         }
     }
 
@@ -198,7 +204,7 @@ public class StopwatchFragment extends Fragment {
 
         if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             System.out.println("Init Values Got Running and Not Paused");
-            tickTrackStopwatchTimer.setupResumeValues();
+
             TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
             TickTrackAnimator.fabDissolve(resetFAB);
             TickTrackAnimator.fabUnDissolve(flagFAB);
