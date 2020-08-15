@@ -20,7 +20,7 @@ public class TickTrackStopwatch {
     private ArrayList<StopwatchData> stopwatchDataArrayList;
     private ArrayList<StopwatchLapData> stopwatchLapData;
     private TextView hourMinuteText, milliSecondText;
-    private long stopwatchRetrievedStartTime, stopwatchDurationElapsed, stopwatchCurrentLapDurationElapsed, differenceValue = 0;
+    private long stopwatchRetrievedStartTime, stopwatchDurationElapsed, stopwatchCurrentLapDurationElapsed, differenceValue = 0, lastLapEndTime =0;
     private Handler stopwatchHandler, storageHandler, progressBarHandler;
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackProgressBar progressBar;
@@ -64,7 +64,7 @@ public class TickTrackStopwatch {
         }
         long elapsedRealTime = SystemClock.elapsedRealtime()+differenceValue;
         stopwatchDurationElapsed = elapsedRealTime - stopwatchRetrievedStartTime;
-        stopwatchCurrentLapDurationElapsed = elapsedRealTime - stopwatchRetrievedStartTime;
+        stopwatchCurrentLapDurationElapsed = elapsedRealTime - lastLapEndTime;
         updateTextView();
         stopwatchHandler.postDelayed(stopwatchRunnable, 10);
     }
@@ -100,9 +100,10 @@ public class TickTrackStopwatch {
             stopwatchCurrentLapDurationElapsed = 0;
             stopwatchDurationElapsed = 0;
             differenceValue = 0;
-            stopwatchLapData.clear();
-
+            lastLapEndTime = SystemClock.elapsedRealtime();
             stopwatchHandler.post(stopwatchRunnable);
+
+            stopwatchLapData.clear();
 
             stopwatchDataArrayList.get(0).setRunning(true);
             stopwatchDataArrayList.get(0).setPause(false);
@@ -141,6 +142,8 @@ public class TickTrackStopwatch {
             throw new IllegalStateException("Not Started");
         } else {
             stopwatchDurationElapsed = stopwatchDataArrayList.get(0).getLastUpdatedValueInMillis();
+            lastLapEndTime = stopwatchDataArrayList.get(0).getLastLapEndTimeInMillis();
+
             stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
             differenceValue = stopwatchDurationElapsed;
             stopwatchHandler.post(stopwatchRunnable);
@@ -188,6 +191,9 @@ public class TickTrackStopwatch {
             throw new IllegalStateException("Not Started");
         } else {
 
+
+            stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(stopwatchDurationElapsed);
+
             int currentLapNumber = tickTrackDatabase.retrieveLapNumber();
             if(!(currentLapNumber >= 0)){
                 currentLapNumber = 0;
@@ -196,11 +202,11 @@ public class TickTrackStopwatch {
             stopwatchLapData.setLapNumber(currentLapNumber+1);
             stopwatchLapData.setElapsedTimeInMillis(stopwatchDurationElapsed);
             stopwatchLapData.setLapTimeInMillis(stopwatchCurrentLapDurationElapsed);
-            stopwatchCurrentLapDurationElapsed = SystemClock.elapsedRealtime();
             this.stopwatchLapData.add(stopwatchLapData);
             tickTrackDatabase.storeLapData(this.stopwatchLapData);
             tickTrackDatabase.storeLapNumber(currentLapNumber+1);
-
+            lastLapEndTime = SystemClock.elapsedRealtime();
+            
             //TODO HANDLE PROGRESS BAR
         }
     }
