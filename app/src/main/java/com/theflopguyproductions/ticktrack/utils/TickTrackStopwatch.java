@@ -132,7 +132,6 @@ public class TickTrackStopwatch {
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
             //TODO HANDLER PROGRESSBAR SHIT
-
         }
     }
     public void resume() {
@@ -274,5 +273,10 @@ public class TickTrackStopwatch {
         long differenceValue = System.currentTimeMillis() - stopwatchDataArrayList.get(0).getRecentLocalTimeInMillis();
 
         return lastUpdateValue+differenceValue;
+    }
+
+    public void onStopCalled() {
+        stopwatchHandler.removeCallbacks(stopwatchRunnable);
+        storageHandler.removeCallbacks(storageRunnable);
     }
 }

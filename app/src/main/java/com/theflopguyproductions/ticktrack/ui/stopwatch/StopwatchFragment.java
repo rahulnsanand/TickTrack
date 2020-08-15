@@ -52,6 +52,8 @@ public class StopwatchFragment extends Fragment {
 
 
 
+
+
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         if (s.equals("StopwatchLapData")){
             stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
@@ -73,7 +75,8 @@ public class StopwatchFragment extends Fragment {
         activity = getActivity();
         initVariables(root);
         tickTrackDatabase = new TickTrackDatabase(activity);
-
+        initValues();
+        buildRecyclerView(activity);
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
@@ -145,8 +148,7 @@ public class StopwatchFragment extends Fragment {
                 TickTrackAnimator.fabDissolve(resetFAB);
                 TickTrackAnimator.fabUnDissolve(flagFAB);
                 startStopwatch();
-            }
-            else {
+            } else if(!stopwatchDataArrayList.get(0).isPause() && stopwatchDataArrayList.get(0).isRunning()) {
                 System.out.println("PAUSE STOPWATCH CONDITION CLICK");
                 TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
                 TickTrackAnimator.fabUnDissolve(resetFAB);
@@ -177,6 +179,15 @@ public class StopwatchFragment extends Fragment {
         TickTrackAnimator.fabDissolve(resetFAB);
         if (stopwatchDataArrayList.get(0).isRunning()){
             tickTrackStopwatchTimer.stop();
+            stopwatchDataArrayList.get(0).setRunning(false);
+            stopwatchDataArrayList.get(0).setPause(false);
+            stopwatchDataArrayList.get(0).setRecentLocalTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setRecentRealTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
+            stopwatchDataArrayList.get(0).setNotification(false);
+            tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
+            stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
     }
 
@@ -184,6 +195,10 @@ public class StopwatchFragment extends Fragment {
         if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             System.out.println("PAUSE KIYSA");
             tickTrackStopwatchTimer.pause();
+            stopwatchDataArrayList.get(0).setRunning(true);
+            stopwatchDataArrayList.get(0).setPause(true);
+            tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
+            stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
     }
 
@@ -254,11 +269,13 @@ public class StopwatchFragment extends Fragment {
         super.onStart();
         TickTrackThemeSetter.stopwatchFragmentTheme(activity, stopwatchRootLayout, stopwatchLapTitleText, stopwatchValueText,
                 tickTrackDatabase, backgroundProgressBar, stopwatchMillisText);
+
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-
-        initValues();
-        buildRecyclerView(activity);
+        stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+        stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
+        System.out.println(stopwatchDataArrayList.get(0).isPause()+"<<<ISPAUSE ONSTART");
+        System.out.println(stopwatchDataArrayList.get(0).isRunning()+"<<<ISRUNNING ONSTART");
         checkConditions();
         setupClickListeners();
 
@@ -269,5 +286,6 @@ public class StopwatchFragment extends Fragment {
         super.onStop();
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        tickTrackStopwatchTimer.onStopCalled();
     }
 }
