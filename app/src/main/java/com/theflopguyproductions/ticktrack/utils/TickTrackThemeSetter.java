@@ -2,32 +2,19 @@ package com.theflopguyproductions.ticktrack.utils;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
-import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
-import android.widget.Chronometer;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.Switch;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.counter.activity.CounterEditActivity;
-import com.theflopguyproductions.ticktrack.ui.utils.TickTrackChronometer;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
-
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Field;
-import java.util.Objects;
 
 public class TickTrackThemeSetter {
 
@@ -284,8 +271,8 @@ public class TickTrackThemeSetter {
             lapTitleText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             stopwatchValueText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             millisText.setTextColor(activity.getResources().getColor(R.color.Accent) );
-            backgroundProgressBar.setBarColor(R.color.Black);
+            backgroundProgressBar.setBarColor(R.color.GrayOnDark);
         }
-
+        backgroundProgressBar.setProgress(1f);
     }
 }
