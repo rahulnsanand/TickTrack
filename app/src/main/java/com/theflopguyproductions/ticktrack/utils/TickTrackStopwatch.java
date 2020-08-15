@@ -20,7 +20,7 @@ public class TickTrackStopwatch {
     private ArrayList<StopwatchData> stopwatchDataArrayList;
     private ArrayList<StopwatchLapData> stopwatchLapData;
     private TextView hourMinuteText, milliSecondText;
-    private long stopwatchStartTime, stopwatchLastCurrentTimeUpdate, stopwatchLastRealtimeUpdate, stopwatchDurationElapsed, stopwatchCurrentLapDurationElapsed, lapEndTimeInMillis;
+    private long stopwatchRetrievedStartTime, stopwatchDurationElapsed, stopwatchCurrentLapDurationElapsed, differenceValue = 0;
     private Handler stopwatchHandler, storageHandler, progressBarHandler;
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackProgressBar progressBar;
@@ -30,6 +30,7 @@ public class TickTrackStopwatch {
         this.context = context;
         tickTrackDatabase = new TickTrackDatabase(context);
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+        stopwatchLapData = tickTrackDatabase.retrieveStopwatchLapData();
         storageHandler = new Handler();
         stopwatchHandler = new Handler();
         progressBarHandler = new Handler();
@@ -39,10 +40,10 @@ public class TickTrackStopwatch {
             StopwatchData stopwatchData = new StopwatchData();
             stopwatchData.setPause(false);
             stopwatchData.setRunning(false);
-            stopwatchData.setLastUpdatedValue(0);
+            stopwatchData.setLastLapEndTimeInMillis(0);
             stopwatchData.setRecentLocalTimeInMillis(0);
             stopwatchData.setRecentRealTimeInMillis(0);
-            stopwatchData.setStartTimeInMillis(0);
+            stopwatchData.setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.add(0, stopwatchData);
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
@@ -61,8 +62,9 @@ public class TickTrackStopwatch {
             stopwatchHandler.removeCallbacks(stopwatchRunnable);
             return;
         }
-        stopwatchDurationElapsed = SystemClock.elapsedRealtime() - stopwatchStartTime;
-        stopwatchCurrentLapDurationElapsed = SystemClock.elapsedRealtime() - lapEndTimeInMillis;
+        long elapsedRealTime = SystemClock.elapsedRealtime()+differenceValue;
+        stopwatchDurationElapsed = elapsedRealTime - stopwatchRetrievedStartTime;
+        stopwatchCurrentLapDurationElapsed = elapsedRealTime - stopwatchRetrievedStartTime;
         updateTextView();
         stopwatchHandler.postDelayed(stopwatchRunnable, 10);
     }
@@ -83,6 +85,7 @@ public class TickTrackStopwatch {
         stopwatchDataArrayList.get(0).setRecentLocalTimeInMillis(System.currentTimeMillis());
         tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+        storageHandler.postDelayed(storageRunnable, 10);
     }
     private void progressBarRunnable(){
 
@@ -93,16 +96,18 @@ public class TickTrackStopwatch {
             throw new IllegalStateException("Already Started");
         else {
 
-            stopwatchStartTime = SystemClock.elapsedRealtime();
-            lapEndTimeInMillis = SystemClock.elapsedRealtime();
+            stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
             stopwatchCurrentLapDurationElapsed = 0;
-
+            stopwatchDurationElapsed = 0;
+            differenceValue = 0;
             stopwatchLapData.clear();
 
             stopwatchHandler.post(stopwatchRunnable);
 
             stopwatchDataArrayList.get(0).setRunning(true);
             stopwatchDataArrayList.get(0).setPause(false);
+            stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
+            stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
             storageHandler.post(storageRunnable);
@@ -121,18 +126,23 @@ public class TickTrackStopwatch {
 
             stopwatchDataArrayList.get(0).setRunning(true);
             stopwatchDataArrayList.get(0).setPause(true);
+            stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(stopwatchDurationElapsed);
+            stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(stopwatchCurrentLapDurationElapsed);
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
-            //TODO HANDLER PROGERSSBAR SHIT
+            //TODO HANDLER PROGRESSBAR SHIT
 
         }
     }
-    public void resume(){
-        if(stopwatchDataArrayList.get(0).isPause()){
+    public void resume() {
+        if(!stopwatchDataArrayList.get(0).isPause()){
             throw new IllegalStateException("Not Paused");
         } else if (!stopwatchDataArrayList.get(0).isRunning()){
             throw new IllegalStateException("Not Started");
         } else {
+            stopwatchDurationElapsed = stopwatchDataArrayList.get(0).getLastUpdatedValueInMillis();
+            stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
+            differenceValue = stopwatchDurationElapsed;
             stopwatchHandler.post(stopwatchRunnable);
             stopwatchDataArrayList.get(0).setPause(false);
             stopwatchDataArrayList.get(0).setRunning(true);
@@ -143,10 +153,56 @@ public class TickTrackStopwatch {
         }
     }
     public void stop(){
+        if(!stopwatchDataArrayList.get(0).isRunning()){
+            throw new IllegalStateException("Not Started");
+        } else {
 
+            stopwatchHandler.removeCallbacks(stopwatchRunnable);
+            storageHandler.removeCallbacks(storageRunnable);
+
+            stopwatchDataArrayList.get(0).setRunning(false);
+            stopwatchDataArrayList.get(0).setPause(false);
+            stopwatchDataArrayList.get(0).setRecentLocalTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setRecentRealTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
+            stopwatchDataArrayList.get(0).setNotification(false);
+            tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
+            stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+
+            if(this.hourMinuteText!=null)
+                this.hourMinuteText.setText("00");
+
+            if(this.milliSecondText!=null)
+                this.milliSecondText.setText("00");
+
+            stopwatchLapData.clear();
+            tickTrackDatabase.storeLapNumber(0);
+            tickTrackDatabase.storeLapData(stopwatchLapData);
+
+            //TODO HANDLE PROGRESS BAR HERE
+        }
     }
     public void lap(){
+        if(!stopwatchDataArrayList.get(0).isRunning()){
+            throw new IllegalStateException("Not Started");
+        } else {
 
+            int currentLapNumber = tickTrackDatabase.retrieveLapNumber();
+            if(!(currentLapNumber >= 0)){
+                currentLapNumber = 0;
+            }
+            StopwatchLapData stopwatchLapData = new StopwatchLapData();
+            stopwatchLapData.setLapNumber(currentLapNumber+1);
+            stopwatchLapData.setElapsedTimeInMillis(stopwatchDurationElapsed);
+            stopwatchLapData.setLapTimeInMillis(stopwatchCurrentLapDurationElapsed);
+            stopwatchCurrentLapDurationElapsed = SystemClock.elapsedRealtime();
+            this.stopwatchLapData.add(stopwatchLapData);
+            tickTrackDatabase.storeLapData(this.stopwatchLapData);
+            tickTrackDatabase.storeLapNumber(currentLapNumber+1);
+
+            //TODO HANDLE PROGRESS BAR
+        }
     }
 
     public void setGraphics(@Nullable TextView hourMinute, TextView milliSecond, TickTrackProgressBar tickTrackProgressBar) {
