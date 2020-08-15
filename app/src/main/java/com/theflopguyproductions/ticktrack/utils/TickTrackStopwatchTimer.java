@@ -48,7 +48,7 @@ public class TickTrackStopwatchTimer {
             stopwatchData.setRecentLocalTimeInMillis(0);
             stopwatchData.setRecentRealTimeInMillis(0);
             stopwatchData.setStartTimeInMillis(0);
-            stopwatchDataArrayList.add(stopwatchData);
+            stopwatchDataArrayList.add(0, stopwatchData);
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
