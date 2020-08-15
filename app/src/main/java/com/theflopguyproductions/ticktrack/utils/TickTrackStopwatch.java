@@ -128,7 +128,19 @@ public class TickTrackStopwatch {
         }
     }
     public void resume(){
+        if(stopwatchDataArrayList.get(0).isPause()){
+            throw new IllegalStateException("Not Paused");
+        } else if (!stopwatchDataArrayList.get(0).isRunning()){
+            throw new IllegalStateException("Not Started");
+        } else {
+            stopwatchHandler.post(stopwatchRunnable);
+            stopwatchDataArrayList.get(0).setPause(false);
+            stopwatchDataArrayList.get(0).setRunning(true);
+            tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
+            stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
 
+            //TODO HANDLE PROGRESS BAR SHIT HERE
+        }
     }
     public void stop(){
 
