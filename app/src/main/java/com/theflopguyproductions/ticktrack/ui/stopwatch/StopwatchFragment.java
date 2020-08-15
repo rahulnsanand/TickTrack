@@ -3,9 +3,6 @@ package com.theflopguyproductions.ticktrack.ui.stopwatch;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.application.TickTrack;
-import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchAdapter;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TickTrackStopwatchTimer;
+import com.theflopguyproductions.ticktrack.utils.TickTrackStopwatch;
 import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 import java.util.ArrayList;
@@ -51,7 +46,7 @@ public class StopwatchFragment extends Fragment {
     private ArrayList<StopwatchData> stopwatchDataArrayList = new ArrayList<>();
     private ArrayList<StopwatchLapData> stopwatchLapDataArrayList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
-    private TickTrackStopwatchTimer tickTrackStopwatchTimer;
+    private TickTrackStopwatch tickTrackStopwatchTimer;
 
     private static StopwatchAdapter stopwatchAdapter;
 
@@ -118,10 +113,10 @@ public class StopwatchFragment extends Fragment {
             stopwatchLapLayout.setVisibility(View.GONE);
         }
 
-        if(tickTrackStopwatchTimer.isStarted() && !tickTrackStopwatchTimer.isPaused()){
+        if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             System.out.println("checkConditions StartStopwatch Called");
             startStopwatch();
-        } else if(tickTrackStopwatchTimer.isPaused()){
+        } else if(stopwatchDataArrayList.get(0).isPause()){
             System.out.println("checkConditions Pause Stopwatch Called");
             pauseStopwatch();
         } else {
@@ -133,7 +128,7 @@ public class StopwatchFragment extends Fragment {
     private void setupClickListeners() {
 
         playPauseFAB.setOnClickListener(view -> {
-            if(!stopwatchDataArrayList.get(0).isRunning()){
+            if(!stopwatchDataArrayList.get(0).isRunning() || (stopwatchDataArrayList.get(0).isRunning() && stopwatchDataArrayList.get(0).isPause())){
                 System.out.println("START STOPWATCH CONDITION CLICK");
                 TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
                 TickTrackAnimator.fabDissolve(resetFAB);
@@ -159,7 +154,7 @@ public class StopwatchFragment extends Fragment {
     }
 
     private void lapStopwatch() {
-        if(tickTrackStopwatchTimer.isStarted()){
+        if(stopwatchDataArrayList.get(0).isRunning()){
             tickTrackStopwatchTimer.lap();
         }
     }
@@ -168,21 +163,21 @@ public class StopwatchFragment extends Fragment {
 
     private void resetStopwatch() {
         TickTrackAnimator.fabDissolve(resetFAB);
-        if (tickTrackStopwatchTimer.isStarted()){
+        if (stopwatchDataArrayList.get(0).isRunning()){
             tickTrackStopwatchTimer.stop();
         }
     }
 
     private void pauseStopwatch() {
-        if(tickTrackStopwatchTimer.isStarted() && !tickTrackStopwatchTimer.isPaused()){
+        if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             tickTrackStopwatchTimer.pause();
         }
     }
 
     private void startStopwatch() {
-        if(!tickTrackStopwatchTimer.isStarted()){
+        if(!stopwatchDataArrayList.get(0).isRunning()){
             tickTrackStopwatchTimer.start();
-        } else if (tickTrackStopwatchTimer.isPaused()){
+        } else if (stopwatchDataArrayList.get(0).isPause()){
             tickTrackStopwatchTimer.resume();
         }
     }
@@ -191,8 +186,8 @@ public class StopwatchFragment extends Fragment {
 
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
-        tickTrackStopwatchTimer = new TickTrackStopwatchTimer(tickTrackDatabase);
-        tickTrackStopwatchTimer.setTextView(stopwatchValueText, stopwatchMillisText, foregroundProgressBar);
+        tickTrackStopwatchTimer = new TickTrackStopwatch(activity);
+        tickTrackStopwatchTimer.setGraphics(stopwatchValueText, stopwatchMillisText, foregroundProgressBar);
 
         if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             System.out.println("Init Values Got Running and Not Paused");
@@ -260,6 +255,5 @@ public class StopwatchFragment extends Fragment {
         super.onStop();
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        tickTrackStopwatchTimer.weAreDying();
     }
 }
