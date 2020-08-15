@@ -65,7 +65,7 @@ public class TickTrackStopwatch {
         long elapsedRealTime = SystemClock.elapsedRealtime()+differenceValue;
         stopwatchDurationElapsed = elapsedRealTime - stopwatchRetrievedStartTime;
         updateTextView();
-        stopwatchHandler.postDelayed(stopwatchRunnable, 10);
+        stopwatchHandler.postDelayed(stopwatchRunnable, 1);
     }
 
     private void updateTextView() {
@@ -85,7 +85,7 @@ public class TickTrackStopwatch {
         stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(stopwatchDurationElapsed);
         tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
-        storageHandler.postDelayed(storageRunnable, 10);
+        storageHandler.postDelayed(storageRunnable, 1);
     }
 
     long currentValue = 0, maxProgress = 10000;

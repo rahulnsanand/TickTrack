@@ -1,8 +1,5 @@
 package com.theflopguyproductions.ticktrack.counter.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,12 +11,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
@@ -34,12 +32,12 @@ public class CounterEditActivity extends AppCompatActivity {
     TickTrackDatabase tickTrackDatabase;
 
     private int currentPosition;
-    private ImageButton backButton, saveButton;
+    private ImageButton backButton, deleteCounterButton;
     private ImageView counterFlag;
     private Switch counterButtonSwitch, counterNotificationSwitch;
     private TextView counterLabel, counterValue, counterMilestone, counterButtonMode;
     private TextView counterLabelTitle, counterValueTitle, counterMilestoneTitle, counterButtonModeTitle, counterFlagTitle, counterNotificationTitle, counterNotificationDetail, counterMilestoneDetail;
-    private Button deleteButton;
+    private Button saveChangesButton;
     private ConstraintLayout counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout, counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout, counterEditToolbarLayout, counterFlagGroupLayout;
     private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider;
     private ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
@@ -83,7 +81,12 @@ public class CounterEditActivity extends AppCompatActivity {
 
         flagValueCheck();
 
-        saveButton.setOnClickListener(view -> saveData());
+        deleteCounterButton.setOnClickListener(view -> {
+
+            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, currentPosition, counterDataArrayList.get(currentPosition).getCounterLabel(),
+                    counterDataArrayList.get(currentPosition).getCounterID(), sharedPreferenceChangeListener);
+            counterDelete.show();
+        });
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
@@ -127,7 +130,7 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void initVariables() {
         backButton = findViewById(R.id.counterEditActivityBackButton);
-        saveButton = findViewById(R.id.counterEditActivitySaveButton);
+        deleteCounterButton = findViewById(R.id.counterEditActivitySaveButton);
         counterFlag = findViewById(R.id.counterEditActivityFlagImageView);
         counterButtonSwitch = findViewById(R.id.counterEditActivityButtonModeSwitch);
         counterNotificationSwitch = findViewById(R.id.counterEditActivityNotificationSwitch);
@@ -135,7 +138,7 @@ public class CounterEditActivity extends AppCompatActivity {
         counterValue = findViewById(R.id.counterEditActivityValueTextView);
         counterMilestone = findViewById(R.id.counterEditActivitySignificantTextView);
         counterButtonMode = findViewById(R.id.counterEditActivityButtonModeTextView);
-        deleteButton = findViewById(R.id.counterEditActivityDeleteButton);
+        saveChangesButton = findViewById(R.id.counterEditActivityDeleteButton);
         counterLabelTitle = findViewById(R.id.counterEditActivityLabelTitle);
         counterValueTitle = findViewById(R.id.counterEditActivityValueTitle);
         counterMilestoneTitle = findViewById(R.id.counterEditActivitySignificantTitle);
@@ -318,10 +321,8 @@ public class CounterEditActivity extends AppCompatActivity {
         counterFlagLayout.setOnClickListener(view -> flagGroupVisibilityToggle());
         counterButtonModeLayout.setOnClickListener(view -> toggleButtonMode());
         counterNotificationLayout.setOnClickListener(view -> toggleNotificationSwitch());
-        deleteButton.setOnClickListener(view -> {
-            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, currentPosition, counterDataArrayList.get(currentPosition).getCounterLabel(),
-                    counterDataArrayList.get(currentPosition).getCounterID(), sharedPreferenceChangeListener);
-            counterDelete.show();
+        saveChangesButton.setOnClickListener(view -> {
+            saveData();
         });
         backButton.setOnClickListener(view -> onBackPressed());
     }

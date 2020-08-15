@@ -11,8 +11,6 @@ import com.theflopguyproductions.ticktrack.R;
 
 public class MontserratTextView extends androidx.appcompat.widget.AppCompatTextView {
 
-    private final static int MONTSERRAT_THIN = 0;
-    private final static int MONTSERRAT_THIN_ITALIC = 1;
     private final static int MONTSERRAT_LIGHT = 2;
     private final static int MONTSERRAT_LIGHT_ITALIC = 3;
     private final static int MONTSERRAT_REGULAR = 4;
@@ -67,53 +65,48 @@ public class MontserratTextView extends androidx.appcompat.widget.AppCompatTextV
     private Typeface createTypeface(Context context, int typefaceValue) throws IllegalArgumentException {
         Typeface typeface;
         switch (typefaceValue) {
-            case MONTSERRAT_THIN:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Thin.ttf");
-                break;
-            case MONTSERRAT_THIN_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-ThinItalic.ttf");
-                break;
+
             case MONTSERRAT_LIGHT:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Light.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-Light.ttf");
                 break;
             case MONTSERRAT_LIGHT_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-LightItalic.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-LightItalic.ttf");
                 break;
             case MONTSERRAT_REGULAR:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-Regular.ttf");
                 break;
             case MONTSERRAT_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Italic.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-Italic.ttf");
                 break;
             case MONTSERRAT_MEDIUM:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Medium.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-Medium.ttf");
                 break;
             case MONTSERRAT_MEDIUM_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-MediumItalic.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-MediumItalic.ttf");
                 break;
             case MONTSERRAT_BOLD:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Bold.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-Bold.ttf");
                 break;
             case MONTSERRAT_BOLD_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-BoldItalic.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-BoldItalic.ttf");
                 break;
             case MONTSERRAT_BLACK:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Black.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-Black.ttf");
                 break;
             case MONTSERRAT_BLACK_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-BlackItalic.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-BlackItalic.ttf");
                 break;
             case MONTSERRAT_SEMI_BOLD:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-SemiBold.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-SemiBold.ttf");
                 break;
             case MONTSERRAT_SEMI_BOLD_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-SemiBoldItalic.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-SemiBoldItalic.ttf");
                 break;
             case MONTSERRAT_EXTRA_LIGHT:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-ExtraLight.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-ExtraLight.ttf");
                 break;
             case MONTSERRAT_EXTRA_LIGHT_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-ExtraLightItalic.ttf");
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-ExtraLightItalic.ttf");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown `typeface` attribute value " + typefaceValue);
