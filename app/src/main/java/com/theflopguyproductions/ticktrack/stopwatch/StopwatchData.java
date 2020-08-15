@@ -11,6 +11,7 @@ public class StopwatchData {
 
     public void setRunning(boolean running) {
         isRunning = running;
+        System.out.println(running+"<<<<RUNNNING");
     }
 
     public boolean isPause() {
@@ -19,6 +20,7 @@ public class StopwatchData {
 
     public void setPause(boolean pause) {
         isPause = pause;
+        System.out.println(pause+"<<<<PAUSE");
     }
 
     public boolean isNotification() {
