@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/round_rect_light">
@@ -22,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/labelDialogHelpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +33,8 @@
         app:layout_constraintEnd_toEndOf="@+id/labelDialogInputText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/labelDialogInputText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="montserrat_regular"/>
 
 
     <Button
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/labelDialogInputText"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/labelDialogSaveChangesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,5 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="montserrat_medium"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

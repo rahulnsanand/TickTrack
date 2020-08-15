@@ -47,7 +47,7 @@
                 app:layout_constraintStart_toStartOf="@+id/stopwatchFragmentProgressForeground"
                 app:layout_constraintTop_toTopOf="@+id/stopwatchFragmentProgressForeground">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/stopwatchFragmentMillisTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -59,9 +59,10 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="1.0"
+                    app:typeface="montserrat_regular"/>
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/stopwatchFragmentTimeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,7 +74,9 @@
                     app:layout_constraintEnd_toStartOf="@+id/stopwatchFragmentMillisTextView"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_semi_bold"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
@@ -115,7 +118,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.8">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/stopwatchFragmentLapTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -124,7 +127,8 @@
                     android:text="Laps"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_medium_italic"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/stopwatchFragmentRecyclerView"

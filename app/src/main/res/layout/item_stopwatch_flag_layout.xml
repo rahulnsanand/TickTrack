@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/stopwatchLapNumberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,9 +16,10 @@
         app:layout_constraintEnd_toStartOf="@+id/stopwatchLapTimeDifferenceTextView"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="montserrat_italic"/>
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/stopwatchLapTimeDifferenceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,9 +29,10 @@
         android:text="00:00:00:00"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopwatchLapTimeStampTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="montserrat_regular"/>
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/stopwatchLapTimeStampTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,5 +40,7 @@
         android:text="00:00:00:00"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="montserrat_regular"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

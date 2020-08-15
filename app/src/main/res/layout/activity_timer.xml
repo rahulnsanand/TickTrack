@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_round_arrow_white_24" />
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
             android:id="@+id/timerActivityLabelTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,10 +36,11 @@
             android:layout_marginBottom="8dp"
             android:text="Label"
             android:textColor="@color/LightText"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/timerActivityBackImageButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="montserrat_semi_bold_italic"/>
 
         <ImageButton
             android:id="@+id/timerActivityDeleteImageButton"
@@ -102,7 +103,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="montserrat_semi_bold" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/timerActivityTimeLeftMillisTextView"
@@ -117,7 +118,7 @@
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimeLeftTextView"
                     app:layout_constraintVertical_bias="0.0"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="montserrat_semi_bold" />
 
                 <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
                     android:id="@+id/timerActivityTimerProgressBar"

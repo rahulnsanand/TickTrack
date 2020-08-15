@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/counterDeleteRootLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/round_rect_light">
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,18 +19,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="montserrat_medium"/>
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/deleteCounterTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:text="Delete counter"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:typeface="montserrat_medium_italic" />
 
     <Button
         android:id="@+id/acceptDeleteCounterButton"

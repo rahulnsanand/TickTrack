@@ -1,6 +1,5 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/abc_vector_test">
@@ -15,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
             android:id="@+id/settingsLabelToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,10 +23,11 @@
             android:layout_marginBottom="8dp"
             android:text="Settings"
             android:textColor="@color/LightText"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="montserrat_semi_bold_italic"/>
 
         <ImageButton
             android:id="@+id/settingsActivityBackButton"
@@ -64,7 +64,7 @@
                 android:layout_marginTop="24dp"
                 android:text="General"
                 android:textColor="@color/Accent"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:typeface="montserrat_medium"/>
@@ -106,7 +106,8 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/themeSettingsLabel"
-                    app:typeface="montserrat_regular"/>
+                    android:alpha="50"
+                    app:typeface="montserrat_italic"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
