@@ -1,6 +1,5 @@
 package com.theflopguyproductions.ticktrack.stopwatch;
 
-import com.theflopguyproductions.ticktrack.timer.TimerData;
 
 public class StopwatchLapData implements Comparable<StopwatchLapData>{
 
@@ -35,6 +34,10 @@ public class StopwatchLapData implements Comparable<StopwatchLapData>{
 
     @Override
     public int compareTo(StopwatchLapData stopwatchLapData) {
-        return 0;
+        if(this.lapNumber < stopwatchLapData.getLapNumber()){
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
