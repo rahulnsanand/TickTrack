@@ -127,13 +127,20 @@ public class StopwatchFragment extends Fragment {
     private void setupClickListeners() {
 
         playPauseFAB.setOnClickListener(view -> {
-            if(!stopwatchDataArrayList.get(0).isRunning() || (stopwatchDataArrayList.get(0).isRunning() && stopwatchDataArrayList.get(0).isPause())){
+            if(!stopwatchDataArrayList.get(0).isRunning()){
                 System.out.println("START STOPWATCH CONDITION CLICK");
                 TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
                 TickTrackAnimator.fabDissolve(resetFAB);
                 TickTrackAnimator.fabUnDissolve(flagFAB);
                 startStopwatch();
-            } else {
+            } else if(stopwatchDataArrayList.get(0).isRunning() && stopwatchDataArrayList.get(0).isPause()) {
+                System.out.println("START STOPWATCH CONDITION CLICK");
+                TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
+                TickTrackAnimator.fabDissolve(resetFAB);
+                TickTrackAnimator.fabUnDissolve(flagFAB);
+                startStopwatch();
+            }
+            else {
                 System.out.println("PAUSE STOPWATCH CONDITION CLICK");
                 TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
                 TickTrackAnimator.fabUnDissolve(resetFAB);
@@ -169,6 +176,7 @@ public class StopwatchFragment extends Fragment {
 
     private void pauseStopwatch() {
         if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
+            System.out.println("PAUSE KIYSA");
             tickTrackStopwatchTimer.pause();
         }
     }
