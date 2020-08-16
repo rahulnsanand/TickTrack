@@ -27,12 +27,12 @@
         <service
             android:name=".timer.service.TimerService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
 
         <service
             android:name=".timer.service.TimerRingService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity android:name=".timer.activity.TimerActivity" />
 
@@ -58,11 +58,18 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".utils.BroadcastUtility">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".counter.notification.CounterNotificationService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>

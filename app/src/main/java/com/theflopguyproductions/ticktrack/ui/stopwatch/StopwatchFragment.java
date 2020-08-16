@@ -287,5 +287,6 @@ public class StopwatchFragment extends Fragment {
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         tickTrackStopwatchTimer.onStopCalled();
+
     }
 }

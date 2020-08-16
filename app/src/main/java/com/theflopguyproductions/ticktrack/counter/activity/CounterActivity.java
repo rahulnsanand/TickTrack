@@ -1,29 +1,25 @@
 package com.theflopguyproductions.ticktrack.counter.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
-import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
@@ -31,7 +27,6 @@ import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class CounterActivity extends AppCompatActivity {
 
@@ -58,6 +53,7 @@ public class CounterActivity extends AppCompatActivity {
         super.onStop();
         sharedPreferences = this.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        tickTrackDatabase.storeCurrentFragmentNumber(1);
     }
 
     @Override
@@ -266,6 +262,7 @@ public class CounterActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        tickTrackDatabase.storeCurrentFragmentNumber(1);
         Intent intent = new Intent(this, SoYouADeveloperHuh.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

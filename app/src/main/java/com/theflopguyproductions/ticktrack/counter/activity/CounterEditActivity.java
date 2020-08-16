@@ -52,6 +52,7 @@ public class CounterEditActivity extends AppCompatActivity {
         super.onStop();
         sharedPreferences = this.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        tickTrackDatabase.storeCurrentFragmentNumber(1);
     }
 
     @Override
@@ -471,5 +472,6 @@ public class CounterEditActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+        tickTrackDatabase.storeCurrentFragmentNumber(1);
     }
 }

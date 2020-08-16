@@ -1,17 +1,14 @@
 package com.theflopguyproductions.ticktrack;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +34,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     private Toolbar mainToolbar;
     private TextView tickTrackAppName;
     private BottomNavigationView navView;
-    private int defaultFragmentID = 0;
+    private int receivedFragmentID  = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +44,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         tickTrackAppName = findViewById(R.id.ticktrackAppName);
         setSupportActionBar(mainToolbar);
         setTitle("");
-
-        int receivedFragmentID = getIntent().getIntExtra("FragmentID",defaultFragmentID);
-
-        openFragment(getFragment(receivedFragmentID));
-
         tickTrackDatabase = new TickTrackDatabase(this);
 
+        receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
+        openFragment(getFragment(receivedFragmentID));
+
         navView = findViewById(R.id.nav_view);
-
-
-//        overflowMenuSetup();
 
         navView.setItemIconTintList(null);
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
@@ -80,15 +72,24 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
         switch (item.getItemId()) {
             case R.id.navigation_counter:
-                openFragment(new CounterFragment());
+                if(!(tickTrackDatabase.retrieveCurrentFragmentNumber()==1 || tickTrackDatabase.retrieveCurrentFragmentNumber()==-1)) {
+                    tickTrackDatabase.storeCurrentFragmentNumber(1);
+                    openFragment(new CounterFragment());
+                }
                 return true;
 
             case R.id.navigation_stopwatch:
-                openFragment(new StopwatchFragment());
+                if(!(tickTrackDatabase.retrieveCurrentFragmentNumber()==3)){
+                    tickTrackDatabase.storeCurrentFragmentNumber(3);
+                    openFragment(new StopwatchFragment());
+                }
                 return true;
 
             case R.id.navigation_timer:
-                openFragment(new TimerFragment());
+                if(!(tickTrackDatabase.retrieveCurrentFragmentNumber()==2)) {
+                    tickTrackDatabase.storeCurrentFragmentNumber(2);
+                    openFragment(new TimerFragment());
+                }
                 return true;
         }
         return false;
@@ -97,53 +98,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     public void openFragment(Fragment fragment) {
         FragmentManager manager = this.getSupportFragmentManager();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
         transaction.replace(R.id.nav_host_fragment, fragment);
         transaction.commit();
         manager.popBackStack();
-    }
-
-    public void overflowMenuSetup(){
-        mainToolbar.inflateMenu(R.menu.overflow_menu);
-
-        mainToolbar.setOnMenuItemClickListener(item -> {
-
-            switch (item.getItemId()) {
-
-                case R.id.screensaverMenuItem:
-                    Toast.makeText(getApplicationContext(),"Screensaver",Toast.LENGTH_SHORT).show();
-                    return false;
-
-                case R.id.settingsMenuItem:
-                    Intent intent = new Intent(this, SettingsActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    return false;
-
-                case R.id.feedbackMenuItem:
-                    Toast.makeText(getApplicationContext(),"Feedback",Toast.LENGTH_SHORT).show();
-                    return false;
-
-                case R.id.aboutMenuItem:
-                    Toast.makeText(getApplicationContext(),"About",Toast.LENGTH_SHORT).show();
-                    return true;
-
-                default:
-                    break;
-            }
-            return false;
-        });
-    }
-
-    private void styleMenuButton() {
-        // Find the menu item you want to style
-        View view = findViewById(R.id.settingsMenuItem);
-
-        // Cast to a TextView instance if the menu item was found
-        if (view instanceof TextView) {
-            ((TextView) view).setTextColor( Color.BLUE ); // Make text colour blue
-            ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, 24); // Increase font size
-            System.out.println("Changed");
-        }
     }
 
     @Override
@@ -216,8 +174,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
 
     @Override
