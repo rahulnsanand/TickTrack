@@ -31,7 +31,8 @@ public class CounterEditActivity extends AppCompatActivity {
 
     TickTrackDatabase tickTrackDatabase;
 
-    private int currentPosition;
+//    private int currentPosition;
+    private String counterID;
     private ImageButton backButton, deleteCounterButton;
     private ImageView counterFlag;
     private Switch counterButtonSwitch, counterNotificationSwitch;
@@ -63,8 +64,8 @@ public class CounterEditActivity extends AppCompatActivity {
         activity = this;
         tickTrackDatabase = new TickTrackDatabase(activity);
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
-        currentPosition = getIntent().getIntExtra("CurrentPosition",0);
-        int flagColor = counterDataArrayList.get(currentPosition).getCounterFlag();
+        counterID = getIntent().getStringExtra("CurrentPosition");
+        int flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
         sharedPreferences = this.getSharedPreferences("TickTrackData",MODE_PRIVATE);
 
         initVariables();
@@ -84,30 +85,37 @@ public class CounterEditActivity extends AppCompatActivity {
 
         deleteCounterButton.setOnClickListener(view -> {
 
-            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, currentPosition, counterDataArrayList.get(currentPosition).getCounterLabel(),
-                    counterDataArrayList.get(currentPosition).getCounterID(), sharedPreferenceChangeListener);
+            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, getCurrentPosition(), counterDataArrayList.get(getCurrentPosition()).getCounterLabel(),
+                    counterDataArrayList.get(getCurrentPosition()).getCounterID(), sharedPreferenceChangeListener);
             counterDelete.show();
         });
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
-
+    private int getCurrentPosition() {
+        for(int i = 0; i < counterDataArrayList.size(); i ++){
+            if(counterDataArrayList.get(i).getCounterID().equals(counterID)){
+                return i;
+            }
+        }
+        return 0;
+    }
     private void setupOnCheckedListeners() {
         counterNotificationSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
-                counterDataArrayList.get(currentPosition).setCounterPersistentNotification(true);
+                counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(true);
 
             } else {
-                counterDataArrayList.get(currentPosition).setCounterPersistentNotification(false);
+                counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(false);
 
             }
             isChanged = true;
         });
         counterButtonSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
-                counterDataArrayList.get(currentPosition).setCounterSwipeMode(true);
+                counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(true);
                 counterButtonMode.setText("Swipe mode");
             } else {
-                counterDataArrayList.get(currentPosition).setCounterSwipeMode(false);
+                counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(false);
                 counterButtonMode.setText("Click mode");
             }
             isChanged = true;
@@ -124,7 +132,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private void startNotificationService() {
         Intent intent = new Intent(this, CounterNotificationService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        tickTrackDatabase.setCurrentCounterNotificationID(counterDataArrayList.get(currentPosition).getCounterID());
+        tickTrackDatabase.setCurrentCounterNotificationID(counterDataArrayList.get(getCurrentPosition()).getCounterID());
         intent.setAction(CounterNotificationService.ACTION_START_COUNTER_SERVICE);
         startService(intent);
     }
@@ -176,27 +184,27 @@ public class CounterEditActivity extends AppCompatActivity {
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         if (s.equals("CounterData")){
-            counterValue.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
+            counterValue.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
         }
     };
 
     private void setupPrefixValues() {
-        setFlagColor(counterDataArrayList.get(currentPosition).getCounterFlag());
+        setFlagColor(counterDataArrayList.get(getCurrentPosition()).getCounterFlag());
 
-        counterLabel.setText(counterDataArrayList.get(currentPosition).getCounterLabel());
-        counterValue.setText(""+counterDataArrayList.get(currentPosition).getCounterValue());
-        if(counterDataArrayList.get(currentPosition).isCounterSignificantExist()){
-            counterMilestone.setText(counterDataArrayList.get(currentPosition).getCounterSignificantCount()+"");
+        counterLabel.setText(counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
+        counterValue.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+        if(counterDataArrayList.get(getCurrentPosition()).isCounterSignificantExist()){
+            counterMilestone.setText(counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount()+"");
         } else {
             counterMilestone.setText("NA");
         }
-        counterButtonSwitch.setChecked(counterDataArrayList.get(currentPosition).isCounterSwipeMode());
-        if(counterDataArrayList.get(currentPosition).isCounterSwipeMode()){
+        counterButtonSwitch.setChecked(counterDataArrayList.get(getCurrentPosition()).isCounterSwipeMode());
+        if(counterDataArrayList.get(getCurrentPosition()).isCounterSwipeMode()){
             counterButtonMode.setText("Swipe mode");
         } else {
             counterButtonMode.setText("Click mode");
         }
-        counterNotificationSwitch.setChecked(counterDataArrayList.get(currentPosition).isCounterPersistentNotification());
+        counterNotificationSwitch.setChecked(counterDataArrayList.get(getCurrentPosition()).isCounterPersistentNotification());
 
         counterFlagGroupLayout.setVisibility(View.GONE);
         flagLayoutOpen = true;
@@ -269,7 +277,7 @@ public class CounterEditActivity extends AppCompatActivity {
             labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
         });
         counterValueLayout.setOnClickListener(view -> {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(currentPosition).getCounterValue());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
             labelDialog.inputText.setVisibility(View.VISIBLE);
@@ -284,7 +292,7 @@ public class CounterEditActivity extends AppCompatActivity {
             labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
         });
         counterMilestoneLayout.setOnClickListener(view -> {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(currentPosition).getCounterSignificantCount());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
             labelDialog.inputText.setVisibility(View.VISIBLE);
@@ -371,10 +379,10 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void toggleNotificationSwitch() {
         if(counterNotificationSwitch.isChecked()){
-            counterDataArrayList.get(currentPosition).setCounterPersistentNotification(false);
+            counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(false);
             counterNotificationSwitch.setChecked(false);
         } else {
-            counterDataArrayList.get(currentPosition).setCounterPersistentNotification(true);
+            counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(true);
             counterNotificationSwitch.setChecked(true);
 
         }
@@ -383,11 +391,11 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void toggleButtonMode() {
         if(counterButtonSwitch.isChecked()){
-            counterDataArrayList.get(currentPosition).setCounterSwipeMode(false);
+            counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(false);
             counterButtonMode.setText("Click mode");
             counterButtonSwitch.setChecked(false);
         } else {
-            counterDataArrayList.get(currentPosition).setCounterSwipeMode(true);
+            counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(true);
             counterButtonMode.setText("Swipe mode");
             counterButtonSwitch.setChecked(true);
         }
@@ -396,23 +404,23 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void saveData(){
         if(isChanged){
-            counterDataArrayList.get(currentPosition).setCounterLabel(counterLabel.getText().toString());
-            counterDataArrayList.get(currentPosition).setCounterValue(Integer.parseInt(counterValue.getText().toString()));
+            counterDataArrayList.get(getCurrentPosition()).setCounterLabel(counterLabel.getText().toString());
+            counterDataArrayList.get(getCurrentPosition()).setCounterValue(Integer.parseInt(counterValue.getText().toString()));
             if(!counterMilestone.getText().toString().equals("NA")){
-                counterDataArrayList.get(currentPosition).setCounterSignificantCount(Integer.parseInt(counterMilestone.getText().toString()));
-                counterDataArrayList.get(currentPosition).setCounterSignificantExist(true);
+                counterDataArrayList.get(getCurrentPosition()).setCounterSignificantCount(Integer.parseInt(counterMilestone.getText().toString()));
+                counterDataArrayList.get(getCurrentPosition()).setCounterSignificantExist(true);
             } else {
-                counterDataArrayList.get(currentPosition).setCounterSignificantCount(0);
-                counterDataArrayList.get(currentPosition).setCounterSignificantExist(false);
+                counterDataArrayList.get(getCurrentPosition()).setCounterSignificantCount(0);
+                counterDataArrayList.get(getCurrentPosition()).setCounterSignificantExist(false);
             }
-            counterDataArrayList.get(currentPosition).setCounterFlag(getCounterFlag());
-            counterDataArrayList.get(currentPosition).setCounterSwipeMode(counterButtonSwitch.isChecked());
+            counterDataArrayList.get(getCurrentPosition()).setCounterFlag(getCounterFlag());
+            counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(counterButtonSwitch.isChecked());
             if(counterNotificationSwitch.isChecked()){
-                counterDataArrayList.get(currentPosition).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
+                counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
                 revertAllOtherChecks();
                 startNotificationService();
             } else {
-                counterDataArrayList.get(currentPosition).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
+                counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
             }
             tickTrackDatabase.storeCounterList(counterDataArrayList);
 
@@ -424,7 +432,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private void revertAllOtherChecks() {
         stopNotificationService();
         for(int i = 0; i < counterDataArrayList.size(); i++){
-            if(i!=currentPosition){
+            if(i!=getCurrentPosition()){
                 counterDataArrayList.get(i).setCounterPersistentNotification(false);
             }
         }
@@ -451,10 +459,10 @@ public class CounterEditActivity extends AppCompatActivity {
         if(!isChanged){
             Intent intent = new Intent(this, CounterActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("currentCounterPosition", currentPosition);
+            intent.putExtra("currentCounterPosition", getCurrentPosition());
             startActivity(intent);
         } else {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(currentPosition).getCounterLabel());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.VISIBLE);
             labelDialog.inputText.setVisibility(View.INVISIBLE);
@@ -468,7 +476,7 @@ public class CounterEditActivity extends AppCompatActivity {
             labelDialog.cancelButton.setOnClickListener(view12 -> {
                 Intent intent = new Intent(this, CounterActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("currentCounterPosition", currentPosition);
+                intent.putExtra("currentCounterPosition", getCurrentPosition());
                 startActivity(intent);
             });
         }
