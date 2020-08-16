@@ -73,7 +73,8 @@ public class CounterEditActivity extends AppCompatActivity {
         TickTrackThemeSetter.counterEditActivityTheme(this, counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout,
                 counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout,
                 counterLabel, counterValue, counterMilestone, counterButtonMode, counterNotificationDetail, counterMilestoneDetail, flagColor,
-                counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider, tickTrackDatabase);
+                counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider, tickTrackDatabase,
+                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag);
 
         setupPrefixValues();
 

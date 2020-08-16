@@ -36,6 +36,7 @@ public class CreateCounter extends Dialog {
     public EditText counterLabelText;
     private TextView titleText, counterFlagTitle;
     private ConstraintLayout rootLayout;
+    private Chip redChip, greenCip, orangeChip, purpleChip, blueChip;
 
 
     public CreateCounter(Activity activity){
@@ -62,6 +63,11 @@ public class CreateCounter extends Dialog {
         counterFlagTitle = view.findViewById(R.id.counterFlagTextView);
         rootLayout = view.findViewById(R.id.counterCreateRootLayout);
 
+        redChip = view.findViewById(R.id.redCounterFlag);
+        greenCip = view.findViewById(R.id.greenCounterFlag);
+        orangeChip = view.findViewById(R.id.orangeCounterFlag);
+        purpleChip = view.findViewById(R.id.purpleCounterFlag);
+        blueChip = view.findViewById(R.id.blueCounterFlag);
 
 
         final ChipGroup chipGroup = view.findViewById(R.id.counterFlagGroup);
@@ -69,8 +75,6 @@ public class CreateCounter extends Dialog {
         int counterNumber = tickTrackDatabase.retrieveCounterNumber();
         String counterName = "Counter "+ counterNumber;
         counterLabelText.setHint(counterName);
-
-
 
         setupTheme();
 
@@ -128,6 +132,16 @@ public class CreateCounter extends Dialog {
             createCounterButton.setBackgroundResource(R.drawable.button_selector_light);
             counterLabelText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             counterLabelText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
+            redChip.setChipBackgroundColorResource(R.color.Clickable);
+            greenCip.setChipBackgroundColorResource(R.color.Clickable);
+            orangeChip.setChipBackgroundColorResource(R.color.Clickable);
+            purpleChip.setChipBackgroundColorResource(R.color.Clickable);
+            blueChip.setChipBackgroundColorResource(R.color.Clickable);
+            redChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            greenCip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             titleText.setTextColor(activity.getResources().getColor(R.color.LightText));
@@ -136,6 +150,16 @@ public class CreateCounter extends Dialog {
             createCounterButton.setBackgroundResource(R.drawable.button_selector_dark);
             counterLabelText.setTextColor(activity.getResources().getColor(R.color.LightText));
             counterLabelText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
+            redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            greenCip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            orangeChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            purpleChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            blueChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            redChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            greenCip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
 
     }

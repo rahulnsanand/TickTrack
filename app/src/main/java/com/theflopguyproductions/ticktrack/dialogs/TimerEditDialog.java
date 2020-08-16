@@ -79,6 +79,17 @@ public class TimerEditDialog extends Dialog {
             saveButton.setBackgroundResource(R.drawable.button_selector_light);
             labelInput.setTextColor(activity.getResources().getColor(R.color.DarkText));
             labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
+
+            redChip.setChipBackgroundColorResource(R.color.Clickable);
+            greenChip.setChipBackgroundColorResource(R.color.Clickable);
+            orangeChip.setChipBackgroundColorResource(R.color.Clickable);
+            purpleChip.setChipBackgroundColorResource(R.color.Clickable);
+            blueChip.setChipBackgroundColorResource(R.color.Clickable);
+            redChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            greenChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             mainTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
@@ -88,6 +99,17 @@ public class TimerEditDialog extends Dialog {
             saveButton.setBackgroundResource(R.drawable.button_selector_dark);
             labelInput.setTextColor(activity.getResources().getColor(R.color.LightText));
             labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
+
+            redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            greenChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            orangeChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            purpleChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            blueChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            redChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            greenChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
     }
 

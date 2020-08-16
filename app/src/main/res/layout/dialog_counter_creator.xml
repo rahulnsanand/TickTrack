@@ -11,9 +11,9 @@
         android:id="@+id/counterFlagGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:alwaysDrawnWithCache="true"
         android:animateLayoutChanges="true"
         android:clickable="true"
@@ -30,10 +30,10 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Cherry"
+            android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
             android:textSize="14sp"
-            app:chipIcon="@drawable/ic_flag_red"
-            android:textAppearance="@style/Chip"/>
+            app:chipIcon="@drawable/ic_flag_red" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/greenCounterFlag"
@@ -41,9 +41,9 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Lime"
+            android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_green"
-            android:textAppearance="@style/Chip"/>
+            app:chipIcon="@drawable/ic_flag_green" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/orangeCounterFlag"
@@ -51,9 +51,9 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Peach"
+            android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_orange"
-            android:textAppearance="@style/Chip"/>
+            app:chipIcon="@drawable/ic_flag_orange" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/purpleCounterFlag"
@@ -61,9 +61,9 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Plum"
+            android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_purple"
-            android:textAppearance="@style/Chip"/>
+            app:chipIcon="@drawable/ic_flag_purple" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/blueCounterFlag"
@@ -71,9 +71,9 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Berry"
+            android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_blue"
-            android:textAppearance="@style/Chip"/>
+            app:chipIcon="@drawable/ic_flag_blue" />
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -81,8 +81,9 @@
         android:id="@+id/createCounterDialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="Create a counter"
         android:textColor="@color/Gray"
         android:textSize="24sp"
@@ -90,15 +91,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="roboto_italic"/>
+        app:typeface="roboto_italic" />
 
     <EditText
         android:id="@+id/counterLabelInputText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="Counter label"
         android:inputType="textAutoCorrect|text|textCapWords"
@@ -114,14 +115,14 @@
         android:id="@+id/counterFlagTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Counter flag"
         android:textColor="@color/roboto_calendar_day_of_the_month_font"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterLabelInputText"
-        app:typeface="roboto_medium_italic"/>
+        app:typeface="roboto_medium_italic" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         style="@style/button"
