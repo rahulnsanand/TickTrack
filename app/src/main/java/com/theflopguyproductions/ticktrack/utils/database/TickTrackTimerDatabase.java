@@ -22,7 +22,6 @@ public class TickTrackTimerDatabase {
     public void setAlarm(long endTime, int timerIntegerID){
 
         long shortTime = endTime - SystemClock.elapsedRealtime();
-        System.out.println(shortTime+ "<<<<<<<<<<<<<<<<<<");
         if(!(shortTime > 5000)){
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(context, TimerBroadcastReceiver.class);

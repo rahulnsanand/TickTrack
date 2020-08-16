@@ -138,7 +138,7 @@ public class CounterActivity extends AppCompatActivity {
             Intent intent = new Intent(activity, CounterEditActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            intent.putExtra("CurrentPosition",getCurrentPosition());
+            intent.putExtra("CurrentPosition", counterID);
             startActivity(intent);
         });
 

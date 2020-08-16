@@ -35,7 +35,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     private Toolbar mainToolbar;
     private TextView tickTrackAppName;
     private BottomNavigationView navView;
-    private int receivedFragmentID  = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         setTitle("");
         tickTrackDatabase = new TickTrackDatabase(this);
 
-        receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
+        int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
         openFragment(getFragment(receivedFragmentID));
 
         navView = findViewById(R.id.nav_view);
