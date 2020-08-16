@@ -181,10 +181,12 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.Gray));
+            holder.timerPauseResetButton.setBackgroundResource(R.drawable.button_selector_light);
         } else {
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            holder.timerPauseResetButton.setBackgroundResource(R.drawable.button_selector_dark);
         }
         holder.timerDurationLeft.setTextColor(holder.context.getResources().getColor(R.color.Accent));
         holder.timerPauseResetButton.setTextColor(holder.context.getResources().getColor(R.color.Accent));

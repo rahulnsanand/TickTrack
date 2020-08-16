@@ -47,8 +47,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/timerLabelItemTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timerFlagItemImageView"
             app:typeface="roboto_medium" />
@@ -58,13 +60,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timerTitleItemTextView"
             app:typeface="roboto_italic" />
 
         <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@android:color/transparent"
+            android:background="@drawable/button_selector_white"
             android:text="PAUSE"
             android:textColor="@color/Accent"
             android:textSize="14sp"
