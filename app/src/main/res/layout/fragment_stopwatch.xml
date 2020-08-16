@@ -160,6 +160,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@drawable/ic_round_flag_light_24"
+        android:visibility="gone"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/stopwatchFragmentPlayPauseFAB" />
@@ -172,6 +173,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@drawable/ic_round_refresh_white_24"
+        android:visibility="gone"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopwatchFragmentPlayPauseFAB" />
