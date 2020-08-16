@@ -109,7 +109,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
             setTheme(holder, currentTheme);
 
             holder.counterLayout.setOnClickListener(v -> {
-                CounterFragment.startCounterActivity(counterDataArrayList.get(holder.getAdapterPosition()).counterID, (Activity) holder.context);
+                CounterFragment.startCounterActivity(counterDataArrayList.get(holder.getAdapterPosition()).getCounterID(), (Activity) holder.context);
                 Toast.makeText(holder.context, "Position:" + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
             });
         }
