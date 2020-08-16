@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.utils;
+package com.theflopguyproductions.ticktrack.utils.database;
 
 import android.app.ActivityManager;
 import android.app.AlarmManager;

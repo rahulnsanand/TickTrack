@@ -1,8 +1,5 @@
 package com.theflopguyproductions.ticktrack.timer.ringer;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
@@ -11,9 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.Explode;
 import android.view.View;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
@@ -21,13 +20,12 @@ import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.ScrollingPagerIndicator;
 import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.SnappingRecyclerView;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
-import com.theflopguyproductions.ticktrack.utils.TickTrackTimerDatabase;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
 
 
 public class TimerRingerActivity extends AppCompatActivity {

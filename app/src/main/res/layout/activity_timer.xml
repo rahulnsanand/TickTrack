@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_round_arrow_white_24" />
 
-        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/timerActivityLabelTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/timerActivityTimeLeftTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
                     app:typeface="roboto_medium" />
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/timerActivityTimeLeftMillisTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

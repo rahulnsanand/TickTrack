@@ -1,8 +1,6 @@
 package com.theflopguyproductions.ticktrack.timer.ringer;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +13,13 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.timer.TimerAdapter;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.TimerDiffUtilCallback;
-import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TimeAgo;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerDataViewHolder> {
 

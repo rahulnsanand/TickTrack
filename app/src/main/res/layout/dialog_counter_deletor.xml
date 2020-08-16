@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/round_rect_light">
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:typeface="roboto_italic"/>
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/deleteCounterTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,28 +37,28 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:typeface="roboto_italic" />
 
-    <Button
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        style="@style/button"
         android:id="@+id/acceptDeleteCounterButton"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:backgroundTint="@android:color/transparent"
-        android:text="Delete"
+        android:text="DELETE"
         android:textColor="@color/Accent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deleteCounterTextView" />
 
-    <Button
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        style="@style/button"
         android:id="@+id/dismissDeleteCounterButton"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@android:color/transparent"
-        android:text="Cancel"
+        android:text="CANCEL"
         android:textColor="@color/Accent"
         app:layout_constraintEnd_toStartOf="@+id/acceptDeleteCounterButton"
         app:layout_constraintHorizontal_bias="1.0"

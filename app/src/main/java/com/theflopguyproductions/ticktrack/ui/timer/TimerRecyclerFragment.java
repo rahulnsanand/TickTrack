@@ -3,7 +3,6 @@ package com.theflopguyproductions.ticktrack.ui.timer;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,8 @@ import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.timer.TimerAdapter;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.TimerSlideDeleteHelper;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
 import java.util.Collections;

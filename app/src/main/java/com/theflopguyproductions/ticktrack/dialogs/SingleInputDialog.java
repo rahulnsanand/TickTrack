@@ -10,17 +10,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 
 public class SingleInputDialog extends Dialog {

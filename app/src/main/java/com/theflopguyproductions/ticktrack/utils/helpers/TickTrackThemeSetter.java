@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.utils;
+package com.theflopguyproductions.ticktrack.utils.helpers;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class TickTrackThemeSetter {
 

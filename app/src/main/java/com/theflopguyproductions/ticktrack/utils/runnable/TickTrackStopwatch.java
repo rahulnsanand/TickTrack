@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.utils;
+package com.theflopguyproductions.ticktrack.utils.runnable;
 
 import android.content.Context;
 import android.os.Handler;
@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

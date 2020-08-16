@@ -23,7 +23,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
-import com.theflopguyproductions.ticktrack.utils.TimeAgo;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

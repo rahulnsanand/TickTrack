@@ -22,8 +22,8 @@ import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
 

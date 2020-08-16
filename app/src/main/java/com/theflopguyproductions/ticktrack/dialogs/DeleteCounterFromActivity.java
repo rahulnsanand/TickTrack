@@ -17,11 +17,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
-import com.theflopguyproductions.ticktrack.application.TickTrack;
-import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
 

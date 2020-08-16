@@ -23,10 +23,10 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
-import com.theflopguyproductions.ticktrack.utils.TimeAgo;
-import com.theflopguyproductions.ticktrack.utils.UniqueIdGenerator;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
+import com.theflopguyproductions.ticktrack.utils.helpers.UniqueIdGenerator;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

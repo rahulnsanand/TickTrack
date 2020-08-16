@@ -27,8 +27,8 @@ import com.theflopguyproductions.ticktrack.dialogs.CreateCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.CounterSlideDeleteHelper;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

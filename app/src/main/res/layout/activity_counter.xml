@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/counterActivityAppNameToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 app:lottie_rawRes="@raw/lottie_fireworks"
                 app:lottie_loop="true"/>
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/counterActivityValueTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchLayout"
                 app:typeface="roboto_medium" />
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/counterActivityLabelTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchLayout"
                 app:layout_constraintVertical_bias="0.0">
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/counterActivityPlusText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -208,7 +208,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/counterActivityMinusText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -256,7 +256,7 @@
                     android:track="@drawable/switch_track_selector"
                     android:switchMinWidth="50dp"/>
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/counterActivitySwitchModeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
