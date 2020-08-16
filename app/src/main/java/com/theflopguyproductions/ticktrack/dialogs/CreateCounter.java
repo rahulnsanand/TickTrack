@@ -7,8 +7,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,9 +31,11 @@ public class CreateCounter extends Dialog {
     private TickTrackDatabase tickTrackDatabase;
 
     public Activity activity;
-    public int counterFlag= 0;
+    public int counterFlag= 0, themeSet = 1;
     public Button createCounterButton, cancelCounterButton;
     public EditText counterLabelText;
+    private TextView titleText, counterFlagTitle;
+    private ConstraintLayout rootLayout;
 
 
     public CreateCounter(Activity activity){
@@ -48,17 +53,31 @@ public class CreateCounter extends Dialog {
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         tickTrackDatabase = new TickTrackDatabase(getContext());
+        themeSet = tickTrackDatabase.getThemeMode();
 
         counterLabelText = view.findViewById(R.id.counterLabelInputText);
         createCounterButton = view.findViewById(R.id.createCounterButton);
         cancelCounterButton = view.findViewById(R.id.dismissCounterButton);
+        titleText = view.findViewById(R.id.createCounterDialogTitle);
+        counterFlagTitle = view.findViewById(R.id.counterFlagTextView);
+        rootLayout = view.findViewById(R.id.counterCreateRootLayout);
+
+
+
         final ChipGroup chipGroup = view.findViewById(R.id.counterFlagGroup);
 
         int counterNumber = tickTrackDatabase.retrieveCounterNumber();
         String counterName = "Counter "+ counterNumber;
         counterLabelText.setHint(counterName);
 
-        getWindow().getAttributes().windowAnimations = R.style.createdDialog;
+
+
+        setupTheme();
+
+        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
+        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
+        view.setAnimation( transition_in_view );
+        view.startAnimation( transition_in_view );
 
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = chipGroup.findViewById(checkedId);
@@ -98,6 +117,27 @@ public class CreateCounter extends Dialog {
         cancelCounterButton.setOnClickListener(view12 -> {
             dismiss();
         });
+    }
+
+    private void setupTheme(){
+        if(themeSet==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            titleText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterFlagTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            cancelCounterButton.setBackgroundResource(R.drawable.button_selector_light);
+            createCounterButton.setBackgroundResource(R.drawable.button_selector_light);
+            counterLabelText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterLabelText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
+        } else {
+            rootLayout.setBackgroundResource(R.color.Gray);
+            titleText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterFlagTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            cancelCounterButton.setBackgroundResource(R.drawable.button_selector_dark);
+            createCounterButton.setBackgroundResource(R.drawable.button_selector_dark);
+            counterLabelText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterLabelText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
+        }
+
     }
 
 }

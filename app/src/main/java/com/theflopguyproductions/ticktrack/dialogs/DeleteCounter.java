@@ -2,29 +2,31 @@ package com.theflopguyproductions.ticktrack.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
 
 public class DeleteCounter  extends Dialog {
     public Activity activity;
-    int position;
+    int position, themeSet = 1;
     private String counterName;
-    TextView dialogMessage;
+    private TextView dialogMessage, dialogTitle;
+    private TickTrackDatabase tickTrackDatabase;
+    private ConstraintLayout rootLayout;
 
     public DeleteCounter(Activity activity, int position, String counterName){
         super(activity);
@@ -45,9 +47,20 @@ public class DeleteCounter  extends Dialog {
         yesButton = view.findViewById(R.id.acceptDeleteCounterButton);
         noButton = view.findViewById(R.id.dismissDeleteCounterButton);
         dialogMessage = view.findViewById(R.id.deleteCounterTextView);
+        rootLayout = view.findViewById(R.id.counterDeleteRootLayout);
+        dialogTitle = view.findViewById(R.id.textView);
 
         dialogMessage.setText("Delete counter "+counterName+"?");
-        getWindow().getAttributes().windowAnimations = R.style.createdDialog;
+
+        tickTrackDatabase = new TickTrackDatabase(getContext());
+        themeSet = tickTrackDatabase.getThemeMode();
+
+        setupTheme();
+
+        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
+        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
+        view.setAnimation( transition_in_view );
+        view.startAnimation( transition_in_view );
 
         yesButton.setOnClickListener(view12 -> {
             CounterFragment.deleteCounter(position, activity, counterName);
@@ -61,6 +74,22 @@ public class DeleteCounter  extends Dialog {
             CounterFragment.refreshItemChanged(position);
             cancel();
         });
+    }
+
+    private void setupTheme() {
+        if(themeSet==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            dialogTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            yesButton.setBackgroundResource(R.drawable.button_selector_light);
+            noButton.setBackgroundResource(R.drawable.button_selector_light);
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.DarkText));
+        } else {
+            rootLayout.setBackgroundResource(R.color.Gray);
+            dialogTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            yesButton.setBackgroundResource(R.drawable.button_selector_dark);
+            noButton.setBackgroundResource(R.drawable.button_selector_dark);
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.LightText));
+        }
     }
 
     public Button yesButton;

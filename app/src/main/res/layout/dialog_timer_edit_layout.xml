@@ -29,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:background="@color/LightGray"
         android:text="Label"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"

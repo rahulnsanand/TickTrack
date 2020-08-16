@@ -7,21 +7,24 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
-import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
 
 public class DeleteTimer extends Dialog {
     public Activity activity;
-
-    public TextView dialogMessage;
+    private TickTrackDatabase tickTrackDatabase;
+    public TextView dialogMessage, dialogTitle;
+    private ConstraintLayout rootLayout;
+    int themeSet = 1;
 
     public DeleteTimer(Activity activity){
         super(activity);
@@ -37,13 +40,38 @@ public class DeleteTimer extends Dialog {
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        tickTrackDatabase = new TickTrackDatabase(getContext());
+
         yesButton = view.findViewById(R.id.acceptDeleteCounterButton);
         noButton = view.findViewById(R.id.dismissDeleteCounterButton);
         dialogMessage = view.findViewById(R.id.deleteCounterTextView);
+        rootLayout = view.findViewById(R.id.counterDeleteRootLayout);
+        dialogTitle = view.findViewById(R.id.textView);
+        themeSet = tickTrackDatabase.getThemeMode();
 
+        setupTheme();
 
-        getWindow().getAttributes().windowAnimations = R.style.createdDialog;
+        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
+        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
+        view.setAnimation( transition_in_view );
+        view.startAnimation( transition_in_view );
 
+    }
+
+    private void setupTheme() {
+        if(themeSet==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            dialogTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            yesButton.setBackgroundResource(R.drawable.button_selector_light);
+            noButton.setBackgroundResource(R.drawable.button_selector_light);
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.DarkText));
+        } else {
+            rootLayout.setBackgroundResource(R.color.Gray);
+            dialogTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            yesButton.setBackgroundResource(R.drawable.button_selector_dark);
+            noButton.setBackgroundResource(R.drawable.button_selector_dark);
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.LightText));
+        }
     }
 
     public Button yesButton;
