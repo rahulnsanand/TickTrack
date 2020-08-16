@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="130dp">
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/recylerFooterTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

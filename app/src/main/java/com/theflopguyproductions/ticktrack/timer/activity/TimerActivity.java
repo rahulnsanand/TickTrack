@@ -25,10 +25,10 @@ import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
-import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.TickTrackThemeSetter;
-import com.theflopguyproductions.ticktrack.utils.TickTrackTimerDatabase;
-import com.theflopguyproductions.ticktrack.utils.TimeAgo;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 
 import java.util.ArrayList;
 import java.util.Collections;

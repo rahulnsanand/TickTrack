@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/stopwatchLapNumberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:typeface="roboto_medium_italic"/>
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/stopwatchLapTimeDifferenceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:typeface="roboto_medium"/>
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/stopwatchLapTimeStampTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

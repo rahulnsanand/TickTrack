@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/counterLastUpdateItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/counterLabelItemTextView"
             app:typeface="roboto_light_italic"/>
 
-        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/counterValueItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/counterLabelItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

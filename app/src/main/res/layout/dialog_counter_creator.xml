@@ -32,7 +32,8 @@
             android:text="Cherry"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
             android:textSize="14sp"
-            app:chipIcon="@drawable/ic_flag_red" />
+            app:chipIcon="@drawable/ic_flag_red"
+            android:textAppearance="@style/Chip"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/greenCounterFlag"
@@ -41,7 +42,8 @@
             android:checkable="true"
             android:text="Lime"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_green" />
+            app:chipIcon="@drawable/ic_flag_green"
+            android:textAppearance="@style/Chip"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/orangeCounterFlag"
@@ -50,7 +52,8 @@
             android:checkable="true"
             android:text="Peach"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_orange" />
+            app:chipIcon="@drawable/ic_flag_orange"
+            android:textAppearance="@style/Chip"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/purpleCounterFlag"
@@ -59,7 +62,8 @@
             android:checkable="true"
             android:text="Plum"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_purple" />
+            app:chipIcon="@drawable/ic_flag_purple"
+            android:textAppearance="@style/Chip"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/blueCounterFlag"
@@ -68,11 +72,12 @@
             android:checkable="true"
             android:text="Berry"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_blue" />
+            app:chipIcon="@drawable/ic_flag_blue"
+            android:textAppearance="@style/Chip"/>
 
     </com.google.android.material.chip.ChipGroup>
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/createCounterDialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,7 +110,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createCounterDialogTitle" />
 
-    <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/counterFlagTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,31 +123,34 @@
         app:layout_constraintTop_toBottomOf="@+id/counterLabelInputText"
         app:typeface="roboto_medium_italic"/>
 
-    <Button
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        style="@style/button"
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/dismissCounterButton"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@android:color/transparent"
-        android:text="Cancel"
+        android:text="CANCEL"
         android:textColor="@color/Accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/createCounterButton"
-        app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <Button
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        style="@style/button"
+        android:background="@drawable/button_selector_light"
         android:id="@+id/createCounterButton"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:backgroundTint="@android:color/transparent"
-        android:text="Create"
+        android:text="CREATE"
         android:textColor="@color/Accent"
+        android:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup"
+        app:layout_constraintVertical_bias="1.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

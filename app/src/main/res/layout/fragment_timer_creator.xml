@@ -91,7 +91,7 @@
                 app:layout_constraintStart_toEndOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/timerCreatorFragmentSecondsLabelTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentSecondDarkNumberPicker"
                 app:typeface="roboto_light_italic" />
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/timerCreatorFragmentHourLabelTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentHourDarkNumberPicker"
                 app:typeface="roboto_light_italic" />
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/timerCreatorFragmentMinutesLabelTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelRootLayout"
                 app:layout_constraintVertical_bias="0.0">
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/timerCreatorFragmentFlagTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:typeface="roboto_medium_italic" />
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/timerCreatorFragmentFlagTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -208,7 +208,8 @@
                             android:text="Cherry"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
                             android:textSize="14sp"
-                            app:chipIcon="@drawable/ic_flag_red" />
+                            app:chipIcon="@drawable/ic_flag_red"
+                            android:textAppearance="@style/Chip"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/timerCreatorGreenFlag"
@@ -218,7 +219,8 @@
                             android:text="Lime"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
                             android:textSize="14sp"
-                            app:chipIcon="@drawable/ic_flag_green" />
+                            app:chipIcon="@drawable/ic_flag_green"
+                            android:textAppearance="@style/Chip"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/timerCreatorOrangeFlag"
@@ -228,7 +230,8 @@
                             android:text="Peach"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
                             android:textSize="14sp"
-                            app:chipIcon="@drawable/ic_flag_orange" />
+                            app:chipIcon="@drawable/ic_flag_orange"
+                            android:textAppearance="@style/Chip"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/timerCreatorPurpleFlag"
@@ -238,7 +241,8 @@
                             android:text="Plum"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
                             android:textSize="14sp"
-                            app:chipIcon="@drawable/ic_flag_purple" />
+                            app:chipIcon="@drawable/ic_flag_purple"
+                            android:textAppearance="@style/Chip"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/timerCreatorBlueFlag"
@@ -248,7 +252,8 @@
                             android:text="Berry"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
                             android:textSize="14sp"
-                            app:chipIcon="@drawable/ic_flag_blue" />
+                            app:chipIcon="@drawable/ic_flag_blue"
+                            android:textAppearance="@style/Chip"/>
 
                     </com.google.android.material.chip.ChipGroup>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -263,7 +268,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentMinutesLabelTextView">
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/timerCreatorFragmentLabelTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -279,7 +284,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelTitleTextView"
                     app:typeface="roboto_italic" />
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/timerCreatorFragmentLabelTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

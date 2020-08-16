@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/settingsLabelToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/generalSettingsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/generalSettingsTextView">
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/themeSettingsLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:typeface="roboto_regular" />
 
-                <com.theflopguyproductions.ticktrack.utils.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/themeValueSettingsTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
