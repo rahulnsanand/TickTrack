@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.timer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
@@ -31,6 +33,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
     private ArrayList<TimerData> timerDataArrayList;
     private Handler timerStatusUpdateHandler = new Handler();
+    private Handler timerElapsedBlinkHandler = new Handler();
 
     public TimerAdapter(Context context, ArrayList<TimerData> timerDataArrayList) {
         this.timerDataArrayList = timerDataArrayList;
@@ -85,6 +88,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             holder.timerRunnable = () -> {
                 if(isNotification){
                     if(holder.stopTimeRetrieve>0){
+                        holder.timerPauseResetButton.setVisibility(View.GONE);
                         holder.stopTimeRetrieve -= 1000;
                         holder.timerDurationLeft.setText(updateTimerTextView(holder.stopTimeRetrieve));
                     } else {
@@ -93,15 +97,63 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                     timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 1000);
                 }
             };
-
-            if(isNotification){
-                timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 0);
-            } else {
-                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                if(timerDataArrayList.get(position).isTimerRinging()){
-                    holder.timerDurationLeft.setText("Timer elapsed");
+            holder.blinkRunnable = () -> {
+                if(holder.isBlink){
+                    holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                    holder.isBlink = false;
                 } else {
                     holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                    holder.isBlink = true;
+                }
+                timerElapsedBlinkHandler.postDelayed(holder.blinkRunnable, 500);
+            };
+
+            if(isNotification){
+                timerStatusUpdateHandler.post(holder.timerRunnable);
+            } else {
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+
+                if(timerDataArrayList.get(position).isTimerRinging()){
+                    holder.timerDurationLeft.setText("Timer elapsed");
+                    holder.timerPauseResetButton.setText("RESET");
+                    timerElapsedBlinkHandler.post(holder.blinkRunnable);
+                    holder.timerPauseResetButton.setOnClickListener(view -> {
+                        if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerOn(false);
+                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerPause(false);
+                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerNotificationOn(false);
+                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerRinging(false);
+                            holder.tickTrackDatabase.storeTimerList(timerDataArrayList);
+                            holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                            holder.timerPauseResetButton.setText("START");
+
+                            timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
+
+                            holder.timerPauseResetButton.setOnClickListener(viewer -> {
+                                timerDataArrayList.get(holder.getAdapterPosition()).setTimerPause(false);
+                                timerDataArrayList.get(holder.getAdapterPosition()).setTimerOn(true);
+                                holder.tickTrackDatabase.storeTimerList(timerDataArrayList);
+                                Intent timerIntent = new Intent(holder.context, TimerActivity.class);
+                                timerIntent.setAction(TimerActivity.ACTION_TIMER_NEW_ADDITION);
+                                timerIntent.putExtra("timerID", timerDataArrayList.get(holder.getAdapterPosition()).getTimerID());
+                                holder.context.startActivity(timerIntent);
+                                System.out.println("START BUTTON CLICKED");
+                            });
+                        }
+                    });
+                } else {
+                    holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                    holder.timerPauseResetButton.setText("START");
+                    holder.timerPauseResetButton.setOnClickListener(view -> {
+                        timerDataArrayList.get(holder.getAdapterPosition()).setTimerPause(false);
+                        timerDataArrayList.get(holder.getAdapterPosition()).setTimerOn(true);
+                        holder.tickTrackDatabase.storeTimerList(timerDataArrayList);
+                        Intent timerIntent = new Intent(holder.context, TimerActivity.class);
+                        timerIntent.setAction(TimerActivity.ACTION_TIMER_NEW_ADDITION);
+                        timerIntent.putExtra("timerID", timerDataArrayList.get(holder.getAdapterPosition()).getTimerID());
+                        holder.context.startActivity(timerIntent);
+                        System.out.println("START BUTTON CLICKED");
+                    });
                 }
             }
 
@@ -189,8 +241,9 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         private Context context;
         private TextView footerCounterTextView;
         private Button timerPauseResetButton;
-        private Runnable timerRunnable;
+        private Runnable timerRunnable, blinkRunnable;
         private long stopTimeRetrieve;
+        private boolean isBlink = false;
 
         TickTrackDatabase tickTrackDatabase;
 
