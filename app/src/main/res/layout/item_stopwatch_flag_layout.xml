@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_italic"/>
+        app:typeface="montserrat_number_medium_italic"/>
 
     <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/stopwatchLapTimeDifferenceTextView"
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopwatchLapTimeStampTextView"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_regular"/>
+        app:typeface="montserrat_number_medium"/>
 
     <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/stopwatchLapTimeStampTextView"
@@ -41,6 +41,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_regular"/>
+        app:typeface="montserrat_number_medium"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

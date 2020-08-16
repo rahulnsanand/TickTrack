@@ -10,11 +10,11 @@ public class TickTrackAnimator {
 
     public static void fabDissolve(FloatingActionButton fab){
         fab.animate()
-                .setDuration(100)
-                .scaleX(1.3f)
-                .scaleY(1.3f)
+                .setDuration(50)
+                .scaleX(1.2f)
+                .scaleY(1.2f)
                 .withEndAction(() -> fab.animate()
-                        .setDuration(100)
+                        .setDuration(50)
                         .scaleX(0)
                         .scaleY(0)
                         .alpha(0)
@@ -26,12 +26,12 @@ public class TickTrackAnimator {
     public static void fabUnDissolve(FloatingActionButton fab){
         fab.setVisibility(View.VISIBLE);
         fab.animate()
-                .setDuration(100)
-                .scaleX(1.3f)
-                .scaleY(1.3f)
+                .setDuration(50)
+                .scaleX(1.2f)
+                .scaleY(1.2f)
                 .alpha(1f)
                 .withEndAction(() -> fab.animate()
-                        .setDuration(100)
+                        .setDuration(50)
                         .scaleX(1)
                         .scaleY(1)
                         .start())
@@ -40,13 +40,13 @@ public class TickTrackAnimator {
 
     public static void fabBounce(FloatingActionButton fab, Drawable drawable){
         fab.animate()
-                .setDuration(100)
-                .scaleX(.5f)
-                .scaleY(.5f)
+                .setDuration(50)
+                .scaleX(.8f)
+                .scaleY(.8f)
                 .withEndAction(() -> {
                     fab.setImageDrawable(drawable);
                     fab.animate()
-                            .setDuration(100)
+                            .setDuration(50)
                             .scaleX(1f)
                             .scaleY(1f)
                             .start();

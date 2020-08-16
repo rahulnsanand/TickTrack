@@ -2,9 +2,7 @@ package com.theflopguyproductions.ticktrack.timer;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +13,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.TimeAgo;
@@ -156,7 +152,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         else if(holder.itemColor==5){
             holder.timerFlag.setImageResource(R.drawable.ic_flag_blue);
         } else {
-            holder.timerFlag.setVisibility(View.INVISIBLE);
+            holder.timerFlag.setVisibility(View.GONE);
         }
     }
 

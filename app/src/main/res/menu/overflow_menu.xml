@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/screensaverMenuItem"
-        android:title="Screensaver" />
+        android:title="Screensaver"/>
     <item
         android:id="@+id/settingsMenuItem"
-        android:title="Settings" />
+        android:title="Settings"/>
     <item
         android:id="@+id/feedbackMenuItem"
-        android:title="Send feedback" />
+        android:title="Send feedback"/>
     <item
         android:id="@+id/aboutMenuItem"
-        android:title="About" />
+        android:title="About"/>
 </menu>

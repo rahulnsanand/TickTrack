@@ -21,7 +21,7 @@
             android:id="@+id/timerActivityBackImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@android:color/transparent"
+            android:background="?attr/actionBarItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
             android:id="@+id/timerActivityDeleteImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@android:color/transparent"
+            android:background="?attr/actionBarItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/timerActivityEditImageButton"
             app:layout_constraintTop_toTopOf="parent"
@@ -57,7 +57,7 @@
             android:id="@+id/timerActivityEditImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@android:color/transparent"
+            android:background="?attr/actionBarItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -103,7 +103,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
-                    app:typeface="montserrat_semi_bold" />
+                    app:typeface="montserrat_number_medium" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/timerActivityTimeLeftMillisTextView"
@@ -118,7 +118,7 @@
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimeLeftTextView"
                     app:layout_constraintVertical_bias="0.0"
-                    app:typeface="montserrat_semi_bold" />
+                    app:typeface="montserrat_number_regular" />
 
                 <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
                     android:id="@+id/timerActivityTimerProgressBar"
@@ -166,12 +166,12 @@
                     android:id="@+id/timerActivityResetFAB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
                     android:layout_marginBottom="16dp"
                     android:clickable="true"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/timerActivityPlayPauseFAB"
+                    app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintVertical_bias="1.0"
                     app:srcCompat="@drawable/ic_round_refresh_white_24" />
@@ -180,12 +180,12 @@
                     android:id="@+id/timerActivityPlusOneFAB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="32dp"
                     android:layout_marginBottom="16dp"
                     android:clickable="true"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB"
+                    app:layout_constraintStart_toEndOf="@+id/timerActivityPlayPauseFAB"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintVertical_bias="1.0"
                     wheel:srcCompat="@drawable/ic_baseline_plus_one_white_24" />
