@@ -2,16 +2,22 @@ package com.theflopguyproductions.ticktrack;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.TypedValue;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -142,8 +148,28 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.overflow_menu, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.overflow_menu, menu);
+
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.sourcecodepro_medium);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem mi = menu.getItem(i);
+            SubMenu subMenu = mi.getSubMenu();
+            if (subMenu != null && subMenu.size() > 0) {
+                for (int j = 0; j < subMenu.size(); j++) {
+                    MenuItem subMenuItem = subMenu.getItem(j);
+                    applyFontToMenuItem(subMenuItem, typeface);
+                }
+            }
+            applyFontToMenuItem(mi, typeface);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+    private void applyFontToMenuItem(MenuItem mi, Typeface font) {
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
