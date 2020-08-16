@@ -459,7 +459,7 @@ public class CounterEditActivity extends AppCompatActivity {
         if(!isChanged){
             Intent intent = new Intent(this, CounterActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("currentCounterPosition", getCurrentPosition());
+            intent.putExtra("currentCounterPosition", counterID);
             startActivity(intent);
         } else {
             SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
@@ -476,7 +476,7 @@ public class CounterEditActivity extends AppCompatActivity {
             labelDialog.cancelButton.setOnClickListener(view12 -> {
                 Intent intent = new Intent(this, CounterActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("currentCounterPosition", getCurrentPosition());
+                intent.putExtra("currentCounterPosition", counterID);
                 startActivity(intent);
             });
         }
