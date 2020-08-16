@@ -109,7 +109,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overflow_menu, menu);
 
-        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.sourcecodepro_medium);
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.roboto_regular);
 
         for (int i = 0; i < menu.size(); i++) {
             MenuItem mi = menu.getItem(i);

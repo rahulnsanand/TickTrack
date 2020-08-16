@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/timerEditDialogRootLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -12,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_border_drawable"
         android:ems="10"
@@ -22,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogTitleText" />
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogLabelTitleText" />
 
     <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/timerEditDialogLabelTitleText"
@@ -30,15 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:background="@color/LightGray"
-        android:text=" Label "
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/timerEditDialogLabelText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/timerEditDialogLabelText"
+        android:text="Label"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerEditDialogTitleText"
-        app:typeface="montserrat_regular" />
+        app:typeface="roboto_italic" />
 
     <Button
         android:id="@+id/timerEditDialogCancelButton"
@@ -138,7 +134,7 @@
         android:id="@+id/timerEditDialogFlagTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Flag"
         android:textSize="18sp"
@@ -146,7 +142,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerEditDialogLabelText"
-        app:typeface="montserrat_regular" />
+        app:typeface="roboto_italic" />
 
     <com.theflopguyproductions.ticktrack.utils.MontserratTextView
         android:id="@+id/timerEditDialogTitleText"
@@ -160,5 +156,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_medium" />
+        app:typeface="roboto_italic" />
 </androidx.constraintlayout.widget.ConstraintLayout>

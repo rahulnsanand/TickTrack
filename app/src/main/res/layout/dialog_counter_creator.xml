@@ -85,7 +85,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_medium"/>
+        app:typeface="roboto_italic"/>
 
     <EditText
         android:id="@+id/counterLabelInputText"
@@ -116,7 +116,7 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterLabelInputText"
-        app:typeface="montserrat_medium"/>
+        app:typeface="roboto_medium_italic"/>
 
     <Button
         android:id="@+id/dismissCounterButton"

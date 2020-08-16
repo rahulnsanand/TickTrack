@@ -64,16 +64,16 @@
                 android:layout_marginTop="24dp"
                 android:text="General"
                 android:textColor="@color/Accent"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_medium"/>
+                app:typeface="roboto_medium"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/themeSettingsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/clickable_layout_light_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/generalSettingsTextView">
@@ -91,7 +91,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_regular"/>
+                    app:typeface="roboto_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/themeValueSettingsTextView"
@@ -100,14 +100,14 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:alpha="50"
                     android:text="Dark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/themeSettingsLabel"
-                    android:alpha="50"
-                    app:typeface="montserrat_italic"/>
+                    app:typeface="roboto_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

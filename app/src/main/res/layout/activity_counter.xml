@@ -60,7 +60,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/counterActivityBackButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="montserrat_medium" />
+            app:typeface="montserrat_semi_bold_italic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -103,7 +103,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/counterActivitySwitchLayout"
-                app:typeface="montserrat_semi_bold" />
+                app:typeface="roboto_medium" />
 
             <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                 android:id="@+id/counterActivityLabelTextView"
@@ -120,7 +120,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/counterActivityValueTextView"
-                app:typeface="montserrat_medium" />
+                app:typeface="roboto_regular" />
 
             <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
                 android:id="@+id/minusbtn"
@@ -270,7 +270,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_regular" />
+                    app:typeface="roboto_italic" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/counterActivitySwitchLayoutLowerDivider"
