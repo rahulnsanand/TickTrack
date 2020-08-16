@@ -174,8 +174,8 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         if (s.equals("TimerData")){
+            timerDataArrayList = tickTrackDatabase.retrieveTimerList();
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
             timerAdapter.diffUtilsChangeData(timerDataArrayList);
