@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
 
@@ -27,9 +30,11 @@ public class TimerEditDialog extends Dialog {
     public Button saveButton, cancelButton;
     public TextView labelTitle, flagTitle, mainTitle;
     private String currentLabel;
-    public int currentFlag;
+    public int currentFlag, themeSet = 1;
     private ChipGroup flagChipGroup;
     private Chip redChip, greenChip, orangeChip, purpleChip, blueChip;
+    private TickTrackDatabase tickTrackDatabase;
+    private ConstraintLayout rootLayout;
 
     public TimerEditDialog(Activity activity, String currentLabel, int currentFlag){
         super(activity);
@@ -46,12 +51,44 @@ public class TimerEditDialog extends Dialog {
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_timer_edit_layout, new ConstraintLayout(activity), false);
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getAttributes().windowAnimations = R.style.createdDialog;
 
         initVariables(view);
 
+        tickTrackDatabase = new TickTrackDatabase(getContext());
+        themeSet = tickTrackDatabase.getThemeMode();
+
+        setupTheme();
         flagCheck();
 
+        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
+        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
+        view.setAnimation( transition_in_view );
+        view.startAnimation( transition_in_view );
+
+
+
+    }
+
+    private void setupTheme() {
+        if(themeSet==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            mainTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            labelTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            flagTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            cancelButton.setBackgroundResource(R.drawable.button_selector_light);
+            saveButton.setBackgroundResource(R.drawable.button_selector_light);
+            labelInput.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
+        } else {
+            rootLayout.setBackgroundResource(R.color.Gray);
+            mainTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            labelTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            flagTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            cancelButton.setBackgroundResource(R.drawable.button_selector_dark);
+            saveButton.setBackgroundResource(R.drawable.button_selector_dark);
+            labelInput.setTextColor(activity.getResources().getColor(R.color.LightText));
+            labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
+        }
     }
 
     private void initVariables(View view) {
@@ -68,6 +105,7 @@ public class TimerEditDialog extends Dialog {
         orangeChip = view.findViewById(R.id.timerEditDialogOrangeFlag);
         purpleChip = view.findViewById(R.id.timerEditDialogPurpleFlag);
         blueChip = view.findViewById(R.id.timerEditDialogBlueFlag);
+        rootLayout = view.findViewById(R.id.timerEditDialogRootLayout);
 
         setPrefixFlag();
     }

@@ -10,6 +10,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -28,10 +30,11 @@ public class DeleteCounterFromActivity extends Dialog {
     TickTrackDatabase tickTrackDatabase;
 
     public Activity activity;
-    int position;
+    int position, themeSet = 1;
     private String counterName, counterID;
-    TextView dialogMessage;
+    TextView dialogMessage, dialogTitle;
     SharedPreferences sharedPreferences;
+    private ConstraintLayout rootLayout;
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener;
 
     public DeleteCounterFromActivity(Activity activity, int position, String counterName, String counterID, SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener){
@@ -58,9 +61,17 @@ public class DeleteCounterFromActivity extends Dialog {
         yesButton = view.findViewById(R.id.acceptDeleteCounterButton);
         noButton = view.findViewById(R.id.dismissDeleteCounterButton);
         dialogMessage = view.findViewById(R.id.deleteCounterTextView);
-
+        rootLayout = view.findViewById(R.id.counterDeleteRootLayout);
+        dialogTitle = view.findViewById(R.id.textView);
         dialogMessage.setText("Delete counter "+counterName+"?");
-        getWindow().getAttributes().windowAnimations = R.style.createdDialog;
+        themeSet = tickTrackDatabase.getThemeMode();
+
+        setupTheme();
+
+        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
+        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
+        view.setAnimation( transition_in_view );
+        view.startAnimation( transition_in_view );
 
         yesButton.setOnClickListener(view12 -> {
             killNotification();
@@ -71,6 +82,22 @@ public class DeleteCounterFromActivity extends Dialog {
         noButton.setOnClickListener(view1 -> {
             cancel();
         });
+    }
+
+    private void setupTheme() {
+        if(themeSet==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            dialogTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            yesButton.setBackgroundResource(R.drawable.button_selector_light);
+            noButton.setBackgroundResource(R.drawable.button_selector_light);
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.DarkText));
+        } else {
+            rootLayout.setBackgroundResource(R.color.Gray);
+            dialogTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            yesButton.setBackgroundResource(R.drawable.button_selector_dark);
+            noButton.setBackgroundResource(R.drawable.button_selector_dark);
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.LightText));
+        }
     }
 
     public void killNotification() {
