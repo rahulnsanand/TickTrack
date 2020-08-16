@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.ui.timer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ public class TimerFragment extends Fragment {
     static TickTrackDatabase tickTrackDatabase;
 
     private FloatingActionButton floatingActionButton, timerDiscardFAB;
-    private boolean isFirst = true;
+    private boolean isFirst = true, recyclerOn=false;
 
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private Activity activity;
@@ -68,6 +69,24 @@ public class TimerFragment extends Fragment {
             addTimer();
         });
         timerDiscardFAB.setOnClickListener(view14 -> displayRecyclerView());
+
+        requireView().setFocusableInTouchMode(true);
+        requireView().requestFocus();
+        requireView().setOnKeyListener((v, keyCode, event) -> {
+            if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                if(!isFirst){
+                    if(!recyclerOn){
+                        displayRecyclerView();
+                        return true;
+                    }
+                } else {
+                    requireActivity().finish();
+                }
+                return false;
+            }
+            return false;
+        });
+
     }
 
     private void displayCreatorView() {
@@ -75,6 +94,7 @@ public class TimerFragment extends Fragment {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(true);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
+        recyclerOn=false;
     }
 
     private void displayRecyclerView() {
@@ -82,6 +102,7 @@ public class TimerFragment extends Fragment {
         TickTrackAnimator.fabUnDissolve(floatingActionButton);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer,  new TimerRecyclerFragment()).commit();
+        recyclerOn=true;
     }
 
     private void addTimer(){
@@ -95,6 +116,7 @@ public class TimerFragment extends Fragment {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(false);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
+        recyclerOn=false;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -113,5 +135,7 @@ public class TimerFragment extends Fragment {
 
         return root;
     }
+
+
 
 }

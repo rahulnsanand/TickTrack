@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.chip.Chip;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
@@ -134,7 +135,8 @@ public class TickTrackThemeSetter {
                                                 TextView counterLabel, TextView counterValue, TextView counterMilestone, TextView counterButtonMode,
                                                 TextView notificationDetail, TextView milestoneDetail, int flagColor,
                                                 ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
-                                                ConstraintLayout buttonDivider, ConstraintLayout notificationDivider, TickTrackDatabase tickTrackDatabase) {
+                                                ConstraintLayout buttonDivider, ConstraintLayout notificationDivider, TickTrackDatabase tickTrackDatabase,
+                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip) {
 
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
@@ -160,6 +162,16 @@ public class TickTrackThemeSetter {
             notificationDivider.setBackgroundResource(R.color.GrayOnLight);
             flagDivider.setBackgroundResource(R.color.GrayOnLight);
 
+            redChip.setChipBackgroundColorResource(R.color.Clickable);
+            greenCip.setChipBackgroundColorResource(R.color.Clickable);
+            orangeChip.setChipBackgroundColorResource(R.color.Clickable);
+            purpleChip.setChipBackgroundColorResource(R.color.Clickable);
+            blueChip.setChipBackgroundColorResource(R.color.Clickable);
+            redChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            greenCip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
         } else {
             counterLabelLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             counterValueLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
@@ -183,7 +195,16 @@ public class TickTrackThemeSetter {
             notificationDivider.setBackgroundResource(R.color.GrayOnDark);
             flagDivider.setBackgroundResource(R.color.GrayOnDark);
 
-
+            redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            greenCip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            orangeChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            purpleChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            blueChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            redChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            greenCip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
     }
 
@@ -200,7 +221,8 @@ public class TickTrackThemeSetter {
 
     public static void timerCreateTheme(Activity activity, NumberPicker hourPicker, NumberPicker minutePicker, NumberPicker secondPicker, NumberPicker hourLightPicker, NumberPicker minuteLightPicker,
                                         NumberPicker secondLightPicker, TextView hourLabel, TextView minuteLabel, TextView secondLabel, TextView timerLabelText,
-                                        TextView timerFlagText, ConstraintLayout timerCreateRootLayout, TickTrackDatabase tickTrackDatabase ){
+                                        TextView timerFlagText, ConstraintLayout timerCreateRootLayout, TickTrackDatabase tickTrackDatabase ,
+                                        Chip redChip,Chip  greenCip,Chip  orangeChip,Chip  purpleChip,Chip  blueChip){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             timerCreateRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
@@ -215,7 +237,16 @@ public class TickTrackThemeSetter {
             minuteLightPicker.setVisibility(View.INVISIBLE);
             secondLightPicker.setVisibility(View.INVISIBLE);
 
-
+            redChip.setChipBackgroundColorResource(R.color.Clickable);
+            greenCip.setChipBackgroundColorResource(R.color.Clickable);
+            orangeChip.setChipBackgroundColorResource(R.color.Clickable);
+            purpleChip.setChipBackgroundColorResource(R.color.Clickable);
+            blueChip.setChipBackgroundColorResource(R.color.Clickable);
+            redChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            greenCip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
         } else {
             timerCreateRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
 
@@ -229,6 +260,16 @@ public class TickTrackThemeSetter {
             minutePicker.setVisibility(View.INVISIBLE);
             secondPicker.setVisibility(View.INVISIBLE);
 
+            redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            greenCip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            orangeChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            purpleChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            blueChip.setChipBackgroundColorResource(R.color.GrayOnDark);
+            redChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            greenCip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            orangeChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            purpleChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            blueChip.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
     }
 

@@ -49,6 +49,7 @@ public class TimerCreatorFragment extends Fragment {
     private int pickedHour=0, pickedMinute=0, pickedSecond=0, flagCheck = 0;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,7 +66,8 @@ public class TimerCreatorFragment extends Fragment {
         initVariables(view);
 
         TickTrackThemeSetter.timerCreateTheme(activity, hourDarkPicker, minuteDarkPicker, secondDarkPicker,hourLightPicker, minuteLightPicker, secondLightPicker, timerHoursText, timerMinutesText, timerSecondsText,
-                timerLabelTitle, timerFlagTitle, timerCreatorRootLayout, tickTrackDatabase);
+                timerLabelTitle, timerFlagTitle, timerCreatorRootLayout, tickTrackDatabase,
+                redFlag, greenFlag, orangeFlag, purpleFlag, blueFlag);
 
         timeChangeListener();
 
