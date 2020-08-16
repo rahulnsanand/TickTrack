@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.SystemClock;
 
 import com.theflopguyproductions.ticktrack.timer.service.TimerBroadcastReceiver;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
@@ -19,17 +21,28 @@ public class TickTrackTimerDatabase {
 
     public void setAlarm(long endTime, int timerIntegerID){
 
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, TimerBroadcastReceiver.class);
-        intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
-        intent.putExtra("timerIntegerID", timerIntegerID);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
-        alarmManager.setExact(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                endTime,
-                alarmPendingIntent
-        );
-        System.out.println("TimerCreateAlarm");
+        long shortTime = endTime - SystemClock.elapsedRealtime();
+        System.out.println(shortTime+ "<<<<<<<<<<<<<<<<<<");
+        if(!(shortTime > 5000)){
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+                intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+                intent.putExtra("timerIntegerID", timerIntegerID);
+                this.context.sendBroadcast(intent);
+            }, shortTime);
+
+        } else {
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+            intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+            intent.putExtra("timerIntegerID", timerIntegerID);
+            PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+            alarmManager.setExact(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    endTime,
+                    alarmPendingIntent
+            );
+        }
     }
 
     public void cancelAlarm(int timerIntegerID){
@@ -38,7 +51,6 @@ public class TickTrackTimerDatabase {
         intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
-        System.out.println("TimerCancelledAlarm");
     }
 
     public void startNotificationService() {
