@@ -85,7 +85,7 @@
                     android:textColor="@color/Accent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="roboto_regular"/>
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivityLabelTextView"
@@ -98,7 +98,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivityLabelTitle"
-                    app:typeface="montserrat_medium_italic"/>
+                    app:typeface="roboto_italic"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -136,7 +136,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="roboto_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivityValueTextView"
@@ -153,7 +153,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/counterEditActivityValueTitle"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_semi_bold" />
+                    app:typeface="roboto_regular" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -189,7 +189,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="roboto_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivitySignificantTextView"
@@ -205,7 +205,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/counterEditActivitySignificantDescription"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_semi_bold" />
+                    app:typeface="roboto_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/counterEditActivitySignificantDescription"
@@ -218,7 +218,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivitySignificantTitle"
-                    app:typeface="montserrat_medium_italic" />
+                    app:typeface="roboto_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -256,7 +256,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="roboto_regular" />
 
                 <ImageView
                     android:id="@+id/counterEditActivityFlagImageView"
@@ -385,7 +385,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="roboto_regular" />
 
                 <Switch
                     android:id="@+id/counterEditActivityButtonModeSwitch"
@@ -412,7 +412,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivityButtonModeTitle"
-                    app:typeface="montserrat_medium_italic" />
+                    app:typeface="roboto_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -450,7 +450,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="roboto_regular" />
 
                 <Switch
                     android:id="@+id/counterEditActivityNotificationSwitch"
@@ -477,7 +477,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNotificationTitle"
-                    app:typeface="montserrat_medium_italic" />
+                    app:typeface="roboto_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -60,7 +60,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0"
-                    app:typeface="montserrat_number_regular"/>
+                    app:typeface="roboto_regular"/>
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/stopwatchFragmentTimeTextView"
@@ -75,7 +75,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_number_medium"/>
+                    app:typeface="roboto_medium"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -122,31 +122,31 @@
                     android:id="@+id/stopwatchFragmentLapTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
                     android:text="Laps"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium_italic"/>
+                    app:typeface="roboto_medium_italic" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/stopwatchFragmentRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="32dp"
                     android:layout_marginBottom="8dp"
+                    android:fadingEdge="horizontal"
+                    android:fadingEdgeLength="60dp"
+                    android:fillViewport="false"
                     android:maxHeight="200dp"
+                    android:requiresFadingEdge="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/stopwatchFragmentLapTextView"
-                    android:fadingEdge="horizontal"
-                    android:fadingEdgeLength="60dp"
-                    android:requiresFadingEdge="vertical"
-                    android:fillViewport="false"/>
+                    app:layout_constraintTop_toBottomOf="@+id/stopwatchFragmentLapTextView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

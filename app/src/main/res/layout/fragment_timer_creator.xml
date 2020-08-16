@@ -99,7 +99,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentSecondDarkNumberPicker"
                 app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentSecondDarkNumberPicker"
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentSecondDarkNumberPicker"
-                app:typeface="montserrat_regular" />
+                app:typeface="roboto_light_italic" />
 
             <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                 android:id="@+id/timerCreatorFragmentHourLabelTextView"
@@ -109,7 +109,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentHourDarkNumberPicker"
                 app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentHourDarkNumberPicker"
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentHourDarkNumberPicker"
-                app:typeface="montserrat_regular" />
+                app:typeface="roboto_light_italic" />
 
             <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                 android:id="@+id/timerCreatorFragmentMinutesLabelTextView"
@@ -119,7 +119,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
                 app:layout_constraintStart_toStartOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
                 app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentMinuteDarkNumberPicker"
-                app:typeface="montserrat_regular" />
+                app:typeface="roboto_light_italic" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/timerCreatorFragmentFlagRootLayout"
@@ -144,7 +144,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_regular" />
+                    app:typeface="roboto_medium_italic" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/timerCreatorFragmentFlagTextView"
@@ -159,7 +159,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentFlagTitleTextView"
                     app:layout_constraintVertical_bias="0.0"
-                    app:typeface="montserrat_regular" />
+                    app:typeface="roboto_italic" />
 
                 <ImageView
                     android:id="@+id/timerCreatorFragmentFlagImageView"
@@ -277,7 +277,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelTitleTextView"
-                    app:typeface="montserrat_regular" />
+                    app:typeface="roboto_italic" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/timerCreatorFragmentLabelTitleTextView"
@@ -291,7 +291,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_regular" />
+                    app:typeface="roboto_medium_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

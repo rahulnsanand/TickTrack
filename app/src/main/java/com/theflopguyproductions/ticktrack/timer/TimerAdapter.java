@@ -81,6 +81,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
             holder.stopTimeRetrieve = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime();
 
+            holder.timerDurationLeft.setVisibility(View.VISIBLE);
             holder.timerRunnable = () -> {
                 if(isNotification){
                     if(holder.stopTimeRetrieve>0){

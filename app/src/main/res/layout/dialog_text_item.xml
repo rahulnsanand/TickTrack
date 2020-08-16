@@ -34,7 +34,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/labelDialogInputText"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_regular"/>
+        app:typeface="roboto_regular"/>
 
 
     <Button
@@ -80,6 +80,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_medium"/>
+        app:typeface="roboto_italic"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

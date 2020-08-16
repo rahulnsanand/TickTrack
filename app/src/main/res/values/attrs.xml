@@ -130,8 +130,8 @@
     </declare-styleable>
 
     <attr name="typeface" format="enum">
-        <enum name="montserrat_number_regular" value="0" />
-        <enum name="montserrat_number_bold" value="1" />
+        <enum name="roboto_regular" value="0" />
+        <enum name="roboto_bold" value="1" />
         <enum name="montserrat_light" value="2" />
         <enum name="montserrat_light_italic" value="3" />
         <enum name="montserrat_regular" value="4" />
@@ -146,10 +146,14 @@
         <enum name="montserrat_semi_bold_italic" value="13" />
         <enum name="montserrat_extra_light" value="14" />
         <enum name="montserrat_extra_light_italic" value="15" />
-        <enum name="montserrat_number_italic" value="16" />
-        <enum name="montserrat_number_bold_italic" value="17" />
-        <enum name="montserrat_number_medium" value="18" />
-        <enum name="montserrat_number_medium_italic" value="19" />
+        <enum name="roboto_italic" value="16" />
+        <enum name="roboto_bold_italic" value="17" />
+        <enum name="roboto_medium" value="18" />
+        <enum name="roboto_medium_italic" value="19" />
+        <enum name="roboto_light" value="20" />
+        <enum name="roboto_light_italic" value="21" />
+        <enum name="roboto_thin" value="22" />
+        <enum name="roboto_thin_italic" value="23" />
     </attr>
 
     <!-- Declare custom theme attributes that allow changing which styles are

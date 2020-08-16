@@ -25,7 +25,7 @@
 
     <style name="Widget.BottomNavigationView"
         parent="Widget.Design.BottomNavigationView">
-        <item name="fontFamily">@font/sourcecodepro_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
 

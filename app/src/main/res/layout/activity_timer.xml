@@ -103,7 +103,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
-                    app:typeface="montserrat_number_medium" />
+                    app:typeface="roboto_medium" />
 
                 <com.theflopguyproductions.ticktrack.utils.MontserratTextView
                     android:id="@+id/timerActivityTimeLeftMillisTextView"
@@ -118,7 +118,7 @@
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimeLeftTextView"
                     app:layout_constraintVertical_bias="0.0"
-                    app:typeface="montserrat_number_regular" />
+                    app:typeface="roboto_regular" />
 
                 <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
                     android:id="@+id/timerActivityTimerProgressBar"
