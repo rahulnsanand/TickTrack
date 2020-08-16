@@ -192,9 +192,10 @@ public class TickTrackStopwatch {
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
 
-            if(this.hourMinuteText!=null)
+            if(this.hourMinuteText!=null) {
                 this.hourMinuteText.setText("00");
-
+                this.hourMinuteText.setTextSize(72);
+            }
             if(this.milliSecondText!=null)
                 this.milliSecondText.setText("00");
 

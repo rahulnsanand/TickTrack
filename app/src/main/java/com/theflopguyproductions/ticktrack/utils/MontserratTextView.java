@@ -11,6 +11,13 @@ import com.theflopguyproductions.ticktrack.R;
 
 public class MontserratTextView extends androidx.appcompat.widget.AppCompatTextView {
 
+    private final static int MONTSERRAT_NUMBER_REGULAR = 0;
+    private final static int MONTSERRAT_NUMBER_BOLD = 1;
+    private final static int MONTSERRAT_NUMBER_ITALIC = 16;
+    private final static int MONTSERRAT_NUMBER_BOLD_ITALIC = 17;
+    private final static int MONTSERRAT_NUMBER_MEDIUM = 18;
+    private final static int MONTSERRAT_NUMBER_MEDIUM_ITALIC = 19;
+
     private final static int MONTSERRAT_LIGHT = 2;
     private final static int MONTSERRAT_LIGHT_ITALIC = 3;
     private final static int MONTSERRAT_REGULAR = 4;
@@ -107,6 +114,24 @@ public class MontserratTextView extends androidx.appcompat.widget.AppCompatTextV
                 break;
             case MONTSERRAT_EXTRA_LIGHT_ITALIC:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-ExtraLightItalic.ttf");
+                break;
+            case MONTSERRAT_NUMBER_REGULAR:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
+                break;
+            case MONTSERRAT_NUMBER_BOLD:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Bold.ttf");
+                break;
+            case MONTSERRAT_NUMBER_ITALIC:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Italic.ttf");
+                break;
+            case MONTSERRAT_NUMBER_BOLD_ITALIC:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-BoldItalic.ttf");
+                break;
+            case MONTSERRAT_NUMBER_MEDIUM:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Medium.ttf");
+                break;
+            case MONTSERRAT_NUMBER_MEDIUM_ITALIC:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-MediumItalic.ttf");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown `typeface` attribute value " + typefaceValue);

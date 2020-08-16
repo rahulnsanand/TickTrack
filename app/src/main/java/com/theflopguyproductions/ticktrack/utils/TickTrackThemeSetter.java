@@ -8,6 +8,7 @@ import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,14 +19,20 @@ import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 
 public class TickTrackThemeSetter {
 
-    public static void mainActivityTheme(BottomNavigationView bottomNavigationView, Activity activity, TickTrackDatabase tickTrackDatabase){
+    public static void mainActivityTheme(BottomNavigationView bottomNavigationView, Activity activity, TickTrackDatabase tickTrackDatabase, Toolbar mainToolbar,
+                                         TextView ticktrackAppName){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
-             bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.DarkText)));
+            mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
+            bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.DarkText)));
+            ticktrackAppName.setTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.DarkText)));
         } else {
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.Gray));
+            mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.Black));
+            mainToolbar.setPopupTheme(R.style.LightOverflow);
             bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.LightText)));
+            ticktrackAppName.setTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.LightText)));
         }
     }
 
@@ -271,7 +278,7 @@ public class TickTrackThemeSetter {
             lapTitleText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             stopwatchValueText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             millisText.setTextColor(activity.getResources().getColor(R.color.Accent) );
-            backgroundProgressBar.setBarColor(R.color.GrayOnDark);
+            backgroundProgressBar.setBarColor(R.color.Accent);
         }
         backgroundProgressBar.setProgress(1f);
     }

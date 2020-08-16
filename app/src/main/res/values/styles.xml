@@ -2,12 +2,32 @@
     <!-- Base application theme. -->
     <style name="DarkTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="titleEnabled">false</item>
         <item name="colorPrimary">@color/Gray</item>
         <item name="colorPrimaryDark">@color/Black</item>
         <item name="colorSecondary">@color/Accent</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
         <item name="colorOnSecondary">@color/LightText</item>
+        <item name="android:textColorSecondary">@color/Accent</item>
     </style>
+
+    <style name="DarkOverflow" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/DarkText</item>
+        <item name="android:background">@drawable/overflow_menu_light_ripple</item>
+        <item name="android:itemBackground">@color/Light</item>
+
+    </style>
+    <style name="LightOverflow" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/LightText</item>
+        <item name="android:background">@drawable/overflow_menu_dark_ripple</item>
+        <item name="android:itemBackground">@color/GrayOnDark</item>
+    </style>
+
+    <style name="Widget.BottomNavigationView"
+        parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/sourcecodepro_medium</item>
+    </style>
+
 
     <style name="NotificationTitle">
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>

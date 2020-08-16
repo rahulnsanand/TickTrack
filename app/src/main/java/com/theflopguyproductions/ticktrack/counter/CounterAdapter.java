@@ -61,6 +61,8 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
         }
         else if(holder.itemColor==5){
             holder.counterFlag.setImageResource(R.drawable.ic_flag_blue);
+        } else {
+            holder.counterFlag.setVisibility(View.GONE);
         }
     }
 

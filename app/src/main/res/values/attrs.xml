@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="toolbarStyle" format="reference"/>
+
     <attr name="scrollingPagerIndicatorStyle"/>
 
     <declare-styleable name="ScrollingPagerIndicator">
@@ -128,8 +130,8 @@
     </declare-styleable>
 
     <attr name="typeface" format="enum">
-        <enum name="montserrat_thin" value="0" />
-        <enum name="montserrat_thin_italic" value="1" />
+        <enum name="montserrat_number_regular" value="0" />
+        <enum name="montserrat_number_bold" value="1" />
         <enum name="montserrat_light" value="2" />
         <enum name="montserrat_light_italic" value="3" />
         <enum name="montserrat_regular" value="4" />
@@ -144,6 +146,10 @@
         <enum name="montserrat_semi_bold_italic" value="13" />
         <enum name="montserrat_extra_light" value="14" />
         <enum name="montserrat_extra_light_italic" value="15" />
+        <enum name="montserrat_number_italic" value="16" />
+        <enum name="montserrat_number_bold_italic" value="17" />
+        <enum name="montserrat_number_medium" value="18" />
+        <enum name="montserrat_number_medium_italic" value="19" />
     </attr>
 
     <!-- Declare custom theme attributes that allow changing which styles are

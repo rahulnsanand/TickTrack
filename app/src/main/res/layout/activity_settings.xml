@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_round_arrow_white_24"
-            android:background="@drawable/background_transparent"/>
+            android:background="?attr/actionBarItemBackground"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
