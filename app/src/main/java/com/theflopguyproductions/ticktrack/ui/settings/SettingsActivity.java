@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView themeName, themeTitle;
     private ImageButton backButton;
     private ScrollView settingsScrollView;
+    private int prevFragment = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,9 @@ public class SettingsActivity extends AppCompatActivity {
         themeName = findViewById(R.id.themeValueSettingsTextView);
         backButton = findViewById(R.id.settingsActivityBackButton);
         settingsScrollView = findViewById(R.id.settingsActivityScrollView);
-
         tickTrackDatabase = new TickTrackDatabase(this);
+
+        prevFragment = tickTrackDatabase.retrieveCurrentFragmentNumber();
 
         TickTrackThemeSetter.settingsActivityTheme(this, themeTitle, themeName, settingsScrollView, themeLayout, tickTrackDatabase);
 
@@ -53,5 +55,11 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SoYouADeveloperHuh.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        tickTrackDatabase.storeCurrentFragmentNumber(prevFragment);
     }
 }

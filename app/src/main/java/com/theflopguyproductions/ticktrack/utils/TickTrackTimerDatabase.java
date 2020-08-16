@@ -5,15 +5,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
-import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerBroadcastReceiver;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
-
-import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class TickTrackTimerDatabase {
 
@@ -31,7 +25,7 @@ public class TickTrackTimerDatabase {
         intent.putExtra("timerIntegerID", timerIntegerID);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
         alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 endTime,
                 alarmPendingIntent
         );

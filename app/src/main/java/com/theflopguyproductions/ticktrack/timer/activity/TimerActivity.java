@@ -6,8 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.v4.app.INotificationSideChannel;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
-import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.TimerEditDialog;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
@@ -225,7 +223,7 @@ public class TimerActivity extends AppCompatActivity {
             } else if(isTimerPaused){
                 presetPauseValues();
             } else {
-                if((timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis()-System.currentTimeMillis())>0){
+                if((timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis()- SystemClock.elapsedRealtime())>0){
 
                     presetResumeValues();
                     startTimer(currentTimeInMillis);
@@ -284,7 +282,7 @@ public class TimerActivity extends AppCompatActivity {
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
-        timerDataArrayList.get(timerCurrentPosition).setTimerAlarmEndTimeInMillis(timeInMillis+System.currentTimeMillis());
+        timerDataArrayList.get(timerCurrentPosition).setTimerAlarmEndTimeInMillis(timeInMillis+SystemClock.elapsedRealtime());
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
@@ -305,7 +303,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 activity.runOnUiThread(() -> {
-                    timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(System.currentTimeMillis());
+                    timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     timerDataArrayList =  tickTrackDatabase.retrieveTimerList();
                     stopTimer();
@@ -436,7 +434,7 @@ public class TimerActivity extends AppCompatActivity {
     }
     private void presetResumeValues() {
 
-        long resumeTimeInMillis = timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - System.currentTimeMillis();
+        long resumeTimeInMillis = timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime();
         currentTimeInMillis = resumeTimeInMillis;
         TickTrackAnimator.fabDissolve(resetFAB);
         deleteButton.setVisibility(View.GONE);
@@ -539,7 +537,7 @@ public class TimerActivity extends AppCompatActivity {
     private void updateStopTimeText() {
 
         if(timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis() != -1){
-            UpdateTime = (System.currentTimeMillis() - timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis()) / 1000F;
+            UpdateTime = (SystemClock.elapsedRealtime() - timerDataArrayList.get(timerCurrentPosition).getTimerEndedTimeInMillis()) / 1000F;
         }
 
         float totalSeconds = UpdateTime;
@@ -665,6 +663,7 @@ public class TimerActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
         tickTrackDatabase.storeTimerList(timerDataArrayList);
+        tickTrackDatabase.storeCurrentFragmentNumber(2);
     }
     @Override
     public void onBackPressed() {
@@ -673,9 +672,9 @@ public class TimerActivity extends AppCompatActivity {
             timerStopHandler.removeCallbacks(runnable);
             timerBlinkHandler.removeCallbacks(blinkRunnable);
         }
+        tickTrackDatabase.storeCurrentFragmentNumber(2);
         Intent intent = new Intent(activity, SoYouADeveloperHuh.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("FragmentID", 2);
         startActivity(intent);
     }
 }

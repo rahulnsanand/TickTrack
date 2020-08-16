@@ -44,7 +44,6 @@ public class TimerFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        TickTrackAnimator.fabDissolve(floatingActionButton);
     }
 
     @Override

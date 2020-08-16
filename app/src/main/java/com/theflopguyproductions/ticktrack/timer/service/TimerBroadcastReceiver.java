@@ -6,7 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.PowerManager;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -48,7 +48,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             if(position!=-1){
                 timerDataArrayList.get(position).setTimerRinging(true);
                 timerDataArrayList.get(position).setTimerNotificationOn(false);
-                timerDataArrayList.get(position).setTimerEndedTimeInMillis(System.currentTimeMillis());
+                timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                 storeTimerList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);

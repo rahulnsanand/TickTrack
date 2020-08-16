@@ -53,7 +53,6 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         super.onStop();
         sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        TickTrackAnimator.fabDissolve(counterFab);
     }
 
     @Override

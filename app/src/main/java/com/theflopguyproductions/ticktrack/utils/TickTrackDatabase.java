@@ -22,7 +22,15 @@ public class TickTrackDatabase {
     public TickTrackDatabase(Context context) {
         sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
     }
+    public void storeCurrentFragmentNumber(int updateNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("CurrentFragment", updateNumber);
+        editor.apply();
+    }
 
+    public int retrieveCurrentFragmentNumber() {
+        return sharedPreferences.getInt("CurrentFragment", 1);
+    }
     public void storeCounterNumber(int updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CounterNumber", updateNumber);
@@ -163,5 +171,6 @@ public class TickTrackDatabase {
         editor.putString("StopwatchData", json);
         editor.apply();
     }
+
 
 }

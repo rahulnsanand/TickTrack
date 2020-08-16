@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
-            holder.stopTimeRetrieve = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis() - System.currentTimeMillis();
+            holder.stopTimeRetrieve = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime();
 
             holder.timerRunnable = () -> {
                 if(isNotification){
