@@ -26,6 +26,7 @@ import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
+import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 public class SoYouADeveloperHuh extends AppCompatActivity {
@@ -54,7 +55,15 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         navView.setItemIconTintList(null);
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
+//        Intent intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this,"com.theflopguyproductions.ticktrack",false);
+//        if(intent!=null){
+//            startActivity(intent);
+//        }
 
+        boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
+        boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
+
+        System.out.println(setHappen+"<<<<HAPPEN>>>>"+isAvailable+"<<<<ISAVAILAVLE");
     }
 
     public Fragment getFragment(int id){

@@ -1,8 +1,5 @@
 package com.theflopguyproductions.ticktrack.timer;
 
-import android.os.Handler;
-
-
 import java.sql.Timestamp;
 
 public class TimerData implements Comparable<TimerData> {
@@ -15,13 +12,29 @@ public class TimerData implements Comparable<TimerData> {
     long timerTotalTimeInMillis;
     long timerEndedTimeInMillis;
 
-    long timerTempMaxTimeInMillis;
+    long timerTempMaxTimeInMillis, timerRecentLocalTimeInMillis, timerRecentUpdatedValue;
     Timestamp timerCreateTimeStamp;
     String timerLabel;
     boolean timerOn, timerPause;
 
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
+
+    public long getTimerRecentUpdatedValue() {
+        return timerRecentUpdatedValue;
+    }
+
+    public void setTimerRecentUpdatedValue(long timerRecentUpdatedValue) {
+        this.timerRecentUpdatedValue = timerRecentUpdatedValue;
+    }
+
+    public long getTimerRecentLocalTimeInMillis() {
+        return timerRecentLocalTimeInMillis;
+    }
+
+    public void setTimerRecentLocalTimeInMillis(long timerRecentLocalTimeInMillis) {
+        this.timerRecentLocalTimeInMillis = timerRecentLocalTimeInMillis;
+    }
 
     public long getTimerTempMaxTimeInMillis() {
         return timerTempMaxTimeInMillis;

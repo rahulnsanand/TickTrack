@@ -217,6 +217,10 @@ public class StopwatchFragment extends Fragment {
         tickTrackStopwatchTimer = new TickTrackStopwatch(activity);
         tickTrackStopwatchTimer.setGraphics(stopwatchValueText, stopwatchMillisText, foregroundProgressBar);
 
+        if(!(stopwatchDataArrayList.size() >0)){
+            stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+        }
+
         if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
             System.out.println("Init Values Got Running and Not Paused");
 
