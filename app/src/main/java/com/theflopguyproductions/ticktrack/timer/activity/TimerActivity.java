@@ -223,7 +223,7 @@ public class TimerActivity extends AppCompatActivity {
             } else if(isTimerPaused){
                 presetPauseValues();
             } else {
-                if((timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis()- SystemClock.elapsedRealtime())>0){
+                if((timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())>0){
 
                     presetResumeValues();
                     startTimer(currentTimeInMillis);

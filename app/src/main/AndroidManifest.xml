@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+
     <application
         android:name=".application.TickTrack"
         android:allowBackup="true"
@@ -16,26 +17,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+
+        <receiver
+            android:name="com.theflopguyproductions.ticktrack.application.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter android:priority="1">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.REBOOT"/>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".timer.ringer.TimerRingerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="TickTrackTimer"
-            android:theme="@style/FullscreenTheme" >
-
-        </activity>
+            android:theme="@style/FullscreenTheme" />
 
         <service
             android:name=".timer.service.TimerService"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".timer.service.TimerRingService"
             android:enabled="true"
             android:exported="false" />
 
         <activity android:name=".timer.activity.TimerActivity" />
-
         <activity android:name=".counter.activity.CounterEditActivity" />
         <activity
             android:name=".counter.activity.CounterActivity"
@@ -53,18 +65,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".timer.service.TimerBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".utils.BroadcastUtility">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.TIME_SET" />
-                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
-            </intent-filter>
-        </receiver>
+        <receiver android:name=".timer.service.TimerBroadcastReceiver" />
 
         <service
             android:name=".counter.notification.CounterNotificationService"

@@ -30,15 +30,10 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        String toastText = "TickTrack Alarm";
+        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+        if(Objects.equals(intent.getAction(), ACTION_TIMER_BROADCAST)){
 
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-
-            String toastText = "TickTrack Reboot";
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-
-        } else if(Objects.equals(intent.getAction(), ACTION_TIMER_BROADCAST)){
-
-            String toastText = "Timer Received";
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
 
             timerIDInteger = intent.getIntExtra("timerIntegerID",0);
