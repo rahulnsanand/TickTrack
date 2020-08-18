@@ -18,6 +18,7 @@
     <color name="blue_matte">#013a55</color>
     <color name="purple_matte">#570968</color>
 
+    <color name="holo_blue">#FF33E5B5</color>
 
     <color name="roboto_calendar_background">#FFFFFF</color>
     <color name="roboto_calendar_month_font">#2A99BC</color>

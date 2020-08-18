@@ -304,30 +304,29 @@ class AutoStartPermissionHelper private constructor() {
     }
 
     private fun autoStartOnePlus(context: Context): Boolean {
-        if (isPackageExists(context, PACKAGE_ONE_PLUS_MAIN)) {
+        return if (isPackageExists(context, PACKAGE_ONE_PLUS_MAIN)) {
             try {
-                startIntent(context, PACKAGE_ONE_PLUS_MAIN, PACKAGE_ONE_PLUS_COMPONENT)
+                val result = startIntent(context, PACKAGE_ONE_PLUS_MAIN, PACKAGE_ONE_PLUS_COMPONENT)
+                result
             } catch (e: Exception) {
                 e.printStackTrace()
-                return false
+                false
             }
         } else {
-            return false
+            false
         }
-
-        return true
     }
 
     @Throws(Exception::class)
-    private fun startIntent(context: Context, packageName: String, componentName: String) {
-        try {
+    private fun startIntent(context: Context, packageName: String, componentName: String): Boolean {
+        return try {
             val intent = Intent()
             intent.component = ComponentName(packageName, componentName)
             intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
+            true
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            throw exception
+            false
         }
     }
 
