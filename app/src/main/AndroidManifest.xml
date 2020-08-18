@@ -16,7 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".startup.StartUpActivity"></activity>
+
+        <activity android:name=".startup.StartUpActivity">
+
+        </activity>
 
         <receiver
             android:name=".application.BootReceiver"
@@ -56,7 +59,12 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".SoYouADeveloperHuh"
-            android:label="@string/title_activity_so_you_a_developer_huh"></activity>
+            android:label="@string/title_activity_so_you_a_developer_huh">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <receiver android:name=".timer.service.TimerBroadcastReceiver" />
 
