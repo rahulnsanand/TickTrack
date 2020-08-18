@@ -22,6 +22,37 @@ public class TickTrackDatabase {
     public TickTrackDatabase(Context context) {
         sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
     }
+
+    public void storeNotOptimiseBool(boolean updateNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isNotOptimised", updateNumber);
+        editor.apply();
+    }
+
+    public boolean retrieveNotOptimiseBool() {
+        return sharedPreferences.getBoolean("isNotOptimised", false);
+    }
+
+    public void storeStartUpFragmentID(int updateNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("startupFragmentNumber", updateNumber);
+        editor.apply();
+    }
+
+    public int retrieveStartUpFragmentID() {
+        return sharedPreferences.getInt("startupFragmentNumber", 0);
+    }
+
+    public void storeOptimiseRequestNumber(int updateNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("optimiseRequestNumber", updateNumber);
+        editor.apply();
+    }
+
+    public int retrieveOptimiseRequestNumber() {
+        return sharedPreferences.getInt("optimiseRequestNumber", 0);
+    }
+
     public void storeCurrentFragmentNumber(int updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CurrentFragment", updateNumber);

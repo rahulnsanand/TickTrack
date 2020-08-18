@@ -17,13 +17,13 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:text="Asdasdasdasdsadsdsdasdsdasdasdsadasddadadadadaddadasdasdadaddasdasdadasdaasdasdasdasdsadasdasdasdasdasdasdasdasdasdasd"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/ticktrackBatteryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentBatteryOptimiseLottie"
@@ -32,7 +32,7 @@
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         style="@style/buttonStartup"
         android:background="@drawable/button_selector_white"
-        android:id="@+id/button"
+        android:id="@+id/ticktrackBatteryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Button"
