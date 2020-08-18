@@ -23,6 +23,11 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="buttonStartup" parent="@android:style/Widget.Button">
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
     <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
