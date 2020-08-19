@@ -16,6 +16,7 @@
  */
 package com.theflopguyproductions.ticktrack.ui.lottie.parser.moshi;
 
+
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.AbstractMap;
@@ -72,7 +73,7 @@ final class LinkedHashTreeMap<K, V> extends AbstractMap<K, V> implements Seriali
   LinkedHashTreeMap(Comparator<? super K> comparator) {
     this.comparator = comparator != null
         ? comparator
-        : NATURAL_ORDER;
+        : (Comparator<? super K>) NATURAL_ORDER;
     this.header = new Node<>();
     this.table = new Node[16]; // TODO: sizing/resizing policies
     this.threshold = (table.length / 2) + (table.length / 4); // 3/4 capacity

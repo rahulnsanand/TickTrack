@@ -1,8 +1,8 @@
 package com.theflopguyproductions.ticktrack.ui.lottie.model.animatable;
 
-import com.theflopguyproductions.ticktrack.ui.lottie.value.Keyframe;
 import com.theflopguyproductions.ticktrack.ui.lottie.animation.keyframe.BaseKeyframeAnimation;
 import com.theflopguyproductions.ticktrack.ui.lottie.animation.keyframe.ColorKeyframeAnimation;
+import com.theflopguyproductions.ticktrack.ui.lottie.value.Keyframe;
 
 import java.util.List;
 
