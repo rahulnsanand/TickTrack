@@ -41,16 +41,16 @@
                 <objectAnimator
                     android:propertyName="translateY"
                     android:duration="100"
-                    android:valueFrom="0"
-                    android:valueTo="150"
+                    android:valueFrom="-100"
+                    android:valueTo="200"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="translateY"
                     android:startOffset="100"
                     android:duration="100"
-                    android:valueFrom="150"
-                    android:valueTo="0"
+                    android:valueFrom="200"
+                    android:valueTo="-100"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
             </set>

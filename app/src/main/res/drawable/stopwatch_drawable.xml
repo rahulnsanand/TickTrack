@@ -5,11 +5,11 @@
 
     <!-- provide a different drawable for each state-->
     <item android:id="@+id/state_on"
-        android:drawable="@drawable/stopwatch_start_stop"
+        android:drawable="@drawable/stopwatch_start_stop_drawable"
         android:state_checked="true"/>
 
     <item android:id="@+id/state_off"
-        android:drawable="@drawable/stopwatch_start_stop"/>
+        android:drawable="@drawable/stopwatch_start_stop_drawable"/>
     <!-- specify transitions -->
     <transition
         android:drawable="@drawable/stopwatch_animated_drawable"
