@@ -2,32 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
-    <ImageView
-        android:id="@+id/tickTrackIntroLogoImage"
+    <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
+        android:id="@+id/tickTrackIntroLogoAnimation"
         android:layout_width="200dp"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ticktrack_logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/tickTrackIntroTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:text="TickTrack"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/TickTrackIntroGetStartedButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tickTrackIntroLogoImage"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tickTrackIntroLogoAnimation"
+        app:layout_constraintVertical_bias="0.0"
+        app:typeface="roboto_italic"/>
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/TickTrackIntroGetStartedButton"
