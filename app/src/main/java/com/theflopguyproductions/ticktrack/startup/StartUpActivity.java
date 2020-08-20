@@ -63,6 +63,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     public void openFragment(Fragment fragment) {
         FragmentManager manager = this.getSupportFragmentManager();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.from_right, 0);
         transaction.replace(R.id.StartUpActivityFragmentContainer, fragment);
         transaction.commitNow();
         manager.popBackStack();

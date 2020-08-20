@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        style="@style/buttonStartup"
         android:id="@+id/ticktrackFragmentThemeContinueButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,22 +20,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/button_selector_light"
-        android:padding="10dp"
+        android:background="@drawable/theme_selector_light"
+        android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/ticktrackFragmentThemeLightThemeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_dark_theme_button" />
 
+    <ImageView
+        android:id="@+id/ticktrackFragmentThemeDarkTickAnim"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+        app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+        app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+        app:layout_constraintTop_toTopOf="@+id/ticktrackFragmentThemeDarkThemeButton" />
+
     <ImageButton
         android:id="@+id/ticktrackFragmentThemeLightThemeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_selector_dark"
-        android:padding="10dp"
+        android:background="@drawable/theme_selector_dark"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_light_theme_button" />
+
+    <ImageView
+        android:id="@+id/ticktrackFragmentThemeLightTickAnim"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ticktrackFragmentThemeLightThemeButton"
+        app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeLightThemeButton"
+        app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeLightThemeButton"
+        app:layout_constraintTop_toTopOf="@+id/ticktrackFragmentThemeLightThemeButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
