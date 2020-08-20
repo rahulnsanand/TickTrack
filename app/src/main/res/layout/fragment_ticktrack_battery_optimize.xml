@@ -6,8 +6,10 @@
 
     <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
         android:id="@+id/ticktrackFragmentBatteryOptimiseLottie"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
