@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,6 +26,7 @@ public class ThemeFragment extends Fragment {
     private TickTrackDatabase tickTrackDatabase;
     private int themeMode = 1;
     private ConstraintLayout rootLayout;
+    private ImageView darkTick, lightTick;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -33,16 +35,31 @@ public class ThemeFragment extends Fragment {
         themeSetButton = root.findViewById(R.id.ticktrackFragmentThemeContinueButton);
         darkThemeButton = root.findViewById(R.id.ticktrackFragmentThemeDarkThemeButton);
         lightThemeButton = root.findViewById(R.id.ticktrackFragmentThemeLightThemeButton);
+        darkTick = root.findViewById(R.id.ticktrackFragmentThemeDarkTickAnim);
+        lightTick = root.findViewById(R.id.ticktrackFragmentThemeLightTickAnim);
+
+        darkTick.setImageResource(R.drawable.ic_light_tick);
+        lightTick.setImageResource(R.drawable.ic_light_tick);
 
         rootLayout = root.findViewById(R.id.ticktrackFragmentThemeRoot);
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         setupTheme();
 
+        darkThemeButton.setOnClickListener(view -> {
+            tickTrackDatabase.setThemeMode(2);
+            setupTheme();
+        });
+
+        lightThemeButton.setOnClickListener(view -> {
+            tickTrackDatabase.setThemeMode(1);
+            setupTheme();
+        });
+
         themeSetButton.setOnClickListener(view -> onThemeSetClickListener.onThemeSetClickListener());
         return root;
     }
 
-//    private void reverseAnimate() {
+//    private void reverseAnimate(LottieAnimationView lottieAnimationView) {
 //        float progress = lottieAnimationView.getProgress();
 //        ValueAnimator valueAnimator = ValueAnimator.ofFloat(-progress,0 ).setDuration((long) ( lottieAnimationView.getDuration()* progress));
 //        valueAnimator.addUpdateListener(animation -> lottieAnimationView.setProgress(Math.abs((float)animation.getAnimatedValue())));
@@ -54,12 +71,17 @@ public class ThemeFragment extends Fragment {
         if(themeMode==1){
             lightThemeButton.setClickable(false);
             darkThemeButton.setClickable(true);
+            lightTick.setVisibility(View.VISIBLE);
+            darkTick.setVisibility(View.INVISIBLE);
             rootLayout.setBackgroundResource(R.color.LightGray);
+            themeSetButton.setBackgroundResource(R.drawable.button_selector_dark);
         } else {
             darkThemeButton.setClickable(false);
             lightThemeButton.setClickable(true);
-
+            lightTick.setVisibility(View.INVISIBLE);
+            darkTick.setVisibility(View.VISIBLE);
             rootLayout.setBackgroundResource(R.color.Black);
+            themeSetButton.setBackgroundResource(R.drawable.button_selector_light);
         }
 
     }

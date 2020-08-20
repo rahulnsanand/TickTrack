@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:id="@+id/ticktrackFragmentIntroRootLayout">
 
     <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
         android:id="@+id/tickTrackIntroLogoAnimation"
@@ -16,14 +17,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
-        android:id="@+id/tickTrackIntroTitleText"
+        android:id="@+id/tickTrackFragmentIntroTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:text="TickTrack"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/TickTrackIntroGetStartedButton"
+        app:layout_constraintBottom_toTopOf="@+id/TickTrackFragmentIntroGetStartedButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tickTrackIntroLogoAnimation"
@@ -31,7 +32,7 @@
         app:typeface="roboto_italic"/>
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-        android:id="@+id/TickTrackIntroGetStartedButton"
+        android:id="@+id/TickTrackFragmentIntroGetStartedButton"
         style="@style/buttonStartup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -24,7 +24,7 @@
     </style>
 
     <style name="buttonStartup" parent="@android:style/Widget.Button">
-        <item name="fontFamily">@font/roboto_light</item>
+        <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
