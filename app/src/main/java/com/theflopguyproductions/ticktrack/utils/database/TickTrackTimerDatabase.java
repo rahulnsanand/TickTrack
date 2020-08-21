@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
 
-import com.theflopguyproductions.ticktrack.timer.service.TimerBroadcastReceiver;
+import com.theflopguyproductions.ticktrack.timer.receivers.TimerBroadcastReceiver;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 
 public class TickTrackTimerDatabase {

@@ -21,27 +21,27 @@
         app:typeface="roboto_medium_italic"/>
 
     <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
-        android:id="@+id/ticktrackMissingDialogSubHeadText"
+        android:id="@+id/ticktrackMissingDialogMissedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:text="Looks like you've missed x timers"
+        android:text="You've missed x timers"
         android:textColor="@color/Accent"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ticktrackMissingDialogTitleText"
-        app:typeface="roboto_medium"/>
+        app:typeface="roboto_medium" />
 
     <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
         android:id="@+id/ticktrackMissingDialogDetailText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:text="This is awkward. But, solveable. It happens due to android stopping the application.
@@ -50,8 +50,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ticktrackMissingDialogSubHeadText"
-        app:typeface="roboto_regular"/>
+        app:layout_constraintTop_toBottomOf="@+id/ticktrackMissingDialogAlmostMissedTimer"
+        app:typeface="roboto_regular" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/ticktrackMissingDialogStartUpTimer"
@@ -74,5 +74,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        android:id="@+id/ticktrackMissingDialogAlmostMissedTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="You've almost missed x timers"
+        android:textColor="@color/Accent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ticktrackMissingDialogMissedText"
+        app:typeface="roboto_medium"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
