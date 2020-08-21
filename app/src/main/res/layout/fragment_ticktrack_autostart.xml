@@ -4,8 +4,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/ticktrackAutoStartCheckButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:text="Let's Autostart"
+                android:textColor="@color/Accent"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:typeface="montserrat_medium_italic" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintVertical_bias="0.100000024"
+                app:srcCompat="@drawable/ic_dark_theme_button" />
+
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Required"
+                android:textColor="@color/roboto_calendar_circle_1"
+                app:layout_constraintEnd_toEndOf="@+id/textView5"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                app:typeface="montserrat_italic" />
+
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="8dp"
+                android:text="What is this?"
+                android:textAlignment="textStart"
+                android:textColor="@color/Accent"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:typeface="montserrat_medium" />
+
+            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:text="Looks like the device you're using supports auto-start feature for an application.
+Turning on this feature helps the application start automatically on reboot.\nWe use it to re-initialise your timers
+that were cancelled during reboot."
+                android:textAlignment="textStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:typeface="montserrat_italic" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        android:id="@+id/ticktrackAutoStartCheckButton"
+        style="@style/buttonStartup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Fix this feature"
+        app:layout_constraintBottom_toTopOf="@+id/ticktrackAutoStartButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/ticktrackAutoStartButton"
+        style="@style/buttonStartup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Button"
@@ -13,12 +117,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/ticktrackAutoStartCheckButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/ticktrackAutoStartButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

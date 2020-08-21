@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,6 +29,8 @@ public class ThemeFragment extends Fragment {
     private ConstraintLayout rootLayout;
     private ImageView darkTick, lightTick;
 
+    private TextView titleFlavor, themeSubtext, customizeText, darkText, lightText, themeDetailText;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +40,13 @@ public class ThemeFragment extends Fragment {
         lightThemeButton = root.findViewById(R.id.ticktrackFragmentThemeLightThemeButton);
         darkTick = root.findViewById(R.id.ticktrackFragmentThemeDarkTickAnim);
         lightTick = root.findViewById(R.id.ticktrackFragmentThemeLightTickAnim);
+
+        titleFlavor = root.findViewById(R.id.ticktrackFragmentThemeTitleFlavor);
+        themeSubtext = root.findViewById(R.id.ticktrackFragmentThemeSubText);
+        customizeText = root.findViewById(R.id.ticktrackFragmentThemeCustomizeText);
+        darkText = root.findViewById(R.id.ticktrackFragmentThemeDarkMatterText);
+        lightText = root.findViewById(R.id.ticktrackFragmentThemeLightMatterText);
+        themeDetailText = root.findViewById(R.id.ticktrackFragmentThemeHelpText);
 
         darkTick.setImageResource(R.drawable.ic_light_tick);
         lightTick.setImageResource(R.drawable.ic_light_tick);
@@ -69,21 +79,38 @@ public class ThemeFragment extends Fragment {
     private void setupTheme() {
         themeMode = tickTrackDatabase.getThemeMode();
         if(themeMode==1){
+
             lightThemeButton.setClickable(false);
             darkThemeButton.setClickable(true);
             lightTick.setVisibility(View.VISIBLE);
             darkTick.setVisibility(View.INVISIBLE);
             rootLayout.setBackgroundResource(R.color.LightGray);
-            themeSetButton.setBackgroundResource(R.drawable.button_selector_dark);
+            themeSetButton.setBackgroundResource(R.drawable.button_selector_white);
+
+            titleFlavor.setTextColor(getResources().getColor(R.color.Accent));
+            themeSubtext.setTextColor(getResources().getColor(R.color.DarkText));
+            customizeText.setTextColor(getResources().getColor(R.color.Accent));
+            darkText.setTextColor(getResources().getColor(R.color.DarkText));
+            lightText.setTextColor(getResources().getColor(R.color.DarkText));
+            themeDetailText.setTextColor(getResources().getColor(R.color.DarkText));
+
         } else {
+
             darkThemeButton.setClickable(false);
             lightThemeButton.setClickable(true);
             lightTick.setVisibility(View.INVISIBLE);
             darkTick.setVisibility(View.VISIBLE);
             rootLayout.setBackgroundResource(R.color.Black);
-            themeSetButton.setBackgroundResource(R.drawable.button_selector_light);
-        }
+            themeSetButton.setBackgroundResource(R.drawable.round_rect_dark);
 
+            titleFlavor.setTextColor(getResources().getColor(R.color.Accent));
+            themeSubtext.setTextColor(getResources().getColor(R.color.LightText));
+            customizeText.setTextColor(getResources().getColor(R.color.Accent));
+            darkText.setTextColor(getResources().getColor(R.color.LightText));
+            lightText.setTextColor(getResources().getColor(R.color.LightText));
+            themeDetailText.setTextColor(getResources().getColor(R.color.LightText));
+
+        }
     }
 
     public interface OnThemeSetClickListener {
