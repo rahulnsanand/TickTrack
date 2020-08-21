@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class AutoStartFragment extends Fragment {
 
@@ -21,7 +24,10 @@ public class AutoStartFragment extends Fragment {
     private Button autoStartButton;
     private ScrollView autoStartScroll;
     private boolean isScrolled = false;
-
+    private ConstraintLayout rootLayout;
+    private TextView helperText, helperSubText;
+    private int themeMode = 1;
+    private TickTrackDatabase tickTrackDatabase;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -29,6 +35,14 @@ public class AutoStartFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_ticktrack_autostart, container, false);
         autoStartButton = root.findViewById(R.id.ticktrackFragmentAutoStartButton);
         autoStartScroll = root.findViewById(R.id.ticktrackFragmentAutoStartScroll);
+        rootLayout = root.findViewById(R.id.ticktrackFragmentAutoStartRoot);
+        helperText = root.findViewById(R.id.ticktrackFragmentAutoStartDetailText);
+        helperSubText = root.findViewById(R.id.ticktrackFragmentAutoStartSubHelperText);
+
+        tickTrackDatabase = new TickTrackDatabase(requireContext());
+        tickTrackDatabase.storeStartUpFragmentID(4);
+
+        setupTheme();
 
         autoStartScroll.getViewTreeObserver()
                 .addOnScrollChangedListener(() -> isScrolled = autoStartScroll.getChildAt(0).getBottom()
@@ -45,7 +59,24 @@ public class AutoStartFragment extends Fragment {
 
         return root;
     }
+    private void setupTheme() {
 
+        themeMode = tickTrackDatabase.getThemeMode();
+
+        if(themeMode==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            autoStartButton.setBackgroundResource(R.drawable.button_selector_white);
+
+            helperText.setTextColor(getResources().getColor(R.color.DarkText));
+            helperSubText.setTextColor(getResources().getColor(R.color.DarkText));
+        } else {
+            rootLayout.setBackgroundResource(R.color.Black);
+            autoStartButton.setBackgroundResource(R.drawable.round_rect_dark);
+
+            helperSubText.setTextColor(getResources().getColor(R.color.LightText));
+            helperText.setTextColor(getResources().getColor(R.color.LightText));
+        }
+    }
     public interface OnAutoStartSetClickListener {
         void onAutoStartSetClickListener();
     }

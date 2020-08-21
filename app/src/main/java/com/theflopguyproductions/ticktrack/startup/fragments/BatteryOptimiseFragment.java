@@ -35,6 +35,7 @@ public class BatteryOptimiseFragment extends Fragment {
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         themeMode = tickTrackDatabase.getThemeMode();
+        tickTrackDatabase.storeStartUpFragmentID(3);
 
         optimiseButton = root.findViewById(R.id.ticktrackFragmentOptimiseBatteryButton);
         lottieAnimationView = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseLottie);

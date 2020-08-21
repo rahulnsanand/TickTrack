@@ -35,6 +35,7 @@ public class IntroFragment extends Fragment {
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         themeMode = tickTrackDatabase.getThemeMode();
+        tickTrackDatabase.storeStartUpFragmentID(1);
 
         getStartedButton = root.findViewById(R.id.TickTrackFragmentIntroGetStartedButton);
         rootLayout = root.findViewById(R.id.ticktrackFragmentIntroRootLayout);

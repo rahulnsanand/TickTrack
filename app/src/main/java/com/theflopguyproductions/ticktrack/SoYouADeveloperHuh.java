@@ -40,7 +40,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     private TextView tickTrackAppName;
     private BottomNavigationView navView;
     private PowerSaverHelper.WhiteListedInBatteryOptimizations whiteListedInBatteryOptimizations;
-    private boolean onCreateHappened = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +53,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         whiteListedInBatteryOptimizations = PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName());
 
         if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
-            tickTrackDatabase.storeNotOptimiseBool(false);
-            Intent intent = new Intent(this, StartUpActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            onCreateHappened = true;
+            goToStartUpActivity();
         } else {
             setContentView(R.layout.activity_so_you_a_developer_huh);
             mainToolbar = findViewById(R.id.mainActivityToolbar);
@@ -85,6 +80,14 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
             System.out.println(setHappen+"<<<<HAPPEN>>>>"+isAvailable+"<<<<ISAVAILAVLE");
         }
+    }
+
+    private void goToStartUpActivity() {
+        tickTrackDatabase.storeNotOptimiseBool(false);
+        tickTrackDatabase.storeStartUpFragmentID(3);
+        Intent intent = new Intent(this, StartUpActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public Fragment getFragment(int id){
@@ -193,10 +196,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         if(!whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
             TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
         } else {
-            tickTrackDatabase.storeNotOptimiseBool(false);
-            Intent intent = new Intent(this, StartUpActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            goToStartUpActivity();
         }
     }
 
@@ -206,14 +206,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         if(!whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
             TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
         } else {
-            if(!onCreateHappened){
-                tickTrackDatabase.storeNotOptimiseBool(false);
-                Intent intent = new Intent(this, StartUpActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
+            goToStartUpActivity();
         }
-        onCreateHappened = false;
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,8 +23,14 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener {
 
     private TickTrackDatabase tickTrackDatabase;
+    private ConstraintLayout rootLayout;
+    private int optimiseRequestNumber = 0, themeMode = 1;
 
-    private int optimiseRequestNumber = 0;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setupTheme();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +47,23 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         tickTrackDatabase.storeOptimiseRequestNumber(optimiseRequestNumber);
 
         setContentView(R.layout.activity_start_up);
+        rootLayout = findViewById(R.id.StartUpActivityRootLayout);
 
         int receivedFragmentID = tickTrackDatabase.retrieveStartUpFragmentID();
-        openFragment(getFragment(receivedFragmentID));
+        if(tickTrackDatabase.retrieveFirstLaunch()){
+            openFragment(getFragment(1));
+        } else {
+            openFragment(getFragment(receivedFragmentID));
+        }
+    }
 
+    private void setupTheme() {
+        themeMode = tickTrackDatabase.getThemeMode();
+        if(themeMode==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+        } else {
+            rootLayout.setBackgroundResource(R.color.Black);
+        }
     }
 
     public Fragment getFragment(int id){
@@ -75,6 +95,8 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     }
     @Override
     public void onThemeSetClickListener() {
+        setupTheme();
+        tickTrackDatabase.storeFirstLaunch(false);
         openFragment(new BatteryOptimiseFragment());
     }
     @Override
