@@ -50,30 +50,24 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
         tickTrackDatabase = new TickTrackDatabase(this);
 
+        setContentView(R.layout.activity_so_you_a_developer_huh);
+
+        mainToolbar = findViewById(R.id.mainActivityToolbar);
+        tickTrackAppName = findViewById(R.id.ticktrackAppName);
+        navView = findViewById(R.id.nav_view);
+        navView.setItemIconTintList(null);
+        navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         whiteListedInBatteryOptimizations = PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName());
 
-        if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
+        if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
         } else {
-            setContentView(R.layout.activity_so_you_a_developer_huh);
-            mainToolbar = findViewById(R.id.mainActivityToolbar);
-            tickTrackAppName = findViewById(R.id.ticktrackAppName);
+
             setSupportActionBar(mainToolbar);
             setTitle("");
 
-
             int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
             openFragment(getFragment(receivedFragmentID));
-
-            navView = findViewById(R.id.nav_view);
-
-            navView.setItemIconTintList(null);
-            navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-
-//        Intent intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this,"com.theflopguyproductions.ticktrack",false);
-//        if(intent!=null){
-//            startActivity(intent);
-//        }
 
             boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
             boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
@@ -193,20 +187,20 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
-            TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
-        } else {
+        if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
+        } else {
+            TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(!whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
-            TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
-        } else {
+        if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
+        } else {
+            TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
         }
     }
 

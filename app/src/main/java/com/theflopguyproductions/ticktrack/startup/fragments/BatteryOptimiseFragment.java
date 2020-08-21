@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.startup.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 
 public class BatteryOptimiseFragment extends Fragment {
 
@@ -31,42 +34,55 @@ public class BatteryOptimiseFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_ticktrack_battery_optimize, container, false);
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
-        themeMode = tickTrackDatabase.getThemeMode();
-        tickTrackDatabase.storeStartUpFragmentID(3);
 
-        optimiseButton = root.findViewById(R.id.ticktrackFragmentOptimiseBatteryButton);
-        lottieAnimationView = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseLottie);
-        detailText = root.findViewById(R.id.ticktrackFragmentOptimiseHelpText);
-        detailBoldText = root.findViewById(R.id.ticktrackFragmentOptimiseBoldHelpText);
-        rootLayout = root.findViewById(R.id.ticktrackFragmentOptimiseRootLayout);
-        optimiseScroll = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseScrollView);
+        boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(requireContext());
+        boolean checkAgain = tickTrackDatabase.retrieveNotOptimiseBool();
 
-        optimiseScroll.getViewTreeObserver()
-                .addOnScrollChangedListener(() -> {
-                    isScrolled = optimiseScroll.getChildAt(0).getBottom()
-                            <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY());
-                });
+        if(!isAvailable && !checkAgain){
+            Intent intent = new Intent(requireContext(), SoYouADeveloperHuh.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return null;
+        } else {
 
-        setupTheme();
-
-        lottieAnimationView.setAnimation(R.raw.battery_optimisation_anim);
-        lottieAnimationView.playAnimation();
-        lottieAnimationView.loop(true);
+            View root = inflater.inflate(R.layout.fragment_ticktrack_battery_optimize, container, false);
 
 
-        optimiseButton.setOnClickListener(view -> {
-            if(isScrolled || optimiseScroll.getChildAt(0).getBottom()
-                    <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY())){
-                batteryOptimiseClickListener.onBatteryOptimiseClickListener();
-            } else {
-                optimiseScroll.fullScroll(View.FOCUS_DOWN);
-            }
-        });
+            themeMode = tickTrackDatabase.getThemeMode();
+            tickTrackDatabase.storeStartUpFragmentID(3);
 
-        return root;
+            optimiseButton = root.findViewById(R.id.ticktrackFragmentOptimiseBatteryButton);
+            lottieAnimationView = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseLottie);
+            detailText = root.findViewById(R.id.ticktrackFragmentOptimiseHelpText);
+            detailBoldText = root.findViewById(R.id.ticktrackFragmentOptimiseBoldHelpText);
+            rootLayout = root.findViewById(R.id.ticktrackFragmentOptimiseRootLayout);
+            optimiseScroll = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseScrollView);
+
+            optimiseScroll.getViewTreeObserver()
+                    .addOnScrollChangedListener(() -> {
+                        isScrolled = optimiseScroll.getChildAt(0).getBottom()
+                                <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY());
+                    });
+
+            setupTheme();
+
+            lottieAnimationView.setAnimation(R.raw.battery_optimisation_anim);
+            lottieAnimationView.playAnimation();
+            lottieAnimationView.loop(true);
+
+
+            optimiseButton.setOnClickListener(view -> {
+                if (isScrolled || optimiseScroll.getChildAt(0).getBottom()
+                        <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY())) {
+                    batteryOptimiseClickListener.onBatteryOptimiseClickListener();
+                } else {
+                    optimiseScroll.fullScroll(View.FOCUS_DOWN);
+                }
+            });
+            return root;
+        }
     }
 
     public void setupTheme(){

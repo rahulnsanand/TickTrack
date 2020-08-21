@@ -28,14 +28,13 @@ public class TickTrackThemeSetter {
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
             mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
             bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.DarkText)));
-            ticktrackAppName.setTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.Accent)));
         } else {
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.Gray));
             mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.Black));
             mainToolbar.setPopupTheme(R.style.LightOverflow);
             bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.LightText)));
-            ticktrackAppName.setTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.Accent)));
         }
+        ticktrackAppName.setTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.Accent)));
     }
 
     public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, ScrollView settingsScrollView, ConstraintLayout themeLayout

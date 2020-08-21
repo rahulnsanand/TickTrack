@@ -49,7 +49,6 @@ public class AutoStartFragment extends Fragment {
 
         handler.post(animatedRunnable);
 
-
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         tickTrackDatabase.storeStartUpFragmentID(4);
 
@@ -70,7 +69,6 @@ public class AutoStartFragment extends Fragment {
 
         return root;
     }
-
 
     Runnable animatedRunnable = new Runnable() {
         @Override
