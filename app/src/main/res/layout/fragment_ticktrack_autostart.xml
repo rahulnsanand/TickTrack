@@ -39,14 +39,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
-                app:layout_constraintVertical_bias="0.100000024"
                 app:srcCompat="@drawable/autostart_animated_drawable" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
@@ -66,16 +63,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="8dp"
                 android:text="What is this?"
                 android:textAlignment="textStart"
                 android:textColor="@color/Accent"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/ticktrackFragmentAutoStartDetailText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentAutoStartImageView"
                 app:typeface="montserrat_medium" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
@@ -83,16 +80,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
                 android:text="Looks like the device you're using supports auto-start feature for an application.
 Turning on this feature helps the application start automatically on reboot.\nWe use it to re-initialise your timers
 that were cancelled during reboot."
                 android:textAlignment="textStart"
-                app:layout_constraintBottom_toTopOf="@+id/ticktrackFragmentAutoStartSubHelperText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
                 app:typeface="montserrat_italic" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
@@ -100,6 +97,7 @@ that were cancelled during reboot."
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
                 android:text="Settings > Autostart > TickTrack
@@ -108,6 +106,8 @@ that were cancelled during reboot."
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentAutoStartDetailText"
+                app:layout_constraintVertical_bias="1.0"
                 app:typeface="montserrat_semi_bold" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
