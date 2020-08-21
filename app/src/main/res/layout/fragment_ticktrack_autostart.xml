@@ -35,9 +35,9 @@
                 app:typeface="montserrat_medium_italic" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/ticktrackFragmentAutoStartImageView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
@@ -47,7 +47,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
                 app:layout_constraintVertical_bias="0.100000024"
-                app:srcCompat="@drawable/ic_dark_theme_button" />
+                app:srcCompat="@drawable/autostart_animated_drawable" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/textView6"
