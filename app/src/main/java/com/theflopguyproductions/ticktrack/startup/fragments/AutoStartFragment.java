@@ -19,7 +19,7 @@ public class AutoStartFragment extends Fragment {
 
 
     private Button autoStartButton;
-    private ScrollView autostartScroll;
+    private ScrollView autoStartScroll;
     private boolean isScrolled = false;
 
 
@@ -28,17 +28,18 @@ public class AutoStartFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ticktrack_autostart, container, false);
         autoStartButton = root.findViewById(R.id.ticktrackFragmentAutoStartButton);
-        autostartScroll = root.findViewById(R.id.ticktrackFragmentAutoStartScroll);
+        autoStartScroll = root.findViewById(R.id.ticktrackFragmentAutoStartScroll);
 
-        autostartScroll.getViewTreeObserver()
-                .addOnScrollChangedListener(() -> isScrolled = autostartScroll.getChildAt(0).getBottom()
-                        <= (autostartScroll.getHeight() + autostartScroll.getScrollY()));
+        autoStartScroll.getViewTreeObserver()
+                .addOnScrollChangedListener(() -> isScrolled = autoStartScroll.getChildAt(0).getBottom()
+                        <= (autoStartScroll.getHeight() + autoStartScroll.getScrollY()));
 
         autoStartButton.setOnClickListener(view -> {
-            if (isScrolled) {
+            if (isScrolled || autoStartScroll.getChildAt(0).getBottom()
+                    <= (autoStartScroll.getHeight() + autoStartScroll.getScrollY())) {
                 autoStartSetClickListener.onAutoStartSetClickListener();
             } else {
-                autostartScroll.fullScroll(View.FOCUS_DOWN);
+                autoStartScroll.fullScroll(View.FOCUS_DOWN);
             }
         });
 

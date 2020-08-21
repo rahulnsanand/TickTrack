@@ -44,8 +44,10 @@ public class BatteryOptimiseFragment extends Fragment {
         optimiseScroll = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseScrollView);
 
         optimiseScroll.getViewTreeObserver()
-                .addOnScrollChangedListener(() -> isScrolled = optimiseScroll.getChildAt(0).getBottom()
-                        <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY()));
+                .addOnScrollChangedListener(() -> {
+                    isScrolled = optimiseScroll.getChildAt(0).getBottom()
+                            <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY());
+                });
 
         setupTheme();
 
@@ -55,7 +57,8 @@ public class BatteryOptimiseFragment extends Fragment {
 
 
         optimiseButton.setOnClickListener(view -> {
-            if(isScrolled){
+            if(isScrolled || optimiseScroll.getChildAt(0).getBottom()
+                    <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY())){
                 batteryOptimiseClickListener.onBatteryOptimiseClickListener();
             } else {
                 optimiseScroll.fullScroll(View.FOCUS_DOWN);
