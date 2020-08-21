@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,9 @@ public class ThemeFragment extends Fragment {
     private ConstraintLayout rootLayout;
     private ImageView darkTick, lightTick;
 
+    private ScrollView ticktrackFragmentThemeScrollView;
+    private boolean isScrolled = false;
+
     private TextView titleFlavor, themeSubtext, customizeText, darkText, lightText, themeDetailText;
 
 
@@ -40,6 +44,7 @@ public class ThemeFragment extends Fragment {
         lightThemeButton = root.findViewById(R.id.ticktrackFragmentThemeLightThemeButton);
         darkTick = root.findViewById(R.id.ticktrackFragmentThemeDarkTickAnim);
         lightTick = root.findViewById(R.id.ticktrackFragmentThemeLightTickAnim);
+        ticktrackFragmentThemeScrollView = root.findViewById(R.id.ticktrackFragmentThemeScrollView);
 
         titleFlavor = root.findViewById(R.id.ticktrackFragmentThemeTitleFlavor);
         themeSubtext = root.findViewById(R.id.ticktrackFragmentThemeSubText);
@@ -56,6 +61,11 @@ public class ThemeFragment extends Fragment {
         tickTrackDatabase.storeStartUpFragmentID(2);
         setupTheme();
 
+        ticktrackFragmentThemeScrollView.getViewTreeObserver()
+                .addOnScrollChangedListener(() -> isScrolled = ticktrackFragmentThemeScrollView.getChildAt(0).getBottom()
+                        <= (ticktrackFragmentThemeScrollView.getHeight() + ticktrackFragmentThemeScrollView.getScrollY()));
+
+
         darkThemeButton.setOnClickListener(view -> {
             tickTrackDatabase.setThemeMode(2);
             setupTheme();
@@ -66,7 +76,14 @@ public class ThemeFragment extends Fragment {
             setupTheme();
         });
 
-        themeSetButton.setOnClickListener(view -> onThemeSetClickListener.onThemeSetClickListener());
+        themeSetButton.setOnClickListener(view -> {
+            if (isScrolled || ticktrackFragmentThemeScrollView.getChildAt(0).getBottom()
+                    <= (ticktrackFragmentThemeScrollView.getHeight() + ticktrackFragmentThemeScrollView.getScrollY())) {
+                onThemeSetClickListener.onThemeSetClickListener();
+            } else {
+                ticktrackFragmentThemeScrollView.fullScroll(View.FOCUS_DOWN);
+            }
+        });
         return root;
     }
 

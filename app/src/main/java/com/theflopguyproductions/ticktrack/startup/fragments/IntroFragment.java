@@ -29,6 +29,7 @@ public class IntroFragment extends Fragment {
     private TickTrackDatabase tickTrackDatabase;
     private int themeMode = 0;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ticktrack_intro, container, false);
@@ -53,7 +54,11 @@ public class IntroFragment extends Fragment {
 
         displayStuff.postDelayed(displayRunnable, 3500);
 
-        getStartedButton.setOnClickListener(view -> getStartedClickListener.onGetStartedClick());
+
+        getStartedButton.setOnClickListener(view -> {
+
+            getStartedClickListener.onGetStartedClick();
+        });
 
         return root;
     }

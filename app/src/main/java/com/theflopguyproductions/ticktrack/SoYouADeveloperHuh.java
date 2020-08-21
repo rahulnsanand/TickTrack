@@ -56,14 +56,15 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         navView = findViewById(R.id.nav_view);
         navView.setItemIconTintList(null);
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        setSupportActionBar(mainToolbar);
+        setTitle("");
 
         if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
-            goToStartUpActivity();
-        } else {
 
-            setSupportActionBar(mainToolbar);
-            setTitle("");
+            goToStartUpActivity();
+
+        } else {
 
             int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
             openFragment(getFragment(receivedFragmentID));
@@ -71,7 +72,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
             boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
             boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
 
-            System.out.println(setHappen+"<<<<HAPPEN>>>>"+isAvailable+"<<<<ISAVAILAVLE");
+
+
         }
     }
 
@@ -150,11 +152,13 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         }
         return super.onCreateOptionsMenu(menu);
     }
+
     private void applyFontToMenuItem(MenuItem mi, Typeface font) {
         SpannableString mNewTitle = new SpannableString(mi.getTitle());
         mNewTitle.setSpan(new TypefaceSpanSetup("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         mi.setTitle(mNewTitle);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -181,7 +185,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         }
         return false;
     }
-
 
     @Override
     protected void onResume() {
