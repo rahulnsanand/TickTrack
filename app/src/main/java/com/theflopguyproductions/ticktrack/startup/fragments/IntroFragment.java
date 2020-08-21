@@ -43,12 +43,13 @@ public class IntroFragment extends Fragment {
         lottieAnimationView = root.findViewById(R.id.tickTrackIntroLogoAnimation);
 
         setupTheme();
-
         tickTrackName.setVisibility(View.INVISIBLE);
         getStartedButton.setVisibility(View.INVISIBLE);
 
         lottieAnimationView.setAnimation(R.raw.logo_animation_ticktrack);
         lottieAnimationView.playAnimation();
+
+        getStartedButton.setVisibility(View.VISIBLE);
 
         displayStuff.postDelayed(displayRunnable, 3500);
 
@@ -85,11 +86,11 @@ public class IntroFragment extends Fragment {
         if(themeMode==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             tickTrackName.setTextColor(getResources().getColor(R.color.DarkText) );
-            getStartedButton.setBackgroundResource(R.drawable.button_selector_dark);
+            getStartedButton.setBackgroundResource(R.drawable.button_selector_white);
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
             tickTrackName.setTextColor(getResources().getColor(R.color.LightText) );
-            getStartedButton.setBackgroundResource(R.drawable.button_selector_light);
+            getStartedButton.setBackgroundResource(R.drawable.round_rect_dark);
         }
     }
 
