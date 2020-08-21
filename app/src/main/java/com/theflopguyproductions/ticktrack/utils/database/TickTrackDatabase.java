@@ -23,6 +23,16 @@ public class TickTrackDatabase {
         sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
     }
 
+    public void storeFirstLaunch(boolean updateNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("firstLaunch", updateNumber);
+        editor.apply();
+    }
+
+    public boolean retrieveFirstLaunch() {
+        return sharedPreferences.getBoolean("firstLaunch", true);
+    }
+
     public void storeNotOptimiseBool(boolean updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isNotOptimised", updateNumber);
