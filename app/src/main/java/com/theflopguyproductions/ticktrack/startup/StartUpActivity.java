@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.startup;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
@@ -102,6 +104,15 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     @Override
     public void onBatteryOptimiseClickListener() {
         openFragment(new AutoStartFragment());
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
     @Override
     public void onAutoStartSetClickListener() {
