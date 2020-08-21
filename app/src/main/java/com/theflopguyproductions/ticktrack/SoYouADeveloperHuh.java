@@ -39,7 +39,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     private Toolbar mainToolbar;
     private TextView tickTrackAppName;
     private BottomNavigationView navView;
-    private PowerSaverHelper.WhiteListedInBatteryOptimizations whiteListedInBatteryOptimizations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +56,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         navView = findViewById(R.id.nav_view);
         navView.setItemIconTintList(null);
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        whiteListedInBatteryOptimizations = PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName());
 
-        if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
+        if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
+                .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
         } else {
 
@@ -187,7 +186,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
+        if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
+                .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
         } else {
             TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
@@ -197,7 +197,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
+        if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
+                .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
         } else {
             TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);

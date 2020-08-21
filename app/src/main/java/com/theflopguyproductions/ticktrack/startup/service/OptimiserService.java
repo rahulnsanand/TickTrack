@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -14,10 +13,8 @@ public class OptimiserService extends Service {
 
     public static final String ACTION_BATTERY_OPTIMISE_CHECK_START = "ACTION_BATTERY_OPTIMISE_CHECK_START";
     public static final String ACTION_BATTERY_OPTIMISE_CHECK_STOP = "ACTION_BATTERY_OPTIMISE_CHECK_STOP";
-    private PowerSaverHelper.WhiteListedInBatteryOptimizations whiteListedInBatteryOptimizations;
 
     private Handler refreshHandler = new Handler();
-
 
     @Nullable
     @Override
@@ -67,11 +64,5 @@ public class OptimiserService extends Service {
             }
         }
     };
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(this, "Notification Service destroyed by user.", Toast.LENGTH_LONG).show();
-    }
 
 }
