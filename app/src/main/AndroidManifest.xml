@@ -16,6 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+        <receiver
+            android:name=".receivers.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.REBOOT" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".startup.service.OptimiserService"
@@ -27,7 +39,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="ACTION_OPTIMISING_DONE_CHECK"/>
+                <action android:name="ACTION_OPTIMISING_DONE_CHECK" />
             </intent-filter>
         </receiver>
 
@@ -37,13 +49,7 @@
             android:name=".application.BootReceiver"
             android:enabled="true"
             android:exported="true">
-            <intent-filter android:priority="1">
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="android.intent.action.REBOOT" />
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
+
         </receiver>
 
         <activity
@@ -79,7 +85,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".timer.service.TimerBroadcastReceiver" />
+        <receiver android:name=".timer.receivers.TimerBroadcastReceiver" />
 
         <service
             android:name=".counter.notification.CounterNotificationService"

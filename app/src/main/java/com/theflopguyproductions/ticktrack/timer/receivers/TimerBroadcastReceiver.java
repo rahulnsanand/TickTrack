@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.timer.service;
+package com.theflopguyproductions.ticktrack.timer.receivers;
 
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
+import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
+import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String toastText = "TickTrack Alarm";
+        String toastText = "TickTrack Timer";
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         if(Objects.equals(intent.getAction(), ACTION_TIMER_BROADCAST)){
 
@@ -49,7 +51,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                     startNotificationService(context);
                     KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
                     if( myKM.inKeyguardRestrictedInputMode()) {
-                        System.out.println("LOCKED LOCKED LOCKED CLOKECD");
                         Intent resultIntent = new Intent(context, TimerRingerActivity.class);
                         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(resultIntent);

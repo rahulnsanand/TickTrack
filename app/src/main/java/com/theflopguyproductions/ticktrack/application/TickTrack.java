@@ -12,7 +12,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.theflopguyproductions.ticktrack.timer.service.TimerBroadcastReceiver;
+import com.theflopguyproductions.ticktrack.timer.receivers.TimerBroadcastReceiver;
 
 public class TickTrack extends Application {
 

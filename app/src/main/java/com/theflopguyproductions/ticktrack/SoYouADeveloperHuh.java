@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.settings.SettingsActivity;
@@ -35,6 +36,7 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 public class SoYouADeveloperHuh extends AppCompatActivity {
 
     TickTrackDatabase tickTrackDatabase;
+    TimerManagementHelper timerManagementHelper;
 
     private Toolbar mainToolbar;
     private TextView tickTrackAppName;
@@ -48,6 +50,15 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         tickTrackDatabase = new TickTrackDatabase(this);
+        timerManagementHelper = new TimerManagementHelper(this);
+        int missedTimers = timerManagementHelper.getElapsedTimer();
+        int almostMissedTimers = timerManagementHelper.getAlmostMissedTimer();
+
+        if(missedTimers>0 || almostMissedTimers >0){
+            MissedItemDialog missedItemDialog = new MissedItemDialog(this, missedTimers, almostMissedTimers);
+            missedItemDialog.setCancelable(true);
+            missedItemDialog.show();
+        }
 
         setContentView(R.layout.activity_so_you_a_developer_huh);
 
