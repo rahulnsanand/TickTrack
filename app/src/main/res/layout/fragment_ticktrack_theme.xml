@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/ticktrackFragmentThemeScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -35,67 +35,114 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:typeface="montserrat_medium_italic" />
 
-            <ImageButton
-                android:id="@+id/ticktrackFragmentThemeDarkThemeButton"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:background="@drawable/theme_selector_light"
-                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeSubText"
-                app:layout_constraintVertical_bias="0.06999999"
-                app:srcCompat="@drawable/ic_dark_theme_button" />
+                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeSubText">
 
-            <ImageView
-                android:id="@+id/ticktrackFragmentThemeLightTickAnim"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:elevation="2dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ticktrackFragmentThemeLightThemeButton"
-                app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeLightThemeButton"
-                app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeLightThemeButton"
-                app:layout_constraintTop_toTopOf="@+id/ticktrackFragmentThemeLightThemeButton" />
+                <ImageButton
+                    android:id="@+id/ticktrackFragmentThemeLightThemeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@drawable/theme_selector_dark"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeDarkTickAnim"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_light_theme_button" />
 
-            <ImageButton
-                android:id="@+id/ticktrackFragmentThemeLightThemeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/theme_selector_dark"
-                android:padding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeDarkMatterText"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_light_theme_button" />
+                <ImageView
+                    android:id="@+id/ticktrackFragmentThemeDarkTickAnim"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:elevation="2dp"
+                    android:padding="25dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+                    app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+                    app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+                    app:layout_constraintTop_toTopOf="@+id/ticktrackFragmentThemeDarkThemeButton" />
 
-            <ImageView
-                android:id="@+id/ticktrackFragmentThemeDarkTickAnim"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:elevation="2dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ticktrackFragmentThemeDarkThemeButton"
-                app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeDarkThemeButton"
-                app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeDarkThemeButton"
-                app:layout_constraintTop_toTopOf="@+id/ticktrackFragmentThemeDarkThemeButton" />
+                <ImageButton
+                    android:id="@+id/ticktrackFragmentThemeDarkThemeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/theme_selector_light"
+                    android:padding="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_dark_theme_button" />
+
+                <ImageView
+                    android:id="@+id/ticktrackFragmentThemeLightTickAnim"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:elevation="2dp"
+                    android:padding="25dp"
+                    app:layout_constraintBottom_toTopOf="@+id/ticktrackFragmentThemeLightMatterText"
+                    app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeLightThemeButton"
+                    app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeLightThemeButton"
+                    app:layout_constraintTop_toTopOf="@+id/ticktrackFragmentThemeLightThemeButton" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                    android:id="@+id/ticktrackFragmentThemeLightMatterText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Light Matter"
+                    app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeLightThemeButton"
+                    app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeLightThemeButton"
+                    app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeLightThemeButton"
+                    app:typeface="roboto_italic" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                    android:id="@+id/ticktrackFragmentThemeDarkMatterText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dark Matter"
+                    app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+                    app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+                    app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeDarkThemeButton"
+                    app:typeface="roboto_italic" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                    android:id="@+id/ticktrackFragmentThemeCustomizeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="Customize your look"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeLightMatterText"
+                    app:typeface="montserrat_medium" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                    android:id="@+id/ticktrackFragmentThemeHelpText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="Do looks matter? "
+                    android:textAlignment="textStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeCustomizeText"
+                    app:typeface="montserrat_regular" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/ticktrackFragmentThemeSubText"
@@ -107,66 +154,6 @@
                 app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeTitleFlavor"
                 app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeTitleFlavor"
                 app:typeface="montserrat_light_italic" />
-
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
-                android:id="@+id/ticktrackFragmentThemeCustomizeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:text="Customize your look"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeLightMatterText"
-                app:layout_constraintVertical_bias="0.19999999"
-                app:typeface="montserrat_medium" />
-
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
-                android:id="@+id/ticktrackFragmentThemeDarkMatterText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="Dark Matter"
-                app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeDarkThemeButton"
-                app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeDarkThemeButton"
-                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeDarkThemeButton"
-                app:typeface="roboto_italic" />
-
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
-                android:id="@+id/ticktrackFragmentThemeLightMatterText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="Light Matter"
-                app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeLightThemeButton"
-                app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeLightThemeButton"
-                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeLightThemeButton"
-                app:typeface="roboto_italic" />
-
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
-                android:id="@+id/ticktrackFragmentThemeHelpText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:text="Do looks matter? "
-                android:textAlignment="textStart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeCustomizeText"
-                app:layout_constraintVertical_bias="0.0"
-                app:typeface="montserrat_regular" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
