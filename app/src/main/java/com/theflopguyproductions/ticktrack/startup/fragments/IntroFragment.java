@@ -1,6 +1,5 @@
 package com.theflopguyproductions.ticktrack.startup.fragments;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,29 +51,6 @@ public class IntroFragment extends Fragment {
         getStartedButton.setVisibility(View.VISIBLE);
 
         displayStuff.postDelayed(displayRunnable, 3500);
-
-        lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-
-                lottieAnimationView.playAnimation();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });
 
         getStartedButton.setOnClickListener(view -> getStartedClickListener.onGetStartedClick());
 
