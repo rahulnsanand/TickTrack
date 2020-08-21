@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,18 +19,31 @@ public class AutoStartFragment extends Fragment {
 
 
     private Button autoStartButton;
+    private ScrollView autostartScroll;
+    private boolean isScrolled = false;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ticktrack_autostart, container, false);
-        autoStartButton = root.findViewById(R.id.ticktrackAutoStartButton);
+        autoStartButton = root.findViewById(R.id.ticktrackFragmentAutoStartButton);
+        autostartScroll = root.findViewById(R.id.ticktrackFragmentAutoStartScroll);
 
-        autoStartButton.setOnClickListener(view -> autoStartSetClickListener.onAutoStartSetClickListener());
+        autostartScroll.getViewTreeObserver()
+                .addOnScrollChangedListener(() -> isScrolled = autostartScroll.getChildAt(0).getBottom()
+                        <= (autostartScroll.getHeight() + autostartScroll.getScrollY()));
+
+        autoStartButton.setOnClickListener(view -> {
+            if (isScrolled) {
+                autoStartSetClickListener.onAutoStartSetClickListener();
+            } else {
+                autostartScroll.fullScroll(View.FOCUS_DOWN);
+            }
+        });
 
         return root;
     }
-
 
     public interface OnAutoStartSetClickListener {
         void onAutoStartSetClickListener();

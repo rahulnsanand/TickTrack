@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ticktrackFragmentAutoStartRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/ticktrackFragmentAutoStartScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/ticktrackAutoStartCheckButton"
+        app:layout_constraintBottom_toTopOf="@+id/ticktrackFragmentAutoStartCheckButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -71,14 +72,14 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/Accent"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView8"
+                app:layout_constraintBottom_toTopOf="@+id/ticktrackFragmentAutoStartDetailText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:typeface="montserrat_medium" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
-                android:id="@+id/textView8"
+                android:id="@+id/ticktrackFragmentAutoStartDetailText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -98,17 +99,17 @@ that were cancelled during reboot."
     </ScrollView>
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-        android:id="@+id/ticktrackAutoStartCheckButton"
+        android:id="@+id/ticktrackFragmentAutoStartCheckButton"
         style="@style/buttonStartup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Fix this feature"
-        app:layout_constraintBottom_toTopOf="@+id/ticktrackAutoStartButton"
+        app:layout_constraintBottom_toTopOf="@+id/ticktrackFragmentAutoStartButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-        android:id="@+id/ticktrackAutoStartButton"
+        android:id="@+id/ticktrackFragmentAutoStartButton"
         style="@style/buttonStartup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

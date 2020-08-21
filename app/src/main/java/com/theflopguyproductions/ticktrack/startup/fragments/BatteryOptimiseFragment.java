@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ public class BatteryOptimiseFragment extends Fragment {
     private TickTrackDatabase tickTrackDatabase;
     private int themeMode = 0;
     private ConstraintLayout rootLayout;
+    private ScrollView optimiseScroll;
+    private boolean isScrolled = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +41,11 @@ public class BatteryOptimiseFragment extends Fragment {
         detailText = root.findViewById(R.id.ticktrackFragmentOptimiseHelpText);
         detailBoldText = root.findViewById(R.id.ticktrackFragmentOptimiseBoldHelpText);
         rootLayout = root.findViewById(R.id.ticktrackFragmentOptimiseRootLayout);
+        optimiseScroll = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseScrollView);
+
+        optimiseScroll.getViewTreeObserver()
+                .addOnScrollChangedListener(() -> isScrolled = optimiseScroll.getChildAt(0).getBottom()
+                        <= (optimiseScroll.getHeight() + optimiseScroll.getScrollY()));
 
         setupTheme();
 
@@ -46,7 +54,13 @@ public class BatteryOptimiseFragment extends Fragment {
         lottieAnimationView.loop(true);
 
 
-        optimiseButton.setOnClickListener(view -> batteryOptimiseClickListener.onBatteryOptimiseClickListener());
+        optimiseButton.setOnClickListener(view -> {
+            if(isScrolled){
+                batteryOptimiseClickListener.onBatteryOptimiseClickListener();
+            } else {
+                optimiseScroll.fullScroll(View.FOCUS_DOWN);
+            }
+        });
 
         return root;
     }
