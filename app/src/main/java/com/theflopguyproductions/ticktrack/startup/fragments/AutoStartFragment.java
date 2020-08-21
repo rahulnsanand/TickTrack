@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.startup.fragments;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class AutoStartFragment extends Fragment {
@@ -39,6 +42,7 @@ public class AutoStartFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_ticktrack_autostart, container, false);
         autoStartButton = root.findViewById(R.id.ticktrackFragmentAutoStartButton);
         autoStartScroll = root.findViewById(R.id.ticktrackFragmentAutoStartScroll);
@@ -51,6 +55,10 @@ public class AutoStartFragment extends Fragment {
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         tickTrackDatabase.storeStartUpFragmentID(4);
+
+        if(isMyServiceRunning(OptimiserService.class)){
+            stopCheckService();
+        }
 
         setupTheme();
 
@@ -107,6 +115,22 @@ public class AutoStartFragment extends Fragment {
             helperSubText.setTextColor(getResources().getColor(R.color.LightText));
             helperText.setTextColor(getResources().getColor(R.color.LightText));
         }
+    }
+
+    private void stopCheckService() {
+        Intent intent = new Intent(requireContext(), OptimiserService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(OptimiserService.ACTION_BATTERY_OPTIMISE_CHECK_STOP);
+        requireContext().startService(intent);
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
     public interface OnAutoStartSetClickListener {
         void onAutoStartSetClickListener();

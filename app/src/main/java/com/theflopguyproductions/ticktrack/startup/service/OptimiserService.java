@@ -35,8 +35,6 @@ public class OptimiserService extends Service {
 
             String action = intent.getAction();
 
-            initializeValues();
-
             assert action != null;
             switch (action) {
                 case ACTION_BATTERY_OPTIMISE_CHECK_START:
@@ -46,6 +44,7 @@ public class OptimiserService extends Service {
                     Intent broadcastIntent = new Intent(getApplicationContext(), BatteryOptimiseReceiver.class);
                     broadcastIntent.setAction(BatteryOptimiseReceiver.ACTION_OPTIMISING_DONE_CHECK);
                     sendBroadcast(broadcastIntent);
+                    stopSelf();
                     onDestroy();
                     break;
             }
@@ -56,20 +55,18 @@ public class OptimiserService extends Service {
     Runnable refreshRunnable = new Runnable() {
         @Override
         public void run() {
-            if(whiteListedInBatteryOptimizations.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
+            if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(getApplicationContext(), getPackageName())
+                    .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
                 refreshHandler.postDelayed(refreshRunnable,250);
             } else {
+
                 Intent stopServiceIntent = new Intent(getApplicationContext(), OptimiserService.class);
                 stopServiceIntent.setAction(OptimiserService.ACTION_BATTERY_OPTIMISE_CHECK_STOP);
-                startActivity(stopServiceIntent);
+                startService(stopServiceIntent);
                 refreshHandler.removeCallbacks(refreshRunnable);
             }
         }
     };
-
-    private void initializeValues() {
-        whiteListedInBatteryOptimizations = PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName());
-    }
 
     @Override
     public void onDestroy() {

@@ -19,10 +19,12 @@ public class BatteryOptimiseReceiver extends BroadcastReceiver {
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
             tickTrackDatabase.storeStartUpFragmentID(4);
             tickTrackDatabase.storeNotOptimiseBool(true);
+
             Intent fireIntent = new Intent(context, StartUpActivity.class);
-            fireIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intent);
+            fireIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(fireIntent);
         }
     }
 
 }
+
