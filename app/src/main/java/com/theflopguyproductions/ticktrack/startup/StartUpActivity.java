@@ -19,7 +19,9 @@ import com.theflopguyproductions.ticktrack.startup.fragments.AutoStartFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.BatteryOptimiseFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.IntroFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.ThemeFragment;
+import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class StartUpActivity extends AppCompatActivity implements IntroFragment.OnGetStartedClickListener, BatteryOptimiseFragment.BatteryOptimiseClickListener,
         ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener {
@@ -103,7 +105,18 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     }
     @Override
     public void onBatteryOptimiseClickListener() {
-        openFragment(new AutoStartFragment());
+        if(!isMyServiceRunning(OptimiserService.class)){
+            startCheckService();
+        }
+        Intent intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this, getPackageName(), false);
+        startActivity(intent);
+    }
+
+    private void startCheckService() {
+        Intent intent = new Intent(this, OptimiserService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(OptimiserService.ACTION_BATTERY_OPTIMISE_CHECK_START);
+        startService(intent);
     }
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);

@@ -16,12 +16,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+
+        <service
+            android:name=".startup.service.OptimiserService"
+            android:enabled="true"
+            android:exported="false" />
+
         <receiver
             android:name=".startup.service.BatteryOptimiseReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="ACTION_OPTIMISING_DONE_CHECK"/>
+            </intent-filter>
+        </receiver>
 
-        <activity android:name=".startup.StartUpActivity"></activity>
+        <activity android:name=".startup.StartUpActivity" />
 
         <receiver
             android:name=".application.BootReceiver"
