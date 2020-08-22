@@ -26,6 +26,7 @@ public class TickTrackTimerDatabase {
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(context, TimerBroadcastReceiver.class);
                 intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 intent.putExtra("timerIntegerID", timerIntegerID);
                 this.context.sendBroadcast(intent);
             }, shortTime);
@@ -34,6 +35,7 @@ public class TickTrackTimerDatabase {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, TimerBroadcastReceiver.class);
             intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             intent.putExtra("timerIntegerID", timerIntegerID);
             PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
             alarmManager.setExact(
@@ -47,6 +49,7 @@ public class TickTrackTimerDatabase {
     public void cancelAlarm(int timerIntegerID){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
