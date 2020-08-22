@@ -3,8 +3,16 @@ package com.theflopguyproductions.ticktrack.stopwatch;
 public class StopwatchData {
 
     boolean isRunning, isPause, isNotification;
-    long lastLapEndTimeInMillis, recentRealTimeInMillis, recentLocalTimeInMillis, lastUpdatedValueInMillis;
-    long progressValue;
+    long lastLapEndTimeInMillis, lastUpdatedValueInMillis;
+    long progressValue, stopwatchTimerStartTimeInMillis;
+
+    public long getStopwatchTimerStartTimeInMillis() {
+        return stopwatchTimerStartTimeInMillis;
+    }
+
+    public void setStopwatchTimerStartTimeInMillis(long stopwatchTimerStartTimeInMillis) {
+        this.stopwatchTimerStartTimeInMillis = stopwatchTimerStartTimeInMillis;
+    }
 
     public long getProgressValue() {
         return progressValue;
@@ -38,22 +46,6 @@ public class StopwatchData {
 
     public void setNotification(boolean notification) {
         isNotification = notification;
-    }
-
-    public long getRecentRealTimeInMillis() {
-        return recentRealTimeInMillis;
-    }
-
-    public void setRecentRealTimeInMillis(long recentRealTimeInMillis) {
-        this.recentRealTimeInMillis = recentRealTimeInMillis;
-    }
-
-    public long getRecentLocalTimeInMillis() {
-        return recentLocalTimeInMillis;
-    }
-
-    public void setRecentLocalTimeInMillis(long recentLocalTimeInMillis) {
-        this.recentLocalTimeInMillis = recentLocalTimeInMillis;
     }
 
     public long getLastLapEndTimeInMillis() {
