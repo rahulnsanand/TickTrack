@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
@@ -69,18 +70,26 @@ public class TimerManagementHelper {
             if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause() && !timerData.get(i).isTimerRinging()){ //TODO TIMER IS RUNNING, NOT RINGING
                 //TODO CAN BE ELAPSED AND YET TO ELAPSE HERE
                 if(timerData.get(i).getTimerStartTimeInMillis() != -1) {
-                    long endTimeStamp = timerData.get(i).getTimerStartTimeInMillis()+timerData.get(i).getTimerTotalTimeInMillis();
-                    if(endTimeStamp>System.currentTimeMillis()){ //TODO TIMER YET TO ELAPSE
-                        tickTrackTimerDatabase.setAlarm(endTimeStamp, timerData.get(i).getTimerID());
+
+                    long elapsedTime = System.currentTimeMillis() - timerData.get(i).getTimerStartTimeInMillis();
+
+                    if(elapsedTime<timerData.get(i).getTimerTotalTimeInMillis()){ //TODO TIMER YET TO ELAPSE
+
+                        long nextAlarmStamp = SystemClock.elapsedRealtime()+(timerData.get(i).getTimerTotalTimeInMillis()-elapsedTime);
+
+                        timerData.get(i).setTimerAlarmEndTimeInMillis(nextAlarmStamp);
+                        tickTrackTimerDatabase.setAlarm(nextAlarmStamp, timerData.get(i).getTimerID());
+
                         if(!isMyServiceRunning(TimerService.class, activity)){
                             tickTrackTimerDatabase.startNotificationService();
                         }
+
                     } else { //TODO TIMER ALREADY ELAPSED
+
                         timerData.get(i).setTimerOn(false);
                         timerData.get(i).setTimerPause(false);
                         timerData.get(i).setTimerNotificationOn(false);
                         timerData.get(i).setTimerRinging(false);
-                        tickTrackDatabase.storeTimerList(timerData);
                     }
                 }
             } else if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause() && timerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
@@ -98,6 +107,7 @@ public class TimerManagementHelper {
                 }
 
             }
+            tickTrackDatabase.storeTimerList(timerData);
         }
 
     }
