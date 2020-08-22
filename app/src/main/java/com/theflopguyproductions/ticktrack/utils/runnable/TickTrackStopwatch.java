@@ -42,8 +42,7 @@ public class TickTrackStopwatch {
             stopwatchData.setPause(false);
             stopwatchData.setRunning(false);
             stopwatchData.setLastLapEndTimeInMillis(0);
-            stopwatchData.setRecentLocalTimeInMillis(0);
-            stopwatchData.setRecentRealTimeInMillis(0);
+            stopwatchData.setStopwatchTimerStartTimeInMillis(-1);
             stopwatchData.setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.add(stopwatchData);
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
@@ -81,8 +80,6 @@ public class TickTrackStopwatch {
     }
 
     private void storageRunnable(){
-        stopwatchDataArrayList.get(0).setRecentRealTimeInMillis(SystemClock.elapsedRealtime());
-        stopwatchDataArrayList.get(0).setRecentLocalTimeInMillis(System.currentTimeMillis());
         stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(stopwatchDurationElapsed);
         tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
@@ -126,6 +123,7 @@ public class TickTrackStopwatch {
             stopwatchDataArrayList.get(0).setPause(false);
             stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInMillis(System.currentTimeMillis());
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
             storageHandler.post(storageRunnable);
@@ -185,8 +183,7 @@ public class TickTrackStopwatch {
 
             stopwatchDataArrayList.get(0).setRunning(false);
             stopwatchDataArrayList.get(0).setPause(false);
-            stopwatchDataArrayList.get(0).setRecentLocalTimeInMillis(0);
-            stopwatchDataArrayList.get(0).setRecentRealTimeInMillis(0);
+            stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInMillis(-1);
             stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
             stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.get(0).setNotification(false);
@@ -274,12 +271,7 @@ public class TickTrackStopwatch {
     }
 
     public void setupResumeValues(){
-        if(!(SystemClock.elapsedRealtime() > stopwatchDataArrayList.get(0).getRecentRealTimeInMillis())){
-            differenceValue = calculateDifferenceTime();
-        } else {
-            differenceValue = (SystemClock.elapsedRealtime() - stopwatchDataArrayList.get(0).getRecentRealTimeInMillis())+stopwatchDataArrayList.get(0).getLastUpdatedValueInMillis();
-        }
-
+        differenceValue = (System.currentTimeMillis() - stopwatchDataArrayList.get(0).getStopwatchTimerStartTimeInMillis());
         stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
         stopwatchHandler.post(stopwatchRunnable);
         stopwatchDataArrayList.get(0).setPause(false);
@@ -293,13 +285,13 @@ public class TickTrackStopwatch {
         }
     }
 
-    private long calculateDifferenceTime() {
-        assert stopwatchDataArrayList != null;
-        long lastUpdateValue = stopwatchDataArrayList.get(0).getLastUpdatedValueInMillis();
-        long differenceValue = System.currentTimeMillis() - stopwatchDataArrayList.get(0).getRecentLocalTimeInMillis();
-
-        return lastUpdateValue+differenceValue;
-    }
+//    private long calculateDifferenceTime() {
+//        assert stopwatchDataArrayList != null;
+//        long lastUpdateValue = stopwatchDataArrayList.get(0).getLastUpdatedValueInMillis();
+//        long differenceValue = System.currentTimeMillis() - stopwatchDataArrayList.get(0).getRecentLocalTimeInMillis();
+//
+//        return lastUpdateValue+differenceValue;
+//    }
 
     public void onStopCalled() {
         stopwatchHandler.removeCallbacks(stopwatchRunnable);
