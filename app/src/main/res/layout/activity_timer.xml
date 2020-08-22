@@ -86,7 +86,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/timerActivityRootLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true">
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/timerActivityTimeLeftTextView"
@@ -125,11 +126,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:elevation="2dp"
-                    app:layout_constraintBottom_toTopOf="@+id/timerActivityPlayPauseFAB"
+                    app:layout_constraintBottom_toTopOf="@+id/timerActivityStartEndLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.25"
                     wheel:matProg_barColor="@color/Accent"
                     wheel:matProg_barWidth="8dp" />
 
@@ -147,7 +147,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
-                    app:layout_constraintVertical_bias="0.251" />
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/timerActivityPlayPauseFAB"
@@ -169,6 +169,7 @@
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="16dp"
                     android:clickable="true"
+                    android:visibility="gone"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB"
@@ -183,12 +184,81 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginBottom="16dp"
                     android:clickable="true"
+                    android:visibility="gone"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/timerActivityPlayPauseFAB"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintVertical_bias="1.0"
                     wheel:srcCompat="@drawable/ic_baseline_plus_one_white_24" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/timerActivityStartEndLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/timerActivityPlayPauseFAB"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/timerActivityStartTimeTitleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:text="Started at"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/timerActivityEndTimeTitleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Elapsing by"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@+id/timerActivityEndTimeDataText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/timerActivityStartTimeDataText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="12:00 AM - 22/08/2020"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/timerActivityEndTimeTitleText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/timerActivityStartTimeTitleText" />
+
+                    <TextView
+                        android:id="@+id/timerActivityEndTimeDataText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="12:30 AM - 22/08/2020"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

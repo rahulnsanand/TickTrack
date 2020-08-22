@@ -80,12 +80,22 @@ public class MissedItemDialog extends Dialog {
     private void setupTheme() {
 
         if(missedTimers>0){
+            if(missedTimers==1){
+                missedText.setText("You've missed "+missedTimers+" timer");
+            } else {
+                missedText.setText("You've missed "+missedTimers+" timers");
+            }
             missedText.setVisibility(View.VISIBLE);
         } else {
             missedText.setVisibility(View.GONE);
         }
 
         if(almostMissedTimers>0){
+            if(almostMissedTimers==1){
+                almostMissedText.setText("You've missed "+almostMissedText+" timer");
+            } else {
+                almostMissedText.setText("You've missed "+almostMissedText+" timers");
+            }
             almostMissedText.setVisibility(View.VISIBLE);
         } else {
             almostMissedText.setVisibility(View.GONE);

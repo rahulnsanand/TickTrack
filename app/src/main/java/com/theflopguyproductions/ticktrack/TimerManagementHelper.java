@@ -30,7 +30,7 @@ public class TimerManagementHelper {
 
         for(int i = 0; i<timerData.size(); i++){
             if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause()){
-                if(timerData.get(i).getTimerAlarmEndTimeInMillis() < System.currentTimeMillis()){
+                if(timerData.get(i).getTimerAlarmEndTimeInMillis() < SystemClock.elapsedRealtime()){
                     timerData.get(i).setTimerRinging(false);
                     timerData.get(i).setTimerOn(false);
                     timerData.get(i).setTimerPause(false);
@@ -82,10 +82,16 @@ public class TimerManagementHelper {
                             activity.startActivity(resultIntent);
                         }
                     }
-                } else if(timerData.get(i).getTimerRecentLocalTimeInMillis() > System.currentTimeMillis()){ // TODO TIMER IS YET TO RING
-                    long alarmTimeUpdate = timerData.get(i).getTimerRecentLocalTimeInMillis()-System.currentTimeMillis()-timerData.get(i).getTimerRecentUpdatedValue()+SystemClock.elapsedRealtime();
-                    tickTrackTimerDatabase.setAlarm(alarmTimeUpdate, timerData.get(i).getTimerID());
+                } else if(timerData.get(i).getTimerRecentUpdatedValue() > (timerData.get(i).getTimerRecentLocalTimeInMillis() - System.currentTimeMillis())){ // TODO TIMER IS YET TO RING
+
+                    timerData.get(i).setTimerAlarmEndTimeInMillis(timerData.get(i).getTimerRecentUpdatedValue()
+                            -timerData.get(i).getTimerRecentLocalTimeInMillis()
+                            -System.currentTimeMillis()+SystemClock.elapsedRealtime());
+
+                    tickTrackDatabase.storeTimerList(timerData);
+                    tickTrackTimerDatabase.setAlarm(timerData.get(i).getTimerAlarmEndTimeInMillis(), timerData.get(i).getTimerID());
                     tickTrackTimerDatabase.startNotificationService();
+
                 }
             }
         }
