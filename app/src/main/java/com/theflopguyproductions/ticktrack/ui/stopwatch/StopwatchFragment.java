@@ -182,6 +182,7 @@ public class StopwatchFragment extends Fragment {
             stopwatchDataArrayList.get(0).setRunning(false);
             stopwatchDataArrayList.get(0).setPause(false);
             stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInMillis(-1);
+            stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInRealTimeMillis(-1);
             stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
             stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.get(0).setNotification(false);

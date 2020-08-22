@@ -43,6 +43,7 @@ public class TickTrackStopwatch {
             stopwatchData.setRunning(false);
             stopwatchData.setLastLapEndTimeInMillis(0);
             stopwatchData.setStopwatchTimerStartTimeInMillis(-1);
+            stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInRealTimeMillis(-1);
             stopwatchData.setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.add(stopwatchData);
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
@@ -124,6 +125,7 @@ public class TickTrackStopwatch {
             stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
             stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInMillis(System.currentTimeMillis());
+            stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInRealTimeMillis(SystemClock.elapsedRealtime());
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
             storageHandler.post(storageRunnable);
@@ -184,6 +186,7 @@ public class TickTrackStopwatch {
             stopwatchDataArrayList.get(0).setRunning(false);
             stopwatchDataArrayList.get(0).setPause(false);
             stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInMillis(-1);
+            stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInRealTimeMillis(-1);
             stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
             stopwatchDataArrayList.get(0).setLastUpdatedValueInMillis(0);
             stopwatchDataArrayList.get(0).setNotification(false);
