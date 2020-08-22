@@ -214,13 +214,13 @@ public class TimerService extends Service {
             System.out.println("MORE NOTIFICATION");
             notificationBuilder.setContentTitle(OnTimers+" TickTrack timers running");
             String nextOccurrence = getNextOccurrence();
-            notificationBuilder.setContentText("Next timer in "+nextOccurrence);
+            notificationBuilder.setContentText(nextOccurrence);
             notificationManagerCompat.notify(2, notificationBuilder.build());
         } else if(OnTimers==1){
             System.out.println("ONE NOTIFICATION");
             notificationBuilder.setContentTitle("TickTrack timer running");
             String nextOccurrence = getNextOccurrence();
-            notificationBuilder.setContentText("Next timer in "+nextOccurrence);
+            notificationBuilder.setContentText(nextOccurrence);
             notificationManagerCompat.notify(2, notificationBuilder.build());
         } else {
             System.out.println("KILL NOTIFICATION >>>"+getAllOnTimers());
@@ -240,7 +240,7 @@ public class TimerService extends Service {
 
     private void updateRecentValues(){
         for(int i = 0; i < retrieveTimerDataList(getSharedPreferences("TickTrackData", MODE_PRIVATE)).size(); i++){
-            if(timerDataArrayList.get(i).isTimerNotificationOn()){
+            if(timerDataArrayList.get(i).isTimerOn() && !timerDataArrayList.get(i).isTimerPause()){
                 timerDataArrayList.get(i).setTimerRecentLocalTimeInMillis(System.currentTimeMillis());
                 timerDataArrayList.get(i).setTimerRecentUpdatedValue(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime());
                 storeTimerData();

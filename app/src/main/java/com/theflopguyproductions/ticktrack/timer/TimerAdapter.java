@@ -53,6 +53,14 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         return new timerDataViewHolder(itemView);
     }
 
+    @Override
+    public void onViewDetachedFromWindow(@NonNull timerDataViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+        timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
+
+    }
 
     @Override
     public void onBindViewHolder(@NonNull timerDataViewHolder holder, int position) {

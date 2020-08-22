@@ -288,12 +288,12 @@ public class TimerActivity extends AppCompatActivity {
 
 
         tickTrackTimerDatabase.setAlarm(timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis(), timerID);
-
         countDownTimerMillis = timeInMillis;
 
         countDownTimer = new CountDownTimer(countDownTimerMillis, 1) {
             @Override
             public void onTick(long l) {
+                updateRecentValues();
                 activity.runOnUiThread(()->{
                     countDownTimerMillis = l;
                     updateTimerTextView(countDownTimerMillis);
@@ -325,6 +325,18 @@ public class TimerActivity extends AppCompatActivity {
         editButton.setVisibility(View.GONE);
         TickTrackAnimator.fabUnDissolve(plusOneFAB);
     }
+
+    private void updateRecentValues(){
+        for(int i = 0; i < tickTrackDatabase.retrieveTimerList().size(); i++){
+            if(timerDataArrayList.get(i).isTimerOn() && !timerDataArrayList.get(i).isTimerPause()){
+                timerDataArrayList.get(i).setTimerRecentLocalTimeInMillis(System.currentTimeMillis());
+                timerDataArrayList.get(i).setTimerRecentUpdatedValue(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime());
+                tickTrackDatabase.storeTimerList(timerDataArrayList);
+            }
+        }
+    }
+
+
     private void pauseTimer() {
 
         countDownTimer.cancel();
