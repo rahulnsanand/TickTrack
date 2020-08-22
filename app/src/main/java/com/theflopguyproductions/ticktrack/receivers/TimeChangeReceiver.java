@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.widget.Toast;
 
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
@@ -32,5 +33,15 @@ public class TimeChangeReceiver extends BroadcastReceiver {
             }
         }
         tickTrackDatabase.storeTimerList(timerData);
+
+        ArrayList<StopwatchData> stopwatchData = tickTrackDatabase.retrieveStopwatchData();
+
+        if(stopwatchData.size()>0){
+            if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
+                stopwatchData.get(0).setStopwatchTimerStartTimeInMillis(System.currentTimeMillis() - (SystemClock.elapsedRealtime()-stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis()));
+                tickTrackDatabase.storeStopwatchData(stopwatchData);
+            }
+        }
+
     }
 }
