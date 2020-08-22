@@ -30,7 +30,10 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Objects;
@@ -63,6 +66,9 @@ public class TimerActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private Handler progressBarPreHandler = new Handler();
 
+    private ConstraintLayout startEndLayout;
+    private TextView startTitle, endTitle, startData, endData;
+
     private void initVariables() {
 
         timerActivityRootLayout = findViewById(R.id.timerActivityRootLayout);
@@ -78,6 +84,11 @@ public class TimerActivity extends AppCompatActivity {
         editButton = findViewById(R.id.timerActivityEditImageButton);
         deleteButton = findViewById(R.id.timerActivityDeleteImageButton);
         labelTextView = findViewById(R.id.timerActivityLabelTextView);
+        startEndLayout = findViewById(R.id.timerActivityStartEndLayout);
+        startTitle = findViewById(R.id.timerActivityStartTimeTitleText);
+        endTitle = findViewById(R.id.timerActivityEndTimeTitleText);
+        startData = findViewById(R.id.timerActivityStartTimeDataText);
+        endData = findViewById(R.id.timerActivityEndTimeDataText);
 
         timerProgressBar.setLinearProgress(true);
         timerProgressBar.setSpinSpeed(2.500f);
@@ -204,6 +215,8 @@ public class TimerActivity extends AppCompatActivity {
             timerCurrentPosition = getCurrentTimerPosition();
             if(!timerDataArrayList.get(timerCurrentPosition).isTimerRinging()){
                 killAndResetTimer();
+            } else {
+                setupStartEndTime();
             }
         }
     };
@@ -276,6 +289,7 @@ public class TimerActivity extends AppCompatActivity {
         timerHourMinute.setText(hourLeft);
         timerMillis.setText(milliSecondLeft);
     }
+
     long countDownTimerMillis;
     private void startTimer(long timeInMillis) {
 
@@ -283,9 +297,14 @@ public class TimerActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         timerDataArrayList.get(timerCurrentPosition).setTimerAlarmEndTimeInMillis(timeInMillis+SystemClock.elapsedRealtime());
+        if(timerDataArrayList.get(timerCurrentPosition).getTimerStartTimeInMillis()==-1){
+            timerDataArrayList.get(timerCurrentPosition).setTimerStartTimeInMillis(System.currentTimeMillis());
+        }
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
+
+        setupStartEndTime();
 
         tickTrackTimerDatabase.setAlarm(timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis(), timerID);
         countDownTimerMillis = timeInMillis;
@@ -293,7 +312,6 @@ public class TimerActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(countDownTimerMillis, 1) {
             @Override
             public void onTick(long l) {
-                updateRecentValues();
                 activity.runOnUiThread(()->{
                     countDownTimerMillis = l;
                     updateTimerTextView(countDownTimerMillis);
@@ -303,6 +321,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 activity.runOnUiThread(() -> {
+                    startEndLayout.setVisibility(View.GONE);
                     timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     timerDataArrayList =  tickTrackDatabase.retrieveTimerList();
@@ -326,14 +345,37 @@ public class TimerActivity extends AppCompatActivity {
         TickTrackAnimator.fabUnDissolve(plusOneFAB);
     }
 
-    private void updateRecentValues(){
-        for(int i = 0; i < tickTrackDatabase.retrieveTimerList().size(); i++){
-            if(timerDataArrayList.get(i).isTimerOn() && !timerDataArrayList.get(i).isTimerPause()){
-                timerDataArrayList.get(i).setTimerRecentLocalTimeInMillis(System.currentTimeMillis());
-                timerDataArrayList.get(i).setTimerRecentUpdatedValue(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime());
-                tickTrackDatabase.storeTimerList(timerDataArrayList);
-            }
+    DateFormat hourMinute = new SimpleDateFormat("hh:mm:ss");
+    DateFormat dateFormat = new SimpleDateFormat("- dd/MM/yyyy");
+    private void setupStartEndTime() {
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTimeInMillis(timerDataArrayList.get(timerCurrentPosition).getTimerStartTimeInMillis());
+        int hourCheck = startCal.get(Calendar.HOUR_OF_DAY);
+        String timeFormat = hourMinute.format(timerDataArrayList.get(timerCurrentPosition).getTimerStartTimeInMillis());
+        if(hourCheck>12){
+            timeFormat += " pm ";
+        } else {
+            timeFormat += " am ";
         }
+
+        startData.setText(timeFormat+dateFormat.format(timerDataArrayList.get(timerCurrentPosition).getTimerStartTimeInMillis()));
+
+        Calendar stopCal = Calendar.getInstance();
+        stopCal.setTimeInMillis(timerDataArrayList.get(timerCurrentPosition).getTimerStartTimeInMillis());
+        int hourStopCheck = stopCal.get(Calendar.HOUR_OF_DAY);
+        String timeStopFormat = hourMinute.format(System.currentTimeMillis()
+        + (timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
+        if(hourStopCheck>12){
+            timeStopFormat += " pm ";
+        } else {
+            timeStopFormat += " am ";
+        }
+
+        endData.setText(timeStopFormat + dateFormat.format(System.currentTimeMillis() +
+                (timerDataArrayList.get(timerCurrentPosition).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())));
+
+        startEndLayout.setVisibility(View.VISIBLE);
+
     }
 
 
@@ -382,6 +424,7 @@ public class TimerActivity extends AppCompatActivity {
         timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
         timerDataArrayList.get(timerCurrentPosition).setTimerEndedTimeInMillis(-1);
         timerDataArrayList.get(timerCurrentPosition).setTimerTempMaxTimeInMillis(-1);
+        timerDataArrayList.get(timerCurrentPosition).setTimerStartTimeInMillis(-1);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         booleanRefresh();
@@ -392,7 +435,7 @@ public class TimerActivity extends AppCompatActivity {
             timerStopHandler.removeCallbacks(runnable);
             timerBlinkHandler.removeCallbacks(blinkRunnable);
         }
-
+        startEndLayout.setVisibility(View.GONE);
     }
 
     private void presetPauseValues() {
@@ -400,6 +443,7 @@ public class TimerActivity extends AppCompatActivity {
         TickTrackAnimator.fabUnDissolve(resetFAB);
         deleteButton.setVisibility(View.VISIBLE);
         editButton.setVisibility(View.GONE);
+        startEndLayout.setVisibility(View.GONE);
         TickTrackAnimator.fabDissolve(plusOneFAB);
         TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
 
@@ -429,6 +473,7 @@ public class TimerActivity extends AppCompatActivity {
         TickTrackAnimator.fabDissolve(plusOneFAB);
         deleteButton.setVisibility(View.VISIBLE);
         editButton.setVisibility(View.GONE);
+        startEndLayout.setVisibility(View.GONE);
         TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
 
         pauseHours = timerDataArrayList.get(timerCurrentPosition).getTimerHourLeft();
@@ -478,6 +523,7 @@ public class TimerActivity extends AppCompatActivity {
     private void stopTimer(){
 
         timerMillis.setVisibility(View.GONE);
+        startEndLayout.setVisibility(View.GONE);
         timerStopHandler = new Handler();
         timerBlinkHandler = new Handler();
 
@@ -569,6 +615,7 @@ public class TimerActivity extends AppCompatActivity {
         TickTrackAnimator.fabDissolve(resetFAB);
         deleteButton.setVisibility(View.VISIBLE);
         editButton.setVisibility(View.VISIBLE);
+        startEndLayout.setVisibility(View.GONE);
         TickTrackAnimator.fabDissolve(plusOneFAB);
         TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
 

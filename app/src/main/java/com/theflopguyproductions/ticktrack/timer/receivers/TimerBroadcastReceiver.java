@@ -46,6 +46,9 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                 timerDataArrayList.get(position).setTimerRinging(true);
                 timerDataArrayList.get(position).setTimerNotificationOn(false);
                 timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
+                timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
+                timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
+
                 storeTimerList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);

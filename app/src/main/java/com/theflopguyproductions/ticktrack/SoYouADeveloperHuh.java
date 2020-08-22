@@ -51,7 +51,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
         tickTrackDatabase = new TickTrackDatabase(this);
         timerManagementHelper = new TimerManagementHelper(this);
-        int missedTimers = timerManagementHelper.getElapsedTimer();
+        int missedTimers = 0;
         int almostMissedTimers = timerManagementHelper.getAlmostMissedTimer();
 
         if(missedTimers>0 || almostMissedTimers >0){

@@ -316,6 +316,7 @@ public class TimerCreatorFragment extends Fragment {
         timerData.setTimerSecond(pickedSecond);
         timerData.setTimerLabel(timerLabelText.getText().toString());
         timerData.setTimerID(UniqueIdGenerator.getUniqueIntegerTimerID());
+        timerData.setTimerStartTimeInMillis(-1);
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);

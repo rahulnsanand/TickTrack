@@ -17,6 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
         <receiver
+            android:name=".receivers.TimeChangeReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="true"
             android:exported="true">
@@ -48,9 +57,7 @@
         <receiver
             android:name=".application.BootReceiver"
             android:enabled="true"
-            android:exported="true">
-
-        </receiver>
+            android:exported="true"></receiver>
 
         <activity
             android:name=".timer.ringer.TimerRingerActivity"

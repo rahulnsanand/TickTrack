@@ -8,11 +8,11 @@ public class TimerData implements Comparable<TimerData> {
     int timerHour, timerMinute, timerSecond, timerID, timerFlag;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
-    long timerAlarmEndTimeInMillis;
+    long timerAlarmEndTimeInMillis, timerEndTimeInMillis;
     long timerTotalTimeInMillis;
     long timerEndedTimeInMillis;
 
-    long timerTempMaxTimeInMillis, timerRecentLocalTimeInMillis, timerRecentUpdatedValue;
+    long timerTempMaxTimeInMillis, timerStartTimeInMillis;
     Timestamp timerCreateTimeStamp;
     String timerLabel;
     boolean timerOn, timerPause;
@@ -20,20 +20,20 @@ public class TimerData implements Comparable<TimerData> {
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
 
-    public long getTimerRecentUpdatedValue() {
-        return timerRecentUpdatedValue;
+    public long getTimerEndTimeInMillis() {
+        return timerEndTimeInMillis;
     }
 
-    public void setTimerRecentUpdatedValue(long timerRecentUpdatedValue) {
-        this.timerRecentUpdatedValue = timerRecentUpdatedValue;
+    public void setTimerEndTimeInMillis(long timerEndTimeInMillis) {
+        this.timerEndTimeInMillis = timerEndTimeInMillis;
     }
 
-    public long getTimerRecentLocalTimeInMillis() {
-        return timerRecentLocalTimeInMillis;
+    public long getTimerStartTimeInMillis() {
+        return timerStartTimeInMillis;
     }
 
-    public void setTimerRecentLocalTimeInMillis(long timerRecentLocalTimeInMillis) {
-        this.timerRecentLocalTimeInMillis = timerRecentLocalTimeInMillis;
+    public void setTimerStartTimeInMillis(long timerStartTimeInMillis) {
+        this.timerStartTimeInMillis = timerStartTimeInMillis;
     }
 
     public long getTimerTempMaxTimeInMillis() {

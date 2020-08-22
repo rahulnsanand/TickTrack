@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -106,7 +105,6 @@ public class TimerService extends Service {
     private void killNotifications(){
 
         handler.removeCallbacks(refreshRunnable);
-        storageHandler.removeCallbacks(storageRunnable);
         stopSelf();
         onDestroy();
     }
@@ -115,7 +113,6 @@ public class TimerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(refreshRunnable);
-        storageHandler.removeCallbacks(storageRunnable);
     }
 
     private void setupCustomNotification(){
@@ -181,7 +178,6 @@ public class TimerService extends Service {
     }
 
     final Handler handler = new Handler();
-    final Handler storageHandler = new Handler();
 
     final Runnable refreshRunnable = new Runnable() {
         public void run() {
@@ -190,19 +186,12 @@ public class TimerService extends Service {
         }
     };
 
-    final Runnable storageRunnable = new Runnable() {
-        public void run() {
-            updateRecentValues();
-            storageHandler.postDelayed(storageRunnable, 10);
-        }
-    };
 
 
 
 
     private void refreshingEverySecond(){
         handler.postDelayed(refreshRunnable, 1000);
-        storageHandler.post(storageRunnable);
     }
 
     private void updateTimerServiceData(){
@@ -236,16 +225,6 @@ public class TimerService extends Service {
             }
         }
         return result;
-    }
-
-    private void updateRecentValues(){
-        for(int i = 0; i < retrieveTimerDataList(getSharedPreferences("TickTrackData", MODE_PRIVATE)).size(); i++){
-            if(timerDataArrayList.get(i).isTimerOn() && !timerDataArrayList.get(i).isTimerPause()){
-                timerDataArrayList.get(i).setTimerRecentLocalTimeInMillis(System.currentTimeMillis());
-                timerDataArrayList.get(i).setTimerRecentUpdatedValue(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime());
-                storeTimerData();
-            }
-        }
     }
 
     private void storeTimerData() {
