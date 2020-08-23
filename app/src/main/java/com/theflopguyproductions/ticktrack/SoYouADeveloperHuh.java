@@ -237,12 +237,14 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(new TickTrackDatabase(this).retrieveStopwatchData().get(0).isRunning()){
-            if(!isMyServiceRunning(StopwatchNotificationService.class, this)){
-                setupCustomNotification();
-                notificationManagerCompat.notify(4,  notificationBuilder.build());
-                System.out.println("STOPWATCH RUNNING HAPPENED");
-                startNotificationService();
+        if(tickTrackDatabase.retrieveStopwatchData().size()>0){
+            if(tickTrackDatabase.retrieveStopwatchData().get(0).isRunning()){
+                if(!isMyServiceRunning(StopwatchNotificationService.class, this)){
+                    setupCustomNotification();
+                    notificationManagerCompat.notify(4,  notificationBuilder.build());
+                    System.out.println("STOPWATCH RUNNING HAPPENED");
+                    startNotificationService();
+                }
             }
         }
     }

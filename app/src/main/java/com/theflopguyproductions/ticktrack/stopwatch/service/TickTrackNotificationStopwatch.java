@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class TickTrackNotificationStopwatch {
 
     private Context context;
-    private ArrayList<StopwatchData> stopwatchDataArrayList = new ArrayList<>();
-    private ArrayList<StopwatchLapData> stopwatchLapData = new ArrayList<>();
+    private ArrayList<StopwatchData> stopwatchDataArrayList;
+    private ArrayList<StopwatchLapData> stopwatchLapData;
 
     private Handler notificationStopwatchHandler = new Handler();
     private final Runnable stopwatchNotificationRunnable = this::stopwatchNotificationRunnable;
@@ -32,6 +32,8 @@ public class TickTrackNotificationStopwatch {
     public TickTrackNotificationStopwatch(Context context){
         this.context = context;
         tickTrackDatabase = new TickTrackDatabase(context);
+        stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+        stopwatchLapData = tickTrackDatabase.retrieveStopwatchLapData();
     }
 
     public void setupNotificationStuff(NotificationManagerCompat notificationManagerCompat, NotificationCompat.Builder notificationBuilder){
@@ -40,6 +42,7 @@ public class TickTrackNotificationStopwatch {
     }
 
     private void refreshData(){
+        System.out.println("DATA REFRESH");
         tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
         tickTrackDatabase.storeLapData(stopwatchLapData);
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
@@ -53,10 +56,10 @@ public class TickTrackNotificationStopwatch {
         int hours = (int) (elapsedTime / (60 * 60 * 1000));
         NumberFormat f = new DecimalFormat("00");
         if (minutes == 0) {
-            displayTime.append(f.format(seconds));
+            displayTime.append("00:").append(f.format(seconds));
         }
         else if (hours == 0) {
-            displayTime.append(f.format(minutes)).append(":").append(f.format(seconds));
+            displayTime.append("00:").append(f.format(minutes)).append(":").append(f.format(seconds));
         }
         else {
             displayTime.append(hours).append(":").append(f.format(minutes)).append(":").append(f.format(seconds));
@@ -83,6 +86,7 @@ public class TickTrackNotificationStopwatch {
         long elapsedRealTime = SystemClock.elapsedRealtime()+differenceValue;
         stopwatchDurationElapsed = elapsedRealTime - stopwatchRetrievedStartTime;
         updateNotification();
+        System.out.println("PAUSE");
         notificationStopwatchHandler.postDelayed(stopwatchNotificationRunnable, 1000);
     }
 
@@ -93,7 +97,7 @@ public class TickTrackNotificationStopwatch {
         notificationBuilder.setContentTitle(getNotificationFormattedHourMinute(stopwatchDurationElapsed));
         notificationManagerCompat.notify(4,notificationBuilder.build());
     }
-    
+
     public void stop(){
         if(!stopwatchDataArrayList.get(0).isRunning()){
             throw new IllegalStateException("Not Started");

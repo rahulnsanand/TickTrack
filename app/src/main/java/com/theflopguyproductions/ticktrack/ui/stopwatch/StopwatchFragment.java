@@ -173,8 +173,6 @@ public class StopwatchFragment extends Fragment {
         }
     }
 
-
-
     private void resetStopwatch() {
         TickTrackAnimator.fabDissolve(resetFAB);
         if (stopwatchDataArrayList.get(0).isRunning()){
@@ -277,8 +275,6 @@ public class StopwatchFragment extends Fragment {
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
-        System.out.println(stopwatchDataArrayList.get(0).isPause()+"<<<ISPAUSE ONSTART");
-        System.out.println(stopwatchDataArrayList.get(0).isRunning()+"<<<ISRUNNING ONSTART");
         checkConditions();
         setupClickListeners();
 

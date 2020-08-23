@@ -34,7 +34,7 @@ public class StopwatchNotificationService extends Service {
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
 
-    private static ArrayList<StopwatchData> stopwatchData = new ArrayList<>();
+    private static ArrayList<StopwatchData> stopwatchData;
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackNotificationStopwatch tickTrackNotificationStopwatch;
 
@@ -181,12 +181,14 @@ public class StopwatchNotificationService extends Service {
 
         notificationBuilder.clearActions();
 
-        if(stopwatchData.get(0).isPause()){
-            setupResumeReset();
-            tickTrackNotificationStopwatch.pauseInit();
-        } else {
-            setupLapPause();
-            tickTrackNotificationStopwatch.resumeInit();
+        if(stopwatchData.size()>0){
+            if(stopwatchData.get(0).isPause()){
+                setupResumeReset();
+                tickTrackNotificationStopwatch.pauseInit();
+            } else {
+                setupLapPause();
+                tickTrackNotificationStopwatch.resumeInit();
+            }
         }
     }
 
@@ -216,41 +218,7 @@ public class StopwatchNotificationService extends Service {
         stopSelf();
         onDestroy();
     }
-
-    private void resumeStopwatch() {
-        if(stopwatchData.get(0).isRunning() && !stopwatchData.get(0).isPause()){
-        }
-    }
-
-    private void lapStopwatch() {
-        if(stopwatchData.get(0).isRunning()){
-        }
-    }
-
-    private void pauseStopwatch() {
-        if(stopwatchData.get(0).isRunning() && !stopwatchData.get(0).isPause()){
-            System.out.println(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()+"<<<<<<<<<<<<<<<<<<<<START"+stopwatchData.get(0).isPause()+"TIMER>>>>>>>>>>>>"+stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis());
-            stopwatchData.get(0).setRunning(true);
-            stopwatchData.get(0).setPause(true);
-            tickTrackDatabase.storeStopwatchData(stopwatchData);
-            stopwatchData = tickTrackDatabase.retrieveStopwatchData();
-            System.out.println(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()+"<<<<<<<<<<<<<<<<<<<<START"+stopwatchData.get(0).isPause()+"TIMER>>>>>>>>>>>>"+stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis());
-        }
-    }
-
-    private void resetStopwatch() {
-        if (stopwatchData.get(0).isRunning()){
-            stopwatchData.get(0).setRunning(false);
-            stopwatchData.get(0).setPause(false);
-            stopwatchData.get(0).setStopwatchTimerStartTimeInMillis(-1);
-            stopwatchData.get(0).setStopwatchTimerStartTimeInRealTimeMillis(-1);
-            stopwatchData.get(0).setLastLapEndTimeInMillis(0);
-            stopwatchData.get(0).setNotification(false);
-            tickTrackDatabase.storeStopwatchData(stopwatchData);
-        }
-    }
-
-
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
