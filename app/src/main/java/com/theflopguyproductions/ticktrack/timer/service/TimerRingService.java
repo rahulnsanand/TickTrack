@@ -124,7 +124,6 @@ public class TimerRingService extends Service {
         }
 
         showShutDownNotification();
-        stopForeground(true);
         stopTimerRinging(getSharedPreferences("TickTrackData", MODE_PRIVATE));
         handler.removeCallbacks(refreshRunnable);
         stopSelf();
@@ -149,7 +148,6 @@ public class TimerRingService extends Service {
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
-                .setOngoing(false)
                 .setContentIntent(resultPendingIntent);
 
         notificationBuilder.setContentTitle("TickTrack Timer Stopped");
@@ -177,6 +175,7 @@ public class TimerRingService extends Service {
                 setupCustomNotification();
             }
         }
+        stopForeground(false);
     }
     float UpdateTime = 0L;
     private boolean isCustom = true, setCustomOnce = false, setMultiOnce = false;

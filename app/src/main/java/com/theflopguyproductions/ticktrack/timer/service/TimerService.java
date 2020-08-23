@@ -79,8 +79,6 @@ public class TimerService extends Service {
     private void stopTimerService() {
         timerDataArrayList = retrieveTimerDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
         if(getAllOnTimers() == 0){
-            System.out.println("KILL HERE ALSO CAME");
-            stopForeground(true);
             killNotifications();
         }
     }
@@ -94,6 +92,7 @@ public class TimerService extends Service {
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
         timerDataArrayList = retrieveTimerDataList(sharedPreferences);
         endTimes = getEndTimes();
+        stopForeground(false);
     }
 
     private void startForegroundService() {

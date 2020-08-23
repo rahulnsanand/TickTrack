@@ -31,6 +31,8 @@ import java.util.concurrent.TimeUnit;
 
 public class StopwatchNotificationService extends Service {
 
+    public static final String ACTION_STOP_STOPWATCH_SERVICE = "ACTION_STOP_STOPWATCH_SERVICE";
+    public static final String ACTION_START_STOPWATCH_SERVICE = "ACTION_START_STOPWATCH_SERVICE";
 
     NotificationCompat.Builder notificationBuilder;
     NotificationManager notificationManager;
@@ -57,18 +59,36 @@ public class StopwatchNotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null) {
 
+            String action = intent.getAction();
+
             initializeValues();
-            startStopwatchService();
+
+            assert action != null;
+            switch (action) {
+                case ACTION_START_STOPWATCH_SERVICE:
+                    startStopwatchService();
+                    break;
+                case ACTION_STOP_STOPWATCH_SERVICE:
+                    stopStopwatchService();
+                    break;
+            }
 
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
+    private void stopStopwatchService() {
+        handler.removeCallbacks(refreshRunnable);
+        stopSelf();
+        onDestroy();
+    }
+
     private void initializeValues(){
         SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
         stopwatchData = retrieveStopwatchData(sharedPreferences);
-        stopForeground(true);
+        stopForeground(false);
     }
+
     public static ArrayList<StopwatchData> retrieveStopwatchData(SharedPreferences sharedPreferences){
         Gson gson = new Gson();
         String json = sharedPreferences.getString("StopwatchData", null);
@@ -103,13 +123,22 @@ public class StopwatchNotificationService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(3, PendingIntent.FLAG_UPDATE_CURRENT);
 
+
+        Intent deleteIntent = new Intent(this, StopwatchNotificationService.class);
+        deleteIntent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
+        PendingIntent deletePendingIntent = PendingIntent.getService(this,
+                3,
+                deleteIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setOnlyAlertOnce(true)
-                .setContentIntent(resultPendingIntent);
+                .setContentIntent(resultPendingIntent)
+                .setDeleteIntent(deletePendingIntent);
 
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
@@ -154,8 +183,7 @@ public class StopwatchNotificationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(refreshRunnable);
-        stopSelf();
+
     }
 
 }

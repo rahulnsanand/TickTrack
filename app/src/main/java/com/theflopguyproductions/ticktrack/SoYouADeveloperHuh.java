@@ -241,11 +241,13 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
     public void stopNotificationService() {
         Intent intent = new Intent(this, StopwatchNotificationService.class);
-        stopService(intent);
+        intent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
+        startService(intent);
     }
 
     public void startNotificationService() {
         Intent intent = new Intent(this, StopwatchNotificationService.class);
+        intent.setAction(StopwatchNotificationService.ACTION_START_STOPWATCH_SERVICE);
         startService(intent);
     }
 
