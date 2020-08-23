@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
+import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
@@ -204,6 +207,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
         } else {
+            if(isMyServiceRunning(StopwatchNotificationService.class, this)){
+                stopNotificationService();
+            }
             TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
         }
     }
@@ -215,6 +221,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity();
         } else {
+            if(isMyServiceRunning(StopwatchNotificationService.class, this)){
+                stopNotificationService();
+            }
             TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
         }
     }
@@ -222,6 +231,32 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        if(new TickTrackDatabase(this).retrieveStopwatchData().get(0).isRunning()){
+            if(!isMyServiceRunning(StopwatchNotificationService.class, this)){
+                System.out.println("STOPWATCH RUNNING HAPPENED");
+                startNotificationService();
+            }
+        }
+    }
+
+    public void stopNotificationService() {
+        Intent intent = new Intent(this, StopwatchNotificationService.class);
+        stopService(intent);
+    }
+
+    public void startNotificationService() {
+        Intent intent = new Intent(this, StopwatchNotificationService.class);
+        startService(intent);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
