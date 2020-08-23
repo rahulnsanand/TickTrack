@@ -72,7 +72,7 @@ public class TickTrackNotificationStopwatch {
         }
         return 0;
     }
-    
+
 //    private long getPauseDifference() {
 //        if(stopwatchDataArrayList.get(0).isPause() && stopwatchDataArrayList.get(0).isRunning()){
 //            return stopwatchDataArrayList.get(0).getLastPauseTimeRealTimeInMillis() - stopwatchDataArrayList.get(0).getStopwatchTimerStartTimeInRealTimeMillis();
@@ -88,8 +88,7 @@ public class TickTrackNotificationStopwatch {
         long elapsedRealTime = SystemClock.elapsedRealtime()+differenceValue;
         stopwatchDurationElapsed = elapsedRealTime - stopwatchRetrievedStartTime;
         updateNotification();
-        System.out.println("PAUSE");
-        notificationStopwatchHandler.postDelayed(stopwatchNotificationRunnable, 1000);
+        notificationStopwatchHandler.postDelayed(stopwatchNotificationRunnable, 250);
     }
 
     private void updateNotification() {
@@ -195,6 +194,7 @@ public class TickTrackNotificationStopwatch {
 
             stopwatchDataArrayList.get(0).setRunning(true);
             stopwatchDataArrayList.get(0).setPause(true);
+            stopwatchDataArrayList.get(0).setLastPauseValueInMillis(stopwatchDurationElapsed);
             stopwatchDataArrayList.get(0).setLastPauseTimeRealTimeInMillis(SystemClock.elapsedRealtime());
             stopwatchDataArrayList.get(0).setLastPauseTimeInMillis(System.currentTimeMillis());
 

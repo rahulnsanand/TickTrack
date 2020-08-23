@@ -67,7 +67,7 @@ public class StopwatchNotificationService extends Service {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(resultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
-                .setOngoing(false);
+                .setOngoing(true);
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.STOPWATCH_NOTIFICATION);
@@ -157,7 +157,7 @@ public class StopwatchNotificationService extends Service {
             }
 
         }
-        stopForeground(false);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -215,6 +215,7 @@ public class StopwatchNotificationService extends Service {
     }
 
     private void stopStopwatchService() {
+        stopForeground(false);
         stopSelf();
         onDestroy();
     }

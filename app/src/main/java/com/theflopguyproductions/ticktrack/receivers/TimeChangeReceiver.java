@@ -18,6 +18,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
+
         ArrayList<TimerData> timerData = tickTrackDatabase.retrieveTimerList();
 
         for(int i = 0; i <timerData.size(); i ++){
@@ -39,12 +40,19 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         if(stopwatchData.size()>0){
             if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
                 if(!stopwatchData.get(0).isPause()){
-                    stopwatchData.get(0).setStopwatchTimerStartTimeInMillis(System.currentTimeMillis() - (SystemClock.elapsedRealtime()-stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis()));
-                    tickTrackDatabase.storeStopwatchData(stopwatchData);
-                    Toast.makeText(context, "STOPWATCH TIME CHANGE", Toast.LENGTH_SHORT).show();
+                    stopwatchData.get(0).setStopwatchTimerStartTimeInMillis(System.currentTimeMillis()
+                            - (SystemClock.elapsedRealtime()-stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis()));
+
+                    Toast.makeText(context, "STOPWATCH START TIME CHANGE", Toast.LENGTH_SHORT).show();
+                }
+                if(stopwatchData.get(0).isPause()){
+                    stopwatchData.get(0).setLastPauseTimeInMillis(System.currentTimeMillis() - (SystemClock.elapsedRealtime() - stopwatchData.get(0).getLastPauseTimeRealTimeInMillis()));
+
+                    Toast.makeText(context, "STOPWATCH PAUSE TIME CHANGE", Toast.LENGTH_SHORT).show();
                 }
             }
         }
+        tickTrackDatabase.storeStopwatchData(stopwatchData);
 
     }
 }
