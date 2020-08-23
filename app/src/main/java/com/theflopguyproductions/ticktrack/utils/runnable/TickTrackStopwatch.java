@@ -126,7 +126,7 @@ public class TickTrackStopwatch {
         } else if(!stopwatchDataArrayList.get(0).isRunning()){
             throw new IllegalStateException("Not Started");
         } else {
-            updateTextView();
+
             stopwatchHandler.removeCallbacks(stopwatchRunnable);
             progressBarHandler.removeCallbacks(progressBarRunnable);
 
@@ -136,6 +136,7 @@ public class TickTrackStopwatch {
             stopwatchDataArrayList.get(0).setLastPauseTimeInMillis(System.currentTimeMillis());
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
+            updateTextView();
             //TODO HANDLER PROGRESSBAR SHIT
 
         }
@@ -146,7 +147,7 @@ public class TickTrackStopwatch {
         } else if (!stopwatchDataArrayList.get(0).isRunning()){
             throw new IllegalStateException("Not Started");
         } else {
-            stopwatchDurationElapsed = getDifference();
+            stopwatchDurationElapsed = getPauseDifference();
             stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
             differenceValue = stopwatchDurationElapsed;
             stopwatchHandler.post(stopwatchRunnable);

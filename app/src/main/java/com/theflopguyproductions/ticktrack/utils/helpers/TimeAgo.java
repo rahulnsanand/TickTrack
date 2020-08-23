@@ -225,36 +225,137 @@ public class TimeAgo {
         return resultMillis;
     }
 
-    public static String getTimerDurationLeft(int hourLeft, int minuteLeft, int secondLeft) {
+    public static String getTimerDurationLeft(int hour, int minute, int second) {
 
-        if(hourLeft>0){
-            if(minuteLeft>0 && minuteLeft!=1 && secondLeft>0){
-                if(minuteLeft==59){
-                    return "less than "+(hourLeft+1)+" hrs remaining";
-                } else {
-                    return "less than "+hourLeft+" hrs "+(minuteLeft+1)+" mins remaining";
+        String perfectHour = hour+"";
+        String perfectMinute = minute+"";
+        String perfectSecond = second+"";
+
+        if(hour<10){ perfectHour = appendHour(hour); }
+        if(minute<10){ perfectMinute = appendMinute(minute); }
+        if(second<10){ perfectSecond = appendSecond(second); }
+
+        if(hour>0){
+            if(hour==1){
+                if(minute==1){
+                    if(second==1){
+                        return perfectHour+"hr "+perfectMinute+"min "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hr "+perfectMinute+"min ";
+                    } else {
+                        return perfectHour+"hr "+perfectMinute+"min "+perfectSecond+"secs";
+                    }
+                } else if(minute==0) {
+                    if(second==1){
+                        return perfectHour+"hr "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hr ";
+                    } else {
+                        return perfectHour+"hr "+perfectSecond+"secs";
+                    }
                 }
-            } else if(minuteLeft>0 && minuteLeft!=1 && secondLeft==0) {
-                return "less than "+hourLeft+" hrs "+minuteLeft+" mins remaining";
-            } else if(minuteLeft==1 && secondLeft>0) {
-                return "less than " + hourLeft + " hrs " + minuteLeft + 1 + " mins remaining";
+                else {
+                    if(second==1){
+                        return perfectHour+"hr "+perfectMinute+"mins "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hr "+perfectMinute+"mins ";
+                    } else {
+                        return perfectHour+"hr "+perfectMinute+"mins "+perfectSecond+"secs";
+                    }
+                }
             } else {
-                return "less than "+hourLeft+" hrs remaining";
+                if(minute==1){
+                    if(second==1){
+                        return perfectHour+"hrs "+perfectMinute+"min "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hrs "+perfectMinute+"min ";
+                    } else {
+                        return perfectHour+"hrs "+perfectMinute+"min "+perfectSecond+"secs";
+                    }
+                } else if(minute==0) {
+                    if(second==1){
+                        return perfectHour+"hrs "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hrs ";
+                    } else {
+                        return perfectHour+"hrs "+perfectSecond+"secs";
+                    }
+                }
+                else {
+                    if(second==1){
+                        return perfectHour+"hrs "+perfectMinute+"mins "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectHour+"hrs "+perfectMinute+"mins ";
+                    } else {
+                        return perfectHour+"hrs "+perfectMinute+"mins "+perfectSecond+"secs";
+                    }
+                }
+            }
+        } else if(hour==0) {
+            if(minute>0){
+                if(minute==1){
+                    if(second==1){
+                        return perfectMinute+"min "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectMinute+"min ";
+                    } else {
+                        return perfectMinute+"min "+perfectSecond+"secs";
+                    }
+                } else {
+                    if(second==1){
+                        return perfectMinute+"mins "+perfectSecond+"sec";
+                    } else if(second==0){
+                        return perfectMinute+"mins ";
+                    } else {
+                        return perfectMinute+"mins "+perfectSecond+"secs";
+                    }
+                }
+            } else if(minute==0){
+                if(second>0){
+                    if(second==1){
+                        return perfectSecond+"sec";
+                    } else {
+                        return perfectSecond+"secs";
+                    }
+                } else {
+                    return "Invalid timer";
+                }
+            } else {
+                return "Invalid timer";
             }
         } else {
-            if(minuteLeft>0 && minuteLeft!=1 && secondLeft>0){
-                if(minuteLeft==59){
-                    return "less than "+(hourLeft+1)+" hrs remaining";
-                } else {
-                    return "less than "+(minuteLeft+1)+" mins remaining";
-                }
-            } else if(minuteLeft>0 && minuteLeft!=1 && secondLeft==0) {
-                return "less than "+minuteLeft+" mins remaining";
-            } else if(minuteLeft==1 && secondLeft>0) {
-                return "less than " + (minuteLeft+1) + " mins remaining";
-            } else {
-                return "less than a minute remaining";
-            }
+            return "Invalid timer";
         }
+
+//        if(hourLeft>0){
+//            if(minuteLeft>0 && minuteLeft!=1 && secondLeft>0){
+//                if(minuteLeft==59){
+//                    return "less than "+(hourLeft+1)+" hrs remaining";
+//                } else {
+//                    return "less than "+hourLeft+" hrs "+(minuteLeft+1)+" mins remaining";
+//                }
+//            } else if(minuteLeft>0 && minuteLeft!=1 && secondLeft==0) {
+//                return "less than "+hourLeft+" hrs "+minuteLeft+" mins remaining";
+//            } else if(minuteLeft==1 && secondLeft>0) {
+//                return "less than " + hourLeft + " hrs " + minuteLeft + 1 + " mins remaining";
+//            } else {
+//                return "less than "+hourLeft+" hrs remaining";
+//            }
+//        } else {
+//            if(minuteLeft>0 && minuteLeft!=1 && secondLeft>0){
+//                if(minuteLeft==59){
+//                    return "less than "+(hourLeft+1)+" hrs remaining";
+//                } else {
+//                    return "less than "+(minuteLeft+1)+" mins remaining";
+//                }
+//            } else if(minuteLeft>0 && minuteLeft!=1 && secondLeft==0) {
+//                return "less than "+minuteLeft+" mins remaining";
+//            } else if(minuteLeft==1 && secondLeft>0) {
+//                return "less than " + (minuteLeft+1) + " mins remaining";
+//            } else {
+//                return "less than a minute remaining";
+//            }
+//        }
+
     }
 }
