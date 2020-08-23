@@ -109,7 +109,9 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
             startCheckService();
         }
         Intent intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this, getPackageName(), false);
-        startActivity(intent);
+        if(intent!=null){
+            startActivity(intent);
+        }
     }
 
     private void startCheckService() {
