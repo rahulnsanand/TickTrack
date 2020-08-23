@@ -133,6 +133,7 @@ public class TickTrackStopwatch {
             stopwatchHandler.removeCallbacks(stopwatchRunnable);
             progressBarHandler.removeCallbacks(progressBarRunnable);
 
+            stopwatchDataArrayList.get(0).setLastPauseValueInMillis(stopwatchDurationElapsed);
             stopwatchDataArrayList.get(0).setRunning(true);
             stopwatchDataArrayList.get(0).setPause(true);
             stopwatchDataArrayList.get(0).setLastPauseTimeRealTimeInMillis(SystemClock.elapsedRealtime());
@@ -154,7 +155,7 @@ public class TickTrackStopwatch {
 
             System.out.println("RESUME STOPWATCH");
 
-            differenceValue = getPauseDifference();
+            differenceValue = stopwatchDataArrayList.get(0).getLastPauseValueInMillis();
             stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
 
             stopwatchHandler.post(stopwatchRunnable);
@@ -170,12 +171,12 @@ public class TickTrackStopwatch {
         }
     }
 
-    private long getPauseDifference() {
-        if(stopwatchDataArrayList.get(0).isPause() && stopwatchDataArrayList.get(0).isRunning()){
-            return stopwatchDataArrayList.get(0).getLastPauseTimeRealTimeInMillis() - stopwatchDataArrayList.get(0).getStopwatchTimerStartTimeInRealTimeMillis();
-        }
-        return 0;
-    }
+//    private long getPauseDifference() {
+//        if(stopwatchDataArrayList.get(0).isPause() && stopwatchDataArrayList.get(0).isRunning()){
+//            return stopwatchDataArrayList.get(0).getLastPauseTimeRealTimeInMillis() - stopwatchDataArrayList.get(0).getStopwatchTimerStartTimeInRealTimeMillis();
+//        }
+//        return 0;
+//    }
 
     public void stop(){
         if(!stopwatchDataArrayList.get(0).isRunning()){
@@ -273,7 +274,7 @@ public class TickTrackStopwatch {
     }
 
     public void setupPauseValues() {
-        stopwatchDurationElapsed = getPauseDifference();
+        stopwatchDurationElapsed = stopwatchDataArrayList.get(0).getLastPauseValueInMillis();
         currentValue = stopwatchDataArrayList.get(0).getProgressValue();
         updateTextView();
     }
