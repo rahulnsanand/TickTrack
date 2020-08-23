@@ -50,6 +50,7 @@ public class TickTrackStopwatch {
 
     }
 
+
     private final Runnable stopwatchRunnable = this::stopwatchRunnable;
     private final Runnable progressBarRunnable = this::progressBarRunnable;
 
@@ -81,19 +82,21 @@ public class TickTrackStopwatch {
         return ((currentValue-0f)/(maxLength-0f)) *(1f-0f)+0f;
     }
     private void progressBarRunnable(){
-        if (stopwatchDataArrayList.get(0).isPause()) {
-            progressBarHandler.removeCallbacks(progressBarRunnable);
+        if(progressBar!=null){
+            if (stopwatchDataArrayList.get(0).isPause()) {
+                progressBarHandler.removeCallbacks(progressBarRunnable);
+                stopwatchDataArrayList.get(0).setProgressValue(currentValue);
+                return;
+            }
+            if(currentValue<10000 && stopwatchDataArrayList.get(0).getProgressValue() != -1){
+                currentValue += 50;
+                progressBar.setProgress(getCurrentStep(currentValue, maxProgress));
+            } else {
+                currentValue = 0;
+            }
+            progressBarHandler.postDelayed(progressBarRunnable, 10);
             stopwatchDataArrayList.get(0).setProgressValue(currentValue);
-            return;
         }
-        if(currentValue<10000 && stopwatchDataArrayList.get(0).getProgressValue() != -1){
-            currentValue += 50;
-            progressBar.setProgress(getCurrentStep(currentValue, maxProgress));
-        } else {
-            currentValue = 0;
-        }
-        progressBarHandler.postDelayed(progressBarRunnable, 10);
-        stopwatchDataArrayList.get(0).setProgressValue(currentValue);
     }
 
     public void start(){
@@ -150,7 +153,9 @@ public class TickTrackStopwatch {
             stopwatchDurationElapsed = getPauseDifference();
             stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
             differenceValue = stopwatchDurationElapsed;
+
             stopwatchHandler.post(stopwatchRunnable);
+
             stopwatchDataArrayList.get(0).setPause(false);
             stopwatchDataArrayList.get(0).setRunning(true);
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
@@ -282,6 +287,7 @@ public class TickTrackStopwatch {
         differenceValue = getDifference();
         stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
         stopwatchHandler.post(stopwatchRunnable);
+
         stopwatchDataArrayList.get(0).setPause(false);
         stopwatchDataArrayList.get(0).setRunning(true);
         tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
@@ -300,6 +306,7 @@ public class TickTrackStopwatch {
 //
 //        return lastUpdateValue+differenceValue;
 //    }
+
 
     public void onStopCalled() {
         stopwatchHandler.removeCallbacks(stopwatchRunnable);

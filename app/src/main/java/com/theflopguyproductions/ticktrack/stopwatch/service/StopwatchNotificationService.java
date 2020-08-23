@@ -1,13 +1,9 @@
 package com.theflopguyproductions.ticktrack.stopwatch.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,35 +13,110 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
-import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class StopwatchNotificationService extends Service {
 
     public static final String ACTION_STOP_STOPWATCH_SERVICE = "ACTION_STOP_STOPWATCH_SERVICE";
     public static final String ACTION_START_STOPWATCH_SERVICE = "ACTION_START_STOPWATCH_SERVICE";
+    public static final String ACTION_RESUME_STOPWATCH_SERVICE = "ACTION_RESUME_STOPWATCH_SERVICE";
+    public static final String ACTION_RESET_STOPWATCH_SERVICE = "ACTION_RESET_STOPWATCH_SERVICE";
+    public static final String ACTION_LAP_STOPWATCH_SERVICE = "ACTION_LAP_STOPWATCH_SERVICE";
+    public static final String ACTION_PAUSE_STOPWATCH_SERVICE = "ACTION_PAUSE_STOPWATCH_SERVICE";
 
-    NotificationCompat.Builder notificationBuilder;
-    NotificationManager notificationManager;
+
+    private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
 
     private static ArrayList<StopwatchData> stopwatchData = new ArrayList<>();
+    private TickTrackDatabase tickTrackDatabase;
+    private TickTrackNotificationStopwatch tickTrackNotificationStopwatch;
 
     public StopwatchNotificationService() {
+    }
+
+    private void baseLineNotificationLayout(){
+
+        notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+
+        Intent resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+        resultIntent.putExtra("FragmentID", 4);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(4, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent deleteIntent = new Intent(this, StopwatchNotificationService.class);
+        deleteIntent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
+        PendingIntent deletePendingIntent = PendingIntent.getService(this,
+                4,
+                deleteIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setOnlyAlertOnce(true)
+                .setContentIntent(resultPendingIntent)
+                .setDeleteIntent(deletePendingIntent)
+                .setOngoing(false);
+
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            notificationBuilder.setChannelId(TickTrack.STOPWATCH_NOTIFICATION);
+        }
+
+    }
+
+    private void setupLapPause(){
+
+
+        Intent lapIntent = new Intent(this, StopwatchNotificationService.class);
+        lapIntent.setAction(ACTION_LAP_STOPWATCH_SERVICE);
+        PendingIntent pendingLapIntent = PendingIntent.getService(this, 5, lapIntent, 0);
+        NotificationCompat.Action lapAction = new NotificationCompat.Action(R.drawable.ic_round_flag_light_24, "Lap", pendingLapIntent);
+
+        Intent pauseIntent = new Intent(this, StopwatchNotificationService.class);
+        pauseIntent.setAction(ACTION_PAUSE_STOPWATCH_SERVICE);
+        PendingIntent pendingPauseIntent = PendingIntent.getService(this, 5, pauseIntent, 0);
+        NotificationCompat.Action pauseAction = new NotificationCompat.Action(R.drawable.ic_round_pause_white_24, "Pause", pendingPauseIntent);
+
+        notificationBuilder.addAction(pauseAction);
+        notificationBuilder.addAction(lapAction);
+
+        notificationManagerCompat.notify(4, notificationBuilder.build());
+    }
+
+    private void setupResumeReset(){
+
+        Intent resumeIntent = new Intent(this, StopwatchNotificationService.class);
+        resumeIntent.setAction(ACTION_RESUME_STOPWATCH_SERVICE);
+        PendingIntent pendingPlusIntent = PendingIntent.getService(this, 5, resumeIntent, 0);
+        NotificationCompat.Action resumeAction = new NotificationCompat.Action(R.drawable.ic_round_play_white_24, "Resume", pendingPlusIntent);
+
+        Intent resetIntent = new Intent(this, StopwatchNotificationService.class);
+        resetIntent.setAction(ACTION_RESET_STOPWATCH_SERVICE);
+        PendingIntent pendingMinusIntent = PendingIntent.getService(this, 5, resetIntent, 0);
+        NotificationCompat.Action resetAction = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Reset", pendingMinusIntent);
+
+
+        notificationBuilder.addAction(resumeAction);
+        notificationBuilder.addAction(resetAction);
+
+        notificationManagerCompat.notify(4, notificationBuilder.build());
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        tickTrackNotificationStopwatch = new TickTrackNotificationStopwatch(this);
         Log.d("TAG_TIMER_SERVICE", "My foreground service onCreate().");
     }
 
@@ -66,124 +137,124 @@ public class StopwatchNotificationService extends Service {
             assert action != null;
             switch (action) {
                 case ACTION_START_STOPWATCH_SERVICE:
-                    startStopwatchService();
+                    startForegroundService();
                     break;
                 case ACTION_STOP_STOPWATCH_SERVICE:
                     stopStopwatchService();
                     break;
+                case ACTION_RESUME_STOPWATCH_SERVICE:
+                    resumeStopwatchService();
+                    break;
+                case ACTION_RESET_STOPWATCH_SERVICE:
+                    resetStopwatchService();
+                    break;
+                case ACTION_LAP_STOPWATCH_SERVICE:
+                    lapStopwatchService();
+                    break;
+                case ACTION_PAUSE_STOPWATCH_SERVICE:
+                    pauseStopwatchService();
+                    break;
             }
 
         }
+        stopForeground(false);
         return super.onStartCommand(intent, flags, startId);
     }
 
+    private void initializeValues(){
+
+        tickTrackDatabase = new TickTrackDatabase(this);
+        stopwatchData = tickTrackDatabase.retrieveStopwatchData();
+        baseLineNotificationLayout();
+        tickTrackNotificationStopwatch.setupNotificationStuff(notificationManagerCompat, notificationBuilder);
+
+    }
+    private void startForegroundService() {
+
+        setupLayout();
+
+        startForeground(4, notificationBuilder.build());
+        Toast.makeText(this, "Stopwatch Notification created!", Toast.LENGTH_SHORT).show();
+
+    }
+    private void setupLayout(){
+
+        notificationBuilder.clearActions();
+
+        if(stopwatchData.get(0).isPause()){
+            setupResumeReset();
+            tickTrackNotificationStopwatch.pauseInit();
+        } else {
+            setupLapPause();
+            tickTrackNotificationStopwatch.resumeInit();
+        }
+    }
+
+    private void pauseStopwatchService() {
+        tickTrackNotificationStopwatch.pause();
+        setupResumeReset();
+    }
+
+    private void lapStopwatchService() {
+        tickTrackNotificationStopwatch.lap();
+        setupLapPause();
+    }
+
+    private void resetStopwatchService() {
+        tickTrackNotificationStopwatch.stop();
+        stopStopwatchService();
+    }
+
+    private void resumeStopwatchService() {
+        if(stopwatchData.get(0).isPause()){
+            tickTrackNotificationStopwatch.resume();
+            setupLapPause();
+        }
+    }
+
     private void stopStopwatchService() {
-        handler.removeCallbacks(refreshRunnable);
         stopSelf();
         onDestroy();
     }
 
-    private void initializeValues(){
-        SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
-        stopwatchData = retrieveStopwatchData(sharedPreferences);
-        stopForeground(false);
-    }
-
-    public static ArrayList<StopwatchData> retrieveStopwatchData(SharedPreferences sharedPreferences){
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("StopwatchData", null);
-        Type type = new TypeToken<ArrayList<StopwatchData>>() {}.getType();
-        ArrayList<StopwatchData> stopwatchData = gson.fromJson(json, type);
-        if(stopwatchData == null){
-            stopwatchData = new ArrayList<>();
+    private void resumeStopwatch() {
+        if(stopwatchData.get(0).isRunning() && !stopwatchData.get(0).isPause()){
         }
-        return stopwatchData;
     }
 
-    private void startStopwatchService() {
-        startForegroundService();
-        refreshingEverySecond();
-    }
-
-    private void startForegroundService() {
-        setupCustomNotification();
-        startForeground(3, notificationBuilder.build());
-        Toast.makeText(this, "Stopwatch Notification created!", Toast.LENGTH_SHORT).show();
-    }
-
-    private void setupCustomNotification(){
-
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-
-        Intent resultIntent = new Intent(this, SoYouADeveloperHuh.class);
-        resultIntent.putExtra("FragmentID", 3);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntentWithParentStack(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(3, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        Intent deleteIntent = new Intent(this, StopwatchNotificationService.class);
-        deleteIntent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
-        PendingIntent deletePendingIntent = PendingIntent.getService(this,
-                3,
-                deleteIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-
-        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setOnlyAlertOnce(true)
-                .setContentIntent(resultPendingIntent)
-                .setDeleteIntent(deletePendingIntent);
-
-
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            notificationBuilder.setChannelId(TickTrack.STOPWATCH_NOTIFICATION);
-        }
-
-    }
-
-    public void notifyNotification(){
-        stopwatchData = retrieveStopwatchData(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+    private void lapStopwatch() {
         if(stopwatchData.get(0).isRunning()){
-            notificationBuilder.setContentTitle("TickTrack stopwatch");
-            String nextOccurrence = getNextOccurrence();
-            notificationBuilder.setContentText(nextOccurrence);
-            notificationManagerCompat.notify(3, notificationBuilder.build());
         }
     }
 
-    private String getNextOccurrence() {
-        long differenceFromNow = stopwatchData.get(0).getStopwatchTimerStartTimeInMillis() - System.currentTimeMillis();
-        int hours = (int) TimeUnit.MILLISECONDS.toHours(differenceFromNow);
-        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(differenceFromNow) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(differenceFromNow)));
-        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(differenceFromNow) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(differenceFromNow)));
-
-        return TimeAgo.getTimerDurationLeft(hours, minutes, seconds);
-    }
-
-
-    final Handler handler = new Handler();
-
-    final Runnable refreshRunnable = new Runnable() {
-        public void run() {
-            notifyNotification();
-            handler.postDelayed(refreshRunnable, 1000);
+    private void pauseStopwatch() {
+        if(stopwatchData.get(0).isRunning() && !stopwatchData.get(0).isPause()){
+            System.out.println(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()+"<<<<<<<<<<<<<<<<<<<<START"+stopwatchData.get(0).isPause()+"TIMER>>>>>>>>>>>>"+stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis());
+            stopwatchData.get(0).setRunning(true);
+            stopwatchData.get(0).setPause(true);
+            tickTrackDatabase.storeStopwatchData(stopwatchData);
+            stopwatchData = tickTrackDatabase.retrieveStopwatchData();
+            System.out.println(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()+"<<<<<<<<<<<<<<<<<<<<START"+stopwatchData.get(0).isPause()+"TIMER>>>>>>>>>>>>"+stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis());
         }
-    };
-
-    private void refreshingEverySecond(){
-        handler.postDelayed(refreshRunnable, 1000);
     }
+
+    private void resetStopwatch() {
+        if (stopwatchData.get(0).isRunning()){
+            stopwatchData.get(0).setRunning(false);
+            stopwatchData.get(0).setPause(false);
+            stopwatchData.get(0).setStopwatchTimerStartTimeInMillis(-1);
+            stopwatchData.get(0).setStopwatchTimerStartTimeInRealTimeMillis(-1);
+            stopwatchData.get(0).setLastLapEndTimeInMillis(0);
+            stopwatchData.get(0).setNotification(false);
+            tickTrackDatabase.storeStopwatchData(stopwatchData);
+        }
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        tickTrackNotificationStopwatch.killStopwatch();
     }
 
 }

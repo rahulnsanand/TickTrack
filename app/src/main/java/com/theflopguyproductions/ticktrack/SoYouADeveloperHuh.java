@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack;
 
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -17,12 +19,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
@@ -233,6 +239,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         super.onStop();
         if(new TickTrackDatabase(this).retrieveStopwatchData().get(0).isRunning()){
             if(!isMyServiceRunning(StopwatchNotificationService.class, this)){
+                setupCustomNotification();
+                notificationManagerCompat.notify(4,  notificationBuilder.build());
                 System.out.println("STOPWATCH RUNNING HAPPENED");
                 startNotificationService();
             }
@@ -268,6 +276,44 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+    private NotificationManagerCompat notificationManagerCompat;
+    NotificationCompat.Builder notificationBuilder;
+    private void setupCustomNotification(){
+
+        notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+
+        Intent resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+        resultIntent.putExtra("FragmentID", 3);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(4, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        Intent deleteIntent = new Intent(this, StopwatchNotificationService.class);
+        deleteIntent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
+        PendingIntent deletePendingIntent = PendingIntent.getService(this,
+                4,
+                deleteIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setOnlyAlertOnce(true)
+                .setContentIntent(resultPendingIntent)
+                .setDeleteIntent(deletePendingIntent)
+                .setAutoCancel(true);
+
+
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            notificationBuilder.setChannelId(TickTrack.STOPWATCH_NOTIFICATION);
+        }
+
     }
 
 }
