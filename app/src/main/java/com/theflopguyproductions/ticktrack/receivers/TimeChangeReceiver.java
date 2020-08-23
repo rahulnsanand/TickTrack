@@ -40,6 +40,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
             if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
                 stopwatchData.get(0).setStopwatchTimerStartTimeInMillis(System.currentTimeMillis() - (SystemClock.elapsedRealtime()-stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis()));
                 tickTrackDatabase.storeStopwatchData(stopwatchData);
+                Toast.makeText(context, "STOPWATCH TIME CHANGE", Toast.LENGTH_SHORT).show();
             }
         }
 
