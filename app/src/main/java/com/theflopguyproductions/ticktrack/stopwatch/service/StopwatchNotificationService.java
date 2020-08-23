@@ -218,7 +218,7 @@ public class StopwatchNotificationService extends Service {
         stopSelf();
         onDestroy();
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();

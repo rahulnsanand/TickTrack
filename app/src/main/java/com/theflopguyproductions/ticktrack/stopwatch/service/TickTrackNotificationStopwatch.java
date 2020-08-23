@@ -72,12 +72,14 @@ public class TickTrackNotificationStopwatch {
         }
         return 0;
     }
-    private long getPauseDifference() {
-        if(stopwatchDataArrayList.get(0).isPause() && stopwatchDataArrayList.get(0).isRunning()){
-            return stopwatchDataArrayList.get(0).getLastPauseTimeRealTimeInMillis() - stopwatchDataArrayList.get(0).getStopwatchTimerStartTimeInRealTimeMillis();
-        }
-        return 0;
-    }
+    
+//    private long getPauseDifference() {
+//        if(stopwatchDataArrayList.get(0).isPause() && stopwatchDataArrayList.get(0).isRunning()){
+//            return stopwatchDataArrayList.get(0).getLastPauseTimeRealTimeInMillis() - stopwatchDataArrayList.get(0).getStopwatchTimerStartTimeInRealTimeMillis();
+//        }
+//        return 0;
+//    }
+
     private void stopwatchNotificationRunnable(){
         if (!stopwatchDataArrayList.get(0).isRunning() || stopwatchDataArrayList.get(0).isPause()) {
             notificationStopwatchHandler.removeCallbacks(stopwatchNotificationRunnable);
@@ -134,7 +136,7 @@ public class TickTrackNotificationStopwatch {
     }
 
     public void pauseInit() {
-        stopwatchDurationElapsed = getPauseDifference();
+        stopwatchDurationElapsed = stopwatchDataArrayList.get(0).getLastPauseValueInMillis();
         updateNotification();
     }
 
@@ -144,7 +146,7 @@ public class TickTrackNotificationStopwatch {
         } else if (!stopwatchDataArrayList.get(0).isRunning()){
             throw new IllegalStateException("Not Started");
         } else {
-            stopwatchDurationElapsed = getPauseDifference();
+            stopwatchDurationElapsed = stopwatchDataArrayList.get(0).getLastPauseValueInMillis();
             stopwatchRetrievedStartTime = SystemClock.elapsedRealtime();
             differenceValue = stopwatchDurationElapsed;
 
