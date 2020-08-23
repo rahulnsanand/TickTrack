@@ -123,11 +123,11 @@ public class TickTrack extends Application {
                 .setUsage(AudioAttributes. USAGE_ALARM )
                 .build() ;
 
-        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        int importance = NotificationManager.IMPORTANCE_MIN ;
         NotificationChannel notificationChannel = new
                 NotificationChannel( STOPWATCH_NOTIFICATION , "Stopwatch Notifications" , importance) ;
         notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.setLightColor(Color.BLUE ) ;
         notificationChannel.enableVibration( true ) ;
         notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
 
