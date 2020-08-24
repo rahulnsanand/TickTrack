@@ -104,6 +104,36 @@ public class StopwatchFragment extends Fragment {
     }
 
     private void checkConditions() {
+
+        tickTrackStopwatchTimer = new TickTrackStopwatch(activity);
+        tickTrackStopwatchTimer.setGraphics(stopwatchValueText, stopwatchMillisText, foregroundProgressBar);
+
+        if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
+            System.out.println("Init Values Got Running and Not Paused");
+
+            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
+            TickTrackAnimator.fabDissolve(resetFAB);
+            TickTrackAnimator.fabUnDissolve(flagFAB);
+        } else if(!stopwatchDataArrayList.get(0).isRunning()){
+            System.out.println("Init Values Got Not Running");
+
+            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+            TickTrackAnimator.fabDissolve(resetFAB);
+            TickTrackAnimator.fabDissolve(flagFAB);
+        } else if(stopwatchDataArrayList.get(0).isRunning() && stopwatchDataArrayList.get(0).isPause()){
+            System.out.println("Init Values Got Running and Paused");
+            tickTrackStopwatchTimer.setupPauseValues();
+            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+            TickTrackAnimator.fabUnDissolve(resetFAB);
+            TickTrackAnimator.fabDissolve(flagFAB);
+        } else {
+            System.out.println("Init Values Got ELSE");
+
+            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
+            TickTrackAnimator.fabDissolve(resetFAB);
+            TickTrackAnimator.fabDissolve(flagFAB);
+        }
+
         if(stopwatchLapDataArrayList.size()>0){
             System.out.println("checkConditions Lap Data Size More than 0");
 
@@ -181,9 +211,14 @@ public class StopwatchFragment extends Fragment {
             stopwatchDataArrayList.get(0).setStopwatchTimerStartTimeInRealTimeMillis(-1);
             stopwatchDataArrayList.get(0).setLastLapEndTimeInMillis(0);
             stopwatchDataArrayList.get(0).setNotification(false);
-            tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
-            stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
+        stopwatchValueText.setText("00");
+        stopwatchValueText.setTextSize(72);
+        stopwatchMillisText.setText("00");
+        foregroundProgressBar.setProgress(0);
+
+        tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
+        stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
     }
 
     private void pauseStopwatch() {
@@ -209,38 +244,13 @@ public class StopwatchFragment extends Fragment {
 
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
-        tickTrackStopwatchTimer = new TickTrackStopwatch(activity);
-        tickTrackStopwatchTimer.setGraphics(stopwatchValueText, stopwatchMillisText, foregroundProgressBar);
+
 
         if(!(stopwatchDataArrayList.size() >0)){
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
 
-        if(stopwatchDataArrayList.get(0).isRunning() && !stopwatchDataArrayList.get(0).isPause()){
-            System.out.println("Init Values Got Running and Not Paused");
 
-            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
-            TickTrackAnimator.fabDissolve(resetFAB);
-            TickTrackAnimator.fabUnDissolve(flagFAB);
-        } else if(!stopwatchDataArrayList.get(0).isRunning()){
-            System.out.println("Init Values Got Not Running");
-
-            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
-            TickTrackAnimator.fabDissolve(resetFAB);
-            TickTrackAnimator.fabDissolve(flagFAB);
-        } else if(stopwatchDataArrayList.get(0).isRunning() && stopwatchDataArrayList.get(0).isPause()){
-            System.out.println("Init Values Got Running and Paused");
-            tickTrackStopwatchTimer.setupPauseValues();
-            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
-            TickTrackAnimator.fabUnDissolve(resetFAB);
-            TickTrackAnimator.fabDissolve(flagFAB);
-        } else {
-            System.out.println("Init Values Got ELSE");
-
-            TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_play_white_24));
-            TickTrackAnimator.fabDissolve(resetFAB);
-            TickTrackAnimator.fabDissolve(flagFAB);
-        }
 
     }
 

@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -151,7 +152,8 @@ public class TimerRingService extends Service {
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
-                .setContentIntent(resultPendingIntent);
+                .setContentIntent(resultPendingIntent)
+                .setColor(ContextCompat.getColor(this, R.color.Accent));
 
         notificationBuilder.setContentTitle("TickTrack Timer Stopped");
         notificationBuilder.setContentText("Swipe to dismiss");
@@ -324,7 +326,8 @@ public class TimerRingService extends Service {
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
-                .setContentIntent(resultPendingIntent);
+                .setContentIntent(resultPendingIntent)
+                .setColor(ContextCompat.getColor(this, R.color.Accent));
 
         notificationBuilder.addAction(killTimers);
 
@@ -364,7 +367,8 @@ public class TimerRingService extends Service {
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setContentIntent(resultPendingIntent)
-                .setSound(alarmSound);
+                .setSound(alarmSound)
+                .setColor(ContextCompat.getColor(this, R.color.Accent));
 
         notificationBuilder.addAction(killTimers);
 
