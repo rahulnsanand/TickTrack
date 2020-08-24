@@ -359,7 +359,7 @@ public class TimerRingService extends Service {
 
 
         notificationBuilder = new NotificationCompat.Builder(this,TickTrack.TIMER_COMPLETE_NOTIFICATION)
-                .setSmallIcon(R.drawable.ic_old_timer_icon)
+                .setSmallIcon(R.drawable.timer_notification_mini_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setPriority(Notification.PRIORITY_MAX)
                 .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
