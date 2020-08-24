@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+
         <receiver
             android:name=".receivers.TimeChangeReceiver"
             android:enabled="true"
@@ -25,10 +26,12 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="true"
             android:exported="true"
+            android:directBootAware="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

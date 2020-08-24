@@ -35,7 +35,6 @@ public class StopwatchNotificationService extends Service {
     private NotificationManagerCompat notificationManagerCompat;
 
     private static ArrayList<StopwatchData> stopwatchData;
-    private TickTrackDatabase tickTrackDatabase;
     private TickTrackNotificationStopwatch tickTrackNotificationStopwatch;
 
     private boolean isLapOn = false;
@@ -167,7 +166,7 @@ public class StopwatchNotificationService extends Service {
 
     private void initializeValues(){
 
-        tickTrackDatabase = new TickTrackDatabase(this);
+        TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(this);
         stopwatchData = tickTrackDatabase.retrieveStopwatchData();
         tickTrackNotificationStopwatch.setupNotificationStuff(notificationManagerCompat, notificationBuilder);
 

@@ -15,12 +15,11 @@ import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class TimerBroadcastReceiver extends BroadcastReceiver {
 
@@ -38,8 +37,10 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
 
+            TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
+
             timerIDInteger = intent.getIntExtra("timerIntegerID",0);
-            timerDataArrayList = retrieveTimerData(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
+            timerDataArrayList = retrieveTimerData(tickTrackDatabase.getSharedPref(context));
 
             int position = getCurrentTimerPosition();
             if(position!=-1){
@@ -49,7 +50,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                 timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
                 timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
 
-                storeTimerList(context.getSharedPreferences("TickTrackData",MODE_PRIVATE));
+                storeTimerList(tickTrackDatabase.getSharedPref(context));
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);
                     KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);

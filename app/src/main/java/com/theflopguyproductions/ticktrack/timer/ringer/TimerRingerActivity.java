@@ -78,7 +78,7 @@ public class TimerRingerActivity extends AppCompatActivity {
         timerStopAdapter.notifyDataSetChanged();
 
         timerStopFAB.setOnClickListener(view -> stopTimers());
-        sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
     }
@@ -119,7 +119,7 @@ public class TimerRingerActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         System.out.println("ON STOP RINGER ACTIVITY");
     }
@@ -127,7 +127,7 @@ public class TimerRingerActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 

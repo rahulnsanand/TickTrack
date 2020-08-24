@@ -23,6 +23,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 
 import java.lang.reflect.Type;
@@ -38,6 +39,7 @@ public class TimerService extends Service {
     NotificationCompat.Builder notificationBuilder;
     NotificationManager notificationManager;
     private NotificationManagerCompat notificationManagerCompat;
+    private TickTrackDatabase tickTrackDatabase;
 
     public TimerService() {
     }
@@ -45,6 +47,7 @@ public class TimerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        tickTrackDatabase = new TickTrackDatabase(this);
         Log.d("TAG_TIMER_SERVICE", "My foreground service onCreate().");
     }
 
@@ -77,7 +80,7 @@ public class TimerService extends Service {
     }
 
     private void stopTimerService() {
-        timerDataArrayList = retrieveTimerDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        timerDataArrayList = retrieveTimerDataList(tickTrackDatabase.getSharedPref(this));
         if(getAllOnTimers() == 0){
             killNotifications();
         }
@@ -89,7 +92,7 @@ public class TimerService extends Service {
     }
 
     private void initializeValues(){
-        SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         timerDataArrayList = retrieveTimerDataList(sharedPreferences);
         endTimes = getEndTimes();
         stopForeground(false);
@@ -195,7 +198,7 @@ public class TimerService extends Service {
 
     private void updateTimerServiceData(){
 
-        timerDataArrayList = retrieveTimerDataList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        timerDataArrayList = retrieveTimerDataList(tickTrackDatabase.getSharedPref(this));
         int OnTimers = getAllOnTimers();
         System.out.println("NOTIFICATION ON TIMER COUNT "+OnTimers);
         if(OnTimers>1){
@@ -224,14 +227,6 @@ public class TimerService extends Service {
             }
         }
         return result;
-    }
-
-    private void storeTimerData() {
-            SharedPreferences.Editor editor = getSharedPreferences("TickTrackData", MODE_PRIVATE).edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(timerDataArrayList);
-            editor.putString("TimerData", json);
-            editor.apply();
     }
 
     public void notifyNotification(){

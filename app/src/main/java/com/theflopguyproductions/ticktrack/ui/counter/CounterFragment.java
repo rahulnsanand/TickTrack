@@ -34,8 +34,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class CounterFragment extends Fragment implements CounterSlideDeleteHelper.RecyclerItemTouchHelperListener{
 
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
@@ -51,7 +49,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     @Override
     public void onStop() {
         super.onStop();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
@@ -64,7 +62,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     @Override
     public void onResume() {
         super.onResume();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
@@ -100,7 +98,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new CounterSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(counterRecyclerView);
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         return root;
@@ -155,7 +153,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof CounterAdapter.counterDataViewHolder) {
 
-            sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+            sharedPreferences = tickTrackDatabase.getSharedPref(activity);
 //            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
             deletedCounter = counterDataArrayList.get(viewHolder.getAdapterPosition()).getCounterLabel();
