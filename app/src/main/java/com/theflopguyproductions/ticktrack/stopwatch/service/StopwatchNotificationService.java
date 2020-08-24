@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
+import androidx.core.content.ContextCompat;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
@@ -68,7 +69,8 @@ public class StopwatchNotificationService extends Service {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(resultPendingIntent)
                 .setDeleteIntent(deletePendingIntent)
-                .setOngoing(true);
+                .setOngoing(true)
+                .setColor(ContextCompat.getColor(this, R.color.Accent));
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.STOPWATCH_NOTIFICATION);
@@ -107,6 +109,7 @@ public class StopwatchNotificationService extends Service {
         PendingIntent pendingMinusIntent = PendingIntent.getService(this, 5, resetIntent, 0);
         NotificationCompat.Action resetAction = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Reset", pendingMinusIntent);
 
+        notificationBuilder.setContentText("Paused");
 
         notificationBuilder.addAction(resumeAction);
         notificationBuilder.addAction(resetAction);

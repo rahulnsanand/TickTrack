@@ -64,7 +64,7 @@ public class TickTrackStopwatch {
         stopwatchHandler.postDelayed(stopwatchRunnable, 1);
     }
 
-    private void updateTextView() {
+    public void updateTextView() {
         if (hourMinuteText != null) {
             String hourMinute = getFormattedHourMinute(stopwatchDurationElapsed, this.hourMinuteText);
             this.hourMinuteText.setText(hourMinute);
