@@ -2,7 +2,6 @@ package com.theflopguyproductions.ticktrack.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -43,7 +42,6 @@ public class DeleteCounterFromActivity extends Dialog {
         this.position = position;
         this.activity = activity;
         this.counterID = counterID;
-        this.sharedPreferences = activity.getSharedPreferences("TickTrackData", Context.MODE_PRIVATE);
         this.sharedPreferenceChangeListener = sharedPreferenceChangeListener;
     }
 
@@ -57,6 +55,8 @@ public class DeleteCounterFromActivity extends Dialog {
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         tickTrackDatabase = new TickTrackDatabase(activity);
+
+        sharedPreferences  = tickTrackDatabase.getSharedPref(activity);
 
         yesButton = view.findViewById(R.id.acceptDeleteCounterButton);
         noButton = view.findViewById(R.id.dismissDeleteCounterButton);

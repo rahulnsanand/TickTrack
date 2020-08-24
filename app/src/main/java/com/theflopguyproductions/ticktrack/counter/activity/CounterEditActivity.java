@@ -51,7 +51,7 @@ public class CounterEditActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        sharedPreferences = this.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         tickTrackDatabase.storeCurrentFragmentNumber(1);
     }
@@ -66,7 +66,7 @@ public class CounterEditActivity extends AppCompatActivity {
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         counterID = getIntent().getStringExtra("CurrentPosition");
         int flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
-        sharedPreferences = this.getSharedPreferences("TickTrackData",MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
 
         initVariables();
 

@@ -47,11 +47,10 @@ public class CounterActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String counterID;
 
-
     @Override
     protected void onStop() {
         super.onStop();
-        sharedPreferences = this.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         tickTrackDatabase.storeCurrentFragmentNumber(1);
     }
@@ -93,7 +92,7 @@ public class CounterActivity extends AppCompatActivity {
         minusButtonBig =findViewById(R.id.minusButton);
         buttonSwitch = findViewById(R.id.counterActivityButtonSwitch);
         lottieAnimationView = findViewById(R.id.counterActivityLottieAnimationView);
-        sharedPreferences = this.getSharedPreferences("TickTrackData",MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
 
         activity = this;
         tickTrackDatabase = new TickTrackDatabase(activity);

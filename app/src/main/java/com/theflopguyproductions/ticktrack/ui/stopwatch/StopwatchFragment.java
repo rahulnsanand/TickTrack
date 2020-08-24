@@ -30,8 +30,6 @@ import com.theflopguyproductions.ticktrack.utils.runnable.TickTrackStopwatch;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class StopwatchFragment extends Fragment {
 
     private ConstraintLayout stopwatchRootLayout, stopwatchLapLayout;
@@ -77,7 +75,7 @@ public class StopwatchFragment extends Fragment {
         tickTrackDatabase = new TickTrackDatabase(activity);
         initValues();
         buildRecyclerView(activity);
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         return root;
@@ -271,7 +269,7 @@ public class StopwatchFragment extends Fragment {
         TickTrackThemeSetter.stopwatchFragmentTheme(activity, stopwatchRootLayout, stopwatchLapTitleText, stopwatchValueText,
                 tickTrackDatabase, backgroundProgressBar, stopwatchMillisText);
 
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
@@ -283,7 +281,7 @@ public class StopwatchFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         tickTrackStopwatchTimer.onStopCalled();
 

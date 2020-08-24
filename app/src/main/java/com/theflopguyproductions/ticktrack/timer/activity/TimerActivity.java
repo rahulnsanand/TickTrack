@@ -293,7 +293,7 @@ public class TimerActivity extends AppCompatActivity {
     long countDownTimerMillis;
     private void startTimer(long timeInMillis) {
 
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         timerDataArrayList.get(timerCurrentPosition).setTimerAlarmEndTimeInMillis(timeInMillis+SystemClock.elapsedRealtime());
@@ -383,7 +383,7 @@ public class TimerActivity extends AppCompatActivity {
 
         countDownTimer.cancel();
 
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         int hours = (int) TimeUnit.MILLISECONDS.toHours(countDownTimerMillis);
@@ -418,7 +418,7 @@ public class TimerActivity extends AppCompatActivity {
     }
     private void resetTimer() {
 
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         timerDataArrayList.get(timerCurrentPosition).setTimerOn(false);
         timerDataArrayList.get(timerCurrentPosition).setTimerPause(false);
@@ -538,7 +538,7 @@ public class TimerActivity extends AppCompatActivity {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         booleanRefresh();
 
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
     }
@@ -645,7 +645,7 @@ public class TimerActivity extends AppCompatActivity {
         tickTrackTimerDatabase = new TickTrackTimerDatabase(activity);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
@@ -658,7 +658,7 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(timerCurrentPosition!=-1){
             if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause() && !timerDataArrayList.get(timerCurrentPosition).isTimerRinging()){
@@ -692,7 +692,7 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(timerCurrentPosition!=-1){
             if(timerDataArrayList.get(timerCurrentPosition).isTimerOn() && !timerDataArrayList.get(timerCurrentPosition).isTimerPause()){

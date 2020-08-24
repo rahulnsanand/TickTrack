@@ -29,8 +29,6 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
     static TickTrackDatabase tickTrackDatabase;
@@ -76,7 +74,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new TimerSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(timerRecyclerView);
 
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         buildRecyclerView(activity);
@@ -148,14 +146,14 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     @Override
     public void onStop() {
         super.onStop();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
@@ -168,7 +166,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     @Override
     public void onStart() {
         super.onStart();
-        sharedPreferences = activity.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         timerAdapter.notifyDataSetChanged();
     }

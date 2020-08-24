@@ -2,6 +2,9 @@ package com.theflopguyproductions.ticktrack.utils.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import androidx.core.os.BuildCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -13,14 +16,42 @@ import com.theflopguyproductions.ticktrack.timer.TimerData;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class TickTrackDatabase {
 
     private SharedPreferences sharedPreferences;
 
+    public SharedPreferences getSharedPref(Context context){
+        Context storageContext;
+        if (BuildCompat.isAtLeastN()) {
+            final Context deviceContext = context.createDeviceProtectedStorageContext();
+            if (!deviceContext.moveSharedPreferencesFrom(context,
+                    "TickTrackData")) {
+                Log.w("TAG", "Failed to migrate shared preferences.");
+            }
+            storageContext = deviceContext;
+        } else {
+            storageContext = context;
+        }
+        return storageContext
+                .getSharedPreferences("TickTrackData", Context.MODE_PRIVATE);
+    }
+
     public TickTrackDatabase(Context context) {
-        sharedPreferences = context.getSharedPreferences("TickTrackData", MODE_PRIVATE);
+
+        Context storageContext;
+        if (BuildCompat.isAtLeastN()) {
+            final Context deviceContext = context.createDeviceProtectedStorageContext();
+            if (!deviceContext.moveSharedPreferencesFrom(context,
+                    "TickTrackData")) {
+                Log.w("TAG", "Failed to migrate shared preferences.");
+            }
+            storageContext = deviceContext;
+        } else {
+            storageContext = context;
+        }
+        sharedPreferences = storageContext
+                .getSharedPreferences("TickTrackData", Context.MODE_PRIVATE);
+
     }
 
     public void storeFirstLaunch(boolean updateNumber){
@@ -213,5 +244,9 @@ public class TickTrackDatabase {
         editor.apply();
     }
 
+
+    private void setupSecureBootStorage(){
+
+    }
 
 }

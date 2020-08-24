@@ -22,6 +22,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
@@ -50,6 +51,8 @@ public class CounterNotificationService extends Service {
     public static final String ACTION_MINUS = "ACTION_MINUS";
     private NotificationManagerCompat notificationManagerCompat;
 
+    private TickTrackDatabase tickTrackDatabase;
+
     public CounterNotificationService() {
     }
 
@@ -57,6 +60,7 @@ public class CounterNotificationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        tickTrackDatabase = new TickTrackDatabase(this);
         Log.d(TAG_COUNTER_SERVICE, "My foreground service onCreate().");
     }
 
@@ -121,7 +125,7 @@ public class CounterNotificationService extends Service {
                     break;
                 case ACTION_REFRESH_SERVICE:
                     if(currentCounterPosition!=-1){
-                        refreshCountValue(getSharedPreferences("TickTrackData", MODE_PRIVATE));
+                        refreshCountValue(tickTrackDatabase.getSharedPref(this));
                     }
                     break;
                 case ACTION_KILL_NOTIFICATIONS:
@@ -133,7 +137,7 @@ public class CounterNotificationService extends Service {
     }
 
     private void initializeValues() {
-        SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         counterDataList = retrieveCounterList(sharedPreferences);
         currentCounterPosition = getCurrentCounterNotificationID();
         if(currentCounterPosition!=-1){
@@ -163,7 +167,7 @@ public class CounterNotificationService extends Service {
             counterValue-=1;
             counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
             counterDataList.get(currentCounterPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
-            storeCounterList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+            storeCounterList(tickTrackDatabase.getSharedPref(this));
 
             notificationBuilder.setContentText("Value: "+counterValue+"");
 
@@ -178,7 +182,7 @@ public class CounterNotificationService extends Service {
         counterValue+=1;
         counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
         counterDataList.get(currentCounterPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
-        storeCounterList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        storeCounterList(tickTrackDatabase.getSharedPref(this));
         notificationBuilder.setContentText("Value: "+counterValue+"");
         notifyNotification();
     }
@@ -250,11 +254,11 @@ public class CounterNotificationService extends Service {
 
     private void notificationCounterTrue() {
         counterDataList.get(currentCounterPosition).setCounterPersistentNotification(true);
-        storeCounterList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        storeCounterList(tickTrackDatabase.getSharedPref(this));
     }
     private void notificationCounterFalse() {
         counterDataList.get(currentCounterPosition).setCounterPersistentNotification(false);
-        storeCounterList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        storeCounterList(tickTrackDatabase.getSharedPref(this));
         setCurrentCounterNotificationID(null);
     }
 
@@ -313,7 +317,7 @@ public class CounterNotificationService extends Service {
     }
 
     public int getCurrentCounterNotificationID(){
-        SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         return getCurrentPosition(sharedPreferences.getString("CounterNotificationID", null));
     }
 
@@ -327,7 +331,7 @@ public class CounterNotificationService extends Service {
     }
 
     public void setCurrentCounterNotificationID(String currentPosition) {
-        SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("CounterNotificationID", currentPosition);
         editor.apply();

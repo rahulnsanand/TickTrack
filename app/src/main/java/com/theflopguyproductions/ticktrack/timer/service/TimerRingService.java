@@ -33,6 +33,7 @@ import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class TimerRingService extends Service {
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private int timerCount = 0;
     final Handler handler = new Handler();
+    private TickTrackDatabase tickTrackDatabase;
 
     public TimerRingService(){
     }
@@ -61,6 +63,7 @@ public class TimerRingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        tickTrackDatabase = new TickTrackDatabase(this);
         alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + getPackageName() + "/raw/timer_beep.mp3");
         Log.d("TAG_TIMER_RANG_SERVICE", "My foreground service onCreate().");
@@ -124,7 +127,7 @@ public class TimerRingService extends Service {
         }
 
         showShutDownNotification();
-        stopTimerRinging(getSharedPreferences("TickTrackData", MODE_PRIVATE));
+        stopTimerRinging(tickTrackDatabase.getSharedPref(this));
         handler.removeCallbacks(refreshRunnable);
         stopSelf();
         onDestroy();
@@ -165,7 +168,7 @@ public class TimerRingService extends Service {
     }
 
     private void initializeValues() {
-        SharedPreferences sharedPreferences = getSharedPreferences("TickTrackData", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         timerDataArrayList = retrieveTimerList(sharedPreferences);
         timerCount = getAllOnTimers();
         if(timerCount>0){
@@ -271,7 +274,7 @@ public class TimerRingService extends Service {
     }
     private void updateTimerServiceData(){
 
-        timerDataArrayList = retrieveTimerList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        timerDataArrayList = retrieveTimerList(tickTrackDatabase.getSharedPref(this));
         int OnTimers = getAllOnTimers();
         if(OnTimers==1){
             notificationManagerCompat.notify(3, notificationBuilder.build());
@@ -289,7 +292,7 @@ public class TimerRingService extends Service {
     }
 
     private void stopRingerService() {
-        timerDataArrayList = retrieveTimerList(getSharedPreferences("TickTrackData",MODE_PRIVATE));
+        timerDataArrayList = retrieveTimerList(tickTrackDatabase.getSharedPref(this));
         if(!(getAllOnTimers() > 0)){
             stopTimers();
         }
