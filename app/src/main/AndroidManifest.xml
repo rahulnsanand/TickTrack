@@ -20,7 +20,8 @@
         <receiver
             android:name=".receivers.TimeChangeReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:directBootAware="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
@@ -66,15 +67,18 @@
         <service
             android:name=".timer.service.TimerService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:directBootAware="true"/>
         <service
             android:name=".timer.service.TimerRingService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:directBootAware="true"/>
         <service
             android:name=".stopwatch.service.StopwatchNotificationService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:directBootAware="true"/>
 
         <activity android:name=".timer.activity.TimerActivity" />
         <activity android:name=".counter.activity.CounterEditActivity" />
@@ -99,7 +103,8 @@
         <service
             android:name=".counter.notification.CounterNotificationService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:directBootAware="true"/>
     </application>
 
 </manifest>
