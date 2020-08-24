@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.utils.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.os.BuildCompat;
@@ -37,9 +38,8 @@ public class TickTrackDatabase {
     }
 
     public TickTrackDatabase(Context context) {
-
         Context storageContext;
-        if (BuildCompat.isAtLeastN()) {
+        if (Build.VERSION.SDK_INT >= 24) {
             final Context deviceContext = context.createDeviceProtectedStorageContext();
             if (!deviceContext.moveSharedPreferencesFrom(context,
                     "TickTrackData")) {
