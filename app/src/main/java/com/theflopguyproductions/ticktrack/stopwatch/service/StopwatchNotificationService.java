@@ -38,6 +38,8 @@ public class StopwatchNotificationService extends Service {
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackNotificationStopwatch tickTrackNotificationStopwatch;
 
+    private boolean isLapOn = false;
+
     public StopwatchNotificationService() {
     }
 
@@ -117,6 +119,8 @@ public class StopwatchNotificationService extends Service {
     public void onCreate() {
         super.onCreate();
         tickTrackNotificationStopwatch = new TickTrackNotificationStopwatch(this);
+
+        baseLineNotificationLayout();
         Log.d("TAG_TIMER_SERVICE", "My foreground service onCreate().");
     }
 
@@ -165,7 +169,6 @@ public class StopwatchNotificationService extends Service {
 
         tickTrackDatabase = new TickTrackDatabase(this);
         stopwatchData = tickTrackDatabase.retrieveStopwatchData();
-        baseLineNotificationLayout();
         tickTrackNotificationStopwatch.setupNotificationStuff(notificationManagerCompat, notificationBuilder);
 
     }
@@ -184,9 +187,11 @@ public class StopwatchNotificationService extends Service {
         if(stopwatchData.size()>0){
             if(stopwatchData.get(0).isPause()){
                 setupResumeReset();
+                isLapOn = false;
                 tickTrackNotificationStopwatch.pauseInit();
             } else {
                 setupLapPause();
+                isLapOn = true;
                 tickTrackNotificationStopwatch.resumeInit();
             }
         }
@@ -194,12 +199,20 @@ public class StopwatchNotificationService extends Service {
 
     private void pauseStopwatchService() {
         tickTrackNotificationStopwatch.pause();
-        setupResumeReset();
+        if(isLapOn){
+            notificationBuilder.clearActions();
+            setupResumeReset();
+            isLapOn = false;
+        }
     }
 
     private void lapStopwatchService() {
         tickTrackNotificationStopwatch.lap();
-        setupLapPause();
+        if(!isLapOn){
+            notificationBuilder.clearActions();
+            setupLapPause();
+            isLapOn = true;
+        }
     }
 
     private void resetStopwatchService() {
@@ -210,7 +223,11 @@ public class StopwatchNotificationService extends Service {
     private void resumeStopwatchService() {
         if(stopwatchData.get(0).isPause()){
             tickTrackNotificationStopwatch.resume();
-            setupLapPause();
+            if(!isLapOn){
+                notificationBuilder.clearActions();
+                setupLapPause();
+                isLapOn = true;
+            }
         }
     }
 
