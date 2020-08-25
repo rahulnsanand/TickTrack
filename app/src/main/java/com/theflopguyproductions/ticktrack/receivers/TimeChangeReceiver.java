@@ -50,9 +50,14 @@ public class TimeChangeReceiver extends BroadcastReceiver {
 
                     Toast.makeText(context, "STOPWATCH PAUSE TIME CHANGE", Toast.LENGTH_SHORT).show();
                 }
+                if(tickTrackDatabase.retrieveStopwatchLapData().size()>0){
+                    stopwatchData.get(0).setProgressSystemValue(System.currentTimeMillis() - (SystemClock.elapsedRealtime() - stopwatchData.get(0).getProgressValue()));
+                }
             }
         }
         tickTrackDatabase.storeStopwatchData(stopwatchData);
+
+
 
     }
 }

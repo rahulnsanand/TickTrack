@@ -32,6 +32,12 @@ public class BootReceiver extends BroadcastReceiver {
                 long pauseElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getLastPauseTimeInMillis();
                 stopwatchData.get(0).setLastPauseTimeRealTimeInMillis(SystemClock.elapsedRealtime()-pauseElapsedOnBoot);
             }
+
+            if(tickTrackDatabase.retrieveStopwatchLapData().size()>0){
+                long lapElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getProgressSystemValue();
+                stopwatchData.get(0).setProgressValue(SystemClock.elapsedRealtime()-lapElapsedOnBoot);
+            }
+
             tickTrackDatabase.storeStopwatchData(stopwatchData);
 
             if(!isMyServiceRunning(StopwatchNotificationService.class, context)){
