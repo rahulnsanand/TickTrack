@@ -7,6 +7,7 @@ import android.os.SystemClock;
 import android.widget.Toast;
 
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
@@ -36,6 +37,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         tickTrackDatabase.storeTimerList(timerData);
 
         ArrayList<StopwatchData> stopwatchData = tickTrackDatabase.retrieveStopwatchData();
+        ArrayList<StopwatchLapData> stopwatchLapData = tickTrackDatabase.retrieveStopwatchLapData();
 
         if(stopwatchData.size()>0){
             if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
@@ -50,11 +52,14 @@ public class TimeChangeReceiver extends BroadcastReceiver {
 
                     Toast.makeText(context, "STOPWATCH PAUSE TIME CHANGE", Toast.LENGTH_SHORT).show();
                 }
-                if(tickTrackDatabase.retrieveStopwatchLapData().size()>0){
+                if(stopwatchLapData.size()>0){
                     stopwatchData.get(0).setProgressSystemValue(System.currentTimeMillis() - (SystemClock.elapsedRealtime() - stopwatchData.get(0).getProgressValue()));
+                    stopwatchLapData.get(0).setLastLapUpdateSystemTimeInMillis(System.currentTimeMillis() - (SystemClock.elapsedRealtime()-
+                            stopwatchLapData.get(0).getLastLapUpdateRealtimeInMillis()));
                 }
             }
         }
+        tickTrackDatabase.storeLapData(stopwatchLapData);
         tickTrackDatabase.storeStopwatchData(stopwatchData);
 
 
