@@ -8,6 +8,7 @@ import android.os.SystemClock;
 
 import com.theflopguyproductions.ticktrack.TimerManagementHelper;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
+import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
@@ -24,6 +25,7 @@ public class BootReceiver extends BroadcastReceiver {
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
         ArrayList<StopwatchData> stopwatchData = tickTrackDatabase.retrieveStopwatchData();
+        ArrayList<StopwatchLapData> stopwatchLapData = tickTrackDatabase.retrieveStopwatchLapData();
         if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
             long timeElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getStopwatchTimerStartTimeInMillis();
             stopwatchData.get(0).setStopwatchTimerStartTimeInRealTimeMillis(SystemClock.elapsedRealtime()-timeElapsedOnBoot);
@@ -33,12 +35,16 @@ public class BootReceiver extends BroadcastReceiver {
                 stopwatchData.get(0).setLastPauseTimeRealTimeInMillis(SystemClock.elapsedRealtime()-pauseElapsedOnBoot);
             }
 
-            if(tickTrackDatabase.retrieveStopwatchLapData().size()>0){
+            if(stopwatchLapData.size()>0){
                 long lapElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getProgressSystemValue();
                 stopwatchData.get(0).setProgressValue(SystemClock.elapsedRealtime()-lapElapsedOnBoot);
+                long lapLastUpdateTime = System.currentTimeMillis() - stopwatchLapData.get(0).getLastLapUpdateSystemTimeInMillis();
+                stopwatchLapData.get(0).setLastLapUpdateRealtimeInMillis(SystemClock.elapsedRealtime() - lapLastUpdateTime);
+
             }
 
             tickTrackDatabase.storeStopwatchData(stopwatchData);
+            tickTrackDatabase.storeLapData(stopwatchLapData);
 
             if(!isMyServiceRunning(StopwatchNotificationService.class, context)){
                 startNotificationService(context);

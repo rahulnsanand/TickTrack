@@ -6,7 +6,23 @@ public class StopwatchLapData implements Comparable<StopwatchLapData>{
     int lapNumber;
     long lapTimeInMillis;
     long elapsedTimeInMillis;
+    long lastLapUpdateRealtimeInMillis, lastLapUpdateSystemTimeInMillis;
 
+    public long getLastLapUpdateRealtimeInMillis() {
+        return lastLapUpdateRealtimeInMillis;
+    }
+
+    public void setLastLapUpdateRealtimeInMillis(long lastLapUpdateRealtimeInMillis) {
+        this.lastLapUpdateRealtimeInMillis = lastLapUpdateRealtimeInMillis;
+    }
+
+    public long getLastLapUpdateSystemTimeInMillis() {
+        return lastLapUpdateSystemTimeInMillis;
+    }
+
+    public void setLastLapUpdateSystemTimeInMillis(long lastLapUpdateSystemTimeInMillis) {
+        this.lastLapUpdateSystemTimeInMillis = lastLapUpdateSystemTimeInMillis;
+    }
 
     public long getElapsedTimeInMillis() {
         return elapsedTimeInMillis;
