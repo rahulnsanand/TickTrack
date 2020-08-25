@@ -99,7 +99,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
     private void goToStartUpActivity() {
         tickTrackDatabase.storeNotOptimiseBool(false);
-        tickTrackDatabase.storeStartUpFragmentID(3);
+        tickTrackDatabase.storeStartUpFragmentID(5);
         Intent intent = new Intent(this, StartUpActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

@@ -18,8 +18,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private TickTrackDatabase tickTrackDatabase;
 
-    private ConstraintLayout themeLayout;
-    private TextView themeName, themeTitle;
+    private ConstraintLayout themeLayout, backupLayout;
+    private TextView themeName, themeTitle, backupTitle, backupEmail;
     private ImageButton backButton;
     private ScrollView settingsScrollView;
     private int prevFragment = -1;
@@ -34,11 +34,16 @@ public class SettingsActivity extends AppCompatActivity {
         themeName = findViewById(R.id.themeValueSettingsTextView);
         backButton = findViewById(R.id.settingsActivityBackButton);
         settingsScrollView = findViewById(R.id.settingsActivityScrollView);
+        backupLayout = findViewById(R.id.backupSettingsLayout);
+        backupTitle = findViewById(R.id.backupTitleSettingsTextView);
+        backupEmail = findViewById(R.id.backupEmailSettingsTextView);
+
         tickTrackDatabase = new TickTrackDatabase(this);
 
         prevFragment = tickTrackDatabase.retrieveCurrentFragmentNumber();
 
-        TickTrackThemeSetter.settingsActivityTheme(this, themeTitle, themeName, settingsScrollView, themeLayout, tickTrackDatabase);
+        TickTrackThemeSetter.settingsActivityTheme(this, themeTitle, themeName, settingsScrollView, themeLayout,
+                tickTrackDatabase,backupTitle, backupEmail, backupLayout);
 
         themeLayout.setOnClickListener(view -> {
             ThemeDialog themeDialog = new ThemeDialog(this, tickTrackDatabase.getThemeMode());
