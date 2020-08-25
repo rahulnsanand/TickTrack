@@ -72,7 +72,8 @@ public class TickTrackThemeSetter {
     }
 
     public static void counterActivityTheme(Activity activity, ConstraintLayout toolbar, ConstraintLayout rootLayout, int flagColor,
-                                            ConstraintLayout plusButtonBig, ConstraintLayout minusButtonBig, TextView plusText, TextView minusText, SwipeButton plusButton, SwipeButton minusButton,
+                                            ConstraintLayout plusButtonBig, ConstraintLayout minusButtonBig, TextView plusText, TextView minusText, SwipeButton plusLightButton, SwipeButton minusLightButton,
+                                            SwipeButton plusDarkButton, SwipeButton minusDarkButton,
                                             ScrollView counterActivityScrollView, TextView counterSwitchMode, Switch buttonSwitch, ConstraintLayout switchLayout,
                                             ConstraintLayout switchLowerDivider, ConstraintLayout switchUpperDivider, TickTrackDatabase tickTrackDatabase){
 
@@ -90,6 +91,10 @@ public class TickTrackThemeSetter {
             minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
             minusText.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
+            plusDarkButton.setVisibility(View.GONE);
+            minusDarkButton.setVisibility(View.GONE);
+            plusLightButton.setVisibility(View.VISIBLE);
+            minusLightButton.setVisibility(View.VISIBLE);
 
             switchLowerDivider.setBackgroundResource(R.color.GrayOnLight);
             switchUpperDivider.setBackgroundResource(R.color.GrayOnLight);
@@ -105,6 +110,10 @@ public class TickTrackThemeSetter {
             minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             minusText.setTextColor(activity.getResources().getColor(R.color.LightText));
 
+            plusDarkButton.setVisibility(View.VISIBLE);
+            minusDarkButton.setVisibility(View.VISIBLE);
+            plusLightButton.setVisibility(View.GONE);
+            minusLightButton.setVisibility(View.GONE);
 
             switchUpperDivider.setBackgroundResource(R.color.GrayOnDark);
             switchLowerDivider.setBackgroundResource(R.color.GrayOnDark);

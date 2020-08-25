@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -284,11 +286,18 @@ public class CounterEditActivity extends AppCompatActivity {
             labelDialog.inputText.setVisibility(View.VISIBLE);
             labelDialog.helperText.setVisibility(View.VISIBLE);
             labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
-            labelDialog.helperText.setText("Counter value");
+            labelDialog.helperText.setText(" Counter value ");
             labelDialog.okButton.setOnClickListener(view1 -> {
-                counterValue.setText(labelDialog.inputText.getText()+"");
-                labelDialog.dismiss();
-                isChanged = true;
+                try {
+                    int value = Integer.parseInt(labelDialog.inputText.getText().toString());
+                    counterValue.setText(value+"");
+                    labelDialog.dismiss();
+                    isChanged = true;
+                } catch (Exception e){
+                    labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_error);
+                    new Handler().postDelayed(() -> labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_accent), 2000);
+                    Toast.makeText(activity, "Value must be less than 10 digits", Toast.LENGTH_SHORT).show();
+                }
             });
             labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
         });
