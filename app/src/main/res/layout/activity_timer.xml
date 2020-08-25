@@ -73,6 +73,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerActivityToolbarLayout">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/timerActivityResetFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB"
+            app:srcCompat="@drawable/ic_round_refresh_white_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/timerActivityPlusOneFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/timerActivityPlayPauseFAB"
+            wheel:srcCompat="@drawable/ic_baseline_plus_one_white_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/timerActivityPlayPauseFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:elevation="7dp"
+            app:layout_constraintBottom_toBottomOf="@+id/timerActivityScrollView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_round_pause_white_24" />
+
         <ScrollView
             android:id="@+id/timerActivityScrollView"
             android:layout_width="match_parent"
@@ -80,8 +119,10 @@
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/timerActivityRootLayout"
@@ -149,56 +190,13 @@
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintVertical_bias="1.0" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/timerActivityPlayPauseFAB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:elevation="7dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@drawable/ic_round_pause_white_24" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/timerActivityResetFAB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="16dp"
-                    android:clickable="true"
-                    android:visibility="gone"
-                    app:fabSize="mini"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB"
-                    app:layout_constraintTop_toBottomOf="@+id/timerActivityTimerProgressBar"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@drawable/ic_round_refresh_white_24" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/timerActivityPlusOneFAB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginBottom="16dp"
-                    android:clickable="true"
-                    android:visibility="gone"
-                    app:fabSize="mini"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/timerActivityPlayPauseFAB"
-                    app:layout_constraintTop_toBottomOf="@+id/timerActivityTimerProgressBar"
-                    app:layout_constraintVertical_bias="1.0"
-                    wheel:srcCompat="@drawable/ic_baseline_plus_one_white_24" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/timerActivityStartEndLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginBottom="120dp"
                     android:visibility="visible"
-                    app:layout_constraintBottom_toTopOf="@+id/timerActivityPlayPauseFAB"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent">

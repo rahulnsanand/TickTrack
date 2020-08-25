@@ -107,23 +107,25 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
 
     @Override
     public void onBackupSetClickListener() {
-
+        openFragment(new ThemeFragment());
     }
 
     @Override
     public void onSignInClickListener() {
+        tickTrackDatabase.storeFirstLaunch(false);
 
     }
 
     @Override
     public void onLaterClickListener() {
-
+        tickTrackDatabase.storeFirstLaunch(false);
+        openFragment(new ThemeFragment());
     }
 
     @Override
     public void onThemeSetClickListener() {
         setupTheme();
-        tickTrackDatabase.storeFirstLaunch(false);
+
         openFragment(new BatteryOptimiseFragment());
     }
     @Override
