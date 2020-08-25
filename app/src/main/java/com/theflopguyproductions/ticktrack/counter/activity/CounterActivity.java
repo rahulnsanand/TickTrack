@@ -32,7 +32,7 @@ public class CounterActivity extends AppCompatActivity {
 
     TickTrackDatabase tickTrackDatabase;
 
-    private SwipeButton plusButton, minusButton;
+    private SwipeButton plusLightButton, minusLightButton, plusDarkButton, minusDarkButton;
     private ConstraintLayout plusButtonBig, minusButtonBig;
     private Switch buttonSwitch;
     private ScrollView counterActivityScrollView;
@@ -60,8 +60,8 @@ public class CounterActivity extends AppCompatActivity {
         super.onResume();
         flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
         TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
-                plusText, minusText,
-                plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider, tickTrackDatabase);
+                plusText, minusText, plusLightButton, minusLightButton,
+                plusDarkButton, minusDarkButton, counterActivityScrollView, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider, tickTrackDatabase);
         milestoneItIs();
     }
 
@@ -70,10 +70,40 @@ public class CounterActivity extends AppCompatActivity {
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         if (s.equals("CounterData")){
+            setupCounterTextSize();
             CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
             currentCount = counterDataArrayList.get(getCurrentPosition()).getCounterValue();
         }
     };
+
+    private void setupCounterTextSize() {
+        int countValue = counterDataArrayList.get(getCurrentPosition()).getCounterValue();
+        int numberOfDigits = countDigits(countValue);
+        if(numberOfDigits<4){
+            CounterText.setTextSize(150);
+        } else if(numberOfDigits<5){
+            CounterText.setTextSize(125);
+        } else if(numberOfDigits<6){
+            CounterText.setTextSize(100);
+        } else if(numberOfDigits<7){
+            CounterText.setTextSize(80);
+        } else if(numberOfDigits<8){
+            CounterText.setTextSize(65);
+        } else if(numberOfDigits<9){
+            CounterText.setTextSize(50);
+        } else {
+            CounterText.setTextSize(40);
+        }
+    }
+
+    private int countDigits(int countValue){
+        int count = 0;
+        while(countValue != 0) {
+            countValue /= 10;
+            ++count;
+        }
+        return count;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,16 +116,18 @@ public class CounterActivity extends AppCompatActivity {
         editButton = findViewById(R.id.counterActivityEditButton);
         deleteButton = findViewById(R.id.counterActivityTrashButton);
         counterLabel = findViewById(R.id.counterActivityLabelTextView);
-        plusButton = findViewById(R.id.plusbtn);
-        minusButton = findViewById(R.id.minusbtn);
+        plusLightButton = findViewById(R.id.plusbtn);
+        minusLightButton = findViewById(R.id.minusbtn);
+        plusDarkButton = findViewById(R.id.plusDarkbtn);
+        minusDarkButton = findViewById(R.id.minusDarkbtn);
         plusButtonBig = findViewById(R.id.plusButton);
         minusButtonBig =findViewById(R.id.minusButton);
         buttonSwitch = findViewById(R.id.counterActivityButtonSwitch);
         lottieAnimationView = findViewById(R.id.counterActivityLottieAnimationView);
-        sharedPreferences = tickTrackDatabase.getSharedPref(this);
 
         activity = this;
         tickTrackDatabase = new TickTrackDatabase(activity);
+        sharedPreferences = tickTrackDatabase.getSharedPref(this);
 
         counterSwitchMode = findViewById(R.id.counterActivitySwitchModeTextView);
         counterSwitchMode.setText("Swipe mode");
@@ -116,13 +148,15 @@ public class CounterActivity extends AppCompatActivity {
 
         TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
                 plusText, minusText,
-                plusButton, minusButton, counterActivityScrollView, counterSwitchMode, buttonSwitch,
+                plusLightButton, minusLightButton,
+                plusDarkButton, minusDarkButton,  counterActivityScrollView, counterSwitchMode, buttonSwitch,
                 switchLayout, switchLowerDivider, switchUpperDivider, tickTrackDatabase);
 
 
         currentCount = counterDataArrayList.get(getCurrentPosition()).getCounterValue();
         counterLabel.setText(counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
 
+        setupCounterTextSize();
         CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
 
         backButton.setOnClickListener(view -> onBackPressed());
@@ -193,21 +227,33 @@ public class CounterActivity extends AppCompatActivity {
             counterSwitchMode.setText("Click mode");
             plusButtonBig.setVisibility(View.VISIBLE);
             minusButtonBig.setVisibility(View.VISIBLE);
-            plusButton.setVisibility(View.INVISIBLE);
-            minusButton.setVisibility(View.INVISIBLE);
+            plusLightButton.setVisibility(View.GONE);
+            minusLightButton.setVisibility(View.GONE);
+            plusDarkButton.setVisibility(View.GONE);
+            minusDarkButton.setVisibility(View.GONE);
+
         } else {
             counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(false);
             tickTrackDatabase.storeCounterList(counterDataArrayList);
             counterSwitchMode.setText("Swipe mode");
-            plusButtonBig.setVisibility(View.INVISIBLE);
-            minusButtonBig.setVisibility(View.INVISIBLE);
-            plusButton.setVisibility(View.VISIBLE);
-            minusButton.setVisibility(View.VISIBLE);
+            plusButtonBig.setVisibility(View.GONE);
+            minusButtonBig.setVisibility(View.GONE);
+            if(tickTrackDatabase.getThemeMode()==1){
+                plusLightButton.setVisibility(View.VISIBLE);
+                minusLightButton.setVisibility(View.VISIBLE);
+                plusDarkButton.setVisibility(View.GONE);
+                minusDarkButton.setVisibility(View.GONE);
+            } else {
+                plusLightButton.setVisibility(View.GONE);
+                minusLightButton.setVisibility(View.GONE);
+                plusDarkButton.setVisibility(View.VISIBLE);
+                minusDarkButton.setVisibility(View.VISIBLE);
+            }
         }
     }
 
     private void setOnClickListeners(){
-        plusButton.setOnActiveListener(() -> {
+        plusLightButton.setOnActiveListener(() -> {
             currentCount+=1;
             counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
             counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -217,7 +263,28 @@ public class CounterActivity extends AppCompatActivity {
             refreshNotificationStatus();
         });
 
-        minusButton.setOnActiveListener(() -> {
+        minusLightButton.setOnActiveListener(() -> {
+            if(currentCount>=1){
+                currentCount-=1;
+                counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+                CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                tickTrackDatabase.storeCounterList(counterDataArrayList);
+                milestoneItIs();
+                refreshNotificationStatus();
+            }
+        });
+        plusDarkButton.setOnActiveListener(() -> {
+            currentCount+=1;
+            counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+            CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+            tickTrackDatabase.storeCounterList(counterDataArrayList);
+            milestoneItIs();
+            refreshNotificationStatus();
+        });
+
+        minusDarkButton.setOnActiveListener(() -> {
             if(currentCount>=1){
                 currentCount-=1;
                 counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
