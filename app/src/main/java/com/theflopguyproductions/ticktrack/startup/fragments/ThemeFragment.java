@@ -58,7 +58,7 @@ public class ThemeFragment extends Fragment {
 
         rootLayout = root.findViewById(R.id.ticktrackFragmentThemeRoot);
         tickTrackDatabase = new TickTrackDatabase(requireContext());
-        tickTrackDatabase.storeStartUpFragmentID(2);
+        tickTrackDatabase.storeStartUpFragmentID(4);
         setupTheme();
 
         ticktrackFragmentThemeScrollView.getViewTreeObserver()

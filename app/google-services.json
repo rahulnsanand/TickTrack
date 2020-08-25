@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1967968037",
+    "firebase_url": "https://com-tfgproductions-ticktrack.firebaseio.com",
+    "project_id": "com-tfgproductions-ticktrack",
+    "storage_bucket": "com-tfgproductions-ticktrack.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1967968037:android:50146b469f9f581f2a54cc",
+        "android_client_info": {
+          "package_name": "com.theflopguyproductions.ticktrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1967968037-1f389oe4gt483g56m66ap0u8advs8c9n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theflopguyproductions.ticktrack",
+            "certificate_hash": "d42cdbeb2e4f98162181c8b4b77c45623ad825b8"
+          }
+        },
+        {
+          "client_id": "1967968037-un6u466pe116l1tv1npt3jocq22dniu1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANWYYBlKCK90gNASs_614OFlndXy1TZls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1967968037-un6u466pe116l1tv1npt3jocq22dniu1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

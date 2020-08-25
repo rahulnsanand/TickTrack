@@ -38,20 +38,26 @@ public class TickTrackThemeSetter {
     }
 
     public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, ScrollView settingsScrollView, ConstraintLayout themeLayout
-            , TickTrackDatabase tickTrackDatabase){
+            , TickTrackDatabase tickTrackDatabase, TextView backupTitle, TextView backupEmail, ConstraintLayout backupLayout){
         int checkTheme = tickTrackDatabase.getThemeMode();
 
         if(checkTheme==1){
             settingsScrollView.setBackgroundResource(R.color.LightGray);
             themeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            backupLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             themeTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            backupTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            backupEmail.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setText("Light");
         } else {
             settingsScrollView.setBackgroundResource(R.color.Black);
             themeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            backupLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             themeTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
+            backupTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            backupEmail.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setText("Dark");
         }
     }
