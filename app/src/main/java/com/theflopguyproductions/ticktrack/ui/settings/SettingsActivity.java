@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         themeName = findViewById(R.id.themeValueSettingsTextView);
         backButton = findViewById(R.id.settingsActivityBackButton);
         settingsScrollView = findViewById(R.id.settingsActivityScrollView);
-        backupLayout = findViewById(R.id.backupSettingsLayout);
+        backupLayout = findViewById(R.id.backupAccountLayout);
         backupTitle = findViewById(R.id.backupTitleSettingsTextView);
         backupEmail = findViewById(R.id.backupEmailSettingsTextView);
 

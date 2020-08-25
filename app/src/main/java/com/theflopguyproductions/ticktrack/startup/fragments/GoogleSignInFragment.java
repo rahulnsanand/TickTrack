@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 public class GoogleSignInFragment extends Fragment {
 
     private TickTrackDatabase tickTrackDatabase;
+    private Button signInButton, laterButton;
 
     @Override
     public void onStart() {
@@ -34,8 +36,18 @@ public class GoogleSignInFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ticktrack_google, container, false);
         tickTrackDatabase = new TickTrackDatabase(requireContext());
+        signInButton = root.findViewById(R.id.ticktrackGoogleFragmentSignInButton);
+        laterButton = root.findViewById(R.id.ticktrackGoogleFragmentLaterButton);
+
+        signInButton.setOnClickListener(view -> signInClickListener.onSignInClickListener());
+
+        laterButton.setOnClickListener(view -> laterClickListener.onLaterClickListener());
+
         return root;
     }
+
+
+
     private SignInClickListener signInClickListener;
     private LaterClickListener laterClickListener;
     public interface SignInClickListener {
