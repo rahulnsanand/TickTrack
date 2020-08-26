@@ -16,23 +16,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+        <activity android:name=".accounts.AddAccountActivity"></activity>
+        <activity android:name=".accounts.RestoreMergeActivity" />
+        <activity android:name=".accounts.SwitchAccountActivity" />
 
         <receiver
             android:name=".receivers.TimeChangeReceiver"
+            android:directBootAware="true"
             android:enabled="true"
-            android:exported="true"
-            android:directBootAware="true">
+            android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".receivers.BootReceiver"
+            android:directBootAware="true"
             android:enabled="true"
             android:exported="true"
-            android:directBootAware="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -66,19 +68,19 @@
 
         <service
             android:name=".timer.service.TimerService"
+            android:directBootAware="true"
             android:enabled="true"
-            android:exported="false"
-            android:directBootAware="true"/>
+            android:exported="false" />
         <service
             android:name=".timer.service.TimerRingService"
+            android:directBootAware="true"
             android:enabled="true"
-            android:exported="false"
-            android:directBootAware="true"/>
+            android:exported="false" />
         <service
             android:name=".stopwatch.service.StopwatchNotificationService"
+            android:directBootAware="true"
             android:enabled="true"
-            android:exported="false"
-            android:directBootAware="true"/>
+            android:exported="false" />
 
         <activity android:name=".timer.activity.TimerActivity" />
         <activity android:name=".counter.activity.CounterEditActivity" />
@@ -102,9 +104,9 @@
 
         <service
             android:name=".counter.notification.CounterNotificationService"
+            android:directBootAware="true"
             android:enabled="true"
-            android:exported="false"
-            android:directBootAware="true"/>
+            android:exported="false" />
     </application>
 
 </manifest>

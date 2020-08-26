@@ -50,8 +50,8 @@ public class CreateCounter extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_counter_creator, new ConstraintLayout(activity), false);
-        setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setContentView(view);
 
         tickTrackDatabase = new TickTrackDatabase(getContext());
         themeSet = tickTrackDatabase.getThemeMode();
