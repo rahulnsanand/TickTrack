@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -14,6 +16,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
@@ -30,6 +37,10 @@ public class FirebaseHelper {
     private ProgressBarDialog progressBarDialog;
     private GoogleSignInOptions googleSignInOptions;
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
+    private DatabaseReference rootDatabase;
+    private FirebaseDatabase firebaseDatabase;
+    private String currentUserID;
+
 
     public FirebaseHelper(Activity activity) {
         this.activity = activity;
@@ -41,6 +52,8 @@ public class FirebaseHelper {
                 .build();
         googleSignInClient = GoogleSignIn.getClient(activity, googleSignInOptions);
         mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        rootDatabase = firebaseDatabase.getReference();
     }
 
     /**
@@ -75,13 +88,108 @@ public class FirebaseHelper {
                 .addOnCompleteListener(activity, task -> {
                     if (task.isSuccessful()) {
                         tickTrackFirebaseDatabase.storeCurrentUserEmail(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail());
-                        Toast.makeText(activity, "Welcome, "+mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
+                        currentUserID = mAuth.getCurrentUser().getUid();
+                        checkIfUserExists();
                     } else {
                         tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                         Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
+                        progressBarDialog.dismiss();
                     }
-                    progressBarDialog.dismiss();
+
                 });
+    }
+
+    private void checkIfUserExists() {
+            rootDatabase.child("TickTrackUsers").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.child(currentUserID).exists()){
+                        Toast.makeText(activity, "Welcome back, "+ Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName(), Toast.LENGTH_SHORT).show();
+                        checkIfDataExists();
+                    } else {
+                        Toast.makeText(activity, "Welcome, "+ Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName(), Toast.LENGTH_SHORT).show();
+                        setupInitUserData();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+    }
+
+    private void setupInitUserData() {
+        progressBarDialog.setContentText("Setting things up");
+        rootDatabase.child("TickTrackBackups").child(currentUserID).child("isProUser").setValue(false).addOnCompleteListener(task -> {
+            rootDatabase.child("TickTrackBackups").child(currentUserID).child("accountCreateTime").setValue(System.currentTimeMillis()).addOnCompleteListener(task1 -> {
+               progressBarDialog.dismiss();
+               //TODO CREATE FIRST BACKUP
+            });
+        });
+    }
+
+    private boolean timerBackupExists = false, counterBackupExists = false, preferencesBackupExists = true;
+    private void checkIfDataExists() {
+        progressBarDialog.setContentText("Looking for backup");
+        rootDatabase.child("TickTrackBackups").child(currentUserID).child("TickTrackTimerData").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    retrieveTimerRestoreData();
+                    timerBackupExists = true;
+                } else {
+                    timerBackupExists = false;
+                }
+                rootDatabase.child("TickTrackBackups").child(currentUserID).child("TickTrackCounterData").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            retrieveCounterRestoreData();
+                            counterBackupExists = true;
+                        } else {
+                            counterBackupExists = false;
+                        }
+                        rootDatabase.child("TickTrackBackups").child(currentUserID).child("TickTrackPreferenceData").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    retrievePreferencesRestoreData();
+                                    preferencesBackupExists = true;
+                                } else {
+                                    preferencesBackupExists = false;
+                                }
+                                progressBarDialog.dismiss();
+
+                                //TODO GO TO RESTORE FRAGMENT
+
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void retrievePreferencesRestoreData() {
+
+    }
+
+    private void retrieveCounterRestoreData() {
+
+    }
+
+    private void retrieveTimerRestoreData() {
+
     }
 
     public void signOut() {
@@ -103,5 +211,7 @@ public class FirebaseHelper {
     public boolean isUserSignedIn(){
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
+
+
 
 }

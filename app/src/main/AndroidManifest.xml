@@ -16,7 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".accounts.AddAccountActivity"></activity>
+        <service
+            android:name=".service.AccountAddedService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".accounts.AddAccountActivity" />
         <activity android:name=".accounts.RestoreMergeActivity" />
         <activity android:name=".accounts.SwitchAccountActivity" />
 
