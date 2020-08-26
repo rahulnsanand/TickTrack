@@ -3,9 +3,7 @@ package com.theflopguyproductions.ticktrack.utils.helpers;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.NumberPicker;
-import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -40,57 +38,20 @@ public class TickTrackThemeSetter {
     }
 
     public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, ScrollView settingsScrollView, ConstraintLayout themeLayout
-            , TickTrackDatabase tickTrackDatabase, TextView backupTitle, TextView backupEmail, ConstraintLayout backupLayout,
-                                             ConstraintLayout switchAccountLayout, ConstraintLayout disconnectAccountLayout, TextView switchText, TextView disconnectText, CheckBox counterCheck,
-                                             CheckBox timerCheck, RadioButton monthly, RadioButton weekly, RadioButton daily, ConstraintLayout freqOptionsLayout,
-                                             RadioButton darkButton, RadioButton lightButton, ConstraintLayout themeOptionsLayout){
+            , TickTrackDatabase tickTrackDatabase){
         int checkTheme = tickTrackDatabase.getThemeMode();
 
         if(checkTheme==1){
             settingsScrollView.setBackgroundResource(R.color.LightGray);
             themeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
-            backupLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
-            switchAccountLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
-            disconnectAccountLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
-            freqOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
-            themeOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             themeTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            backupTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            backupEmail.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            switchText.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            counterCheck.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            timerCheck.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            disconnectText.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            monthly.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            weekly.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            daily.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            darkButton.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            lightButton.setTextColor(activity.getResources().getColor(R.color.DarkText));
-
             themeLabel.setText("Light");
         } else {
             settingsScrollView.setBackgroundResource(R.color.Black);
             themeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-            backupLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-            switchAccountLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-            disconnectAccountLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-            freqOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-            themeOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             themeTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
-            backupTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            backupEmail.setTextColor(activity.getResources().getColor(R.color.LightText));
-            switchText.setTextColor(activity.getResources().getColor(R.color.LightText));
-            counterCheck.setTextColor(activity.getResources().getColor(R.color.LightText));
-            timerCheck.setTextColor(activity.getResources().getColor(R.color.LightText));
-            disconnectText.setTextColor(activity.getResources().getColor(R.color.LightText));
-            monthly.setTextColor(activity.getResources().getColor(R.color.LightText));
-            weekly.setTextColor(activity.getResources().getColor(R.color.LightText));
-            daily.setTextColor(activity.getResources().getColor(R.color.LightText));
-            lightButton.setTextColor(activity.getResources().getColor(R.color.LightText));
-            darkButton.setTextColor(activity.getResources().getColor(R.color.LightText));
-
             themeLabel.setText("Dark");
         }
     }

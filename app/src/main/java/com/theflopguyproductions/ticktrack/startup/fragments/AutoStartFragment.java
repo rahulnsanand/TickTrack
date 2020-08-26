@@ -54,7 +54,7 @@ public class AutoStartFragment extends Fragment {
         handler.post(animatedRunnable);
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
-        tickTrackDatabase.storeStartUpFragmentID(6);
+        tickTrackDatabase.storeStartUpFragmentID(4);
 
         if(isMyServiceRunning(OptimiserService.class)){
             stopCheckService();

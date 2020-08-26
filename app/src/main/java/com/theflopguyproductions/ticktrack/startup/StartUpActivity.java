@@ -16,9 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.startup.fragments.AutoStartFragment;
-import com.theflopguyproductions.ticktrack.startup.fragments.BackupRestoreFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.BatteryOptimiseFragment;
-import com.theflopguyproductions.ticktrack.startup.fragments.GoogleSignInFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.IntroFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.ThemeFragment;
 import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
@@ -26,8 +24,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class StartUpActivity extends AppCompatActivity implements IntroFragment.OnGetStartedClickListener, BatteryOptimiseFragment.BatteryOptimiseClickListener,
-        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener, BackupRestoreFragment.SetupBackupAccountClickListener,
-        GoogleSignInFragment.LaterClickListener, GoogleSignInFragment.SignInClickListener {
+        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener {
 
     private TickTrackDatabase tickTrackDatabase;
     private ConstraintLayout rootLayout;
@@ -77,14 +74,10 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         if(id==1){
             return new IntroFragment();
         } else if(id==2){
-            return new GoogleSignInFragment();
-        } else if(id==3){
-            return new BackupRestoreFragment();
-        } else if(id==4){
             return new ThemeFragment();
-        } else if(id==5){
+        } else if(id==3){
             return new BatteryOptimiseFragment();
-        } else if(id==6){
+        } else if(id==4){
             return new AutoStartFragment();
         } else {
             return new IntroFragment();
@@ -104,28 +97,10 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     public void onGetStartedClick() {
         openFragment(new ThemeFragment());
     }
-
-    @Override
-    public void onBackupSetClickListener() {
-        openFragment(new ThemeFragment());
-    }
-
-    @Override
-    public void onSignInClickListener() {
-        tickTrackDatabase.storeFirstLaunch(false);
-
-    }
-
-    @Override
-    public void onLaterClickListener() {
-        tickTrackDatabase.storeFirstLaunch(false);
-        openFragment(new ThemeFragment());
-    }
-
     @Override
     public void onThemeSetClickListener() {
         setupTheme();
-
+        tickTrackDatabase.storeFirstLaunch(false);
         openFragment(new BatteryOptimiseFragment());
     }
     @Override
@@ -168,6 +143,4 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
     }
-
-
 }
