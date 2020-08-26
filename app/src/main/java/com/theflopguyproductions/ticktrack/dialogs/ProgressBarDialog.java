@@ -78,4 +78,12 @@ public class ProgressBarDialog extends Dialog {
 
     }
 
+    public void setTitleText(String titleText){
+        this.titleText.setText(titleText);
+    }
+
+    public void setContentText(String contentText){
+        this.contentText.setText(contentText);
+    }
+
 }
