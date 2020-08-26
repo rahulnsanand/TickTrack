@@ -88,7 +88,7 @@
             android:name=".counter.activity.CounterActivity"
             android:parentActivityName=".SoYouADeveloperHuh" />
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".SoYouADeveloperHuh"
