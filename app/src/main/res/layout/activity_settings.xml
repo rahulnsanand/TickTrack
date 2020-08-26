@@ -210,7 +210,7 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:id="@+id/textView8"
+                                android:id="@+id/backupAccountSwitchTitleText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="56dp"
@@ -234,7 +234,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                                app:layout_constraintTop_toBottomOf="@+id/backupAccountSwitchTitleText" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -248,7 +248,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/backupSettingsSwitchAccountLayout">
 
                             <TextView
-                                android:id="@+id/textView17"
+                                android:id="@+id/backupAccountDisconnectTitleText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="56dp"
@@ -272,7 +272,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView17" />
+                                app:layout_constraintTop_toBottomOf="@+id/backupAccountDisconnectTitleText" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -369,13 +369,13 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/backupDataTitleSettingsTextView">
+                        app:layout_constraintTop_toBottomOf="@+id/backupDataSummarySettingsTextView">
 
                         <CheckBox
                             android:id="@+id/backupCounterDataOptionSettingsCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
+                            android:layout_marginStart="56dp"
                             android:layout_marginTop="16dp"
                             android:text="Counter data"
                             app:layout_constraintStart_toStartOf="parent"
@@ -385,7 +385,7 @@
                             android:id="@+id/backupTimerDataOptionSettingsCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
+                            android:layout_marginStart="56dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="16dp"
                             android:text="Timer data"

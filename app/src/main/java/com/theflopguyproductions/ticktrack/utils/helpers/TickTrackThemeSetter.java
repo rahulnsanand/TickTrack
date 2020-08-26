@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.utils.helpers;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.Switch;
@@ -39,7 +40,8 @@ public class TickTrackThemeSetter {
 
     public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, ScrollView settingsScrollView, ConstraintLayout themeLayout
             , TickTrackDatabase tickTrackDatabase, TextView backupTitle, TextView backupEmail, ConstraintLayout backupLayout,
-                                             ConstraintLayout switchAccountLayout, ConstraintLayout disconnectAccountLayout){
+                                             ConstraintLayout switchAccountLayout, ConstraintLayout disconnectAccountLayout, TextView switchText, TextView disconnectText, CheckBox counterCheck,
+                                             CheckBox timerCheck){
         int checkTheme = tickTrackDatabase.getThemeMode();
 
         if(checkTheme==1){
@@ -52,6 +54,10 @@ public class TickTrackThemeSetter {
             themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             backupEmail.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            switchText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterCheck.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            timerCheck.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            disconnectText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setText("Light");
         } else {
             settingsScrollView.setBackgroundResource(R.color.Black);
@@ -63,6 +69,10 @@ public class TickTrackThemeSetter {
             themeLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             backupEmail.setTextColor(activity.getResources().getColor(R.color.LightText));
+            switchText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterCheck.setTextColor(activity.getResources().getColor(R.color.LightText));
+            timerCheck.setTextColor(activity.getResources().getColor(R.color.LightText));
+            disconnectText.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setText("Dark");
         }
     }
