@@ -310,6 +310,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupClickListeners();
 
+
     }
 
     private void setupClickListeners() {
