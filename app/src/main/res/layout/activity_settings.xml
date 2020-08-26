@@ -74,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:animateLayoutChanges="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/generalSettingsTextView">
@@ -119,6 +120,39 @@
                         app:typeface="roboto_italic" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/themeSettingsOptionsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/themeSettingsLayout">
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <RadioButton
+                            android:id="@+id/darkRadioButtonSettingsActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Dark (Power saving)" />
+
+                        <RadioButton
+                            android:id="@+id/lightRadioButtonSettingsActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Illuminus" />
+                    </RadioGroup>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -144,7 +178,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/backupSettingsTextView">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout6"
+                    android:id="@+id/constraintLayoutAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
@@ -204,7 +238,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/clickable_layout_light_background"
-                            android:minHeight="80dp"
+                            android:minHeight="50dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -216,7 +250,7 @@
                                 android:layout_marginStart="56dp"
                                 android:layout_marginTop="8dp"
                                 android:text="Switch account"
-                                android:textSize="18sp"
+                                android:textSize="14sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -225,11 +259,12 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="56dp"
-                                android:layout_marginTop="16dp"
+                                android:layout_marginTop="8dp"
                                 android:layout_marginEnd="24dp"
-                                android:layout_marginBottom="16dp"
+                                android:layout_marginBottom="8dp"
                                 android:text="Note: Possible data loss"
                                 android:textColor="@color/Accent"
+                                android:textSize="12sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -242,7 +277,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/clickable_layout_light_background"
-                            android:minHeight="80dp"
+                            android:minHeight="50dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/backupSettingsSwitchAccountLayout">
@@ -254,7 +289,7 @@
                                 android:layout_marginStart="56dp"
                                 android:layout_marginTop="8dp"
                                 android:text="Disconnect account"
-                                android:textSize="18sp"
+                                android:textSize="14sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -263,11 +298,12 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="56dp"
-                                android:layout_marginTop="16dp"
+                                android:layout_marginTop="8dp"
                                 android:layout_marginEnd="24dp"
-                                android:layout_marginBottom="16dp"
+                                android:layout_marginBottom="8dp"
                                 android:text="Note: Data will not be backed up"
                                 android:textColor="@color/Accent"
+                                android:textSize="12sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -280,49 +316,101 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/backupFrequencyLayout"
+                    android:id="@+id/constraintLayoutFrequency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/clickable_layout_light_background"
-                    android:minHeight="100dp"
+                    android:animateLayoutChanges="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayoutAccount">
 
-                    <TextView
-                        android:id="@+id/backupFrequencyTitleSettingsTextView"
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/backupFrequencyLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Sync data"
-                        android:textSize="18sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/backupFrequencyValueSettingsTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="24dp"
-                        android:text="Monthly"
+                        android:background="@drawable/clickable_layout_light_background"
+                        android:minHeight="100dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/backupFrequencyTitleSettingsTextView" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/backupLastBackupValueSettingsTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="last backup : 25/08/2020 at 01:30am"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/backupFrequencyValueSettingsTextView"
-                        app:layout_constraintStart_toStartOf="@+id/backupFrequencyValueSettingsTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/backupFrequencyValueSettingsTextView" />
+                        <TextView
+                            android:id="@+id/backupFrequencyTitleSettingsTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Sync data"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/backupFrequencyValueSettingsTextView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:text="Monthly"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/backupFrequencyTitleSettingsTextView" />
+
+                        <TextView
+                            android:id="@+id/backupLastBackupValueSettingsTextView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="last backup : 25/08/2020 at 01:30am"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/backupFrequencyValueSettingsTextView"
+                            app:layout_constraintStart_toStartOf="@+id/backupFrequencyValueSettingsTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/backupFrequencyValueSettingsTextView" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/backupFrequencySettingsOptionsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/clickable_layout_light_background"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/backupFrequencyLayout">
+
+                        <RadioGroup
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="56dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <RadioButton
+                                android:id="@+id/syncDataSettingsTickTrackMonthlyRadio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Monthly"
+                                android:textColor="@color/Accent" />
+
+                            <RadioButton
+                                android:id="@+id/syncDataSettingsTickTrackWeeklyRadio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Weekly"
+                                android:textColor="@color/Accent" />
+
+                            <RadioButton
+                                android:id="@+id/syncDataSettingsTickTrackDailyRadio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Daily"
+                                android:textColor="@color/Accent" />
+                        </RadioGroup>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -334,7 +422,7 @@
                     android:minHeight="100dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/backupFrequencyLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayoutFrequency">
 
                     <TextView
                         android:id="@+id/backupDataSummarySettingsTextView"

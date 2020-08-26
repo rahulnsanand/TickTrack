@@ -101,7 +101,7 @@ public class FirebaseHelper {
     }
 
     public boolean isUserSignedIn(){
-        return FirebaseAuth.getInstance().getCurrentUser() != null || GoogleSignIn.getLastSignedInAccount(activity)!=null;
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
 }

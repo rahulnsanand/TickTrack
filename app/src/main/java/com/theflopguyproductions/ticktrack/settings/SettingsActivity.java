@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.ui.settings;
+package com.theflopguyproductions.ticktrack.settings;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,7 +20,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
-import com.theflopguyproductions.ticktrack.dialogs.SyncFrequencyDialog;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
@@ -41,9 +42,11 @@ public class SettingsActivity extends AppCompatActivity {
     private ConstraintLayout themeLayout;
     private TextView themeName, themeTitle;
 
-    private ConstraintLayout googleAccountLayout, accountOptionsLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, syncDataLayout, includeDataLayout, backupDataOptionsLayout;
+    private ConstraintLayout googleAccountLayout, accountOptionsLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, syncDataLayout, syncFreqOptionsLayout,
+            includeDataLayout, backupDataOptionsLayout, themeOptionsLayout;
     private TextView backupGoogleTitle, backupEmail, switchAccountTitle, disconnectAccountTitle, syncDataTitle, syncDataFrequency, syncDataLastSync, includeDataTitle, includeDataValue;
     private CheckBox counterCheckBox, timerCheckBox;
+    private RadioButton monthlyButton, weeklyButton, dailyButton, darkButton, lightButton;
 
     @Override
     protected void onStart() {
@@ -52,9 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
         if(firebaseHelper.isUserSignedIn()){
             setupEmailText();
         }
-        TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
-                tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout,
-                disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle, counterCheckBox, timerCheckBox);
+        refreshTheme();
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
@@ -65,6 +66,8 @@ public class SettingsActivity extends AppCompatActivity {
         checkAccountAvailable();
         setupLastBackupText();
         setupDataOptionsText();
+        setupSyncFreqOptionText();
+        setupThemeText();
     }
 
     private void checkAccountAvailable() {
@@ -94,6 +97,12 @@ public class SettingsActivity extends AppCompatActivity {
             includeDataTitle.setTextColor(getResources().getColor(R.color.roboto_calendar_day_of_the_week_font));
             includeDataValue.setTextColor(getResources().getColor(R.color.roboto_calendar_day_of_the_week_font));
         }
+        syncDataLayout.setOnClickListener(view -> {
+            Toast.makeText(activity, "Sign in required", Toast.LENGTH_SHORT).show();
+        });
+        includeDataLayout.setOnClickListener(view -> {
+            Toast.makeText(activity, "Sign in required", Toast.LENGTH_SHORT).show();
+        });
     }
     private void setupAccountEnabled(){
         if(tickTrackDatabase.getThemeMode()==1){
@@ -115,13 +124,34 @@ public class SettingsActivity extends AppCompatActivity {
             includeDataTitle.setTextColor(getResources().getColor(R.color.LightText));
             includeDataValue.setTextColor(getResources().getColor(R.color.LightText));
         }
+        syncDataLayout.setOnClickListener(view -> toggleSyncOptionsLayout());
+        includeDataLayout.setOnClickListener(view -> toggleDataOptionsLayout());
     }
+
     private void setupLastBackupText() {
         if(tickTrackFirebaseDatabase.getLastBackupSystemTime()!=-1){
             syncDataLastSync.setText("Last backup at "+tickTrackFirebaseDatabase.getLastBackupSystemTime());
         } else {
             syncDataLastSync.setText("No backup yet");
         }
+    }
+    private void setupSyncFreqOptionText(){
+        String frequencyOption = "";
+        int opt = tickTrackFirebaseDatabase.getSyncFrequency();
+        if(opt==1){
+            frequencyOption = "Monthly";
+            monthlyButton.setChecked(true);
+        } else if (opt ==2){
+            frequencyOption = "Weekly";
+            weeklyButton.setChecked(true);
+        } else if (opt==3){
+            frequencyOption = "Daily";
+            dailyButton.setChecked(true);
+        } else {
+            frequencyOption = "Monthly";
+            monthlyButton.setChecked(true);
+        }
+        syncDataFrequency.setText(frequencyOption);
     }
     private void setupDataOptionsText(){
         ArrayList<Integer> optionsBackup = tickTrackFirebaseDatabase.getBackupDataOptions();
@@ -138,6 +168,87 @@ public class SettingsActivity extends AppCompatActivity {
             options += ", Counters";
         }
         includeDataValue.setText(options);
+    }
+    private void setupThemeText() {
+        int themeMode = tickTrackDatabase.getThemeMode();
+        if(themeMode==1){
+            themeName.setText("Light Mode");
+            lightButton.setChecked(true);
+        } else {
+            themeName.setText("Dark Mode");
+            darkButton.setChecked(true);
+        }
+    }
+
+    private void refreshTheme() {
+        TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
+                tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
+                counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout);
+    }
+
+    private boolean isSyncOptionOpen = false;
+    private void toggleSyncOptionsLayout() {
+        if(isSyncOptionOpen){
+            syncFreqOptionsLayout.setVisibility(View.GONE);
+            isSyncOptionOpen = false;
+        } else {
+            toggleOthersClose();
+            syncFreqOptionsLayout.setVisibility(View.VISIBLE);
+            isSyncOptionOpen = true;
+        }
+    }
+
+    private boolean isAccountOptionsOpen = false;
+    private void toggleGoogleAccountOptionsLayout() {
+        if(isAccountOptionsOpen){
+            accountOptionsLayout.setVisibility(View.GONE);
+            setupEmailText();
+            isAccountOptionsOpen = false;
+        } else {
+            toggleOthersClose();
+            accountOptionsLayout.setVisibility(View.VISIBLE);
+            isAccountOptionsOpen = true;
+        }
+    }
+
+    private boolean isDataOptionsOpen = false;
+    private void toggleDataOptionsLayout() {
+        if(isDataOptionsOpen){
+            backupDataOptionsLayout.setVisibility(View.GONE);
+            setupDataOptionsText();
+            isDataOptionsOpen = false;
+        } else {
+            toggleOthersClose();
+            backupDataOptionsLayout.setVisibility(View.VISIBLE);
+            setupDataOptionsText();
+            isDataOptionsOpen = true;
+        }
+    }
+
+    private boolean isThemeOptionsOpen = false;
+    private void toggleThemeOptionsLayout(){
+        if(isThemeOptionsOpen){
+            themeOptionsLayout.setVisibility(View.GONE);
+            isThemeOptionsOpen = false;
+        } else {
+            toggleOthersClose();
+            themeOptionsLayout.setVisibility(View.VISIBLE);
+            isThemeOptionsOpen = true;
+        }
+    }
+
+    private void toggleOthersClose() {
+
+        if(isDataOptionsOpen){
+            toggleDataOptionsLayout();
+        }
+        if(isSyncOptionOpen){
+            toggleSyncOptionsLayout();
+        }
+        if(isAccountOptionsOpen){
+            toggleGoogleAccountOptionsLayout();
+        }
+
     }
 
     private void initVariables() {
@@ -164,6 +275,13 @@ public class SettingsActivity extends AppCompatActivity {
         backupDataOptionsLayout = findViewById(R.id.backupDataOptionsLayout);
         counterCheckBox = findViewById(R.id.backupCounterDataOptionSettingsCheckbox);
         timerCheckBox = findViewById(R.id.backupTimerDataOptionSettingsCheckbox);
+        syncFreqOptionsLayout = findViewById(R.id.backupFrequencySettingsOptionsLayout);
+        monthlyButton = findViewById(R.id.syncDataSettingsTickTrackMonthlyRadio);
+        weeklyButton = findViewById(R.id.syncDataSettingsTickTrackWeeklyRadio);
+        dailyButton = findViewById(R.id.syncDataSettingsTickTrackDailyRadio);
+        darkButton = findViewById(R.id.darkRadioButtonSettingsActivity);
+        lightButton = findViewById(R.id.lightRadioButtonSettingsActivity);
+        themeOptionsLayout = findViewById(R.id.themeSettingsOptionsLayout);
 
         activity = this;
         firebaseHelper = new FirebaseHelper(activity);
@@ -176,9 +294,12 @@ public class SettingsActivity extends AppCompatActivity {
         setupLastBackupText();
         checkAccountAvailable();
         setupDataOptionsText();
+        setupSyncFreqOptionText();
+        setupThemeText();
 
         accountOptionsLayout.setVisibility(View.GONE);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,26 +310,36 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupClickListeners();
 
-
-    }
-
-    private boolean isOptionsOpen = false;
-    private void toggleDataOptionsLayout() {
-        if(isOptionsOpen){
-            backupDataOptionsLayout.setVisibility(View.GONE);
-            setupDataOptionsText();
-            isOptionsOpen = false;
-        } else {
-            backupDataOptionsLayout.setVisibility(View.VISIBLE);
-            setupDataOptionsText();
-            isOptionsOpen = true;
-        }
     }
 
     private void setupClickListeners() {
+
+        monthlyButton.setOnClickListener((view) -> {
+            tickTrackFirebaseDatabase.storeSyncFrequency(1);
+            toggleSyncOptionsLayout();
+        });
+        weeklyButton.setOnClickListener((view) -> {
+            tickTrackFirebaseDatabase.storeSyncFrequency(2);
+            toggleSyncOptionsLayout();
+        });
+        dailyButton.setOnClickListener((view) -> {
+            tickTrackFirebaseDatabase.storeSyncFrequency(3);
+            toggleSyncOptionsLayout();
+        });
+
+        darkButton.setOnClickListener((view) -> {
+            tickTrackDatabase.setThemeMode(2);
+            toggleThemeOptionsLayout();
+            refreshTheme();
+        });
+        lightButton.setOnClickListener((view) -> {
+            tickTrackDatabase.setThemeMode(1);
+            toggleThemeOptionsLayout();
+            refreshTheme();
+        });
+
         themeLayout.setOnClickListener(view -> {
-            ThemeDialog themeDialog = new ThemeDialog(activity, tickTrackDatabase.getThemeMode());
-            themeDialog.show();
+            toggleThemeOptionsLayout();
         });
 
         googleAccountLayout.setOnClickListener(view -> {
@@ -227,19 +358,6 @@ public class SettingsActivity extends AppCompatActivity {
             setupEmailText();
         });
 
-        syncDataLayout.setOnClickListener(view -> {
-            SyncFrequencyDialog syncFrequencyDialog = new SyncFrequencyDialog(activity);
-            syncFrequencyDialog.show();
-            syncFrequencyDialog.monthlyRadioButton.setChecked(true);
-            syncFrequencyDialog.dailyRadioButton.setEnabled(false);
-            syncFrequencyDialog.weeklyRadioButton.setEnabled(false);
-
-            syncFrequencyDialog.monthlyRadioButton.setOnClickListener(view1 -> {
-                tickTrackFirebaseDatabase.storeSyncFrequency(1);
-                syncFrequencyDialog.dismiss();
-            });
-        });
-
         counterCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
                 tickTrackFirebaseDatabase.setCounterDataBackup(true);
@@ -255,10 +373,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        includeDataLayout.setOnClickListener(view -> toggleDataOptionsLayout());
-
         backButton.setOnClickListener(view -> onBackPressed());
     }
+
+
 
     private void setupEmailText() {
         if(firebaseHelper.isUserSignedIn()){
@@ -274,18 +392,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (requestCode == 1) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             firebaseHelper.signIn(task);
-        }
-    }
-
-    private boolean isOpen = false;
-    private void toggleGoogleAccountOptionsLayout() {
-        if(isOpen){
-            accountOptionsLayout.setVisibility(View.GONE);
-            setupEmailText();
-            isOpen = false;
-        } else {
-            accountOptionsLayout.setVisibility(View.VISIBLE);
-            isOpen = true;
         }
     }
 
