@@ -147,7 +147,6 @@ public class TickTrackStopwatch {
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
             updateTextView();
-            //TODO HANDLER PROGRESSBAR SHIT
 
         }
     }

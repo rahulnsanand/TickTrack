@@ -73,13 +73,6 @@ public class TickTrackNotificationStopwatch {
         return 0;
     }
 
-//    private long getPauseDifference() {
-//        if(stopwatchDataArrayList.get(0).isPause() && stopwatchDataArrayList.get(0).isRunning()){
-//            return stopwatchDataArrayList.get(0).getLastPauseTimeRealTimeInMillis() - stopwatchDataArrayList.get(0).getStopwatchTimerStartTimeInRealTimeMillis();
-//        }
-//        return 0;
-//    }
-
     private void stopwatchNotificationRunnable(){
         if (!stopwatchDataArrayList.get(0).isRunning() || stopwatchDataArrayList.get(0).isPause()) {
             notificationStopwatchHandler.removeCallbacks(stopwatchNotificationRunnable);
@@ -176,6 +169,8 @@ public class TickTrackNotificationStopwatch {
             stopwatchLapData.setElapsedTimeInMillis(stopwatchDurationElapsed);
             stopwatchLapData.setLapTimeInMillis(lapTime);
             this.stopwatchLapData.add(stopwatchLapData);
+            this.stopwatchLapData.get(0).setLastLapUpdateRealtimeInMillis(SystemClock.elapsedRealtime());
+            this.stopwatchLapData.get(0).setLastLapUpdateSystemTimeInMillis(System.currentTimeMillis());
             refreshData();
             tickTrackDatabase.storeLapNumber(currentLapNumber+1);
 
@@ -197,7 +192,7 @@ public class TickTrackNotificationStopwatch {
             stopwatchDataArrayList.get(0).setLastPauseValueInMillis(stopwatchDurationElapsed);
             stopwatchDataArrayList.get(0).setLastPauseTimeRealTimeInMillis(SystemClock.elapsedRealtime());
             stopwatchDataArrayList.get(0).setLastPauseTimeInMillis(System.currentTimeMillis());
-
+            stopwatchDataArrayList.get(0).setProgressSystemValue(System.currentTimeMillis());
             refreshData();
 
             updateNotification();
@@ -205,6 +200,8 @@ public class TickTrackNotificationStopwatch {
     }
 
     public void killStopwatch(){
+        stopwatchDataArrayList.get(0).setProgressSystemValue(System.currentTimeMillis());
+        refreshData();
         notificationStopwatchHandler.removeCallbacks(stopwatchNotificationRunnable);
     }
 

@@ -248,7 +248,6 @@ public class SettingsActivity extends AppCompatActivity {
         if(isAccountOptionsOpen){
             toggleGoogleAccountOptionsLayout();
         }
-
     }
 
     private void initVariables() {
