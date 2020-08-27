@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/restoreFragmentRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".startup.fragments.RestoreFragment">
@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/restoreFragmentTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -43,16 +43,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/restoreFragmentSubtitleText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="We found something for you"
                     android:textAlignment="viewEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/textView17"
+                    app:layout_constraintEnd_toEndOf="@+id/restoreFragmentTitleText"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView17"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
+                    app:layout_constraintStart_toStartOf="@+id/restoreFragmentTitleText"
+                    app:layout_constraintTop_toBottomOf="@+id/restoreFragmentTitleText" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,109 +60,113 @@
                 android:layout_height="250dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
-                app:layout_constraintBottom_toTopOf="@+id/constraintLayout8"
+                app:layout_constraintBottom_toTopOf="@+id/restoreFragmentRestoreOptionsDataLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout8"
+                android:id="@+id/restoreFragmentRestoreOptionsDataLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/textView27"
+                    android:id="@+id/restoreFragmentDataReadyText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="16dp"
                     android:text="Data ready to restore"
+                    android:textAlignment="center"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textView26"
+                    app:layout_constraintBottom_toTopOf="@+id/restoreFragmentPreferencesText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView26"
+                    android:id="@+id/restoreFragmentPreferencesText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="8dp"
                     android:text="Preferences retrieved"
-                    app:layout_constraintBottom_toTopOf="@+id/textView25"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/restoreFragmentTimerText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/restoreFragmentTimerText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="8dp"
                     android:text="10 Timers retrieved"
-                    app:layout_constraintBottom_toTopOf="@+id/textView24"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/restoreFragmentCounterText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView24"
+                    android:id="@+id/restoreFragmentCounterText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="24dp"
                     android:text="10 Counters retrieved"
-                    app:layout_constraintBottom_toTopOf="@+id/textView21"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/restoreFragmentRestoreOptionsTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/restoreFragmentRestoreOptionsTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="16dp"
                     android:text="What would you like to restore?"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/checkBox"
+                    app:layout_constraintBottom_toTopOf="@+id/restoreFragmentPreferencesCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <CheckBox
-                    android:id="@+id/checkBox"
+                    android:id="@+id/restoreFragmentPreferencesCheckBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="Preferences"
-                    app:layout_constraintBottom_toTopOf="@+id/checkBox2"
+                    app:layout_constraintBottom_toTopOf="@+id/restoreFragmentCounterCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <CheckBox
-                    android:id="@+id/checkBox2"
+                    android:id="@+id/restoreFragmentCounterCheckBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="Counter Data"
-                    app:layout_constraintBottom_toTopOf="@+id/checkBox3"
+                    app:layout_constraintBottom_toTopOf="@+id/restoreFragmentTimerCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <CheckBox
-                    android:id="@+id/checkBox3"
+                    android:id="@+id/restoreFragmentTimerCheckBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -183,16 +187,16 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/restoreFragmentRestoreDataButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Restore Data"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
+            app:layout_constraintBottom_toTopOf="@+id/restoreFragmentStartFreshButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/restoreFragmentStartFreshButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Start Fresh"
