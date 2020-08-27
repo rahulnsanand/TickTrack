@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.startup.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,5 +25,25 @@ public class RestoreFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    private RestoreCompleteListener restoreCompleteListener;
+    public interface RestoreCompleteListener {
+        void onRestoreCompleteListener();
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            restoreCompleteListener = (RestoreCompleteListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement " + RestoreCompleteListener.class.getName());
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        restoreCompleteListener = null;
     }
 }

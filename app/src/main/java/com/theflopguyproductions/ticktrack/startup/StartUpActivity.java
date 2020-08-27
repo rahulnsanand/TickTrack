@@ -26,8 +26,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class StartUpActivity extends AppCompatActivity implements IntroFragment.OnGetStartedClickListener, BatteryOptimiseFragment.BatteryOptimiseClickListener,
-        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener,
-        LoginFragment.LaterClickListener, LoginFragment.SignInClickListener {
+        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener, LoginFragment.LoginClickListeners, RestoreFragment.RestoreCompleteListener {
 
     public static final String ACTION_SETTINGS_ACCOUNT_ADD = "ACTION_SETTINGS_ACCOUNT_ADD";
 
@@ -110,15 +109,21 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         openFragment(new ThemeFragment());
     }
 
-    @Override
-    public void onSignInClickListener() {
-        tickTrackDatabase.storeFirstLaunch(false);
-    }
 
     @Override
     public void onLaterClickListener() {
         tickTrackDatabase.storeFirstLaunch(false);
         openFragment(new ThemeFragment());
+    }
+
+    @Override
+    public void onRestoreListener() {
+        openFragment(new RestoreFragment());
+    }
+
+    @Override
+    public void onRestoreCompleteListener() {
+
     }
 
     @Override
@@ -167,6 +172,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
     }
+
 
 
 }

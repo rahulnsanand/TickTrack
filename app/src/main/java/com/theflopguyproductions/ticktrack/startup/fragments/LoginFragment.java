@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
@@ -31,7 +32,7 @@ public class LoginFragment extends Fragment {
 
     private Button signInButton, laterButton;
     private ConstraintLayout rootLayout, retrieveRootLayout;
-    private TextView titleText, subTitleText, retrieveTitleText, preferenceText, timerText, counterText;
+    private TextView titleText, subTitleText;
     private String receivedAction;
 
     public LoginFragment(String receivedAction) {
@@ -56,17 +57,14 @@ public class LoginFragment extends Fragment {
         retrieveRootLayout = root.findViewById(R.id.autoStartGoogleFragmentRetrieveRootLayout);
         titleText = root.findViewById(R.id.autoStartGoogleFragmentTitleText);
         subTitleText = root.findViewById(R.id.autoStartGoogleFragmentSubTitleText);
-        retrieveTitleText = root.findViewById(R.id.autoStartGoogleFragmentDataRetrieveTitleText);
-        preferenceText = root.findViewById(R.id.autoStartGoogleFragmentPreferenceRetrieveText);
-        timerText = root.findViewById(R.id.autoStartGoogleFragmentTimerRetrieveText);
-        counterText = root.findViewById(R.id.autoStartGoogleFragmentCounterRetrieveText);
+
 
         retrieveRootLayout.setVisibility(View.GONE);
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(requireContext());
         firebaseHelper = new FirebaseHelper(requireActivity());
-        firebaseHelper.setupGraphics(titleText, subTitleText, retrieveTitleText, preferenceText, timerText, counterText, receivedAction, retrieveRootLayout, laterButton, signInButton);
+        firebaseHelper.setupGraphics(titleText, subTitleText, receivedAction, retrieveRootLayout, laterButton, signInButton);
 
     }
 
@@ -86,7 +84,7 @@ public class LoginFragment extends Fragment {
         }
 
         signInButton.setOnClickListener(view -> signInClick());
-        laterButton.setOnClickListener(view -> laterClickListener.onLaterClickListener());
+        laterButton.setOnClickListener(view -> loginClickListeners.onLaterClickListener());
 
         return root;
     }
@@ -104,29 +102,30 @@ public class LoginFragment extends Fragment {
             firebaseHelper.signIn(task);
         } else {
             Toast.makeText(getContext(), "Sign in failed, try again", Toast.LENGTH_SHORT).show();
+            if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
         }
     }
 
-    private LaterClickListener laterClickListener;
-    public interface SignInClickListener {
-        void onSignInClickListener();
-    }
-    public interface LaterClickListener {
+    private LoginClickListeners loginClickListeners;
+    public interface LoginClickListeners {
         void onLaterClickListener();
+        void onRestoreListener();
     }
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            laterClickListener = (LaterClickListener) context;
+            loginClickListeners = (LoginClickListeners) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement " + SignInClickListener.class.getName());
+                    + " must implement " + LoginClickListeners.class.getName());
         }
     }
     @Override
     public void onDetach() {
         super.onDetach();
-        laterClickListener = null;
+        loginClickListeners = null;
     }
 }

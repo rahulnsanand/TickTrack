@@ -40,7 +40,7 @@ import java.util.Objects;
 public class FirebaseHelper {
 
     Activity activity;
-    private static final String TAG = "FIREBASE_TICK_TRACK";
+    private static final String TAG = "FIREBASE_HELPER";
 
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth mAuth;
@@ -50,10 +50,10 @@ public class FirebaseHelper {
     private DatabaseReference rootDatabase;
     private FirebaseDatabase firebaseDatabase;
     private String currentUserID, action;
-    private LoginFragment.LaterClickListener laterClickListener;
+    private LoginFragment.LoginClickListeners loginClickListeners;
     private ConstraintLayout retrieveDataLayout;
 
-    private TextView title, subtitle, retrieveTitle, preference, timer, counter;
+    private TextView title, subtitle;
     private Button laterButton, signInButton;
 
 
@@ -72,15 +72,10 @@ public class FirebaseHelper {
         rootDatabase = firebaseDatabase.getReference();
     }
 
-    public void setupGraphics(TextView title, TextView subtitle, TextView retrieveTitle, TextView preference,
-                              TextView timer, TextView counter, String action, ConstraintLayout retrieveDataLayout,
+    public void setupGraphics(TextView title, TextView subtitle, String action, ConstraintLayout retrieveDataLayout,
                               Button laterButton, Button signInButton){
         this.title = title;
         this.subtitle = subtitle;
-        this.retrieveTitle = retrieveTitle;
-        this.preference = preference;
-        this.timer = timer;
-        this.counter = counter;
         this.action = action;
         this.retrieveDataLayout = retrieveDataLayout;
         this.laterButton = laterButton;
@@ -90,8 +85,12 @@ public class FirebaseHelper {
     private void stockTitleValue() {
         title.setText("Add a Google account");
         subtitle.setText("Link an account for backup/restore");
-        signInButton.setVisibility(View.VISIBLE);
-        laterButton.setVisibility(View.VISIBLE);
+        if (action.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
+            activity.startActivity(new Intent(activity, SettingsActivity.class));
+        } else {
+            signInButton.setVisibility(View.VISIBLE);
+            laterButton.setVisibility(View.VISIBLE);
+        }
     }
 
     public Intent getSignInIntent(){
@@ -122,7 +121,9 @@ public class FirebaseHelper {
                         currentUserID = mAuth.getCurrentUser().getUid();
                         title.setText("Checking for backup");
                         subtitle.setText("Please wait");
-                        checkIfUserExists();
+                        loginClickListeners.onRestoreListener();
+//                        checkIfUserExists();
+
                     } else {
                         tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                         Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
@@ -168,7 +169,7 @@ public class FirebaseHelper {
         if(action.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
             activity.startActivity(new Intent(activity, SettingsActivity.class));
         } else {
-            laterClickListener.onLaterClickListener();
+            loginClickListeners.onLaterClickListener();
         }
     }
 
@@ -240,7 +241,7 @@ public class FirebaseHelper {
                         if(action.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
                             activity.startActivity(new Intent(activity, SettingsActivity.class));
                         } else {
-                            laterClickListener.onLaterClickListener();
+                            loginClickListeners.onLaterClickListener();
                         }
                     });
                 }
@@ -291,7 +292,7 @@ public class FirebaseHelper {
                     themeMode = (long) snapshot.child("themeMode").getValue();
                 if(snapshot.child("counterVibrate").exists())
                     counterVibrate = (boolean) snapshot.child("counterVibrate").getValue();
-                preference.setText("Preferences retrieved");
+//                preference.setText("Preferences retrieved");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -309,13 +310,13 @@ public class FirebaseHelper {
                 if(snapshot.child("numberOfCounters").exists())
                     counterNumber = (int) snapshot.child("numberOfCounters").getValue();
 
-                if(counterNumber>1){
-                    counter.setText(counterNumber+" counters retrieved");
-                } else if (counterNumber==1){
-                    counter.setText(counterNumber+" counter retrieved");
-                } else {
-                    counter.setText("Counter data retrieved");
-                }
+//                if(counterNumber>1){
+//                    counter.setText(counterNumber+" counters retrieved");
+//                } else if (counterNumber==1){
+//                    counter.setText(counterNumber+" counter retrieved");
+//                } else {
+//                    counter.setText("Counter data retrieved");
+//                }
 
 //                try {
 //                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
@@ -343,13 +344,13 @@ public class FirebaseHelper {
                 if(snapshot.child("numberOfTimers").exists())
                     timerNumber = (long) snapshot.child("numberOfTimers").getValue();
 
-                if(timerNumber>1){
-                    timer.setText(timerNumber+" timers retrieved");
-                } else if (timerNumber==1){
-                    timer.setText(timerNumber+" timer retrieved");
-                } else {
-                    timer.setText("Timer data retrieved");
-                }
+//                if(timerNumber>1){
+//                    timer.setText(timerNumber+" timers retrieved");
+//                } else if (timerNumber==1){
+//                    timer.setText(timerNumber+" timer retrieved");
+//                } else {
+//                    timer.setText("Timer data retrieved");
+//                }
 
 //                try {
 //                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
