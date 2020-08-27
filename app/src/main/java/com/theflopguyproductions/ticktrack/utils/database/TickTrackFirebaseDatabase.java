@@ -102,5 +102,14 @@ public class TickTrackFirebaseDatabase {
         return options;
     }
 
+    public void setFirebaseBackupExists(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("backupExists", value);
+        editor.apply();
+    }
+    public boolean firebaseBackupExists(){
+        return sharedPreferences.getBoolean("backupExists",false);
+    }
+
 
 }

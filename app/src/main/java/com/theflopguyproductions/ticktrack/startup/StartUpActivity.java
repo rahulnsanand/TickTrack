@@ -16,22 +16,25 @@ import androidx.fragment.app.FragmentTransaction;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.startup.fragments.AutoStartFragment;
-import com.theflopguyproductions.ticktrack.startup.fragments.BackupRestoreFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.BatteryOptimiseFragment;
-import com.theflopguyproductions.ticktrack.startup.fragments.GoogleSignInFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.IntroFragment;
+import com.theflopguyproductions.ticktrack.startup.fragments.LoginFragment;
+import com.theflopguyproductions.ticktrack.startup.fragments.RestoreFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.ThemeFragment;
 import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class StartUpActivity extends AppCompatActivity implements IntroFragment.OnGetStartedClickListener, BatteryOptimiseFragment.BatteryOptimiseClickListener,
-        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener, BackupRestoreFragment.SetupBackupAccountClickListener,
-        GoogleSignInFragment.LaterClickListener, GoogleSignInFragment.SignInClickListener {
+        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener,
+        LoginFragment.LaterClickListener, LoginFragment.SignInClickListener {
+
+    public static final String ACTION_SETTINGS_ACCOUNT_ADD = "ACTION_SETTINGS_ACCOUNT_ADD";
 
     private TickTrackDatabase tickTrackDatabase;
     private ConstraintLayout rootLayout;
     private int optimiseRequestNumber = 0, themeMode = 1;
+    private String receivedAction = null;
 
     @Override
     protected void onStart() {
@@ -49,6 +52,8 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
 
         tickTrackDatabase = new TickTrackDatabase(this);
         optimiseRequestNumber = tickTrackDatabase.retrieveOptimiseRequestNumber();
+
+        receivedAction = getIntent().getAction();
 
         optimiseRequestNumber += 1;
         tickTrackDatabase.storeOptimiseRequestNumber(optimiseRequestNumber);
@@ -77,9 +82,9 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         if(id==1){
             return new IntroFragment();
         } else if(id==2){
-            return new GoogleSignInFragment();
-        } else if(id==3){
-            return new BackupRestoreFragment();
+            return new LoginFragment(receivedAction);
+        }  else if(id==3){
+            return new RestoreFragment();
         } else if(id==4){
             return new ThemeFragment();
         } else if(id==5){
@@ -106,14 +111,8 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     }
 
     @Override
-    public void onBackupSetClickListener() {
-        openFragment(new ThemeFragment());
-    }
-
-    @Override
     public void onSignInClickListener() {
         tickTrackDatabase.storeFirstLaunch(false);
-
     }
 
     @Override

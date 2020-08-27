@@ -21,8 +21,6 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".accounts.AddAccountActivity" />
-        <activity android:name=".accounts.RestoreMergeActivity" />
         <activity android:name=".accounts.SwitchAccountActivity" />
 
         <receiver

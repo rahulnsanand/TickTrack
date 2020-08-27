@@ -15,11 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.Task;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
+import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
@@ -347,8 +345,10 @@ public class SettingsActivity extends AppCompatActivity {
                 toggleGoogleAccountOptionsLayout();
             } else {
                 backupEmail.setText("...");
-                Intent signInIntent = firebaseHelper.getSignInIntent();
-                activity.startActivityForResult(signInIntent, 1);
+                tickTrackDatabase.storeStartUpFragmentID(2);
+                Intent startUpSignInIntent = new Intent(this, StartUpActivity.class);
+                startUpSignInIntent.setAction(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD);
+                startActivity(startUpSignInIntent);
             }
         });
 
@@ -386,14 +386,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            firebaseHelper.signIn(task);
-        }
-    }
+
 
     @Override
     public void onBackPressed() {
