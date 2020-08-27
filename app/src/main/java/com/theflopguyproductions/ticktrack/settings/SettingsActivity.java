@@ -353,7 +353,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         disconnectAccountOptionLayout.setOnClickListener(view -> {
-            firebaseHelper.signOut();
+            firebaseHelper.signOut(activity);
             toggleGoogleAccountOptionsLayout();
             setupEmailText();
         });
@@ -404,4 +404,5 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         tickTrackDatabase.storeCurrentFragmentNumber(prevFragment);
     }
+
 }

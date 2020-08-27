@@ -46,7 +46,7 @@
                     android:id="@+id/autoStartGoogleFragmentSubTitleText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Please wait"
+                    android:text="Essential for backup"
                     android:textAlignment="viewEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/autoStartGoogleFragmentTitleText"
@@ -94,54 +94,33 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/autoStartGoogleFragmentDataRetrieveTitleText"
+                    android:id="@+id/autoStartGoogleFragmentSignInTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="32dp"
-                    android:text="Retrieving Data..."
+                    android:text="Link your Google account"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/autoStartGoogleFragmentPreferenceRetrieveText"
+                    android:id="@+id/autoStartGoogleFragmentSignInDetailText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
-                    android:text="Preferences retrieved"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentDataRetrieveTitleText" />
-
-                <TextView
-                    android:id="@+id/autoStartGoogleFragmentTimerRetrieveText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="32dp"
-                    android:text="Timers retrieved"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentPreferenceRetrieveText" />
-
-                <TextView
-                    android:id="@+id/autoStartGoogleFragmentCounterRetrieveText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Counters retrieved"
+                    android:layout_marginBottom="24dp"
+                    android:text="Link your google account with TickTrack in order to enable backup/restore feature for your
+preferences, timers and counters"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentTimerRetrieveText" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentSignInTitle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

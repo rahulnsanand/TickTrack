@@ -83,7 +83,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         } else if(id==2){
             return new LoginFragment(receivedAction);
         }  else if(id==3){
-            return new RestoreFragment();
+            return new RestoreFragment(receivedAction);
         } else if(id==4){
             return new ThemeFragment();
         } else if(id==5){
@@ -106,19 +106,18 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
 
     @Override
     public void onGetStartedClick() {
+        tickTrackDatabase.storeFirstLaunch(false);
         openFragment(new ThemeFragment());
     }
 
 
     @Override
     public void onLaterClickListener() {
-        tickTrackDatabase.storeFirstLaunch(false);
         openFragment(new ThemeFragment());
     }
-
     @Override
-    public void onRestoreListener() {
-        openFragment(new RestoreFragment());
+    public void onRestoreListener(String receivedAction) {
+        openFragment(new RestoreFragment(receivedAction));
     }
 
     @Override

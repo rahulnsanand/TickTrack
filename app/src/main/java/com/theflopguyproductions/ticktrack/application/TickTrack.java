@@ -21,6 +21,8 @@ public class TickTrack extends Application {
     public static final String TIMER_RUNNING_NOTIFICATION = "TIMER_RUNNING_NOTIFICATION";
     public static final String TIMER_COMPLETE_NOTIFICATION = "TIMER_COMPLETE_NOTIFICATION";
     public static final String GENERAL_NOTIFICATION = "TICK_TRACK_GENERAL";
+    public static final String MISCELLANEOUS_NOTIFICATION = "MISCELLANEOUS_NOTIFICATION";
+    public static final String DATA_BACKUP_RESTORE_NOTIFICATION = "DATA_BACKUP_RESTORE_NOTIFICATION";
 
     @Override
     public void onCreate() {
@@ -34,6 +36,8 @@ public class TickTrack extends Application {
             createStopwatchChannel(mNotificationManager);
             createTimerChannel(mNotificationManager);
             createTimerCompleteChannel(mNotificationManager);
+            createMiscellaneousChannel(mNotificationManager);
+            createDataBackupRestoreChannel(mNotificationManager);
 
         }
 
@@ -43,6 +47,52 @@ public class TickTrack extends Application {
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createDataBackupRestoreChannel(NotificationManager mNotificationManager) {
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
+                .setUsage(AudioAttributes. USAGE_ALARM )
+                .build() ;
+
+        int importance = NotificationManager. IMPORTANCE_LOW ;
+        NotificationChannel notificationChannel = new
+                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "Backup Notifications" , importance) ;
+        notificationChannel.enableLights( true ) ;
+        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.enableVibration( true ) ;
+        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+
+//            notificationChannel.setSound(sound , audioAttributes) ;
+
+        assert mNotificationManager != null;
+        mNotificationManager.createNotificationChannel(notificationChannel) ;
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createMiscellaneousChannel(NotificationManager mNotificationManager) {
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
+                .setUsage(AudioAttributes. USAGE_ALARM )
+                .build() ;
+
+        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        NotificationChannel notificationChannel = new
+                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "Miscellaneous Notifications" , importance) ;
+        notificationChannel.enableLights( true ) ;
+        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.enableVibration( true ) ;
+        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+
+//            notificationChannel.setSound(sound , audioAttributes) ;
+
+        assert mNotificationManager != null;
+        mNotificationManager.createNotificationChannel(notificationChannel) ;
 
     }
 

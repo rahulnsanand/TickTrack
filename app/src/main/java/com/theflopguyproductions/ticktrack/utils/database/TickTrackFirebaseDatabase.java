@@ -102,14 +102,15 @@ public class TickTrackFirebaseDatabase {
         return options;
     }
 
-    public void setFirebaseBackupExists(boolean value){
+    public void setRestoreMode(boolean value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("backupExists", value);
+        editor.putBoolean("restoreMode", value);
         editor.apply();
     }
-    public boolean firebaseBackupExists(){
-        return sharedPreferences.getBoolean("backupExists",false);
+    public boolean isRestoreMode(){
+        return sharedPreferences.getBoolean("restoreMode",true);
     }
+
 
 
 }

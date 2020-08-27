@@ -32,7 +32,7 @@ public class LoginFragment extends Fragment {
 
     private Button signInButton, laterButton;
     private ConstraintLayout rootLayout, retrieveRootLayout;
-    private TextView titleText, subTitleText;
+    private TextView titleText, subTitleText, signInText, signInDetailText;
     private String receivedAction;
 
     public LoginFragment(String receivedAction) {
@@ -57,20 +57,21 @@ public class LoginFragment extends Fragment {
         retrieveRootLayout = root.findViewById(R.id.autoStartGoogleFragmentRetrieveRootLayout);
         titleText = root.findViewById(R.id.autoStartGoogleFragmentTitleText);
         subTitleText = root.findViewById(R.id.autoStartGoogleFragmentSubTitleText);
-
+        signInText = root.findViewById(R.id.autoStartGoogleFragmentSignInTitle);
+        signInDetailText = root.findViewById(R.id.autoStartGoogleFragmentSignInDetailText);
 
         retrieveRootLayout.setVisibility(View.GONE);
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(requireContext());
         firebaseHelper = new FirebaseHelper(requireActivity());
-        firebaseHelper.setupGraphics(titleText, subTitleText, receivedAction, retrieveRootLayout, laterButton, signInButton);
+        firebaseHelper.setAction(receivedAction);
 
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_ticktrack_google, container, false);
+        View root = inflater.inflate(R.layout.fragment_ticktrack_login, container, false);
 
         initVariables(root);
 
@@ -90,6 +91,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void signInClick(){
+        signInButton.setEnabled(false);
+        laterButton.setVisibility(View.GONE);
         Intent signInIntent = firebaseHelper.getSignInIntent();
         startActivityForResult(signInIntent, 1);
     }
@@ -99,8 +102,10 @@ public class LoginFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            firebaseHelper.signIn(task);
+            firebaseHelper.signIn(task, getActivity());
         } else {
+            signInButton.setEnabled(true);
+            laterButton.setVisibility(View.VISIBLE);
             Toast.makeText(getContext(), "Sign in failed, try again", Toast.LENGTH_SHORT).show();
             if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
@@ -109,9 +114,10 @@ public class LoginFragment extends Fragment {
     }
 
     private LoginClickListeners loginClickListeners;
+
     public interface LoginClickListeners {
         void onLaterClickListener();
-        void onRestoreListener();
+        void onRestoreListener(String receivedAction);
     }
     @Override
     public void onAttach(@NonNull Context context) {

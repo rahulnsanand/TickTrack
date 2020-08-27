@@ -16,10 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+
         <service
-            android:name=".service.AccountAddedService"
+            android:name=".service.RestoreService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="false" />
 
         <activity android:name=".accounts.SwitchAccountActivity" />
 

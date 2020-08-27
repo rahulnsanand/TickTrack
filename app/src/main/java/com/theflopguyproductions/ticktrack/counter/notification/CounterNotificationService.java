@@ -148,21 +148,6 @@ public class CounterNotificationService extends Service {
         }
     }
 
-    public int getFlag(){
-        if(counterDataList.get(currentCounterPosition).getCounterFlag()==1){
-            return R.drawable.ic_flag_red;
-        } else if(counterDataList.get(currentCounterPosition).getCounterFlag()==2){
-            return R.drawable.ic_flag_green;
-        } else if(counterDataList.get(currentCounterPosition).getCounterFlag()==3){
-            return R.drawable.ic_flag_orange;
-        } else if(counterDataList.get(currentCounterPosition).getCounterFlag()==4){
-            return R.drawable.ic_flag_purple;
-        } else if(counterDataList.get(currentCounterPosition).getCounterFlag()==5){
-            return R.drawable.ic_flag_blue;
-        }
-        return 0;
-    }
-
     private void minusButtonPressed() {
         if(counterValue>=1){
             counterValue-=1;
