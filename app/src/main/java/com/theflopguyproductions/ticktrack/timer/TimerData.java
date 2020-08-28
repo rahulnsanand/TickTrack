@@ -20,6 +20,8 @@ public class TimerData implements Comparable<TimerData> {
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
 
+
+
     public long getTimerEndTimeInMillis() {
         return timerEndTimeInMillis;
     }
@@ -193,4 +195,7 @@ public class TimerData implements Comparable<TimerData> {
     public int compareTo(TimerData timerData) {
         return Long.compare(this.timerTotalTimeInMillis, timerData.getTimerTotalTimeInMillis());
     }
+
+
+
 }

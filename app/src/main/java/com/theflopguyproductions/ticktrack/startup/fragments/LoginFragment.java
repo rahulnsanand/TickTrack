@@ -66,6 +66,7 @@ public class LoginFragment extends Fragment {
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(requireContext());
         firebaseHelper = new FirebaseHelper(requireActivity());
         firebaseHelper.setAction(receivedAction);
+        System.out.println("LOGIN ACTIVITY RECEIVED "+receivedAction);
 
     }
 
@@ -75,7 +76,7 @@ public class LoginFragment extends Fragment {
 
         initVariables(root);
 
-        if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
+        if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
             signInButton.setVisibility(View.GONE);
             laterButton.setVisibility(View.GONE);
             signInClick();
@@ -107,7 +108,7 @@ public class LoginFragment extends Fragment {
             signInButton.setEnabled(true);
             laterButton.setVisibility(View.VISIBLE);
             Toast.makeText(getContext(), "Sign in failed, try again", Toast.LENGTH_SHORT).show();
-            if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
+            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
             }
         }
@@ -117,7 +118,6 @@ public class LoginFragment extends Fragment {
 
     public interface LoginClickListeners {
         void onLaterClickListener();
-        void onRestoreListener(String receivedAction);
     }
     @Override
     public void onAttach(@NonNull Context context) {

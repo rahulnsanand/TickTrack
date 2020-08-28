@@ -58,7 +58,7 @@ public class RestoreFragment extends Fragment {
 
     private void checkRestoreMode() {
         if(!tickTrackFirebaseDatabase.isRestoreMode()){
-            stopRestoreService();
+//            stopRestoreService();
             setupOptionsDisplay();
         }
     }
@@ -97,7 +97,7 @@ public class RestoreFragment extends Fragment {
             timersText.setVisibility(View.VISIBLE);
             timersText.setText("Retrieving timers");
             if(tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
-                countersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedTimerCount()+" timer data");
+                timersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedTimerCount()+" timer data");
             }
         }
     }
@@ -119,9 +119,18 @@ public class RestoreFragment extends Fragment {
         activity = getActivity();
 
         firebaseHelper = new FirebaseHelper(getActivity());
+        firebaseHelper.setAction(receivedAction);
+        System.out.println("RESTORE ACTIVITY RECEIVED "+receivedAction);
+
         tickTrackDatabase = new TickTrackDatabase(getContext());
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(getContext());
         sharedPreferences = tickTrackDatabase.getSharedPref(getContext());
+
+        restoreDataButton.setOnClickListener(view -> startRestorationService());
+        startFreshButton.setOnClickListener(view -> {
+            stopRestoreService();
+            startFreshListener.onStartFreshClickListener();
+        });
     }
 
     @Nullable
@@ -143,7 +152,12 @@ public class RestoreFragment extends Fragment {
         Intent intent = new Intent(activity, RestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(RestoreService.DATA_RESTORATION_STOP);
-        activity.startService(intent);
+        intent.putExtra("receivedAction", receivedAction);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity.startForegroundService(intent);
+        } else {
+            activity.startService(intent);
+        }
     }
 
     private void startRestoreService() {
@@ -151,6 +165,17 @@ public class RestoreFragment extends Fragment {
         Intent intent = new Intent(activity, RestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(RestoreService.DATA_RESTORATION_START);
+        intent.putExtra("receivedAction", receivedAction);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity.startForegroundService(intent);
+        } else {
+            activity.startService(intent);
+        }
+    }
+    private void startRestorationService() {
+        Intent intent = new Intent(activity, RestoreService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(RestoreService.DATA_JSON_RESTORE_START);
         intent.putExtra("receivedAction", receivedAction);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intent);
@@ -167,26 +192,24 @@ public class RestoreFragment extends Fragment {
         tickTrackDatabase.storeCurrentFragmentNumber(3);
     }
 
+    private StartFreshListener startFreshListener;
 
-
-    private RestoreCompleteListener restoreCompleteListener;
-
-    public interface RestoreCompleteListener {
-        void onRestoreCompleteListener();
+    public interface StartFreshListener {
+        void onStartFreshClickListener();
     }
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            restoreCompleteListener = (RestoreCompleteListener) context;
+            startFreshListener = (StartFreshListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement " + RestoreCompleteListener.class.getName());
+                    + " must implement " + StartFreshListener.class.getName());
         }
     }
     @Override
     public void onDetach() {
         super.onDetach();
-        restoreCompleteListener = null;
+        startFreshListener = null;
     }
 }

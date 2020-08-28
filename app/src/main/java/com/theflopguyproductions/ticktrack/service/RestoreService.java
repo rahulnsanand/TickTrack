@@ -12,8 +12,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -27,10 +25,10 @@ public class RestoreService extends Service {
     private FirebaseHelper firebaseHelper;
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
     private TickTrackDatabase tickTrackDatabase;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference rootDatabase;
+
 
     public static final String DATA_RESTORATION_START = "DATA_RESTORATION_START";
+    public static final String DATA_JSON_RESTORE_START = "DATA_JSON_RESTORE_START";
     public static final String DATA_RESTORATION_STOP = "DATA_RESTORATION_STOP";
 
     private NotificationCompat.Builder notificationBuilder;
@@ -53,8 +51,6 @@ public class RestoreService extends Service {
         firebaseHelper = new FirebaseHelper(this);
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(this);
         tickTrackDatabase = new TickTrackDatabase(this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        rootDatabase = firebaseDatabase.getReference();
 
         setupCustomNotification();
     }
@@ -66,12 +62,17 @@ public class RestoreService extends Service {
             String action = intent.getAction();
 
             receivedAction = intent.getStringExtra("receivedAction");
+            firebaseHelper.setAction(receivedAction);
+            System.out.println("RESTORE SERVICE RECEIVED "+receivedAction);
 
             assert action != null;
             switch (action) {
                 case DATA_RESTORATION_START:
                     setupForeground();
                     startRestoration();
+                    break;
+                case DATA_JSON_RESTORE_START:
+                    jsonRestorationStart();
                     break;
                 case DATA_RESTORATION_STOP:
                     stopForegroundService();
@@ -81,6 +82,12 @@ public class RestoreService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    private void jsonRestorationStart() {
+
+
+
+    }
+
     private void setupForeground() {
         startForeground(6, notificationBuilder.build());
         Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
@@ -88,8 +95,8 @@ public class RestoreService extends Service {
 
     private void startRestoration() {
         firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
-        firebaseHelper.checkIfUserExists();
         restoreInitCheckHandler.post(dataRestoreInitCheck);
+        firebaseHelper.checkIfUserExists();
     }
 
     private void stopForegroundService() {
@@ -132,8 +139,8 @@ public class RestoreService extends Service {
         public void run() {
             if(firebaseHelper.dataRestoreInitCompleteCheck()){
                 tickTrackFirebaseDatabase.setRestoreInitMode(false);
-                tickTrackFirebaseDatabase.setRestoreMode(true);
-                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
+                tickTrackFirebaseDatabase.setRestoreMode(false);
+//                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
             } else {
                 restoreInitCheckHandler.post(dataRestoreInitCheck);
             }
@@ -144,12 +151,12 @@ public class RestoreService extends Service {
     Runnable dataRestoreCompleteCheck = new Runnable() {
         @Override
         public void run() {
-            if(firebaseHelper.dataRestoreCompleteCheck()){
-                tickTrackFirebaseDatabase.setRestoreInitMode(false);
-                tickTrackFirebaseDatabase.setRestoreMode(true);
-            } else {
-                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
-            }
+//            if(firebaseHelper.dataRestoreCompleteCheck()){
+//                tickTrackFirebaseDatabase.setRestoreInitMode(false);
+//                tickTrackFirebaseDatabase.setRestoreMode(true);
+//            } else {
+//                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
+//            }
         }
     };
 

@@ -33,10 +33,12 @@ import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
+import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
@@ -78,23 +80,27 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         setSupportActionBar(mainToolbar);
         setTitle("");
+        int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
 
-        if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
+        if(new TickTrackFirebaseDatabase(this).isRestoreMode()){
+            goToStartUpActivity();
+        } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
 
             goToStartUpActivity();
 
         } else {
 
-            int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
             openFragment(getFragment(receivedFragmentID));
 
             boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
             boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
 
-
-
         }
+
+        TimerData timerData = new TimerData();
+        timerData.toJson(tickTrackDatabase.retrieveTimerList());
+
     }
 
     private void goToStartUpActivity() {

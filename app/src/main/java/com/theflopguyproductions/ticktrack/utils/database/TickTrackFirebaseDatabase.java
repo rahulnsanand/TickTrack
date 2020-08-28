@@ -108,7 +108,7 @@ public class TickTrackFirebaseDatabase {
         editor.apply();
     }
     public boolean isRestoreMode(){
-        return sharedPreferences.getBoolean("restoreMode",true);
+        return sharedPreferences.getBoolean("restoreMode",false);
     }
 
     public void setRestoreInitMode(boolean value){
@@ -185,6 +185,14 @@ public class TickTrackFirebaseDatabase {
     }
     public int getRetrievedCounterCount(){
         return sharedPreferences.getInt("retrievedCounterCount",-1);
+    }
+    public void storeRetrievedLastBackupTime(long timeStamp){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("retrievedLastBackupTime", timeStamp);
+        editor.apply();
+    }
+    public int getRetrievedLastBackupTime(){
+        return sharedPreferences.getInt("retrievedLastBackupTime",-1);
     }
 
 }

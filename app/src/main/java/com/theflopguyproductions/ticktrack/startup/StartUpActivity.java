@@ -26,7 +26,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class StartUpActivity extends AppCompatActivity implements IntroFragment.OnGetStartedClickListener, BatteryOptimiseFragment.BatteryOptimiseClickListener,
-        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener, LoginFragment.LoginClickListeners, RestoreFragment.RestoreCompleteListener {
+        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener, LoginFragment.LoginClickListeners, RestoreFragment.StartFreshListener{
 
     public static final String ACTION_SETTINGS_ACCOUNT_ADD = "ACTION_SETTINGS_ACCOUNT_ADD";
 
@@ -53,6 +53,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         optimiseRequestNumber = tickTrackDatabase.retrieveOptimiseRequestNumber();
 
         receivedAction = getIntent().getAction();
+        System.out.println("STARTUP ACTIVITY RECEIVED "+receivedAction);
 
         optimiseRequestNumber += 1;
         tickTrackDatabase.storeOptimiseRequestNumber(optimiseRequestNumber);
@@ -115,22 +116,18 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     public void onLaterClickListener() {
         openFragment(new ThemeFragment());
     }
-    @Override
-    public void onRestoreListener(String receivedAction) {
-        openFragment(new RestoreFragment(receivedAction));
-    }
 
     @Override
-    public void onRestoreCompleteListener() {
-
+    public void onStartFreshClickListener() {
+        openFragment(new ThemeFragment());
     }
 
     @Override
     public void onThemeSetClickListener() {
         setupTheme();
-
         openFragment(new BatteryOptimiseFragment());
     }
+
     @Override
     public void onBatteryOptimiseClickListener() {
         if(!isMyServiceRunning(OptimiserService.class)){

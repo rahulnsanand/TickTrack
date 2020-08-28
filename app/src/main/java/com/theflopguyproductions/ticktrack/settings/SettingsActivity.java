@@ -282,6 +282,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         activity = this;
         firebaseHelper = new FirebaseHelper(activity);
+        firebaseHelper.setAction(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD);
         tickTrackDatabase = new TickTrackDatabase(activity);
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(activity);
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
