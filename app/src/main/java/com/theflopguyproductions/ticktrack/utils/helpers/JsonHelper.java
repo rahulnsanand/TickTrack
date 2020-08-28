@@ -2,7 +2,12 @@ package com.theflopguyproductions.ticktrack.utils.helpers;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -11,25 +16,40 @@ import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class JsonHelper {
+
+    FirebaseStorage storage;
+    Context context;
+
+    public JsonHelper(Context context) {
+        this.context = context;
+        this.storage = FirebaseStorage.getInstance();
+    }
 
     public void timerDataBackup(ArrayList<TimerData> timerData){
 
         ArrayList<TimerBackupData> timerBackupData = new ArrayList<>();
 
         for(int i = 0; i<timerData.size(); i++){
-            timerBackupData.get(i).setTimerCreateTimeStamp(timerData.get(i).getTimerCreateTimeStamp());
-            timerBackupData.get(i).setTimerHour(timerData.get(i).getTimerHour());
-            timerBackupData.get(i).setTimerMinute(timerData.get(i).getTimerMinute());
-            timerBackupData.get(i).setTimerSecond(timerData.get(i).getTimerSecond());
-            timerBackupData.get(i).setTimerLabel(timerData.get(i).getTimerLabel());
-            timerBackupData.get(i).setTimerFlag(timerData.get(i).getTimerFlag());
-            timerBackupData.get(i).setTimerTotalTimeInMillis(timerData.get(i).getTimerTotalTimeInMillis());
-            timerBackupData.get(i).setTimerID(timerData.get(i).getTimerID());
+            TimerBackupData timerBackupData1 = new TimerBackupData();
+            timerBackupData1.setTimerCreateTimeStamp(timerData.get(i).getTimerCreateTimeStamp());
+            timerBackupData1.setTimerHour(timerData.get(i).getTimerHour());
+            timerBackupData1.setTimerMinute(timerData.get(i).getTimerMinute());
+            timerBackupData1.setTimerSecond(timerData.get(i).getTimerSecond());
+            timerBackupData1.setTimerLabel(timerData.get(i).getTimerLabel());
+            timerBackupData1.setTimerFlag(timerData.get(i).getTimerFlag());
+            timerBackupData1.setTimerTotalTimeInMillis(timerData.get(i).getTimerTotalTimeInMillis());
+            timerBackupData1.setTimerID(timerData.get(i).getTimerID());
+            timerBackupData.add(timerBackupData1);
         }
 
         if(timerBackupData.size()>0){
@@ -37,7 +57,7 @@ public class JsonHelper {
         }
     }
 
-    public String timerArrayListToJsonObject(ArrayList<TimerBackupData> timerData){
+    public void timerArrayListToJsonObject(ArrayList<TimerBackupData> timerData){
 
         JsonArray timerJsonArray = new Gson().toJsonTree(timerData).getAsJsonArray();
         JsonObject timerJsonObject = new JsonObject();
@@ -46,7 +66,42 @@ public class JsonHelper {
 
         System.out.println(timerJsonObject.toString());
 
-        return timerJsonObject.toString();
+        saveTimerDataToJson(timerJsonObject);
+
+    }
+
+    public void saveTimerDataToJson(JsonObject timerObject){
+        String timerJsonString = timerObject.toString();
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("timerBackupData.json", Context.MODE_PRIVATE));
+            outputStreamWriter.write(timerJsonString);
+            outputStreamWriter.close();
+            uploadTimerToStorage();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    private void uploadTimerToStorage() {
+
+        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
+        StorageReference mountainsRef = storageRef.child("timerData.json");
+        File directory = context.getFilesDir();
+        File file = new File(directory, "timerBackupData.json");
+
+        try {
+            InputStream stream = new FileInputStream(file);
+            UploadTask uploadTask = mountainsRef.putStream(stream);
+            uploadTask.addOnFailureListener(exception -> {
+                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+            }).addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+            });
+
+        } catch (FileNotFoundException e) {
+            Log.e("Exception", "File upload failed: " + e.toString());
+        }
 
     }
 
@@ -55,14 +110,16 @@ public class JsonHelper {
         ArrayList<CounterBackupData> counterBackupData = new ArrayList<>();
 
         for(int i = 0; i<counterData.size(); i++){
-            counterBackupData.get(i).setCounterFlag(counterData.get(i).getCounterFlag());
-            counterBackupData.get(i).setCounterID(counterData.get(i).getCounterID());
-            counterBackupData.get(i).setCounterLabel(counterData.get(i).getCounterLabel());
-            counterBackupData.get(i).setCounterSignificantCount(counterData.get(i).getCounterSignificantCount());
-            counterBackupData.get(i).setCounterSignificantExist(counterData.get(i).isCounterSignificantExist());
-            counterBackupData.get(i).setCounterSwipeMode(counterData.get(i).isCounterSwipeMode());
-            counterBackupData.get(i).setCounterTimestamp(counterData.get(i).getCounterTimestamp());
-            counterBackupData.get(i).setCounterValue(counterData.get(i).getCounterValue());
+            CounterBackupData counterBackupData1 = new CounterBackupData();
+            counterBackupData1.setCounterFlag(counterData.get(i).getCounterFlag());
+            counterBackupData1.setCounterID(counterData.get(i).getCounterID());
+            counterBackupData1.setCounterLabel(counterData.get(i).getCounterLabel());
+            counterBackupData1.setCounterSignificantCount(counterData.get(i).getCounterSignificantCount());
+            counterBackupData1.setCounterSignificantExist(counterData.get(i).isCounterSignificantExist());
+            counterBackupData1.setCounterSwipeMode(counterData.get(i).isCounterSwipeMode());
+            counterBackupData1.setCounterTimestamp(counterData.get(i).getCounterTimestamp());
+            counterBackupData1.setCounterValue(counterData.get(i).getCounterValue());
+            counterBackupData.add(counterBackupData1);
         }
 
         if(counterBackupData.size()>0){
@@ -70,7 +127,7 @@ public class JsonHelper {
         }
     }
 
-    public String counterArrayListToJsonObject(ArrayList<CounterBackupData> counterData){
+    public void counterArrayListToJsonObject(ArrayList<CounterBackupData> counterData){
 
         JsonArray counterJsonArray = new Gson().toJsonTree(counterData).getAsJsonArray();
         JsonObject counterJsonObject = new JsonObject();
@@ -79,47 +136,41 @@ public class JsonHelper {
 
         System.out.println(counterJsonObject.toString());
 
-        return counterJsonObject.toString();
+        saveCounterDataToJson(counterJsonObject);
 
     }
 
-    public void saveTimerDataToJson(Context context, JsonObject timerObject){
-        String timerJsonString = timerObject.toString();
+    public void saveCounterDataToJson(JsonObject jsonObject){
+        String counterJsonString = jsonObject.toString();
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("timerBackupData.json", Context.MODE_PRIVATE));
-            outputStreamWriter.write(timerJsonString);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("counterBackupData.json", Context.MODE_PRIVATE));
+            outputStreamWriter.write(counterJsonString);
             outputStreamWriter.close();
-            uploadToStorage();
+            uploadCounterToStorage();
         }
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 
-    private void uploadToStorage() {
+    private void uploadCounterToStorage() {
+        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
+        StorageReference mountainsRef = storageRef.child("counterData.json");
+        File directory = context.getFilesDir();
+        File file = new File(directory, "counterBackupData.json");
 
+        try {
+            InputStream stream = new FileInputStream(file);
+            UploadTask uploadTask = mountainsRef.putStream(stream);
+            uploadTask.addOnFailureListener(exception -> {
+                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+            }).addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+            });
 
-
-    }
-
-    public void retrieveTimerDataFromJson(){
-
-    }
-
-    public void timerBackupMerge(){
-
-    }
-
-    public void saveCounterDataToJson(){
-
-    }
-
-    public void retrieveCounterDataFromJson(){
-
-    }
-
-    public void counterBackupMerge(){
-
+        } catch (FileNotFoundException e) {
+            Log.e("Exception", "File upload failed: " + e.toString());
+        }
     }
 
 }

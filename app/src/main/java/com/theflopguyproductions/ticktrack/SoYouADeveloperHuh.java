@@ -33,7 +33,6 @@ import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
@@ -41,6 +40,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
+import com.theflopguyproductions.ticktrack.utils.helpers.JsonHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
@@ -98,8 +98,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
         }
 
-        TimerData timerData = new TimerData();
-        timerData.toJson(tickTrackDatabase.retrieveTimerList());
+        JsonHelper jsonHelper = new JsonHelper(getApplicationContext());
+        jsonHelper.timerDataBackup(tickTrackDatabase.retrieveTimerList());
 
     }
 

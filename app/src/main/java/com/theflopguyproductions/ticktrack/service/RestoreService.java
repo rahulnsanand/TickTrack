@@ -18,6 +18,7 @@ import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
+import com.theflopguyproductions.ticktrack.utils.helpers.JsonHelper;
 
 public class RestoreService extends Service {
 
@@ -25,7 +26,7 @@ public class RestoreService extends Service {
     private FirebaseHelper firebaseHelper;
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
     private TickTrackDatabase tickTrackDatabase;
-
+    private JsonHelper jsonHelper;
 
     public static final String DATA_RESTORATION_START = "DATA_RESTORATION_START";
     public static final String DATA_JSON_RESTORE_START = "DATA_JSON_RESTORE_START";
@@ -51,7 +52,7 @@ public class RestoreService extends Service {
         firebaseHelper = new FirebaseHelper(this);
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(this);
         tickTrackDatabase = new TickTrackDatabase(this);
-
+        jsonHelper = new JsonHelper(this);
         setupCustomNotification();
     }
 
@@ -83,7 +84,6 @@ public class RestoreService extends Service {
     }
 
     private void jsonRestorationStart() {
-
 
 
     }
