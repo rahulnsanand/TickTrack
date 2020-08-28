@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -35,7 +35,6 @@ public class RestoreService extends Service {
 
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
-    private RemoteViews notificationLayout;
 
     private String receivedAction;
 
@@ -83,27 +82,22 @@ public class RestoreService extends Service {
     }
 
     private void setupForeground() {
-        startForeground(1, notificationBuilder.build());
+        startForeground(6, notificationBuilder.build());
         Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
     }
 
     private void startRestoration() {
-        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat, notificationLayout);
+        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
         firebaseHelper.checkIfUserExists();
+        restoreInitCheckHandler.post(dataRestoreInitCheck);
     }
 
     private void stopForegroundService() {
-        System.out.println("Stop Service called");
         stopForeground(true);
         stopSelf();
     }
 
     private void setupCustomNotification(){
-
-        notificationLayout = new RemoteViews(getPackageName(), R.layout.backup_restore_notification_layout);
-        notificationLayout.setTextViewText(R.id.backupRestoreNotificationLayoutTitleText,"Looking for TickTrack backup");
-        notificationLayout.setTextViewText(R.id.backupRestoreNotificationLayoutContentText, "In progress");
-        notificationLayout.setProgressBar(R.id.backupRestoreNotificationLayoutProgressBar,0,0,true);
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
@@ -117,9 +111,10 @@ public class RestoreService extends Service {
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setCustomContentView(notificationLayout)
                 .setOnlyAlertOnce(true)
-                .setContentIntent(resultPendingIntent);
+                .setContentIntent(resultPendingIntent)
+                .setProgress(0,0,true)
+                .setColor(getResources().getColor(R.color.Accent));
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION);
@@ -128,8 +123,36 @@ public class RestoreService extends Service {
     }
 
     public void notifyNotification(){
-        notificationManagerCompat.notify(1, notificationBuilder.build());
+        notificationManagerCompat.notify(6, notificationBuilder.build());
     }
+
+    Handler restoreInitCheckHandler = new Handler();
+    Runnable dataRestoreInitCheck = new Runnable() {
+        @Override
+        public void run() {
+            if(firebaseHelper.dataRestoreInitCompleteCheck()){
+                tickTrackFirebaseDatabase.setRestoreInitMode(false);
+                tickTrackFirebaseDatabase.setRestoreMode(true);
+                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
+            } else {
+                restoreInitCheckHandler.post(dataRestoreInitCheck);
+            }
+        }
+    };
+
+    Handler restoreCompleteCheckHandler = new Handler();
+    Runnable dataRestoreCompleteCheck = new Runnable() {
+        @Override
+        public void run() {
+            if(firebaseHelper.dataRestoreCompleteCheck()){
+                tickTrackFirebaseDatabase.setRestoreInitMode(false);
+                tickTrackFirebaseDatabase.setRestoreMode(true);
+            } else {
+                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
+            }
+        }
+    };
+
 
     @Override
     public void onDestroy() {

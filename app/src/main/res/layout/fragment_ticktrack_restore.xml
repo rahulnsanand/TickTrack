@@ -85,6 +85,7 @@
                     android:text="Data ready to restore"
                     android:textAlignment="center"
                     android:textSize="18sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentPreferencesText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -100,6 +101,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="Preferences retrieved"
                     android:textAlignment="center"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentTimerText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -113,6 +115,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="10 Timers retrieved"
                     android:textAlignment="center"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentCounterText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -127,6 +130,7 @@
                     android:layout_marginBottom="24dp"
                     android:text="10 Counters retrieved"
                     android:textAlignment="center"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentRestoreOptionsTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -140,6 +144,7 @@
                     android:layout_marginEnd="32dp"
                     android:text="What would you like to restore?"
                     android:textSize="18sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentPreferencesCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -151,6 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="Preferences"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentCounterCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -161,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="Counter Data"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentTimerCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -171,6 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:text="Timer Data"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

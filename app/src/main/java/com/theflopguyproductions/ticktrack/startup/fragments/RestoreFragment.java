@@ -29,7 +29,7 @@ public class RestoreFragment extends Fragment {
     private FirebaseHelper firebaseHelper;
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
 
-    private TextView mainTitle, subTitle, DataRetrieveTitle, preferencesText, timersText, countersText, restoreQuestionText;
+    private TextView mainTitle, subTitle, dataReadyTitle, preferencesText, timersText, countersText, restoreQuestionText;
     private Button restoreDataButton, startFreshButton;
     private CheckBox preferencesCheck, timersCheck, countersCheck;
     private SharedPreferences sharedPreferences;
@@ -59,17 +59,53 @@ public class RestoreFragment extends Fragment {
     private void checkRestoreMode() {
         if(!tickTrackFirebaseDatabase.isRestoreMode()){
             stopRestoreService();
+            setupOptionsDisplay();
+        }
+    }
+
+    private void setupOptionsDisplay() {
+        restoreQuestionText.setVisibility(View.VISIBLE);
+        restoreDataButton.setVisibility(View.VISIBLE);
+        startFreshButton.setVisibility(View.VISIBLE);
+        if(tickTrackFirebaseDatabase.hasPreferencesDataBackup()){
+            preferencesCheck.setVisibility(View.VISIBLE);
+        }
+        if(tickTrackFirebaseDatabase.hasCounterDataBackup()){
+            countersCheck.setVisibility(View.VISIBLE);
+        }
+        if(tickTrackFirebaseDatabase.hasTimerDataBackup()){
+            timersCheck.setVisibility(View.VISIBLE);
         }
     }
 
     private void setupChanges() {
-
+        if(tickTrackFirebaseDatabase.hasPreferencesDataBackup()){
+            preferencesText.setVisibility(View.VISIBLE);
+            preferencesText.setText("Preferences retrieved");
+            dataReadyTitle.setVisibility(View.VISIBLE);
+        }
+        if(tickTrackFirebaseDatabase.hasCounterDataBackup()){
+            dataReadyTitle.setVisibility(View.VISIBLE);
+            countersText.setVisibility(View.VISIBLE);
+            countersText.setText("Retrieving counters");
+            if(tickTrackFirebaseDatabase.getRetrievedCounterCount()!=-1){
+                countersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedCounterCount()+" counter data");
+            }
+        }
+        if(tickTrackFirebaseDatabase.hasTimerDataBackup()){
+            dataReadyTitle.setVisibility(View.VISIBLE);
+            timersText.setVisibility(View.VISIBLE);
+            timersText.setText("Retrieving timers");
+            if(tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
+                countersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedTimerCount()+" timer data");
+            }
+        }
     }
 
-    private void initVariables(View root){
+    private void initVariables(View root) {
         mainTitle = root.findViewById(R.id.restoreFragmentTitleText);
         subTitle = root.findViewById(R.id.restoreFragmentSubtitleText);
-        DataRetrieveTitle = root.findViewById(R.id.restoreFragmentDataReadyText);
+        dataReadyTitle = root.findViewById(R.id.restoreFragmentDataReadyText);
         preferencesText = root.findViewById(R.id.restoreFragmentPreferencesText);
         timersText = root.findViewById(R.id.restoreFragmentTimerText);
         countersText = root.findViewById(R.id.restoreFragmentCounterText);
@@ -103,7 +139,7 @@ public class RestoreFragment extends Fragment {
     }
 
     private void stopRestoreService() {
-        tickTrackFirebaseDatabase.setRestoreMode(true);
+        tickTrackFirebaseDatabase.setRestoreInitMode(true);
         Intent intent = new Intent(activity, RestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(RestoreService.DATA_RESTORATION_STOP);
