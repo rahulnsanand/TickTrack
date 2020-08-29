@@ -1,12 +1,10 @@
 package com.theflopguyproductions.ticktrack.timer;
 
-import java.sql.Timestamp;
-
 public class TimerBackupData {
 
     int timerHour, timerMinute, timerSecond, timerID, timerFlag;
     long timerTotalTimeInMillis;
-    Timestamp timerCreateTimeStamp;
+    long timerLastEdited;
     String timerLabel;
 
     public int getTimerHour() {
@@ -57,12 +55,12 @@ public class TimerBackupData {
         this.timerTotalTimeInMillis = timerTotalTimeInMillis;
     }
 
-    public Timestamp getTimerCreateTimeStamp() {
-        return timerCreateTimeStamp;
+    public long getTimerLastEdited() {
+        return timerLastEdited;
     }
 
-    public void setTimerCreateTimeStamp(Timestamp timerCreateTimeStamp) {
-        this.timerCreateTimeStamp = timerCreateTimeStamp;
+    public void setTimerLastEdited(long timerLastEdited) {
+        this.timerLastEdited = timerLastEdited;
     }
 
     public String getTimerLabel() {

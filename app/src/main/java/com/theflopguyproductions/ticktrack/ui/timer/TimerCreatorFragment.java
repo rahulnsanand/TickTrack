@@ -28,7 +28,6 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 import com.theflopguyproductions.ticktrack.utils.helpers.UniqueIdGenerator;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class TimerCreatorFragment extends Fragment {
@@ -309,7 +308,7 @@ public class TimerCreatorFragment extends Fragment {
     private void createTimer() {
 
         TimerData timerData = new TimerData();
-        timerData.setTimerCreateTimeStamp(new Timestamp(System.currentTimeMillis()));
+        timerData.setTimerLastEdited(System.currentTimeMillis());
         timerData.setTimerFlag(flagCheck);
         timerData.setTimerHour(pickedHour);
         timerData.setTimerMinute(pickedMinute);

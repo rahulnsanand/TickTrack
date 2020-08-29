@@ -1,7 +1,5 @@
 package com.theflopguyproductions.ticktrack.timer;
 
-import java.sql.Timestamp;
-
 public class TimerData implements Comparable<TimerData> {
 
 
@@ -13,7 +11,7 @@ public class TimerData implements Comparable<TimerData> {
     long timerEndedTimeInMillis;
 
     long timerTempMaxTimeInMillis, timerStartTimeInMillis;
-    Timestamp timerCreateTimeStamp;
+    long timerLastEdited;
     String timerLabel;
     boolean timerOn, timerPause;
 
@@ -159,12 +157,12 @@ public class TimerData implements Comparable<TimerData> {
         this.timerAlarmEndTimeInMillis = timerAlarmEndTimeInMillis;
     }
 
-    public Timestamp getTimerCreateTimeStamp() {
-        return timerCreateTimeStamp;
+    public long getTimerLastEdited() {
+        return timerLastEdited;
     }
 
-    public void setTimerCreateTimeStamp(Timestamp timerCreateTimeStamp) {
-        this.timerCreateTimeStamp = timerCreateTimeStamp;
+    public void setTimerLastEdited(long timerLastEdited) {
+        this.timerLastEdited = timerLastEdited;
     }
 
     public String getTimerLabel() {
