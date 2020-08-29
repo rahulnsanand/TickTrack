@@ -9,12 +9,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -29,10 +36,12 @@ public class JsonHelper {
 
     FirebaseStorage storage;
     Context context;
+    TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
 
     public JsonHelper(Context context) {
         this.context = context;
         this.storage = FirebaseStorage.getInstance();
+        tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
     }
 
     public void timerDataBackup(ArrayList<TimerData> timerData){
@@ -54,6 +63,7 @@ public class JsonHelper {
 
         if(timerBackupData.size()>0){
             timerArrayListToJsonObject(timerBackupData);
+            tickTrackFirebaseDatabase.storeBackupTimerList(timerBackupData);
         }
     }
 
@@ -63,6 +73,7 @@ public class JsonHelper {
         JsonObject timerJsonObject = new JsonObject();
 
         timerJsonObject.add("timerData", timerJsonArray);
+
 
         System.out.println(timerJsonObject.toString());
 
@@ -124,6 +135,7 @@ public class JsonHelper {
 
         if(counterBackupData.size()>0){
             counterArrayListToJsonObject(counterBackupData);
+            tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
         }
     }
 
@@ -171,6 +183,83 @@ public class JsonHelper {
         } catch (FileNotFoundException e) {
             Log.e("Exception", "File upload failed: " + e.toString());
         }
+    }
+
+    private void downloadCounterBackup(){
+        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
+        StorageReference mountainsRef = storageRef.child("counterData.json");
+        File directory = context.getFilesDir();
+        File file = new File(directory, "counterRetrievedData.json");
+
+        mountainsRef.getFile(file).addOnFailureListener(exception -> {
+            Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
+        }).addOnSuccessListener(taskSnapshot -> {
+            restoredCounterToArray();
+            Toast.makeText(context, "Download Success", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void restoredCounterToArray() {
+        File directory = context.getFilesDir();
+        File file = new File(directory, "counterRetrievedData.json");
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(file);
+        System.out.println(json);
+    }
+
+    public void downloadTimerBackup(){
+        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
+        StorageReference mountainsRef = storageRef.child("timerData.json");
+
+        File directory = context.getFilesDir();
+        try {
+            File local = File.createTempFile("timerRetrievedBackupData", "json", directory);
+            mountainsRef.getFile(local).addOnFailureListener(exception -> {
+                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+            }).addOnSuccessListener(taskSnapshot -> {
+                restoredTimerToArray();
+                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void restoredTimerToArray() {
+        String json = null;
+
+        File directory = context.getFilesDir();
+        File file = new File(directory, "timerRetrievedBackupData.json");
+
+        try {
+            InputStream is = new FileInputStream(file);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+            JSONArray jsonArr = new JSONArray(json);
+            ArrayList<TimerBackupData> timerBackupData = new ArrayList<>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                JSONObject jsonObj = jsonArr.getJSONObject(i);
+                TimerBackupData timerBackupData1 = new TimerBackupData();
+//                timerBackupData1.setTimerCreateTimeStamp(jsonObj.getString("timerCreateTimeStamp"));
+                timerBackupData1.setTimerHour(jsonObj.getInt("timerHour"));
+                timerBackupData1.setTimerMinute(jsonObj.getInt("timerMinute"));
+                timerBackupData1.setTimerSecond(jsonObj.getInt("timerSecond"));
+                timerBackupData1.setTimerLabel(jsonObj.getString("timerLabel"));
+                timerBackupData1.setTimerFlag(jsonObj.getInt("timerFlag"));
+                timerBackupData1.setTimerTotalTimeInMillis(jsonObj.getLong("timerTotalTimeInMillis"));
+                timerBackupData1.setTimerID(jsonObj.getInt("timerID"));
+                timerBackupData.add(timerBackupData1);
+            }
+            System.out.println(timerBackupData.size()+"");
+        } catch (IOException | JSONException ex) {
+            ex.printStackTrace();
+        }
+
+
     }
 
 }

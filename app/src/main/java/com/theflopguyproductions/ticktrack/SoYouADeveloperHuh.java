@@ -99,7 +99,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         }
 
         JsonHelper jsonHelper = new JsonHelper(getApplicationContext());
-        jsonHelper.timerDataBackup(tickTrackDatabase.retrieveTimerList());
+//        jsonHelper.timerDataBackup(tickTrackDatabase.retrieveTimerList());
+        jsonHelper.downloadTimerBackup();
 
     }
 
