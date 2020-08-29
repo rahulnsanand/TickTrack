@@ -12,23 +12,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -69,23 +68,17 @@ public class JsonHelper {
 
     public void timerArrayListToJsonObject(ArrayList<TimerBackupData> timerData){
 
-        JsonArray timerJsonArray = new Gson().toJsonTree(timerData).getAsJsonArray();
-        JsonObject timerJsonObject = new JsonObject();
+        Gson gson = new Gson();
+        String json = gson.toJson(timerData);
 
-        timerJsonObject.add("timerData", timerJsonArray);
-
-
-        System.out.println(timerJsonObject.toString());
-
-        saveTimerDataToJson(timerJsonObject);
+        saveTimerDataToJson(json);
 
     }
 
-    public void saveTimerDataToJson(JsonObject timerObject){
-        String timerJsonString = timerObject.toString();
+    public void saveTimerDataToJson(String timerObject){
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("timerBackupData.json", Context.MODE_PRIVATE));
-            outputStreamWriter.write(timerJsonString);
+            outputStreamWriter.write(timerObject);
             outputStreamWriter.close();
             uploadTimerToStorage();
         }
@@ -215,10 +208,10 @@ public class JsonHelper {
         try {
             File local = File.createTempFile("timerRetrievedBackupData", "json", directory);
             mountainsRef.getFile(local).addOnFailureListener(exception -> {
-                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
             }).addOnSuccessListener(taskSnapshot -> {
-                restoredTimerToArray();
-                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+                restoredTimerToArray(local);
+                Toast.makeText(context, "Download Success", Toast.LENGTH_SHORT).show();
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -227,35 +220,23 @@ public class JsonHelper {
 
     }
 
-    private void restoredTimerToArray() {
-        String json = null;
-
-        File directory = context.getFilesDir();
-        File file = new File(directory, "timerRetrievedBackupData.json");
-
+    private void restoredTimerToArray(File local) {
         try {
-            InputStream is = new FileInputStream(file);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.close();
-            json = new String(buffer, StandardCharsets.UTF_8);
-            JSONArray jsonArr = new JSONArray(json);
-            ArrayList<TimerBackupData> timerBackupData = new ArrayList<>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObj = jsonArr.getJSONObject(i);
-                TimerBackupData timerBackupData1 = new TimerBackupData();
-//                timerBackupData1.setTimerCreateTimeStamp(jsonObj.getString("timerCreateTimeStamp"));
-                timerBackupData1.setTimerHour(jsonObj.getInt("timerHour"));
-                timerBackupData1.setTimerMinute(jsonObj.getInt("timerMinute"));
-                timerBackupData1.setTimerSecond(jsonObj.getInt("timerSecond"));
-                timerBackupData1.setTimerLabel(jsonObj.getString("timerLabel"));
-                timerBackupData1.setTimerFlag(jsonObj.getInt("timerFlag"));
-                timerBackupData1.setTimerTotalTimeInMillis(jsonObj.getLong("timerTotalTimeInMillis"));
-                timerBackupData1.setTimerID(jsonObj.getInt("timerID"));
-                timerBackupData.add(timerBackupData1);
+            InputStream is = new FileInputStream(local);
+            BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String line = buf.readLine();
+            StringBuilder sb = new StringBuilder();
+            while(line != null){
+                sb.append(line);
+                line = buf.readLine();
             }
-            System.out.println(timerBackupData.size()+"");
-        } catch (IOException | JSONException ex) {
+            String fileAsString = sb.toString();
+            System.out.println("Contents : " + fileAsString);
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<TimerData>>() {}.getType();
+            ArrayList<TimerData> timerDataArrayList = gson.fromJson(fileAsString, type);
+            System.out.println(timerDataArrayList.size());
+
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 
