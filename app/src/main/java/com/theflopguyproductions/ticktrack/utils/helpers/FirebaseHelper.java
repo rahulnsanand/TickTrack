@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
@@ -49,7 +50,10 @@ public class FirebaseHelper {
     private String action;
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
-    ProgressBarDialog progressBarDialog;
+    private ProgressBarDialog progressBarDialog;
+    private JsonHelper jsonHelper;
+
+    private boolean isRestoreInitComplete = false, isRestorationComplete = false, isBackupComplete = false;
 
     public FirebaseHelper(Context context) {
         this.context = context;
@@ -62,6 +66,7 @@ public class FirebaseHelper {
                 .build();
         googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions);
         mAuth = FirebaseAuth.getInstance();
+        jsonHelper = new JsonHelper(context);
         firebaseFirestore = FirebaseFirestore.getInstance();
     }
     public void setAction(String action){
@@ -89,6 +94,7 @@ public class FirebaseHelper {
             assert account != null;
             firebaseAuthWithGoogle(account.getIdToken(), activity);
         } catch (ApiException e) {
+            progressBarDialog.dismiss();
             Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
         }
     }
@@ -104,6 +110,7 @@ public class FirebaseHelper {
                         activity.startActivity(intent);
                         progressBarDialog.dismiss();
                     } else {
+                        progressBarDialog.dismiss();
                         tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                         Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
                     }
@@ -111,7 +118,7 @@ public class FirebaseHelper {
     }
 
 
-    public void checkIfUserExists() {
+    public void restoreInit() {
 
         tickTrackFirebaseDatabase.setRestoreInitMode(true);
 
@@ -128,7 +135,6 @@ public class FirebaseHelper {
 
                 });
     }
-
     private void setupInitUserData() {
         Map<String, Object> user = new HashMap<>();
         user.put("accountCreateTime", System.currentTimeMillis());
@@ -147,6 +153,7 @@ public class FirebaseHelper {
         firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
                 .addOnSuccessListener(documentReference -> {
                     firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).set(user);
+                    jsonHelper.initStorageFix();
                     completedFragmentTask();
                 })
                 .addOnFailureListener(e -> {
@@ -155,6 +162,7 @@ public class FirebaseHelper {
 
     }
     private void completedFragmentTask() {
+        isRestoreInitComplete = true;
         if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(action)){
             Intent intent = new Intent(context, SettingsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -170,12 +178,11 @@ public class FirebaseHelper {
     private void stopRestoreService() {
         Intent intent = new Intent(context, RestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.DATA_RESTORATION_STOP);
+        intent.setAction(RestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
         intent.putExtra("receivedAction", action);
         context.startService(intent);
     }
 
-    private boolean isInitRestoreComplete = false;
     private void checkIfDataExists() {
 
         notificationBuilder.setContentTitle("Fetching TickTrack backup details");
@@ -198,50 +205,62 @@ public class FirebaseHelper {
                         }
                         if (themeMode != -1) { //TODO ADD OTHER PREFERENCES AS || STATEMENTS
                             tickTrackFirebaseDatabase.foundPreferencesDataBackup(true);
+                            tickTrackFirebaseDatabase.setRestoreThemeMode(themeMode);
                         }
                         if (lastBackup != -1) {
                             tickTrackFirebaseDatabase.storeRetrievedLastBackupTime(lastBackup);
                         }
-                        isInitRestoreComplete = true;
+                        isRestoreInitComplete = true;
                     }
                 })
                 .addOnFailureListener(e -> System.out.println("ERROR FIREBASE" + e));
     }
 
-    private void deletePreviousBackups() {
-
-    }
-
     private ArrayList<TimerData> timerLocalDataList = new ArrayList<>();
     private ArrayList<CounterData> counterLocalDataList = new ArrayList<>();
 
-    private void setupDataRestorePoint(){
-        initPreferences();
-        downloadJsonFromFirebase();
-
-    }
-
     private void initPreferences() {
+        tickTrackDatabase.setThemeMode(tickTrackFirebaseDatabase.getRestoreThemeMode());
+        System.out.println("INITIALISED PREFERENCES");
+    }
 
+    public void backup() {
 
     }
 
-    private void downloadJsonFromFirebase(){
-
-        convertJsonToPOJO();
+    private int timerResult=2, counterResult=2;
+    public void restore() {
+        initPreferences();
+        timerResult = jsonHelper.downloadTimerBackup();
+        counterResult = jsonHelper.downloadCounterBackup();
+//        isRestorationComplete=true;
+        restoreCheckHandler.post(restoreCheckRunnable);
     }
 
-    private void convertJsonToPOJO() {
+    Handler restoreCheckHandler = new Handler();
+    Runnable restoreCheckRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(tickTrackFirebaseDatabase.isTimerDataRestored() && tickTrackFirebaseDatabase.isCounterDataRestored()){
+                isRestorationComplete=true;
+                restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
+            } else if((tickTrackFirebaseDatabase.isTimerDataRestoreError() || tickTrackFirebaseDatabase.isCounterDataRestoreError()) && tickTrackFirebaseDatabase.isRestoreMode()) {
+                isRestorationComplete=false;
+                restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
+            } else {
+                restoreCheckHandler.post(restoreCheckRunnable);
+            }
+        }
+    };
 
-        mergeObjects();
+    public boolean restoreInitComplete(){
+        return isRestoreInitComplete;
     }
-
-    private void mergeObjects() {
-
+    public boolean restorationComplete(){
+        return isRestorationComplete;
     }
-
-    public boolean dataRestoreInitCompleteCheck(){
-        return isInitRestoreComplete;
+    public boolean backupComplete(){
+        return isBackupComplete;
     }
 
     public void signOut(Activity activity) {
@@ -253,6 +272,15 @@ public class FirebaseHelper {
             if(task.isSuccessful()){
                 FirebaseAuth.getInstance().signOut();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
+                tickTrackFirebaseDatabase.setRestoreMode(false);
+                tickTrackFirebaseDatabase.setRestoreInitMode(false);
+                tickTrackFirebaseDatabase.setBackupMode(false);
+                tickTrackFirebaseDatabase.setCounterDataRestoreError(false);
+                tickTrackFirebaseDatabase.setTimerDataBackupError(false);
+                tickTrackFirebaseDatabase.setTimerDataBackup(false);
+                tickTrackFirebaseDatabase.setCounterDataBackup(false);
+                tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
+                tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
                 Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(activity, "Not signed out, try again", Toast.LENGTH_SHORT).show();
@@ -263,4 +291,6 @@ public class FirebaseHelper {
     public boolean isUserSignedIn(){
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
+
+
 }

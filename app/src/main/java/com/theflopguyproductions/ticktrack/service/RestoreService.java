@@ -28,9 +28,10 @@ public class RestoreService extends Service {
     private TickTrackDatabase tickTrackDatabase;
     private JsonHelper jsonHelper;
 
-    public static final String DATA_RESTORATION_START = "DATA_RESTORATION_START";
-    public static final String DATA_JSON_RESTORE_START = "DATA_JSON_RESTORE_START";
-    public static final String DATA_RESTORATION_STOP = "DATA_RESTORATION_STOP";
+    public static final String RESTORE_SERVICE_STOP_FOREGROUND = "RESTORE_SERVICE_STOP_FOREGROUND";
+    public static final String RESTORE_SERVICE_START_INIT_RETRIEVE = "RESTORE_SERVICE_START_INIT_RETRIEVE";
+    public static final String RESTORE_SERVICE_START_RESTORE = "RESTORE_SERVICE_START_RESTORE";
+    public static final String RESTORE_SERVICE_START_BACKUP = "RESTORE_SERVICE_START_BACKUP";
 
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
@@ -68,35 +69,48 @@ public class RestoreService extends Service {
 
             assert action != null;
             switch (action) {
-                case DATA_RESTORATION_START:
+                case RESTORE_SERVICE_STOP_FOREGROUND:
+                    stopForegroundService();
+                    break;
+                case RESTORE_SERVICE_START_INIT_RETRIEVE:
+                    setupForeground();
+                    startInitRestore();
+                    break;
+                case RESTORE_SERVICE_START_RESTORE:
                     setupForeground();
                     startRestoration();
                     break;
-                case DATA_JSON_RESTORE_START:
-                    jsonRestorationStart();
-                    break;
-                case DATA_RESTORATION_STOP:
-                    stopForegroundService();
+                case RESTORE_SERVICE_START_BACKUP:
+                    setupForeground();
+                    startBackup();
                     break;
             }
         }
         return super.onStartCommand(intent, flags, startId);
     }
-
-    private void jsonRestorationStart() {
-
-
+    private void setupForeground() {
+        System.out.println("FOREGROUND BEGINS");
+        startForeground(6, notificationBuilder.build());
     }
 
-    private void setupForeground() {
-        startForeground(6, notificationBuilder.build());
-        Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
+    private void startInitRestore() {
+        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
+        restoreInitCheckHandler.post(dataRestoreInitCheck);
+        firebaseHelper.restoreInit();
+    }
+
+    private void startBackup() {
+        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
+        backupCheckHandler.post(dataBackupCheck);
+        firebaseHelper.backup();
     }
 
     private void startRestoration() {
+        tickTrackFirebaseDatabase.setRestoreMode(true);
+        Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
         firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
-        restoreInitCheckHandler.post(dataRestoreInitCheck);
-        firebaseHelper.checkIfUserExists();
+        restoreCheckHandler.post(dataRestoreCheck);
+        firebaseHelper.restore();
     }
 
     private void stopForegroundService() {
@@ -134,29 +148,46 @@ public class RestoreService extends Service {
     }
 
     Handler restoreInitCheckHandler = new Handler();
+    Handler restoreCheckHandler = new Handler();
+    Handler backupCheckHandler = new Handler();
+
     Runnable dataRestoreInitCheck = new Runnable() {
         @Override
         public void run() {
-            if(firebaseHelper.dataRestoreInitCompleteCheck()){
+            if(firebaseHelper.restoreInitComplete()){
+                System.out.println("RESTORE INIT COMPLETE");
                 tickTrackFirebaseDatabase.setRestoreInitMode(false);
-                tickTrackFirebaseDatabase.setRestoreMode(false);
-//                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
+                restoreInitCheckHandler.removeCallbacks(dataRestoreInitCheck);
+                stopForegroundService();
             } else {
+                System.out.println("RESTORE INIT COMPLETION CHECKING");
                 restoreInitCheckHandler.post(dataRestoreInitCheck);
             }
         }
     };
-
-    Handler restoreCompleteCheckHandler = new Handler();
-    Runnable dataRestoreCompleteCheck = new Runnable() {
+    Runnable dataRestoreCheck = new Runnable() {
         @Override
         public void run() {
-//            if(firebaseHelper.dataRestoreCompleteCheck()){
-//                tickTrackFirebaseDatabase.setRestoreInitMode(false);
-//                tickTrackFirebaseDatabase.setRestoreMode(true);
-//            } else {
-//                restoreCompleteCheckHandler.post(dataRestoreCompleteCheck);
-//            }
+            if(firebaseHelper.restorationComplete()){
+                System.out.println("RESTORE COMPLETE");
+                tickTrackFirebaseDatabase.setRestoreMode(false);
+                restoreCheckHandler.removeCallbacks(dataRestoreCheck);
+                stopForegroundService();
+            } else {
+                System.out.println("RESTORE COMPLETION CHECKING");
+                restoreCheckHandler.post(dataRestoreCheck);
+            }
+        }
+    };
+    Runnable dataBackupCheck = new Runnable() {
+        @Override
+        public void run() {
+            if(firebaseHelper.backupComplete()){
+                tickTrackFirebaseDatabase.setBackupMode(false);
+                backupCheckHandler.removeCallbacks(dataBackupCheck);
+            } else {
+                backupCheckHandler.post(dataBackupCheck);
+            }
         }
     };
 

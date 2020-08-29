@@ -83,11 +83,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
 
         if(new TickTrackFirebaseDatabase(this).isRestoreMode()){
-            goToStartUpActivity();
+            goToStartUpActivity(3, true);
         } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
 
-            goToStartUpActivity();
+            goToStartUpActivity(5, false);
 
         } else {
 
@@ -96,17 +96,14 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
             boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
             boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
 
+            JsonHelper jsonHelper = new JsonHelper(getApplicationContext());
+            jsonHelper.counterDataBackup(tickTrackDatabase.retrieveCounterList());
         }
-
-        JsonHelper jsonHelper = new JsonHelper(getApplicationContext());
-        jsonHelper.timerDataBackup(tickTrackDatabase.retrieveTimerList());
-        jsonHelper.downloadTimerBackup();
-
     }
 
-    private void goToStartUpActivity() {
-        tickTrackDatabase.storeNotOptimiseBool(false);
-        tickTrackDatabase.storeStartUpFragmentID(5);
+    private void goToStartUpActivity(int id, boolean optimise) {
+        tickTrackDatabase.storeNotOptimiseBool(optimise);
+        tickTrackDatabase.storeStartUpFragmentID(id);
         Intent intent = new Intent(this, StartUpActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -218,7 +215,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         super.onResume();
         if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
-            goToStartUpActivity();
+            goToStartUpActivity(5, false);
         } else {
             if(isMyServiceRunning(StopwatchNotificationService.class, this)){
                 stopNotificationService();
@@ -232,7 +229,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         super.onStart();
         if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
-            goToStartUpActivity();
+            goToStartUpActivity(5, false);
         } else {
             if(isMyServiceRunning(StopwatchNotificationService.class, this)){
                 stopNotificationService();

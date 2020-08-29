@@ -116,48 +116,73 @@ public class TickTrackFirebaseDatabase {
     public boolean isRestoreMode(){
         return sharedPreferences.getBoolean("restoreMode",false);
     }
-
     public void setRestoreInitMode(boolean value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("restoreInitMode", value);
         editor.apply();
     }
     public boolean isRestoreInitMode(){
-        return sharedPreferences.getBoolean("restoreInitMode",true);
+        return sharedPreferences.getBoolean("restoreInitMode",false);
+    }
+    public void setBackupMode(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("backupMode", value);
+        editor.apply();
+    }
+    public boolean isBackupMode(){
+        return sharedPreferences.getBoolean("backupMode",false);
     }
 
-    public void foundCounterDataBackup(boolean id){
+    public void setCounterDataRestore(boolean id){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundCounterDataBackup", id);
         editor.apply();
     }
-    public boolean hasCounterDataBackup(){
+    public boolean isCounterDataRestored(){
         return sharedPreferences.getBoolean("foundCounterDataBackup",false);
     }
-    public void foundTimerDataBackup(boolean id){
+    public void setTimerDataRestore(boolean id){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundTimerDataBackup", id);
         editor.apply();
     }
-    public boolean hasTimerDataBackup(){
+    public boolean isTimerDataRestored(){
         return sharedPreferences.getBoolean("foundTimerDataBackup",false);
     }
+    public void setCounterDataRestoreError(boolean id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("foundCounterDataBackupError", id);
+        editor.apply();
+    }
+    public boolean isCounterDataRestoreError(){
+        return sharedPreferences.getBoolean("foundCounterDataBackupError",false);
+    }
+    public void setTimerDataBackupError(boolean id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("foundTimerDataBackupError", id);
+        editor.apply();
+    }
+    public boolean isTimerDataRestoreError(){
+        return sharedPreferences.getBoolean("foundTimerDataBackupError",false);
+    }
+
     public void foundPreferencesDataBackup(boolean id){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundPreferencesDataBackup", id);
         editor.apply();
     }
+
     public boolean hasPreferencesDataBackup(){
         return sharedPreferences.getBoolean("foundPreferencesDataBackup",false);
     }
 
-    public void completeCounterDataRestore(boolean id){
+    public void setRestoreThemeMode(int mode){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("completeCounterDataRestore", id);
+        editor.putInt("restoreThemeMode", mode);
         editor.apply();
     }
-    public boolean isCounterDataRestoreComplete(){
-        return sharedPreferences.getBoolean("completeCounterDataRestore",false);
+    public int getRestoreThemeMode(){
+        return sharedPreferences.getInt("restoreThemeMode",-1);
     }
     public void completeTimerDataRestore(boolean id){
         SharedPreferences.Editor editor = sharedPreferences.edit();

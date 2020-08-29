@@ -18,7 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.service.RestoreService;
+import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
+import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
@@ -33,6 +36,8 @@ public class RestoreFragment extends Fragment {
     private Button restoreDataButton, startFreshButton;
     private CheckBox preferencesCheck, timersCheck, countersCheck;
     private SharedPreferences sharedPreferences;
+
+    private ProgressBarDialog progressBarDialog;
 
     private Activity activity;
 
@@ -57,8 +62,8 @@ public class RestoreFragment extends Fragment {
     }
 
     private void checkRestoreMode() {
-        if(!tickTrackFirebaseDatabase.isRestoreMode()){
-//            stopRestoreService();
+        if(!tickTrackFirebaseDatabase.isRestoreInitMode()){
+            stopRestoreService();
             setupOptionsDisplay();
         }
     }
@@ -70,10 +75,10 @@ public class RestoreFragment extends Fragment {
         if(tickTrackFirebaseDatabase.hasPreferencesDataBackup()){
             preferencesCheck.setVisibility(View.VISIBLE);
         }
-        if(tickTrackFirebaseDatabase.hasCounterDataBackup()){
+        if(tickTrackFirebaseDatabase.getRetrievedCounterCount()!=-1){
             countersCheck.setVisibility(View.VISIBLE);
         }
-        if(tickTrackFirebaseDatabase.hasTimerDataBackup()){
+        if(tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
             timersCheck.setVisibility(View.VISIBLE);
         }
     }
@@ -84,21 +89,15 @@ public class RestoreFragment extends Fragment {
             preferencesText.setText("Preferences retrieved");
             dataReadyTitle.setVisibility(View.VISIBLE);
         }
-        if(tickTrackFirebaseDatabase.hasCounterDataBackup()){
+        if(tickTrackFirebaseDatabase.getRetrievedCounterCount()!=-1){
             dataReadyTitle.setVisibility(View.VISIBLE);
             countersText.setVisibility(View.VISIBLE);
-            countersText.setText("Retrieving counters");
-            if(tickTrackFirebaseDatabase.getRetrievedCounterCount()!=-1){
-                countersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedCounterCount()+" counter data");
-            }
+            countersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedCounterCount()+" counter data");
         }
-        if(tickTrackFirebaseDatabase.hasTimerDataBackup()){
+        if(tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
             dataReadyTitle.setVisibility(View.VISIBLE);
             timersText.setVisibility(View.VISIBLE);
-            timersText.setText("Retrieving timers");
-            if(tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
-                timersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedTimerCount()+" timer data");
-            }
+            timersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedTimerCount()+" timer data");
         }
     }
 
@@ -118,6 +117,7 @@ public class RestoreFragment extends Fragment {
 
         activity = getActivity();
 
+        progressBarDialog = new ProgressBarDialog(activity);
         firebaseHelper = new FirebaseHelper(getActivity());
         firebaseHelper.setAction(receivedAction);
         System.out.println("RESTORE ACTIVITY RECEIVED "+receivedAction);
@@ -126,10 +126,19 @@ public class RestoreFragment extends Fragment {
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(getContext());
         sharedPreferences = tickTrackDatabase.getSharedPref(getContext());
 
-        restoreDataButton.setOnClickListener(view -> startRestorationService());
+        restoreDataButton.setOnClickListener(view -> {
+            startRestoreDataService();
+            if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
+                Intent intent = new Intent(requireContext(), SettingsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                requireContext().startActivity(intent);
+            } else {
+                startFreshListener.onStartFreshClickListener(false);
+            }
+        });
         startFreshButton.setOnClickListener(view -> {
             stopRestoreService();
-            startFreshListener.onStartFreshClickListener();
+            startFreshListener.onStartFreshClickListener(true);
         });
     }
 
@@ -142,16 +151,21 @@ public class RestoreFragment extends Fragment {
 
         initVariables(root);
 
-        startRestoreService();
+        progressBarDialog = new ProgressBarDialog(activity);
+        progressBarDialog.show();
+        progressBarDialog.setContentText("Checking for backup");
+        progressBarDialog.titleText.setVisibility(View.GONE);
+        startRestoreInitService();
 
         return root;
     }
 
     private void stopRestoreService() {
+        progressBarDialog.dismiss();
         tickTrackFirebaseDatabase.setRestoreInitMode(true);
         Intent intent = new Intent(activity, RestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.DATA_RESTORATION_STOP);
+        intent.setAction(RestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
         intent.putExtra("receivedAction", receivedAction);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intent);
@@ -160,11 +174,11 @@ public class RestoreFragment extends Fragment {
         }
     }
 
-    private void startRestoreService() {
-
+    private void startRestoreInitService() {
+        tickTrackFirebaseDatabase.setRestoreInitMode(true);
         Intent intent = new Intent(activity, RestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.DATA_RESTORATION_START);
+        intent.setAction(RestoreService.RESTORE_SERVICE_START_INIT_RETRIEVE);
         intent.putExtra("receivedAction", receivedAction);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intent);
@@ -172,10 +186,11 @@ public class RestoreFragment extends Fragment {
             activity.startService(intent);
         }
     }
-    private void startRestorationService() {
+
+    private void startRestoreDataService() {
         Intent intent = new Intent(activity, RestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.DATA_JSON_RESTORE_START);
+        intent.setAction(RestoreService.RESTORE_SERVICE_START_RESTORE);
         intent.putExtra("receivedAction", receivedAction);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intent);
@@ -195,7 +210,7 @@ public class RestoreFragment extends Fragment {
     private StartFreshListener startFreshListener;
 
     public interface StartFreshListener {
-        void onStartFreshClickListener();
+        void onStartFreshClickListener(boolean nextFragment);
     }
     @Override
     public void onAttach(@NonNull Context context) {

@@ -118,8 +118,16 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     }
 
     @Override
-    public void onStartFreshClickListener() {
-        openFragment(new ThemeFragment());
+    public void onStartFreshClickListener(boolean nextFragment) {
+        if(nextFragment){
+            openFragment(new ThemeFragment());
+        } else {
+            if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
+
+            } else {
+                openFragment(new BatteryOptimiseFragment());
+            }
+        }
     }
 
     @Override
