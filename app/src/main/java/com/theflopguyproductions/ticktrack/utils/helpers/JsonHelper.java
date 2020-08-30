@@ -359,6 +359,7 @@ public class JsonHelper {
                     for(int i=0; i<timerBackupData.size(); i++){
                         TimerData newTimer = new TimerData();
                         newTimer.setTimerID(timerBackupData.get(i).getTimerID());
+                        newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
                         newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
                         newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
                         newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
@@ -369,7 +370,6 @@ public class JsonHelper {
                         newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
                         newTimer.setTimerPause(false);
                         newTimer.setTimerOn(false);
-                        newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
 
                         mergeTimerData(newTimer);
                     }
