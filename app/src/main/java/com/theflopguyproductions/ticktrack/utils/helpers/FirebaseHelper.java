@@ -53,7 +53,7 @@ public class FirebaseHelper {
     private ProgressBarDialog progressBarDialog;
     private JsonHelper jsonHelper;
 
-    private boolean isRestoreInitComplete = false, isRestorationComplete = false, isBackupComplete = false;
+    private boolean isRestorationComplete = false, isBackupComplete = false;
 
     public FirebaseHelper(Context context) {
         this.context = context;
@@ -120,7 +120,7 @@ public class FirebaseHelper {
 
     public void restoreInit() {
 
-        tickTrackFirebaseDatabase.setRestoreMode(true);
+        tickTrackFirebaseDatabase.setRestoreInitMode(true);
 
         firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -162,7 +162,7 @@ public class FirebaseHelper {
 
     }
     private void completedFragmentTask() {
-        isRestoreInitComplete = true;
+        tickTrackFirebaseDatabase.setRestoreInitMode(false);
         if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(action)){
             Intent intent = new Intent(context, SettingsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -210,7 +210,7 @@ public class FirebaseHelper {
                         if (lastBackup != -1) {
                             tickTrackFirebaseDatabase.storeRetrievedLastBackupTime(lastBackup);
                         }
-                        isRestoreInitComplete = true;
+                        tickTrackFirebaseDatabase.setRestoreInitMode(false);
                     }
                 })
                 .addOnFailureListener(e -> System.out.println("ERROR FIREBASE" + e));
@@ -252,9 +252,6 @@ public class FirebaseHelper {
         }
     };
 
-    public boolean restoreInitComplete(){
-        return isRestoreInitComplete;
-    }
     public boolean restorationComplete(){
         return isRestorationComplete;
     }

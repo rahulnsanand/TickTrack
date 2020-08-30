@@ -63,7 +63,7 @@ public class RestoreFragment extends Fragment {
 
     private void checkRestoreMode() {
         if(!tickTrackFirebaseDatabase.isRestoreInitMode()){
-            stopRestoreService();
+            progressBarDialog.dismiss();
             setupOptionsDisplay();
         }
     }
@@ -161,8 +161,6 @@ public class RestoreFragment extends Fragment {
     }
 
     private void stopRestoreService() {
-        progressBarDialog.dismiss();
-        tickTrackFirebaseDatabase.setRestoreInitMode(true);
         Intent intent = new Intent(activity, BackupRestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(BackupRestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
@@ -207,8 +205,8 @@ public class RestoreFragment extends Fragment {
         tickTrackDatabase.storeCurrentFragmentNumber(3);
     }
 
-    private StartFreshListener startFreshListener;
 
+    private StartFreshListener startFreshListener;
     public interface StartFreshListener {
         void onStartFreshClickListener(boolean nextFragment);
     }
