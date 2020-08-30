@@ -1,6 +1,5 @@
 package com.theflopguyproductions.ticktrack.service;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -22,7 +21,6 @@ import com.theflopguyproductions.ticktrack.utils.helpers.JsonHelper;
 
 public class BackupRestoreService extends Service {
 
-    private Activity activity;
     private FirebaseHelper firebaseHelper;
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
     private TickTrackDatabase tickTrackDatabase;
@@ -93,24 +91,56 @@ public class BackupRestoreService extends Service {
         startForeground(6, notificationBuilder.build());
     }
 
-    private void startInitRestore() {
-        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
-        restoreInitCheckHandler.post(dataRestoreInitCheck);
-        firebaseHelper.restoreInit();
+    Handler restoreCheckHandler = new Handler();
+    Runnable dataRestoreCheck = new Runnable() {
+        @Override
+        public void run() {
+            if(firebaseHelper.restorationComplete()){
+                System.out.println("RESTORE COMPLETE");
+                prefixFirebaseVariables();
+                restoreCheckHandler.removeCallbacks(dataRestoreCheck);
+                stopForegroundService();
+            } else {
+                System.out.println("RESTORE COMPLETION CHECKING");
+                restoreCheckHandler.post(dataRestoreCheck);
+            }
+        }
+    };
+    private void prefixFirebaseVariables() {
+        tickTrackFirebaseDatabase.setRestoreMode(false);
+        tickTrackFirebaseDatabase.setCounterDataRestoreError(false);
+        tickTrackFirebaseDatabase.setCounterDataRestore(false);
+        tickTrackFirebaseDatabase.setTimerDataBackupError(false);
+        tickTrackFirebaseDatabase.setTimerDataRestore(false);
     }
 
+    private void startInitRestore() {
+        tickTrackFirebaseDatabase.setRestoreMode(true);
+        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
+        restoreCheckHandler.post(dataRestoreCheck);
+        firebaseHelper.restoreInit();
+    }
+    private void startRestoration() {
+        Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
+        firebaseHelper.restore();
+    }
+
+    Handler backupCheckHandler = new Handler();
+    Runnable dataBackupCheck = new Runnable() {
+        @Override
+        public void run() {
+            if(firebaseHelper.backupComplete()){
+                tickTrackFirebaseDatabase.setBackupMode(false);
+                backupCheckHandler.removeCallbacks(dataBackupCheck);
+            } else {
+                backupCheckHandler.post(dataBackupCheck);
+            }
+        }
+    };
     private void startBackup() {
         firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
         backupCheckHandler.post(dataBackupCheck);
         firebaseHelper.backup();
-    }
-
-    private void startRestoration() {
-        tickTrackFirebaseDatabase.setRestoreMode(true);
-        Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
-        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
-        restoreCheckHandler.post(dataRestoreCheck);
-        firebaseHelper.restore();
     }
 
     private void stopForegroundService() {
@@ -146,36 +176,6 @@ public class BackupRestoreService extends Service {
     public void notifyNotification(){
         notificationManagerCompat.notify(6, notificationBuilder.build());
     }
-
-    Handler restoreCheckHandler = new Handler();
-    Handler backupCheckHandler = new Handler();
-
-    Runnable dataRestoreCheck = new Runnable() {
-        @Override
-        public void run() {
-            if(firebaseHelper.restorationComplete()){
-                System.out.println("RESTORE COMPLETE");
-                tickTrackFirebaseDatabase.setRestoreMode(false);
-                restoreCheckHandler.removeCallbacks(dataRestoreCheck);
-                stopForegroundService();
-            } else {
-                System.out.println("RESTORE COMPLETION CHECKING");
-                restoreCheckHandler.post(dataRestoreCheck);
-            }
-        }
-    };
-    Runnable dataBackupCheck = new Runnable() {
-        @Override
-        public void run() {
-            if(firebaseHelper.backupComplete()){
-                tickTrackFirebaseDatabase.setBackupMode(false);
-                backupCheckHandler.removeCallbacks(dataBackupCheck);
-            } else {
-                backupCheckHandler.post(dataBackupCheck);
-            }
-        }
-    };
-
 
     @Override
     public void onDestroy() {

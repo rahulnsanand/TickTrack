@@ -120,7 +120,7 @@ public class FirebaseHelper {
 
     public void restoreInit() {
 
-        tickTrackFirebaseDatabase.setRestoreInitMode(true);
+        tickTrackFirebaseDatabase.setRestoreMode(true);
 
         firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -228,12 +228,10 @@ public class FirebaseHelper {
 
     }
 
-    private int timerResult=2, counterResult=2;
     public void restore() {
         initPreferences();
-        timerResult = jsonHelper.downloadTimerBackup();
-        counterResult = jsonHelper.downloadCounterBackup();
-//        isRestorationComplete=true;
+        jsonHelper.restoreCounterData();
+        jsonHelper.restoreTimerData();
         restoreCheckHandler.post(restoreCheckRunnable);
     }
 
@@ -244,7 +242,8 @@ public class FirebaseHelper {
             if(tickTrackFirebaseDatabase.isTimerDataRestored() && tickTrackFirebaseDatabase.isCounterDataRestored()){
                 isRestorationComplete=true;
                 restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
-            } else if((tickTrackFirebaseDatabase.isTimerDataRestoreError() || tickTrackFirebaseDatabase.isCounterDataRestoreError()) && tickTrackFirebaseDatabase.isRestoreMode()) {
+            } else if((tickTrackFirebaseDatabase.isTimerDataRestoreError() || tickTrackFirebaseDatabase.isCounterDataRestoreError())) {
+                //TODO HANDLE ERROR
                 isRestorationComplete=false;
                 restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
             } else {
@@ -273,7 +272,6 @@ public class FirebaseHelper {
                 FirebaseAuth.getInstance().signOut();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                 tickTrackFirebaseDatabase.setRestoreMode(false);
-                tickTrackFirebaseDatabase.setRestoreInitMode(false);
                 tickTrackFirebaseDatabase.setBackupMode(false);
                 tickTrackFirebaseDatabase.setCounterDataRestoreError(false);
                 tickTrackFirebaseDatabase.setTimerDataBackupError(false);
