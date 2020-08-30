@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
-import com.theflopguyproductions.ticktrack.service.RestoreService;
+import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -163,9 +163,9 @@ public class RestoreFragment extends Fragment {
     private void stopRestoreService() {
         progressBarDialog.dismiss();
         tickTrackFirebaseDatabase.setRestoreInitMode(true);
-        Intent intent = new Intent(activity, RestoreService.class);
+        Intent intent = new Intent(activity, BackupRestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
+        intent.setAction(BackupRestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
         intent.putExtra("receivedAction", receivedAction);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intent);
@@ -176,9 +176,9 @@ public class RestoreFragment extends Fragment {
 
     private void startRestoreInitService() {
         tickTrackFirebaseDatabase.setRestoreInitMode(true);
-        Intent intent = new Intent(activity, RestoreService.class);
+        Intent intent = new Intent(activity, BackupRestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.RESTORE_SERVICE_START_INIT_RETRIEVE);
+        intent.setAction(BackupRestoreService.RESTORE_SERVICE_START_INIT_RETRIEVE);
         intent.putExtra("receivedAction", receivedAction);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intent);
@@ -188,9 +188,9 @@ public class RestoreFragment extends Fragment {
     }
 
     private void startRestoreDataService() {
-        Intent intent = new Intent(activity, RestoreService.class);
+        Intent intent = new Intent(activity, BackupRestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.RESTORE_SERVICE_START_RESTORE);
+        intent.setAction(BackupRestoreService.RESTORE_SERVICE_START_RESTORE);
         intent.putExtra("receivedAction", receivedAction);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intent);

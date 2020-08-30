@@ -18,7 +18,7 @@
         android:theme="@style/DarkTheme">
 
         <service
-            android:name=".service.RestoreService"
+            android:name=".service.BackupRestoreService"
             android:enabled="true"
             android:exported="false" />
 

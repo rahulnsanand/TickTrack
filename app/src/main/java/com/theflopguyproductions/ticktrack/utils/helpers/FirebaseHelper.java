@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
-import com.theflopguyproductions.ticktrack.service.RestoreService;
+import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
@@ -176,9 +176,9 @@ public class FirebaseHelper {
         stopRestoreService();
     }
     private void stopRestoreService() {
-        Intent intent = new Intent(context, RestoreService.class);
+        Intent intent = new Intent(context, BackupRestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(RestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
+        intent.setAction(BackupRestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
         intent.putExtra("receivedAction", action);
         context.startService(intent);
     }

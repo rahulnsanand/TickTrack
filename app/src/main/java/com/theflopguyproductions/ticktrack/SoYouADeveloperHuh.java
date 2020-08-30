@@ -40,7 +40,6 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
-import com.theflopguyproductions.ticktrack.utils.helpers.JsonHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
@@ -96,8 +95,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
             boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
             boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
 
-            JsonHelper jsonHelper = new JsonHelper(getApplicationContext());
-            jsonHelper.counterDataBackup(tickTrackDatabase.retrieveCounterList());
         }
     }
 

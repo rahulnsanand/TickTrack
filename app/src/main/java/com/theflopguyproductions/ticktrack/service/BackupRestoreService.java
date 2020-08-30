@@ -20,7 +20,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatab
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.JsonHelper;
 
-public class RestoreService extends Service {
+public class BackupRestoreService extends Service {
 
     private Activity activity;
     private FirebaseHelper firebaseHelper;
@@ -38,7 +38,7 @@ public class RestoreService extends Service {
 
     private String receivedAction;
 
-    public RestoreService() {
+    public BackupRestoreService() {
     }
 
     @Override
@@ -147,24 +147,9 @@ public class RestoreService extends Service {
         notificationManagerCompat.notify(6, notificationBuilder.build());
     }
 
-    Handler restoreInitCheckHandler = new Handler();
     Handler restoreCheckHandler = new Handler();
     Handler backupCheckHandler = new Handler();
 
-    Runnable dataRestoreInitCheck = new Runnable() {
-        @Override
-        public void run() {
-            if(firebaseHelper.restoreInitComplete()){
-                System.out.println("RESTORE INIT COMPLETE");
-                tickTrackFirebaseDatabase.setRestoreInitMode(false);
-                restoreInitCheckHandler.removeCallbacks(dataRestoreInitCheck);
-                stopForegroundService();
-            } else {
-                System.out.println("RESTORE INIT COMPLETION CHECKING");
-                restoreInitCheckHandler.post(dataRestoreInitCheck);
-            }
-        }
-    };
     Runnable dataRestoreCheck = new Runnable() {
         @Override
         public void run() {
