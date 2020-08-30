@@ -53,7 +53,7 @@ public class FirebaseHelper {
     private ProgressBarDialog progressBarDialog;
     private JsonHelper jsonHelper;
 
-    private boolean isRestorationComplete = false, isBackupComplete = false;
+    private boolean  isBackupComplete = false;
 
     public FirebaseHelper(Context context) {
         this.context = context;
@@ -239,12 +239,12 @@ public class FirebaseHelper {
     Runnable restoreCheckRunnable = new Runnable() {
         @Override
         public void run() {
-            if(tickTrackFirebaseDatabase.isTimerDataRestored() && tickTrackFirebaseDatabase.isCounterDataRestored()){
-                isRestorationComplete=true;
+            if(tickTrackFirebaseDatabase.getCounterDownloadStatus()==1 && tickTrackFirebaseDatabase.getTimerDownloadStatus()==1){
+                tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
                 restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
-            } else if((tickTrackFirebaseDatabase.isTimerDataRestoreError() || tickTrackFirebaseDatabase.isCounterDataRestoreError())) {
+            } else if(tickTrackFirebaseDatabase.getCounterDownloadStatus()==-1 || tickTrackFirebaseDatabase.getTimerDownloadStatus()==-1) {
                 //TODO HANDLE ERROR
-                isRestorationComplete=false;
+                tickTrackFirebaseDatabase.setRestoreCompleteStatus(-1);
                 restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
             } else {
                 restoreCheckHandler.post(restoreCheckRunnable);
@@ -252,9 +252,7 @@ public class FirebaseHelper {
         }
     };
 
-    public boolean restorationComplete(){
-        return isRestorationComplete;
-    }
+
     public boolean backupComplete(){
         return isBackupComplete;
     }
@@ -268,12 +266,9 @@ public class FirebaseHelper {
             if(task.isSuccessful()){
                 FirebaseAuth.getInstance().signOut();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
+                tickTrackFirebaseDatabase.setRestoreInitMode(false);
                 tickTrackFirebaseDatabase.setRestoreMode(false);
                 tickTrackFirebaseDatabase.setBackupMode(false);
-                tickTrackFirebaseDatabase.setCounterDataRestoreError(false);
-                tickTrackFirebaseDatabase.setTimerDataBackupError(false);
-                tickTrackFirebaseDatabase.setTimerDataBackup(false);
-                tickTrackFirebaseDatabase.setCounterDataBackup(false);
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
                 tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
                 Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();

@@ -226,52 +226,65 @@ public class TickTrackFirebaseDatabase {
         return sharedPreferences.getInt("retrievedLastBackupTime",-1);
     }
 
-    public void storeBackupTimerList(ArrayList<TimerBackupData> timerDataArrayList){
+    public void setRestoreCompleteStatus(int mode){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("RestoreCompleteStatus", mode);
+        editor.apply();
+    }
+    public int getRestoreCompleteStatus(){
+        return sharedPreferences.getInt("RestoreCompleteStatus",0);
+    }
 
+    public void setCounterDownloadStatus(int mode){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("CounterDownloadStatus", mode);
+        editor.apply();
+    }
+    public int getCounterDownloadStatus(){
+        return sharedPreferences.getInt("CounterDownloadStatus",0);
+    }
+    public void setTimerDownloadStatus(int mode){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("TimerDownloadStatus", mode);
+        editor.apply();
+    }
+    public int getTimerDownloadStatus(){
+        return sharedPreferences.getInt("TimerDownloadStatus",0);
+    }
+
+    public void storeBackupTimerList(ArrayList<TimerBackupData> timerDataArrayList){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(timerDataArrayList);
         editor.putString("TimerBackupData", json);
         editor.apply();
-
     }
     public ArrayList<TimerBackupData> retrieveBackupTimerList(){
-
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerBackupData", null);
         Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
         ArrayList<TimerBackupData> timerDataArrayList = gson.fromJson(json, type);
-
         if(timerDataArrayList == null){
             timerDataArrayList = new ArrayList<>();
         }
-
         return timerDataArrayList;
-
     }
-
     public void storeBackupCounterList(ArrayList<CounterBackupData> counterBackupData){
-
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(counterBackupData);
         editor.putString("CounterBackupData", json);
         editor.apply();
-
     }
     public ArrayList<CounterBackupData> retrieveBackupCounterList(){
-
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerBackupData", null);
         Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
         ArrayList<CounterBackupData> counterBackupData = gson.fromJson(json, type);
-
         if(counterBackupData == null){
             counterBackupData = new ArrayList<>();
         }
-
         return counterBackupData;
-
     }
 
 }

@@ -1,7 +1,6 @@
 package com.theflopguyproductions.ticktrack.utils.helpers;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -262,30 +261,8 @@ public class JsonHelper {
     /**
      * Restoring functions of counter and timer
      */
-    int counterDownloadResult = 2;
-    Handler counterRestoreCheckHandler = new Handler();
-    Runnable counterRestoreCheckRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if(counterDownloadResult!=2  && counterDownloadResult!=-1){
-                System.out.println("Downloaded Counter Data");
-                tickTrackFirebaseDatabase.setCounterDataRestore(true);
-                tickTrackFirebaseDatabase.setCounterDataRestoreError(false);
-                counterRestoreCheckHandler.removeCallbacks(counterRestoreCheckRunnable);
-            } else if(counterDownloadResult == -1){
-                System.out.println("Counter Data Download Failed");
-                tickTrackFirebaseDatabase.setCounterDataRestoreError(true);
-                tickTrackFirebaseDatabase.setCounterDataRestore(false);
-                counterRestoreCheckHandler.removeCallbacks(counterRestoreCheckRunnable);
-            } else {
-                System.out.println("Downloading Counter Data");
-                counterRestoreCheckHandler.post(counterRestoreCheckRunnable);
-            }
-        }
-    };
-    public int restoreCounterData(){
-        counterRestoreCheckHandler.post(counterRestoreCheckRunnable);
 
+    public void restoreCounterData(){
         StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
         StorageReference counterRef = storageRef.child("counterData.json");
         File directory = context.getFilesDir();
@@ -294,9 +271,9 @@ public class JsonHelper {
             counterRef.getFile(local).addOnFailureListener(exception -> {
                 int errorCode = ((StorageException) exception).getErrorCode();
                 if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
-                    counterDownloadResult = 1;
+                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
                 } else {
-                    counterDownloadResult = -1;
+                    tickTrackFirebaseDatabase.setCounterDownloadStatus(-1);
                 }
                 Toast.makeText(context, "Counter Download Failed", Toast.LENGTH_SHORT).show();
             }).addOnSuccessListener(taskSnapshot -> {
@@ -335,7 +312,7 @@ public class JsonHelper {
                     }
                     Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
                     tickTrackDatabase.storeCounterList(counterData);
-                    counterDownloadResult = 1;
+                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
                 } catch (IOException ex) {
                     //TODO HANDLE EXCEPTION
                     ex.printStackTrace();
@@ -345,31 +322,9 @@ public class JsonHelper {
             //TODO HANDLE EXCEPTION
             e.printStackTrace();
         }
-        return counterDownloadResult;
     }
 
-    int timerDownloadResult = 2;
-    Handler timerRestoreCheckHandler = new Handler();
-    Runnable timerRestoreCheckRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if(timerDownloadResult!=2 && timerDownloadResult!=-1){
-                System.out.println("Timer Data Downloaded");
-                tickTrackFirebaseDatabase.setTimerDataRestore(true);
-                timerRestoreCheckHandler.removeCallbacks(timerRestoreCheckRunnable);
-            } else if(timerDownloadResult == -1){
-                System.out.println("Timer Data Download Failed");
-                tickTrackFirebaseDatabase.setTimerDataBackupError(true);
-                timerRestoreCheckHandler.removeCallbacks(timerRestoreCheckRunnable);
-            } else {
-                System.out.println("Downloading Timer Data");
-                timerRestoreCheckHandler.post(timerRestoreCheckRunnable);
-            }
-        }
-    };
-    public int restoreTimerData(){
-        timerRestoreCheckHandler.post(timerRestoreCheckRunnable);
-
+    public void restoreTimerData(){
         StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
         StorageReference timerRef = storageRef.child("timerData.json");
 
@@ -379,9 +334,9 @@ public class JsonHelper {
             timerRef.getFile(local).addOnFailureListener(exception -> {
                 int errorCode = ((StorageException) exception).getErrorCode();
                 if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
-                    timerDownloadResult = 1;
+                    tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
                 } else {
-                    timerDownloadResult = -1;
+                    tickTrackFirebaseDatabase.setTimerDownloadStatus(-1);
                 }
                 Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
             }).addOnSuccessListener(taskSnapshot -> {
@@ -423,18 +378,17 @@ public class JsonHelper {
                     }
                     Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
                     tickTrackDatabase.storeTimerList(timerData);
-                    timerDownloadResult = 1;
                 } catch (IOException ex) {
                     //TODO HANDLE EXCEPTION
                     ex.printStackTrace();
                 }
                 Toast.makeText(context, "Download Success", Toast.LENGTH_SHORT).show();
+                tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
             });
         } catch (IOException e) {
             //TODO HANDLE EXCEPTION
             e.printStackTrace();
         }
-        return timerDownloadResult;
     }
 
 }
