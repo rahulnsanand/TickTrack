@@ -120,7 +120,7 @@ public class FirebaseHelper {
 
     public void restoreInit() {
 
-        tickTrackFirebaseDatabase.setRestoreInitMode(true);
+        tickTrackFirebaseDatabase.setRestoreInitMode(-1);
 
         firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -162,7 +162,7 @@ public class FirebaseHelper {
 
     }
     private void completedFragmentTask() {
-        tickTrackFirebaseDatabase.setRestoreInitMode(false);
+        tickTrackFirebaseDatabase.setRestoreInitMode(1);
         if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(action)){
             Intent intent = new Intent(context, SettingsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -210,7 +210,9 @@ public class FirebaseHelper {
                         if (lastBackup != -1) {
                             tickTrackFirebaseDatabase.storeRetrievedLastBackupTime(lastBackup);
                         }
-                        tickTrackFirebaseDatabase.setRestoreInitMode(false);
+                        tickTrackFirebaseDatabase.setRestoreInitMode(1);
+                    } else {
+                        setupInitUserData();
                     }
                 })
                 .addOnFailureListener(e -> System.out.println("ERROR FIREBASE" + e));
@@ -266,7 +268,7 @@ public class FirebaseHelper {
             if(task.isSuccessful()){
                 FirebaseAuth.getInstance().signOut();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
-                tickTrackFirebaseDatabase.setRestoreInitMode(false);
+                tickTrackFirebaseDatabase.setRestoreInitMode(0);
                 tickTrackFirebaseDatabase.setRestoreMode(false);
                 tickTrackFirebaseDatabase.setBackupMode(false);
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());

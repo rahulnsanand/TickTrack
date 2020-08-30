@@ -10,8 +10,6 @@ import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
@@ -171,9 +169,9 @@ public class JsonHelper {
             InputStream stream = new FileInputStream(file);
             UploadTask uploadTask = mountainsRef.putStream(stream);
             uploadTask.addOnFailureListener(exception -> {
-                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Timer Upload Failed", Toast.LENGTH_SHORT).show();
             }).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show();
             });
 
         } catch (FileNotFoundException e) {
@@ -215,22 +213,14 @@ public class JsonHelper {
         }
     }
     public void counterArrayListToJsonObject(ArrayList<CounterBackupData> counterData){
-
-        JsonArray counterJsonArray = new Gson().toJsonTree(counterData).getAsJsonArray();
-        JsonObject counterJsonObject = new JsonObject();
-
-        counterJsonObject.add("counterData", counterJsonArray);
-
-        System.out.println(counterJsonObject.toString());
-
-        saveCounterDataToJson(counterJsonObject);
-
+        Gson gson = new Gson();
+        String json = gson.toJson(counterData);
+        saveCounterDataToJson(json);
     }
-    public void saveCounterDataToJson(JsonObject jsonObject){
-        String counterJsonString = jsonObject.toString();
+    public void saveCounterDataToJson(String jsonObject){
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("counterBackupData.json", Context.MODE_PRIVATE));
-            outputStreamWriter.write(counterJsonString);
+            outputStreamWriter.write(jsonObject);
             outputStreamWriter.close();
             uploadCounterToStorage();
         }
@@ -248,9 +238,9 @@ public class JsonHelper {
             InputStream stream = new FileInputStream(file);
             UploadTask uploadTask = mountainsRef.putStream(stream);
             uploadTask.addOnFailureListener(exception -> {
-                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Counter Upload Failed", Toast.LENGTH_SHORT).show();
             }).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
             });
 
         } catch (FileNotFoundException e) {
@@ -294,11 +284,10 @@ public class JsonHelper {
 
                     for(int i=0; i<counterBackupData.size(); i++){
                         CounterData newCounter = new CounterData();
+                        newCounter.setCounterID(counterBackupData.get(i).getCounterID());
                         for(int j=0; j<counterData.size(); j++){
                             if(counterBackupData.get(i).getCounterID().equals(counterData.get(j).getCounterID())){
                                 newCounter.setCounterID(UniqueIdGenerator.getUniqueCounterID());
-                            } else {
-                                newCounter.setCounterID(counterBackupData.get(i).getCounterID());
                             }
                         }
                         newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
@@ -357,11 +346,10 @@ public class JsonHelper {
 
                     for(int i=0; i<timerBackupData.size(); i++){
                         TimerData newTimer = new TimerData();
+                        newTimer.setTimerID(timerBackupData.get(i).getTimerID());
                         for(int j=0; j<timerData.size(); j++){
                             if(timerBackupData.get(i).getTimerID()==timerData.get(j).getTimerID()){
                                 newTimer.setTimerID(UniqueIdGenerator.getUniqueIntegerTimerID());
-                            } else {
-                                newTimer.setTimerID(timerBackupData.get(i).getTimerID());
                             }
                         }
                         newTimer.setTimerLastEdited(System.currentTimeMillis());

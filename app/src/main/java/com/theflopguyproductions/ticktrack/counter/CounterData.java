@@ -1,17 +1,11 @@
 package com.theflopguyproductions.ticktrack.counter;
 
-import android.os.CountDownTimer;
-
-import androidx.annotation.NonNull;
-
-import java.sql.Timestamp;
-
 public class CounterData implements Comparable<CounterData>{
 
     int counterValue, counterFlag, counterSignificantCount;
     boolean counterSignificantExist, counterSwipeMode, counterPersistentNotification;
     String counterLabel, counterID;
-    Timestamp counterTimestamp;
+    long counterTimestamp;
 
     public String getCounterID() {
         return counterID;
@@ -77,17 +71,22 @@ public class CounterData implements Comparable<CounterData>{
         this.counterLabel = counterLabel;
     }
 
-    public Timestamp getCounterTimestamp() {
+    public long getCounterTimestamp() {
         return counterTimestamp;
     }
 
-    public void setCounterTimestamp(Timestamp counterTimestamp) {
+    public void setCounterTimestamp(long counterTimestamp) {
         this.counterTimestamp = counterTimestamp;
     }
 
     @Override
     public int compareTo(CounterData counterData) {
-        int check = this.getCounterTimestamp().compareTo(counterData.getCounterTimestamp());
+        int check = 1;
+        if(this.getCounterTimestamp()==counterData.getCounterTimestamp()){
+            check=0;
+        } else if (this.getCounterTimestamp()<counterData.getCounterTimestamp()){
+            check=-1;
+        }
 
         if(check<=0){
             if(check==0){

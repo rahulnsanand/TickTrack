@@ -1,13 +1,11 @@
 package com.theflopguyproductions.ticktrack.counter;
 
-import java.sql.Timestamp;
-
 public class CounterBackupData {
 
     int counterValue, counterFlag, counterSignificantCount;
     boolean counterSignificantExist, counterSwipeMode;
     String counterLabel, counterID;
-    Timestamp counterTimestamp;
+    long counterTimestamp;
 
     public int getCounterValue() {
         return counterValue;
@@ -65,11 +63,11 @@ public class CounterBackupData {
         this.counterID = counterID;
     }
 
-    public Timestamp getCounterTimestamp() {
+    public long getCounterTimestamp() {
         return counterTimestamp;
     }
 
-    public void setCounterTimestamp(Timestamp counterTimestamp) {
+    public void setCounterTimestamp(long counterTimestamp) {
         this.counterTimestamp = counterTimestamp;
     }
 }

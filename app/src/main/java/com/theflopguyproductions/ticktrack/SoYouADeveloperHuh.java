@@ -40,6 +40,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
+import com.theflopguyproductions.ticktrack.utils.helpers.JsonHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
@@ -81,7 +82,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         setTitle("");
         int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
 
-        if(new TickTrackFirebaseDatabase(this).isRestoreMode()){
+        if(new TickTrackFirebaseDatabase(this).isRestoreInitMode()==-1 || new TickTrackFirebaseDatabase(this).isRestoreInitMode()==1){
             goToStartUpActivity(3, true);
         } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
@@ -184,6 +185,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.screensaverMenuItem:
+                JsonHelper jsonHelper = new JsonHelper(getApplicationContext());
+                jsonHelper.counterDataBackup(tickTrackDatabase.retrieveCounterList());
+                jsonHelper.timerDataBackup(tickTrackDatabase.retrieveTimerList());
                 Toast.makeText(getApplicationContext(),"Screensaver",Toast.LENGTH_SHORT).show();
                 return false;
 

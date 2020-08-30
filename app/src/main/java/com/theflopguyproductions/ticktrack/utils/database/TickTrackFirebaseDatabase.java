@@ -107,13 +107,13 @@ public class TickTrackFirebaseDatabase {
 
         return options;
     }
-    public void setRestoreInitMode(boolean value){
+    public void setRestoreInitMode(int value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("restoreInitMode", value);
+        editor.putInt("restoreInitMode", value);
         editor.apply();
     }
-    public boolean isRestoreInitMode(){
-        return sharedPreferences.getBoolean("restoreInitMode",false);
+    public int isRestoreInitMode(){
+        return sharedPreferences.getInt("restoreInitMode",0);
     }
     public void setRestoreMode(boolean value){
         SharedPreferences.Editor editor = sharedPreferences.edit();

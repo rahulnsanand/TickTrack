@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.startup.fragments;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,7 +63,7 @@ public class RestoreFragment extends Fragment {
     }
 
     private void checkRestoreMode() {
-        if(!tickTrackFirebaseDatabase.isRestoreInitMode()){
+        if(tickTrackFirebaseDatabase.isRestoreInitMode()==1){
             progressBarDialog.dismiss();
             setupOptionsDisplay();
         }
@@ -137,7 +138,10 @@ public class RestoreFragment extends Fragment {
             }
         });
         startFreshButton.setOnClickListener(view -> {
-            stopRestoreService();
+            tickTrackFirebaseDatabase.setRestoreInitMode(0);
+            if(isMyServiceRunning(BackupRestoreService.class, activity)){
+                stopRestoreService();
+            }
             startFreshListener.onStartFreshClickListener(true);
         });
     }
@@ -155,7 +159,13 @@ public class RestoreFragment extends Fragment {
         progressBarDialog.show();
         progressBarDialog.setContentText("Checking for backup");
         progressBarDialog.titleText.setVisibility(View.GONE);
-        startRestoreInitService();
+        if(tickTrackFirebaseDatabase.isRestoreInitMode()==1){
+            progressBarDialog.dismiss();
+            setupOptionsDisplay();
+        } else {
+            startRestoreInitService();
+        }
+
 
         return root;
     }
@@ -173,7 +183,7 @@ public class RestoreFragment extends Fragment {
     }
 
     private void startRestoreInitService() {
-        tickTrackFirebaseDatabase.setRestoreInitMode(true);
+        tickTrackFirebaseDatabase.setRestoreInitMode(-1);
         Intent intent = new Intent(activity, BackupRestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(BackupRestoreService.RESTORE_SERVICE_START_INIT_RETRIEVE);
@@ -204,7 +214,15 @@ public class RestoreFragment extends Fragment {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         tickTrackDatabase.storeCurrentFragmentNumber(3);
     }
-
+    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private StartFreshListener startFreshListener;
     public interface StartFreshListener {
