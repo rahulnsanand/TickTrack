@@ -26,7 +26,6 @@ import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class CounterNotificationService extends Service {
@@ -144,7 +143,7 @@ public class CounterNotificationService extends Service {
         if(currentCounterPosition!=-1){
             counterLabel = counterDataList.get(currentCounterPosition).getCounterLabel();
             counterValue = counterDataList.get(currentCounterPosition).getCounterValue();
-            counterRequestID = (int) counterDataList.get(currentCounterPosition).getCounterTimestamp().getTime();
+            counterRequestID = (int) counterDataList.get(currentCounterPosition).getCounterTimestamp();
         }
     }
 
@@ -152,7 +151,7 @@ public class CounterNotificationService extends Service {
         if(counterValue>=1){
             counterValue-=1;
             counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
-            counterDataList.get(currentCounterPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+            counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
             storeCounterList(tickTrackDatabase.getSharedPref(this));
 
             notificationBuilder.setContentText("Value: "+counterValue+"");
@@ -167,7 +166,7 @@ public class CounterNotificationService extends Service {
     private void plusButtonPressed() {
         counterValue+=1;
         counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
-        counterDataList.get(currentCounterPosition).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+        counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
         storeCounterList(tickTrackDatabase.getSharedPref(this));
         notificationBuilder.setContentText("Value: "+counterValue+"");
         notifyNotification();

@@ -138,6 +138,7 @@ public class RestoreFragment extends Fragment {
             }
         });
         startFreshButton.setOnClickListener(view -> {
+            tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
             tickTrackFirebaseDatabase.setRestoreInitMode(0);
             if(isMyServiceRunning(BackupRestoreService.class, activity)){
                 stopRestoreService();

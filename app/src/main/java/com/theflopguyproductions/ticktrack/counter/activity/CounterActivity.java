@@ -25,7 +25,6 @@ import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class CounterActivity extends AppCompatActivity {
@@ -256,7 +255,7 @@ public class CounterActivity extends AppCompatActivity {
         plusLightButton.setOnActiveListener(() -> {
             currentCount+=1;
             counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
             CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
             tickTrackDatabase.storeCounterList(counterDataArrayList);
             milestoneItIs();
@@ -267,7 +266,7 @@ public class CounterActivity extends AppCompatActivity {
             if(currentCount>=1){
                 currentCount-=1;
                 counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
                 CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
                 tickTrackDatabase.storeCounterList(counterDataArrayList);
                 milestoneItIs();
@@ -277,7 +276,7 @@ public class CounterActivity extends AppCompatActivity {
         plusDarkButton.setOnActiveListener(() -> {
             currentCount+=1;
             counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
             CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
             tickTrackDatabase.storeCounterList(counterDataArrayList);
             milestoneItIs();
@@ -288,7 +287,7 @@ public class CounterActivity extends AppCompatActivity {
             if(currentCount>=1){
                 currentCount-=1;
                 counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
                 CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
                 tickTrackDatabase.storeCounterList(counterDataArrayList);
                 milestoneItIs();
@@ -298,7 +297,7 @@ public class CounterActivity extends AppCompatActivity {
         plusButtonBig.setOnClickListener(view -> {
             currentCount+=1;
             counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(new Timestamp(System.currentTimeMillis()));
+            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
             CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
             tickTrackDatabase.storeCounterList(counterDataArrayList);
             milestoneItIs();

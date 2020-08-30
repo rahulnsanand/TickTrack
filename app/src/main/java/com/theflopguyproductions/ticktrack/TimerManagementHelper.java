@@ -78,7 +78,7 @@ public class TimerManagementHelper {
                         long nextAlarmStamp = SystemClock.elapsedRealtime()+(timerData.get(i).getTimerTotalTimeInMillis()-elapsedTime);
 
                         timerData.get(i).setTimerAlarmEndTimeInMillis(nextAlarmStamp);
-                        tickTrackTimerDatabase.setAlarm(nextAlarmStamp, timerData.get(i).getTimerID());
+                        tickTrackTimerDatabase.setAlarm(nextAlarmStamp, timerData.get(i).getTimerIntID());
 
                         if(!isMyServiceRunning(TimerService.class, activity)){
                             tickTrackTimerDatabase.startNotificationService();

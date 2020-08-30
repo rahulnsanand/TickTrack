@@ -3,7 +3,7 @@ package com.theflopguyproductions.ticktrack.timer;
 public class TimerData implements Comparable<TimerData> {
 
 
-    int timerHour, timerMinute, timerSecond, timerID, timerFlag;
+    int timerHour, timerMinute, timerSecond, timerFlag, timerIntID;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
     long timerAlarmEndTimeInMillis, timerEndTimeInMillis;
@@ -12,13 +12,19 @@ public class TimerData implements Comparable<TimerData> {
 
     long timerTempMaxTimeInMillis, timerStartTimeInMillis;
     long timerLastEdited;
-    String timerLabel;
+    String timerLabel, timerID;
     boolean timerOn, timerPause;
 
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
 
+    public int getTimerIntID() {
+        return timerIntID;
+    }
 
+    public void setTimerIntID(int timerIntID) {
+        this.timerIntID = timerIntID;
+    }
 
     public long getTimerEndTimeInMillis() {
         return timerEndTimeInMillis;
@@ -101,11 +107,11 @@ public class TimerData implements Comparable<TimerData> {
         this.timerSecond = timerSecond;
     }
 
-    public int getTimerID() {
+    public String getTimerID() {
         return timerID;
     }
 
-    public void setTimerID(int timerID) {
+    public void setTimerID(String timerID) {
         this.timerID = timerID;
     }
 

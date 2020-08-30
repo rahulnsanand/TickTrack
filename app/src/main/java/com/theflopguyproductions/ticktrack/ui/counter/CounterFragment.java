@@ -30,7 +30,6 @@ import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.CounterSlideDel
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -128,7 +127,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
     }
 
-    public static void createCounter(String counterLabel, Timestamp createdTimestamp, int counterFlag, Activity activity, int significantCount,
+    public static void createCounter(String counterLabel, long createdTimestamp, int counterFlag, Activity activity, int significantCount,
                                      int countValue, boolean isSignificant, boolean isSwipe, boolean isPersistent, String uniqueCounterID){
         CounterData counterData = new CounterData();
         counterData.setCounterLabel(counterLabel);

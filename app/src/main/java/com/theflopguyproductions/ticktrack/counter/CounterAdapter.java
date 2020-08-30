@@ -100,7 +100,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
             holder.countValue.setText(""+counterDataArrayList.get(position).getCounterValue());
             holder.counterLabel.setText(counterDataArrayList.get(position).getCounterLabel());
 
-            if(counterDataArrayList.get(position).getCounterTimestamp()!=null){
+            if(counterDataArrayList.get(position).getCounterTimestamp()!=-1){
                 holder.lastModified.setText("Last edited: "+ TimeAgo.getTimeAgo(counterDataArrayList.get(position).getCounterTimestamp()));
             }
 

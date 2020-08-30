@@ -123,6 +123,7 @@ public class JsonHelper {
             timerBackupData1.setTimerFlag(timerData.get(i).getTimerFlag());
             timerBackupData1.setTimerTotalTimeInMillis(timerData.get(i).getTimerTotalTimeInMillis());
             timerBackupData1.setTimerID(timerData.get(i).getTimerID());
+            timerBackupData1.setTimerIntID(timerData.get(i).getTimerIntID());
             timerBackupData.add(timerBackupData1);
         }
 
@@ -280,16 +281,12 @@ public class JsonHelper {
                     Gson gson = new Gson();
                     Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
                     ArrayList<CounterBackupData> counterBackupData = gson.fromJson(fileAsString, type);
-                    ArrayList<CounterData> counterData = tickTrackDatabase.retrieveCounterList();
+                    tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
+
 
                     for(int i=0; i<counterBackupData.size(); i++){
                         CounterData newCounter = new CounterData();
                         newCounter.setCounterID(counterBackupData.get(i).getCounterID());
-                        for(int j=0; j<counterData.size(); j++){
-                            if(counterBackupData.get(i).getCounterID().equals(counterData.get(j).getCounterID())){
-                                newCounter.setCounterID(UniqueIdGenerator.getUniqueCounterID());
-                            }
-                        }
                         newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
                         newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
                         newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
@@ -297,10 +294,12 @@ public class JsonHelper {
                         newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
                         newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
                         newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
-                        counterData.add(newCounter);
+
+                        mergeCounterData(newCounter);
+
                     }
                     Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
-                    tickTrackDatabase.storeCounterList(counterData);
+
                     tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
                 } catch (IOException ex) {
                     //TODO HANDLE EXCEPTION
@@ -310,6 +309,21 @@ public class JsonHelper {
         } catch (IOException e) {
             //TODO HANDLE EXCEPTION
             e.printStackTrace();
+        }
+    }
+    private void mergeCounterData(CounterData counterData) {
+        boolean isNew = true;
+        ArrayList<CounterData> counterLocalData = tickTrackDatabase.retrieveCounterList();
+        for(int j=0; j<counterLocalData.size(); j++){
+            if(counterData.getCounterID().equals(counterLocalData.get(j).getCounterID())){
+                if(counterData.getCounterTimestamp()<=counterLocalData.get(j).getCounterTimestamp()){
+                    isNew = false;
+                }
+            }
+        }
+        if(isNew){
+            counterLocalData.add(counterData);
+            tickTrackDatabase.storeCounterList(counterLocalData);
         }
     }
 
@@ -342,17 +356,10 @@ public class JsonHelper {
                     Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
                     ArrayList<TimerBackupData> timerBackupData = gson.fromJson(fileAsString, type);
 
-                    ArrayList<TimerData> timerData = tickTrackDatabase.retrieveTimerList();
-
                     for(int i=0; i<timerBackupData.size(); i++){
                         TimerData newTimer = new TimerData();
                         newTimer.setTimerID(timerBackupData.get(i).getTimerID());
-                        for(int j=0; j<timerData.size(); j++){
-                            if(timerBackupData.get(i).getTimerID()==timerData.get(j).getTimerID()){
-                                newTimer.setTimerID(UniqueIdGenerator.getUniqueIntegerTimerID());
-                            }
-                        }
-                        newTimer.setTimerLastEdited(System.currentTimeMillis());
+                        newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
                         newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
                         newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
                         newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
@@ -362,10 +369,11 @@ public class JsonHelper {
                         newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
                         newTimer.setTimerPause(false);
                         newTimer.setTimerOn(false);
-                        timerData.add(newTimer);
+                        newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
+
+                        mergeTimerData(newTimer);
                     }
                     Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
-                    tickTrackDatabase.storeTimerList(timerData);
                 } catch (IOException ex) {
                     //TODO HANDLE EXCEPTION
                     ex.printStackTrace();
@@ -376,6 +384,21 @@ public class JsonHelper {
         } catch (IOException e) {
             //TODO HANDLE EXCEPTION
             e.printStackTrace();
+        }
+    }
+    private void mergeTimerData(TimerData timerData) {
+        boolean isNew = true;
+        ArrayList<TimerData> timerLocalData = tickTrackDatabase.retrieveTimerList();
+        for(int j=0; j<timerLocalData.size(); j++){
+            if(timerData.getTimerID().equals(timerLocalData.get(j).getTimerID())){
+                if(timerData.getTimerLastEdited()<=timerLocalData.get(j).getTimerLastEdited()){
+                    isNew = false;
+                }
+            }
+        }
+        if(isNew){
+            timerLocalData.add(timerData);
+            tickTrackDatabase.storeTimerList(timerLocalData);
         }
     }
 

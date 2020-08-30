@@ -75,7 +75,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     private int getCurrentTimerPosition(){
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerID()==timerIDInteger){
+            if(timerDataArrayList.get(i).getTimerIntID()==timerIDInteger){
                 return i;
             }
         }

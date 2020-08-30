@@ -427,7 +427,7 @@ public class TimerRingService extends Service {
     private int getSingleOnTimer() {
         for(int i=0; i<timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isTimerRinging()){
-                return timerDataArrayList.get(i).getTimerID();
+                return timerDataArrayList.get(i).getTimerIntID();
             }
         }
         return -1;
@@ -444,7 +444,7 @@ public class TimerRingService extends Service {
     }
     private int getCurrentTimerPosition(int timerIntegerID){
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerID()==timerIntegerID){
+            if(timerDataArrayList.get(i).getTimerIntID()==timerIntegerID){
                 return i;
             }
         }

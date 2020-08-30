@@ -25,7 +25,8 @@ public class TimerDiffUtilCallback extends DiffUtil.Callback  {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return newList.get(newItemPosition).timerID == oldList.get(oldItemPosition).timerID;
+        return newList.get(newItemPosition).timerID.equals(oldList.get(oldItemPosition).timerID) &&
+                newList.get(newItemPosition).timerIntID==oldList.get(oldItemPosition).timerIntID;
     }
 
     @Override

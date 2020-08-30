@@ -60,6 +60,7 @@ public class TimerActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     float resumeMilliseconds;
     private int pauseHours, pauseMinutes, pauseSeconds, pauseMilliseconds;
+    private String timerStringID;
 
     private long maxTimeInMillis, currentTimeInMillis;
 
@@ -158,7 +159,8 @@ public class TimerActivity extends AppCompatActivity {
     }
     private int getCurrentTimerPosition() {
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerID()==timerID){
+            if(timerDataArrayList.get(i).getTimerID().equals(timerStringID)){
+                timerID = timerDataArrayList.get(i).getTimerIntID();
                 return i;
             }
         }
@@ -174,7 +176,7 @@ public class TimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
         initVariables();
-        timerID = getIntent().getIntExtra("timerID", -1);
+        timerStringID = getIntent().getStringExtra("timerID");
         isTimerNew = Objects.equals(getIntent().getAction(), ACTION_TIMER_NEW_ADDITION);
 
         activity = this;

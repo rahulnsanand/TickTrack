@@ -2,10 +2,18 @@ package com.theflopguyproductions.ticktrack.timer;
 
 public class TimerBackupData {
 
-    int timerHour, timerMinute, timerSecond, timerID, timerFlag;
+    int timerHour, timerMinute, timerSecond, timerFlag, timerIntID;
     long timerTotalTimeInMillis;
     long timerLastEdited;
-    String timerLabel;
+    String  timerID,timerLabel;
+
+    public int getTimerIntID() {
+        return timerIntID;
+    }
+
+    public void setTimerIntID(int timerIntID) {
+        this.timerIntID = timerIntID;
+    }
 
     public int getTimerHour() {
         return timerHour;
@@ -31,11 +39,11 @@ public class TimerBackupData {
         this.timerSecond = timerSecond;
     }
 
-    public int getTimerID() {
+    public String getTimerID() {
         return timerID;
     }
 
-    public void setTimerID(int timerID) {
+    public void setTimerID(String timerID) {
         this.timerID = timerID;
     }
 

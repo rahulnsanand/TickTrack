@@ -1,6 +1,5 @@
 package com.theflopguyproductions.ticktrack.utils.helpers;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,12 +20,10 @@ public class TimeAgo {
     public final static long ONE_DAY = ONE_HOUR * 24;
     public static long DAYS = 0;
 
-    public static String getTimeAgo(Timestamp timestamp) {
-
-        long createdAt = timestamp.getTime();
+    public static String getTimeAgo(long timestamp) {
 
         Date date;
-        date = new Date(createdAt);
+        date = new Date(timestamp);
         String createdDate;
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
