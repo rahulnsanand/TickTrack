@@ -3,7 +3,7 @@
 An android utility application that acts as a clock application with timer, stopwatch and counter features and works with google firebase to backup user data
 
 
-Copyright [2020] [Rahul Anand]
+Copyright 2020 Rahul Anand
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
