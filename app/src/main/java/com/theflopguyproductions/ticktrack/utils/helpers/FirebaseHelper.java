@@ -231,10 +231,10 @@ public class FirebaseHelper {
     }
 
     public void restore() {
+        restoreCheckHandler.post(restoreCheckRunnable);
         initPreferences();
         jsonHelper.restoreCounterData();
         jsonHelper.restoreTimerData();
-        restoreCheckHandler.post(restoreCheckRunnable);
     }
 
     Handler restoreCheckHandler = new Handler();

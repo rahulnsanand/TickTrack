@@ -116,6 +116,7 @@ public class BackupRestoreService extends Service {
     }
 
     private void startInitRestore() {
+        prefixFirebaseVariables();
         tickTrackFirebaseDatabase.setRestoreInitMode(-1);
         firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
         restoreCheckHandler.post(dataRestoreCheck);
