@@ -35,15 +35,39 @@ public class GDriveHelper {
         this.context = context;
     }
 
-    public Task<String> createTimerBackup() {
+    public Task<String> createTimerBackup(String filename) {
         return Tasks.call(mExecutor, () -> {
 
             File fileMetadata = new File();
-            fileMetadata.setName("timerBackup.json");
+            fileMetadata.setName(filename);
             fileMetadata.setParents(Collections.singletonList("appDataFolder"));
 
             java.io.File directory = context.getFilesDir();
             java.io.File file = new java.io.File(directory, "timerBackupData.json");
+            FileContent mediaContent = new FileContent("application/json", file);
+
+            File uploadFile = new File();
+            try {
+                uploadFile = mDriveService.files().create(fileMetadata, mediaContent)
+                        .setFields("id")
+                        .execute();
+                System.out.println("File ID: " + uploadFile.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return uploadFile.getId();
+        });
+    }
+    public Task<String> createCounterBackup(String filename) {
+        return Tasks.call(mExecutor, () -> {
+
+            File fileMetadata = new File();
+            fileMetadata.setName(filename);
+            fileMetadata.setParents(Collections.singletonList("appDataFolder"));
+
+            java.io.File directory = context.getFilesDir();
+            java.io.File file = new java.io.File(directory, "counterBackupData.json");
             FileContent mediaContent = new FileContent("application/json", file);
 
             File uploadFile = new File();

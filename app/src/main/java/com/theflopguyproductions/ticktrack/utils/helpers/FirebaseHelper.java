@@ -16,8 +16,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.theflopguyproductions.ticktrack.GDriveHelper;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
@@ -29,6 +36,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -48,6 +56,7 @@ public class FirebaseHelper {
     private NotificationManagerCompat notificationManagerCompat;
     private ProgressBarDialog progressBarDialog;
     private JsonHelper jsonHelper;
+    private GDriveHelper gDriveHelper;
 
     private String emailID, displayName, accountID;
 
@@ -60,6 +69,7 @@ public class FirebaseHelper {
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(context.getString(R.string.default_web_client_id))
+                .requestScopes(new Scope(DriveScopes.DRIVE_APPDATA))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions);
@@ -94,6 +104,22 @@ public class FirebaseHelper {
             emailID = account.getEmail();
             displayName = account.getDisplayName();
             accountID = account.getId();
+
+
+            GoogleAccountCredential credential =
+                    GoogleAccountCredential.usingOAuth2(
+                            activity, Collections.singleton(DriveScopes.DRIVE_FILE));
+            credential.setSelectedAccount(account.getAccount());
+            Drive googleDriveService =
+                    new Drive.Builder(
+                            AndroidHttp.newCompatibleTransport(),
+                            new GsonFactory(),
+                            credential)
+                            .setApplicationName("Drive API Migration")
+                            .build();
+
+            gDriveHelper = new GDriveHelper(googleDriveService, activity);
+
         } catch (ApiException e) {
             e.printStackTrace();
             progressBarDialog.dismiss();
@@ -138,7 +164,6 @@ public class FirebaseHelper {
         firebaseFirestore.collection("TickTrackUsers").document(emailID).get()
                 .addOnSuccessListener(documentReference -> {
                     firebaseFirestore.collection("TickTrackUsers").document(emailID).set(user);
-//                    jsonHelper.initStorageFix();
                     completedFragmentTask();
                 })
                 .addOnFailureListener(e -> {
@@ -218,8 +243,8 @@ public class FirebaseHelper {
     public void restore() {
         restoreCheckHandler.post(restoreCheckRunnable);
         initPreferences();
-        jsonHelper.restoreCounterData();
-        jsonHelper.restoreTimerData();
+//        jsonHelper.restoreCounterData();
+//        jsonHelper.restoreTimerData();
     }
 
     Handler restoreCheckHandler = new Handler();

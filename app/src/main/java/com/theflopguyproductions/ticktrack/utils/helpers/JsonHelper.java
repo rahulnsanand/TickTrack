@@ -4,8 +4,17 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.FileList;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.theflopguyproductions.ticktrack.GDriveHelper;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
@@ -13,23 +22,17 @@ import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Collections;
 
 public class JsonHelper {
 
     Context context;
     TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
     TickTrackDatabase tickTrackDatabase;
+    private GDriveHelper gDriveHelper;
 
     public JsonHelper(Context context) {
         this.context = context;
@@ -37,69 +40,70 @@ public class JsonHelper {
         tickTrackDatabase = new TickTrackDatabase(context);
     }
 
-    public void initStorageFix(){
-        ArrayList<TimerBackupData> timerData = new ArrayList<>();
-        Gson gson = new Gson();
-        String json = gson.toJson(timerData);
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("timerBackupData.json", Context.MODE_PRIVATE));
-            outputStreamWriter.write(json);
-            outputStreamWriter.close();
-            uploadTimerToStorage();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
-        StorageReference mountainsRef = storageRef.child("timerData.json");
-        File directory = context.getFilesDir();
-        File file = new File(directory, "timerBackupData.json");
-
-        try {
-            InputStream stream = new FileInputStream(file);
-            UploadTask uploadTask = mountainsRef.putStream(stream);
-            uploadTask.addOnFailureListener(exception -> {
-                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-            }).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
-                initCounterJsonUpload();
-            });
-
-        } catch (FileNotFoundException e) {
-            Log.e("Exception", "File upload failed: " + e.toString());
-        }
-    }
-    public void initCounterJsonUpload(){
-        ArrayList<CounterBackupData> counterData = new ArrayList<>();
-        Gson gson = new Gson();
-        String json = gson.toJson(counterData);
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("counterBackupData.json", Context.MODE_PRIVATE));
-            outputStreamWriter.write(json);
-            outputStreamWriter.close();
-            uploadTimerToStorage();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
-        StorageReference mountainsRef = storageRef.child("counterData.json");
-        File directory = context.getFilesDir();
-        File file = new File(directory, "counterBackupData.json");
-
-        try {
-            InputStream stream = new FileInputStream(file);
-            UploadTask uploadTask = mountainsRef.putStream(stream);
-            uploadTask.addOnFailureListener(exception -> {
-                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-            }).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
-            });
-
-        } catch (FileNotFoundException e) {
-            Log.e("Exception", "File upload failed: " + e.toString());
-        }
-    }
+//
+//    public void initStorageFix(){
+//        ArrayList<TimerBackupData> timerData = new ArrayList<>();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(timerData);
+//        try {
+//            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("timerBackupData.json", Context.MODE_PRIVATE));
+//            outputStreamWriter.write(json);
+//            outputStreamWriter.close();
+//            uploadTimerToStorage();
+//        }
+//        catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
+//        StorageReference mountainsRef = storageRef.child("timerData.json");
+//        File directory = context.getFilesDir();
+//        File file = new File(directory, "timerBackupData.json");
+//
+//        try {
+//            InputStream stream = new FileInputStream(file);
+//            UploadTask uploadTask = mountainsRef.putStream(stream);
+//            uploadTask.addOnFailureListener(exception -> {
+//                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+//            }).addOnSuccessListener(taskSnapshot -> {
+//                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+//                initCounterJsonUpload();
+//            });
+//
+//        } catch (FileNotFoundException e) {
+//            Log.e("Exception", "File upload failed: " + e.toString());
+//        }
+//    }
+//    public void initCounterJsonUpload(){
+//        ArrayList<CounterBackupData> counterData = new ArrayList<>();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(counterData);
+//        try {
+//            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("counterBackupData.json", Context.MODE_PRIVATE));
+//            outputStreamWriter.write(json);
+//            outputStreamWriter.close();
+//            uploadTimerToStorage();
+//        }
+//        catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
+//        StorageReference mountainsRef = storageRef.child("counterData.json");
+//        File directory = context.getFilesDir();
+//        File file = new File(directory, "counterBackupData.json");
+//
+//        try {
+//            InputStream stream = new FileInputStream(file);
+//            UploadTask uploadTask = mountainsRef.putStream(stream);
+//            uploadTask.addOnFailureListener(exception -> {
+//                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+//            }).addOnSuccessListener(taskSnapshot -> {
+//                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
+//            });
+//
+//        } catch (FileNotFoundException e) {
+//            Log.e("Exception", "File upload failed: " + e.toString());
+//        }
+//    }
 
     public void timerDataBackup(ArrayList<TimerData> timerData){
 
@@ -145,31 +149,39 @@ public class JsonHelper {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("timerBackupData.json", Context.MODE_PRIVATE));
             outputStreamWriter.write(timerObject);
             outputStreamWriter.close();
-            uploadTimerToStorage();
+            uploadTimerToStorage(timerObject);
         }
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
-    private void uploadTimerToStorage() {
+    private void uploadTimerToStorage(String jsonObject) {
 
-        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
-        StorageReference mountainsRef = storageRef.child("timerData.json");
-        File directory = context.getFilesDir();
-        File file = new File(directory, "timerBackupData.json");
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+        if(account!=null){
+            GoogleAccountCredential credential =
+                    GoogleAccountCredential.usingOAuth2(
+                            context, Collections.singleton(DriveScopes.DRIVE_FILE));
+            credential.setSelectedAccount(account.getAccount());
+            Drive googleDriveService =
+                    new Drive.Builder(
+                            AndroidHttp.newCompatibleTransport(),
+                            new GsonFactory(),
+                            credential)
+                            .setApplicationName("TicKTrack")
+                            .build();
 
-        try {
-            InputStream stream = new FileInputStream(file);
-            UploadTask uploadTask = mountainsRef.putStream(stream);
-            uploadTask.addOnFailureListener(exception -> {
-                Toast.makeText(context, "Timer Upload Failed", Toast.LENGTH_SHORT).show();
-            }).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show();
-            });
+            gDriveHelper = new GDriveHelper(googleDriveService, context);
+            gDriveHelper.createTimerBackup("timerBackup.json")
+                    .addOnSuccessListener(s -> {
+                        readFile(gDriveHelper, s, jsonObject, "timerBackup.json");
+                        Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show());
 
-        } catch (FileNotFoundException e) {
-            Log.e("Exception", "File upload failed: " + e.toString());
         }
+
     }
 
     public void counterDataBackup(ArrayList<CounterData> counterData){
@@ -215,93 +227,127 @@ public class JsonHelper {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("counterBackupData.json", Context.MODE_PRIVATE));
             outputStreamWriter.write(jsonObject);
             outputStreamWriter.close();
-            uploadCounterToStorage();
+            uploadCounterToStorage(jsonObject);
         }
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
-    private void uploadCounterToStorage() {
-        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
-        StorageReference mountainsRef = storageRef.child("counterData.json");
-        File directory = context.getFilesDir();
-        File file = new File(directory, "counterBackupData.json");
+    private void uploadCounterToStorage(String jsonObject) {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+        if(account!=null){
+            GoogleAccountCredential credential =
+                    GoogleAccountCredential.usingOAuth2(
+                            context, Collections.singleton(DriveScopes.DRIVE_FILE));
+            credential.setSelectedAccount(account.getAccount());
+            Drive googleDriveService =
+                    new Drive.Builder(
+                            AndroidHttp.newCompatibleTransport(),
+                            new GsonFactory(),
+                            credential)
+                            .setApplicationName("TicKTrack")
+                            .build();
 
-        try {
-            InputStream stream = new FileInputStream(file);
-            UploadTask uploadTask = mountainsRef.putStream(stream);
-            uploadTask.addOnFailureListener(exception -> {
-                Toast.makeText(context, "Counter Upload Failed", Toast.LENGTH_SHORT).show();
-            }).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
-            });
+            gDriveHelper = new GDriveHelper(googleDriveService, context);
+            gDriveHelper.createCounterBackup("counterBackup.json")
+                    .addOnSuccessListener(s -> {
+                                readFile(gDriveHelper, s, jsonObject, "counterBackup.json");
+                                Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
+                            })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
 
-        } catch (FileNotFoundException e) {
-            Log.e("Exception", "File upload failed: " + e.toString());
+        }
+    }
+
+    private void readFile(GDriveHelper gDriveHelper, String fileId, String jsonContent, String fileName) {
+        if (gDriveHelper != null) {
+            Log.d("TAG", "Reading file " + fileId);
+
+            gDriveHelper.readFile(fileId)
+                    .addOnSuccessListener(nameAndContent -> {
+                        String name = nameAndContent.first;
+                        String content = nameAndContent.second;
+
+                        System.out.println(name);
+                        System.out.println(content);
+
+                        saveFile(fileId, gDriveHelper, jsonContent, fileName);
+                    })
+                    .addOnFailureListener(exception ->
+                            Log.e("TAG", "Couldn't read file.", exception));
+        }
+    }
+    private void saveFile(String fileID, GDriveHelper gDriveHelper, String jsonContent, String fileName) {
+        if (gDriveHelper != null) {
+            Log.d("TAG", "Saving " + fileID);
+            gDriveHelper.saveFile(fileID, fileName, jsonContent)
+                    .addOnFailureListener(exception ->
+                            Log.e("TAG", "Unable to save file via REST.", exception));
         }
     }
 
     /**
      * Restoring functions of counter and timer
      */
-    public void restoreCounterData(){
-        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
-        StorageReference counterRef = storageRef.child("counterData.json");
-        File directory = context.getFilesDir();
-        try {
-            File local = File.createTempFile("counterRetrievedBackupData", "json", directory);
-            counterRef.getFile(local).addOnFailureListener(exception -> {
-                int errorCode = ((StorageException) exception).getErrorCode();
-                if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
-                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
-                } else {
-                    tickTrackFirebaseDatabase.setCounterDownloadStatus(-1);
-                }
-                Toast.makeText(context, "Counter Download Failed", Toast.LENGTH_SHORT).show();
-            }).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Counter Download Success", Toast.LENGTH_SHORT).show();
-                try {
-                    InputStream is = new FileInputStream(local);
-                    BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String line = buf.readLine();
-                    StringBuilder sb = new StringBuilder();
-                    while(line != null){
-                        sb.append(line);
-                        line = buf.readLine();
-                    }
-                    String fileAsString = sb.toString();
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
-                    ArrayList<CounterBackupData> counterBackupData = gson.fromJson(fileAsString, type);
-                    tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
-
-
-                    for(int i=0; i<counterBackupData.size(); i++){
-                        CounterData newCounter = new CounterData();
-                        newCounter.setCounterID(counterBackupData.get(i).getCounterID());
-                        newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
-                        newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
-                        newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
-                        newCounter.setCounterFlag(counterBackupData.get(i).getCounterFlag());
-                        newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
-                        newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
-                        newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
-
-                        mergeCounterData(newCounter);
-
-                    }
-                    Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
-
-                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
-                } catch (IOException ex) {
-                    //TODO HANDLE EXCEPTION
-                    ex.printStackTrace();
-                }
-            });
-        } catch (IOException e) {
-            //TODO HANDLE EXCEPTION
-            e.printStackTrace();
-        }
-    }
+//    public void restoreCounterData(){
+//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
+//        StorageReference counterRef = storageRef.child("counterData.json");
+//        File directory = context.getFilesDir();
+//        try {
+//            File local = File.createTempFile("counterRetrievedBackupData", "json", directory);
+//            counterRef.getFile(local).addOnFailureListener(exception -> {
+//                int errorCode = ((StorageException) exception).getErrorCode();
+//                if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
+//                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
+//                } else {
+//                    tickTrackFirebaseDatabase.setCounterDownloadStatus(-1);
+//                }
+//                Toast.makeText(context, "Counter Download Failed", Toast.LENGTH_SHORT).show();
+//            }).addOnSuccessListener(taskSnapshot -> {
+//                Toast.makeText(context, "Counter Download Success", Toast.LENGTH_SHORT).show();
+//                try {
+//                    InputStream is = new FileInputStream(local);
+//                    BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String line = buf.readLine();
+//                    StringBuilder sb = new StringBuilder();
+//                    while(line != null){
+//                        sb.append(line);
+//                        line = buf.readLine();
+//                    }
+//                    String fileAsString = sb.toString();
+//                    Gson gson = new Gson();
+//                    Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
+//                    ArrayList<CounterBackupData> counterBackupData = gson.fromJson(fileAsString, type);
+//                    tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
+//
+//
+//                    for(int i=0; i<counterBackupData.size(); i++){
+//                        CounterData newCounter = new CounterData();
+//                        newCounter.setCounterID(counterBackupData.get(i).getCounterID());
+//                        newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
+//                        newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
+//                        newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
+//                        newCounter.setCounterFlag(counterBackupData.get(i).getCounterFlag());
+//                        newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
+//                        newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
+//                        newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
+//
+//                        mergeCounterData(newCounter);
+//
+//                    }
+//                    Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
+//
+//                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
+//                } catch (IOException ex) {
+//                    //TODO HANDLE EXCEPTION
+//                    ex.printStackTrace();
+//                }
+//            });
+//        } catch (IOException e) {
+//            //TODO HANDLE EXCEPTION
+//            e.printStackTrace();
+//        }
+//    }
     private void mergeCounterData(CounterData counterData) {
         boolean isNew = true;
         ArrayList<CounterData> counterLocalData = tickTrackDatabase.retrieveCounterList();
@@ -318,65 +364,65 @@ public class JsonHelper {
         }
     }
 
-    public void restoreTimerData(){
-        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
-        StorageReference timerRef = storageRef.child("timerData.json");
-
-        File directory = context.getFilesDir();
-        try {
-            File local = File.createTempFile("timerRetrievedBackupData", "json", directory);
-            timerRef.getFile(local).addOnFailureListener(exception -> {
-                int errorCode = ((StorageException) exception).getErrorCode();
-                if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
-                    tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
-                } else {
-                    tickTrackFirebaseDatabase.setTimerDownloadStatus(-1);
-                }
-                Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
-            }).addOnSuccessListener(taskSnapshot -> {
-                try {
-                    InputStream is = new FileInputStream(local);
-                    BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String line = buf.readLine();
-                    StringBuilder sb = new StringBuilder();
-                    while(line != null){
-                        sb.append(line);
-                        line = buf.readLine();
-                    }
-                    String fileAsString = sb.toString();
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
-                    ArrayList<TimerBackupData> timerBackupData = gson.fromJson(fileAsString, type);
-
-                    for(int i=0; i<timerBackupData.size(); i++){
-                        TimerData newTimer = new TimerData();
-                        newTimer.setTimerID(timerBackupData.get(i).getTimerID());
-                        newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
-                        newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
-                        newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
-                        newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
-                        newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
-                        newTimer.setTimerSecond(timerBackupData.get(i).getTimerSecond());
-                        newTimer.setTimerLabel(timerBackupData.get(i).getTimerLabel());
-                        newTimer.setTimerStartTimeInMillis(-1);
-                        newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
-                        newTimer.setTimerPause(false);
-                        newTimer.setTimerOn(false);
-
-                        mergeTimerData(newTimer);
-                    }
-                    Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
-                } catch (IOException ex) {
-                    //TODO HANDLE EXCEPTION
-                    ex.printStackTrace();
-                }
-                Toast.makeText(context, "Download Success", Toast.LENGTH_SHORT).show();
-                tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
-            });
-        } catch (IOException e) {
-            //TODO HANDLE EXCEPTION
-            e.printStackTrace();
-        }
-    }
+//    public void restoreTimerData(){
+//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
+//        StorageReference timerRef = storageRef.child("timerData.json");
+//
+//        File directory = context.getFilesDir();
+//        try {
+//            File local = File.createTempFile("timerRetrievedBackupData", "json", directory);
+//            timerRef.getFile(local).addOnFailureListener(exception -> {
+//                int errorCode = ((StorageException) exception).getErrorCode();
+//                if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
+//                    tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
+//                } else {
+//                    tickTrackFirebaseDatabase.setTimerDownloadStatus(-1);
+//                }
+//                Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
+//            }).addOnSuccessListener(taskSnapshot -> {
+//                try {
+//                    InputStream is = new FileInputStream(local);
+//                    BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String line = buf.readLine();
+//                    StringBuilder sb = new StringBuilder();
+//                    while(line != null){
+//                        sb.append(line);
+//                        line = buf.readLine();
+//                    }
+//                    String fileAsString = sb.toString();
+//                    Gson gson = new Gson();
+//                    Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
+//                    ArrayList<TimerBackupData> timerBackupData = gson.fromJson(fileAsString, type);
+//
+//                    for(int i=0; i<timerBackupData.size(); i++){
+//                        TimerData newTimer = new TimerData();
+//                        newTimer.setTimerID(timerBackupData.get(i).getTimerID());
+//                        newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
+//                        newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
+//                        newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
+//                        newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
+//                        newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
+//                        newTimer.setTimerSecond(timerBackupData.get(i).getTimerSecond());
+//                        newTimer.setTimerLabel(timerBackupData.get(i).getTimerLabel());
+//                        newTimer.setTimerStartTimeInMillis(-1);
+//                        newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
+//                        newTimer.setTimerPause(false);
+//                        newTimer.setTimerOn(false);
+//
+//                        mergeTimerData(newTimer);
+//                    }
+//                    Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
+//                } catch (IOException ex) {
+//                    //TODO HANDLE EXCEPTION
+//                    ex.printStackTrace();
+//                }
+//                Toast.makeText(context, "Download Success", Toast.LENGTH_SHORT).show();
+//                tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
+//            });
+//        } catch (IOException e) {
+//            //TODO HANDLE EXCEPTION
+//            e.printStackTrace();
+//        }
+//    }
     private void mergeTimerData(TimerData timerData) {
         boolean isNew = true;
         ArrayList<TimerData> timerLocalData = tickTrackDatabase.retrieveTimerList();
@@ -390,6 +436,37 @@ public class JsonHelper {
         if(isNew){
             timerLocalData.add(timerData);
             tickTrackDatabase.storeTimerList(timerLocalData);
+        }
+    }
+
+    public void readAllFiles() {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+        if (account != null) {
+            GoogleAccountCredential credential =
+                    GoogleAccountCredential.usingOAuth2(
+                            context, Collections.singleton(DriveScopes.DRIVE_FILE));
+            credential.setSelectedAccount(account.getAccount());
+            Drive googleDriveService =
+                    new Drive.Builder(
+                            AndroidHttp.newCompatibleTransport(),
+                            new GsonFactory(),
+                            credential)
+                            .setApplicationName("TicKTrack")
+                            .build();
+            FileList files;
+            try {
+                files = googleDriveService.files().list()
+                        .setSpaces("appDataFolder")
+                        .setFields("nextPageToken, files(id, name)")
+                        .setPageSize(10)
+                        .execute();
+                for (File file : files.getFiles()) {
+                    System.out.printf("Found file: %s (%s)\n",
+                            file.getName(), file.getId());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
