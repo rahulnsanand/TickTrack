@@ -182,7 +182,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
                     // Its instantiation is required before handling any onClick actions.
                     mDriveServiceHelper = new GDriveHelper(googleDriveService, getApplicationContext());
 
-                    createFile();
+                    query();
+
+//                    createFile();
                 })
                 .addOnFailureListener(exception -> Log.e(TAG, "Unable to sign in.", exception));
     }
@@ -232,7 +234,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         if (mDriveServiceHelper != null) {
             Log.d(TAG, "Creating a file.");
 
-            mDriveServiceHelper.createFile()
+            mDriveServiceHelper.createTimerBackup()
                     .addOnSuccessListener(this::readFile)
                     .addOnFailureListener(exception ->
                             Log.e(TAG, "Couldn't create file.", exception));

@@ -28,52 +28,35 @@ import java.util.concurrent.Executors;
 public class GDriveHelper {
     private final Executor mExecutor = Executors.newSingleThreadExecutor();
     private final Drive mDriveService;
+    private final Context context;
 
     public GDriveHelper(Drive driveService, Context context) {
         mDriveService = driveService;
-
-        File fileMetadata = new File();
-        fileMetadata.setName("config.json");
-        fileMetadata.setParents(Collections.singletonList("appDataFolder"));
-
-
-        java.io.File directory = context.getFilesDir();
-        java.io.File file = new java.io.File(directory, "timerBackupData.json");
-        FileContent mediaContent = new FileContent("application/json", file);
-
-        Thread CrearEventoHilo = new Thread(){
-            public void run(){
-                try {
-                    File file = driveService.files().create(fileMetadata, mediaContent)
-                            .setFields("id")
-                            .execute();
-                    System.out.println("File ID: " + file.getId());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        CrearEventoHilo.start();
-
-
+        this.context = context;
     }
 
-    /**
-     * Creates a text file in the user's My Drive folder and returns its file ID.
-     */
-    public Task<String> createFile() {
+    public Task<String> createTimerBackup() {
         return Tasks.call(mExecutor, () -> {
-            File metadata = new File()
-                    .setParents(Collections.singletonList("root"))
-                    .setMimeType("text/json")
-                    .setName("test.json");
 
-            File googleFile = mDriveService.files().create(metadata).execute();
-            if (googleFile == null) {
-                throw new IOException("Null result when requesting file creation.");
+            File fileMetadata = new File();
+            fileMetadata.setName("timerBackup.json");
+            fileMetadata.setParents(Collections.singletonList("appDataFolder"));
+
+            java.io.File directory = context.getFilesDir();
+            java.io.File file = new java.io.File(directory, "timerBackupData.json");
+            FileContent mediaContent = new FileContent("application/json", file);
+
+            File uploadFile = new File();
+            try {
+                uploadFile = mDriveService.files().create(fileMetadata, mediaContent)
+                        .setFields("id")
+                        .execute();
+                System.out.println("File ID: " + uploadFile.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            return googleFile.getId();
+            return uploadFile.getId();
         });
     }
 
@@ -134,7 +117,7 @@ public class GDriveHelper {
         return Tasks.call(mExecutor, new Callable<FileList>() {
             @Override
             public FileList call() throws Exception {
-                return mDriveService.files().list().setSpaces("drive").execute();
+                return mDriveService.files().list().setSpaces("appDataFolder").execute();
             }
         });
     }
