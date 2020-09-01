@@ -129,7 +129,13 @@ public class RestoreFragment extends Fragment {
             if(isMyServiceRunning(BackupRestoreService.class, activity)){
                 stopRestoreService();
             }
-            startFreshListener.onStartFreshClickListener(true);
+            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                Intent intent = new Intent(requireContext(), SettingsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                requireContext().startActivity(intent);
+            } else {
+                startFreshListener.onStartFreshClickListener(false);
+            }
         });
     }
 

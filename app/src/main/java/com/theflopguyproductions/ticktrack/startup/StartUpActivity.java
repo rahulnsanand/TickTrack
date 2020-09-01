@@ -122,10 +122,10 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         if(nextFragment){
             openFragment(new ThemeFragment());
         } else {
-            if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
-
-            } else {
+            if(tickTrackDatabase.retrieveFirstLaunch()){
                 openFragment(new BatteryOptimiseFragment());
+            } else {
+                startActivity(new Intent(this, SoYouADeveloperHuh.class));
             }
         }
     }

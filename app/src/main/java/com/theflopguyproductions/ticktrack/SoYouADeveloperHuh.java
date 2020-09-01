@@ -53,6 +53,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     private Toolbar mainToolbar;
     private TextView tickTrackAppName;
     private BottomNavigationView navView;
+    int receivedFragmentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,23 +82,19 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         setSupportActionBar(mainToolbar);
         setTitle("");
-        int receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
+        receivedFragmentID = tickTrackDatabase.retrieveCurrentFragmentNumber();
 
-        if(new TickTrackFirebaseDatabase(this).isRestoreInitMode()==-1 || new TickTrackFirebaseDatabase(this).isRestoreInitMode()==1){
+        if(new TickTrackFirebaseDatabase(this).isRestoreInitMode()==-1 || new TickTrackFirebaseDatabase(this).isRestoreInitMode()==1 ||
+                new TickTrackFirebaseDatabase(this).isRestoreMode()){
             goToStartUpActivity(3, true);
         } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
-
             goToStartUpActivity(5, false);
-
         } else {
-
             openFragment(getFragment(receivedFragmentID));
-
-            boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
-            boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
-
         }
+        boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
+        boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
     }
 
     private void goToStartUpActivity(int id, boolean optimise) {
@@ -217,29 +214,37 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
+        if(new TickTrackFirebaseDatabase(this).isRestoreInitMode()==-1 || new TickTrackFirebaseDatabase(this).isRestoreInitMode()==1 ||
+                new TickTrackFirebaseDatabase(this).isRestoreMode()){
+            goToStartUpActivity(3, true);
+        } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity(5, false);
         } else {
             if(isMyServiceRunning(StopwatchNotificationService.class, this)){
                 stopNotificationService();
             }
-            TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
+            openFragment(getFragment(receivedFragmentID));
         }
+        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
+        if(new TickTrackFirebaseDatabase(this).isRestoreInitMode()==-1 || new TickTrackFirebaseDatabase(this).isRestoreInitMode()==1 ||
+                new TickTrackFirebaseDatabase(this).isRestoreMode()){
+            goToStartUpActivity(3, true);
+        } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity(5, false);
         } else {
             if(isMyServiceRunning(StopwatchNotificationService.class, this)){
                 stopNotificationService();
             }
-            TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
+            openFragment(getFragment(receivedFragmentID));
         }
+        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
     }
 
     @Override
