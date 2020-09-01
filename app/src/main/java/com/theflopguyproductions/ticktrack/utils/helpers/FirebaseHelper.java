@@ -254,10 +254,15 @@ public class FirebaseHelper {
     }
 
     public void backup() {
-
+        notificationBuilder.setContentTitle("TickTrack backup");
+        notificationBuilder.setContentText("In progress");
+        JsonHelper jsonHelper = new JsonHelper(context);
+        jsonHelper.createBackup();
     }
 
     public void restore() {
+        notificationBuilder.setContentTitle("Restoring TickTracK Data");
+        notificationBuilder.setContentText("In progress");
         restoreCheckHandler.post(restoreCheckRunnable);
         initPreferences();
 //        jsonHelper.restoreCounterData();

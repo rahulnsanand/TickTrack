@@ -282,6 +282,13 @@ public class JsonHelper {
         if (gDriveHelper != null) {
             Log.d("TAG", "Saving " + fileID);
             gDriveHelper.saveFile(fileID, fileName, jsonContent)
+                    .addOnSuccessListener(aVoid -> {
+                        if(fileName.equals("counterBackup.json")){
+                            tickTrackFirebaseDatabase.setCounterBackupComplete(true);
+                        } else if(fileName.equals("timerBackup.json")){
+                            tickTrackFirebaseDatabase.setTimerBackupComplete(true);
+                        }
+                    })
                     .addOnFailureListener(exception ->
                             Log.e("TAG", "Unable to save file via REST.", exception));
         }

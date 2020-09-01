@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.receivers;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +12,11 @@ import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimerManagementHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class BootReceiver extends BroadcastReceiver {
 
@@ -50,6 +54,29 @@ public class BootReceiver extends BroadcastReceiver {
                 startNotificationService(context);
             }
         }
+
+        FirebaseHelper firebaseHelper = new FirebaseHelper(context);
+        if(firebaseHelper.isUserSignedIn()){
+            scheduleBackupAlarm(context);
+        }
+    }
+
+    private void scheduleBackupAlarm(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 2);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, BackupScheduleReceiver.class);
+        intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 21, intent, 0);
+        alarmManager.setInexactRepeating(
+                AlarmManager.RTC,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                alarmPendingIntent
+        );
     }
 
     public void startNotificationService(Context context) {

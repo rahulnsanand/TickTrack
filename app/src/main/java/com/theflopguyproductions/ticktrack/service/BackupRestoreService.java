@@ -115,6 +115,9 @@ public class BackupRestoreService extends Service {
         tickTrackFirebaseDatabase.setRestoreCompleteStatus(0);
         tickTrackFirebaseDatabase.storeTimerRestoreString("");
         tickTrackFirebaseDatabase.storeCounterRestoreString("");
+        tickTrackFirebaseDatabase.setCounterBackupComplete(false);
+        tickTrackFirebaseDatabase.setTimerBackupComplete(false);
+        tickTrackFirebaseDatabase.setBackupMode(false);
     }
 
     private void startInitRestore() {
@@ -135,8 +138,9 @@ public class BackupRestoreService extends Service {
     Runnable dataBackupCheck = new Runnable() {
         @Override
         public void run() {
-            if(firebaseHelper.backupComplete()){
-                tickTrackFirebaseDatabase.setBackupMode(false);
+            if(!tickTrackFirebaseDatabase.isBackupMode()){
+                stopForegroundService();
+                prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
             } else {
                 backupCheckHandler.post(dataBackupCheck);
