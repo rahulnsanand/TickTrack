@@ -64,7 +64,7 @@ public class BootReceiver extends BroadcastReceiver {
     private void scheduleBackupAlarm(Context context) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 2);
+        calendar.set(Calendar.HOUR_OF_DAY, 5);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, BackupScheduleReceiver.class);
@@ -74,7 +74,7 @@ public class BootReceiver extends BroadcastReceiver {
         alarmManager.setInexactRepeating(
                 AlarmManager.RTC,
                 calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES,
                 alarmPendingIntent
         );
     }
