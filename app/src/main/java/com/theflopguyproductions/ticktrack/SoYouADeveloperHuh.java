@@ -56,6 +56,7 @@ import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelp
 import com.theflopguyproductions.ticktrack.utils.helpers.JsonHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimerManagementHelper;
 
 import java.util.Collections;
 
@@ -111,7 +112,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
             boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
             boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
 
-            requestSignIn();
+//            requestSignIn();
 
 
         }

@@ -103,10 +103,11 @@ public class LoginFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            firebaseHelper.signIn(task, getActivity());
+            firebaseHelper.signIn(task, getActivity(), receivedAction);
         } else {
             signInButton.setEnabled(true);
             laterButton.setVisibility(View.VISIBLE);
+            System.out.println(receivedAction+":"+requestCode);
             Toast.makeText(getContext(), "Sign in failed, try again", Toast.LENGTH_SHORT).show();
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 startActivity(new Intent(getActivity(), SettingsActivity.class));

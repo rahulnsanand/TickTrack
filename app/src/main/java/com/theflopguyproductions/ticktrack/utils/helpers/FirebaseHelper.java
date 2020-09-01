@@ -17,9 +17,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
@@ -42,7 +39,6 @@ public class FirebaseHelper {
     private static final String TAG = "FIREBASE_HELPER";
 
     private GoogleSignInClient googleSignInClient;
-    private FirebaseAuth mAuth;
     private GoogleSignInOptions googleSignInOptions;
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
     private TickTrackDatabase tickTrackDatabase;
@@ -52,6 +48,8 @@ public class FirebaseHelper {
     private NotificationManagerCompat notificationManagerCompat;
     private ProgressBarDialog progressBarDialog;
     private JsonHelper jsonHelper;
+
+    private String emailID, displayName, accountID;
 
     private boolean  isBackupComplete = false;
 
@@ -65,7 +63,6 @@ public class FirebaseHelper {
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions);
-        mAuth = FirebaseAuth.getInstance();
         jsonHelper = new JsonHelper(context);
         firebaseFirestore = FirebaseFirestore.getInstance();
     }
@@ -84,56 +81,45 @@ public class FirebaseHelper {
         return googleSignInClient.getSignInIntent();
     }
 
-    public void signIn(Task<GoogleSignInAccount> completedTask, Activity activity) {
+    public void signIn(Task<GoogleSignInAccount> completedTask, Activity activity, String receivedAction) {
         progressBarDialog = new ProgressBarDialog(activity);
         progressBarDialog.show();
         progressBarDialog.setContentText("Signing in");
         progressBarDialog.titleText.setVisibility(View.GONE);
         try {
+            progressBarDialog.dismiss();
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             assert account != null;
-            firebaseAuthWithGoogle(account.getIdToken(), activity);
+            tickTrackFirebaseDatabase.storeCurrentUserEmail(account.getEmail());
+            emailID = account.getEmail();
+            displayName = account.getDisplayName();
+            accountID = account.getId();
         } catch (ApiException e) {
+            e.printStackTrace();
             progressBarDialog.dismiss();
             Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
+            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                activity.startActivity(new Intent(activity, SettingsActivity.class));
+            }
         }
     }
-    public void firebaseAuthWithGoogle(String idToken, Activity activity) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(activity, task -> {
-                    if (task.isSuccessful()) {
-                        tickTrackFirebaseDatabase.storeCurrentUserEmail(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail());
-                        tickTrackDatabase.storeStartUpFragmentID(3);
-                        Intent intent = new Intent(activity, StartUpActivity.class);
-                        intent.setAction(action);
-                        activity.startActivity(intent);
-                        progressBarDialog.dismiss();
-                    } else {
-                        progressBarDialog.dismiss();
-                        tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
-                        Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
 
     public void restoreInit() {
-
         tickTrackFirebaseDatabase.setRestoreInitMode(-1);
+        if(emailID!=null){
+            firebaseFirestore.collection("TickTrackUsers").document().get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if(queryDocumentSnapshots.exists()){
+                            Toast.makeText(context, "Welcome back, "+ displayName, Toast.LENGTH_SHORT).show();
+                            checkIfDataExists();
+                        } else {
+                            Toast.makeText(context, "Welcome, "+ displayName, Toast.LENGTH_SHORT).show();
+                            setupInitUserData();
+                        }
+                    }).addOnFailureListener(e -> {
 
-        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if(queryDocumentSnapshots.exists()){
-                        Toast.makeText(context, "Welcome back, "+ Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName(), Toast.LENGTH_SHORT).show();
-                        checkIfDataExists();
-                    } else {
-                        Toast.makeText(context, "Welcome, "+ Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName(), Toast.LENGTH_SHORT).show();
-                        setupInitUserData();
-                    }
-                }).addOnFailureListener(e -> {
-
-                });
+            });
+        }
     }
     private void setupInitUserData() {
         Map<String, Object> user = new HashMap<>();
@@ -144,16 +130,15 @@ public class FirebaseHelper {
         user.put("timerCount", 0);
         user.put("counterCount", 0);
         user.put("themeMode", -1);
-        user.put("emailID", Objects.requireNonNull(mAuth.getCurrentUser()).getEmail());
         user.put("localeCountry", context.getResources().getConfiguration().locale.getCountry());
         user.put("localeLanguage", context.getResources().getConfiguration().locale.getLanguage());
         user.put("deviceManufacturer", Build.MANUFACTURER);
         user.put("deviceModel", Build.MODEL);
 
-        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
+        firebaseFirestore.collection("TickTrackUsers").document(emailID).get()
                 .addOnSuccessListener(documentReference -> {
-                    firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).set(user);
-                    jsonHelper.initStorageFix();
+                    firebaseFirestore.collection("TickTrackUsers").document(emailID).set(user);
+//                    jsonHelper.initStorageFix();
                     completedFragmentTask();
                 })
                 .addOnFailureListener(e -> {
@@ -189,7 +174,7 @@ public class FirebaseHelper {
         notificationBuilder.setContentText("In progress");
         notifyNotification();
 
-        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
+        firebaseFirestore.collection("TickTrackUsers").document(emailID).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     Map<String, Object> restoreMap = documentSnapshot.getData();
                     if (restoreMap != null) {
@@ -266,7 +251,6 @@ public class FirebaseHelper {
         progressBarDialog.titleText.setVisibility(View.GONE);
         googleSignInClient.signOut().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                FirebaseAuth.getInstance().signOut();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                 tickTrackFirebaseDatabase.setRestoreInitMode(0);
                 tickTrackFirebaseDatabase.setRestoreMode(false);
@@ -281,8 +265,6 @@ public class FirebaseHelper {
         });
     }
     public boolean isUserSignedIn(){
-        return FirebaseAuth.getInstance().getCurrentUser() != null;
+        return GoogleSignIn.getLastSignedInAccount(context) != null;
     }
-
-
 }

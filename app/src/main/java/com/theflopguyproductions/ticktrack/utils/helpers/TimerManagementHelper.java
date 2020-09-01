@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack;
+package com.theflopguyproductions.ticktrack.utils.helpers;
 
 import android.app.ActivityManager;
 import android.app.KeyguardManager;

@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 
-import com.theflopguyproductions.ticktrack.TimerManagementHelper;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimerManagementHelper;
 
 import java.util.ArrayList;
 

@@ -4,11 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
@@ -32,14 +27,12 @@ import java.util.Objects;
 
 public class JsonHelper {
 
-    FirebaseStorage storage;
     Context context;
     TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
     TickTrackDatabase tickTrackDatabase;
 
     public JsonHelper(Context context) {
         this.context = context;
-        this.storage = FirebaseStorage.getInstance();
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
         tickTrackDatabase = new TickTrackDatabase(context);
     }
@@ -75,7 +68,6 @@ public class JsonHelper {
         } catch (FileNotFoundException e) {
             Log.e("Exception", "File upload failed: " + e.toString());
         }
-
     }
     public void initCounterJsonUpload(){
         ArrayList<CounterBackupData> counterData = new ArrayList<>();
@@ -252,7 +244,6 @@ public class JsonHelper {
     /**
      * Restoring functions of counter and timer
      */
-
     public void restoreCounterData(){
         StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
         StorageReference counterRef = storageRef.child("counterData.json");
