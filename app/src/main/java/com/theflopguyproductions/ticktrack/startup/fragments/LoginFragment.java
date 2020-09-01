@@ -23,6 +23,7 @@ import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
+import com.theflopguyproductions.ticktrack.utils.helpers.InternetChecker;
 
 public class LoginFragment extends Fragment {
 
@@ -76,13 +77,23 @@ public class LoginFragment extends Fragment {
 
         initVariables(root);
 
-        if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
-            signInButton.setVisibility(View.GONE);
-            laterButton.setVisibility(View.GONE);
-            signInClick();
+        if(InternetChecker.isOnline(requireContext())){
+            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                signInButton.setVisibility(View.GONE);
+                laterButton.setVisibility(View.GONE);
+                signInClick();
+            } else {
+                signInButton.setVisibility(View.VISIBLE);
+                laterButton.setVisibility(View.VISIBLE);
+            }
         } else {
-            signInButton.setVisibility(View.VISIBLE);
-            laterButton.setVisibility(View.VISIBLE);
+            //TODO DISPLAY NO INTERNET SETUP
+            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            } else {
+                signInButton.setVisibility(View.VISIBLE);
+                laterButton.setVisibility(View.VISIBLE);
+            }
         }
 
         signInButton.setOnClickListener(view -> signInClick());
@@ -100,17 +111,28 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            firebaseHelper.signIn(task, getActivity(), receivedAction);
+        if(InternetChecker.isOnline(requireContext())){
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == 1) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                firebaseHelper.signIn(task, getActivity(), receivedAction);
+            } else {
+                signInButton.setEnabled(true);
+                laterButton.setVisibility(View.VISIBLE);
+                System.out.println(receivedAction+":"+requestCode);
+                Toast.makeText(getContext(), "Sign in failed, try again", Toast.LENGTH_SHORT).show();
+                if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                    startActivity(new Intent(getActivity(), SettingsActivity.class));
+                }
+            }
         } else {
-            signInButton.setEnabled(true);
-            laterButton.setVisibility(View.VISIBLE);
-            System.out.println(receivedAction+":"+requestCode);
-            Toast.makeText(getContext(), "Sign in failed, try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Kindly Connect To Internet", Toast.LENGTH_SHORT).show();
+            firebaseHelper.signOut(getActivity());
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
+            } else {
+                signInButton.setVisibility(View.VISIBLE);
+                laterButton.setVisibility(View.VISIBLE);
             }
         }
     }

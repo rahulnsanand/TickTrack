@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -92,40 +93,57 @@ public class FirebaseHelper {
     }
 
     public void signIn(Task<GoogleSignInAccount> completedTask, Activity activity, String receivedAction) {
-        progressBarDialog = new ProgressBarDialog(activity);
-        progressBarDialog.show();
-        progressBarDialog.setContentText("Signing in");
-        progressBarDialog.titleText.setVisibility(View.GONE);
-        try {
-            progressBarDialog.dismiss();
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            assert account != null;
-            tickTrackFirebaseDatabase.storeCurrentUserEmail(account.getEmail());
-            emailID = account.getEmail();
-            displayName = account.getDisplayName();
-            accountID = account.getId();
 
+        if(InternetChecker.isOnline(context)){
+            progressBarDialog = new ProgressBarDialog(activity);
+            progressBarDialog.show();
+            progressBarDialog.setContentText("Signing in");
+            progressBarDialog.titleText.setVisibility(View.GONE);
+            try {
+                progressBarDialog.dismiss();
+                GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+                assert account != null;
+                tickTrackFirebaseDatabase.storeCurrentUserEmail(account.getEmail());
 
-            GoogleAccountCredential credential =
-                    GoogleAccountCredential.usingOAuth2(
-                            activity, Collections.singleton(DriveScopes.DRIVE_FILE));
-            credential.setSelectedAccount(account.getAccount());
-            Drive googleDriveService =
-                    new Drive.Builder(
-                            AndroidHttp.newCompatibleTransport(),
-                            new GsonFactory(),
-                            credential)
-                            .setApplicationName("Drive API Migration")
-                            .build();
+                GoogleAccountCredential credential =
+                        GoogleAccountCredential.usingOAuth2(
+                                activity, Collections.singleton(DriveScopes.DRIVE_APPDATA));
+                credential.setSelectedAccount(account.getAccount());
+                Drive googleDriveService =
+                        new Drive.Builder(
+                                AndroidHttp.newCompatibleTransport(),
+                                new GsonFactory(),
+                                credential)
+                                .setApplicationName("TickTrack")
+                                .build();
 
-            gDriveHelper = new GDriveHelper(googleDriveService, activity);
+                gDriveHelper = new GDriveHelper(googleDriveService, activity);
 
-        } catch (ApiException e) {
-            e.printStackTrace();
-            progressBarDialog.dismiss();
-            Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, StartUpActivity.class);
+                tickTrackDatabase.storeStartUpFragmentID(3);
+                intent.setAction(receivedAction);
+                context.startActivity(intent);
+
+            } catch (ApiException e) {
+                e.printStackTrace();
+                progressBarDialog.dismiss();
+                Toast.makeText(activity, "Sign in failed, try again", Toast.LENGTH_SHORT).show();
+                if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                    activity.startActivity(new Intent(activity, SettingsActivity.class));
+                } else {
+                    Intent intent = new Intent(context, StartUpActivity.class);
+                    tickTrackDatabase.storeStartUpFragmentID(2);
+                    context.startActivity(intent);
+                }
+            }
+        } else {
+            Toast.makeText(context, "Kindly Connect To Internet", Toast.LENGTH_SHORT).show();
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 activity.startActivity(new Intent(activity, SettingsActivity.class));
+            } else {
+                Intent intent = new Intent(context, StartUpActivity.class);
+                tickTrackDatabase.storeStartUpFragmentID(2);
+                context.startActivity(intent);
             }
         }
     }
@@ -142,6 +160,7 @@ public class FirebaseHelper {
                             Toast.makeText(context, "Welcome, "+ displayName, Toast.LENGTH_SHORT).show();
                             setupInitUserData();
                         }
+                        deviceInfoUpdate(account);
                     }).addOnFailureListener(e -> {
 
             });
@@ -151,15 +170,13 @@ public class FirebaseHelper {
         Map<String, Object> user = new HashMap<>();
         user.put("accountCreateTime", System.currentTimeMillis());
         user.put("isProUser", false);
-        user.put("backupExists", false);
         user.put("lastBackupTime", -1);
         user.put("timerCount", 0);
         user.put("counterCount", 0);
         user.put("themeMode", -1);
         user.put("localeCountry", context.getResources().getConfiguration().locale.getCountry());
         user.put("localeLanguage", context.getResources().getConfiguration().locale.getLanguage());
-        user.put("deviceManufacturer", Build.MANUFACTURER);
-        user.put("deviceModel", Build.MODEL);
+
 
         firebaseFirestore.collection("TickTrackUsers").document(emailID).get()
                 .addOnSuccessListener(documentReference -> {

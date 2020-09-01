@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,9 +32,8 @@ public class RestoreFragment extends Fragment {
     private FirebaseHelper firebaseHelper;
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
 
-    private TextView mainTitle, subTitle, dataReadyTitle, preferencesText, timersText, countersText, restoreQuestionText;
+    private TextView mainTitle, subTitle, dataReadyTitle, preferencesText, timersText, countersText;
     private Button restoreDataButton, startFreshButton;
-    private CheckBox preferencesCheck, timersCheck, countersCheck;
     private SharedPreferences sharedPreferences;
 
     private ProgressBarDialog progressBarDialog;
@@ -70,18 +68,8 @@ public class RestoreFragment extends Fragment {
     }
 
     private void setupOptionsDisplay() {
-        restoreQuestionText.setVisibility(View.VISIBLE);
         restoreDataButton.setVisibility(View.VISIBLE);
         startFreshButton.setVisibility(View.VISIBLE);
-        if(tickTrackFirebaseDatabase.hasPreferencesDataBackup()){
-            preferencesCheck.setVisibility(View.VISIBLE);
-        }
-        if(tickTrackFirebaseDatabase.getRetrievedCounterCount()!=-1){
-            countersCheck.setVisibility(View.VISIBLE);
-        }
-        if(tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
-            timersCheck.setVisibility(View.VISIBLE);
-        }
     }
 
     private void setupChanges() {
@@ -109,12 +97,8 @@ public class RestoreFragment extends Fragment {
         preferencesText = root.findViewById(R.id.restoreFragmentPreferencesText);
         timersText = root.findViewById(R.id.restoreFragmentTimerText);
         countersText = root.findViewById(R.id.restoreFragmentCounterText);
-        restoreQuestionText = root.findViewById(R.id.restoreFragmentRestoreOptionsTitle);
         restoreDataButton = root.findViewById(R.id.restoreFragmentRestoreDataButton);
         startFreshButton = root.findViewById(R.id.restoreFragmentStartFreshButton);
-        preferencesCheck = root.findViewById(R.id.restoreFragmentPreferencesCheckBox);
-        countersCheck = root.findViewById(R.id.restoreFragmentCounterCheckBox);
-        timersCheck = root.findViewById(R.id.restoreFragmentTimerCheckBox);
 
         activity = getActivity();
 
@@ -140,6 +124,8 @@ public class RestoreFragment extends Fragment {
         startFreshButton.setOnClickListener(view -> {
             tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
             tickTrackFirebaseDatabase.setRestoreInitMode(0);
+            tickTrackFirebaseDatabase.storeTimerRestoreString("");
+            tickTrackFirebaseDatabase.storeCounterRestoreString("");
             if(isMyServiceRunning(BackupRestoreService.class, activity)){
                 stopRestoreService();
             }

@@ -383,7 +383,7 @@ public class SettingsActivity extends AppCompatActivity {
         if(firebaseHelper.isUserSignedIn()){
             backupEmail.setText(tickTrackFirebaseDatabase.getCurrentUserEmail());
         } else {
-            backupEmail.setText("Add a backup account");
+            backupEmail.setText("Add an account");
         }
     }
 
