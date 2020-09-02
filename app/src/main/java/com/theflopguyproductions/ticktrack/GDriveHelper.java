@@ -38,49 +38,56 @@ public class GDriveHelper {
     public Task<String> createTimerBackup(String filename) {
         return Tasks.call(mExecutor, () -> {
 
-            File fileMetadata = new File();
-            fileMetadata.setName(filename);
-            fileMetadata.setParents(Collections.singletonList("appDataFolder"));
+            if(InternetChecker.isOnline(context)){
+                File fileMetadata = new File();
+                fileMetadata.setName(filename);
+                fileMetadata.setParents(Collections.singletonList("appDataFolder"));
 
-            java.io.File directory = context.getFilesDir();
-            java.io.File file = new java.io.File(directory, "timerBackupData.json");
-            FileContent mediaContent = new FileContent("application/json", file);
+                java.io.File directory = context.getFilesDir();
+                java.io.File file = new java.io.File(directory, "timerBackupData.json");
+                FileContent mediaContent = new FileContent("application/json", file);
 
-            File uploadFile = new File();
-            try {
-                uploadFile = mDriveService.files().create(fileMetadata, mediaContent)
-                        .setFields("id")
-                        .execute();
-                System.out.println("File ID: " + uploadFile.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
+                File uploadFile = new File();
+                try {
+                    uploadFile = mDriveService.files().create(fileMetadata, mediaContent)
+                            .setFields("id")
+                            .execute();
+                    System.out.println("File ID: " + uploadFile.getId());
+                    return Pair.create(1, uploadFile.getId());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                return Pair.create(-1, null);
             }
-
-            return uploadFile.getId();
+            return Pair.create(0, null);
         });
     }
-    public Task<String> createCounterBackup(String filename) {
+    public Task<Pair<Integer, String>> createCounterBackup(String filename) {
         return Tasks.call(mExecutor, () -> {
+            if(InternetChecker.isOnline(context)){
+                File fileMetadata = new File();
+                fileMetadata.setName(filename);
+                fileMetadata.setParents(Collections.singletonList("appDataFolder"));
 
-            File fileMetadata = new File();
-            fileMetadata.setName(filename);
-            fileMetadata.setParents(Collections.singletonList("appDataFolder"));
+                java.io.File directory = context.getFilesDir();
+                java.io.File file = new java.io.File(directory, "counterBackupData.json");
+                FileContent mediaContent = new FileContent("application/json", file);
 
-            java.io.File directory = context.getFilesDir();
-            java.io.File file = new java.io.File(directory, "counterBackupData.json");
-            FileContent mediaContent = new FileContent("application/json", file);
-
-            File uploadFile = new File();
-            try {
-                uploadFile = mDriveService.files().create(fileMetadata, mediaContent)
-                        .setFields("id")
-                        .execute();
-                System.out.println("File ID: " + uploadFile.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
+                File uploadFile = new File();
+                try {
+                    uploadFile = mDriveService.files().create(fileMetadata, mediaContent)
+                            .setFields("id")
+                            .execute();
+                    System.out.println("File ID: " + uploadFile.getId());
+                    return Pair.create(1, uploadFile.getId());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                return Pair.create(-1, null);
             }
-
-            return uploadFile.getId();
+            return Pair.create(0, null);
         });
     }
 

@@ -160,7 +160,9 @@ public class FirebaseHelper {
                             Toast.makeText(context, "Welcome, "+ displayName, Toast.LENGTH_SHORT).show();
                             setupInitUserData();
                         }
-                        deviceInfoUpdate(account);
+                        if(tickTrackDatabase.retrieveFirstLaunch()){
+                            deviceInfoUpdate(account);
+                        }
                     }).addOnFailureListener(e -> {
 
             });
@@ -297,6 +299,7 @@ public class FirebaseHelper {
         progressBarDialog.titleText.setVisibility(View.GONE);
         googleSignInClient.signOut().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
+                tickTrackFirebaseDatabase.cancelBackUpAlarm();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                 tickTrackFirebaseDatabase.setRestoreInitMode(0);
                 tickTrackFirebaseDatabase.setRestoreMode(false);

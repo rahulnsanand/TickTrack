@@ -172,16 +172,21 @@ public class JsonHelper {
                             .build();
 
             gDriveHelper = new GDriveHelper(googleDriveService, context);
-            gDriveHelper.createTimerBackup("timerBackup.json")
-                    .addOnSuccessListener(s -> {
-                        readFile(gDriveHelper, s, jsonObject, "timerBackup.json");
-                        Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show());
-
+            createTimerBackup(gDriveHelper, jsonObject);
         }
-
+    }
+    private void createTimerBackup(GDriveHelper gDriveHelper, String jsonObject) {
+        gDriveHelper.createTimerBackup("timerBackup.json")
+                .addOnSuccessListener(s -> {
+                    if(s.first==1){
+                        openGDriveFile(gDriveHelper, s.second, jsonObject, "timerBackup.json");
+                        Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show();
+                    } else {
+                        createTimerBackup(gDriveHelper, jsonObject);
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show());
     }
 
     public void counterDataBackup(ArrayList<CounterData> counterData){
@@ -258,6 +263,20 @@ public class JsonHelper {
                             Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
 
         }
+    }
+
+    private void createCounterBackup(GDriveHelper gDriveHelper, String jsonObject) {
+        gDriveHelper.createCounterBackup("counterBackup.json")
+                .addOnSuccessListener(s -> {
+                    if(s.first==1){
+                        openGDriveFile(gDriveHelper, s.second, jsonObject, "counterBackup.json");
+                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
+                    } else {
+                        createCounterBackup(gDriveHelper, jsonObject);
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
     }
 
     private void readFile(GDriveHelper gDriveHelper, String fileId, String jsonContent, String fileName) {
