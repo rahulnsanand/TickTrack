@@ -256,6 +256,8 @@ public class FirebaseHelper {
     public void backup() {
         notificationBuilder.setContentTitle("TickTrack backup");
         notificationBuilder.setContentText("In progress");
+        notifyNotification();
+        backupCheckHandler.post(backupCheckRunnable);
         JsonHelper jsonHelper = new JsonHelper(context);
         jsonHelper.createBackup();
     }

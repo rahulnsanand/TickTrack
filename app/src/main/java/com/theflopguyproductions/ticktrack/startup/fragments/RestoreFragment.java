@@ -172,17 +172,18 @@ public class RestoreFragment extends Fragment {
     private void scheduleFirstBackup(){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 5);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 20);
 
         AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(requireContext(), BackupScheduleReceiver.class);
         intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(requireContext(), 21, intent, 0);
-        alarmManager.setInexactRepeating(
+        alarmManager.setRepeating(
                 AlarmManager.RTC,
                 calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+                1000*60*2,
                 alarmPendingIntent
         );
     }

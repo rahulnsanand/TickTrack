@@ -65,16 +65,25 @@ public class BackupRestoreService extends Service {
             firebaseHelper.setAction(receivedAction);
             System.out.println("RESTORE SERVICE RECEIVED "+receivedAction);
 
+            Intent resultIntent = new Intent(this, StartUpActivity.class);
+            resultIntent.putExtra("receivedAction", receivedAction);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntentWithParentStack(resultIntent);
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(6, PendingIntent.FLAG_UPDATE_CURRENT);
+
             assert action != null;
             switch (action) {
                 case RESTORE_SERVICE_STOP_FOREGROUND:
                     stopForegroundService();
                     break;
                 case RESTORE_SERVICE_START_INIT_RETRIEVE:
+                    notificationBuilder.setContentIntent(resultPendingIntent);
                     setupForeground();
                     startInitRestore();
                     break;
                 case RESTORE_SERVICE_START_RESTORE:
+                    notificationBuilder.setContentIntent(resultPendingIntent);
                     setupForeground();
                     startRestoration();
                     break;
@@ -139,6 +148,7 @@ public class BackupRestoreService extends Service {
         @Override
         public void run() {
             if(!tickTrackFirebaseDatabase.isBackupMode()){
+                System.out.println("BACKUP OVER");
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
@@ -162,18 +172,11 @@ public class BackupRestoreService extends Service {
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
-        Intent resultIntent = new Intent(this, StartUpActivity.class);
-        resultIntent.putExtra("receivedAction", receivedAction);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntentWithParentStack(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(6, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setOnlyAlertOnce(true)
-                .setContentIntent(resultPendingIntent)
                 .setProgress(0,0,true)
                 .setColor(getResources().getColor(R.color.Accent));
 

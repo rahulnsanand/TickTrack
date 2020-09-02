@@ -284,8 +284,10 @@ public class JsonHelper {
             gDriveHelper.saveFile(fileID, fileName, jsonContent)
                     .addOnSuccessListener(aVoid -> {
                         if(fileName.equals("counterBackup.json")){
+                            System.out.println("COUNTER BACKUP DONE");
                             tickTrackFirebaseDatabase.setCounterBackupComplete(true);
                         } else if(fileName.equals("timerBackup.json")){
+                            System.out.println("TIMER BACKUP DONE");
                             tickTrackFirebaseDatabase.setTimerBackupComplete(true);
                         }
                     })
