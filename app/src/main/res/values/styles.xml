@@ -42,8 +42,7 @@
         <item name="android:itemBackground">@color/GrayOnDark</item>
     </style>
 
-    <style name="Widget.BottomNavigationView"
-        parent="Widget.Design.BottomNavigationView">
+    <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
@@ -66,9 +65,9 @@
     <!--        <item name="android:windowEnterAnimation">@anim/from_right</item>-->
     <!--    </style>-->
 
-        <style name="acceptDialog">
-            <item name="android:windowExitAnimation">@anim/to_right</item>
-        </style>
+    <style name="acceptDialog">
+        <item name="android:windowExitAnimation">@anim/to_right</item>
+    </style>
 
 
     <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -99,10 +98,12 @@
         <item name="android:windowBackground">@null</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
+        <item name="android:background">@color/Accent</item>
     </style>
 
     <style name="ScrollingPagerIndicator">

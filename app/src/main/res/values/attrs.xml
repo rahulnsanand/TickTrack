@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="toolbarStyle" format="reference"/>
+    <attr name="toolbarStyle" format="reference" />
 
-    <attr name="scrollingPagerIndicatorStyle"/>
+    <attr name="scrollingPagerIndicatorStyle" />
 
     <declare-styleable name="JazzyViewPager">
         <attr name="style">
@@ -177,7 +177,7 @@
     </attr>
 
     <declare-styleable name="CustomFont">
-        <attr name="fontName" format="string"/>
+        <attr name="fontName" format="string" />
     </declare-styleable>
 
 
