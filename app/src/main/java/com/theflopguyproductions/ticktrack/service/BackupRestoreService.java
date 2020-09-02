@@ -129,6 +129,7 @@ public class BackupRestoreService extends Service {
         tickTrackFirebaseDatabase.storeCounterRestoreString("");
         tickTrackFirebaseDatabase.setCounterBackupComplete(false);
         tickTrackFirebaseDatabase.setTimerBackupComplete(false);
+        tickTrackFirebaseDatabase.setSettingsBackupComplete(false);
         tickTrackFirebaseDatabase.setBackupMode(false);
     }
 

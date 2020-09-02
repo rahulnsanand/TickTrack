@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class ThemeFragment extends Fragment {
@@ -67,12 +68,12 @@ public class ThemeFragment extends Fragment {
 
 
         darkThemeButton.setOnClickListener(view -> {
-            tickTrackDatabase.setThemeMode(2);
+            tickTrackDatabase.setThemeMode(SettingsData.Theme.DARK.getCode());
             setupTheme();
         });
 
         lightThemeButton.setOnClickListener(view -> {
-            tickTrackDatabase.setThemeMode(1);
+            tickTrackDatabase.setThemeMode(SettingsData.Theme.LIGHT.getCode());
             setupTheme();
         });
 

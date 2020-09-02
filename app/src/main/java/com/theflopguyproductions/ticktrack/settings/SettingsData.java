@@ -12,9 +12,36 @@ public class SettingsData {
             return frequencyCode;
         }
     }
+    public enum Theme {
+        DARK(1), LIGHT(2);
+        private int themeMode;
+        Theme(int value) {
+            themeMode = value;
+        }
+        public int getCode() {
+            return themeMode;
+        }
+    }
 
     int themeMode, syncDataFrequency;
-    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn;
+    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn, isWifiOnly;
+    long lastBackupTime;
+
+    public long getLastBackupTime() {
+        return lastBackupTime;
+    }
+
+    public void setLastBackupTime(long lastBackupTime) {
+        this.lastBackupTime = lastBackupTime;
+    }
+
+    public boolean isWifiOnly() {
+        return isWifiOnly;
+    }
+
+    public void setWifiOnly(boolean wifiOnly) {
+        isWifiOnly = wifiOnly;
+    }
 
     public int getThemeMode() {
         return themeMode;

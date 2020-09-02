@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.theflopguyproductions.ticktrack.GDriveHelper;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -39,71 +40,6 @@ public class JsonHelper {
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
         tickTrackDatabase = new TickTrackDatabase(context);
     }
-
-//
-//    public void initStorageFix(){
-//        ArrayList<TimerBackupData> timerData = new ArrayList<>();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(timerData);
-//        try {
-//            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("timerBackupData.json", Context.MODE_PRIVATE));
-//            outputStreamWriter.write(json);
-//            outputStreamWriter.close();
-//            uploadTimerToStorage();
-//        }
-//        catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
-//        StorageReference mountainsRef = storageRef.child("timerData.json");
-//        File directory = context.getFilesDir();
-//        File file = new File(directory, "timerBackupData.json");
-//
-//        try {
-//            InputStream stream = new FileInputStream(file);
-//            UploadTask uploadTask = mountainsRef.putStream(stream);
-//            uploadTask.addOnFailureListener(exception -> {
-//                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-//            }).addOnSuccessListener(taskSnapshot -> {
-//                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
-//                initCounterJsonUpload();
-//            });
-//
-//        } catch (FileNotFoundException e) {
-//            Log.e("Exception", "File upload failed: " + e.toString());
-//        }
-//    }
-//    public void initCounterJsonUpload(){
-//        ArrayList<CounterBackupData> counterData = new ArrayList<>();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(counterData);
-//        try {
-//            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("counterBackupData.json", Context.MODE_PRIVATE));
-//            outputStreamWriter.write(json);
-//            outputStreamWriter.close();
-//            uploadTimerToStorage();
-//        }
-//        catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
-//        StorageReference mountainsRef = storageRef.child("counterData.json");
-//        File directory = context.getFilesDir();
-//        File file = new File(directory, "counterBackupData.json");
-//
-//        try {
-//            InputStream stream = new FileInputStream(file);
-//            UploadTask uploadTask = mountainsRef.putStream(stream);
-//            uploadTask.addOnFailureListener(exception -> {
-//                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-//            }).addOnSuccessListener(taskSnapshot -> {
-//                Toast.makeText(context, "Upload Success", Toast.LENGTH_SHORT).show();
-//            });
-//
-//        } catch (FileNotFoundException e) {
-//            Log.e("Exception", "File upload failed: " + e.toString());
-//        }
-//    }
 
     public void timerDataBackup(ArrayList<TimerData> timerData){
 
@@ -278,6 +214,66 @@ public class JsonHelper {
                 .addOnFailureListener(e ->
                         Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
     }
+    private void preferencesDataBackup() {
+        ArrayList<SettingsData> settingsData = new ArrayList<>();
+
+        SettingsData data = new SettingsData();
+        data.setCounterBackupOn(tickTrackDatabase.getSharedPref(context).getBoolean("counterDataBackup", false));
+        data.setTimerBackupOn(tickTrackDatabase.getSharedPref(context).getBoolean("timerDataBackup", false));
+        data.setHapticFeedback(tickTrackDatabase.isHapticEnabled());
+        data.setLastBackupTime(System.currentTimeMillis());
+        data.setSyncDataFrequency(tickTrackDatabase.getSyncFrequency());
+        data.setWifiOnly(tickTrackDatabase.isWifiOnly());
+        data.setThemeMode(tickTrackDatabase.getThemeMode());
+
+        settingsData.add(data);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(settingsData);
+
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("settingsBackupData.json", Context.MODE_PRIVATE));
+            outputStreamWriter.write(json);
+            outputStreamWriter.close();
+
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+            if(account!=null){
+                GoogleAccountCredential credential =
+                        GoogleAccountCredential.usingOAuth2(
+                                context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
+                credential.setSelectedAccount(account.getAccount());
+                Drive googleDriveService =
+                        new Drive.Builder(
+                                AndroidHttp.newCompatibleTransport(),
+                                new GsonFactory(),
+                                credential)
+                                .setApplicationName("TickTrack")
+                                .build();
+
+                gDriveHelper = new GDriveHelper(googleDriveService, context);
+                createSettingsBackup(gDriveHelper, json);
+            }
+
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+
+    }
+
+    private void createSettingsBackup(GDriveHelper gDriveHelper, String json) {
+        gDriveHelper.createSettingsBackup("settingsBackup.json")
+                .addOnSuccessListener(s -> {
+                    if(s.first==1){
+                        openGDriveFile(gDriveHelper, s.second, json, "settingsBackup.json");
+                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
+                    } else {
+                        createCounterBackup(gDriveHelper, json);
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
+    }
 
     private void readFile(GDriveHelper gDriveHelper, String fileId, String jsonContent, String fileName) {
         if (gDriveHelper != null) {
@@ -285,13 +281,17 @@ public class JsonHelper {
 
             gDriveHelper.readFile(fileId)
                     .addOnSuccessListener(nameAndContent -> {
-                        String name = nameAndContent.first;
-                        String content = nameAndContent.second;
+                        if(nameAndContent.first!=null && nameAndContent.second!=null){
+                            String name = nameAndContent.first;
+                            String content = nameAndContent.second;
 
-                        System.out.println(name);
-                        System.out.println(content);
+                            System.out.println(name);
+                            System.out.println(content);
 
-                        saveFile(fileId, gDriveHelper, jsonContent, fileName);
+                            saveFile(fileId, gDriveHelper, jsonContent, fileName);
+                        } else {
+                            openGDriveFile(gDriveHelper, fileId, jsonContent, fileName);
+                        }
                     })
                     .addOnFailureListener(exception ->
                             Log.e("TAG", "Couldn't read file.", exception));
@@ -302,12 +302,23 @@ public class JsonHelper {
             Log.d("TAG", "Saving " + fileID);
             gDriveHelper.saveFile(fileID, fileName, jsonContent)
                     .addOnSuccessListener(aVoid -> {
-                        if(fileName.equals("counterBackup.json")){
-                            System.out.println("COUNTER BACKUP DONE");
-                            tickTrackFirebaseDatabase.setCounterBackupComplete(true);
-                        } else if(fileName.equals("timerBackup.json")){
-                            System.out.println("TIMER BACKUP DONE");
-                            tickTrackFirebaseDatabase.setTimerBackupComplete(true);
+                        if(aVoid==1){
+                            switch (fileName) {
+                                case "counterBackup.json":
+                                    System.out.println("Counter BACKUP DONE");
+                                    tickTrackFirebaseDatabase.setCounterBackupComplete(true);
+                                    break;
+                                case "timerBackup.json":
+                                    System.out.println("Timer BACKUP DONE");
+                                    tickTrackFirebaseDatabase.setTimerBackupComplete(true);
+                                    break;
+                                case "settingsBackup.json":
+                                    System.out.println("Settings BACKUP DONE");
+                                    tickTrackFirebaseDatabase.setSettingsBackupComplete(true);
+                                    break;
+                            }
+                        } else {
+                            saveFile(fileID, gDriveHelper, jsonContent, fileName);
                         }
                     })
                     .addOnFailureListener(exception ->

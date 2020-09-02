@@ -27,12 +27,11 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.theflopguyproductions.ticktrack.GDriveHelper;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
+import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
@@ -247,11 +246,10 @@ public class FirebaseHelper {
                 .addOnFailureListener(e -> System.out.println("ERROR FIREBASE" + e));
     }
 
-    private ArrayList<TimerData> timerLocalDataList = new ArrayList<>();
-    private ArrayList<CounterData> counterLocalDataList = new ArrayList<>();
-
+    private ArrayList<SettingsData> settingsData = new ArrayList<>();
     private void initPreferences() {
-        tickTrackDatabase.setThemeMode(tickTrackFirebaseDatabase.getRestoreThemeMode());
+        settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
+        tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
         System.out.println("INITIALISED PREFERENCES");
     }
 

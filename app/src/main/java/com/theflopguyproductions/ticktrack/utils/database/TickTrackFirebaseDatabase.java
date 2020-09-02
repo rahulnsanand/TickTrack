@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver;
+import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
 
 import java.lang.reflect.Type;
@@ -76,44 +77,13 @@ public class TickTrackFirebaseDatabase {
         return sharedPreferences.getLong("lastBackupTime",-1);
     }
 
-    public void storeSyncFrequency(int id){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("syncFrequency", id);
-        editor.apply();
-    }
-    public int getSyncFrequency(){
-        return sharedPreferences.getInt("syncFrequency",1);
-    }
 
-    public void setCounterDataBackup(boolean id){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("counterDataBackup", id);
-        editor.apply();
-    }
-    public void setTimerDataBackup(boolean id){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("timerDataBackup", id);
-        editor.apply();
-    }
     public void setPreferencesDataBackup(boolean id){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("preferencesDataBackup", id);
         editor.apply();
     }
-    public ArrayList<Integer> getBackupDataOptions(){
-        ArrayList<Integer> options = new ArrayList<>();
-        if(sharedPreferences.getBoolean("preferencesDataBackup", true)){
-            options.add(1);
-        }
-        if(sharedPreferences.getBoolean("timerDataBackup", false)){
-            options.add(2);
-        }
-        if(sharedPreferences.getBoolean("counterDataBackup", true)){
-            options.add(3);
-        }
 
-        return options;
-    }
     public void setRestoreInitMode(int value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("restoreInitMode", value);
@@ -231,6 +201,23 @@ public class TickTrackFirebaseDatabase {
     }
     public int getRetrievedLastBackupTime(){
         return sharedPreferences.getInt("retrievedLastBackupTime",-1);
+    }
+    public void storeSettingsRestoredData(ArrayList<SettingsData> settingsData){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(settingsData);
+        editor.putString("settingsRestoreData", json);
+        editor.apply();
+    }
+    public ArrayList<SettingsData> retrieveSettingsRestoredData(){
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("settingsRestoreData", null);
+        Type type = new TypeToken<ArrayList<SettingsData>>() {}.getType();
+        ArrayList<SettingsData> settingsData = gson.fromJson(json, type);
+        if(settingsData == null){
+            settingsData = new ArrayList<>();
+        }
+        return settingsData;
     }
 
     public void setRestoreCompleteStatus(int mode){

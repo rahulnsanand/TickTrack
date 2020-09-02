@@ -26,6 +26,8 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
 
+import java.util.ArrayList;
+
 public class RestoreFragment extends Fragment {
 
     private TickTrackDatabase tickTrackDatabase;
@@ -122,6 +124,7 @@ public class RestoreFragment extends Fragment {
             }
         });
         startFreshButton.setOnClickListener(view -> {
+            tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
             tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
             tickTrackFirebaseDatabase.setRestoreInitMode(0);
             tickTrackFirebaseDatabase.storeTimerRestoreString("");

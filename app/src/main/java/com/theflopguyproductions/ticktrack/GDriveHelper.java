@@ -90,6 +90,33 @@ public class GDriveHelper {
             return Pair.create(0, null);
         });
     }
+    public Task<Pair<Integer, String>> createSettingsBackup(String filename) {
+        return Tasks.call(mExecutor, () -> {
+            if(InternetChecker.isOnline(context)){
+                File fileMetadata = new File();
+                fileMetadata.setName(filename);
+                fileMetadata.setParents(Collections.singletonList("appDataFolder"));
+
+                java.io.File directory = context.getFilesDir();
+                java.io.File file = new java.io.File(directory, "settingsBackupData.json");
+                FileContent mediaContent = new FileContent("application/json", file);
+
+                File uploadFile = new File();
+                try {
+                    uploadFile = mDriveService.files().create(fileMetadata, mediaContent)
+                            .setFields("id")
+                            .execute();
+                    System.out.println("File ID: " + uploadFile.getId());
+                    return Pair.create(1, uploadFile.getId());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                return Pair.create(-1, null);
+            }
+            return Pair.create(0, null);
+        });
+    }
 
     /**
      * Opens the file identified by {@code fileId} and returns a {@link Pair} of its name and
@@ -97,22 +124,26 @@ public class GDriveHelper {
      */
     public Task<Pair<String, String>> readFile(String fileId) {
         return Tasks.call(mExecutor, () -> {
-            // Retrieve the metadata as a File object.
-            File metadata = mDriveService.files().get(fileId).execute();
-            String name = metadata.getName();
+            if(InternetChecker.isOnline(context)){
+                // Retrieve the metadata as a File object.
+                File metadata = mDriveService.files().get(fileId).execute();
+                String name = metadata.getName();
 
-            // Stream the file contents to a String.
-            try (InputStream is = mDriveService.files().get(fileId).executeMediaAsInputStream();
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
+                // Stream the file contents to a String.
+                try (InputStream is = mDriveService.files().get(fileId).executeMediaAsInputStream();
+                     BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
 
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    String contents = stringBuilder.toString();
+                    System.out.println(contents);
+                    return Pair.create(name, contents);
                 }
-                String contents = stringBuilder.toString();
-
-                return Pair.create(name, contents);
+            } else {
+                return Pair.create(null, null);
             }
         });
     }
@@ -124,15 +155,19 @@ public class GDriveHelper {
      */
     public Task<Void> saveFile(String fileId, String name, String content) {
         return Tasks.call(mExecutor, () -> {
-            // Create a File containing any metadata changes.
-            File metadata = new File().setName(name);
+            if(InternetChecker.isOnline(context)){
+                // Create a File containing any metadata changes.
+                File metadata = new File().setName(name);
 
-            // Convert content to an AbstractInputStreamContent instance.
-            ByteArrayContent contentStream = ByteArrayContent.fromString("text/json", content);
+                // Convert content to an AbstractInputStreamContent instance.
+                ByteArrayContent contentStream = ByteArrayContent.fromString("text/json", content);
 
-            // Update the metadata and contents.
-            mDriveService.files().update(fileId, metadata, contentStream).execute();
-            return null;
+                // Update the metadata and contents.
+                mDriveService.files().update(fileId, metadata, contentStream).execute();
+                return 1;
+            } else {
+                return -1;
+            }
         });
     }
 

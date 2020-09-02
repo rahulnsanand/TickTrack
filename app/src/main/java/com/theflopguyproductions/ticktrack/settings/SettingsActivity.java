@@ -138,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
     private void setupSyncFreqOptionText(){
         String frequencyOption = "";
-        int opt = tickTrackFirebaseDatabase.getSyncFrequency();
+        int opt = tickTrackDatabase.getSyncFrequency();
         if(opt==1){
             frequencyOption = "Monthly";
             monthlyButton.setChecked(true);
@@ -155,7 +155,7 @@ public class SettingsActivity extends AppCompatActivity {
         syncDataFrequency.setText(frequencyOption);
     }
     private void setupDataOptionsText(){
-        ArrayList<Integer> optionsBackup = tickTrackFirebaseDatabase.getBackupDataOptions();
+        ArrayList<Integer> optionsBackup = tickTrackDatabase.getBackupDataOptions();
         String options = "";
         if(optionsBackup.contains(1)){
             options += "Preferences";
@@ -317,25 +317,25 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupClickListeners() {
 
         monthlyButton.setOnClickListener((view) -> {
-            tickTrackFirebaseDatabase.storeSyncFrequency(1);
+            tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.MONTHLY.getCode());
             toggleSyncOptionsLayout();
         });
         weeklyButton.setOnClickListener((view) -> {
-            tickTrackFirebaseDatabase.storeSyncFrequency(2);
+            tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.WEEKLY.getCode());
             toggleSyncOptionsLayout();
         });
         dailyButton.setOnClickListener((view) -> {
-            tickTrackFirebaseDatabase.storeSyncFrequency(3);
+            tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.DAILY.getCode());
             toggleSyncOptionsLayout();
         });
 
         darkButton.setOnClickListener((view) -> {
-            tickTrackDatabase.setThemeMode(2);
+            tickTrackDatabase.setThemeMode(SettingsData.Theme.DARK.getCode());
             toggleThemeOptionsLayout();
             refreshTheme();
         });
         lightButton.setOnClickListener((view) -> {
-            tickTrackDatabase.setThemeMode(1);
+            tickTrackDatabase.setThemeMode(SettingsData.Theme.LIGHT.getCode());
             toggleThemeOptionsLayout();
             refreshTheme();
         });
@@ -370,16 +370,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         counterCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
-                tickTrackFirebaseDatabase.setCounterDataBackup(true);
+                tickTrackDatabase.setCounterDataBackup(true);
             } else {
-                tickTrackFirebaseDatabase.setCounterDataBackup(false);
+                tickTrackDatabase.setCounterDataBackup(false);
             }
         });
         timerCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
-                tickTrackFirebaseDatabase.setTimerDataBackup(true);
+                tickTrackDatabase.setTimerDataBackup(true);
             } else {
-                tickTrackFirebaseDatabase.setTimerDataBackup(false);
+                tickTrackDatabase.setTimerDataBackup(false);
             }
         });
 

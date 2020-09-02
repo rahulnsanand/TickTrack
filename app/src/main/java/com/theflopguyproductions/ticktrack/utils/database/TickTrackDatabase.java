@@ -244,9 +244,56 @@ public class TickTrackDatabase {
         editor.apply();
     }
 
+    public void setHapticEnabled(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isHapticEnabled", value);
+        editor.apply();
+    }
+    public boolean isHapticEnabled(){
+        return sharedPreferences.getBoolean("isHapticEnabled",true);
+    }
 
-    private void setupSecureBootStorage(){
+    public void setWifiOnly(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isWifiOnly", value);
+        editor.apply();
+    }
+    public boolean isWifiOnly(){
+        return sharedPreferences.getBoolean("isWifiOnly",false);
+    }
 
+    public void storeSyncFrequency(int id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("syncFrequency", id);
+        editor.apply();
+    }
+    public int getSyncFrequency(){
+        return sharedPreferences.getInt("syncFrequency",1);
+    }
+
+    public void setCounterDataBackup(boolean id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("counterDataBackup", id);
+        editor.apply();
+    }
+    public void setTimerDataBackup(boolean id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("timerDataBackup", id);
+        editor.apply();
+    }
+    public ArrayList<Integer> getBackupDataOptions(){
+        ArrayList<Integer> options = new ArrayList<>();
+        if(sharedPreferences.getBoolean("preferencesDataBackup", true)){
+            options.add(1);
+        }
+        if(sharedPreferences.getBoolean("timerDataBackup", false)){
+            options.add(2);
+        }
+        if(sharedPreferences.getBoolean("counterDataBackup", true)){
+            options.add(3);
+        }
+
+        return options;
     }
 
 }
