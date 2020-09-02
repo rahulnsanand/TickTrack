@@ -253,15 +253,6 @@ public class TickTrackDatabase {
         return sharedPreferences.getBoolean("isHapticEnabled",true);
     }
 
-    public void setWifiOnly(boolean value){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("isWifiOnly", value);
-        editor.apply();
-    }
-    public boolean isWifiOnly(){
-        return sharedPreferences.getBoolean("isWifiOnly",false);
-    }
-
     public void storeSyncFrequency(int id){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("syncFrequency", id);

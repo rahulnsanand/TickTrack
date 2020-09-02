@@ -23,7 +23,7 @@ import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
-import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
+import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
@@ -311,7 +311,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupClickListeners();
 
-
     }
 
     private void setupClickListeners() {
@@ -356,9 +355,20 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        switchAccountOptionLayout.setOnClickListener(view -> {
+            if(isMyServiceRunning(BackupRestoreService.class, getApplicationContext())){
+                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+            } else {
+                if(firebaseHelper.isUserSignedIn()){
+                    firebaseHelper.switchAccount(activity);
+                    toggleGoogleAccountOptionsLayout();
+                }
+            }
+        });
+
         disconnectAccountOptionLayout.setOnClickListener(view -> {
             if(isMyServiceRunning(BackupRestoreService.class,this)){
-                Toast.makeText(activity, "Backup/Restore Service Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
             } else {
                 if(firebaseHelper.isUserSignedIn()){
                     firebaseHelper.signOut(activity);
@@ -403,8 +413,6 @@ public class SettingsActivity extends AppCompatActivity {
             backupEmail.setText("Add an account");
         }
     }
-
-
 
     @Override
     public void onBackPressed() {

@@ -24,7 +24,7 @@ import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
-import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
+import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
 import java.util.ArrayList;
 

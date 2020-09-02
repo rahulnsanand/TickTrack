@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.utils.helpers;
+package com.theflopguyproductions.ticktrack.utils.firebase;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +25,6 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.theflopguyproductions.ticktrack.GDriveHelper;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
@@ -57,10 +56,6 @@ public class FirebaseHelper {
     private ProgressBarDialog progressBarDialog;
     private JsonHelper jsonHelper;
     private GDriveHelper gDriveHelper;
-
-    private String emailID, displayName, accountID;
-
-    private boolean  isBackupComplete = false;
 
     public FirebaseHelper(Context context) {
         this.context = context;
@@ -149,15 +144,18 @@ public class FirebaseHelper {
 
     public void restoreInit() {
         tickTrackFirebaseDatabase.setRestoreInitMode(-1);
-        if(emailID!=null){
-            firebaseFirestore.collection("TickTrackUsers").document().get()
+        notificationBuilder.setContentTitle("Signing in TickTrack Account");
+        notificationBuilder.setContentText("In progress");
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+        if(account!=null){
+            firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
                         if(queryDocumentSnapshots.exists()){
-                            Toast.makeText(context, "Welcome back, "+ displayName, Toast.LENGTH_SHORT).show();
-                            checkIfDataExists();
+                            Toast.makeText(context, "Welcome back, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            checkIfDataExists(account);
                         } else {
-                            Toast.makeText(context, "Welcome, "+ displayName, Toast.LENGTH_SHORT).show();
-                            setupInitUserData();
+                            Toast.makeText(context, "Welcome, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            setupInitUserData(account);
                         }
                         if(tickTrackDatabase.retrieveFirstLaunch()){
                             deviceInfoUpdate(account);
@@ -167,21 +165,45 @@ public class FirebaseHelper {
             });
         }
     }
-    private void setupInitUserData() {
+
+    private void deviceInfoUpdate(GoogleSignInAccount account) {
+        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).collection("Devices").document(Build.MODEL).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.exists()){
+                        Map<String, Object> deviceMap = new HashMap<>();
+                        deviceMap.put("deviceAddMoment", System.currentTimeMillis());
+                        deviceMap.put("deviceLocaleCountry", context.getResources().getConfiguration().locale.getCountry());
+                        deviceMap.put("deviceLocaleLanguage", context.getResources().getConfiguration().locale.getLanguage());
+                        deviceMap.put("deviceManufacturer", Build.MANUFACTURER);
+                        deviceMap.put("deviceModel", Build.MODEL);
+                        deviceMap.put("deviceSDKVersionInt", Build.VERSION.SDK_INT);
+                        deviceMap.put("deviceSDKVersionCode", Build.VERSION.CODENAME);
+                        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).collection("Devices").document(Build.MODEL).get()
+                                .addOnSuccessListener(documentReference -> {
+                                    firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).collection("Devices").document(Build.MODEL).set(deviceMap);
+                                    completedFragmentTask();
+                                })
+                                .addOnFailureListener(e -> {
+                                    System.out.println("ERROR FIREBASE"+e);
+                                });
+                    }
+                }).addOnFailureListener(e -> {
+        });
+    }
+
+    private void setupInitUserData(GoogleSignInAccount account) {
         Map<String, Object> user = new HashMap<>();
         user.put("accountCreateTime", System.currentTimeMillis());
         user.put("isProUser", false);
         user.put("lastBackupTime", -1);
-        user.put("timerCount", 0);
-        user.put("counterCount", 0);
         user.put("themeMode", -1);
         user.put("localeCountry", context.getResources().getConfiguration().locale.getCountry());
         user.put("localeLanguage", context.getResources().getConfiguration().locale.getLanguage());
 
 
-        firebaseFirestore.collection("TickTrackUsers").document(emailID).get()
+        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).get()
                 .addOnSuccessListener(documentReference -> {
-                    firebaseFirestore.collection("TickTrackUsers").document(emailID).set(user);
+                    firebaseFirestore.collection("TickTrackUsers").document(account.getEmail()).set(user);
                     completedFragmentTask();
                 })
                 .addOnFailureListener(e -> {
@@ -211,39 +233,41 @@ public class FirebaseHelper {
         context.startService(intent);
     }
 
-    private void checkIfDataExists() {
+    private void checkIfDataExists(GoogleSignInAccount account) {
 
         notificationBuilder.setContentTitle("Fetching TickTrack backup details");
         notificationBuilder.setContentText("In progress");
         notifyNotification();
 
-        firebaseFirestore.collection("TickTrackUsers").document(emailID).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    Map<String, Object> restoreMap = documentSnapshot.getData();
-                    if (restoreMap != null) {
-                        int timerCount = ((Long) Objects.requireNonNull(restoreMap.get("timerCount"))).intValue();
-                        int counterCount = ((Long) Objects.requireNonNull(restoreMap.get("counterCount"))).intValue();
-                        int themeMode = ((Long) Objects.requireNonNull(restoreMap.get("themeMode"))).intValue();
-                        long lastBackup = ((Long) Objects.requireNonNull(restoreMap.get("lastBackupTime"))).intValue();
-                        if (counterCount > 0) {
-                            tickTrackFirebaseDatabase.storeRetrievedCounterCount(counterCount);
-                        }
-                        if (timerCount > 0) {
-                            tickTrackFirebaseDatabase.storeRetrievedTimerCount(timerCount);
-                        }
-                        if (themeMode != -1) { //TODO ADD OTHER PREFERENCES AS || STATEMENTS
-                            tickTrackFirebaseDatabase.foundPreferencesDataBackup(true);
-                            tickTrackFirebaseDatabase.setRestoreThemeMode(themeMode);
-                        }
-                        if (lastBackup != -1) {
-                            tickTrackFirebaseDatabase.storeRetrievedLastBackupTime(lastBackup);
-                        }
+        GoogleAccountCredential credential =
+                GoogleAccountCredential.usingOAuth2(
+                        context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
+        credential.setSelectedAccount(account.getAccount());
+        Drive googleDriveService =
+                new Drive.Builder(
+                        AndroidHttp.newCompatibleTransport(),
+                        new GsonFactory(),
+                        credential)
+                        .setApplicationName("TickTrack")
+                        .build();
+
+        gDriveHelper = new GDriveHelper(googleDriveService, context);
+
+        retrieveDataInit(gDriveHelper);
+
+    }
+
+    private void retrieveDataInit(GDriveHelper gDriveHelper) {
+        gDriveHelper.checkData(tickTrackFirebaseDatabase)
+                .addOnSuccessListener(isSuccess -> {
+                    System.out.println("Success happened on restore INIT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                    if(isSuccess==1){
                         tickTrackFirebaseDatabase.setRestoreInitMode(1);
-                    } else {
-                        setupInitUserData();
+                    } else if(isSuccess==-1) {
+                        retrieveDataInit(gDriveHelper);
                     }
-                })
-                .addOnFailureListener(e -> System.out.println("ERROR FIREBASE" + e));
+                }).addOnFailureListener(exception ->
+                Log.e("TAG", "Couldn't read file.", exception));
     }
 
     private void initPreferences() {
@@ -254,7 +278,6 @@ public class FirebaseHelper {
         tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
         tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
         tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
-        tickTrackDatabase.setWifiOnly(settingsData.get(0).isWifiOnly());
         System.out.println("INITIALISED PREFERENCES");
         tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
     }
@@ -265,13 +288,26 @@ public class FirebaseHelper {
         jsonHelper.createBackup();
     }
 
+    Handler backupCheckHandler = new Handler();
+    Runnable backupCheckRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(tickTrackFirebaseDatabase.isCounterBackupComplete() && tickTrackFirebaseDatabase.isTimerBackupComplete() && tickTrackFirebaseDatabase.isSettingsBackupComplete()){
+                tickTrackFirebaseDatabase.setBackupMode(false);
+                backupCheckHandler.removeCallbacks(backupCheckRunnable);
+            } else {
+                backupCheckHandler.post(backupCheckRunnable);
+            }
+        }
+    };
+
     public void restore() {
         notificationBuilder.setContentTitle("Restoring TickTracK Data");
         notificationBuilder.setContentText("In progress");
         restoreCheckHandler.post(restoreCheckRunnable);
         initPreferences();
-//        jsonHelper.restoreCounterData();
-//        jsonHelper.restoreTimerData();
+        jsonHelper.restoreCounterData();
+        jsonHelper.restoreTimerData();
     }
 
     Handler restoreCheckHandler = new Handler();
@@ -291,11 +327,6 @@ public class FirebaseHelper {
         }
     };
 
-
-    public boolean backupComplete(){
-        return isBackupComplete;
-    }
-
     public void signOut(Activity activity) {
         progressBarDialog = new ProgressBarDialog(activity);
         progressBarDialog.show();
@@ -311,6 +342,31 @@ public class FirebaseHelper {
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
                 tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
                 Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(activity, "Not signed out, try again", Toast.LENGTH_SHORT).show();
+            }
+            progressBarDialog.dismiss();
+        });
+    }
+    public void switchAccount(Activity activity) {
+        progressBarDialog = new ProgressBarDialog(activity);
+        progressBarDialog.show();
+        progressBarDialog.setContentText("Signing out");
+        progressBarDialog.titleText.setVisibility(View.GONE);
+        googleSignInClient.signOut().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                tickTrackFirebaseDatabase.cancelBackUpAlarm();
+                tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
+                tickTrackFirebaseDatabase.setRestoreInitMode(0);
+                tickTrackFirebaseDatabase.setRestoreMode(false);
+                tickTrackFirebaseDatabase.setBackupMode(false);
+                tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
+                tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
+                Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
+                tickTrackDatabase.storeStartUpFragmentID(2);
+                Intent startUpSignInIntent = new Intent(activity, StartUpActivity.class);
+                startUpSignInIntent.setAction(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD);
+                activity.startActivity(startUpSignInIntent);
             } else {
                 Toast.makeText(activity, "Not signed out, try again", Toast.LENGTH_SHORT).show();
             }

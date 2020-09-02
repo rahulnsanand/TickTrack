@@ -1,11 +1,6 @@
-package com.theflopguyproductions.ticktrack;
+package com.theflopguyproductions.ticktrack.utils.firebase;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.OpenableColumns;
 import android.util.Pair;
 
 import com.google.android.gms.tasks.Task;
@@ -15,13 +10,20 @@ import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
+import com.theflopguyproductions.ticktrack.settings.SettingsData;
+import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -35,7 +37,10 @@ public class GDriveHelper {
         this.context = context;
     }
 
-    public Task<String> createTimerBackup(String filename) {
+
+
+
+    public Task<Pair<Integer, String>> createTimerBackup(String filename) {
         return Tasks.call(mExecutor, () -> {
 
             if(InternetChecker.isOnline(context)){
@@ -148,12 +153,7 @@ public class GDriveHelper {
         });
     }
 
-
-    /**
-     * Updates the file identified by {@code fileId} with the given {@code name} and {@code
-     * content}.
-     */
-    public Task<Void> saveFile(String fileId, String name, String content) {
+    public Task<Integer> saveFile(String fileId, String name, String content) {
         return Tasks.call(mExecutor, () -> {
             if(InternetChecker.isOnline(context)){
                 // Create a File containing any metadata changes.
@@ -170,66 +170,126 @@ public class GDriveHelper {
             }
         });
     }
-
-    /**
-     * Returns a {@link FileList} containing all the visible files in the user's My Drive.
-     *
-     * <p>The returned list will only contain files visible to this app, i.e. those which were
-     * created by this app. To perform operations on files not created by the app, the project must
-     * request Drive Full Scope in the <a href="https://play.google.com/apps/publish">Google
-     * Developer's Console</a> and be submitted to Google for verification.</p>
-     */
-    public Task<FileList> queryFiles() {
-        return Tasks.call(mExecutor, new Callable<FileList>() {
-            @Override
-            public FileList call() throws Exception {
-                return mDriveService.files().list().setSpaces("appDataFolder").execute();
-            }
-        });
-    }
-
-    /**
-     * Returns an {@link Intent} for opening the Storage Access Framework file picker.
-     */
-    public Intent createFilePickerIntent() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/json");
-
-        return intent;
-    }
-
-    /**
-     * Opens the file at the {@code uri} returned by a Storage Access Framework {@link Intent}
-     * created by {@link #createFilePickerIntent()} using the given {@code contentResolver}.
-     */
-    public Task<Pair<String, String>> openFileUsingStorageAccessFramework(
-            ContentResolver contentResolver, Uri uri) {
+    public Task<Void> readAllFiles() {
         return Tasks.call(mExecutor, () -> {
-            // Retrieve the document's display name from its metadata.
-            String name;
-            try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    name = cursor.getString(nameIndex);
-                } else {
-                    throw new IOException("Empty cursor returned for file.");
+                FileList files;
+                try {
+                    files = mDriveService.files().list()
+                            .setSpaces("appDataFolder")
+                            .setFields("nextPageToken, files(id, name)")
+                            .setPageSize(10)
+                            .execute();
+                    for (File file : files.getFiles()) {
+                        System.out.printf("Found file: %s (%s)\n",
+                                file.getName(), file.getId());
+                        readFile(file.getId());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }
-
-            // Read the document's contents as a String.
-            String content;
-            try (InputStream is = contentResolver.openInputStream(uri);
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                content = stringBuilder.toString();
-            }
-
-            return Pair.create(name, content);
+            return null;
         });
     }
+
+    public Task<Integer> clearData() {
+        return Tasks.call(mExecutor, () -> {
+            if(InternetChecker.isOnline(context)){
+                try {
+                    FileList files;
+                    files = mDriveService.files().list()
+                            .setSpaces("appDataFolder")
+                            .setFields("nextPageToken, files(id, name)")
+                            .setPageSize(10)
+                            .execute();
+                    for (File file : files.getFiles()) {
+                        System.out.println(file.getName()+" FILE DELETED");
+                        mDriveService.files().delete(file.getId()).execute();
+                    }
+                    return 1;
+                } catch (IOException e) {
+                    System.out.println("An error occurred: " + e);
+                }
+            } else {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
+
+    public Task<Integer> checkData(TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {
+
+        return Tasks.call(mExecutor, () -> {
+            FileList files;
+            String contents;
+            if(InternetChecker.isOnline(context)){
+                try {
+                    files = mDriveService.files().list()
+                            .setSpaces("appDataFolder")
+                            .setFields("nextPageToken, files(id, name)")
+                            .setPageSize(10)
+                            .execute();
+                    for (File file : files.getFiles()) {
+                        System.out.printf("Found file: %s (%s)\n",
+                                file.getName(), file.getId());
+                        try (InputStream is = mDriveService.files().get(file.getId()).executeMediaAsInputStream();
+                             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            String line;
+
+                            while ((line = reader.readLine()) != null) {
+                                stringBuilder.append(line);
+                            }
+                            contents = stringBuilder.toString();
+                        }
+                        if(file.getName().equals("counterBackup.json")){
+                            tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
+                            setupCounterCount(contents, tickTrackFirebaseDatabase);
+                        } else if (file.getName().equals("timerBackup.json")){
+                            tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
+                            setupTimerCount(contents, tickTrackFirebaseDatabase);
+                        } else  if(file.getName().equals("settingsBackup.json")){
+                            setupPreferencesExist(contents, tickTrackFirebaseDatabase);
+                        }
+                    }
+                    return 1;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
+    private void setupPreferencesExist(String contents, TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SettingsData>>() {}.getType();
+        ArrayList<SettingsData> settingsData = gson.fromJson(contents, type);
+        if(settingsData == null){
+            settingsData = new ArrayList<>();
+        }
+        tickTrackFirebaseDatabase.storeSettingsRestoredData(settingsData);
+        tickTrackFirebaseDatabase.storeRetrievedLastBackupTime(settingsData.get(0).getLastBackupTime());
+    }
+    private void setupTimerCount(String contents, TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
+        ArrayList<TimerBackupData> timerBackupData = gson.fromJson(contents, type);
+        if(timerBackupData == null){
+            timerBackupData = new ArrayList<>();
+        }
+        tickTrackFirebaseDatabase.storeRetrievedTimerCount(timerBackupData.size());
+    }
+    private void setupCounterCount(String contents, TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
+        ArrayList<CounterBackupData> counterBackupData = gson.fromJson(contents, type);
+        if(counterBackupData == null){
+            counterBackupData = new ArrayList<>();
+        }
+        tickTrackFirebaseDatabase.storeRetrievedCounterCount(counterBackupData.size());
+    }
+
 }

@@ -11,7 +11,7 @@ import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
-import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
+import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimerManagementHelper;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.utils.helpers;
+package com.theflopguyproductions.ticktrack.utils.firebase;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,10 +11,8 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.FileList;
 import com.google.gson.Gson;
-import com.theflopguyproductions.ticktrack.GDriveHelper;
+import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
@@ -25,6 +23,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatab
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -61,6 +60,8 @@ public class JsonHelper {
 
         if(timerBackupData.size()>0){
             compareTimerList(timerBackupData);
+        } else {
+            tickTrackFirebaseDatabase.setTimerBackupComplete(true);
         }
     }
     private void compareTimerList(ArrayList<TimerBackupData> newBackupTimer) {
@@ -97,14 +98,14 @@ public class JsonHelper {
         if(account!=null){
             GoogleAccountCredential credential =
                     GoogleAccountCredential.usingOAuth2(
-                            context, Collections.singleton(DriveScopes.DRIVE_FILE));
+                            context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
             credential.setSelectedAccount(account.getAccount());
             Drive googleDriveService =
                     new Drive.Builder(
                             AndroidHttp.newCompatibleTransport(),
                             new GsonFactory(),
                             credential)
-                            .setApplicationName("TicKTrack")
+                            .setApplicationName("TickTrack")
                             .build();
 
             gDriveHelper = new GDriveHelper(googleDriveService, context);
@@ -144,6 +145,8 @@ public class JsonHelper {
 
         if(counterBackupData.size()>0){
             compareCounterList(counterBackupData);
+        } else {
+            tickTrackFirebaseDatabase.setCounterBackupComplete(true);
         }
     }
     private void compareCounterList(ArrayList<CounterBackupData> newBackupCounter) {
@@ -179,25 +182,18 @@ public class JsonHelper {
         if(account!=null){
             GoogleAccountCredential credential =
                     GoogleAccountCredential.usingOAuth2(
-                            context, Collections.singleton(DriveScopes.DRIVE_FILE));
+                            context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
             credential.setSelectedAccount(account.getAccount());
             Drive googleDriveService =
                     new Drive.Builder(
                             AndroidHttp.newCompatibleTransport(),
                             new GsonFactory(),
                             credential)
-                            .setApplicationName("TicKTrack")
+                            .setApplicationName("TickTrack")
                             .build();
 
             gDriveHelper = new GDriveHelper(googleDriveService, context);
-            gDriveHelper.createCounterBackup("counterBackup.json")
-                    .addOnSuccessListener(s -> {
-                                readFile(gDriveHelper, s, jsonObject, "counterBackup.json");
-                                Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
-                            })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
-
+            createCounterBackup(gDriveHelper, jsonObject);
         }
     }
 
@@ -223,7 +219,6 @@ public class JsonHelper {
         data.setHapticFeedback(tickTrackDatabase.isHapticEnabled());
         data.setLastBackupTime(System.currentTimeMillis());
         data.setSyncDataFrequency(tickTrackDatabase.getSyncFrequency());
-        data.setWifiOnly(tickTrackDatabase.isWifiOnly());
         data.setThemeMode(tickTrackDatabase.getThemeMode());
 
         settingsData.add(data);
@@ -268,14 +263,56 @@ public class JsonHelper {
                         openGDriveFile(gDriveHelper, s.second, json, "settingsBackup.json");
                         Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
                     } else {
-                        createCounterBackup(gDriveHelper, json);
+                        createSettingsBackup(gDriveHelper, json);
                     }
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
     }
 
-    private void readFile(GDriveHelper gDriveHelper, String fileId, String jsonContent, String fileName) {
+    public void createBackup(){
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+        if(account!=null) {
+            if(InternetChecker.isOnline(context)){
+                GoogleAccountCredential credential =
+                        GoogleAccountCredential.usingOAuth2(
+                                context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
+                credential.setSelectedAccount(account.getAccount());
+                Drive googleDriveService =
+                        new Drive.Builder(
+                                AndroidHttp.newCompatibleTransport(),
+                                new GsonFactory(),
+                                credential)
+                                .setApplicationName("TickTrack")
+                                .build();
+                gDriveHelper = new GDriveHelper(googleDriveService, context);
+                clearDataSetup(gDriveHelper);
+            } else {
+                createBackup();
+            }
+        }
+    }
+
+    private void clearDataSetup(GDriveHelper gDriveHelper) {
+        gDriveHelper.clearData().addOnSuccessListener(resultInt -> {
+            if(resultInt==1){
+                System.out.println("CLEAR DATA HAPPENED");
+                timerDataBackup(tickTrackDatabase.retrieveTimerList());
+                counterDataBackup(tickTrackDatabase.retrieveCounterList());
+                preferencesDataBackup();
+            } else if(resultInt==0){
+                System.out.println("EXCEPTION CAUGHT");
+            } else {
+                System.out.println("CLEAR DATA FAILED");
+                clearDataSetup(gDriveHelper);
+            }
+        }).addOnFailureListener(e -> Toast.makeText(context, "Deletion Error", Toast.LENGTH_SHORT).show());
+    }
+
+
+
+
+    private void openGDriveFile(GDriveHelper gDriveHelper, String fileId, String jsonContent, String fileName) {
         if (gDriveHelper != null) {
             Log.d("TAG", "Reading file " + fileId);
 
@@ -329,64 +366,35 @@ public class JsonHelper {
     /**
      * Restoring functions of counter and timer
      */
-//    public void restoreCounterData(){
-//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("CounterData");
-//        StorageReference counterRef = storageRef.child("counterData.json");
-//        File directory = context.getFilesDir();
-//        try {
-//            File local = File.createTempFile("counterRetrievedBackupData", "json", directory);
-//            counterRef.getFile(local).addOnFailureListener(exception -> {
-//                int errorCode = ((StorageException) exception).getErrorCode();
-//                if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
-//                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
-//                } else {
-//                    tickTrackFirebaseDatabase.setCounterDownloadStatus(-1);
-//                }
-//                Toast.makeText(context, "Counter Download Failed", Toast.LENGTH_SHORT).show();
-//            }).addOnSuccessListener(taskSnapshot -> {
-//                Toast.makeText(context, "Counter Download Success", Toast.LENGTH_SHORT).show();
-//                try {
-//                    InputStream is = new FileInputStream(local);
-//                    BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String line = buf.readLine();
-//                    StringBuilder sb = new StringBuilder();
-//                    while(line != null){
-//                        sb.append(line);
-//                        line = buf.readLine();
-//                    }
-//                    String fileAsString = sb.toString();
-//                    Gson gson = new Gson();
-//                    Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
-//                    ArrayList<CounterBackupData> counterBackupData = gson.fromJson(fileAsString, type);
-//                    tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
-//
-//
-//                    for(int i=0; i<counterBackupData.size(); i++){
-//                        CounterData newCounter = new CounterData();
-//                        newCounter.setCounterID(counterBackupData.get(i).getCounterID());
-//                        newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
-//                        newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
-//                        newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
-//                        newCounter.setCounterFlag(counterBackupData.get(i).getCounterFlag());
-//                        newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
-//                        newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
-//                        newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
-//
-//                        mergeCounterData(newCounter);
-//
-//                    }
-//                    Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
-//
-//                    tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
-//                } catch (IOException ex) {
-//                    //TODO HANDLE EXCEPTION
-//                    ex.printStackTrace();
-//                }
-//            });
-//        } catch (IOException e) {
-//            //TODO HANDLE EXCEPTION
-//            e.printStackTrace();
-//        }
-//    }
+    public void restoreCounterData(){
+
+        String jsonString = tickTrackFirebaseDatabase.getCounterRestoreString();
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
+        ArrayList<CounterBackupData> counterBackupData = gson.fromJson(jsonString, type);
+        tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
+
+
+        for(int i=0; i<counterBackupData.size(); i++){
+            CounterData newCounter = new CounterData();
+            newCounter.setCounterID(counterBackupData.get(i).getCounterID());
+            newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
+            newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
+            newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
+            newCounter.setCounterFlag(counterBackupData.get(i).getCounterFlag());
+            newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
+            newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
+            newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
+
+            mergeCounterData(newCounter);
+
+        }
+        Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
+
+        tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
+
+    }
     private void mergeCounterData(CounterData counterData) {
         boolean isNew = true;
         ArrayList<CounterData> counterLocalData = tickTrackDatabase.retrieveCounterList();
@@ -403,65 +411,34 @@ public class JsonHelper {
         }
     }
 
-//    public void restoreTimerData(){
-//        StorageReference storageRef = storage.getReference().child("TickTrackBackups").child("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("TimerData");
-//        StorageReference timerRef = storageRef.child("timerData.json");
-//
-//        File directory = context.getFilesDir();
-//        try {
-//            File local = File.createTempFile("timerRetrievedBackupData", "json", directory);
-//            timerRef.getFile(local).addOnFailureListener(exception -> {
-//                int errorCode = ((StorageException) exception).getErrorCode();
-//                if(errorCode==StorageException.ERROR_OBJECT_NOT_FOUND){
-//                    tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
-//                } else {
-//                    tickTrackFirebaseDatabase.setTimerDownloadStatus(-1);
-//                }
-//                Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
-//            }).addOnSuccessListener(taskSnapshot -> {
-//                try {
-//                    InputStream is = new FileInputStream(local);
-//                    BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String line = buf.readLine();
-//                    StringBuilder sb = new StringBuilder();
-//                    while(line != null){
-//                        sb.append(line);
-//                        line = buf.readLine();
-//                    }
-//                    String fileAsString = sb.toString();
-//                    Gson gson = new Gson();
-//                    Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
-//                    ArrayList<TimerBackupData> timerBackupData = gson.fromJson(fileAsString, type);
-//
-//                    for(int i=0; i<timerBackupData.size(); i++){
-//                        TimerData newTimer = new TimerData();
-//                        newTimer.setTimerID(timerBackupData.get(i).getTimerID());
-//                        newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
-//                        newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
-//                        newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
-//                        newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
-//                        newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
-//                        newTimer.setTimerSecond(timerBackupData.get(i).getTimerSecond());
-//                        newTimer.setTimerLabel(timerBackupData.get(i).getTimerLabel());
-//                        newTimer.setTimerStartTimeInMillis(-1);
-//                        newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
-//                        newTimer.setTimerPause(false);
-//                        newTimer.setTimerOn(false);
-//
-//                        mergeTimerData(newTimer);
-//                    }
-//                    Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
-//                } catch (IOException ex) {
-//                    //TODO HANDLE EXCEPTION
-//                    ex.printStackTrace();
-//                }
-//                Toast.makeText(context, "Download Success", Toast.LENGTH_SHORT).show();
-//                tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
-//            });
-//        } catch (IOException e) {
-//            //TODO HANDLE EXCEPTION
-//            e.printStackTrace();
-//        }
-//    }
+    public void restoreTimerData(){
+
+        String jsonContent = tickTrackFirebaseDatabase.getTimerRestoreString();
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
+        ArrayList<TimerBackupData> timerBackupData = gson.fromJson(jsonContent, type);
+
+        for(int i=0; i<timerBackupData.size(); i++){
+            TimerData newTimer = new TimerData();
+            newTimer.setTimerID(timerBackupData.get(i).getTimerID());
+            newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
+            newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
+            newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
+            newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
+            newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
+            newTimer.setTimerSecond(timerBackupData.get(i).getTimerSecond());
+            newTimer.setTimerLabel(timerBackupData.get(i).getTimerLabel());
+            newTimer.setTimerStartTimeInMillis(-1);
+            newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
+            newTimer.setTimerPause(false);
+            newTimer.setTimerOn(false);
+
+            mergeTimerData(newTimer);
+        }
+        Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
+        tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
+    }
     private void mergeTimerData(TimerData timerData) {
         boolean isNew = true;
         ArrayList<TimerData> timerLocalData = tickTrackDatabase.retrieveTimerList();
@@ -478,35 +455,6 @@ public class JsonHelper {
         }
     }
 
-    public void readAllFiles() {
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
-        if (account != null) {
-            GoogleAccountCredential credential =
-                    GoogleAccountCredential.usingOAuth2(
-                            context, Collections.singleton(DriveScopes.DRIVE_FILE));
-            credential.setSelectedAccount(account.getAccount());
-            Drive googleDriveService =
-                    new Drive.Builder(
-                            AndroidHttp.newCompatibleTransport(),
-                            new GsonFactory(),
-                            credential)
-                            .setApplicationName("TicKTrack")
-                            .build();
-            FileList files;
-            try {
-                files = googleDriveService.files().list()
-                        .setSpaces("appDataFolder")
-                        .setFields("nextPageToken, files(id, name)")
-                        .setPageSize(10)
-                        .execute();
-                for (File file : files.getFiles()) {
-                    System.out.printf("Found file: %s (%s)\n",
-                            file.getName(), file.getId());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
 }

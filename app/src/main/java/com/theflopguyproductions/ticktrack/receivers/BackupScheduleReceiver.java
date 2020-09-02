@@ -24,6 +24,9 @@ public class BackupScheduleReceiver extends BroadcastReceiver {
 
     private void startBackupService(Context context) {
         tickTrackFirebaseDatabase.setBackupMode(true);
+        tickTrackFirebaseDatabase.setCounterBackupComplete(false);
+        tickTrackFirebaseDatabase.setTimerBackupComplete(false);
+        tickTrackFirebaseDatabase.setSettingsBackupComplete(false);
         Intent intent = new Intent(context, BackupRestoreService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(BackupRestoreService.RESTORE_SERVICE_START_BACKUP);

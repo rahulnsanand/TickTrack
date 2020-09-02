@@ -24,7 +24,7 @@ public class SettingsData {
     }
 
     int themeMode, syncDataFrequency;
-    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn, isWifiOnly;
+    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn;
     long lastBackupTime;
 
     public long getLastBackupTime() {
@@ -33,14 +33,6 @@ public class SettingsData {
 
     public void setLastBackupTime(long lastBackupTime) {
         this.lastBackupTime = lastBackupTime;
-    }
-
-    public boolean isWifiOnly() {
-        return isWifiOnly;
-    }
-
-    public void setWifiOnly(boolean wifiOnly) {
-        isWifiOnly = wifiOnly;
     }
 
     public int getThemeMode() {

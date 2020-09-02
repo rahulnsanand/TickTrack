@@ -40,6 +40,7 @@ import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
+import com.theflopguyproductions.ticktrack.utils.firebase.GDriveHelper;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
