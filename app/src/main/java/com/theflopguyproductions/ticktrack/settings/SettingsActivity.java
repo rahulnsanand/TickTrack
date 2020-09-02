@@ -130,8 +130,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupLastBackupText() {
-        if(tickTrackFirebaseDatabase.getLastBackupSystemTime()!=-1){
-            syncDataLastSync.setText("Last backup at "+tickTrackFirebaseDatabase.getLastBackupSystemTime());
+        if(tickTrackDatabase.getLastBackupSystemTime()!=-1){
+            syncDataLastSync.setText("Last backup at "+tickTrackDatabase.getLastBackupSystemTime());
         } else {
             syncDataLastSync.setText("No backup yet");
         }

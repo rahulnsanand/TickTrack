@@ -296,4 +296,13 @@ public class TickTrackDatabase {
         return options;
     }
 
+    public void setLastBackupSystemTime(long timestamp){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("lastBackupTime", timestamp);
+        editor.apply();
+    }
+    public long getLastBackupSystemTime(){
+        return sharedPreferences.getLong("lastBackupTime",-1);
+    }
+
 }

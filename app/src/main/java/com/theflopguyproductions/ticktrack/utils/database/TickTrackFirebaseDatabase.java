@@ -68,16 +68,6 @@ public class TickTrackFirebaseDatabase {
         return sharedPreferences.getString("currentUserEmail","Add an account");
     }
 
-    public void storeLastBackupSystemTime(long timestamp){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong("lastBackupTime", timestamp);
-        editor.apply();
-    }
-    public long getLastBackupSystemTime(){
-        return sharedPreferences.getLong("lastBackupTime",-1);
-    }
-
-
     public void setPreferencesDataBackup(boolean id){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("preferencesDataBackup", id);

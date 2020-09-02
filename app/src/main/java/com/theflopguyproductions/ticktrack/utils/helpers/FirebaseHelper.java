@@ -246,11 +246,17 @@ public class FirebaseHelper {
                 .addOnFailureListener(e -> System.out.println("ERROR FIREBASE" + e));
     }
 
-    private ArrayList<SettingsData> settingsData = new ArrayList<>();
     private void initPreferences() {
-        settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
+        ArrayList<SettingsData> settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
         tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
+        tickTrackDatabase.setCounterDataBackup(settingsData.get(0).isCounterBackupOn());
+        tickTrackDatabase.setTimerDataBackup(settingsData.get(0).isTimerBackupOn());
+        tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
+        tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
+        tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
+        tickTrackDatabase.setWifiOnly(settingsData.get(0).isWifiOnly());
         System.out.println("INITIALISED PREFERENCES");
+        tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
     }
 
     public void backup() {
