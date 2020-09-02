@@ -1,6 +1,9 @@
 package com.theflopguyproductions.ticktrack.utils.database;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
@@ -10,14 +13,17 @@ import androidx.core.os.BuildCompat;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
+import com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver;
 import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class TickTrackFirebaseDatabase {
 
     private SharedPreferences sharedPreferences;
+    private Context context;
 
     public SharedPreferences getSharedPref(Context context){
         Context storageContext;
@@ -35,6 +41,7 @@ public class TickTrackFirebaseDatabase {
                 .getSharedPreferences("TickTrackData", Context.MODE_PRIVATE);
     }
     public TickTrackFirebaseDatabase(Context context) {
+        this.context = context;
         Context storageContext;
         if (Build.VERSION.SDK_INT >= 24) {
             final Context deviceContext = context.createDeviceProtectedStorageContext();

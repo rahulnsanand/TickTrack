@@ -2,8 +2,6 @@ package com.theflopguyproductions.ticktrack.startup.fragments;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,15 +19,12 @@ import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
-import com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.FirebaseHelper;
-
-import java.util.Calendar;
 
 public class RestoreFragment extends Fragment {
 
@@ -134,6 +129,7 @@ public class RestoreFragment extends Fragment {
             if(isMyServiceRunning(BackupRestoreService.class, activity)){
                 stopRestoreService();
             }
+            tickTrackFirebaseDatabase.setBackUpAlarm();
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 Intent intent = new Intent(requireContext(), SettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -164,28 +160,9 @@ public class RestoreFragment extends Fragment {
             startRestoreInitService();
         }
 
-        scheduleFirstBackup();
+
 
         return root;
-    }
-
-    private void scheduleFirstBackup(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 20);
-
-        AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(requireContext(), BackupScheduleReceiver.class);
-        intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(requireContext(), 21, intent, 0);
-        alarmManager.setRepeating(
-                AlarmManager.RTC,
-                calendar.getTimeInMillis(),
-                1000*60*2,
-                alarmPendingIntent
-        );
     }
 
     private void stopRestoreService() {

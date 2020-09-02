@@ -100,6 +100,8 @@ public class BackupRestoreService extends Service {
         startForeground(6, notificationBuilder.build());
     }
 
+
+
     Handler restoreCheckHandler = new Handler();
     Runnable dataRestoreCheck = new Runnable() {
         @Override
@@ -107,8 +109,9 @@ public class BackupRestoreService extends Service {
             if(tickTrackFirebaseDatabase.getRestoreCompleteStatus()==1){
                 System.out.println("RESTORE COMPLETE");
                 restoreCheckHandler.removeCallbacks(dataRestoreCheck);
-                prefixFirebaseVariables();
+                tickTrackFirebaseDatabase.setBackUpAlarm();
                 stopForegroundService();
+                prefixFirebaseVariables();
             } else if(tickTrackFirebaseDatabase.getRestoreCompleteStatus()==-1){
                 System.out.println("RESTORE COMPLETION ERROR");
             } else {
@@ -158,7 +161,9 @@ public class BackupRestoreService extends Service {
         }
     };
     private void startBackup() {
-        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
+        notificationBuilder.setContentTitle("TickTrack backup");
+        notificationBuilder.setContentText("In progress");
+        notifyNotification();
         backupCheckHandler.post(dataBackupCheck);
         firebaseHelper.backup();
     }

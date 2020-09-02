@@ -97,19 +97,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
         boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
 
-
-        TickTrackFirebaseDatabase tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(this);
-        tickTrackFirebaseDatabase.setBackupMode(true);
-        Intent intent = new Intent(this, BackupRestoreService.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(BackupRestoreService.RESTORE_SERVICE_START_BACKUP);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
-        } else {
-            startService(intent);
-        }
-
-
     }
 
     private void goToStartUpActivity(int id, boolean optimise) {
