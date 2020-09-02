@@ -9,4 +9,7 @@
     <string name="stopwatch_shortcut_shortLabel">Stopwatch</string>
     <string name="stopwatch_shortcut_longLabel">Open stopwatch</string>
 
+    <string name="screensaver_shortcut_shortLabel">Screensaver</string>
+    <string name="screensaver_shortcut_longLabel">Start screensaver</string>
+
 </resources>
