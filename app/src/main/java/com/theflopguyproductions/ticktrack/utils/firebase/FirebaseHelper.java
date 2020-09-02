@@ -34,6 +34,7 @@ import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -376,4 +377,83 @@ public class FirebaseHelper {
     public boolean isUserSignedIn(){
         return GoogleSignIn.getLastSignedInAccount(context) != null;
     }
+
+    public void deleteAccount(Activity activity){
+
+        progressBarDialog = new ProgressBarDialog(activity);
+        progressBarDialog.show();
+        progressBarDialog.setContentText("Deleting Account");
+        progressBarDialog.titleText.setVisibility(View.GONE);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+
+        if(account!=null){
+            Map<String, Object> user = new HashMap<>();
+            user.put("accountDeleteTime", new Timestamp(System.currentTimeMillis()));
+            user.put("isProUser", false);
+            user.put("lastBackupTime", tickTrackDatabase.getLastBackupSystemTime());
+            user.put("themeMode", tickTrackDatabase.getThemeMode());
+            user.put("localeCountry", context.getResources().getConfiguration().locale.getCountry());
+            user.put("localeLanguage", context.getResources().getConfiguration().locale.getLanguage());
+
+            firebaseFirestore.collection("TickTrackDeletedUsers").document(Objects.requireNonNull(account.getEmail())).get()
+                    .addOnSuccessListener(documentReference -> {
+                        firebaseFirestore.collection("TickTrackDeletedUsers").document(account.getEmail()).set(user);
+                        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).delete()
+                                .addOnSuccessListener(documentReference1 -> {
+                                    signOut(activity);
+                                    progressBarDialog.dismiss();
+                                })
+                                .addOnFailureListener(e -> {
+                                    System.out.println("ERROR FIREBASE"+e);
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        System.out.println("ERROR FIREBASE"+e);
+                    });
+
+        }
+    }
+
+    public void deleteBackup(Activity activity){
+        progressBarDialog = new ProgressBarDialog(activity);
+        progressBarDialog.show();
+        progressBarDialog.setContentText("Deleting backup");
+        progressBarDialog.titleText.setVisibility(View.GONE);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+        if(account!=null){
+            GoogleAccountCredential credential =
+                    GoogleAccountCredential.usingOAuth2(
+                            context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
+            credential.setSelectedAccount(account.getAccount());
+            Drive googleDriveService =
+                    new Drive.Builder(
+                            AndroidHttp.newCompatibleTransport(),
+                            new GsonFactory(),
+                            credential)
+                            .setApplicationName("TickTrack")
+                            .build();
+
+            gDriveHelper = new GDriveHelper(googleDriveService, context);
+
+            clearData(gDriveHelper, progressBarDialog);
+
+        }
+    }
+
+    private void clearData(GDriveHelper gDriveHelper, ProgressBarDialog progressBarDialog) {
+        gDriveHelper.clearData().addOnSuccessListener(integer -> {
+            if (integer == 1) {
+                System.out.println("CLEAR DATA HAPPENED");
+                progressBarDialog.dismiss();
+            } else if (integer == 0) {
+                System.out.println("EXCEPTION CAUGHT");
+            } else {
+                System.out.println("CLEAR DATA FAILED");
+                clearData(gDriveHelper, progressBarDialog);
+            }
+        }).addOnFailureListener(e -> Toast.makeText(context, "Deletion Error", Toast.LENGTH_SHORT).show());
+    }
+
 }

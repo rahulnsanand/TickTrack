@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
+import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -53,6 +54,8 @@ public class SettingsActivity extends AppCompatActivity {
     private ConstraintLayout hapticLayout;
     private TextView hapticTextTitle;
     private Switch hapticSwitch;
+
+    private ConstraintLayout deleteBackupLayout, factoryResetLayout, deleteAccountLayout;
 
     @Override
     protected void onStart() {
@@ -220,7 +223,7 @@ public class SettingsActivity extends AppCompatActivity {
         TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
                 tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
-                hapticLayout, hapticTextTitle);
+                hapticLayout, hapticTextTitle, deleteBackupLayout, deleteAccountLayout, factoryResetLayout);
     }
 
     private boolean isSyncOptionOpen = false;
@@ -329,6 +332,10 @@ public class SettingsActivity extends AppCompatActivity {
         hapticSwitch = findViewById(R.id.hapticVibrateSettingsSwitch);
         hapticLayout = findViewById(R.id.hapticVibrateSettingsLayout);
         hapticTextTitle = findViewById(R.id.hapticTitleSettingsTextView);
+
+        deleteBackupLayout = findViewById(R.id.dangerZoneDeleteBackupLayout);
+        deleteAccountLayout = findViewById(R.id.dangerZoneDeleteUserLayout);
+        factoryResetLayout = findViewById(R.id.dangerZoneFactoryResetLayout);
 
         activity = this;
         firebaseHelper = new FirebaseHelper(activity);
@@ -456,6 +463,39 @@ public class SettingsActivity extends AppCompatActivity {
                 tickTrackDatabase.setHapticEnabled(true);
             } else {
                 tickTrackDatabase.setHapticEnabled(false);
+            }
+        });
+
+        deleteAccountLayout.setOnClickListener(view -> {
+            if(isMyServiceRunning(BackupRestoreService.class,this)){
+                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+            } else {
+                if(firebaseHelper.isUserSignedIn()){
+                    firebaseHelper.deleteAccount(this);
+                }
+            }
+        });
+        deleteBackupLayout.setOnClickListener(view -> {
+            if(isMyServiceRunning(BackupRestoreService.class,this)){
+                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+            } else {
+                if(firebaseHelper.isUserSignedIn()){
+                    firebaseHelper.deleteBackup(this);
+                }
+            }
+        });
+        factoryResetLayout.setOnClickListener(view -> {
+            if(isMyServiceRunning(BackupRestoreService.class,this)){
+                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+            } else {
+                if(firebaseHelper.isUserSignedIn()){
+                    ProgressBarDialog progressBarDialog = new ProgressBarDialog(this);
+                    progressBarDialog.show();
+                    progressBarDialog.setContentText("Resetting TickTrack");
+                    progressBarDialog.titleText.setVisibility(View.GONE);
+                    tickTrackDatabase.resetData();
+                    progressBarDialog.dismiss();
+                }
             }
         });
 

@@ -296,4 +296,17 @@ public class TickTrackDatabase {
         return sharedPreferences.getLong("lastBackupTime",-1);
     }
 
+    public void resetData() {
+        storeTimerList(new ArrayList<>());
+        storeCounterList(new ArrayList<>());
+        storeLapData(new ArrayList<>());
+        storeLapNumber(1);
+        storeCounterNumber(1);
+        storeSyncFrequency(1);
+        setHapticEnabled(true);
+        setLastBackupSystemTime(-1);
+        setThemeMode(1);
+        setTimerDataBackup(true);
+        setCounterDataBackup(true);
+    }
 }
