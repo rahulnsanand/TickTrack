@@ -17,7 +17,7 @@ public class BackupScheduleReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
-
+        
         startBackupService(context);
 
     }

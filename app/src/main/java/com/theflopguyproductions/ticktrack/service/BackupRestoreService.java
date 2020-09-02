@@ -100,8 +100,6 @@ public class BackupRestoreService extends Service {
         startForeground(6, notificationBuilder.build());
     }
 
-
-
     Handler restoreCheckHandler = new Handler();
     Runnable dataRestoreCheck = new Runnable() {
         @Override
@@ -153,6 +151,7 @@ public class BackupRestoreService extends Service {
         public void run() {
             if(!tickTrackFirebaseDatabase.isBackupMode()){
                 System.out.println("BACKUP OVER");
+
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);

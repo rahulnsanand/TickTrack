@@ -13,7 +13,7 @@ public class SettingsData {
         }
     }
     public enum Theme {
-        DARK(1), LIGHT(2);
+        DARK(2), LIGHT(1);
         private int themeMode;
         Theme(int value) {
             themeMode = value;

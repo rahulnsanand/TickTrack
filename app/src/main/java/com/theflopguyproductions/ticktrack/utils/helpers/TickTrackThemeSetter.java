@@ -43,7 +43,7 @@ public class TickTrackThemeSetter {
             , TickTrackDatabase tickTrackDatabase, TextView backupTitle, TextView backupEmail, ConstraintLayout backupLayout,
                                              ConstraintLayout switchAccountLayout, ConstraintLayout disconnectAccountLayout, TextView switchText, TextView disconnectText, CheckBox counterCheck,
                                              CheckBox timerCheck, RadioButton monthly, RadioButton weekly, RadioButton daily, ConstraintLayout freqOptionsLayout,
-                                             RadioButton darkButton, RadioButton lightButton, ConstraintLayout themeOptionsLayout){
+                                             RadioButton darkButton, RadioButton lightButton, ConstraintLayout themeOptionsLayout, ConstraintLayout hapticLayout, TextView hapticTitle){
         int checkTheme = tickTrackDatabase.getThemeMode();
 
         if(checkTheme==1){
@@ -54,6 +54,8 @@ public class TickTrackThemeSetter {
             disconnectAccountLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             freqOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             themeOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            hapticLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            hapticTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
@@ -68,7 +70,7 @@ public class TickTrackThemeSetter {
             darkButton.setTextColor(activity.getResources().getColor(R.color.DarkText));
             lightButton.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
-            themeLabel.setText("Light");
+            themeLabel.setText("Light Mode");
         } else {
             settingsScrollView.setBackgroundResource(R.color.Black);
             themeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
@@ -77,6 +79,8 @@ public class TickTrackThemeSetter {
             disconnectAccountLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             freqOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             themeOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            hapticLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            hapticTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
@@ -91,7 +95,7 @@ public class TickTrackThemeSetter {
             lightButton.setTextColor(activity.getResources().getColor(R.color.LightText));
             darkButton.setTextColor(activity.getResources().getColor(R.color.LightText));
 
-            themeLabel.setText("Dark");
+            themeLabel.setText("Dark Mode");
         }
     }
 

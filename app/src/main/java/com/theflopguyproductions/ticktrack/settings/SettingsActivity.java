@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,10 @@ public class SettingsActivity extends AppCompatActivity {
     private CheckBox counterCheckBox, timerCheckBox;
     private RadioButton monthlyButton, weeklyButton, dailyButton, darkButton, lightButton;
 
+    private ConstraintLayout hapticLayout;
+    private TextView hapticTextTitle;
+    private Switch hapticSwitch;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -69,6 +74,36 @@ public class SettingsActivity extends AppCompatActivity {
         setupDataOptionsText();
         setupSyncFreqOptionText();
         setupThemeText();
+        setupAccountBusy();
+        setupHapticData();
+    }
+
+    private void setupAccountBusy() {
+        if(isMyServiceRunning(BackupRestoreService.class, getApplicationContext())){
+            if(tickTrackDatabase.getThemeMode()==1){
+                switchAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+                disconnectAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+                switchAccountTitle.setTextColor(getResources().getColor(R.color.roboto_calendar_current_day_ring));
+                disconnectAccountTitle.setTextColor(getResources().getColor(R.color.roboto_calendar_current_day_ring));
+            } else {
+                switchAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+                disconnectAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+                switchAccountTitle.setTextColor(getResources().getColor(R.color.roboto_calendar_day_of_the_week_font));
+                disconnectAccountTitle.setTextColor(getResources().getColor(R.color.roboto_calendar_day_of_the_week_font));
+            }
+        } else {
+            if(tickTrackDatabase.getThemeMode()==1){
+                switchAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+                disconnectAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+                switchAccountTitle.setTextColor(getResources().getColor(R.color.DarkText));
+                disconnectAccountTitle.setTextColor(getResources().getColor(R.color.DarkText));
+            } else {
+                switchAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+                disconnectAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+                switchAccountTitle.setTextColor(getResources().getColor(R.color.LightText));
+                disconnectAccountTitle.setTextColor(getResources().getColor(R.color.LightText));
+            }
+        }
     }
 
     private void checkAccountAvailable() {
@@ -184,7 +219,8 @@ public class SettingsActivity extends AppCompatActivity {
     private void refreshTheme() {
         TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
                 tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
-                counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout);
+                counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
+                hapticLayout, hapticTextTitle);
     }
 
     private boolean isSyncOptionOpen = false;
@@ -251,6 +287,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    private void setupHapticData() {
+        if(tickTrackDatabase.isHapticEnabled()){
+            hapticSwitch.setChecked(true);
+        } else {
+            hapticSwitch.setChecked(false);
+        }
+    }
+
     private void initVariables() {
         themeLayout = findViewById(R.id.themeSettingsLayout);
         themeTitle = findViewById(R.id.themeSettingsLabel);
@@ -282,6 +326,9 @@ public class SettingsActivity extends AppCompatActivity {
         darkButton = findViewById(R.id.darkRadioButtonSettingsActivity);
         lightButton = findViewById(R.id.lightRadioButtonSettingsActivity);
         themeOptionsLayout = findViewById(R.id.themeSettingsOptionsLayout);
+        hapticSwitch = findViewById(R.id.hapticVibrateSettingsSwitch);
+        hapticLayout = findViewById(R.id.hapticVibrateSettingsLayout);
+        hapticTextTitle = findViewById(R.id.hapticTitleSettingsTextView);
 
         activity = this;
         firebaseHelper = new FirebaseHelper(activity);
@@ -297,10 +344,10 @@ public class SettingsActivity extends AppCompatActivity {
         setupDataOptionsText();
         setupSyncFreqOptionText();
         setupThemeText();
+        setupHapticData();
 
         accountOptionsLayout.setVisibility(View.GONE);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -311,6 +358,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupClickListeners();
 
+    }
+
+    private void toggleHapticEnable() {
+        if(tickTrackDatabase.isHapticEnabled()){
+            tickTrackDatabase.setHapticEnabled(false);
+        } else {
+            tickTrackDatabase.setHapticEnabled(true);
+        }
     }
 
     private void setupClickListeners() {
@@ -390,6 +445,17 @@ public class SettingsActivity extends AppCompatActivity {
                 tickTrackDatabase.setTimerDataBackup(true);
             } else {
                 tickTrackDatabase.setTimerDataBackup(false);
+            }
+        });
+
+        hapticLayout.setOnClickListener(view -> {
+            toggleHapticEnable();
+        });
+        hapticSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(compoundButton.isChecked()){
+                tickTrackDatabase.setHapticEnabled(true);
+            } else {
+                tickTrackDatabase.setHapticEnabled(false);
             }
         });
 

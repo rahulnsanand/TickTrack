@@ -79,16 +79,22 @@ public class RestoreFragment extends Fragment {
             preferencesText.setVisibility(View.VISIBLE);
             preferencesText.setText("Preferences retrieved");
             dataReadyTitle.setVisibility(View.VISIBLE);
+        }  else {
+            preferencesText.setVisibility(View.GONE);
         }
         if(tickTrackFirebaseDatabase.getRetrievedCounterCount()!=-1){
             dataReadyTitle.setVisibility(View.VISIBLE);
             countersText.setVisibility(View.VISIBLE);
             countersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedCounterCount()+" counter data");
+        } else {
+            countersText.setVisibility(View.GONE);
         }
         if(tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
             dataReadyTitle.setVisibility(View.VISIBLE);
             timersText.setVisibility(View.VISIBLE);
             timersText.setText("Retrieved "+tickTrackFirebaseDatabase.getRetrievedTimerCount()+" timer data");
+        }  else {
+            timersText.setVisibility(View.GONE);
         }
     }
 
