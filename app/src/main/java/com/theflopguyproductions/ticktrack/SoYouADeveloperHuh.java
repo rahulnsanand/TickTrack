@@ -28,7 +28,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
@@ -99,6 +106,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
 
     }
+
+
 
     private void goToStartUpActivity(int id, boolean optimise) {
         tickTrackDatabase.storeNotOptimiseBool(optimise);
@@ -251,10 +260,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         if(tickTrackDatabase.retrieveStopwatchData().size()>0){
             if(tickTrackDatabase.retrieveStopwatchData().get(0).isRunning()){
+                System.out.println("STOPWATCH RUNNING HAPPENED");
                 if(!isMyServiceRunning(StopwatchNotificationService.class, this)){
                     setupCustomNotification();
                     notificationManagerCompat.notify(4,  notificationBuilder.build());
@@ -263,6 +273,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("ON STOP MAIN ACTIVITY");
     }
 
     public void stopNotificationService() {

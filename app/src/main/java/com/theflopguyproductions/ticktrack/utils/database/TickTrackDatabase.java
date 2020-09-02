@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.utils.database;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
@@ -10,9 +12,14 @@ import androidx.core.os.BuildCompat;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
+import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
+import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
+import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -52,6 +59,16 @@ public class TickTrackDatabase {
         sharedPreferences = storageContext
                 .getSharedPreferences("TickTrackData", Context.MODE_PRIVATE);
 
+    }
+
+    public void setNewDevice(boolean updateNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("newDevice", updateNumber);
+        editor.apply();
+    }
+
+    public boolean isNewDevice() {
+        return sharedPreferences.getBoolean("newDevice", true);
     }
 
     public void storeFirstLaunch(boolean updateNumber){
@@ -296,11 +313,32 @@ public class TickTrackDatabase {
         return sharedPreferences.getLong("lastBackupTime",-1);
     }
 
-    public void resetData() {
+    public void resetData(Context context) {
+        ArrayList<TimerData> timerData = retrieveTimerList();
+        TickTrackTimerDatabase tickTrackTimerDatabase = new TickTrackTimerDatabase(context);
+        for(int i = 0; i < timerData.size(); i++){
+            tickTrackTimerDatabase.cancelAlarm(timerData.get(i).getTimerIntID());
+        }
+
+
+        if(isMyServiceRunning(BackupRestoreService.class, context)){
+            stopService(BackupRestoreService.class, context);
+        }
+        if(isMyServiceRunning(OptimiserService.class, context)){
+            stopService(OptimiserService.class, context);
+        }
+        if(isMyServiceRunning(TimerService.class, context)){
+            stopService(TimerService.class, context);
+        }
+        if(isMyServiceRunning(TimerRingService.class, context)){
+            stopService(TimerRingService.class, context);
+        }
+        if(isMyServiceRunning(CounterNotificationService.class, context)){
+            stopService(CounterNotificationService.class, context);
+        }
+
         storeTimerList(new ArrayList<>());
         storeCounterList(new ArrayList<>());
-        storeLapData(new ArrayList<>());
-        storeLapNumber(1);
         storeCounterNumber(1);
         storeSyncFrequency(1);
         setHapticEnabled(true);
@@ -308,5 +346,47 @@ public class TickTrackDatabase {
         setThemeMode(1);
         setTimerDataBackup(true);
         setCounterDataBackup(true);
+
+//        try {
+//            Thread.sleep(500);
+//            context.startActivity(new Intent(context, SettingsActivity.class));
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
     }
+
+    private void stopService(Class<?> service, Context context) {
+        Intent intent = new Intent(context, service);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if(service==BackupRestoreService.class){
+            intent.setAction(BackupRestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
+        } else if(service== OptimiserService.class){
+            intent.setAction(OptimiserService.ACTION_BATTERY_OPTIMISE_CHECK_STOP);
+        } else if(service== TimerService.class){
+            intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
+        } else if(service== TimerRingService.class){
+            intent.setAction(TimerRingService.ACTION_KILL_ALL_TIMERS);
+        } else if(service== CounterNotificationService.class){
+            intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+    }
+
+    public boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

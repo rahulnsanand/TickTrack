@@ -124,6 +124,7 @@
             android:directBootAware="true"
             android:enabled="true"
             android:exported="false" />
+
     </application>
 
 </manifest>

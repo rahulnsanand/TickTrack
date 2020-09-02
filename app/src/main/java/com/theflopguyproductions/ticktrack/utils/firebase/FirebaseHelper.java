@@ -34,7 +34,6 @@ import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -150,16 +149,26 @@ public class FirebaseHelper {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
         if(account!=null){
             firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).get()
-                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                        if(queryDocumentSnapshots.exists()){
-                            Toast.makeText(context, "Welcome back, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
-                            checkIfDataExists(account);
+                    .addOnSuccessListener(snapshot -> {
+                        Map<String, Object> retrieveData = new HashMap<>();
+                        if(snapshot.exists()){
+                            retrieveData = snapshot.getData();
+                            if (retrieveData != null) {
+                                if(Objects.equals(retrieveData.get("isAccountDeleted"), true)){
+                                    Toast.makeText(context, "Welcome, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
+                                    setupInitUserData(account);
+                                } else {
+                                    Toast.makeText(context, "Welcome back, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
+                                    checkIfDataExists(account);
+                                }
+                            }
                         } else {
                             Toast.makeText(context, "Welcome, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
                             setupInitUserData(account);
                         }
-                        if(tickTrackDatabase.retrieveFirstLaunch()){
+                        if(tickTrackDatabase.isNewDevice()){
                             deviceInfoUpdate(account);
+                            tickTrackDatabase.setNewDevice(false);
                         }
                     }).addOnFailureListener(e -> {
 
@@ -195,12 +204,13 @@ public class FirebaseHelper {
     private void setupInitUserData(GoogleSignInAccount account) {
         Map<String, Object> user = new HashMap<>();
         user.put("accountCreateTime", System.currentTimeMillis());
+        user.put("isAccountDeleted", false);
+        user.put("accountDeleteTime", -1);
         user.put("isProUser", false);
-        user.put("lastBackupTime", -1);
-        user.put("themeMode", -1);
+        user.put("lastBackupTime", tickTrackDatabase.getLastBackupSystemTime());
+        user.put("themeMode", tickTrackDatabase.getThemeMode());
         user.put("localeCountry", context.getResources().getConfiguration().locale.getCountry());
         user.put("localeLanguage", context.getResources().getConfiguration().locale.getLanguage());
-
 
         firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).get()
                 .addOnSuccessListener(documentReference -> {
@@ -376,43 +386,6 @@ public class FirebaseHelper {
     }
     public boolean isUserSignedIn(){
         return GoogleSignIn.getLastSignedInAccount(context) != null;
-    }
-
-    public void deleteAccount(Activity activity){
-
-        progressBarDialog = new ProgressBarDialog(activity);
-        progressBarDialog.show();
-        progressBarDialog.setContentText("Deleting Account");
-        progressBarDialog.titleText.setVisibility(View.GONE);
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
-
-        if(account!=null){
-            Map<String, Object> user = new HashMap<>();
-            user.put("accountDeleteTime", new Timestamp(System.currentTimeMillis()));
-            user.put("isProUser", false);
-            user.put("lastBackupTime", tickTrackDatabase.getLastBackupSystemTime());
-            user.put("themeMode", tickTrackDatabase.getThemeMode());
-            user.put("localeCountry", context.getResources().getConfiguration().locale.getCountry());
-            user.put("localeLanguage", context.getResources().getConfiguration().locale.getLanguage());
-
-            firebaseFirestore.collection("TickTrackDeletedUsers").document(Objects.requireNonNull(account.getEmail())).get()
-                    .addOnSuccessListener(documentReference -> {
-                        firebaseFirestore.collection("TickTrackDeletedUsers").document(account.getEmail()).set(user);
-                        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).delete()
-                                .addOnSuccessListener(documentReference1 -> {
-                                    signOut(activity);
-                                    progressBarDialog.dismiss();
-                                })
-                                .addOnFailureListener(e -> {
-                                    System.out.println("ERROR FIREBASE"+e);
-                                });
-                    })
-                    .addOnFailureListener(e -> {
-                        System.out.println("ERROR FIREBASE"+e);
-                    });
-
-        }
     }
 
     public void deleteBackup(Activity activity){

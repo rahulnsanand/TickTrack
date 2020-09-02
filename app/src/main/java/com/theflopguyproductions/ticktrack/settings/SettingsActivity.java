@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView hapticTextTitle;
     private Switch hapticSwitch;
 
-    private ConstraintLayout deleteBackupLayout, factoryResetLayout, deleteAccountLayout;
+    private ConstraintLayout deleteBackupLayout, factoryResetLayout;
 
     @Override
     protected void onStart() {
@@ -223,7 +223,7 @@ public class SettingsActivity extends AppCompatActivity {
         TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
                 tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
-                hapticLayout, hapticTextTitle, deleteBackupLayout, deleteAccountLayout, factoryResetLayout);
+                hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout);
     }
 
     private boolean isSyncOptionOpen = false;
@@ -334,7 +334,6 @@ public class SettingsActivity extends AppCompatActivity {
         hapticTextTitle = findViewById(R.id.hapticTitleSettingsTextView);
 
         deleteBackupLayout = findViewById(R.id.dangerZoneDeleteBackupLayout);
-        deleteAccountLayout = findViewById(R.id.dangerZoneDeleteUserLayout);
         factoryResetLayout = findViewById(R.id.dangerZoneFactoryResetLayout);
 
         activity = this;
@@ -466,15 +465,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        deleteAccountLayout.setOnClickListener(view -> {
-            if(isMyServiceRunning(BackupRestoreService.class,this)){
-                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
-            } else {
-                if(firebaseHelper.isUserSignedIn()){
-                    firebaseHelper.deleteAccount(this);
-                }
-            }
-        });
         deleteBackupLayout.setOnClickListener(view -> {
             if(isMyServiceRunning(BackupRestoreService.class,this)){
                 Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
@@ -493,8 +483,9 @@ public class SettingsActivity extends AppCompatActivity {
                     progressBarDialog.show();
                     progressBarDialog.setContentText("Resetting TickTrack");
                     progressBarDialog.titleText.setVisibility(View.GONE);
-                    tickTrackDatabase.resetData();
+                    tickTrackDatabase.resetData(this);
                     progressBarDialog.dismiss();
+
                 }
             }
         });
