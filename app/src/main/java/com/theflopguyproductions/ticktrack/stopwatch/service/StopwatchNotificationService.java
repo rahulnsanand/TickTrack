@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.stopwatch.service;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -43,12 +44,12 @@ public class StopwatchNotificationService extends Service {
     public StopwatchNotificationService() {
     }
 
-    private void baseLineNotificationLayout(){
+    private void baseLineNotificationLayout(Context context){
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
         Intent resultIntent = new Intent(this, SoYouADeveloperHuh.class);
-        resultIntent.putExtra("FragmentID", 4);
+        new TickTrackDatabase(context).storeCurrentFragmentNumber(3);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
@@ -122,7 +123,7 @@ public class StopwatchNotificationService extends Service {
         super.onCreate();
         tickTrackNotificationStopwatch = new TickTrackNotificationStopwatch(this);
 
-        baseLineNotificationLayout();
+        baseLineNotificationLayout(this);
         Log.d("TAG_TIMER_SERVICE", "My foreground service onCreate().");
     }
 

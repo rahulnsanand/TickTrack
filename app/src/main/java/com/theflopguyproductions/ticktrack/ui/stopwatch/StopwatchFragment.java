@@ -66,6 +66,15 @@ public class StopwatchFragment extends Fragment {
         }
     };
 
+    public StopwatchFragment() {
+    }
+
+    private String receivedAction;
+
+    public StopwatchFragment(String shortcutAction) {
+        this.receivedAction = shortcutAction;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -241,17 +250,11 @@ public class StopwatchFragment extends Fragment {
     }
 
     private void initValues() {
-
         stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
-
-
         if(!(stopwatchDataArrayList.size() >0)){
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
-
-
-
     }
 
     private void initVariables(View parent) {
@@ -274,6 +277,12 @@ public class StopwatchFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         TickTrackThemeSetter.stopwatchFragmentTheme(activity, stopwatchRootLayout, stopwatchLapTitleText, stopwatchValueText,
@@ -285,7 +294,6 @@ public class StopwatchFragment extends Fragment {
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
         checkConditions();
         setupClickListeners();
-
     }
 
     @Override

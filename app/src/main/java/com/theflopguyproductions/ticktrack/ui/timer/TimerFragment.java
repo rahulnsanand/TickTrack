@@ -31,6 +31,14 @@ public class TimerFragment extends Fragment {
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private Activity activity;
 
+    private String action;
+
+    public TimerFragment() {
+    }
+
+    public TimerFragment(String action){
+        this.action = action;
+    }
 
     public static void startTimerActivity(int position, Activity context) {
         Intent timerIntent = new Intent(context, TimerActivity.class);
@@ -53,16 +61,20 @@ public class TimerFragment extends Fragment {
         assert activity != null;
         tickTrackDatabase = new TickTrackDatabase(activity);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        if(timerDataArrayList.size()>0){
-            TickTrackAnimator.fabDissolve(timerDiscardFAB);
-            displayRecyclerView();
+        if("timerCreate".equals(action)){
+            addTimer();
         } else {
-            displayCreatorView();
-            isFirst = tickTrackDatabase.isFirstTimer();
-            if(isFirst){
+            if(timerDataArrayList.size()>0){
                 TickTrackAnimator.fabDissolve(timerDiscardFAB);
+                displayRecyclerView();
             } else {
-                TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
+                displayCreatorView();
+                isFirst = tickTrackDatabase.isFirstTimer();
+                if(isFirst){
+                    TickTrackAnimator.fabDissolve(timerDiscardFAB);
+                } else {
+                    TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
+                }
             }
         }
         floatingActionButton.setOnClickListener(view1 -> {

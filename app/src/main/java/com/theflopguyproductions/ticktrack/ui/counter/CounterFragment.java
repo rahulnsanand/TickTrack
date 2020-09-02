@@ -45,6 +45,15 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     private SharedPreferences sharedPreferences;
     private static TickTrackDatabase tickTrackDatabase;
 
+    private String receivedAction;
+
+    public CounterFragment() {
+    }
+
+    public CounterFragment(String shortcutAction) {
+        this.receivedAction = shortcutAction;
+    }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -63,6 +72,10 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         super.onResume();
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        if("counterCreate".equals(receivedAction)){
+            CreateCounter createCounter = new CreateCounter(getActivity());
+            createCounter.show();
+        }
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="timer_shortcut"
+        android:enabled="true"
+        android:icon="@drawable/timer_drawable"
+        android:shortcutShortLabel="@string/timer_shortcut_shortLabel"
+        android:shortcutLongLabel="@string/timer_shortcut_longLabel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.theflopguyproductions.ticktrack"
+            android:targetClass="com.theflopguyproductions.ticktrack.SoYouADeveloperHuh" >
+            <extra android:name="fragmentID" android:value="timerCreate" />
+        </intent>
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="counter_shortcut"
+        android:enabled="true"
+        android:icon="@drawable/counter_drawable"
+        android:shortcutShortLabel="@string/counter_shortcut_shortLabel"
+        android:shortcutLongLabel="@string/counter_shortcut_longLabel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.theflopguyproductions.ticktrack"
+            android:targetClass="com.theflopguyproductions.ticktrack.SoYouADeveloperHuh" >
+            <extra android:name="fragmentID" android:value="counterCreate" />
+        </intent>
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="stopwatch_shortcut"
+        android:enabled="true"
+        android:icon="@drawable/stopwatch_drawable"
+        android:shortcutShortLabel="@string/stopwatch_shortcut_shortLabel"
+        android:shortcutLongLabel="@string/stopwatch_shortcut_longLabel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.theflopguyproductions.ticktrack"
+            android:targetClass="com.theflopguyproductions.ticktrack.SoYouADeveloperHuh" >
+            <extra android:name="fragmentID" android:value="stopwatchCreate" />
+        </intent>
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+</shortcuts>
