@@ -97,6 +97,7 @@ public class CounterWidget extends AppWidgetProvider {
         }
     }
     private static void setFlag(RemoteViews views, int counterFlag) {
+        views.setViewVisibility(R.id.counterWidgetFlag, View.VISIBLE);
         if(counterFlag==1){
             views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_red);
         }

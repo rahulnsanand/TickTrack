@@ -7,9 +7,6 @@ import android.widget.RemoteViews;
 
 import com.theflopguyproductions.ticktrack.R;
 
-/**
- * Implementation of App Widget functionality.
- */
 public class QuickTimerWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,

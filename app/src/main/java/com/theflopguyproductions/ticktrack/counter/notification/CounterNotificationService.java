@@ -158,6 +158,7 @@ public class CounterNotificationService extends Service {
             counterValue = counterDataList.get(currentCounterPosition).getCounterValue();
             counterRequestID = (int) counterDataList.get(currentCounterPosition).getCounterTimestamp();
         }
+        stopForeground(false);
     }
 
     private void minusButtonPressed() {
@@ -241,13 +242,12 @@ public class CounterNotificationService extends Service {
     }
 
     private void stopForegroundService() {
-        stopForeground(true);
         stopSelf();
         notificationCounterFalse();
     }
 
     private void killNotifications(){
-        stopForeground(true);
+        stopForeground(false);
     }
 
     private void notificationCounterTrue() {

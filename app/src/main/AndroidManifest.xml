@@ -24,7 +24,7 @@
         android:theme="@style/DarkTheme">
         <activity android:name=".widgets.counter.CounterWidgetConfigActivity"></activity>
 
-        <receiver android:name=".widgets.timer.QuickTimerWidget">
+        <receiver android:name=".widgets.timer.QuickTimerWidget" android:label="TickTrack QuickTimer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -33,7 +33,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/quick_timer_widget_info" />
         </receiver>
-        <receiver android:name=".widgets.counter.CounterWidget">
+        <receiver android:name=".widgets.counter.CounterWidget" android:label="TickTrack Counter">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="ACTION_WIDGET_CLICK_PLUS" />
