@@ -196,7 +196,4 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         intent.putExtra("currentCounterPosition", counterID);
         activity.startActivity(intent);
     }
-
-
-
 }

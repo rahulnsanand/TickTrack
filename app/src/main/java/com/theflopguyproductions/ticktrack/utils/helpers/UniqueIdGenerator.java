@@ -31,4 +31,9 @@ public class UniqueIdGenerator {
         return random.nextInt(9999);
     }
 
+    public static Integer getUniqueIntegerCounterID(){
+
+        return random.nextInt(9999);
+    }
+
 }

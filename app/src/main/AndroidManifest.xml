@@ -22,12 +22,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+        <activity android:name=".widgets.counter.CounterWidgetConfigActivity"></activity>
+
+        <receiver android:name=".widgets.timer.QuickTimerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/quick_timer_widget_info" />
+        </receiver>
+        <receiver android:name=".widgets.counter.CounterWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/counter_widget_info" />
+        </receiver>
+
         <activity
             android:name=".screensaver.ScreensaverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_screensaver">
-
-        </activity>
+            android:label="@string/title_activity_screensaver" />
 
         <receiver
             android:name=".receivers.BackupScheduleReceiver"
@@ -120,9 +139,12 @@
             android:label="@string/title_activity_so_you_a_developer_huh">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
+
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/ticktrack_shortcut" />
         </activity>
 

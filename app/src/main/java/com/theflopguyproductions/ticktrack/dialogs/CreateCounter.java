@@ -36,7 +36,8 @@ public class CreateCounter extends Dialog {
     private TextView titleText, counterFlagTitle;
     private ConstraintLayout rootLayout;
     private Chip redChip, greenCip, orangeChip, purpleChip, blueChip;
-
+    public int counterNumber;
+    public String counterName;
 
     public CreateCounter(Activity activity){
         super(activity);
@@ -71,8 +72,8 @@ public class CreateCounter extends Dialog {
 
         final ChipGroup chipGroup = view.findViewById(R.id.counterFlagGroup);
 
-        int counterNumber = tickTrackDatabase.retrieveCounterNumber();
-        String counterName = "Counter "+ counterNumber;
+        counterNumber = tickTrackDatabase.retrieveCounterNumber();
+        counterName = "Counter "+ counterNumber;
         counterLabelText.setHint(counterName);
 
         setupTheme();
