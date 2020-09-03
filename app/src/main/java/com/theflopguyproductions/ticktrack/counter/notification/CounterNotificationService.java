@@ -4,6 +4,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,7 @@ import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.widgets.counter.CounterWidget;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -116,11 +119,13 @@ public class CounterNotificationService extends Service {
                 case ACTION_PLUS:
                     if(currentCounterPosition!=-1){
                         plusButtonPressed();
+                        updateCounterWidgets();
                     }
                     break;
                 case ACTION_MINUS:
                     if(currentCounterPosition!=-1){
                         minusButtonPressed();
+                        updateCounterWidgets();
                     }
                     break;
                 case ACTION_REFRESH_SERVICE:
@@ -134,6 +139,14 @@ public class CounterNotificationService extends Service {
             }
         }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void updateCounterWidgets() {
+        Intent intent = new Intent(this, CounterWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), CounterWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 
     private void initializeValues() {

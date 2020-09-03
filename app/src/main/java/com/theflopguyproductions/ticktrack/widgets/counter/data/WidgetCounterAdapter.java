@@ -18,22 +18,21 @@ import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.CounterDiffUtilCallback;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
+import com.theflopguyproductions.ticktrack.widgets.counter.CounterWidgetConfigActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class WidgetCounterAdapter extends RecyclerView.Adapter<WidgetCounterAdapter.counterDataViewHolder>  {
+public class WidgetCounterAdapter extends RecyclerView.Adapter<WidgetCounterAdapter.counterDataViewHolder> {
 
 
     private ArrayList<CounterData> counterDataArrayList;
     private Context context;
-    private counterDataViewHolder.RecyclerViewClickListener mListener;
 
 
-    public WidgetCounterAdapter(Context context, ArrayList<CounterData> counterDataArrayList, counterDataViewHolder.RecyclerViewClickListener listener ){
+    public WidgetCounterAdapter(Context context, ArrayList<CounterData> counterDataArrayList){
         this.context = context;
         this.counterDataArrayList = counterDataArrayList;
-        mListener = listener;
     }
 
     private void setTheme(WidgetCounterAdapter.counterDataViewHolder holder, int theme) {
@@ -81,7 +80,7 @@ public class WidgetCounterAdapter extends RecyclerView.Adapter<WidgetCounterAdap
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_footer_layout, parent, false);
         }
 
-        return new WidgetCounterAdapter.counterDataViewHolder(itemView, mListener);
+        return new WidgetCounterAdapter.counterDataViewHolder(itemView);
     }
 
     @Override
@@ -111,10 +110,7 @@ public class WidgetCounterAdapter extends RecyclerView.Adapter<WidgetCounterAdap
             setColor(holder);
             setTheme(holder, currentTheme);
 
-//            holder.counterLayout.setOnClickListener(v -> {
-//                CounterFragment.startCounterActivity(counterDataArrayList.get(holder.getAdapterPosition()).getCounterID(), (Activity) holder.context);
-//                Toast.makeText(holder.context, "Position:" + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
-//            });
+            holder.counterLayout.setOnClickListener(view -> CounterWidgetConfigActivity.confirmSelectionStatic(counterDataArrayList.get(position).getCounterID()));
         }
     }
 
@@ -141,8 +137,7 @@ public class WidgetCounterAdapter extends RecyclerView.Adapter<WidgetCounterAdap
     }
 
 
-
-    public static class counterDataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class counterDataViewHolder extends RecyclerView.ViewHolder {
 
         private TextView countValue, lastModified, counterLabel;
         public ConstraintLayout counterLayout;
@@ -151,13 +146,10 @@ public class WidgetCounterAdapter extends RecyclerView.Adapter<WidgetCounterAdap
         private Context context;
         private TextView footerCounterTextView;
         TickTrackDatabase tickTrackDatabase;
-        private RecyclerViewClickListener mListener;
 
-        public counterDataViewHolder(@NonNull View parent, RecyclerViewClickListener listener) {
+
+        public counterDataViewHolder(@NonNull View parent) {
             super(parent);
-
-            mListener = listener;
-            parent.setOnClickListener(this);
 
             countValue = parent.findViewById(R.id.counterValueItemTextView);
             counterLabel = parent.findViewById(R.id.counterLabelItemTextView);
@@ -171,14 +163,9 @@ public class WidgetCounterAdapter extends RecyclerView.Adapter<WidgetCounterAdap
 
         }
 
-        @Override
-        public void onClick(View view) {
-            mListener.onItemClick(view, getAdapterPosition());
-        }
 
-        public interface RecyclerViewClickListener {
-            void onItemClick(View view, int position);
-        }
+
+
 
     }
 }

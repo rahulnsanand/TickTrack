@@ -114,7 +114,6 @@ public class CounterWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
@@ -154,6 +153,8 @@ public class CounterWidget extends AppWidgetProvider {
                 System.out.println("ON UPDATE HAPPENED");
                 onUpdate(context, appWidgetManager, appWidgetIds);
             }
+        } else {
+            super.onReceive(context, intent);
         }
     }
 

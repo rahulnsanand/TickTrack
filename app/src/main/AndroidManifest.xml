@@ -36,6 +36,8 @@
         <receiver android:name=".widgets.counter.CounterWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="ACTION_WIDGET_CLICK_PLUS" />
+                <action android:name="ACTION_WIDGET_CLICK_MINUS" />
             </intent-filter>
 
             <meta-data

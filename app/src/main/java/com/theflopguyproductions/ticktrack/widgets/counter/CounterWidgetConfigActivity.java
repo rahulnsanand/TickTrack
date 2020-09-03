@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -43,7 +42,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private static WidgetCounterAdapter counterAdapter;
     private Button cancelButton;
-    private Activity activity;
+    private static Activity activity;
     private static TextView noCounterText;
     private SharedPreferences sharedPreferences;
     private static TickTrackDatabase tickTrackDatabase;
@@ -51,7 +50,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
     private FloatingActionButton counterFab;
     private static RecyclerView counterRecyclerView;
 
-    private int counterWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private static int counterWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
@@ -94,6 +93,8 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         counterFragmentRootLayout = findViewById(R.id.counterWidgetActivityRootLayout);
         counterFab = findViewById(R.id.counterWidgetActivityFAB);
 
+
+
         buildRecyclerView(activity);
 
         TickTrackThemeSetter.counterFragmentTheme(this, counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase);
@@ -118,10 +119,10 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
             createCounter.createCounterButton.setOnClickListener(view1 -> {
                 if(createCounter.counterLabelText.getText().toString().trim().length() > 0){
                     createCounter(createCounter.counterLabelText.getText().toString(),System.currentTimeMillis(),createCounter.counterFlag,
-                            this.activity,0,0,false, false, false, UniqueIdGenerator.getUniqueCounterID());
+                            activity,0,0,false, false, false, UniqueIdGenerator.getUniqueCounterID());
                 } else {
                     tickTrackDatabase.storeCounterNumber(createCounter.counterNumber+1);
-                    createCounter(createCounter.counterName, System.currentTimeMillis(),createCounter.counterFlag, this.activity,
+                    createCounter(createCounter.counterName, System.currentTimeMillis(),createCounter.counterFlag, activity,
                             0,0,false, false, false, UniqueIdGenerator.getUniqueCounterID());
                 }
                 createCounter.dismiss();
@@ -159,13 +160,46 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         setResult(RESULT_OK, resultValue);
         finish();
     }
-    private int getCurrentPosition(String counterID) {
-        for(int i = 0; i < counterDataArrayList.size(); i ++){
-            if(counterDataArrayList.get(i).getCounterID().equals(counterID)){
-                return i;
-            }
-        }
-        return 0;
+
+    public static void confirmSelectionStatic(String counterStringId){
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(activity);
+
+        int intentUniqueId =  UniqueIdGenerator.getUniqueIntegerCounterID();
+
+        Intent intent = new Intent(activity, CounterActivity.class);
+        intent.putExtra("currentCounterPosition", counterStringId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity, intentUniqueId, intent, 0);
+
+        ArrayList<CounterWidgetData> counterWidgetDataArrayList = tickTrackDatabase.retrieveCounterWidgetList();
+
+        CounterWidgetData counterWidgetData = new CounterWidgetData();
+        counterWidgetData.setCounterIdInteger(intentUniqueId);
+        counterWidgetData.setCounterIdString(counterStringId);
+        counterWidgetData.setCounterWidgetId(intentUniqueId);
+
+        counterWidgetDataArrayList.add(counterWidgetData);
+        tickTrackDatabase.storeCounterWidgetList(counterWidgetDataArrayList);
+
+        RemoteViews views = new RemoteViews(activity.getPackageName(), R.layout.counter_widget);
+        views.setOnClickPendingIntent(R.id.counterWidgetRootRelativeLayout, pendingIntent);
+        views.setOnClickPendingIntent(R.id.counterWidgetPlusButton, getPendingSelfIntentStatic(activity, ACTION_WIDGET_CLICK_PLUS, intentUniqueId, counterStringId ));
+        views.setOnClickPendingIntent(R.id.counterWidgetMinusButton, getPendingSelfIntentStatic(activity, ACTION_WIDGET_CLICK_MINUS, intentUniqueId, counterStringId ));
+        views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterValue());
+        appWidgetManager.updateAppWidget(counterWidgetId, views);
+
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, counterWidgetId);
+        activity.setResult(RESULT_OK, resultValue);
+        activity.finish();
+    }
+
+    private static PendingIntent getPendingSelfIntentStatic(Context context, String action, int counterID, String counterIdString) {
+
+        Intent intent = new Intent(context, context.getClass());
+        intent.setAction(action);
+        intent.putExtra("counterID", counterIdString);
+        return PendingIntent.getBroadcast(context, counterID, intent, 0);
     }
     private PendingIntent getPendingSelfIntent(Context context, String action, int counterID, String counterIdString) {
 
@@ -174,6 +208,24 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         intent.putExtra("counterID", counterIdString);
         return PendingIntent.getBroadcast(context, counterID, intent, 0);
     }
+
+    private static int getCurrentPositionStatic(String counterID) {
+        for(int i = 0; i < counterDataArrayList.size(); i ++){
+            if(counterDataArrayList.get(i).getCounterID().equals(counterID)){
+                return i;
+            }
+        }
+        return 0;
+    }
+    private int getCurrentPosition(String counterID) {
+        for(int i = 0; i < counterDataArrayList.size(); i ++){
+            if(counterDataArrayList.get(i).getCounterID().equals(counterID)){
+                return i;
+            }
+        }
+        return 0;
+    }
+
 
     private void addCounterWidgetData(String counterStringId, int counterIntegerId) {
         counterWidgetDataArrayList = tickTrackDatabase.retrieveCounterWidgetList();
@@ -189,13 +241,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
     }
 
     private static void buildRecyclerView(Activity activity) {
-
-        WidgetCounterAdapter.counterDataViewHolder.RecyclerViewClickListener listener = (view, position) -> {
-            Toast.makeText(activity, "Position " + position+" ID "+getCounterID(position), Toast.LENGTH_SHORT).show();
-        };
-
-        counterAdapter = new WidgetCounterAdapter(activity, counterDataArrayList, listener);
-
+        counterAdapter = new WidgetCounterAdapter(activity, counterDataArrayList);
         if(counterDataArrayList.size()>0){
 
             counterRecyclerView.setVisibility(View.VISIBLE);
