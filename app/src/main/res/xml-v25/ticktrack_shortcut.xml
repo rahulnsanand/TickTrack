@@ -3,7 +3,7 @@
     <shortcut
         android:shortcutId="timer_shortcut"
         android:enabled="true"
-        android:icon="@drawable/timer_drawable"
+        android:icon="@drawable/ic_timer_shortcut"
         android:shortcutShortLabel="@string/timer_shortcut_shortLabel"
         android:shortcutLongLabel="@string/timer_shortcut_longLabel">
         <intent
@@ -18,7 +18,7 @@
     <shortcut
         android:shortcutId="counter_shortcut"
         android:enabled="true"
-        android:icon="@drawable/counter_drawable"
+        android:icon="@drawable/ic_counter_shortcut"
         android:shortcutShortLabel="@string/counter_shortcut_shortLabel"
         android:shortcutLongLabel="@string/counter_shortcut_longLabel">
         <intent
@@ -33,7 +33,7 @@
     <shortcut
         android:shortcutId="stopwatch_shortcut"
         android:enabled="true"
-        android:icon="@drawable/stopwatch_drawable"
+        android:icon="@drawable/ic_stopwatch_shortcut"
         android:shortcutShortLabel="@string/stopwatch_shortcut_shortLabel"
         android:shortcutLongLabel="@string/stopwatch_shortcut_longLabel">
         <intent
