@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
@@ -44,12 +46,16 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
     private static WidgetCounterAdapter counterAdapter;
     private Button cancelButton;
     private static Activity activity;
-    private static TextView noCounterText;
+    private static TextView noCounterText, blackThemeText, grayThemeText, lightThemeText;
     private SharedPreferences sharedPreferences;
     private static TickTrackDatabase tickTrackDatabase;
     private ConstraintLayout counterFragmentRootLayout;
     private FloatingActionButton counterFab;
     private static RecyclerView counterRecyclerView;
+
+    private ImageButton blackTheme, grayTheme, lightTheme;
+    private static int currentTheme = 3;
+    private ImageView blackTick, grayTick, lightTick;
 
     private static int counterWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
@@ -79,6 +85,8 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         super.onResume();
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        TickTrackThemeSetter.counterWidgetActivityTheme(this, counterRecyclerView, counterFragmentRootLayout,
+                noCounterText, tickTrackDatabase, blackThemeText, grayThemeText, lightThemeText, cancelButton);
     }
 
     @Override
@@ -94,11 +102,41 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         counterFragmentRootLayout = findViewById(R.id.counterWidgetActivityRootLayout);
         counterFab = findViewById(R.id.counterWidgetActivityFAB);
         cancelButton = findViewById(R.id.counterWidgetActivityCancelButton);
+        blackTheme = findViewById(R.id.counterWidgetActivityBlackThemeButton);
+        grayTheme = findViewById(R.id.counterWidgetActivityGrayThemeButton);
+        lightTheme = findViewById(R.id.counterWidgetActivityLightThemeButton);
+        blackTick = findViewById(R.id.counterWidgetActivityBlackThemeTick);
+        grayTick = findViewById(R.id.counterWidgetActivityGrayThemeTick);
+        lightTick = findViewById(R.id.counterWidgetActivityLightThemeTick);
+        blackThemeText = findViewById(R.id.counterWidgetActivityBlackThemeText);
+        grayThemeText = findViewById(R.id.counterWidgetActivityGrayThemeText);
+        lightThemeText = findViewById(R.id.counterWidgetActivityLightThemeText);
 
+        grayTick.setVisibility(View.VISIBLE);
+        blackTick.setVisibility(View.GONE);
+        lightTick.setVisibility(View.GONE);
+        currentTheme = 2;
+
+        lightTheme.setOnClickListener(view -> {
+            currentTheme = 1;
+            grayTick.setVisibility(View.GONE);
+            blackTick.setVisibility(View.GONE);
+            lightTick.setVisibility(View.VISIBLE);
+        });
+        blackTheme.setOnClickListener(view -> {
+            currentTheme = 3;
+            grayTick.setVisibility(View.GONE);
+            blackTick.setVisibility(View.VISIBLE);
+            lightTick.setVisibility(View.GONE);
+        });
+        grayTheme.setOnClickListener(view -> {
+            currentTheme = 2;
+            grayTick.setVisibility(View.VISIBLE);
+            blackTick.setVisibility(View.GONE);
+            lightTick.setVisibility(View.GONE);
+        });
 
         buildRecyclerView(activity);
-
-        TickTrackThemeSetter.counterFragmentTheme(this, counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase);
 
         Intent counterIntent = getIntent();
         Bundle extras = counterIntent.getExtras();
@@ -158,7 +196,9 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue());
         views.setTextViewText(R.id.counterWidgetCounterNameText, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterLabel());
         setFlag(views, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterFlag());
+        setupTheme(views);
         appWidgetManager.updateAppWidget(counterWidgetId, views);
+
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, counterWidgetId);
@@ -183,6 +223,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         counterWidgetData.setCounterIdInteger(intentUniqueId);
         counterWidgetData.setCounterIdString(counterStringId);
         counterWidgetData.setCounterWidgetId(counterWidgetId);
+        counterWidgetData.setWidgetTheme(currentTheme);
 
         counterWidgetDataArrayList.add(counterWidgetData);
         tickTrackDatabase.storeCounterWidgetList(counterWidgetDataArrayList);
@@ -193,6 +234,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         views.setOnClickPendingIntent(R.id.counterWidgetMinusButton, getPendingSelfIntentStatic(activity, ACTION_WIDGET_CLICK_MINUS, intentUniqueId, counterStringId ));
         views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterValue());
         views.setTextViewText(R.id.counterWidgetCounterNameText, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterLabel());
+        setupTheme(views);
         setFlag(views, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterFlag());
         appWidgetManager.updateAppWidget(counterWidgetId, views);
 
@@ -201,6 +243,34 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         activity.setResult(RESULT_OK, resultValue);
         updateWidget();
         activity.finish();
+    }
+
+    private static void setupTheme(RemoteViews views) {
+        if( currentTheme == 1){
+            views.setInt(R.id.counterWidgetRootRelativeLayout, "setBackgroundResource", R.drawable.round_rect_light);
+            views.setInt(R.id.counterWidgetPlusButton, "setBackgroundResource", R.drawable.button_selector_white);
+            views.setInt(R.id.counterWidgetMinusButton, "setBackgroundResource",R.drawable.button_selector_white);
+            views.setTextColor(R.id.counterWidgetCountText,   activity.getResources().getColor(R.color.DarkText));
+            views.setTextColor(R.id.counterWidgetCounterNameText,   activity.getResources().getColor(R.color.DarkText));
+            views.setTextColor(R.id.counterWidgetPlusButton,   activity.getResources().getColor(R.color.DarkText));
+            views.setTextColor(R.id.counterWidgetMinusButton,   activity.getResources().getColor(R.color.DarkText));
+        } else if(currentTheme == 2){
+            views.setInt(R.id.counterWidgetRootRelativeLayout, "setBackgroundResource", R.drawable.round_rect_dark);
+            views.setInt(R.id.counterWidgetPlusButton, "setBackgroundResource", R.drawable.button_selector_dark);
+            views.setInt(R.id.counterWidgetMinusButton, "setBackgroundResource",R.drawable.button_selector_dark);
+            views.setTextColor(R.id.counterWidgetCountText,   activity.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetCounterNameText,   activity.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetPlusButton,   activity.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetMinusButton,   activity.getResources().getColor(R.color.LightText));
+        } else if(currentTheme == 3){
+            views.setInt(R.id.counterWidgetRootRelativeLayout, "setBackgroundResource", R.drawable.round_rect_black);
+            views.setInt(R.id.counterWidgetPlusButton, "setBackgroundResource", R.drawable.button_selector_dark);
+            views.setInt(R.id.counterWidgetMinusButton, "setBackgroundResource",R.drawable.button_selector_dark);
+            views.setTextColor(R.id.counterWidgetCountText,   activity.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetCounterNameText,   activity.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetPlusButton,   activity.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetMinusButton,   activity.getResources().getColor(R.color.LightText));
+        }
     }
 
     private static void updateWidget(){
@@ -271,6 +341,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         counterWidgetData.setCounterIdInteger(counterIntegerId);
         counterWidgetData.setCounterIdString(counterStringId);
         counterWidgetData.setCounterWidgetId(counterWidgetId);
+        counterWidgetData.setWidgetTheme(currentTheme);
 
         counterWidgetDataArrayList.add(counterWidgetData);
         tickTrackDatabase.storeCounterWidgetList(counterWidgetDataArrayList);

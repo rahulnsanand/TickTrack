@@ -2,8 +2,16 @@ package com.theflopguyproductions.ticktrack.widgets.counter.data;
 
 public class CounterWidgetData {
 
-    int counterIdInteger, counterWidgetId;
+    int counterIdInteger, counterWidgetId, widgetTheme;
     String counterIdString;
+
+    public int getWidgetTheme() {
+        return widgetTheme;
+    }
+
+    public void setWidgetTheme(int widgetTheme) {
+        this.widgetTheme = widgetTheme;
+    }
 
     public int getCounterIdInteger() {
         return counterIdInteger;

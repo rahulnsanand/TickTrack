@@ -34,12 +34,13 @@ public class CounterWidget extends AppWidgetProvider {
 
         int counterIntId = getCounterIntId(appWidgetId, counterWidgetDataArrayList);
         String counterStringId = getCounterStringId(appWidgetId, counterWidgetDataArrayList);
+        int currentTheme = getCounterTheme(appWidgetId, counterWidgetDataArrayList);
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.counter_widget);
 
         System.out.println("UPDATE HAPPENED");
 
-        if(counterIntId!=-1 && counterStringId!=null){
+        if(counterIntId!=-1 && counterStringId!=null && currentTheme!= -1){
 
             Intent intent = new Intent(context, CounterActivity.class);
             intent.putExtra("currentCounterPosition", counterStringId);
@@ -53,9 +54,47 @@ public class CounterWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue());
             views.setTextViewText(R.id.counterWidgetCounterNameText, counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterLabel());
             setFlag(views, counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterFlag());
+            setupTheme(views, currentTheme, context);
+            System.out.println(currentTheme+"<<<<<<<<<<<<<THEME");
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    private int getCounterTheme(int appWidgetId, ArrayList<CounterWidgetData> counterWidgetDataArrayList) {
+        for(int i=0; i<counterWidgetDataArrayList.size(); i++){
+            if(counterWidgetDataArrayList.get(i).getCounterWidgetId()==appWidgetId){
+                return counterWidgetDataArrayList.get(i).getWidgetTheme();
+            }
+        }
+        return -1;
+    }
+    private static void setupTheme(RemoteViews views, int currentTheme, Context context) {
+        if( currentTheme == 1){
+            views.setInt(R.id.counterWidgetRootRelativeLayout, "setBackgroundResource", R.drawable.round_rect_light);
+            views.setInt(R.id.counterWidgetPlusButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
+            views.setInt(R.id.counterWidgetMinusButton, "setBackgroundResource",R.drawable.clickable_layout_light_background);
+            views.setTextColor(R.id.counterWidgetCountText,   context.getResources().getColor(R.color.DarkText));
+            views.setTextColor(R.id.counterWidgetCounterNameText,   context.getResources().getColor(R.color.DarkText));
+            views.setTextColor(R.id.counterWidgetPlusButton,   context.getResources().getColor(R.color.DarkText));
+            views.setTextColor(R.id.counterWidgetMinusButton,   context.getResources().getColor(R.color.DarkText));
+        } else if(currentTheme == 2){
+            views.setInt(R.id.counterWidgetRootRelativeLayout, "setBackgroundResource", R.drawable.round_rect_dark);
+            views.setInt(R.id.counterWidgetPlusButton, "setBackgroundResource", R.drawable.clickable_layout_gray_background);
+            views.setInt(R.id.counterWidgetMinusButton, "setBackgroundResource",R.drawable.clickable_layout_gray_background);
+            views.setTextColor(R.id.counterWidgetCountText,   context.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetCounterNameText,   context.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetPlusButton,   context.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetMinusButton,   context.getResources().getColor(R.color.LightText));
+        } else if(currentTheme == 3){
+            views.setInt(R.id.counterWidgetRootRelativeLayout, "setBackgroundResource", R.drawable.round_rect_black);
+            views.setInt(R.id.counterWidgetPlusButton, "setBackgroundResource", R.drawable.clickable_layout_dark_background);
+            views.setInt(R.id.counterWidgetMinusButton, "setBackgroundResource",R.drawable.clickable_layout_dark_background);
+            views.setTextColor(R.id.counterWidgetCountText,   context.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetCounterNameText,   context.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetPlusButton,   context.getResources().getColor(R.color.LightText));
+            views.setTextColor(R.id.counterWidgetMinusButton,   context.getResources().getColor(R.color.LightText));
+        }
     }
     private static void setFlag(RemoteViews views, int counterFlag) {
         if(counterFlag==1){

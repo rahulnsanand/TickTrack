@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.utils.helpers;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
@@ -118,6 +119,31 @@ public class TickTrackThemeSetter {
             counterFragmentRootLayout.setBackgroundResource(R.color.Black);
             recyclerView.setBackgroundResource(R.color.Black);
             noCounterText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+        }
+    }
+
+    public static void counterWidgetActivityTheme(Activity activity, RecyclerView recyclerView, ConstraintLayout counterFragmentRootLayout, TextView noCounterText
+            , TickTrackDatabase tickTrackDatabase, TextView black, TextView gray, TextView light, Button cancel){
+        int checkTheme = tickTrackDatabase.getThemeMode();
+        if(checkTheme==1){
+            counterFragmentRootLayout.setBackgroundResource(R.color.LightGray);
+            recyclerView.setBackgroundResource(R.color.LightGray);
+            noCounterText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            black.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            gray.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            light.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            cancel.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            cancel.setBackgroundResource(R.drawable.button_selector_white);
+
+        } else {
+            counterFragmentRootLayout.setBackgroundResource(R.color.Black);
+            recyclerView.setBackgroundResource(R.color.Black);
+            noCounterText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            black.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            gray.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            light.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            cancel.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            cancel.setBackgroundResource(R.drawable.button_selector_dark);
         }
     }
 

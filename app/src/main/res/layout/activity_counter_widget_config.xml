@@ -44,12 +44,117 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
-            android:text="Select a TickTrack Counter"
+            android:text="Select a theme"
+            android:textColor="@color/Accent"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
+
+        <ImageButton
+            android:id="@+id/counterWidgetActivityBlackThemeButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/round_rect_black" />
+
+        <TextView
+            android:id="@+id/counterWidgetActivityBlackThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="True Black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityBlackThemeButton" />
+
+        <ImageButton
+            android:id="@+id/counterWidgetActivityGrayThemeButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/round_rect_dark" />
+
+        <ImageButton
+            android:id="@+id/counterWidgetActivityLightThemeButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/round_rect_light" />
+
+        <TextView
+            android:id="@+id/counterWidgetActivityGrayThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityGrayThemeButton" />
+
+        <TextView
+            android:id="@+id/counterWidgetActivityLightThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityLightThemeButton" />
+
+        <ImageView
+            android:id="@+id/counterWidgetActivityBlackThemeTick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintTop_toTopOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+
+        <ImageView
+            android:id="@+id/counterWidgetActivityGrayThemeTick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintTop_toTopOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+
+        <ImageView
+            android:id="@+id/counterWidgetActivityLightThemeTick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintTop_toTopOf="@+id/counterWidgetActivityLightThemeButton"
+            app:srcCompat="@drawable/ic_light_tick" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,7 +164,7 @@
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout13">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/counterWidgetActivityRecyclerView"
@@ -84,10 +189,34 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Cancel"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout12">
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Select/Create a TickTrack Counter"
+            android:textColor="@color/Accent"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
