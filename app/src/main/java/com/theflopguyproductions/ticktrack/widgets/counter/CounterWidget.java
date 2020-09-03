@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.theflopguyproductions.ticktrack.R;
@@ -50,11 +51,31 @@ public class CounterWidget extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.counterWidgetPlusButton, getPendingSelfIntent(context, ACTION_WIDGET_CLICK_PLUS, counterIntId, counterStringId, appWidgetIds ));
             views.setOnClickPendingIntent(R.id.counterWidgetMinusButton, getPendingSelfIntent(context, ACTION_WIDGET_CLICK_MINUS, counterIntId, counterStringId, appWidgetIds ));
             views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue());
+            views.setTextViewText(R.id.counterWidgetCounterNameText, counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterLabel());
+            setFlag(views, counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterFlag());
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
-
+    private static void setFlag(RemoteViews views, int counterFlag) {
+        if(counterFlag==1){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_red);
+        }
+        else if(counterFlag==2){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_green);
+        }
+        else if(counterFlag==3){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_orange);
+        }
+        else if(counterFlag==4){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_purple);
+        }
+        else if(counterFlag==5){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_blue);
+        } else {
+            views.setViewVisibility(R.id.counterWidgetFlag, View.GONE);
+        }
+    }
     private int getCounterIntId(int appWidgetId, ArrayList<CounterWidgetData> counterWidgetDataArrayList) {
         for(int i=0; i<counterWidgetDataArrayList.size(); i++){
             if(counterWidgetDataArrayList.get(i).getCounterWidgetId()==appWidgetId){

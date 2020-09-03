@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.widgets.counter;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -92,7 +93,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         noCounterText = findViewById(R.id.counterWidgetActivityNoCounterText);
         counterFragmentRootLayout = findViewById(R.id.counterWidgetActivityRootLayout);
         counterFab = findViewById(R.id.counterWidgetActivityFAB);
-
+        cancelButton = findViewById(R.id.counterWidgetActivityCancelButton);
 
 
         buildRecyclerView(activity);
@@ -129,6 +130,8 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
             });
         });
 
+        cancelButton.setOnClickListener(view -> finish());
+
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
@@ -153,11 +156,14 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         views.setOnClickPendingIntent(R.id.counterWidgetPlusButton, getPendingSelfIntent(this, ACTION_WIDGET_CLICK_PLUS, intentUniqueId, counterStringId ));
         views.setOnClickPendingIntent(R.id.counterWidgetMinusButton, getPendingSelfIntent(this, ACTION_WIDGET_CLICK_MINUS, intentUniqueId, counterStringId ));
         views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue());
+        views.setTextViewText(R.id.counterWidgetCounterNameText, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterLabel());
+        setFlag(views, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterFlag());
         appWidgetManager.updateAppWidget(counterWidgetId, views);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, counterWidgetId);
         setResult(RESULT_OK, resultValue);
+        updateWidget();
         finish();
     }
 
@@ -176,7 +182,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         CounterWidgetData counterWidgetData = new CounterWidgetData();
         counterWidgetData.setCounterIdInteger(intentUniqueId);
         counterWidgetData.setCounterIdString(counterStringId);
-        counterWidgetData.setCounterWidgetId(intentUniqueId);
+        counterWidgetData.setCounterWidgetId(counterWidgetId);
 
         counterWidgetDataArrayList.add(counterWidgetData);
         tickTrackDatabase.storeCounterWidgetList(counterWidgetDataArrayList);
@@ -186,12 +192,43 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         views.setOnClickPendingIntent(R.id.counterWidgetPlusButton, getPendingSelfIntentStatic(activity, ACTION_WIDGET_CLICK_PLUS, intentUniqueId, counterStringId ));
         views.setOnClickPendingIntent(R.id.counterWidgetMinusButton, getPendingSelfIntentStatic(activity, ACTION_WIDGET_CLICK_MINUS, intentUniqueId, counterStringId ));
         views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterValue());
+        views.setTextViewText(R.id.counterWidgetCounterNameText, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterLabel());
+        setFlag(views, counterDataArrayList.get(getCurrentPositionStatic(counterStringId)).getCounterFlag());
         appWidgetManager.updateAppWidget(counterWidgetId, views);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, counterWidgetId);
         activity.setResult(RESULT_OK, resultValue);
+        updateWidget();
         activity.finish();
+    }
+
+    private static void updateWidget(){
+        Intent intent = new Intent(activity, CounterWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(activity).getAppWidgetIds(new ComponentName(activity, CounterWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        activity.sendBroadcast(intent);
+    }
+
+    private static void setFlag(RemoteViews views, int counterFlag) {
+        if(counterFlag==1){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_red);
+        }
+        else if(counterFlag==2){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_green);
+        }
+        else if(counterFlag==3){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_orange);
+        }
+        else if(counterFlag==4){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_purple);
+        }
+        else if(counterFlag==5){
+            views.setImageViewResource(R.id.counterWidgetFlag, R.drawable.ic_flag_blue);
+        } else {
+            views.setViewVisibility(R.id.counterWidgetFlag, View.GONE);
+        }
     }
 
     private static PendingIntent getPendingSelfIntentStatic(Context context, String action, int counterID, String counterIdString) {
