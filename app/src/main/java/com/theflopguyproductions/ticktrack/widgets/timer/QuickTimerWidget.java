@@ -1,22 +1,27 @@
 package com.theflopguyproductions.ticktrack.widgets.timer;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 
 public class QuickTimerWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        Intent intent = new Intent(context, SoYouADeveloperHuh.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent, 0);
+
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.quick_timer_widget);
-        views.setTextViewText(R.id.counterWidgetCountText, widgetText);
-
+        views.setOnClickPendingIntent(R.id.quickTimerWidgetOneMinuteButton, pendingIntent);
+        views.setOnClickPendingIntent(R.id.quickTimerWidgetTwoMinuteButton, pendingIntent);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
