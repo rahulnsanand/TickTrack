@@ -17,7 +17,7 @@ import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.widgets.counter.data.CounterWidgetData;

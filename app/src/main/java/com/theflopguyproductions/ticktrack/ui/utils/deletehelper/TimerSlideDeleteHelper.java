@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.theflopguyproductions.ticktrack.timer.TimerAdapter;
+import com.theflopguyproductions.ticktrack.timer.data.TimerAdapter;
 
 
 public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {

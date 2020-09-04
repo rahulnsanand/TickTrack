@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.timer;
+package com.theflopguyproductions.ticktrack.timer.data;
 
 import android.app.Activity;
 import android.content.Context;

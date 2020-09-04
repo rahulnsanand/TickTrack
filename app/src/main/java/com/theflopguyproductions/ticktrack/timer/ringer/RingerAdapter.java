@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
-import com.theflopguyproductions.ticktrack.timer.TimerDiffUtilCallback;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerDiffUtilCallback;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 

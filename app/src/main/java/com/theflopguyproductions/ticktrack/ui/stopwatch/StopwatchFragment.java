@@ -279,12 +279,6 @@ public class StopwatchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         TickTrackThemeSetter.stopwatchFragmentTheme(activity, stopwatchRootLayout, stopwatchLapTitleText, stopwatchValueText,
                 tickTrackDatabase, backgroundProgressBar, stopwatchMillisText);
 
@@ -294,6 +288,12 @@ public class StopwatchFragment extends Fragment {
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
         checkConditions();
         setupClickListeners();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 
     @Override

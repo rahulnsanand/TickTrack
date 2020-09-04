@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.timer;
+package com.theflopguyproductions.ticktrack.timer.data;
 
 public class TimerData implements Comparable<TimerData> {
 
@@ -17,6 +17,16 @@ public class TimerData implements Comparable<TimerData> {
 
     boolean isTimerRinging;
     boolean isTimerNotificationOn;
+
+    boolean isQuickTimer;
+
+    public boolean isQuickTimer() {
+        return isQuickTimer;
+    }
+
+    public void setQuickTimer(boolean quickTimer) {
+        isQuickTimer = quickTimer;
+    }
 
     public int getTimerIntID() {
         return timerIntID;

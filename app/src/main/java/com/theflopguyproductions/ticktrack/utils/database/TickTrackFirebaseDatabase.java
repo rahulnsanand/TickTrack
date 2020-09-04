@@ -15,7 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
-import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerBackupData;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

@@ -20,7 +20,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.TimerEditDialog;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;

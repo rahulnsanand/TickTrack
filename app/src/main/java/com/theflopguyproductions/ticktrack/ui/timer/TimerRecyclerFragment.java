@@ -20,14 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
-import com.theflopguyproductions.ticktrack.timer.TimerAdapter;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerAdapter;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.TimerSlideDeleteHelper;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
@@ -79,6 +81,21 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
         buildRecyclerView(activity);
         return root;
+    }
+
+    private HashMap<Boolean, ArrayList<TimerData>> groupDataIntoHashMap(ArrayList<TimerData> timerDataArrayList) {
+        HashMap<Boolean, ArrayList<TimerData>> groupedHashMap = new HashMap<>();
+        for(int i=0; i<timerDataArrayList.size(); i++) {
+            boolean isQuickTimer = timerDataArrayList.get(i).isQuickTimer();
+            if(groupedHashMap.containsKey(isQuickTimer)) {
+                Objects.requireNonNull(groupedHashMap.get(isQuickTimer)).add(timerDataArrayList.get(i));
+            } else {
+                ArrayList<TimerData> list = new ArrayList<>();
+                list.add(timerDataArrayList.get(i));
+                groupedHashMap.put(isQuickTimer, list);
+            }
+        }
+        return groupedHashMap;
     }
 
     private static void buildRecyclerView(Activity activity) {

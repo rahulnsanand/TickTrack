@@ -16,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.ScrollingPagerIndicator;
 import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.SnappingRecyclerView;

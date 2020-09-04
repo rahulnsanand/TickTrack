@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
@@ -24,6 +24,7 @@ import java.util.Objects;
 public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     public static final String ACTION_TIMER_BROADCAST = "ACTION_TIMER_BROADCAST";
+    public static final String ACTION_QUICK_TIMER_BROADCAST = "ACTION_QUICK_TIMER_BROADCAST";
 
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
 
@@ -35,6 +36,37 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         if(Objects.equals(intent.getAction(), ACTION_TIMER_BROADCAST)){
 
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+
+            TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
+
+            timerIDInteger = intent.getIntExtra("timerIntegerID",0);
+            timerDataArrayList = retrieveTimerData(tickTrackDatabase.getSharedPref(context));
+
+            int position = getCurrentTimerPosition();
+            if(position!=-1){
+                timerDataArrayList.get(position).setTimerRinging(true);
+                timerDataArrayList.get(position).setTimerNotificationOn(false);
+                timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
+                timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
+                timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
+
+                storeTimerList(tickTrackDatabase.getSharedPref(context));
+                if(!isMyServiceRunning(TimerRingService.class, context)){
+                    startNotificationService(context);
+                    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+                    if( myKM.inKeyguardRestrictedInputMode()) {
+                        Intent resultIntent = new Intent(context, TimerRingerActivity.class);
+                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(resultIntent);
+                    }
+                }
+                if(isMyServiceRunning(TimerService.class, context)){
+                    stopTimerNotification(context);
+                }
+            }
+        }
+        else if (Objects.equals(intent.getAction(), ACTION_QUICK_TIMER_BROADCAST)){
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
 
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);

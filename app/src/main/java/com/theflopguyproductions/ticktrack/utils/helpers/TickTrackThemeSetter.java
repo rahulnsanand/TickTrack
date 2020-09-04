@@ -408,4 +408,33 @@ public class TickTrackThemeSetter {
         }
         backgroundProgressBar.setProgress(1f);
     }
+
+    public static void quickTimerActivityTheme(Activity activity,TickTrackDatabase tickTrackDatabase, NumberPicker hourPickerLight, NumberPicker minutePickerLight, NumberPicker secondPickerLight,
+                                               NumberPicker hourPickerDark, NumberPicker minutePickerDark, NumberPicker secondPickerDark, TextView hourText, TextView minuteText,
+                                               TextView secondText, ConstraintLayout rootLayout) {
+        int checkTheme = tickTrackDatabase.getThemeMode();
+        if(checkTheme==1){
+            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+            hourText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            minuteText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            secondText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            hourPickerDark.setVisibility(View.INVISIBLE);
+            minutePickerDark.setVisibility(View.INVISIBLE);
+            secondPickerDark.setVisibility(View.INVISIBLE);
+            hourPickerLight.setVisibility(View.VISIBLE);
+            minutePickerLight.setVisibility(View.VISIBLE);
+            secondPickerLight.setVisibility(View.VISIBLE);
+        } else {
+            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+            hourText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            minuteText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            secondText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            hourPickerDark.setVisibility(View.VISIBLE);
+            minutePickerDark.setVisibility(View.VISIBLE);
+            secondPickerDark.setVisibility(View.VISIBLE);
+            hourPickerLight.setVisibility(View.INVISIBLE);
+            minutePickerLight.setVisibility(View.INVISIBLE);
+            secondPickerLight.setVisibility(View.INVISIBLE);
+        }
+    }
 }

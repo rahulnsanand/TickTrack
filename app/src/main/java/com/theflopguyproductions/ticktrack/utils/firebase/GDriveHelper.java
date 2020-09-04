@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
-import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerBackupData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
 import java.io.BufferedReader;

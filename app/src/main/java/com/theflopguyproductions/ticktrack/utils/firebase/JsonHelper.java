@@ -16,8 +16,8 @@ import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
-import com.theflopguyproductions.ticktrack.timer.TimerBackupData;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerBackupData;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 
@@ -45,17 +45,19 @@ public class JsonHelper {
         ArrayList<TimerBackupData> timerBackupData = new ArrayList<>();
 
         for(int i = 0; i<timerData.size(); i++){
-            TimerBackupData timerBackupData1 = new TimerBackupData();
-            timerBackupData1.setTimerLastEdited(timerData.get(i).getTimerLastEdited());
-            timerBackupData1.setTimerHour(timerData.get(i).getTimerHour());
-            timerBackupData1.setTimerMinute(timerData.get(i).getTimerMinute());
-            timerBackupData1.setTimerSecond(timerData.get(i).getTimerSecond());
-            timerBackupData1.setTimerLabel(timerData.get(i).getTimerLabel());
-            timerBackupData1.setTimerFlag(timerData.get(i).getTimerFlag());
-            timerBackupData1.setTimerTotalTimeInMillis(timerData.get(i).getTimerTotalTimeInMillis());
-            timerBackupData1.setTimerID(timerData.get(i).getTimerID());
-            timerBackupData1.setTimerIntID(timerData.get(i).getTimerIntID());
-            timerBackupData.add(timerBackupData1);
+            if(!timerData.get(i).isQuickTimer()){
+                TimerBackupData timerBackupData1 = new TimerBackupData();
+                timerBackupData1.setTimerLastEdited(timerData.get(i).getTimerLastEdited());
+                timerBackupData1.setTimerHour(timerData.get(i).getTimerHour());
+                timerBackupData1.setTimerMinute(timerData.get(i).getTimerMinute());
+                timerBackupData1.setTimerSecond(timerData.get(i).getTimerSecond());
+                timerBackupData1.setTimerLabel(timerData.get(i).getTimerLabel());
+                timerBackupData1.setTimerFlag(timerData.get(i).getTimerFlag());
+                timerBackupData1.setTimerTotalTimeInMillis(timerData.get(i).getTimerTotalTimeInMillis());
+                timerBackupData1.setTimerID(timerData.get(i).getTimerID());
+                timerBackupData1.setTimerIntID(timerData.get(i).getTimerIntID());
+                timerBackupData.add(timerBackupData1);
+            }
         }
 
         if(timerBackupData.size()>0){
@@ -424,6 +426,7 @@ public class JsonHelper {
             TimerData newTimer = new TimerData();
             newTimer.setTimerID(timerBackupData.get(i).getTimerID());
             newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
+            newTimer.setQuickTimer(false);
             newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
             newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
             newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());

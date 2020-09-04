@@ -21,8 +21,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
-import com.theflopguyproductions.ticktrack.timer.TimerData;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
+import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
@@ -316,6 +316,7 @@ public class TimerCreatorFragment extends Fragment {
         timerData.setTimerLabel(timerLabelText.getText().toString());
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntID(UniqueIdGenerator.getUniqueIntegerTimerID());
+        timerData.setQuickTimer(false);
         timerData.setTimerStartTimeInMillis(-1);
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerData.setTimerPause(false);
