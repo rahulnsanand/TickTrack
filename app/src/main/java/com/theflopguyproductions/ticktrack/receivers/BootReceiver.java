@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 
+import com.theflopguyproductions.ticktrack.counter.CounterData;
+import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
@@ -21,11 +23,16 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+
         TimerManagementHelper timerManagementHelper = new TimerManagementHelper(context);
 
         timerManagementHelper.reestablishTimers();
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
+
+        ArrayList<CounterData> counterData = tickTrackDatabase.retrieveCounterList();
+        checkNotification(context, counterData);
+
         ArrayList<StopwatchData> stopwatchData = tickTrackDatabase.retrieveStopwatchData();
         ArrayList<StopwatchLapData> stopwatchLapData = tickTrackDatabase.retrieveStopwatchLapData();
         if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
@@ -60,6 +67,14 @@ public class BootReceiver extends BroadcastReceiver {
         }
     }
 
+    private void checkNotification(Context context, ArrayList<CounterData> counterData) {
+        for(int i=0; i<counterData.size(); i++){
+            if(counterData.get(i).isCounterPersistentNotification()){
+                startCounterNotificationService(context);
+            }
+        }
+    }
+
     public void startNotificationService(Context context) {
         Intent intent = new Intent(context, StopwatchNotificationService.class);
         intent.setAction(StopwatchNotificationService.ACTION_START_STOPWATCH_SERVICE);
@@ -74,6 +89,13 @@ public class BootReceiver extends BroadcastReceiver {
             }
         }
         return false;
+    }
+
+    private void startCounterNotificationService(Context context) {
+        Intent intent = new Intent(context, CounterNotificationService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(CounterNotificationService.ACTION_START_COUNTER_SERVICE);
+        context.startService(intent);
     }
 
 }

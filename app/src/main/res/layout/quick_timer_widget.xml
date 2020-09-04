@@ -1,21 +1,185 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/quickTimerWidgetRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
+    android:background="@drawable/round_rect_light"
     android:padding="@dimen/widget_margin">
 
-    <TextView
-        android:id="@+id/counterWidgetCountText"
+    <RelativeLayout
+        android:id="@+id/quickTimerWidgetOneMinuteButton"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/circular_button_light"
+        app:cornerRadius="250dp">
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="1m"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/quickTimerWidgetTwoMinuteButton"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_toEndOf="@+id/quickTimerWidgetOneMinuteButton"
+        android:background="@drawable/circular_button_light"
+        app:cornerRadius="250dp">
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="2m"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/quickTimerWidgetFiveMinuteButton"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_toEndOf="@+id/quickTimerWidgetTwoMinuteButton"
+        android:background="@drawable/circular_button_light"
+        app:cornerRadius="250dp">
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="5m"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/quickTimerWidgetTenMinuteButton"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_toEndOf="@+id/quickTimerWidgetFiveMinuteButton"
+        android:background="@drawable/circular_button_light"
+        app:cornerRadius="250dp">
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="10m"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/quickTimerWidgetCustomButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/quickTimerWidgetTenMinuteButton"
+        android:background="@drawable/button_selector_light"
+        android:text="Custom"
+        android:visibility="visible" />
 
+    <TextView
+        android:id="@+id/quickTimerWidgetTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/quickTimerWidgetTwoMinuteButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toStartOf="@+id/quickTimerWidgetCustomButton"
+        android:text="TickTrack QuickTimer"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/quickTimerWidgetTimerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quickTimerWidgetTitleText"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="0:00:00"
+        android:textAlignment="center"
+        android:textSize="36sp" />
 </RelativeLayout>
