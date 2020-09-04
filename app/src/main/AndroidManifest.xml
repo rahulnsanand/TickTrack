@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".widgets.timer.TimerWidgetConfigActivity" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity android:name=".widgets.timer.QuickTimerActivity" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".widgets.counter.CounterWidgetConfigActivity" />
 
         <receiver

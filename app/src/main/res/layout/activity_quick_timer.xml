@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quickTimerActivityRootLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_rect_light"
+    tools:context=".widgets.timer.QuickTimerActivity">
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TickTrack QuickTimer"
+        android:textColor="@color/Accent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView25">
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/button6"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_light"
+            android:text="1m"
+            app:layout_constraintBottom_toTopOf="@+id/button10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/button7"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_light"
+            android:text="2m"
+            app:layout_constraintBottom_toTopOf="@+id/button10"
+            app:layout_constraintStart_toEndOf="@+id/button6"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/button8"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_light"
+            android:text="3m"
+            app:layout_constraintBottom_toTopOf="@+id/button10"
+            app:layout_constraintStart_toEndOf="@+id/button7"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/button9"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_light"
+            android:text="4m"
+            app:layout_constraintBottom_toTopOf="@+id/button10"
+            app:layout_constraintStart_toEndOf="@+id/button8"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/button10"
+            style="@style/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_light"
+            android:text="Custom Timer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout14"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout15">
+
+        <NumberPicker
+            android:id="@+id/quickTimerActivityHourPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/quickTimerActivitySecondText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Seconds"
+            app:layout_constraintBottom_toTopOf="@+id/quickTimerActivityCreateButton"
+            app:layout_constraintEnd_toEndOf="@+id/quickTimerActivitySecondPicker"
+            app:layout_constraintStart_toStartOf="@+id/quickTimerActivitySecondPicker"
+            app:layout_constraintTop_toBottomOf="@+id/quickTimerActivitySecondPicker"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <NumberPicker
+            android:id="@+id/quickTimerActivityMinutePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/quickTimerActivityHourPicker"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/quickTimerActivityMinuteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Minutes"
+            app:layout_constraintBottom_toTopOf="@+id/quickTimerActivityCreateButton"
+            app:layout_constraintEnd_toEndOf="@+id/quickTimerActivityMinutePicker"
+            app:layout_constraintStart_toStartOf="@+id/quickTimerActivityMinutePicker"
+            app:layout_constraintTop_toBottomOf="@+id/quickTimerActivityMinutePicker"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <NumberPicker
+            android:id="@+id/quickTimerActivitySecondPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/quickTimerActivityMinutePicker"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/quickTimerActivityHourText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Hours"
+            app:layout_constraintBottom_toTopOf="@+id/quickTimerActivityCreateButton"
+            app:layout_constraintEnd_toEndOf="@+id/quickTimerActivityHourPicker"
+            app:layout_constraintStart_toStartOf="@+id/quickTimerActivityHourPicker"
+            app:layout_constraintTop_toBottomOf="@+id/quickTimerActivityHourPicker"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/quickTimerActivityCreateButton"
+            style="@style/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_light"
+            android:text="Start QuickTimer"
+            android:textColor="@color/Accent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/quickTimerActivityCancelButton"
+        style="@style/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_transparent"
+        android:text="Cancel"
+        android:textColor="@color/Accent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout14" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
