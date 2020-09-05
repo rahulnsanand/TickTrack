@@ -13,7 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.widgets.counter.CounterWidget;
+import com.theflopguyproductions.ticktrack.widgets.timer.data.TimerWidgetData;
+
+import java.util.ArrayList;
 
 import static com.theflopguyproductions.ticktrack.widgets.timer.QuickTimerWidget.ACTION_CUSTOM_QUICK_TIMER;
 import static com.theflopguyproductions.ticktrack.widgets.timer.QuickTimerWidget.ACTION_FIVE_MINUTE_QUICK_TIMER;
@@ -56,7 +60,7 @@ public class QuickTimerConfigActivity extends AppCompatActivity {
         grayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                confirmSelection(3);
+                confirmSelection(2);
             }
         });
     }
@@ -65,6 +69,17 @@ public class QuickTimerConfigActivity extends AppCompatActivity {
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         RemoteViews views = new RemoteViews(getPackageName(), R.layout.quick_timer_widget);
+
+        ArrayList<TimerWidgetData> timerWidgetDataArrayList = new TickTrackDatabase(this).retrieveTimerWidgetList();
+
+        TimerWidgetData timerWidgetData = new TimerWidgetData();
+        timerWidgetData.setTimerIdInteger(-1);
+        timerWidgetData.setTimerIdString(null);
+        timerWidgetData.setTimerWidgetId(timerWidgetId);
+        timerWidgetData.setWidgetTheme(themeSelection);
+
+        timerWidgetDataArrayList.add(timerWidgetData);
+        new TickTrackDatabase(this).storeTimerWidgetList(timerWidgetDataArrayList);
 
         Intent intent = new Intent(this, SoYouADeveloperHuh.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, timerWidgetId, intent, 0);
@@ -75,6 +90,13 @@ public class QuickTimerConfigActivity extends AppCompatActivity {
         views.setOnClickPendingIntent(R.id.quickTimerWidgetTenMinuteButton, getPendingIntent(ACTION_TEN_MINUTE_QUICK_TIMER));
         views.setOnClickPendingIntent(R.id.quickTimerWidgetCustomButton, getPendingIntent(ACTION_CUSTOM_QUICK_TIMER));
         views.setOnClickPendingIntent(R.id.quickTimerWidgetDiscardTimerButton, getPendingIntent(ACTION_RESET_QUICK_TIMER));
+        views.setViewVisibility(R.id.quickTimerWidgetCustomButton, View.VISIBLE);
+        views.setViewVisibility(R.id.quickTimerWidgetTenMinuteButton, View.VISIBLE);
+        views.setViewVisibility(R.id.quickTimerWidgetFiveMinuteButton, View.VISIBLE);
+        views.setViewVisibility(R.id.quickTimerWidgetTwoMinuteButton, View.VISIBLE);
+        views.setViewVisibility(R.id.quickTimerWidgetOneMinuteButton, View.VISIBLE);
+        views.setViewVisibility(R.id.quickTimerWidgetDiscardTimerButton, View.GONE);
+        views.setViewVisibility(R.id.quickTimerWidgetTimerText, View.GONE);
         setupTheme(views, themeSelection);
         appWidgetManager.updateAppWidget(timerWidgetId, views);
 
