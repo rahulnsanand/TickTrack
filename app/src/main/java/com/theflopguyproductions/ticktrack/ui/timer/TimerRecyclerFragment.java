@@ -25,11 +25,10 @@ import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.TimerSlideDeleteHelper;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.widgets.timer.QuickTimerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Objects;
 
 public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
@@ -38,10 +37,11 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private Activity activity;
-    private static RecyclerView timerRecyclerView;
-    private static TextView noTimerText;
-    private ConstraintLayout timerRecyclerRootLayout;
+    private static RecyclerView timerRecyclerView, quickTimerRecyclerView;
+    private static TextView noTimerText, timerTitleText, quickTimerTitleText;
+    private static ConstraintLayout timerRecyclerRootLayout, timerLayout, quickTimerLayout;
     private static TimerAdapter timerAdapter;
+    private static QuickTimerAdapter quickTimerAdapter;
 
     public static void deleteTimer(int position, Activity activity, String timerName) {
         deleteItem(position);
@@ -67,11 +67,16 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         tickTrackDatabase = new TickTrackDatabase(activity);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         timerRecyclerView = root.findViewById(R.id.timerFragmentRecyclerView);
+        quickTimerRecyclerView = root.findViewById(R.id.quickTimerFragmentRecyclerView);
+        timerLayout= root.findViewById(R.id.timerRootLayout);
+        quickTimerLayout= root.findViewById(R.id.quickTimerRootLayout);
+        timerTitleText = root.findViewById(R.id.timerFragmentTimerTitleText);
+        quickTimerTitleText = root.findViewById(R.id.timerFragmentQuickTimerTitleText);
 
         noTimerText = root.findViewById(R.id.timerFragmentNoTimerText);
         timerRecyclerRootLayout = root.findViewById(R.id.timerRecyclerRootLayout);
 
-        TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase);
+        TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase, timerRecyclerRootLayout);
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new TimerSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(timerRecyclerView);
@@ -79,28 +84,38 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
-        buildRecyclerView(activity);
+        splitTimerList(activity);
+
+        buildTimerRecyclerView(activity);
+
         return root;
     }
 
-    private HashMap<Boolean, ArrayList<TimerData>> groupDataIntoHashMap(ArrayList<TimerData> timerDataArrayList) {
-        HashMap<Boolean, ArrayList<TimerData>> groupedHashMap = new HashMap<>();
-        for(int i=0; i<timerDataArrayList.size(); i++) {
-            boolean isQuickTimer = timerDataArrayList.get(i).isQuickTimer();
-            if(groupedHashMap.containsKey(isQuickTimer)) {
-                Objects.requireNonNull(groupedHashMap.get(isQuickTimer)).add(timerDataArrayList.get(i));
+    private static void splitTimerList(Activity activity) {
+        quickTimerList = new ArrayList<>();
+        timerArrayList = new ArrayList<>();
+        for(int i=0; i<timerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).isQuickTimer()){
+                quickTimerList.add(timerDataArrayList.get(i));
             } else {
-                ArrayList<TimerData> list = new ArrayList<>();
-                list.add(timerDataArrayList.get(i));
-                groupedHashMap.put(isQuickTimer, list);
+                timerArrayList.add(timerDataArrayList.get(i));
             }
         }
-        return groupedHashMap;
+        if(!(quickTimerList.size() >0)){
+            quickTimerLayout.setVisibility(View.GONE);
+            timerTitleText.setVisibility(View.GONE);
+        } else {
+            quickTimerLayout.setVisibility(View.VISIBLE);
+            timerTitleText.setVisibility(View.VISIBLE);
+            buildQuickTimerRecyclerView(activity);
+        }
     }
 
-    private static void buildRecyclerView(Activity activity) {
+    private static ArrayList<TimerData> quickTimerList;
+    private static ArrayList<TimerData> timerArrayList;
+    private static void buildQuickTimerRecyclerView(Activity activity) {
 
-        timerAdapter = new TimerAdapter(activity, timerDataArrayList);
+        quickTimerAdapter = new QuickTimerAdapter(activity, quickTimerList);
 
         if(timerDataArrayList.size()>0){
             timerRecyclerView.setVisibility(View.VISIBLE);
@@ -108,12 +123,37 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
+            splitTimerList(activity);
 
             timerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             timerRecyclerView.setItemAnimator(new DefaultItemAnimator());
             timerRecyclerView.setAdapter(timerAdapter);
 
-            timerAdapter.diffUtilsChangeData(timerDataArrayList);
+            timerAdapter.diffUtilsChangeData(quickTimerList);
+
+        } else {
+            timerRecyclerView.setVisibility(View.INVISIBLE);
+            noTimerText.setVisibility(View.VISIBLE);
+        }
+
+    }
+    private static void buildTimerRecyclerView(Activity activity) {
+
+        timerAdapter = new TimerAdapter(activity, timerArrayList);
+
+        if(timerDataArrayList.size()>0){
+            timerRecyclerView.setVisibility(View.VISIBLE);
+            noTimerText.setVisibility(View.INVISIBLE);
+
+            Collections.sort(timerDataArrayList);
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
+            splitTimerList(activity);
+
+            timerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            timerRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            timerRecyclerView.setAdapter(timerAdapter);
+
+            timerAdapter.diffUtilsChangeData(timerArrayList);
 
         } else {
             timerRecyclerView.setVisibility(View.INVISIBLE);
@@ -193,10 +233,13 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             timerDataArrayList = tickTrackDatabase.retrieveTimerList();
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
-            timerAdapter.diffUtilsChangeData(timerDataArrayList);
+            splitTimerList(activity);
+            timerAdapter.diffUtilsChangeData(timerArrayList);
+            if(quickTimerList.size()>0){
+                quickTimerAdapter.diffUtilsChangeData(quickTimerList);
+            }
         }
     };
-
 
     @Override
     public void onPause() {

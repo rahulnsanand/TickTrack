@@ -71,6 +71,7 @@ public class QuickTimerActivity extends AppCompatActivity {
         if(ACTION_CREATE_CUSTOM_TIMER.equals(receivedAction)){
             toggleCustomTimer();
         }
+
     }
 
     private void setupClickListeners() {

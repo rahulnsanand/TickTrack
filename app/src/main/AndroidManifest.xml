@@ -22,14 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".widgets.timer.QuickTimerActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+        <activity android:name=".widgets.timer.QuickTimerConfigActivity"></activity>
+        <activity android:name=".widgets.timer.QuickTimerActivity"></activity>
         <activity android:name=".widgets.counter.CounterWidgetConfigActivity" />
 
         <receiver
@@ -151,7 +145,11 @@
         <activity
             android:name=".SoYouADeveloperHuh"
             android:label="@string/title_activity_so_you_a_developer_huh">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"

@@ -296,10 +296,18 @@ public class TickTrackThemeSetter {
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
-
         } else {
             recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
-
+        }
+    }
+    public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView, TickTrackDatabase tickTrackDatabase, ConstraintLayout rootLayout){
+        int checkTheme = tickTrackDatabase.getThemeMode();
+        if(checkTheme==1){
+            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+        } else {
+            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
         }
     }
 
