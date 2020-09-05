@@ -25,6 +25,7 @@ public class QuickTimerActivity extends AppCompatActivity {
     private ConstraintLayout rootLayout, customLayout, optionsLayout;
     private boolean isCustomTimerOn = false;
     private String receivedAction = null;
+    private int receivedAppWidgetId = -1;
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
 
@@ -70,7 +71,12 @@ public class QuickTimerActivity extends AppCompatActivity {
         receivedAction = getIntent().getAction();
         if(ACTION_CREATE_CUSTOM_TIMER.equals(receivedAction)){
             toggleCustomTimer();
+            receivedAppWidgetId = getIntent().getIntExtra("appWidgetId",-1);
+            if(receivedAppWidgetId!=-1){
+                //TODO HANDLE CUSTOM TIMER HERE
+            }
         }
+
 
     }
 

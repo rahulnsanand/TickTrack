@@ -16,6 +16,7 @@ public class QuickTimerPreset {
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
     private ArrayList<TimerData> timerDataArrayList;
+    private ArrayList<TimerWidgetData> timerWidgetDataArrayList;
 
     public QuickTimerPreset(Context context) {
         this.context = context;
@@ -23,7 +24,20 @@ public class QuickTimerPreset {
         tickTrackTimerDatabase = new TickTrackTimerDatabase(context);
     }
 
-    public void setOneMinuteTimer(){
+    private void setTimerWidgetData(int timerIntId, String timerStringId, int widgetId){
+        timerWidgetDataArrayList = tickTrackDatabase.retrieveTimerWidgetList();
+
+        for(int i=0; i<timerWidgetDataArrayList.size(); i++){
+            if(timerWidgetDataArrayList.get(i).getTimerWidgetId()==widgetId){
+                timerWidgetDataArrayList.get(i).setTimerIdString(timerStringId);
+                timerWidgetDataArrayList.get(i).setTimerIdInteger(timerIntId);
+            }
+        }
+
+        tickTrackDatabase.storeTimerWidgetList(timerWidgetDataArrayList);
+    }
+
+    public int setOneMinuteTimer(int widgetId){
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         TimerData timerData = new TimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
@@ -33,14 +47,18 @@ public class QuickTimerPreset {
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setQuickTimer(true);
-        timerData.setTimerStartTimeInMillis(-1);
+        timerData.setTimerStartTimeInMillis(System.currentTimeMillis()+TimeAgo.getTimerDataInMillis(0,1,0,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(0,1,0,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
+
+        setTimerWidgetData(timerData.getTimerIntID(), timerData.getTimerID(), widgetId);
+
+        return timerData.getTimerIntID();
     }
-    public void setTwoMinuteTimer(){
+    public int setTwoMinuteTimer(int widgetId){
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         TimerData timerData = new TimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
@@ -50,14 +68,18 @@ public class QuickTimerPreset {
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setQuickTimer(true);
-        timerData.setTimerStartTimeInMillis(-1);
+        timerData.setTimerStartTimeInMillis(System.currentTimeMillis()+TimeAgo.getTimerDataInMillis(0,2,0,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(0,2,0,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
+
+        setTimerWidgetData(timerData.getTimerIntID(), timerData.getTimerID(), widgetId);
+
+        return timerData.getTimerIntID();
     }
-    public void setFiveMinuteTimer(){
+    public int setFiveMinuteTimer(int widgetId){
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         TimerData timerData = new TimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
@@ -67,14 +89,18 @@ public class QuickTimerPreset {
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setQuickTimer(true);
-        timerData.setTimerStartTimeInMillis(-1);
+        timerData.setTimerStartTimeInMillis(System.currentTimeMillis()+TimeAgo.getTimerDataInMillis(0,5,0,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(0,5,0,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
+
+        setTimerWidgetData(timerData.getTimerIntID(), timerData.getTimerID(), widgetId);
+
+        return timerData.getTimerIntID();
     }
-    public void setTenMinuteTimer(){
+    public int setTenMinuteTimer(int widgetId){
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         TimerData timerData = new TimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
@@ -84,14 +110,18 @@ public class QuickTimerPreset {
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setQuickTimer(true);
-        timerData.setTimerStartTimeInMillis(-1);
+        timerData.setTimerStartTimeInMillis(System.currentTimeMillis()+TimeAgo.getTimerDataInMillis(0,10,0,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(0,10,0,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
+
+        setTimerWidgetData(timerData.getTimerIntID(), timerData.getTimerID(), widgetId);
+
+        return timerData.getTimerIntID();
     }
-    public void setCustomTimer(int pickedHour, int pickedMinute, int pickedSecond){
+    public int setCustomTimer(int pickedHour, int pickedMinute, int pickedSecond, int widgetId){
 
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         TimerData timerData = new TimerData();
@@ -102,13 +132,16 @@ public class QuickTimerPreset {
         timerData.setTimerID(UniqueIdGenerator.getUniqueTimerID());
         timerData.setTimerIntID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setQuickTimer(true);
-        timerData.setTimerStartTimeInMillis(-1);
+        timerData.setTimerStartTimeInMillis(System.currentTimeMillis()+TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(pickedHour,pickedMinute,pickedSecond,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
 
+        setTimerWidgetData(timerData.getTimerIntID(), timerData.getTimerID(), widgetId);
+
+        return timerData.getTimerIntID();
     }
 
 }
