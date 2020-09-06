@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -75,8 +74,8 @@ public class PowerSaverHelper {
 //                intent.setData(Uri.parse("package:" + context.getPackageName()));
 //                intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
 //                intent.setData(Uri.parse("package:" + context.getPackageName()));
-                intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                intent.setData(Uri.parse("package:" + context.getPackageName()));
+                intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+//                intent.setData(Uri.parse("package:" + context.getPackageName()));
                 break;
             case ERROR_GETTING_STATE:
             case UNKNOWN_TOO_OLD_ANDROID_API_FOR_CHECKING:

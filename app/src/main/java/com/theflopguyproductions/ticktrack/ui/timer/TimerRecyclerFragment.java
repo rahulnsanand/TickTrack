@@ -25,7 +25,6 @@ import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.TimerSlideDeleteHelper;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
-import com.theflopguyproductions.ticktrack.widgets.timer.QuickTimerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +40,6 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static TextView noTimerText, timerTitleText, quickTimerTitleText;
     private static ConstraintLayout timerRecyclerRootLayout, timerLayout, quickTimerLayout;
     private static TimerAdapter timerAdapter;
-    private static QuickTimerAdapter quickTimerAdapter;
 
     public static void deleteTimer(int position, Activity activity, String timerName) {
         deleteItem(position);
@@ -114,8 +112,6 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static ArrayList<TimerData> quickTimerList;
     private static ArrayList<TimerData> timerArrayList;
     private static void buildQuickTimerRecyclerView(Activity activity) {
-
-        quickTimerAdapter = new QuickTimerAdapter(activity, quickTimerList);
 
         if(timerDataArrayList.size()>0){
             timerRecyclerView.setVisibility(View.VISIBLE);
@@ -235,9 +231,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             tickTrackDatabase.storeTimerList(timerDataArrayList);
             splitTimerList(activity);
             timerAdapter.diffUtilsChangeData(timerArrayList);
-            if(quickTimerList.size()>0){
-                quickTimerAdapter.diffUtilsChangeData(quickTimerList);
-            }
+
         }
     };
 

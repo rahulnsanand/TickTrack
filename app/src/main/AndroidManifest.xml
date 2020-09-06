@@ -22,21 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".widgets.timer.QuickTimerConfigActivity"></activity>
-        <activity android:name=".widgets.timer.QuickTimerActivity"></activity>
+
         <activity android:name=".widgets.counter.CounterWidgetConfigActivity" />
 
-        <receiver
-            android:name=".widgets.timer.QuickTimerWidget"
-            android:label="TickTrack QuickTimer">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/quick_timer_widget_info" />
-        </receiver>
         <receiver
             android:name=".widgets.counter.CounterWidget"
             android:label="TickTrack Counter">

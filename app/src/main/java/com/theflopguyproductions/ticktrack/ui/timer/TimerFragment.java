@@ -64,18 +64,7 @@ public class TimerFragment extends Fragment {
         if("timerCreate".equals(action)){
             addTimer();
         } else {
-            if(timerDataArrayList.size()>0){
-                TickTrackAnimator.fabDissolve(timerDiscardFAB);
-                displayRecyclerView();
-            } else {
-                displayCreatorView();
-                isFirst = tickTrackDatabase.isFirstTimer();
-                if(isFirst){
-                    TickTrackAnimator.fabDissolve(timerDiscardFAB);
-                } else {
-                    TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
-                }
-            }
+            displayRecyclerView();
         }
         floatingActionButton.setOnClickListener(view1 -> {
             addTimer();
