@@ -15,9 +15,9 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:dial="@drawable/white_dial_roman"
-        android:hand_hour="@drawable/white_hour_hand_roman"
-        android:hand_minute="@drawable/white_minute_hand_roman"
+        android:dial="@drawable/white_dial_truly_minimal"
+        android:hand_hour="@drawable/white_hour_hand_truly_minimal"
+        android:hand_minute="@drawable/white_minute_hand_truly_minimal"
         android:minHeight="200dp"
         android:minWidth="200dp"
         android:elevation="5dp"/>
