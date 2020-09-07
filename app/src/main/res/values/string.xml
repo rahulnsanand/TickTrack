@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="timer_shortcut_shortLabel">New Timer</string>
-    <string name="timer_shortcut_longLabel">Create new timer</string>
+    <string name="timer_shortcut_longLabel">Create timer</string>
 
     <string name="counter_shortcut_shortLabel">New Counter</string>
-    <string name="counter_shortcut_longLabel">Create new counter</string>
+    <string name="counter_shortcut_longLabel">Create counter</string>
 
     <string name="stopwatch_shortcut_shortLabel">Stopwatch</string>
     <string name="stopwatch_shortcut_longLabel">Open stopwatch</string>

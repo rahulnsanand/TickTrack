@@ -13,6 +13,8 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import com.theflopguyproductions.ticktrack.R;
 
 import java.text.SimpleDateFormat;
@@ -76,7 +78,7 @@ public class AnalogClock extends View {
         mDial = a.getDrawable(R.styleable.AnalogClock_dial);
         if (mDial == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mDial = context.getDrawable(R.drawable.ic_dial_old);
+                mDial = ContextCompat.getDrawable(context, R.drawable.ic_dial_old);
             } else {
                 mDial = r.getDrawable(R.drawable.ic_dial_old);
             }
@@ -84,7 +86,7 @@ public class AnalogClock extends View {
         mHourHand = a.getDrawable(R.styleable.AnalogClock_hour);
         if (mHourHand == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mHourHand = context.getDrawable(R.drawable.ic_hour_wo_center);
+                mHourHand = ContextCompat.getDrawable(context, R.drawable.ic_hour_wo_center);
             } else {
                 mHourHand = r.getDrawable(R.drawable.ic_hour_wo_center);
             }
@@ -92,7 +94,7 @@ public class AnalogClock extends View {
         mMinuteHand = a.getDrawable(R.styleable.AnalogClock_minute);
         if (mMinuteHand == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mMinuteHand = context.getDrawable(R.drawable.ic_minute_wo_center);
+                mMinuteHand = ContextCompat.getDrawable(context, R.drawable.ic_minute_wo_center);
             } else {
                 mMinuteHand = r.getDrawable(R.drawable.ic_minute_wo_center);
             }
@@ -100,7 +102,7 @@ public class AnalogClock extends View {
         mSecondHand = a.getDrawable(R.styleable.AnalogClock_second);
         if (mSecondHand == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mSecondHand = context.getDrawable(R.drawable.ic_second_w_center);
+                mSecondHand = ContextCompat.getDrawable(context, R.drawable.ic_second_w_center);
             } else {
                 mSecondHand = r.getDrawable(R.drawable.ic_second_w_center);
             }
@@ -151,7 +153,7 @@ public class AnalogClock extends View {
         final int h = getHeight();
 
         final int saveCount = canvas.save();
-        canvas.translate(w / 2, h / 2);
+        canvas.translate(w / 2f, h / 2f);
         final float scale = Math.min((float) w / mDial.getIntrinsicWidth(),
                 (float) h / mDial.getIntrinsicHeight());
         if (scale < 1f) {

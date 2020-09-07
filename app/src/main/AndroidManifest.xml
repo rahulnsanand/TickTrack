@@ -22,6 +22,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+        <receiver android:name=".widgets.clock.TickTrackClockWidget"
+            android:label="TickTrack Clock">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/tick_track_clock_widget_info" />
+        </receiver>
 
         <activity android:name=".widgets.counter.CounterWidgetConfigActivity" />
 
