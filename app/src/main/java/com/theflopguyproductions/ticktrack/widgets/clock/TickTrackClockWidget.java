@@ -3,7 +3,6 @@ package com.theflopguyproductions.ticktrack.widgets.clock;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.theflopguyproductions.ticktrack.R;
@@ -23,19 +22,6 @@ public class TickTrackClockWidget extends AppWidgetProvider {
         widgetManager = AppWidgetManager.getInstance(context);
         views = new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget);
         appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
-
-    @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        views = new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget);
-
-        int minWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-        int maxWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-        int minHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-        int maxHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
-
-
-
     }
 
     @Override
