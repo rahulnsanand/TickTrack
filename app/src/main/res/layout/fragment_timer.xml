@@ -6,7 +6,6 @@
     android:id="@+id/timerFragmentRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     tools:context=".ui.timer.TimerFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,8 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="11dp"
         android:elevation="6dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         fab:fab_addButtonColorNormal="@color/Accent"
@@ -59,7 +60,7 @@
             app:fab_size="mini"
             fab:fab_colorNormal="@color/Accent"
             fab:fab_colorPressed="@color/roboto_calendar_month_font"
-            fab:fab_title="Create a timer" />
+            fab:fab_title="Create a Timer" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
