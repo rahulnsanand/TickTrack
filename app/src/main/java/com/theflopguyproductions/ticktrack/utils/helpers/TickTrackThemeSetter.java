@@ -300,14 +300,16 @@ public class TickTrackThemeSetter {
             recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
         }
     }
-    public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView, TickTrackDatabase tickTrackDatabase, ConstraintLayout rootLayout){
+    public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView, TickTrackDatabase tickTrackDatabase, ConstraintLayout rootLayout, TextView noTimerText){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
             rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+            noTimerText.setTextColor(activity.getResources().getColor(R.color.DarkText));
         } else {
             recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
             rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+            noTimerText.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
     }
 
@@ -426,23 +428,23 @@ public class TickTrackThemeSetter {
             hourText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             minuteText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             secondText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
-            hourPickerDark.setVisibility(View.INVISIBLE);
-            minutePickerDark.setVisibility(View.INVISIBLE);
-            secondPickerDark.setVisibility(View.INVISIBLE);
-            hourPickerLight.setVisibility(View.VISIBLE);
-            minutePickerLight.setVisibility(View.VISIBLE);
-            secondPickerLight.setVisibility(View.VISIBLE);
-        } else {
-            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
-            hourText.setTextColor(activity.getResources().getColor(R.color.LightText) );
-            minuteText.setTextColor(activity.getResources().getColor(R.color.LightText) );
-            secondText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             hourPickerDark.setVisibility(View.VISIBLE);
             minutePickerDark.setVisibility(View.VISIBLE);
             secondPickerDark.setVisibility(View.VISIBLE);
             hourPickerLight.setVisibility(View.INVISIBLE);
             minutePickerLight.setVisibility(View.INVISIBLE);
             secondPickerLight.setVisibility(View.INVISIBLE);
+        } else {
+            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+            hourText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            minuteText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            secondText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            hourPickerDark.setVisibility(View.INVISIBLE);
+            minutePickerDark.setVisibility(View.INVISIBLE);
+            secondPickerDark.setVisibility(View.INVISIBLE);
+            hourPickerLight.setVisibility(View.VISIBLE);
+            minutePickerLight.setVisibility(View.VISIBLE);
+            secondPickerLight.setVisibility(View.VISIBLE);
         }
     }
 }

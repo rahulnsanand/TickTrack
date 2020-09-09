@@ -22,6 +22,7 @@ import com.theflopguyproductions.ticktrack.ui.utils.numberpicker.LightModeNumber
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.QuickTimerPreset;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 public class QuickTimerCreatorFragment extends Fragment {
 
@@ -158,6 +159,9 @@ public class QuickTimerCreatorFragment extends Fragment {
         initVariables(view);
         timeChangeListener();
         setupOnClickListeners();
+
+        TickTrackThemeSetter.quickTimerActivityTheme(getActivity(), tickTrackDatabase, lightHourPicker, lightMinutePicker, lightSecondPicker,
+                darkHourPicker, darkMinutePicker, darkSecondPicker, hourText, minuteText, secondText, rootLayout);
 
         return view;
     }

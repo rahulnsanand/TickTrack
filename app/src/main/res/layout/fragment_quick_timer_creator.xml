@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/quickTimerFragmentRootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/quickTimerFragmentPlayCustomTimerFAB"
+        android:layout_marginBottom="50dp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:visibility="visible"
+            android:animateLayoutChanges="true"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +58,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.DarkModeNumberPicker
                     android:id="@+id/quickTimerFragmentPlayCustomDarkHourNumberPicker"
                     android:layout_width="wrap_content"
@@ -85,6 +88,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomLightHourNumberPicker"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.DarkModeNumberPicker
                     android:id="@+id/quickTimerFragmentPlayCustomDarkMinuteNumberPicker"
                     android:layout_width="wrap_content"
@@ -116,6 +120,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomLightMinuteNumberPicker"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.DarkModeNumberPicker
                     android:id="@+id/quickTimerFragmentPlayCustomDarkSecondNumberPicker"
                     android:layout_width="wrap_content"
@@ -148,6 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:animateLayoutChanges="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -165,6 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    app:elevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -176,6 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:clickable="true"
+                    app:elevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomOneQuickTimerFAB"
                     app:layout_constraintTop_toTopOf="parent"
@@ -187,6 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:clickable="true"
+                    app:elevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomTwoQuickTimerFAB"
                     app:layout_constraintTop_toTopOf="parent"
@@ -198,6 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:clickable="true"
+                    app:elevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomFiveQuickTimerFAB"
                     app:layout_constraintTop_toTopOf="parent"
@@ -212,7 +222,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:clickable="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
