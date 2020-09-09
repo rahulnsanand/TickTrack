@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.theflopguyproductions.ticktrack.widgets.clock.ClockWidgetConfigActivity"
     android:initialKeyguardLayout="@layout/tick_track_clock_widget"
     android:initialLayout="@layout/tick_track_clock_widget"
     android:minHeight="100dip"
