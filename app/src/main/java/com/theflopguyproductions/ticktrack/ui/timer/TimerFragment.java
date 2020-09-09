@@ -25,13 +25,14 @@ public class TimerFragment extends Fragment {
 
     static TickTrackDatabase tickTrackDatabase;
 
-    private FloatingActionButton floatingActionButton, timerDiscardFAB;
+    private FloatingActionButton floatingActionButton, timerDiscardFAB, quickTimerFab, normalTimerFab;
     private boolean isFirst = true, recyclerOn=false;
 
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private Activity activity;
 
     private String action;
+    private boolean isFABOpen = false;
 
     public TimerFragment() {
     }
@@ -67,8 +68,13 @@ public class TimerFragment extends Fragment {
             displayRecyclerView();
         }
         floatingActionButton.setOnClickListener(view1 -> {
-            addTimer();
+            if(!isFABOpen){
+                showFABMenu();
+            }else{
+                closeFABMenu();
+            }
         });
+        normalTimerFab.setOnClickListener(view12 -> addTimer());
         timerDiscardFAB.setOnClickListener(view14 -> displayRecyclerView());
 
         requireView().setFocusableInTouchMode(true);
@@ -88,6 +94,18 @@ public class TimerFragment extends Fragment {
             return false;
         });
 
+    }
+
+    private void showFABMenu(){
+        isFABOpen=true;
+        normalTimerFab.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        quickTimerFab.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        normalTimerFab.animate().translationY(0);
+        quickTimerFab.animate().translationY(0);
     }
 
     private void displayCreatorView() {
@@ -127,6 +145,9 @@ public class TimerFragment extends Fragment {
 
         floatingActionButton = root.findViewById(R.id.timerFragmentFAB);
         timerDiscardFAB = root.findViewById(R.id.timerCreateFragmentDiscardFAB);
+        quickTimerFab = root.findViewById(R.id.quickTimerFragmentFAB);
+        normalTimerFab = root.findViewById(R.id.normalTimerFragmentFAB);
+
         activity = getActivity();
 
         assert activity != null;
