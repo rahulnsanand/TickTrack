@@ -447,4 +447,15 @@ public class TickTrackThemeSetter {
             secondPickerLight.setVisibility(View.VISIBLE);
         }
     }
+
+    public static void clockWidgetSetupTheme(ConstraintLayout rootLayout, TextView optionText, TickTrackDatabase tickTrackDatabase, Activity activity) {
+        int checkTheme = tickTrackDatabase.getThemeMode();
+        if(checkTheme==1){
+            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+            optionText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+        } else {
+            rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+            optionText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+        }
+    }
 }

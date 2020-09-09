@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
 
@@ -81,6 +82,8 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
 
         setupInitValues();
         setupClickListeners();
+
+        TickTrackThemeSetter.clockWidgetSetupTheme(rootLayout, optionText, tickTrackDatabase, this);
 
         saveButton.setOnClickListener(view -> confirmSelection());
     }
