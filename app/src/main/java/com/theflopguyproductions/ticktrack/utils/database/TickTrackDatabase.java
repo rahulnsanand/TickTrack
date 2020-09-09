@@ -20,6 +20,7 @@ import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
+import com.theflopguyproductions.ticktrack.widgets.clock.ClockData;
 import com.theflopguyproductions.ticktrack.widgets.counter.data.CounterWidgetData;
 
 import java.lang.reflect.Type;
@@ -410,6 +411,29 @@ public class TickTrackDatabase {
         }
 
         return counterWidgetData;
+    }
+
+    public void storeClockWidgetList(ArrayList<ClockData> clockDataArrayList){
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(clockDataArrayList);
+        editor.putString("ClockWidgetData", json);
+        editor.apply();
+
+    }
+    public ArrayList<ClockData> retrieveClockWidgetList(){
+
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("ClockWidgetData", null);
+        Type type = new TypeToken<ArrayList<ClockData>>() {}.getType();
+        ArrayList<ClockData> clockData = gson.fromJson(json, type);
+
+        if(clockData == null){
+            clockData = new ArrayList<>();
+        }
+
+        return clockData;
     }
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){
