@@ -18,6 +18,12 @@
 
     </style>
 
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/clickable_layout_gray_background</item>
+        <item name="android:textColor">@color/LightGray</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
     <style name="button" parent="@android:style/Widget.Button">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:stateListAnimator">@null</item>

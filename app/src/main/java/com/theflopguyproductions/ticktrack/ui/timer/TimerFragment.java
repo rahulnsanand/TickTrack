@@ -12,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
@@ -25,14 +26,15 @@ public class TimerFragment extends Fragment {
 
     static TickTrackDatabase tickTrackDatabase;
 
-    private FloatingActionButton floatingActionButton, timerDiscardFAB, quickTimerFab, normalTimerFab;
+    private FloatingActionButton quickTimerFab, normalTimerFab;
+    private FloatingActionsMenu timerPlusFab;
+    private com.google.android.material.floatingactionbutton.FloatingActionButton timerDiscardFAB;
     private boolean isFirst = true, recyclerOn=false;
 
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private Activity activity;
 
     private String action;
-    private boolean isFABOpen = false;
 
     public TimerFragment() {
     }
@@ -67,13 +69,7 @@ public class TimerFragment extends Fragment {
         } else {
             displayRecyclerView();
         }
-        floatingActionButton.setOnClickListener(view1 -> {
-            if(!isFABOpen){
-                showFABMenu();
-            }else{
-                closeFABMenu();
-            }
-        });
+
         normalTimerFab.setOnClickListener(view12 -> addTimer());
         timerDiscardFAB.setOnClickListener(view14 -> displayRecyclerView());
 
@@ -96,20 +92,9 @@ public class TimerFragment extends Fragment {
 
     }
 
-    private void showFABMenu(){
-        isFABOpen=true;
-        normalTimerFab.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        quickTimerFab.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-    }
-
-    private void closeFABMenu(){
-        isFABOpen=false;
-        normalTimerFab.animate().translationY(0);
-        quickTimerFab.animate().translationY(0);
-    }
-
     private void displayCreatorView() {
-        TickTrackAnimator.fabDissolve(floatingActionButton);
+        timerPlusFab.collapse();
+        timerPlusFab.setVisibility(View.GONE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(true);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
@@ -118,7 +103,7 @@ public class TimerFragment extends Fragment {
 
     private void displayRecyclerView() {
         TickTrackAnimator.fabDissolve(timerDiscardFAB);
-        TickTrackAnimator.fabUnDissolve(floatingActionButton);
+        timerPlusFab.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer,  new TimerRecyclerFragment()).commit();
         recyclerOn=true;
@@ -131,7 +116,9 @@ public class TimerFragment extends Fragment {
         } else {
             TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
         }
-        TickTrackAnimator.fabDissolve(floatingActionButton);
+        timerPlusFab.collapse();
+        timerPlusFab.setVisibility(View.GONE);
+
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(false);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
@@ -142,12 +129,10 @@ public class TimerFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_timer, container, false);
-
-        floatingActionButton = root.findViewById(R.id.timerFragmentFAB);
         timerDiscardFAB = root.findViewById(R.id.timerCreateFragmentDiscardFAB);
         quickTimerFab = root.findViewById(R.id.quickTimerFragmentFAB);
         normalTimerFab = root.findViewById(R.id.normalTimerFragmentFAB);
-
+        timerPlusFab = root.findViewById(R.id.multiple_actions);
         activity = getActivity();
 
         assert activity != null;
