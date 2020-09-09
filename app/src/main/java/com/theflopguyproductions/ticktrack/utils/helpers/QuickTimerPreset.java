@@ -44,6 +44,7 @@ public class QuickTimerPreset {
 
         return timerData.getTimerIntID();
     }
+
     public int setTwoMinuteTimer(){
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         TimerData timerData = new TimerData();

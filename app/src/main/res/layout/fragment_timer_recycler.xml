@@ -9,58 +9,80 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/quickTimerRootLayout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
+        android:animateLayoutChanges="true"
+        android:maxHeight="300dp"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/timerFragmentQuickTimerTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="TickTrack QuickTimers"
-            android:textColor="@color/Accent"
+            android:layout_marginEnd="8dp"
+            android:text="QuickTimers"
+            android:textColor="@color/roboto_calendar_circle_1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="roboto_medium" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/quickTimerFragmentRecyclerView"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:layoutAnimation="@anim/recycler_animation"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timerFragmentQuickTimerTitleText" />
+            app:layout_constraintTop_toBottomOf="@+id/timerFragmentQuickTimerTitleText">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/quickTimerFragmentRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:fadingEdge="horizontal"
+                android:fadingEdgeLength="50dp"
+                android:fillViewport="false"
+                android:requiresFadingEdge="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/timerRootLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quickTimerRootLayout">
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/timerFragmentTimerTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="TickTrack Timers"
+            android:layout_marginEnd="8dp"
+            android:text="Timers"
             android:textColor="@color/Accent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="roboto_medium" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/timerFragmentRecyclerView"

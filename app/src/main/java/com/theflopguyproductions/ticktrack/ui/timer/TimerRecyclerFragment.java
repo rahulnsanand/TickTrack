@@ -140,7 +140,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
         timerAdapter = new TimerAdapter(activity, timerArrayList);
 
-        if(timerDataArrayList.size()>0){
+        if(timerArrayList.size()>0){
             timerRecyclerView.setVisibility(View.VISIBLE);
             noTimerText.setVisibility(View.INVISIBLE);
 
@@ -178,7 +178,8 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             timerDelete.yesButton.setOnClickListener(view -> {
                 TimerRecyclerFragment.deleteTimer(finalPosition, activity, deletedTimer);
                 timerDelete.dismiss();
-                if(timerDataArrayList.size()>0){
+                splitTimerList(activity);
+                if(timerArrayList.size()>0){
                     timerRecyclerView.setVisibility(View.VISIBLE);
                     noTimerText.setVisibility(View.INVISIBLE);
                 } else {

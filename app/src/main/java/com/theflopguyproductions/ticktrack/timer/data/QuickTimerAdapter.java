@@ -156,6 +156,7 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
                 timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
                 timerProgressHandler.removeCallbacks(holder.progressRunnable);
                 timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
+                tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID());
             }
         }
         tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
@@ -178,6 +179,7 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
                 timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
                 timerProgressHandler.removeCallbacks(holder.progressRunnable);
                 timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
+                tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID());
             }
         }
         tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);

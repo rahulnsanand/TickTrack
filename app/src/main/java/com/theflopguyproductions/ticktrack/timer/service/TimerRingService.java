@@ -227,8 +227,15 @@ public class TimerRingService extends Service {
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
-        Intent resultIntent = new Intent(this, TimerActivity.class);
-        resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
+        Intent resultIntent;
+
+        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+            resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+            tickTrackDatabase.storeCurrentFragmentNumber(2);
+        } else {
+            resultIntent = new Intent(this, TimerActivity.class);
+            resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
+        }
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
@@ -362,13 +369,18 @@ public class TimerRingService extends Service {
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
-        Intent resultIntent = new Intent(this, TimerActivity.class);
-        resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
+        Intent resultIntent;
+        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+            resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+            tickTrackDatabase.storeCurrentFragmentNumber(2);
+        } else {
+            resultIntent = new Intent(this, TimerActivity.class);
+            resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
+        }
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
 
 
         notificationBuilder = new NotificationCompat.Builder(this,TickTrack.TIMER_COMPLETE_NOTIFICATION)
