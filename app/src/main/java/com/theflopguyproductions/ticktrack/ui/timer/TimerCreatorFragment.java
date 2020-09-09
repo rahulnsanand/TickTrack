@@ -23,6 +23,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
@@ -91,30 +92,30 @@ public class TimerCreatorFragment extends Fragment {
         hourDarkPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedHour = hourDarkPicker.getValue();
             if(isCreateOn()){
-                timerCreateFAB.setVisibility(View.VISIBLE);
+                TickTrackAnimator.fabUnDissolve(timerCreateFAB);
                 hasChanged=true;
             } else {
-                timerCreateFAB.setVisibility(View.INVISIBLE);
+                TickTrackAnimator.fabDissolve(timerCreateFAB);
                 hasChanged=false;
             }
         });
         minuteDarkPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedMinute = minuteDarkPicker.getValue();
             if(isCreateOn()){
-                timerCreateFAB.setVisibility(View.VISIBLE);
+                TickTrackAnimator.fabUnDissolve(timerCreateFAB);
                 hasChanged=true;
             } else {
-                timerCreateFAB.setVisibility(View.INVISIBLE);
+                TickTrackAnimator.fabDissolve(timerCreateFAB);
                 hasChanged=false;
             }
         });
         secondDarkPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedSecond = secondDarkPicker.getValue();
             if(isCreateOn()){
-                timerCreateFAB.setVisibility(View.VISIBLE);
+                TickTrackAnimator.fabUnDissolve(timerCreateFAB);
                 hasChanged=true;
             } else {
-                timerCreateFAB.setVisibility(View.INVISIBLE);
+                TickTrackAnimator.fabDissolve(timerCreateFAB);
                 hasChanged=false;
             }
         });
@@ -122,30 +123,30 @@ public class TimerCreatorFragment extends Fragment {
         hourLightPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedHour = hourLightPicker.getValue();
             if(isCreateOn()){
-                timerCreateFAB.setVisibility(View.VISIBLE);
+                TickTrackAnimator.fabUnDissolve(timerCreateFAB);
                 hasChanged=true;
             } else {
-                timerCreateFAB.setVisibility(View.INVISIBLE);
+                TickTrackAnimator.fabDissolve(timerCreateFAB);
                 hasChanged=false;
             }
         });
         minuteLightPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedMinute = minuteLightPicker.getValue();
             if(isCreateOn()){
-                timerCreateFAB.setVisibility(View.VISIBLE);
+                TickTrackAnimator.fabUnDissolve(timerCreateFAB);
                 hasChanged=true;
             } else {
-                timerCreateFAB.setVisibility(View.INVISIBLE);
+                TickTrackAnimator.fabDissolve(timerCreateFAB);
                 hasChanged=false;
             }
         });
         secondLightPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedSecond = secondLightPicker.getValue();
             if(isCreateOn()){
-                timerCreateFAB.setVisibility(View.VISIBLE);
+                TickTrackAnimator.fabUnDissolve(timerCreateFAB);
                 hasChanged=true;
             } else {
-                timerCreateFAB.setVisibility(View.INVISIBLE);
+                TickTrackAnimator.fabDissolve(timerCreateFAB);
                 hasChanged=false;
             }
         });

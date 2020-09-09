@@ -308,7 +308,7 @@
         android:id="@+id/timerCreateFragmentPlayFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:clickable="true"
         android:src="@drawable/ic_round_play_white_24"
         app:layout_constraintBottom_toBottomOf="parent"
