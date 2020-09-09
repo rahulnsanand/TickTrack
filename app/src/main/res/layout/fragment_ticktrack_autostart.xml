@@ -34,9 +34,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:typeface="montserrat_medium_italic" />
 
-            <ImageView
+            <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
                 android:id="@+id/ticktrackFragmentAutoStartImageView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
@@ -44,7 +44,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
-                app:srcCompat="@drawable/autostart_animated_drawable" />
+                app:lottie_rawRes="@raw/autostart_lottie"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"/>
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/textView6"

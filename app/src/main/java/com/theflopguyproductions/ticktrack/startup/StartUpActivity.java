@@ -108,7 +108,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     @Override
     public void onGetStartedClick() {
         tickTrackDatabase.storeFirstLaunch(false);
-        openFragment(new ThemeFragment());
+        openFragment(new LoginFragment(receivedAction));
     }
 
 

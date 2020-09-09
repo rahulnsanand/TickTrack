@@ -30,7 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,9 +42,11 @@
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_medium_italic"
+                    android:textColor="@color/Accent"/>
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentSubtitleText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -54,18 +56,35 @@
                     app:layout_constraintEnd_toEndOf="@+id/restoreFragmentTitleText"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/restoreFragmentTitleText"
-                    app:layout_constraintTop_toBottomOf="@+id/restoreFragmentTitleText" />
+                    app:layout_constraintTop_toBottomOf="@+id/restoreFragmentTitleText"
+                    app:typeface="montserrat_italic"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="0dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toTopOf="@+id/restoreFragmentRestoreOptionsDataLayout"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
+                app:layout_constraintVertical_bias="0.0" >
+
+                <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_rawRes="@raw/restore_lottie"
+                    app:lottie_loop="true"
+                    app:lottie_autoPlay="true" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/restoreFragmentRestoreOptionsDataLayout"
@@ -78,7 +97,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentDataReadyText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -94,9 +113,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_medium"/>
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentPreferencesText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -108,9 +128,10 @@
                     android:visibility="visible"
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentTimerText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:typeface="montserrat_italic"/>
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentTimerText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -123,9 +144,10 @@
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentCounterText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:typeface="montserrat_italic"/>
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentCounterText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -138,7 +160,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:typeface="montserrat_italic"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,7 +176,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            style="@style/buttonStartup"
             android:id="@+id/restoreFragmentRestoreDataButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -161,9 +185,12 @@
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/restoreFragmentStartFreshButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/button_selector_accent"
+            android:textColor="@color/LightText"/>
 
-        <Button
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            style="@style/buttonStartup"
             android:id="@+id/restoreFragmentStartFreshButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -171,7 +198,9 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/button_selector_white"
+            android:textColor="@color/Accent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

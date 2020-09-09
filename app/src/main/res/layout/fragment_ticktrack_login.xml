@@ -19,7 +19,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout6"
@@ -29,7 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/autoStartGoogleFragmentTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -37,12 +38,14 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="24dp"
                     android:text="Add a Google account"
+                    android:textColor="@color/Accent"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_medium_italic" />
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/autoStartGoogleFragmentSubTitleText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -53,13 +56,14 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/autoStartGoogleFragmentTitleText"
                     app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentTitleText"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.0"
+                    app:typeface="montserrat_medium" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout9"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="0dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toTopOf="@+id/autoStartGoogleFragmentRetrieveRootLayout"
@@ -67,19 +71,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
 
-                <ProgressBar
+                <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
                     android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyle"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/sign_in_lottie" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,7 +96,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/autoStartGoogleFragmentSignInTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -104,9 +107,10 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="montserrat_medium" />
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/autoStartGoogleFragmentSignInDetailText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -120,28 +124,35 @@ preferences, timers and counters"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentSignInTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentSignInTitle"
+                    app:typeface="montserrat_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <Button
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        style="@style/buttonStartup"
         android:id="@+id/autoStartGoogleFragmentLaterButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="I'll do this later"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/Accent"
+        android:background="@drawable/button_selector_white"/>
 
-    <Button
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        style="@style/buttonStartup"
         android:id="@+id/autoStartGoogleFragmentSignInButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Sign in"
         app:layout_constraintBottom_toTopOf="@+id/autoStartGoogleFragmentLaterButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/button_selector_accent"
+        android:textColor="@color/LightText"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
