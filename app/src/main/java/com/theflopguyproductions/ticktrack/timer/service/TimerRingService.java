@@ -39,6 +39,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static androidx.core.app.NotificationCompat.DEFAULT_SOUND;
 import static androidx.core.app.NotificationCompat.DEFAULT_VIBRATE;
@@ -192,7 +193,7 @@ public class TimerRingService extends Service {
         }
         stopForeground(false);
     }
-    float UpdateTime = 0L;
+    long UpdateTime = 0L;
     private boolean isCustom = true, setCustomOnce = false, setMultiOnce = false;
     final Runnable refreshRunnable = new Runnable() {
         public void run() {
@@ -205,7 +206,7 @@ public class TimerRingService extends Service {
                     setupStopAllNotification();
                 }
                 notifyNotification();
-                handler.postDelayed(refreshRunnable, 500);
+                handler.postDelayed(refreshRunnable, 100);
             }
         }
     };
@@ -267,15 +268,14 @@ public class TimerRingService extends Service {
 
     private void updateStopTimeText() {
         if (timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis() != -1) {
-            UpdateTime = (SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis()) / 1000F;
+            UpdateTime = SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis();
         }
 
-        float totalSeconds = UpdateTime;
-        float hours = totalSeconds/3600;
-        float minutes = totalSeconds/60%60;
-        float seconds = totalSeconds%60;
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(UpdateTime);
+        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(UpdateTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(UpdateTime)));
+        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(UpdateTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(UpdateTime)));
 
-        String hourLeft = String.format(Locale.getDefault(),"- %02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
+        String hourLeft = String.format(Locale.getDefault(),"-%02d:%02d:%02d", hours,minutes,seconds);
         notificationBuilder.setContentText(hourLeft);
 
     }
@@ -471,6 +471,11 @@ public class TimerRingService extends Service {
         for(int i = 0; i < timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isTimerRinging()){
                 if(timerDataArrayList.get(i).isQuickTimer()){
+                    timerDataArrayList.get(i).setTimerOn(false);
+                    timerDataArrayList.get(i).setTimerPause(false);
+                    timerDataArrayList.get(i).setTimerNotificationOn(false);
+                    timerDataArrayList.get(i).setTimerRinging(false);
+                    storeTimerList(sharedPreferences);
                     timerDataArrayList.remove(i);
                 } else {
                     timerDataArrayList.get(i).setTimerOn(false);

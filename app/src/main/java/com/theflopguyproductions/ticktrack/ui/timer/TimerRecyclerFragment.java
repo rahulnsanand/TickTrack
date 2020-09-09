@@ -250,5 +250,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     @Override
     public void onPause() {
         super.onPause();
+        quickTimerRecyclerView.setAdapter(null);
+        timerRecyclerView.setAdapter(null);
     }
 }

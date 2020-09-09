@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.timer.data;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
     private Handler timerStatusUpdateHandler = new Handler();
     private Handler timerElapsedBlinkHandler = new Handler();
     private Handler timerProgressHandler = new Handler();
+    private Handler timerRelapsedHandler = new Handler();
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
     private Context context;
@@ -60,49 +62,85 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
         timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
         timerProgressHandler.removeCallbacks(holder.progressRunnable);
+        timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
     }
 
+    private float getCurrentStep(long currentValue, long maxLength){
+        return ((currentValue-0f)/(maxLength-0f)) *(1f-0f)+0f;
+    }
     @Override
     public void onBindViewHolder(@NonNull timerDataViewHolder holder, int position) {
 
         int theme = holder.tickTrackDatabase.getThemeMode();
         setTheme(holder, theme);
 
-        holder.timerProgressbar.spin();
-
         long totalTimeInMillis = timerDataArrayList.get(holder.getAdapterPosition()).getTimerTotalTimeInMillis();
         long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerStartTimeInMillis();
 
         holder.timerRunnable = () -> {
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                return;
+            }
             long durationLeft = totalTimeInMillis - (System.currentTimeMillis()-startTime);
             holder.timerText.setText(updateTimerTextView(durationLeft));
-            timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 100);
+            timerStatusUpdateHandler.post(holder.timerRunnable);
+            System.out.println("Timer Update Position: "+holder.getAdapterPosition());
+            holder.timerProgressbar.setProgress(getCurrentStep(durationLeft, totalTimeInMillis));
+        };
+
+        long elapsedTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
+        holder.elapsedRunnable = () -> {
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
+                timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
+                return;
+            }
+            long durationElapsed = SystemClock.elapsedRealtime() - elapsedTime;
+            holder.timerText.setText("-"+updateTimerTextView(durationElapsed));
+            timerRelapsedHandler.postDelayed(holder.elapsedRunnable, 100);
             System.out.println("Timer Update Position: "+holder.getAdapterPosition());
         };
 
-        if(timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer() && !timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+        final boolean[] isBlink = {true};
+        holder.blinkRunnable = () -> {
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+                timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
+                return;
+            }
+            if(isBlink[0]){
+                holder.timerProgressbar.setVisibility(View.VISIBLE);
+                isBlink[0] = false;
+            } else {
+                holder.timerProgressbar.setVisibility(View.INVISIBLE);
+                isBlink[0] = true;
+            }
+            timerElapsedBlinkHandler.postDelayed(holder.blinkRunnable, 500);
+        };
+
+        if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
 
             holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_refresh_white_24));
             System.out.println("THIS IF RAN");
 
             timerStatusUpdateHandler.post(holder.timerRunnable);
+            holder.timerResetButton.setOnClickListener(view -> resetAndRemoveQuickTimer(holder.getAdapterPosition(), holder));
 
-            holder.timerResetButton.setOnClickListener(view -> resetAndRemoveQuickTimer(holder.getAdapterPosition()));
-
-        } if(timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
-
+        } else {
+            timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+            holder.timerProgressbar.setProgress(1f);
+            timerRelapsedHandler.post(holder.elapsedRunnable);
+            timerElapsedBlinkHandler.post(holder.blinkRunnable);
             holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_stop_white_24));
 
-            timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-            holder.timerResetButton.setOnClickListener(view -> deleteQuickTimer(holder.getAdapterPosition()));
+            holder.timerResetButton.setOnClickListener(view -> deleteQuickTimer(holder.getAdapterPosition(), holder));
 
         }
 
-        holder.timerLayout.setOnLongClickListener(view -> deleteQuickTimer(holder.getAdapterPosition()));
+        holder.timerLayout.setOnLongClickListener(view -> deleteQuickTimer(holder.getAdapterPosition(), holder));
 
     }
 
-    private void resetAndRemoveQuickTimer(int position) {
+    private void resetAndRemoveQuickTimer(int position, @NonNull timerDataViewHolder holder) {
         for(int i=0; i<timerUnusedDataArrayList.size(); i++){
             if(timerUnusedDataArrayList.get(i).getTimerIntID()==timerDataArrayList.get(position).getTimerIntID()){
                 timerUnusedDataArrayList.get(i).setTimerOn(false);
@@ -114,13 +152,17 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
                     tickTrackTimerDatabase.stopNotificationService();
                 }
                 timerUnusedDataArrayList.remove(i);
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
+                timerProgressHandler.removeCallbacks(holder.progressRunnable);
+                timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
             }
         }
         tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
     }
 
     @SuppressWarnings("SuspiciousListRemoveInLoop")
-    private boolean deleteQuickTimer(int position) {
+    private boolean deleteQuickTimer(int position, @NonNull timerDataViewHolder holder) {
         for(int i=0; i<timerUnusedDataArrayList.size(); i++){
             if(timerUnusedDataArrayList.get(i).getTimerIntID()==timerDataArrayList.get(position).getTimerIntID()){
                 timerUnusedDataArrayList.get(i).setTimerOn(false);
@@ -132,6 +174,10 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
                     tickTrackTimerDatabase.stopRingService();
                 }
                 timerUnusedDataArrayList.remove(i);
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
+                timerProgressHandler.removeCallbacks(holder.progressRunnable);
+                timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
             }
         }
         tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
@@ -175,8 +221,6 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
     }
 
 
-
-
     public static class timerDataViewHolder extends RecyclerView.ViewHolder {
 
         private TextView timerText;
@@ -184,7 +228,7 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         private ImageView timerFlag;
         private Context context;
         private FloatingActionButton timerResetButton;
-        private Runnable timerRunnable, blinkRunnable, progressRunnable;
+        private Runnable timerRunnable, blinkRunnable, progressRunnable, elapsedRunnable;
         private long stopTimeRetrieve;
         private boolean isBlink = false;
         private TickTrackProgressBar timerProgressbar;
@@ -202,6 +246,9 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
 
             context=parent.getContext();
             tickTrackDatabase = new TickTrackDatabase(context);
+
+            timerProgressbar.setLinearProgress(true);
+            timerProgressbar.setSpinSpeed(2.500f);
 
         }
 
