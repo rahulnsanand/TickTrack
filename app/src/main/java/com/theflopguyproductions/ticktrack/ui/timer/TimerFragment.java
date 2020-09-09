@@ -22,7 +22,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
 
-public class TimerFragment extends Fragment implements QuickTimerCreatorFragment.QuickTimerCreateListener {
+public class TimerFragment extends Fragment {
 
     static TickTrackDatabase tickTrackDatabase;
 
@@ -30,13 +30,18 @@ public class TimerFragment extends Fragment implements QuickTimerCreatorFragment
     private FloatingActionsMenu timerPlusFab;
     private com.google.android.material.floatingactionbutton.FloatingActionButton timerDiscardFAB;
     private boolean recyclerOn=false;
-
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private Activity activity;
 
     private String action;
 
     public TimerFragment() {
+    }
+
+    private void setupChanges() {
+        if(!(timerDataArrayList.size() >0)){
+
+        }
     }
 
     public TimerFragment(String action){
@@ -71,6 +76,7 @@ public class TimerFragment extends Fragment implements QuickTimerCreatorFragment
         }
 
         normalTimerFab.setOnClickListener(view12 -> addTimer());
+        quickTimerFab.setOnClickListener(view15 -> addQuickTimer());
         timerDiscardFAB.setOnClickListener(view14 -> displayRecyclerView());
 
         requireView().setFocusableInTouchMode(true);
@@ -117,6 +123,15 @@ public class TimerFragment extends Fragment implements QuickTimerCreatorFragment
         recyclerOn=false;
     }
 
+    private void addQuickTimer(){
+        timerPlusFab.collapse();
+        TickTrackAnimator.timerFabFadeOut(timerPlusFab);
+        TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.timerFragmentInnerFragmentContainer, new QuickTimerCreatorFragment()).commit();
+        recyclerOn=false;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -134,9 +149,4 @@ public class TimerFragment extends Fragment implements QuickTimerCreatorFragment
         return root;
     }
 
-
-    @Override
-    public void onCreatedListener() {
-        displayRecyclerView();
-    }
 }

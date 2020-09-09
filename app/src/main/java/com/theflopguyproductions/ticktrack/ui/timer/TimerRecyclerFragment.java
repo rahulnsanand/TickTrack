@@ -104,6 +104,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         if(!(quickTimerList.size() >0)){
             quickTimerLayout.setVisibility(View.GONE);
             timerTitleText.setVisibility(View.GONE);
+
         } else {
             quickTimerLayout.setVisibility(View.VISIBLE);
             timerTitleText.setVisibility(View.VISIBLE);
@@ -115,7 +116,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static ArrayList<TimerData> timerArrayList;
     private static void buildQuickTimerRecyclerView(Activity activity) {
 
-        quickTimerAdapter = new QuickTimerAdapter(activity, quickTimerList);
+        quickTimerAdapter = new QuickTimerAdapter(activity, quickTimerList, timerDataArrayList);
 
         if(timerDataArrayList.size()>0){
             quickTimerRecyclerView.setVisibility(View.VISIBLE);
@@ -232,9 +233,19 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             tickTrackDatabase.storeTimerList(timerDataArrayList);
             splitTimerList(activity);
             timerAdapter.diffUtilsChangeData(timerArrayList);
-
+            checkTimerExists();
         }
     };
+
+    private void checkTimerExists() {
+        if(!(timerDataArrayList.size() >0)){
+            noTimerText.setVisibility(View.VISIBLE);
+            timerRecyclerView.setVisibility(View.GONE);
+            quickTimerLayout.setVisibility(View.GONE);
+        } else {
+            buildTimerRecyclerView(activity);
+        }
+    }
 
     @Override
     public void onPause() {

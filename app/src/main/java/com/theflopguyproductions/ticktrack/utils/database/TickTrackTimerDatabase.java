@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 
 import com.theflopguyproductions.ticktrack.timer.receivers.TimerBroadcastReceiver;
+import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 
 public class TickTrackTimerDatabase {
@@ -64,6 +65,12 @@ public class TickTrackTimerDatabase {
     public void stopNotificationService() {
         Intent intent = new Intent(context, TimerService.class);
         intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
+        context.startService(intent);
+    }
+
+    public void stopRingService() {
+        Intent intent = new Intent(context, TimerRingService.class);
+        intent.setAction(TimerRingService.ACTION_STOP_SERVICE_CHECK);
         context.startService(intent);
     }
 

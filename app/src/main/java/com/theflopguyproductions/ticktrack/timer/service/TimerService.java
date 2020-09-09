@@ -188,10 +188,6 @@ public class TimerService extends Service {
         }
     };
 
-
-
-
-
     private void refreshingEverySecond(){
         handler.postDelayed(refreshRunnable, 1000);
     }
@@ -222,7 +218,7 @@ public class TimerService extends Service {
     private int getAllOnTimers() {
         int result = 0;
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).isTimerNotificationOn()){
+            if(timerDataArrayList.get(i).isTimerOn() && !timerDataArrayList.get(i).isTimerPause()){
                 result++;
             }
         }

@@ -44,6 +44,7 @@ import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
 import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
+import com.theflopguyproductions.ticktrack.ui.timer.QuickTimerCreatorFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
@@ -350,4 +351,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onCreatedListener() {
+        openFragment(new TimerFragment());
+    }
 }

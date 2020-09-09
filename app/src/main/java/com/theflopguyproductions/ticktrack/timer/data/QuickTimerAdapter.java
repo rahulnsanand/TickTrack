@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
+import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -26,12 +29,20 @@ import java.util.concurrent.TimeUnit;
 public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.timerDataViewHolder> {
 
     private ArrayList<TimerData> timerDataArrayList;
+    private ArrayList<TimerData> timerUnusedDataArrayList;
     private Handler timerStatusUpdateHandler = new Handler();
     private Handler timerElapsedBlinkHandler = new Handler();
     private Handler timerProgressHandler = new Handler();
+    private TickTrackDatabase tickTrackDatabase;
+    private TickTrackTimerDatabase tickTrackTimerDatabase;
+    private Context context;
 
-    public QuickTimerAdapter(Context context, ArrayList<TimerData> timerDataArrayList) {
+    public QuickTimerAdapter(Context context, ArrayList<TimerData> timerDataArrayList, ArrayList<TimerData> timerUnusedDataArrayList) {
         this.timerDataArrayList = timerDataArrayList;
+        this.timerUnusedDataArrayList = timerUnusedDataArrayList;
+        this.context = context;
+        tickTrackDatabase = new TickTrackDatabase(context);
+        tickTrackTimerDatabase = new TickTrackTimerDatabase(context);
     }
 
     @NonNull
@@ -56,26 +67,75 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
 
         int theme = holder.tickTrackDatabase.getThemeMode();
         setTheme(holder, theme);
+
+        holder.timerProgressbar.spin();
+
+        long endTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis();
+        long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerStartTimeInMillis();
+
+        holder.timerRunnable = () -> {
+            long durationLeft = endTime - (System.currentTimeMillis()-startTime);
+            holder.timerText.setText(updateTimerTextView(durationLeft));
+            timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 100);
+            System.out.println("Timer Update Position: "+holder.getAdapterPosition());
+        };
+
         if(timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer() && !timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
 
-            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(holder.context, R.drawable.ic_round_refresh_white_24));
+            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_refresh_white_24));
+            System.out.println("THIS IF RAN");
 
-            long endTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis();
-            long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerStartTimeInMillis();
             timerStatusUpdateHandler.post(holder.timerRunnable);
-            holder.timerRunnable = () -> {
-                long durationLeft = endTime - (System.currentTimeMillis()-startTime);
-                holder.timerText.setText(updateTimerTextView(durationLeft));
-                timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 100);
-            };
+
+            holder.timerResetButton.setOnClickListener(view -> resetAndRemoveQuickTimer(holder.getAdapterPosition()));
 
         } if(timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
 
-            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(holder.context, R.drawable.ic_stop_white_24));
+            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_stop_white_24));
 
             timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+            holder.timerResetButton.setOnClickListener(view -> deleteQuickTimer(holder.getAdapterPosition()));
 
         }
+
+        holder.timerLayout.setOnLongClickListener(view -> deleteQuickTimer(holder.getAdapterPosition()));
+
+    }
+
+    private void resetAndRemoveQuickTimer(int position) {
+        for(int i=0; i<timerUnusedDataArrayList.size(); i++){
+            if(timerUnusedDataArrayList.get(i).getTimerIntID()==timerDataArrayList.get(position).getTimerIntID()){
+                timerUnusedDataArrayList.get(i).setTimerOn(false);
+                timerUnusedDataArrayList.get(i).setTimerPause(false);
+                timerUnusedDataArrayList.get(i).setTimerEndedTimeInMillis(-1);
+                timerUnusedDataArrayList.get(i).setTimerStartTimeInMillis(-1);
+                tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
+                if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+                    tickTrackTimerDatabase.stopNotificationService();
+                }
+                timerUnusedDataArrayList.remove(i);
+            }
+        }
+        tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
+    }
+
+    @SuppressWarnings("SuspiciousListRemoveInLoop")
+    private boolean deleteQuickTimer(int position) {
+        for(int i=0; i<timerUnusedDataArrayList.size(); i++){
+            if(timerUnusedDataArrayList.get(i).getTimerIntID()==timerDataArrayList.get(position).getTimerIntID()){
+                timerUnusedDataArrayList.get(i).setTimerOn(false);
+                timerUnusedDataArrayList.get(i).setTimerPause(false);
+                timerUnusedDataArrayList.get(i).setTimerEndedTimeInMillis(-1);
+                timerUnusedDataArrayList.get(i).setTimerStartTimeInMillis(-1);
+                tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
+                if(tickTrackTimerDatabase.isMyServiceRunning(TimerRingService.class)){
+                    tickTrackTimerDatabase.stopRingService();
+                }
+                timerUnusedDataArrayList.remove(i);
+            }
+        }
+        tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
+        return true;
     }
 
     private String updateTimerTextView(long countdownValue){
@@ -107,12 +167,15 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
 
     public void diffUtilsChangeData(ArrayList<TimerData> timerDataArrayList){
 
-        TimerDiffUtilCallback timerDiffUtilCallback = new TimerDiffUtilCallback(timerDataArrayList, this.timerDataArrayList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(timerDiffUtilCallback, false);
+        QuickTimerDiffUtilCallback quickTimerDiffUtilCallback = new QuickTimerDiffUtilCallback(timerDataArrayList, this.timerDataArrayList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(quickTimerDiffUtilCallback, false);
         diffResult.dispatchUpdatesTo(this);
         this.timerDataArrayList = timerDataArrayList;
 
     }
+
+
+
 
     public static class timerDataViewHolder extends RecyclerView.ViewHolder {
 
@@ -141,6 +204,7 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
             tickTrackDatabase = new TickTrackDatabase(context);
 
         }
+
     }
 
 }

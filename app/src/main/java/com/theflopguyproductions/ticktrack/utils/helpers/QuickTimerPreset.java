@@ -37,6 +37,7 @@ public class QuickTimerPreset {
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(0,1,0,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
+        timerData.setTimerRinging(false);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID());

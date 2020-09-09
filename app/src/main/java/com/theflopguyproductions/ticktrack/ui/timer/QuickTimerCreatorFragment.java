@@ -25,14 +25,14 @@ import com.theflopguyproductions.ticktrack.utils.helpers.QuickTimerPreset;
 
 public class QuickTimerCreatorFragment extends Fragment {
 
-    private FloatingActionButton oneMinute, twoMinute, fiveMinute, tenMinute, discardFAB, playFab;
+    private FloatingActionButton oneMinute, twoMinute, fiveMinute, tenMinute, playFab;
     private DarkModeNumberPicker darkHourPicker, darkMinutePicker, darkSecondPicker;
     private LightModeNumberPicker lightHourPicker, lightMinutePicker, lightSecondPicker;
     private TextView hourText, minuteText, secondText;
     private ConstraintLayout rootLayout, customOptionsLayout;
     private Button customOptionsButton;
-    private boolean hasChanged = false, isExpanded = false, isFirst = true;
-    private int pickedHour=0, pickedMinute=0, pickedSecond=0, flagCheck = 0;
+    private boolean hasChanged = false, isExpanded = false;
+    private int pickedHour=0, pickedMinute=0, pickedSecond=0;
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
     private QuickTimerPreset quickTimerPreset;
@@ -43,7 +43,6 @@ public class QuickTimerCreatorFragment extends Fragment {
         twoMinute = view.findViewById(R.id.quickTimerFragmentPlayCustomTwoQuickTimerFAB);
         fiveMinute = view.findViewById(R.id.quickTimerFragmentPlayCustomFiveQuickTimerFAB);
         tenMinute = view.findViewById(R.id.quickTimerFragmentPlayCustomTenQuickTimerFAB);
-        discardFAB = view.findViewById(R.id.quickTimerFragmentPlayCustomDiscardQuickTimerFAB);
         playFab = view.findViewById(R.id.quickTimerFragmentPlayCustomTimerFAB);
         darkHourPicker = view.findViewById(R.id.quickTimerFragmentPlayCustomDarkHourNumberPicker);
         darkMinutePicker = view.findViewById(R.id.quickTimerFragmentPlayCustomDarkMinuteNumberPicker);

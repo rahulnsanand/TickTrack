@@ -47,6 +47,7 @@ public class TimerRingService extends Service {
 
     public static final String ACTION_ADD_TIMER_FINISH = "ACTION_ADD_TIMER_FINISH";
     public static final String ACTION_KILL_ALL_TIMERS = "ACTION_KILL_ALL_TIMERS";
+    public static final String ACTION_STOP_SERVICE_CHECK = "ACTION_STOP_SERVICE_CHECK";
 
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
@@ -113,9 +114,18 @@ public class TimerRingService extends Service {
                 case ACTION_KILL_ALL_TIMERS:
                     stopTimers();
                     break;
+                case ACTION_STOP_SERVICE_CHECK:
+                    stopIfPossible();
+                    break;
             }
         }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void stopIfPossible() {
+        if(!(getAllOnTimers()>0)){
+            stopTimers();
+        }
     }
 
     private void stopTimers() {
@@ -202,12 +212,15 @@ public class TimerRingService extends Service {
 
     private void oneTimerNotificationSetup() {
         isCustom = true;
-        String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
-        if(!timerLabel.equals("Set label")){
-            notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+            String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
+            if(!timerLabel.equals("Set label")){
+                notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+            }
         } else {
             notificationBuilder.setContentTitle("TickTrack Timer");
         }
+
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
@@ -372,9 +385,11 @@ public class TimerRingService extends Service {
 
         notificationBuilder.addAction(killTimers);
 
-        String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
-        if(!timerLabel.equals("Set label")){
-            notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+            String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
+            if(!timerLabel.equals("Set label")){
+                notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+            }
         } else {
             notificationBuilder.setContentTitle("TickTrack Timer");
         }
@@ -450,13 +465,19 @@ public class TimerRingService extends Service {
         }
         return -1;
     }
+
+    @SuppressWarnings("SuspiciousListRemoveInLoop")
     private void stopTimerRinging(SharedPreferences sharedPreferences) {
         for(int i = 0; i < timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isTimerRinging()){
-                timerDataArrayList.get(i).setTimerOn(false);
-                timerDataArrayList.get(i).setTimerPause(false);
-                timerDataArrayList.get(i).setTimerNotificationOn(false);
-                timerDataArrayList.get(i).setTimerRinging(false);
+                if(timerDataArrayList.get(i).isQuickTimer()){
+                    timerDataArrayList.remove(i);
+                } else {
+                    timerDataArrayList.get(i).setTimerOn(false);
+                    timerDataArrayList.get(i).setTimerPause(false);
+                    timerDataArrayList.get(i).setTimerNotificationOn(false);
+                    timerDataArrayList.get(i).setTimerRinging(false);
+                }
                 storeTimerList(sharedPreferences);
             }
         }
