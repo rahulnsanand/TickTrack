@@ -29,6 +29,7 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
     private ImageView phoneImage;
     private Button saveButton;
     private int clockTheme = 1;
+    private boolean isNotNew = false;
 
     private TickTrackDatabase tickTrackDatabase;
     private static int clockWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
@@ -53,6 +54,15 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.clockWidgetConfigSaveButton);
         tickTrackDatabase = new TickTrackDatabase(this);
     }
+    private int getClockTheme(int clockWidgetId){
+        clockDataArrayList = tickTrackDatabase.retrieveClockWidgetList();
+        for(int i=0; i<clockDataArrayList.size(); i++){
+            if(clockDataArrayList.get(i).getClockWidgetId()==clockWidgetId){
+                return clockDataArrayList.get(i).getClockTheme();
+            }
+        }
+        return -1;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +70,7 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
         initVariables();
 
         int clockId = getIntent().getIntExtra("clockId", -1);
-        int retrieveTheme = getIntent().getIntExtra("clockTheme", -1);
+        int retrieveTheme = getClockTheme(clockId);
 
         Intent clockIntent = getIntent();
         Bundle extras = clockIntent.getExtras();
@@ -72,13 +82,18 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, clockWidgetId);
         setResult(RESULT_CANCELED, resultValue);
 
+        System.out.println("THIS OPENED");
+        if(clockId!=-1 && retrieveTheme!=-1){
+            isNotNew = true;
+            presetValues(clockId, retrieveTheme);
+        }
+        System.out.println(clockId+"++++++++++++++"+retrieveTheme);
+
         if(clockWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
             finish();
         }
 
-        if(clockId!=-1 && retrieveTheme!=-1){
-            presetValues(clockId, retrieveTheme);
-        }
+
 
         setupInitValues();
         setupClickListeners();
@@ -186,7 +201,6 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ClockWidgetConfigActivity.class);
         intent.putExtra("clockId", clockWidgetId);
-        intent.putExtra("clockTheme", clockTheme);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, clockWidgetId, intent, 0);
 
         addClockData();
@@ -201,9 +215,20 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, clockWidgetId);
         setResult(RESULT_OK, resultValue);
         updateWidget();
-        finish();
+
+        if (!isNotNew) {
+            finish();
+        } else {
+            onClose();
+        }
     }
 
+    public void onClose(){
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
     private void setupWidgetTheme(RemoteViews views) {
         if(clockTheme==1){
             views.setViewVisibility(R.id.unordinaryClock, View.VISIBLE);
@@ -267,13 +292,19 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
     private ArrayList<ClockData> clockDataArrayList;
     private void addClockData() {
         clockDataArrayList = tickTrackDatabase.retrieveClockWidgetList();
+        if(isNotNew){
+            for(int i=0; i<clockDataArrayList.size(); i++){
+                if(clockDataArrayList.get(i).getClockWidgetId()==clockWidgetId){
+                    clockDataArrayList.get(i).setClockTheme(clockTheme);
+                }
+            }
 
-        ClockData clockData = new ClockData();
-        clockData.setClockTheme(clockTheme);
-        clockData.setClockWidgetId(clockWidgetId);
-
-        clockDataArrayList.add(clockData);
+        } else {
+            ClockData clockData = new ClockData();
+            clockData.setClockTheme(clockTheme);
+            clockData.setClockWidgetId(clockWidgetId);
+            clockDataArrayList.add(clockData);
+        }
         tickTrackDatabase.storeClockWidgetList(clockDataArrayList);
-
     }
 }
