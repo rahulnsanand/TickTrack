@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
+import com.theflopguyproductions.ticktrack.timer.data.QuickTimerAdapter;
 import com.theflopguyproductions.ticktrack.timer.data.TimerAdapter;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.TimerSlideDeleteHelper;
@@ -40,6 +41,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static TextView noTimerText, timerTitleText, quickTimerTitleText;
     private static ConstraintLayout timerRecyclerRootLayout, timerLayout, quickTimerLayout;
     private static TimerAdapter timerAdapter;
+    private static QuickTimerAdapter quickTimerAdapter;
 
     public static void deleteTimer(int position, Activity activity, String timerName) {
         deleteItem(position);
@@ -113,23 +115,23 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static ArrayList<TimerData> timerArrayList;
     private static void buildQuickTimerRecyclerView(Activity activity) {
 
-        if(timerDataArrayList.size()>0){
-            timerRecyclerView.setVisibility(View.VISIBLE);
-            noTimerText.setVisibility(View.INVISIBLE);
+        quickTimerAdapter = new QuickTimerAdapter(activity, quickTimerList);
 
+        if(timerDataArrayList.size()>0){
+            quickTimerRecyclerView.setVisibility(View.VISIBLE);
+            quickTimerTitleText.setVisibility(View.VISIBLE);
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
-            splitTimerList(activity);
 
-            timerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            timerRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            timerRecyclerView.setAdapter(timerAdapter);
+            quickTimerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            quickTimerRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            quickTimerRecyclerView.setAdapter(quickTimerAdapter);
 
-            timerAdapter.diffUtilsChangeData(quickTimerList);
+            quickTimerAdapter.diffUtilsChangeData(quickTimerList);
 
         } else {
-            timerRecyclerView.setVisibility(View.INVISIBLE);
-            noTimerText.setVisibility(View.VISIBLE);
+            quickTimerRecyclerView.setVisibility(View.GONE);
+            quickTimerTitleText.setVisibility(View.GONE);
         }
 
     }
@@ -143,7 +145,6 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
-            splitTimerList(activity);
 
             timerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             timerRecyclerView.setItemAnimator(new DefaultItemAnimator());

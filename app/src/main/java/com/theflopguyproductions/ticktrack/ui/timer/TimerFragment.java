@@ -22,7 +22,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
 
-public class TimerFragment extends Fragment {
+public class TimerFragment extends Fragment implements QuickTimerCreatorFragment.QuickTimerCreateListener {
 
     static TickTrackDatabase tickTrackDatabase;
 
@@ -135,5 +135,8 @@ public class TimerFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onCreatedListener() {
+        displayRecyclerView();
+    }
 }

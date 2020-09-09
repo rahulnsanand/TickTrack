@@ -336,8 +336,6 @@ public class TimerCreatorFragment extends Fragment {
 
     }
 
-
-
     private boolean isCreateOn(){
         return !(pickedSecond == 0 && pickedHour == 0 && pickedMinute == 0);
     }
