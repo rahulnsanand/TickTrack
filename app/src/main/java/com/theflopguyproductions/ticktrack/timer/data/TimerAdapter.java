@@ -113,7 +113,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 System.out.println("Timer RUNNING Position: "+holder.getAdapterPosition());
             };
 
-            long elapsedTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
             final boolean[] isBlink = {true};
             holder.elapsedRunnable = () -> {
                 timerDataArrayList = holder.tickTrackDatabase.retrieveTimerList();
@@ -125,7 +124,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
                 if(isBlink[0]){
                     holder.timerDurationLeft.setVisibility(View.VISIBLE);
-                    long durationElapsed = SystemClock.elapsedRealtime() - elapsedTime;
+                    long durationElapsed = SystemClock.elapsedRealtime() - timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
                     holder.timerDurationLeft.setText("- "+updateTimerTextView(durationElapsed));
                     isBlink[0] = false;
                 } else {
