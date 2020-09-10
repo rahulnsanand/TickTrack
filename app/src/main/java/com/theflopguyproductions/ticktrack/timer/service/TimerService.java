@@ -77,11 +77,11 @@ public class TimerService extends Service {
     private void setupBaseNotification() {
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
-        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.TIMER_COMPLETE_NOTIFICATION)
+        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.TIMER_RUNNING_NOTIFICATION)
                 .setSmallIcon(R.drawable.timer_notification_mini_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_MAX) //TODO CHANGE PRIORITY TO MIN
+                .setPriority(Notification.PRIORITY_MIN) 
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
