@@ -23,6 +23,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 
@@ -81,6 +82,7 @@ public class TimerService extends Service {
 
     private void stopTimerService() {
         timerDataArrayList = retrieveTimerDataList(tickTrackDatabase.getSharedPref(this));
+        quickTimerData = retrieveQuickTimerList(tickTrackDatabase.getSharedPref(this));
         if(getAllOnTimers() == 0){
             killNotifications();
         }
@@ -94,6 +96,7 @@ public class TimerService extends Service {
     private void initializeValues(){
         SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         timerDataArrayList = retrieveTimerDataList(sharedPreferences);
+        quickTimerData = retrieveQuickTimerList(sharedPreferences);
         endTimes = getEndTimes();
         stopForeground(false);
     }
@@ -147,6 +150,7 @@ public class TimerService extends Service {
     }
 
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
+    private static ArrayList<QuickTimerData> quickTimerData = new ArrayList<>();
     private ArrayList<Long> endTimes = new ArrayList<>();
     public static ArrayList<TimerData> retrieveTimerDataList(SharedPreferences sharedPreferences){
         Gson gson = new Gson();
@@ -158,11 +162,28 @@ public class TimerService extends Service {
         }
         return timerData;
     }
+    public static ArrayList<QuickTimerData> retrieveQuickTimerList(SharedPreferences sharedPreferences){
+
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("QuickTimerData", null);
+        Type type = new TypeToken<ArrayList<QuickTimerData>>() {}.getType();
+        ArrayList<QuickTimerData> quickTimerData = gson.fromJson(json, type);
+
+        if(quickTimerData == null){
+            quickTimerData = new ArrayList<>();
+        }
+        return quickTimerData;
+    }
     private ArrayList<Long> getEndTimes() {
         ArrayList<Long> returnTimes = new ArrayList<>();
         for(int i = 0; i < timerDataArrayList.size(); i ++){
             if(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis()!=-1){
                 returnTimes.add(timerDataArrayList.get(i).getTimerAlarmEndTimeInMillis());
+            }
+        }
+        for(int i = 0; i < quickTimerData.size(); i ++){
+            if(quickTimerData.get(i).getTimerAlarmEndTimeInMillis()!=-1){
+                returnTimes.add(quickTimerData.get(i).getTimerAlarmEndTimeInMillis());
             }
         }
         return returnTimes;
@@ -195,6 +216,7 @@ public class TimerService extends Service {
     private void updateTimerServiceData(){
 
         timerDataArrayList = retrieveTimerDataList(tickTrackDatabase.getSharedPref(this));
+        quickTimerData = retrieveQuickTimerList(tickTrackDatabase.getSharedPref(this));
         int OnTimers = getAllOnTimers();
         System.out.println("NOTIFICATION ON TIMER COUNT "+OnTimers);
         if(OnTimers>1){
@@ -218,10 +240,16 @@ public class TimerService extends Service {
     private int getAllOnTimers() {
         int result = 0;
         for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).isTimerOn() && !timerDataArrayList.get(i).isTimerPause()){
+            if(timerDataArrayList.get(i).isTimerRinging()){
                 result++;
             }
         }
+        for(int i=0; i<quickTimerData.size(); i++){
+            if(quickTimerData.get(i).isTimerRinging()){
+                result++;
+            }
+        }
+
         return result;
     }
 

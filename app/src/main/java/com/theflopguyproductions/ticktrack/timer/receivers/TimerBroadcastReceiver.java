@@ -45,25 +45,29 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             timerDataArrayList = retrieveTimerData(tickTrackDatabase.getSharedPref(context));
 
             int position = getCurrentTimerPosition();
-            if(position!=-1){
-                timerDataArrayList.get(position).setTimerRinging(true);
-                timerDataArrayList.get(position).setTimerNotificationOn(false);
-                timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
-                timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
-                timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
+            if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause() || timerDataArrayList.get(position).isTimerRinging()){
+                if(!(SystemClock.elapsedRealtime() - timerDataArrayList.get(position).getTimerAlarmEndTimeInMillis() < 0)){
+                    if(position!=-1){
+                        timerDataArrayList.get(position).setTimerRinging(true);
+                        timerDataArrayList.get(position).setTimerNotificationOn(false);
+                        timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
+                        timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
+                        timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
 
-                storeTimerList(tickTrackDatabase.getSharedPref(context));
-                if(!isMyServiceRunning(TimerRingService.class, context)){
-                    startNotificationService(context);
-                    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-                    if( myKM.inKeyguardRestrictedInputMode()) {
-                        Intent resultIntent = new Intent(context, TimerRingerActivity.class);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(resultIntent);
+                        storeTimerList(tickTrackDatabase.getSharedPref(context));
+                        if(!isMyServiceRunning(TimerRingService.class, context)){
+                            startNotificationService(context);
+                            KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+                            if( myKM.inKeyguardRestrictedInputMode()) {
+                                Intent resultIntent = new Intent(context, TimerRingerActivity.class);
+                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(resultIntent);
+                            }
+                        }
+                        if(isMyServiceRunning(TimerService.class, context)){
+                            stopTimerNotification(context);
+                        }
                     }
-                }
-                if(isMyServiceRunning(TimerService.class, context)){
-                    stopTimerNotification(context);
                 }
             }
         }

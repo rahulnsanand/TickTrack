@@ -2,14 +2,12 @@ package com.theflopguyproductions.ticktrack.timer.data;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +17,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
@@ -33,7 +30,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
     private ArrayList<TimerData> timerDataArrayList;
     private Handler timerStatusUpdateHandler = new Handler();
-    private Handler timerElapsedBlinkHandler = new Handler();
+    private Handler timerElapsedHandler = new Handler();
 
     public TimerAdapter(Context context, ArrayList<TimerData> timerDataArrayList) {
         this.timerDataArrayList = timerDataArrayList;
@@ -58,8 +55,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         super.onViewDetachedFromWindow(holder);
 
         timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-        timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
-
+        timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
+        timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
     }
 
     @Override
@@ -80,7 +77,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             int randomFooter = new Random().nextInt(footerArray.length);
             holder.footerCounterTextView.setText(footerArray[randomFooter]);
         } else {
-            boolean isNotification = timerDataArrayList.get(holder.getAdapterPosition()).isTimerNotificationOn();
+
             holder.timerTitle.setText(TimeAgo.getTimerTitle(timerDataArrayList.get(position).getTimerHour(),timerDataArrayList.get(position).getTimerMinute(),
                     timerDataArrayList.get(position).getTimerSecond()));
 
@@ -90,79 +87,76 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
-            holder.stopTimeRetrieve = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime();
+            long totalTimeInMillis = timerDataArrayList.get(holder.getAdapterPosition()).getTimerTotalTimeInMillis();
+            long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerStartTimeInMillis();
 
             holder.timerDurationLeft.setVisibility(View.VISIBLE);
             holder.timerRunnable = () -> {
-                if(isNotification){
-                    if(holder.stopTimeRetrieve>0){
-                        holder.timerPauseResetButton.setVisibility(View.GONE);
-                        holder.stopTimeRetrieve -= 1000;
-                        holder.timerDurationLeft.setText(updateTimerTextView(holder.stopTimeRetrieve));
-                    } else {
-                        holder.timerDurationLeft.setText("Timer elapsed");
-                    }
-                    timerStatusUpdateHandler.postDelayed(holder.timerRunnable, 1000);
+                if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
+                    timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                    return;
                 }
-            };
-            holder.blinkRunnable = () -> {
-                if(holder.isBlink){
-                    holder.timerDurationLeft.setVisibility(View.VISIBLE);
-                    holder.isBlink = false;
-                } else {
-                    holder.timerDurationLeft.setVisibility(View.INVISIBLE);
-                    holder.isBlink = true;
-                }
-                timerElapsedBlinkHandler.postDelayed(holder.blinkRunnable, 500);
-            };
-
-            if(isNotification){
+                long durationLeft = totalTimeInMillis - (System.currentTimeMillis()-startTime);
+                holder.timerDurationLeft.setText(updateTimerTextView(durationLeft));
                 timerStatusUpdateHandler.post(holder.timerRunnable);
-            } else {
-                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                System.out.println("Timer Update Position: "+holder.getAdapterPosition());
+            };
 
-                if(timerDataArrayList.get(position).isTimerRinging()){
-                    holder.timerDurationLeft.setText("Timer elapsed");
-                    holder.timerPauseResetButton.setText("RESET");
-                    timerElapsedBlinkHandler.post(holder.blinkRunnable);
-                    holder.timerPauseResetButton.setOnClickListener(view -> {
-                        if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
-                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerOn(false);
-                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerPause(false);
-                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerNotificationOn(false);
-                            timerDataArrayList.get(holder.getAdapterPosition()).setTimerRinging(false);
-                            holder.tickTrackDatabase.storeTimerList(timerDataArrayList);
-                            holder.timerDurationLeft.setVisibility(View.INVISIBLE);
-                            holder.timerPauseResetButton.setText("START");
+            long elapsedTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
+            holder.elapsedRunnable = () -> {
+                if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
+                    timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
+                    return;
+                }
+                long durationElapsed = SystemClock.elapsedRealtime() - elapsedTime;
+                holder.timerDurationLeft.setText("-"+updateTimerTextView(durationElapsed));
+                timerElapsedHandler.postDelayed(holder.elapsedRunnable, 100);
+                System.out.println("Timer Update Position: "+holder.getAdapterPosition());
+            };
 
-                            timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
-
-                            holder.timerPauseResetButton.setOnClickListener(viewer -> {
-                                timerDataArrayList.get(holder.getAdapterPosition()).setTimerPause(false);
-                                timerDataArrayList.get(holder.getAdapterPosition()).setTimerOn(true);
-                                holder.tickTrackDatabase.storeTimerList(timerDataArrayList);
-                                Intent timerIntent = new Intent(holder.context, TimerActivity.class);
-                                timerIntent.setAction(TimerActivity.ACTION_TIMER_NEW_ADDITION);
-                                timerIntent.putExtra("timerID", timerDataArrayList.get(holder.getAdapterPosition()).getTimerID());
-                                holder.context.startActivity(timerIntent);
-                                System.out.println("START BUTTON CLICKED");
-                            });
-                        }
-                    });
+            final boolean[] isBlink = {true};
+            holder.blinkRunnable = () -> {
+                if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() || timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()){
+                    timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
+                    timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
+                    return;
+                }
+                if(isBlink[0]){
+                    holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                    isBlink[0] = false;
                 } else {
                     holder.timerDurationLeft.setVisibility(View.INVISIBLE);
-                    holder.timerPauseResetButton.setText("START");
-                    holder.timerPauseResetButton.setOnClickListener(view -> {
-                        timerDataArrayList.get(holder.getAdapterPosition()).setTimerPause(false);
-                        timerDataArrayList.get(holder.getAdapterPosition()).setTimerOn(true);
-                        holder.tickTrackDatabase.storeTimerList(timerDataArrayList);
-                        Intent timerIntent = new Intent(holder.context, TimerActivity.class);
-                        timerIntent.setAction(TimerActivity.ACTION_TIMER_NEW_ADDITION);
-                        timerIntent.putExtra("timerID", timerDataArrayList.get(holder.getAdapterPosition()).getTimerID());
-                        holder.context.startActivity(timerIntent);
-                        System.out.println("START BUTTON CLICKED");
-                    });
+                    isBlink[0] = true;
                 }
+                System.out.println("Timer Update Position: "+holder.getAdapterPosition());
+                timerElapsedHandler.postDelayed(holder.blinkRunnable, 500);
+            };
+
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
+
+                timerStatusUpdateHandler.post(holder.timerRunnable);
+
+            } else if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()) {
+
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
+
+                holder.timerDurationLeft.setText("PAUSED");
+                timerElapsedHandler.post(holder.blinkRunnable);
+
+            } else if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
+                timerElapsedHandler.post(holder.blinkRunnable);
+                timerElapsedHandler.post(holder.elapsedRunnable);
+
+            } else {
+
+                holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
+                timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
             }
 
             holder.itemColor = timerDataArrayList.get(position).timerFlag;
@@ -171,8 +165,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             setTheme(holder, theme);
 
             holder.timerLayout.setOnClickListener(v -> TimerFragment.startTimerActivity(timerDataArrayList.get(position).getTimerID(), (Activity) holder.context));
-
-
 
         }
     }
@@ -189,15 +181,12 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.Gray));
-            holder.timerPauseResetButton.setBackgroundResource(R.drawable.button_selector_white);
         } else {
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.LightText));
-            holder.timerPauseResetButton.setBackgroundResource(R.drawable.button_selector_dark);
         }
         holder.timerDurationLeft.setTextColor(holder.context.getResources().getColor(R.color.Accent));
-        holder.timerPauseResetButton.setTextColor(holder.context.getResources().getColor(R.color.Accent));
     }
 
     private void setColor(timerDataViewHolder holder) {
@@ -250,10 +239,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         private ImageView timerFlag;
         private Context context;
         private TextView footerCounterTextView;
-        private Button timerPauseResetButton;
-        private Runnable timerRunnable, blinkRunnable;
-        private long stopTimeRetrieve;
-        private boolean isBlink = false;
+        private Runnable timerRunnable, blinkRunnable, elapsedRunnable;
 
         TickTrackDatabase tickTrackDatabase;
 
@@ -265,7 +251,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             timerDurationLeft = parent.findViewById(R.id.timerDurationLeftItemTextView);
             timerLayout = parent.findViewById(R.id.timerItemRootLayout);
             timerFlag = parent.findViewById(R.id.timerFlagItemImageView);
-            timerPauseResetButton = parent.findViewById(R.id.timerPauseResetItemButton);
             footerCounterTextView = parent.findViewById(R.id.recylerFooterTextView);
 
             context=parent.getContext();

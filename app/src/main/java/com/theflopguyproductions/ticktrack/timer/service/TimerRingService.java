@@ -538,15 +538,13 @@ public class TimerRingService extends Service {
 
         for(int i = 0; i < timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isTimerRinging()){
-                if(!timerDataArrayList.get(i).isQuickTimer()){
-                    timerDataArrayList.get(i).setTimerOn(false);
-                    timerDataArrayList.get(i).setTimerPause(false);
-                    timerDataArrayList.get(i).setTimerNotificationOn(false);
-                    timerDataArrayList.get(i).setTimerRinging(false);
-                    storeTimerList(sharedPreferences);
-                }
+                timerDataArrayList.get(i).setTimerOn(false);
+                timerDataArrayList.get(i).setTimerPause(false);
+                timerDataArrayList.get(i).setTimerNotificationOn(false);
+                timerDataArrayList.get(i).setTimerRinging(false);
+                storeTimerList(sharedPreferences);
             }
         }
-        storeTimerList(sharedPreferences);
+
     }
 }

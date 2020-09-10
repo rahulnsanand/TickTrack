@@ -76,7 +76,7 @@
             android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textColor="@color/Accent"
-            app:layout_constraintBottom_toTopOf="@+id/timerPauseResetItemButton"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,21 +94,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_flag_green" />
 
-        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-            android:id="@+id/timerPauseResetItemButton"
-            style="@style/button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/button_selector_white"
-            android:text="PAUSE"
-            android:textColor="@color/Accent"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/timerDurationLeftItemTextView"
-            app:layout_constraintTop_toBottomOf="@+id/timerFlagItemImageView"
-            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
