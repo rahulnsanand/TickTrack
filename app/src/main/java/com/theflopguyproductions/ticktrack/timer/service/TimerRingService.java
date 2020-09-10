@@ -33,6 +33,7 @@ import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
@@ -86,6 +87,44 @@ public class TimerRingService extends Service {
 
         if(timerDataArrayList == null){
             timerDataArrayList = new ArrayList<>();
+        }
+
+        String quickJson = sharedPreferences.getString("QuickTimerData", null);
+        Type quickType = new TypeToken<ArrayList<QuickTimerData>>() {}.getType();
+        ArrayList<QuickTimerData> quickTimerData = gson.fromJson(quickJson, quickType);
+
+        if(quickTimerData == null){
+            quickTimerData = new ArrayList<>();
+        }
+
+        for(int i=0; i<quickTimerData.size();i++){
+
+            TimerData timerData = new TimerData();
+            timerData.setTimerEndTimeInMillis(quickTimerData.get(i).getTimerEndTimeInMillis());
+            timerData.setTimerStartTimeInMillis(quickTimerData.get(i).getTimerStartTimeInMillis());
+            timerData.setTimerEndedTimeInMillis(quickTimerData.get(i).getTimerAlarmEndTimeInMillis());
+            timerData.setTimerRinging(quickTimerData.get(i).isTimerRinging());
+            timerData.setTimerAlarmEndTimeInMillis(quickTimerData.get(i).getTimerAlarmEndTimeInMillis());
+            timerData.setTimerOn(quickTimerData.get(i).isTimerOn());
+            timerData.setQuickTimer(quickTimerData.get(i).isQuickTimer());
+            timerData.setTimerFlag(quickTimerData.get(i).getTimerFlag());
+            timerData.setTimerHour(quickTimerData.get(i).getTimerHour());
+            timerData.setTimerHourLeft(quickTimerData.get(i).getTimerHourLeft());
+            timerData.setTimerID(quickTimerData.get(i).getTimerID());
+            timerData.setTimerIntID(quickTimerData.get(i).getTimerIntID());
+            timerData.setTimerLabel(quickTimerData.get(i).getTimerLabel());
+            timerData.setTimerLastEdited(quickTimerData.get(i).getTimerLastEdited());
+            timerData.setTimerMilliSecondLeft(quickTimerData.get(i).getTimerMilliSecondLeft());
+            timerData.setTimerMinute(quickTimerData.get(i).getTimerMinute());
+            timerData.setTimerMinuteLeft(quickTimerData.get(i).getTimerMinuteLeft());
+            timerData.setTimerNotificationOn(quickTimerData.get(i).isTimerNotificationOn());
+            timerData.setTimerPause(quickTimerData.get(i).isTimerPause());
+            timerData.setTimerSecond(quickTimerData.get(i).getTimerSecond());
+            timerData.setTimerSecondLeft(quickTimerData.get(i).getTimerSecondLeft());
+            timerData.setTimerTempMaxTimeInMillis(quickTimerData.get(i).getTimerTempMaxTimeInMillis());
+            timerData.setTimerTotalTimeInMillis(quickTimerData.get(i).getTimerTotalTimeInMillis());
+
+            timerDataArrayList.add(timerData);
         }
 
         return timerDataArrayList;

@@ -312,7 +312,7 @@ public class TimerActivity extends AppCompatActivity {
 
         setupStartEndTime();
 
-        tickTrackTimerDatabase.setAlarm(timerDataArrayList.get(getCurrentTimerPosition()).getTimerAlarmEndTimeInMillis(), timerID);
+        tickTrackTimerDatabase.setAlarm(timerDataArrayList.get(getCurrentTimerPosition()).getTimerAlarmEndTimeInMillis(), timerID, false);
         countDownTimerMillis = timeInMillis;
 
         countDownTimer = new CountDownTimer(countDownTimerMillis, 1) {
@@ -415,7 +415,7 @@ public class TimerActivity extends AppCompatActivity {
         booleanRefresh();
 
         postSetPauseValues();
-        tickTrackTimerDatabase.cancelAlarm(timerID);
+        tickTrackTimerDatabase.cancelAlarm(timerID, false);
 
         if(timerStopHandler!=null && timerBlinkHandler!=null){
             timerStopHandler.removeCallbacks(runnable);
@@ -568,7 +568,7 @@ public class TimerActivity extends AppCompatActivity {
 
     private void addOneTimer(){
         countDownTimer.cancel();
-        tickTrackTimerDatabase.cancelAlarm(timerID);
+        tickTrackTimerDatabase.cancelAlarm(timerID, false);
         countDownTimerMillis += 1000*60;
         maxTimeInMillis += 1000*60;
         timerDataArrayList.get(getCurrentTimerPosition()).setTimerTempMaxTimeInMillis(maxTimeInMillis);

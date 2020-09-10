@@ -20,40 +20,75 @@ public class TickTrackTimerDatabase {
         this.context = context;
     }
 
-    public void setAlarm(long endTime, int timerIntegerID){
+    public void setAlarm(long endTime, int timerIntegerID, boolean isQuick){
 
         long shortTime = endTime - SystemClock.elapsedRealtime();
-        if(!(shortTime > 5000)){
-            new Handler().postDelayed(() -> {
+
+        if(isQuick){
+            if(!(shortTime > 5000)){
+                new Handler().postDelayed(() -> {
+                    Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+                    intent.setAction(TimerBroadcastReceiver.ACTION_QUICK_TIMER_BROADCAST);
+                    intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                    intent.putExtra("timerIntegerID", timerIntegerID);
+                    this.context.sendBroadcast(intent);
+                }, shortTime);
+
+            } else {
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+                intent.setAction(TimerBroadcastReceiver.ACTION_QUICK_TIMER_BROADCAST);
+                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                intent.putExtra("timerIntegerID", timerIntegerID);
+                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+                alarmManager.setExact(
+                        AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                        endTime,
+                        alarmPendingIntent
+                );
+            }
+        } else {
+            if(!(shortTime > 5000)){
+                new Handler().postDelayed(() -> {
+                    Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+                    intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+                    intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                    intent.putExtra("timerIntegerID", timerIntegerID);
+                    this.context.sendBroadcast(intent);
+                }, shortTime);
+
+            } else {
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 Intent intent = new Intent(context, TimerBroadcastReceiver.class);
                 intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
                 intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 intent.putExtra("timerIntegerID", timerIntegerID);
-                this.context.sendBroadcast(intent);
-            }, shortTime);
-
-        } else {
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(context, TimerBroadcastReceiver.class);
-            intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
-            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-            intent.putExtra("timerIntegerID", timerIntegerID);
-            PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
-            alarmManager.setExact(
-                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    endTime,
-                    alarmPendingIntent
-            );
+                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+                alarmManager.setExact(
+                        AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                        endTime,
+                        alarmPendingIntent
+                );
+            }
         }
     }
 
-    public void cancelAlarm(int timerIntegerID){
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, TimerBroadcastReceiver.class);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
-        alarmManager.cancel(alarmPendingIntent);
+    public void cancelAlarm(int timerIntegerID, boolean isQuick){
+        if(isQuick){
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+            intent.setAction(TimerBroadcastReceiver.ACTION_QUICK_TIMER_BROADCAST);
+            PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+            alarmManager.cancel(alarmPendingIntent);
+        } else {
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, TimerBroadcastReceiver.class);
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+            intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
+            PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+            alarmManager.cancel(alarmPendingIntent);
+        }
     }
 
     public void startNotificationService() {

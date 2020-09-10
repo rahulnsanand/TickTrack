@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.SystemClock;
 
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
@@ -78,18 +79,37 @@ public class TimerManagementHelper {
                         long nextAlarmStamp = SystemClock.elapsedRealtime()+(timerData.get(i).getTimerTotalTimeInMillis()-elapsedTime);
 
                         timerData.get(i).setTimerAlarmEndTimeInMillis(nextAlarmStamp);
-                        tickTrackTimerDatabase.setAlarm(nextAlarmStamp, timerData.get(i).getTimerIntID());
+
+                        tickTrackTimerDatabase.setAlarm(nextAlarmStamp, timerData.get(i).getTimerIntID(), false);
+
 
                         if(!isMyServiceRunning(TimerService.class, activity)){
                             tickTrackTimerDatabase.startNotificationService();
                         }
 
                     } else { //TODO TIMER ALREADY ELAPSED
-
+                        long endedAgoTime = timerData.get(i).getTimerEndTimeInMillis() - timerData.get(i).getTimerStartTimeInMillis();
                         timerData.get(i).setTimerOn(false);
                         timerData.get(i).setTimerPause(false);
                         timerData.get(i).setTimerNotificationOn(false);
-                        timerData.get(i).setTimerRinging(false);
+                        timerData.get(i).setTimerRinging(true);
+                        timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
+                        timerData.get(i).setTimerStartTimeInMillis(-1);
+                        timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
+
+                        if(!isMyServiceRunning(TimerRingService.class, activity)){
+                            startTimerRingNotificationService(activity);
+                            KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
+                            if( myKM.inKeyguardRestrictedInputMode()) {
+                                Intent resultIntent = new Intent(activity, TimerRingerActivity.class);
+                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                activity.startActivity(resultIntent);
+                            }
+                        }
+                        if(isMyServiceRunning(TimerService.class, activity)){
+                            tickTrackTimerDatabase.stopNotificationService();
+                        }
+
                     }
                 }
             } else if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause() && timerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
@@ -108,6 +128,71 @@ public class TimerManagementHelper {
 
             }
             tickTrackDatabase.storeTimerList(timerData);
+        }
+
+        ArrayList<QuickTimerData> quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
+
+        for(int i = 0; i<quickTimerData.size(); i++){
+            if(quickTimerData.get(i).isTimerOn() && !quickTimerData.get(i).isTimerPause() && !quickTimerData.get(i).isTimerRinging()){ //TODO TIMER IS RUNNING, NOT RINGING
+                //TODO CAN BE ELAPSED AND YET TO ELAPSE HERE
+                if(quickTimerData.get(i).getTimerStartTimeInMillis() != -1) {
+
+                    long elapsedTime = System.currentTimeMillis() - quickTimerData.get(i).getTimerStartTimeInMillis();
+
+                    if(elapsedTime<quickTimerData.get(i).getTimerTotalTimeInMillis()){ //TODO TIMER YET TO ELAPSE
+
+                        long nextAlarmStamp = SystemClock.elapsedRealtime()+(quickTimerData.get(i).getTimerTotalTimeInMillis()-elapsedTime);
+
+                        quickTimerData.get(i).setTimerAlarmEndTimeInMillis(nextAlarmStamp);
+
+                        tickTrackTimerDatabase.setAlarm(nextAlarmStamp, quickTimerData.get(i).getTimerIntID(), true);
+
+
+                        if(!isMyServiceRunning(TimerService.class, activity)){
+                            tickTrackTimerDatabase.startNotificationService();
+                        }
+
+                    } else { //TODO TIMER ALREADY ELAPSED
+
+                        long endedAgoTime = quickTimerData.get(i).getTimerEndTimeInMillis() - quickTimerData.get(i).getTimerStartTimeInMillis();
+                        quickTimerData.get(i).setTimerOn(false);
+                        quickTimerData.get(i).setTimerPause(false);
+                        quickTimerData.get(i).setTimerNotificationOn(false);
+                        quickTimerData.get(i).setTimerRinging(true);
+                        quickTimerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
+                        quickTimerData.get(i).setTimerStartTimeInMillis(-1);
+                        quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
+
+                        if(!isMyServiceRunning(TimerRingService.class, activity)){
+                            startTimerRingNotificationService(activity);
+                            KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
+                            if( myKM.inKeyguardRestrictedInputMode()) {
+                                Intent resultIntent = new Intent(activity, TimerRingerActivity.class);
+                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                activity.startActivity(resultIntent);
+                            }
+                        }
+                        if(isMyServiceRunning(TimerService.class, activity)){
+                            tickTrackTimerDatabase.stopNotificationService();
+                        }
+                    }
+                }
+            } else if(quickTimerData.get(i).isTimerOn() && !quickTimerData.get(i).isTimerPause() && quickTimerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
+                if(!isMyServiceRunning(TimerRingService.class, activity)){
+                    startTimerRingNotificationService(activity);
+                    KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
+                    if( myKM.inKeyguardRestrictedInputMode()) {
+                        Intent resultIntent = new Intent(activity, TimerRingerActivity.class);
+                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(resultIntent);
+                    }
+                }
+                if(isMyServiceRunning(TimerService.class, activity)){
+                    tickTrackTimerDatabase.stopNotificationService();
+                }
+
+            }
+            tickTrackDatabase.storeQuickTimerList(quickTimerData);
         }
 
     }

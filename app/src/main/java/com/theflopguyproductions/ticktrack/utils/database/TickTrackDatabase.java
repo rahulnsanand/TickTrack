@@ -18,6 +18,7 @@ import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.widgets.clock.ClockData;
@@ -330,9 +331,13 @@ public class TickTrackDatabase {
         ArrayList<TimerData> timerData = retrieveTimerList();
         TickTrackTimerDatabase tickTrackTimerDatabase = new TickTrackTimerDatabase(context);
         for(int i = 0; i < timerData.size(); i++){
-            tickTrackTimerDatabase.cancelAlarm(timerData.get(i).getTimerIntID());
+            tickTrackTimerDatabase.cancelAlarm(timerData.get(i).getTimerIntID(), false);
         }
 
+        ArrayList<QuickTimerData> quickTimerData = retrieveQuickTimerList();
+        for(int i = 0; i < quickTimerData.size(); i++){
+            tickTrackTimerDatabase.cancelAlarm(quickTimerData.get(i).getTimerIntID(), true);
+        }
 
         if(isMyServiceRunning(BackupRestoreService.class, context)){
             stopService(BackupRestoreService.class, context);

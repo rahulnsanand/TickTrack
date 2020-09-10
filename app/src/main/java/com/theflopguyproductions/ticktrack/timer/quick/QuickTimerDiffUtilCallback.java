@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.timer.data;
+package com.theflopguyproductions.ticktrack.timer.quick;
 
 import androidx.recyclerview.widget.DiffUtil;
 
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class QuickTimerDiffUtilCallback extends DiffUtil.Callback  {
 
-    ArrayList<TimerData> newList, oldList;
+    ArrayList<QuickTimerData> newList, oldList;
 
-    public QuickTimerDiffUtilCallback(ArrayList<TimerData> newList, ArrayList<TimerData> oldList) {
+    public QuickTimerDiffUtilCallback(ArrayList<QuickTimerData> newList, ArrayList<QuickTimerData> oldList) {
         this.newList = newList;
         this.oldList = oldList;
     }

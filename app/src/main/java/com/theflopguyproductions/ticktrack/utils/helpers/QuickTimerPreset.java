@@ -40,7 +40,7 @@ public class QuickTimerPreset {
         timerData.setTimerRinging(false);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID());
+        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
     }
@@ -62,7 +62,7 @@ public class QuickTimerPreset {
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID());
+        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
         return timerData.getTimerIntID();
     }
     public int setFiveMinuteTimer(){
@@ -82,7 +82,7 @@ public class QuickTimerPreset {
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID());
+        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
     }
@@ -103,7 +103,7 @@ public class QuickTimerPreset {
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID());
+        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
     }
@@ -125,7 +125,7 @@ public class QuickTimerPreset {
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID());
+        tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
     }
