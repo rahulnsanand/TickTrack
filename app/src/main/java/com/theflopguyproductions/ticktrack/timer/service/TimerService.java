@@ -72,7 +72,6 @@ public class TimerService extends Service {
                 result++;
             }
         }
-        System.out.println("TIMER_SERVICE COUNT "+result);
         return result;
     }
     private void setupBaseNotification() {
@@ -166,8 +165,10 @@ public class TimerService extends Service {
 
     private boolean isSingle = false;
     private void setupSingleTimerNotificationLayout() {
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+
         Intent resultIntent;
-        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+        if(isQuickTimerCheck()){
             resultIntent = new Intent(this, SoYouADeveloperHuh.class);
             tickTrackDatabase.storeCurrentFragmentNumber(2);
         } else {
@@ -181,6 +182,16 @@ public class TimerService extends Service {
         notificationBuilder.setContentIntent(resultPendingIntent);
         isSingle = true;
         isMulti = false;
+    }
+
+    private boolean isQuickTimerCheck() {
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        for(int i=0; i<quickTimerDataArrayList.size(); i++){
+            if(quickTimerDataArrayList.get(i).isTimerOn() && !quickTimerDataArrayList.get(i).isTimerRinging()){
+                return true;
+            }
+        }
+        return false;
     }
 
     private int getCurrentTimerPosition(int timerIntegerID){
@@ -202,12 +213,12 @@ public class TimerService extends Service {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
         for(int i=0; i<timerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).isTimerRinging()){
+            if(timerDataArrayList.get(i).isTimerNotificationOn()){
                 return timerDataArrayList.get(i).getTimerIntID();
             }
         }
         for(int i=0; i<quickTimerDataArrayList.size(); i++){
-            if(quickTimerDataArrayList.get(i).isTimerRinging()){
+            if(quickTimerDataArrayList.get(i).isTimerOn() && !quickTimerDataArrayList.get(i).isTimerRinging()){
                 return quickTimerDataArrayList.get(i).getTimerIntID();
             }
         }
