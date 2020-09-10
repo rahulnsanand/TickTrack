@@ -57,6 +57,7 @@ public class TimerRingService extends Service {
     private Uri alarmSound;
 
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
+    private static ArrayList<QuickTimerData> quickTimerData = new ArrayList<>();
     private int timerCount = 0;
     final Handler handler = new Handler();
     private TickTrackDatabase tickTrackDatabase;
@@ -88,45 +89,6 @@ public class TimerRingService extends Service {
         if(timerDataArrayList == null){
             timerDataArrayList = new ArrayList<>();
         }
-
-        String quickJson = sharedPreferences.getString("QuickTimerData", null);
-        Type quickType = new TypeToken<ArrayList<QuickTimerData>>() {}.getType();
-        ArrayList<QuickTimerData> quickTimerData = gson.fromJson(quickJson, quickType);
-
-        if(quickTimerData == null){
-            quickTimerData = new ArrayList<>();
-        }
-
-        for(int i=0; i<quickTimerData.size();i++){
-
-            TimerData timerData = new TimerData();
-            timerData.setTimerEndTimeInMillis(quickTimerData.get(i).getTimerEndTimeInMillis());
-            timerData.setTimerStartTimeInMillis(quickTimerData.get(i).getTimerStartTimeInMillis());
-            timerData.setTimerEndedTimeInMillis(quickTimerData.get(i).getTimerAlarmEndTimeInMillis());
-            timerData.setTimerRinging(quickTimerData.get(i).isTimerRinging());
-            timerData.setTimerAlarmEndTimeInMillis(quickTimerData.get(i).getTimerAlarmEndTimeInMillis());
-            timerData.setTimerOn(quickTimerData.get(i).isTimerOn());
-            timerData.setQuickTimer(quickTimerData.get(i).isQuickTimer());
-            timerData.setTimerFlag(quickTimerData.get(i).getTimerFlag());
-            timerData.setTimerHour(quickTimerData.get(i).getTimerHour());
-            timerData.setTimerHourLeft(quickTimerData.get(i).getTimerHourLeft());
-            timerData.setTimerID(quickTimerData.get(i).getTimerID());
-            timerData.setTimerIntID(quickTimerData.get(i).getTimerIntID());
-            timerData.setTimerLabel(quickTimerData.get(i).getTimerLabel());
-            timerData.setTimerLastEdited(quickTimerData.get(i).getTimerLastEdited());
-            timerData.setTimerMilliSecondLeft(quickTimerData.get(i).getTimerMilliSecondLeft());
-            timerData.setTimerMinute(quickTimerData.get(i).getTimerMinute());
-            timerData.setTimerMinuteLeft(quickTimerData.get(i).getTimerMinuteLeft());
-            timerData.setTimerNotificationOn(quickTimerData.get(i).isTimerNotificationOn());
-            timerData.setTimerPause(quickTimerData.get(i).isTimerPause());
-            timerData.setTimerSecond(quickTimerData.get(i).getTimerSecond());
-            timerData.setTimerSecondLeft(quickTimerData.get(i).getTimerSecondLeft());
-            timerData.setTimerTempMaxTimeInMillis(quickTimerData.get(i).getTimerTempMaxTimeInMillis());
-            timerData.setTimerTotalTimeInMillis(quickTimerData.get(i).getTimerTotalTimeInMillis());
-
-            timerDataArrayList.add(timerData);
-        }
-
         return timerDataArrayList;
     }
     public static void storeTimerList(SharedPreferences sharedPreferences){
@@ -139,6 +101,18 @@ public class TimerRingService extends Service {
 
     }
 
+    public static ArrayList<QuickTimerData> retrieveQuickTimerList(SharedPreferences sharedPreferences){
+
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("QuickTimerData", null);
+        Type type = new TypeToken<ArrayList<QuickTimerData>>() {}.getType();
+        ArrayList<QuickTimerData> quickTimerData = gson.fromJson(json, type);
+
+        if(quickTimerData == null){
+            quickTimerData = new ArrayList<>();
+        }
+        return quickTimerData;
+    }
     public static void storeQuickTimerList(SharedPreferences sharedPreferences, ArrayList<QuickTimerData> quickTimerData){
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -233,6 +207,7 @@ public class TimerRingService extends Service {
     private void initializeValues() {
         SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         timerDataArrayList = retrieveTimerList(sharedPreferences);
+        quickTimerData = retrieveQuickTimerList(sharedPreferences);
         timerCount = getAllOnTimers();
         if(timerCount>0){
             if(timerCount>1){
@@ -347,6 +322,7 @@ public class TimerRingService extends Service {
     private void updateTimerServiceData(){
 
         timerDataArrayList = retrieveTimerList(tickTrackDatabase.getSharedPref(this));
+        quickTimerData = retrieveQuickTimerList(tickTrackDatabase.getSharedPref(this));
         int OnTimers = getAllOnTimers();
         if(OnTimers==1){
             notificationManagerCompat.notify(3, notificationBuilder.build());
@@ -365,6 +341,7 @@ public class TimerRingService extends Service {
 
     private void stopRingerService() {
         timerDataArrayList = retrieveTimerList(tickTrackDatabase.getSharedPref(this));
+        quickTimerData = retrieveQuickTimerList(tickTrackDatabase.getSharedPref(this));
         if(!(getAllOnTimers() > 0)){
             stopTimers();
         }
@@ -507,12 +484,22 @@ public class TimerRingService extends Service {
                 return timerDataArrayList.get(i).getTimerIntID();
             }
         }
+        for(int i=0; i<quickTimerData.size(); i++){
+            if(quickTimerData.get(i).isTimerRinging()){
+                return quickTimerData.get(i).getTimerIntID();
+            }
+        }
         return -1;
     }
     private int getAllOnTimers() {
         int result = 0;
         for(int i = 0; i < timerDataArrayList.size(); i ++){
             if(timerDataArrayList.get(i).isTimerRinging()){
+                result++;
+            }
+        }
+        for(int i=0; i<quickTimerData.size(); i++){
+            if(quickTimerData.get(i).isTimerRinging()){
                 result++;
             }
         }
@@ -525,41 +512,41 @@ public class TimerRingService extends Service {
                 return i;
             }
         }
+        for(int i = 0; i < quickTimerData.size(); i ++){
+            if(quickTimerData.get(i).getTimerIntID()==timerIntegerID){
+                return i;
+            }
+        }
         return -1;
     }
 
     @SuppressWarnings("SuspiciousListRemoveInLoop")
     private void stopTimerRinging(SharedPreferences sharedPreferences) {
-        ArrayList<QuickTimerData> quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
-        for(int i = 0; i < timerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).isTimerRinging()){
-                if(timerDataArrayList.get(i).isQuickTimer()){
-                    timerDataArrayList.get(i).setTimerOn(false);
-                    timerDataArrayList.get(i).setTimerPause(false);
-                    timerDataArrayList.get(i).setTimerNotificationOn(false);
-                    timerDataArrayList.get(i).setTimerRinging(false);
-                    for(int j=0; j<quickTimerData.size(); j++){
-                        if(quickTimerData.get(j).getTimerID().equals(timerDataArrayList.get(i).getTimerID())){
-
-                            quickTimerData.get(j).setTimerOn(false);
-                            quickTimerData.get(j).setTimerPause(false);
-                            quickTimerData.get(j).setTimerNotificationOn(false);
-                            quickTimerData.get(j).setTimerRinging(false);
-                            storeQuickTimerList(sharedPreferences, quickTimerData);
-
-                            quickTimerData.remove(j);
-                            storeQuickTimerList(sharedPreferences, quickTimerData);
-                        }
-                    }
-                    timerDataArrayList.remove(i);
-                } else {
-                    timerDataArrayList.get(i).setTimerOn(false);
-                    timerDataArrayList.get(i).setTimerPause(false);
-                    timerDataArrayList.get(i).setTimerNotificationOn(false);
-                    timerDataArrayList.get(i).setTimerRinging(false);
+        for(int i = 0; i < quickTimerData.size(); i++){
+            if(quickTimerData.get(i).isTimerRinging()){
+                if(quickTimerData.get(i).isQuickTimer()){
+                    quickTimerData.get(i).setTimerOn(false);
+                    quickTimerData.get(i).setTimerPause(false);
+                    quickTimerData.get(i).setTimerNotificationOn(false);
+                    quickTimerData.get(i).setTimerRinging(false);
+                    storeQuickTimerList(sharedPreferences, quickTimerData);
+                    quickTimerData.remove(i);
                 }
-                storeTimerList(sharedPreferences);
+                storeQuickTimerList(sharedPreferences, quickTimerData);
             }
         }
+
+        for(int i = 0; i < timerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).isTimerRinging()){
+                if(!timerDataArrayList.get(i).isQuickTimer()){
+                    timerDataArrayList.get(i).setTimerOn(false);
+                    timerDataArrayList.get(i).setTimerPause(false);
+                    timerDataArrayList.get(i).setTimerNotificationOn(false);
+                    timerDataArrayList.get(i).setTimerRinging(false);
+                    storeTimerList(sharedPreferences);
+                }
+            }
+        }
+        storeTimerList(sharedPreferences);
     }
 }
