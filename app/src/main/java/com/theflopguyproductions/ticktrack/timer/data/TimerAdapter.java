@@ -55,7 +55,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         super.onViewDetachedFromWindow(holder);
 
         timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-        timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
         timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
     }
 
@@ -92,47 +91,54 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
             holder.timerDurationLeft.setVisibility(View.VISIBLE);
             holder.timerRunnable = () -> {
+                timerDataArrayList = holder.tickTrackDatabase.retrieveTimerList();
+                if(!(timerDataArrayList.size() >0)){
+                    timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                    return;
+                }
                 if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
                     timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                     return;
                 }
                 long durationLeft = totalTimeInMillis - (System.currentTimeMillis()-startTime);
-                holder.timerDurationLeft.setText(updateTimerTextView(durationLeft));
-                timerStatusUpdateHandler.post(holder.timerRunnable);
-                System.out.println("Timer Update Position: "+holder.getAdapterPosition());
+                if(durationLeft>0){
+                    holder.timerDurationLeft.setText(updateTimerTextView(durationLeft));
+                    timerStatusUpdateHandler.post(holder.timerRunnable);
+
+                } else {
+                    timerElapsedHandler.post(holder.elapsedRunnable);
+                    timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                    return;
+                }
+                System.out.println("Timer RUNNING Position: "+holder.getAdapterPosition());
             };
 
             long elapsedTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
-            holder.elapsedRunnable = () -> {
-                if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
-                    timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
-                    return;
-                }
-                long durationElapsed = SystemClock.elapsedRealtime() - elapsedTime;
-                holder.timerDurationLeft.setText("-"+updateTimerTextView(durationElapsed));
-                timerElapsedHandler.postDelayed(holder.elapsedRunnable, 100);
-                System.out.println("Timer Update Position: "+holder.getAdapterPosition());
-            };
-
             final boolean[] isBlink = {true};
-            holder.blinkRunnable = () -> {
-                if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() || timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()){
-                    timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
+            holder.elapsedRunnable = () -> {
+                timerDataArrayList = holder.tickTrackDatabase.retrieveTimerList();
+
+                if(!(timerDataArrayList.size() >0) || !timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
                     timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
                     return;
                 }
+
                 if(isBlink[0]){
                     holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                    long durationElapsed = SystemClock.elapsedRealtime() - elapsedTime;
+                    holder.timerDurationLeft.setText("- "+updateTimerTextView(durationElapsed));
                     isBlink[0] = false;
                 } else {
                     holder.timerDurationLeft.setVisibility(View.INVISIBLE);
                     isBlink[0] = true;
                 }
-                System.out.println("Timer Update Position: "+holder.getAdapterPosition());
-                timerElapsedHandler.postDelayed(holder.blinkRunnable, 500);
+
+                timerElapsedHandler.postDelayed(holder.elapsedRunnable, 500);
+                System.out.println("Timer ELAPSED Position: "+holder.getAdapterPosition());
             };
 
-            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()
+                    && !timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()){
 
                 timerStatusUpdateHandler.post(holder.timerRunnable);
 
@@ -142,20 +148,16 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
 
                 holder.timerDurationLeft.setText("PAUSED");
-                timerElapsedHandler.post(holder.blinkRunnable);
 
             } else if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
 
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
-                timerElapsedHandler.post(holder.blinkRunnable);
                 timerElapsedHandler.post(holder.elapsedRunnable);
 
             } else {
 
                 holder.timerDurationLeft.setVisibility(View.INVISIBLE);
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                timerElapsedHandler.removeCallbacks(holder.blinkRunnable);
                 timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
             }
 
@@ -239,7 +241,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         private ImageView timerFlag;
         private Context context;
         private TextView footerCounterTextView;
-        private Runnable timerRunnable, blinkRunnable, elapsedRunnable;
+        private Runnable timerRunnable, elapsedRunnable;
 
         TickTrackDatabase tickTrackDatabase;
 

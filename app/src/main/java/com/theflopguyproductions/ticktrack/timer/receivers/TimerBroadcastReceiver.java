@@ -41,20 +41,23 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
 
-            timerIDInteger = intent.getIntExtra("timerIntegerID",0);
+            timerIDInteger = intent.getIntExtra("timerIntegerID",-1);
             timerDataArrayList = retrieveTimerData(tickTrackDatabase.getSharedPref(context));
 
             int position = getCurrentTimerPosition();
-            if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause() || timerDataArrayList.get(position).isTimerRinging()){
-                if(!(SystemClock.elapsedRealtime() - timerDataArrayList.get(position).getTimerAlarmEndTimeInMillis() < 0)){
-                    if(position!=-1){
+            if(position!=-1){
+                if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause() || timerDataArrayList.get(position).isTimerRinging()){
+                    System.out.println("RECEIVED TIMER FIRST");
+                    if((SystemClock.elapsedRealtime() - timerDataArrayList.get(position).getTimerAlarmEndTimeInMillis() >= 0)){
+
+                        System.out.println("RECEIVED TIMER BROADCAST");
                         timerDataArrayList.get(position).setTimerRinging(true);
                         timerDataArrayList.get(position).setTimerNotificationOn(false);
                         timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                         timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
                         timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
-
                         storeTimerList(tickTrackDatabase.getSharedPref(context));
+
                         if(!isMyServiceRunning(TimerRingService.class, context)){
                             startNotificationService(context);
                             KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
