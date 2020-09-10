@@ -138,6 +138,17 @@ public class TimerRingService extends Service {
         editor.apply();
 
     }
+
+    public static void storeQuickTimerList(SharedPreferences sharedPreferences, ArrayList<QuickTimerData> quickTimerData){
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(quickTimerData);
+        editor.putString("QuickTimerData", json);
+        editor.apply();
+
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null) {
@@ -519,6 +530,7 @@ public class TimerRingService extends Service {
 
     @SuppressWarnings("SuspiciousListRemoveInLoop")
     private void stopTimerRinging(SharedPreferences sharedPreferences) {
+        ArrayList<QuickTimerData> quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
         for(int i = 0; i < timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isTimerRinging()){
                 if(timerDataArrayList.get(i).isQuickTimer()){
@@ -526,7 +538,19 @@ public class TimerRingService extends Service {
                     timerDataArrayList.get(i).setTimerPause(false);
                     timerDataArrayList.get(i).setTimerNotificationOn(false);
                     timerDataArrayList.get(i).setTimerRinging(false);
-                    storeTimerList(sharedPreferences);
+                    for(int j=0; j<quickTimerData.size(); j++){
+                        if(quickTimerData.get(j).getTimerID().equals(timerDataArrayList.get(i).getTimerID())){
+
+                            quickTimerData.get(j).setTimerOn(false);
+                            quickTimerData.get(j).setTimerPause(false);
+                            quickTimerData.get(j).setTimerNotificationOn(false);
+                            quickTimerData.get(j).setTimerRinging(false);
+                            storeQuickTimerList(sharedPreferences, quickTimerData);
+
+                            quickTimerData.remove(j);
+                            storeQuickTimerList(sharedPreferences, quickTimerData);
+                        }
+                    }
                     timerDataArrayList.remove(i);
                 } else {
                     timerDataArrayList.get(i).setTimerOn(false);
