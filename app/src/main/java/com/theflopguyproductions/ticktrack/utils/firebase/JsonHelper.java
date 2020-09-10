@@ -373,27 +373,32 @@ public class JsonHelper {
 
         String jsonString = tickTrackFirebaseDatabase.getCounterRestoreString();
 
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
-        ArrayList<CounterBackupData> counterBackupData = gson.fromJson(jsonString, type);
-        tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
+        if(jsonString!=null){
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
+            ArrayList<CounterBackupData> counterBackupData = gson.fromJson(jsonString, type);
+            if(counterBackupData == null){
+                counterBackupData = new ArrayList<>();
+            }
 
+            tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
 
-        for(int i=0; i<counterBackupData.size(); i++){
-            CounterData newCounter = new CounterData();
-            newCounter.setCounterID(counterBackupData.get(i).getCounterID());
-            newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
-            newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
-            newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
-            newCounter.setCounterFlag(counterBackupData.get(i).getCounterFlag());
-            newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
-            newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
-            newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
+            for(int i=0; i<counterBackupData.size(); i++){
+                CounterData newCounter = new CounterData();
+                newCounter.setCounterID(counterBackupData.get(i).getCounterID());
+                newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
+                newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
+                newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
+                newCounter.setCounterFlag(counterBackupData.get(i).getCounterFlag());
+                newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
+                newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
+                newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
 
-            mergeCounterData(newCounter);
+                mergeCounterData(newCounter);
 
+            }
+            Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
 
         tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
 
@@ -418,29 +423,37 @@ public class JsonHelper {
 
         String jsonContent = tickTrackFirebaseDatabase.getTimerRestoreString();
 
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
-        ArrayList<TimerBackupData> timerBackupData = gson.fromJson(jsonContent, type);
+        if(jsonContent!=null){
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
+            ArrayList<TimerBackupData> timerBackupData = gson.fromJson(jsonContent, type);
 
-        for(int i=0; i<timerBackupData.size(); i++){
-            TimerData newTimer = new TimerData();
-            newTimer.setTimerID(timerBackupData.get(i).getTimerID());
-            newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
-            newTimer.setQuickTimer(false);
-            newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
-            newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
-            newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
-            newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
-            newTimer.setTimerSecond(timerBackupData.get(i).getTimerSecond());
-            newTimer.setTimerLabel(timerBackupData.get(i).getTimerLabel());
-            newTimer.setTimerStartTimeInMillis(-1);
-            newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
-            newTimer.setTimerPause(false);
-            newTimer.setTimerOn(false);
+            if(timerBackupData == null){
+                timerBackupData = new ArrayList<>();
+            }
 
-            mergeTimerData(newTimer);
+            tickTrackFirebaseDatabase.storeBackupTimerList(timerBackupData);
+
+            for(int i=0; i<timerBackupData.size(); i++){
+                TimerData newTimer = new TimerData();
+                newTimer.setTimerID(timerBackupData.get(i).getTimerID());
+                newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
+                newTimer.setQuickTimer(false);
+                newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
+                newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
+                newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
+                newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
+                newTimer.setTimerSecond(timerBackupData.get(i).getTimerSecond());
+                newTimer.setTimerLabel(timerBackupData.get(i).getTimerLabel());
+                newTimer.setTimerStartTimeInMillis(-1);
+                newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
+                newTimer.setTimerPause(false);
+                newTimer.setTimerOn(false);
+
+                mergeTimerData(newTimer);
+            }
+            Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
         tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
     }
     private void mergeTimerData(TimerData timerData) {

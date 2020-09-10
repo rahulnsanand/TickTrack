@@ -121,7 +121,7 @@ public class RestoreFragment extends Fragment {
 
         restoreDataButton.setOnClickListener(view -> {
             startRestoreDataService();
-            if(receivedAction.equals(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD)){
+            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 Intent intent = new Intent(requireContext(), SettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 requireContext().startActivity(intent);

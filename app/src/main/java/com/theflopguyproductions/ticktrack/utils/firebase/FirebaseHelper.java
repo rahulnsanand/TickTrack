@@ -313,7 +313,7 @@ public class FirebaseHelper {
     };
 
     public void restore() {
-        notificationBuilder.setContentTitle("Restoring TickTracK Data");
+        notificationBuilder.setContentTitle("Restoring TickTrack Data");
         notificationBuilder.setContentText("In progress");
         restoreCheckHandler.post(restoreCheckRunnable);
         initPreferences();

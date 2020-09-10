@@ -26,6 +26,7 @@ public class TickTrackClockWidget extends AppWidgetProvider {
         intent.putExtra("clockId", appWidgetId);
         System.out.println(appWidgetId+"+++++++++++++++(((((((((()))))))))))))+++++++++++++++++"+getClockTheme(appWidgetId));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
+        //TODO USE MULTIPLE LAYOUTS TO REDUCE LAG. CHECK!
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget);
         views.setOnClickPendingIntent(R.id.clockWidgetRootLayout, pendingIntent);
         setupWidgetTheme(views, getClockTheme(appWidgetId));

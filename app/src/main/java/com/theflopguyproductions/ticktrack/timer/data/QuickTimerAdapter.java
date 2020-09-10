@@ -141,25 +141,34 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
     }
 
     private void resetAndRemoveQuickTimer(int position, @NonNull timerDataViewHolder holder) {
-        for(int i=0; i<timerUnusedDataArrayList.size(); i++){
-            if(timerUnusedDataArrayList.get(i).getTimerIntID()==timerDataArrayList.get(position).getTimerIntID()){
-                timerUnusedDataArrayList.get(i).setTimerOn(false);
-                timerUnusedDataArrayList.get(i).setTimerPause(false);
-                timerUnusedDataArrayList.get(i).setTimerEndedTimeInMillis(-1);
-                timerUnusedDataArrayList.get(i).setTimerStartTimeInMillis(-1);
-                tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
-                if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
-                    tickTrackTimerDatabase.stopNotificationService();
+        timerUnusedDataArrayList = tickTrackDatabase.retrieveTimerList();
+
+        if(timerDataArrayList.size()>0 && timerUnusedDataArrayList.size()>0){
+            for(int i=0; i<timerUnusedDataArrayList.size(); i++){
+                if(timerUnusedDataArrayList.get(i).getTimerIntID()==timerDataArrayList.get(position).getTimerIntID()){
+                    timerUnusedDataArrayList.get(i).setTimerOn(false);
+                    timerUnusedDataArrayList.get(i).setTimerPause(false);
+                    timerUnusedDataArrayList.get(i).setTimerEndedTimeInMillis(-1);
+                    timerUnusedDataArrayList.get(i).setTimerStartTimeInMillis(-1);
+                    timerUnusedDataArrayList.remove(i);
+
+                    if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+                        tickTrackTimerDatabase.stopNotificationService();
+                    }
+
+                    System.out.println("THIS IF CONDITION RAN BITCH"+position);
+
+                    timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                    timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
+                    timerProgressHandler.removeCallbacks(holder.progressRunnable);
+                    timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
+                    tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID());
+                    System.out.println("THIS IF CONDITION RAN BITCH"+position);
+                    tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
                 }
-                timerUnusedDataArrayList.remove(i);
-                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
-                timerProgressHandler.removeCallbacks(holder.progressRunnable);
-                timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
-                tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID());
             }
         }
-        tickTrackDatabase.storeTimerList(timerUnusedDataArrayList);
+
     }
 
     @SuppressWarnings("SuspiciousListRemoveInLoop")

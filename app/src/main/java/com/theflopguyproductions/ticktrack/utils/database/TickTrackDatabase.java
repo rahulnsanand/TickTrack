@@ -177,28 +177,39 @@ public class TickTrackDatabase {
     }
 
     public void storeTimerList(ArrayList<TimerData> timerDataArrayList){
-
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(timerDataArrayList);
         editor.putString("TimerData", json);
         editor.apply();
-
     }
-
     public ArrayList<TimerData> retrieveTimerList(){
-
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerData", null);
         Type type = new TypeToken<ArrayList<TimerData>>() {}.getType();
         ArrayList<TimerData> timerDataArrayList = gson.fromJson(json, type);
-
         if(timerDataArrayList == null){
             timerDataArrayList = new ArrayList<>();
         }
-
         return timerDataArrayList;
+    }
 
+    public void storeQuickTimerList(ArrayList<QuickTimerData> quickTimerDataArrayList){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(quickTimerDataArrayList);
+        editor.putString("QuickTimerData", json);
+        editor.apply();
+    }
+    public ArrayList<QuickTimerData> retrieveQuickTimerList(){
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("QuickTimerData", null);
+        Type type = new TypeToken<ArrayList<QuickTimerData>>() {}.getType();
+        ArrayList<QuickTimerData> quickTimerDataArrayList = gson.fromJson(json, type);
+        if(quickTimerDataArrayList == null){
+            quickTimerDataArrayList = new ArrayList<>();
+        }
+        return quickTimerDataArrayList;
     }
 
     public int getThemeMode(){

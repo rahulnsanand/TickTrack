@@ -170,7 +170,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             setColor(holder);
             setTheme(holder, theme);
 
-            holder.timerLayout.setOnClickListener(v -> TimerFragment.startTimerActivity(holder.getAdapterPosition(), (Activity) holder.context));
+            holder.timerLayout.setOnClickListener(v -> TimerFragment.startTimerActivity(timerDataArrayList.get(position).getTimerID(), (Activity) holder.context));
 
 
 

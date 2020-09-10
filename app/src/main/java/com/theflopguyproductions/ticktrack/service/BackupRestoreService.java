@@ -142,6 +142,7 @@ public class BackupRestoreService extends Service {
         tickTrackFirebaseDatabase.setRestoreInitMode(0);
         tickTrackFirebaseDatabase.setRestoreMode(true);
         Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
+        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
         firebaseHelper.restore();
     }
 

@@ -38,24 +38,15 @@ public class TimerFragment extends Fragment {
     public TimerFragment() {
     }
 
-    private void setupChanges() {
-        if(!(timerDataArrayList.size() >0)){
-
-        }
-    }
-
     public TimerFragment(String action){
         this.action = action;
     }
 
-    public static void startTimerActivity(int position, Activity context) {
+    public static void startTimerActivity(String timerId, Activity context) {
         Intent timerIntent = new Intent(context, TimerActivity.class);
         timerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        ArrayList<TimerData> timerData;
-        timerData = tickTrackDatabase.retrieveTimerList();
-        timerIntent.putExtra("timerID",timerData.get(position).getTimerID());
+        timerIntent.putExtra("timerID", timerId);
         context.startActivity(timerIntent);
-
     }
 
     @Override

@@ -43,14 +43,18 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static TimerAdapter timerAdapter;
     private static QuickTimerAdapter quickTimerAdapter;
 
-    public static void deleteTimer(int position, Activity activity, String timerName) {
-        deleteItem(position);
+    public static void deleteTimer(int timerId, int position, Activity activity, String timerName) {
+        deleteItem(timerId, position);
         Toast.makeText(activity, "Deleted Timer " + timerName, Toast.LENGTH_SHORT).show();
     }
 
-    public static void deleteItem(int position){
+    public static void deleteItem(int timerId, int position){
         timerAdapter.notifyItemRemoved(position);
-        timerDataArrayList.remove(position);
+        for(int i=0; i<timerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).getTimerIntID()==timerId){
+                timerDataArrayList.remove(i);
+            }
+        }
         tickTrackDatabase.storeTimerList(timerDataArrayList);
     }
 
@@ -96,15 +100,18 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         timerArrayList = new ArrayList<>();
         for(int i=0; i<timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isQuickTimer()){
-                quickTimerList.add(timerDataArrayList.get(i));
+                if(timerDataArrayList.get(i).isTimerOn()){
+                    quickTimerList.add(timerDataArrayList.get(i));
+                    System.out.println("FOUND HAPPENED");
+                }
             } else {
                 timerArrayList.add(timerDataArrayList.get(i));
             }
         }
-        if(!(quickTimerList.size() >0)){
+        if(!(quickTimerList.size() > 0)){
             quickTimerLayout.setVisibility(View.GONE);
             timerTitleText.setVisibility(View.GONE);
-
+            System.out.println("GONE HAPPENED");
         } else {
             quickTimerLayout.setVisibility(View.VISIBLE);
             timerTitleText.setVisibility(View.VISIBLE);
@@ -118,7 +125,9 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
         quickTimerAdapter = new QuickTimerAdapter(activity, quickTimerList, timerDataArrayList);
 
-        if(timerDataArrayList.size()>0){
+        System.out.println("BUILD HAPPENED");
+
+        if(quickTimerList.size()>0){
             quickTimerRecyclerView.setVisibility(View.VISIBLE);
             quickTimerTitleText.setVisibility(View.VISIBLE);
             Collections.sort(timerDataArrayList);
@@ -159,24 +168,31 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         }
 
     }
-
+    private int getCurrentTimerPosition(String timerStringID) {
+        for(int i = 0; i < timerDataArrayList.size(); i ++){
+            if(timerDataArrayList.get(i).getTimerID().equals(timerStringID)){
+                return i;
+            }
+        }
+        return -1;
+    }
     String deletedTimer = null;
+    int timerId = -1;
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof TimerAdapter.timerDataViewHolder) {
-            deletedTimer = timerDataArrayList.get(viewHolder.getAdapterPosition()).getTimerLabel();
-            position = viewHolder.getAdapterPosition();
-
+            deletedTimer = timerArrayList.get(position).getTimerLabel();
+            timerId = timerArrayList.get(position).getTimerIntID();
             DeleteTimer timerDelete = new DeleteTimer(activity);
             timerDelete.show();
-            int finalPosition = position;
-            if(!deletedTimer.equals("Set label")){
+            if(!"Set label".equals(deletedTimer)){
                 timerDelete.dialogMessage.setText("Delete timer "+deletedTimer+"?");
             } else {
                 timerDelete.dialogMessage.setText("Delete timer ?");
             }
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             timerDelete.yesButton.setOnClickListener(view -> {
-                TimerRecyclerFragment.deleteTimer(finalPosition, activity, deletedTimer);
+                TimerRecyclerFragment.deleteTimer(timerId, position, activity, deletedTimer);
                 timerDelete.dismiss();
                 splitTimerList(activity);
                 if(timerArrayList.size()>0){
@@ -186,14 +202,17 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
                     timerRecyclerView.setVisibility(View.INVISIBLE);
                     noTimerText.setVisibility(View.VISIBLE);
                 }
+                sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             });
             timerDelete.noButton.setOnClickListener(view -> {
                 TimerRecyclerFragment.refreshRecyclerView();
                 timerDelete.dismiss();
+                sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             });
             timerDelete.setOnCancelListener(dialogInterface -> {
                 TimerRecyclerFragment.refreshRecyclerView();
                 timerDelete.cancel();
+                sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             });
 
         }
@@ -233,7 +252,12 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
             splitTimerList(activity);
-            timerAdapter.diffUtilsChangeData(timerArrayList);
+            if(timerArrayList!=null){
+                timerAdapter.diffUtilsChangeData(timerArrayList);
+            }
+            if(quickTimerList!=null){
+                quickTimerAdapter.diffUtilsChangeData(quickTimerList);
+            }
             checkTimerExists();
         }
     };

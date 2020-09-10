@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.ui.utils.deletehelper;
 import android.graphics.Canvas;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,7 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
         this.listener = listener;
     }
     @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         return false;
     }
 
@@ -31,7 +32,7 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
-    public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
+    public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
         final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
@@ -40,14 +41,14 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
-    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
     @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView,
-                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
+    public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                            @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
         final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
 
@@ -56,7 +57,7 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
     }
 
