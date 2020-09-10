@@ -72,6 +72,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         assert activity != null;
         tickTrackDatabase = new TickTrackDatabase(activity);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
         timerRecyclerView = root.findViewById(R.id.timerFragmentRecyclerView);
         quickTimerRecyclerView = root.findViewById(R.id.quickTimerFragmentRecyclerView);
         timerLayout= root.findViewById(R.id.timerRootLayout);
@@ -90,8 +91,8 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
-        buildTimerRecyclerView(activity);
         buildQuickTimerRecyclerView(activity);
+        buildTimerRecyclerView(activity);
         return root;
     }
 
@@ -116,6 +117,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         } else {
             quickTimerRecyclerView.setVisibility(View.GONE);
             quickTimerTitleText.setVisibility(View.GONE);
+            quickTimerLayout.setVisibility(View.GONE);
         }
 
     }
@@ -222,12 +224,16 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         if (s.equals("TimerData")){
             timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+            quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
             Collections.sort(timerDataArrayList);
+            Collections.sort(quickTimerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
-            if(timerDataArrayList!=null){
+            tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
+
+            if(timerDataArrayList.size()>0){
                 timerAdapter.diffUtilsChangeData(timerDataArrayList);
             }
-            if(quickTimerDataArrayList!=null){
+            if(quickTimerDataArrayList.size()>0){
                 quickTimerAdapter.diffUtilsChangeData(quickTimerDataArrayList);
             }
             checkTimerExists();
@@ -241,6 +247,11 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             quickTimerLayout.setVisibility(View.GONE);
         } else {
             buildTimerRecyclerView(activity);
+        }
+        if(!(quickTimerDataArrayList.size() >0)){
+            quickTimerLayout.setVisibility(View.GONE);
+        } else {
+            buildQuickTimerRecyclerView(activity);
         }
     }
 

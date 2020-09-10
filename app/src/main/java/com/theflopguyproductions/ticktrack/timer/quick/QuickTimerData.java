@@ -1,6 +1,6 @@
 package com.theflopguyproductions.ticktrack.timer.quick;
 
-public class QuickTimerData {
+public class QuickTimerData implements Comparable<QuickTimerData>  {
 
     int timerHour, timerMinute, timerSecond, timerFlag, timerIntID;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
@@ -202,4 +202,10 @@ public class QuickTimerData {
     public void setTimerNotificationOn(boolean timerNotificationOn) {
         isTimerNotificationOn = timerNotificationOn;
     }
+
+    @Override
+    public int compareTo(QuickTimerData quickTimerData) {
+        return Long.compare(this.timerTotalTimeInMillis, quickTimerData.getTimerTotalTimeInMillis());
+    }
+
 }
