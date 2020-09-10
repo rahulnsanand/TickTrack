@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
@@ -10,15 +11,21 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class TimerService extends Service {
 
@@ -61,7 +68,7 @@ public class TimerService extends Service {
             }
         }
         for(int i=0; i<quickTimerDataArrayList.size(); i++){
-            if(quickTimerDataArrayList.get(i).isTimerOn()){
+            if(quickTimerDataArrayList.get(i).isTimerOn() && !quickTimerDataArrayList.get(i).isTimerRinging()){
                 result++;
             }
         }
@@ -118,16 +125,19 @@ public class TimerService extends Service {
 
     }
 
-    private ArrayList<Long> endTimes = new ArrayList<>();
-
     private Runnable refreshRunnable = new Runnable() {
         public void run() {
             if(getAllOnTimers()>0){
                 if(getAllOnTimers()==1){
-                    System.out.println("RUNNING LOOP"+getAllOnTimers());
-                    notificationBuilder.setContentText(getNextOccurrence());
+                    if(!isSingle){
+                        setupSingleTimerNotificationLayout();
+                    }
+                    notificationBuilder.setContentText("Next timer in "+getNextOccurrence());
+
                 } else {
-                    System.out.println("RUNNING LOOP"+getAllOnTimers());
+                    if(!isMulti){
+                        setupMultiTimerNotificationLayout();
+                    }
                     notificationBuilder.setContentText(getAllOnTimers()+" timers running");
                 }
                 notificationManagerCompat.notify(3, notificationBuilder.build());
@@ -140,8 +150,127 @@ public class TimerService extends Service {
         }
     };
 
+    private boolean isMulti = false;
+    private void setupMultiTimerNotificationLayout() {
+        Intent resultIntent;
+        resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+        tickTrackDatabase.storeCurrentFragmentNumber(2);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationBuilder.setContentIntent(resultPendingIntent);
+        isMulti = true;
+        isSingle = false;
+    }
+
+    private boolean isSingle = false;
+    private void setupSingleTimerNotificationLayout() {
+        Intent resultIntent;
+        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+            resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+            tickTrackDatabase.storeCurrentFragmentNumber(2);
+        } else {
+            resultIntent = new Intent(this, TimerActivity.class);
+            resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
+        }
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationBuilder.setContentIntent(resultPendingIntent);
+        isSingle = true;
+        isMulti = false;
+    }
+
+    private int getCurrentTimerPosition(int timerIntegerID){
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        for(int i = 0; i < timerDataArrayList.size(); i ++){
+            if(timerDataArrayList.get(i).getTimerIntID()==timerIntegerID){
+                return i;
+            }
+        }
+        for(int i = 0; i < quickTimerDataArrayList.size(); i ++){
+            if(quickTimerDataArrayList.get(i).getTimerIntID()==timerIntegerID){
+                return i;
+            }
+        }
+        return -1;
+    }
+    private int getSingleOnTimer() {
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        for(int i=0; i<timerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).isTimerRinging()){
+                return timerDataArrayList.get(i).getTimerIntID();
+            }
+        }
+        for(int i=0; i<quickTimerDataArrayList.size(); i++){
+            if(quickTimerDataArrayList.get(i).isTimerRinging()){
+                return quickTimerDataArrayList.get(i).getTimerIntID();
+            }
+        }
+        return -1;
+    }
+
     private String getNextOccurrence() {
-        return "GUCCI";
+
+        long nextRingTime = getNextStartTime();
+
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(nextRingTime);
+        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(nextRingTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(nextRingTime)));
+
+
+        if(hours==0){
+            if(minutes==0){
+                return "less than a minute";
+            } else if(minutes>1){
+                return "less than an hr";
+            } else if(minutes==1){
+                return "less than a min";
+            }
+        } else if (hours==1){
+            if(minutes==0){
+                return "less than an hr";
+            } else if(minutes>1){
+                return "less than an hr and "+minutes+" mins";
+            } else if(minutes==1){
+                return "less than an hr and "+minutes+" min";
+            }
+        } else if (hours>1){
+            if(minutes==0){
+                return "less than "+hours+" hrs and a minute";
+            } else if(minutes>1){
+                return "less than "+hours+" hrs and "+minutes+" mins";
+            } else if(minutes==1){
+                return "less than  "+hours+" hrs and a min";
+            }
+        }
+
+
+        return String.format(Locale.getDefault(),"%02d:%02d", hours,minutes);
+    }
+
+    private long getNextStartTime() {
+        ArrayList<Long> endTimes = new ArrayList<>();
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+
+        for(int i=0; i<timerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).isTimerOn() && !timerDataArrayList.get(i).isTimerPause() && !timerDataArrayList.get(i).isTimerRinging()){
+                endTimes.add(timerDataArrayList.get(i).getTimerTotalTimeInMillis() - (System.currentTimeMillis()
+                                -timerDataArrayList.get(i).getTimerStartTimeInMillis()));
+            }
+        }
+        for(int i=0; i<quickTimerDataArrayList.size(); i++){
+            if(quickTimerDataArrayList.get(i).isTimerOn() && !quickTimerDataArrayList.get(i).isTimerRinging()){
+                endTimes.add(quickTimerDataArrayList.get(i).getTimerTotalTimeInMillis() - (System.currentTimeMillis()
+                        -quickTimerDataArrayList.get(i).getTimerStartTimeInMillis()));
+            }
+        }
+
+        return Collections.min(endTimes);
     }
 
     private void stopTimerService() {
