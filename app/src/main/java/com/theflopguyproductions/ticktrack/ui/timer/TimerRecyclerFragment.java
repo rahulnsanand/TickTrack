@@ -243,6 +243,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             noTimerText.setVisibility(View.VISIBLE);
             timerRecyclerView.setVisibility(View.GONE);
             quickTimerLayout.setVisibility(View.GONE);
+            timerTitleText.setVisibility(View.GONE);
         } else {
             buildTimerRecyclerView(activity);
         }
