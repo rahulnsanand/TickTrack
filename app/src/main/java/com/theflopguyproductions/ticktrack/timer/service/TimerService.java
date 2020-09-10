@@ -81,7 +81,7 @@ public class TimerService extends Service {
                 .setSmallIcon(R.drawable.timer_notification_mini_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_MIN) 
+                .setPriority(Notification.PRIORITY_MIN)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
@@ -113,7 +113,6 @@ public class TimerService extends Service {
     }
 
     private void initializeValues() {
-        stopForeground(false);
         if(!isSetup){
             setupBaseNotification();
         }
@@ -285,7 +284,7 @@ public class TimerService extends Service {
     }
 
     private void stopTimerService() {
-        if(!(getAllOnTimers() >0)){
+        if(!(getAllOnTimers() > 0)){
             timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
             stopSelf();
             onDestroy();
