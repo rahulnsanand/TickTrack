@@ -143,6 +143,7 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         timerDataArrayList.get(position).setTimerPause(false);
         timerDataArrayList.get(position).setTimerEndedTimeInMillis(-1);
         timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
+        tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID(), true);
         timerDataArrayList.remove(position);
 
         if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
@@ -155,7 +156,6 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
         timerProgressHandler.removeCallbacks(holder.progressRunnable);
         timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
-        tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID(), true);
         System.out.println("THIS IF CONDITION RAN BITCH"+position);
         tickTrackDatabase.storeQuickTimerList(timerDataArrayList);
     }
@@ -166,6 +166,7 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         timerDataArrayList.get(position).setTimerPause(false);
         timerDataArrayList.get(position).setTimerEndedTimeInMillis(-1);
         timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
+        tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID(), true);
         timerDataArrayList.remove(position);
 
         if(tickTrackTimerDatabase.isMyServiceRunning(TimerRingService.class)){
@@ -176,8 +177,6 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         timerElapsedBlinkHandler.removeCallbacks(holder.blinkRunnable);
         timerProgressHandler.removeCallbacks(holder.progressRunnable);
         timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
-        tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(position).getTimerIntID(), true);
-
         tickTrackDatabase.storeQuickTimerList(timerDataArrayList);
         return true;
     }

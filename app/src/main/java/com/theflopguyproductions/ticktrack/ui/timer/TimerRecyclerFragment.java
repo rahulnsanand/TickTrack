@@ -103,8 +103,12 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         System.out.println("BUILD HAPPENED");
 
         if(quickTimerDataArrayList.size()>0){
+
             quickTimerRecyclerView.setVisibility(View.VISIBLE);
             quickTimerTitleText.setVisibility(View.VISIBLE);
+            quickTimerLayout.setVisibility(View.VISIBLE);
+            timerTitleText.setVisibility(View.VISIBLE);
+
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
 
@@ -118,6 +122,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             quickTimerRecyclerView.setVisibility(View.GONE);
             quickTimerTitleText.setVisibility(View.GONE);
             quickTimerLayout.setVisibility(View.GONE);
+            timerTitleText.setVisibility(View.GONE);
         }
 
     }
@@ -144,14 +149,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         }
 
     }
-    private int getCurrentTimerPosition(String timerStringID) {
-        for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerID().equals(timerStringID)){
-                return i;
-            }
-        }
-        return -1;
-    }
+
     String deletedTimer = null;
     int timerId = -1;
     @Override
@@ -222,7 +220,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
-        if (s.equals("TimerData")){
+        if (s.equals("TimerData") || s.equals("QuickTimerData")){
             timerDataArrayList = tickTrackDatabase.retrieveTimerList();
             quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
             Collections.sort(timerDataArrayList);

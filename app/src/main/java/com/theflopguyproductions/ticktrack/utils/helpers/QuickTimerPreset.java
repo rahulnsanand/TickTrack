@@ -3,7 +3,7 @@ package com.theflopguyproductions.ticktrack.utils.helpers;
 import android.content.Context;
 import android.os.SystemClock;
 
-import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
 
@@ -14,7 +14,7 @@ public class QuickTimerPreset {
     private Context context;
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
-    private ArrayList<TimerData> timerDataArrayList;
+    private ArrayList<QuickTimerData> timerDataArrayList;
 
     public QuickTimerPreset(Context context) {
         this.context = context;
@@ -23,8 +23,8 @@ public class QuickTimerPreset {
     }
 
     public int setOneMinuteTimer(){
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        TimerData timerData = new TimerData();
+        timerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        QuickTimerData timerData = new QuickTimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
         timerData.setTimerHour(0);
         timerData.setTimerMinute(1);
@@ -39,15 +39,15 @@ public class QuickTimerPreset {
         timerData.setTimerOn(true);
         timerData.setTimerRinging(false);
         timerDataArrayList.add(0,timerData);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        tickTrackDatabase.storeQuickTimerList(timerDataArrayList);
         tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
     }
 
     public int setTwoMinuteTimer(){
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        TimerData timerData = new TimerData();
+        timerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        QuickTimerData timerData = new QuickTimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
         timerData.setTimerHour(0);
         timerData.setTimerMinute(2);
@@ -61,13 +61,13 @@ public class QuickTimerPreset {
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        tickTrackDatabase.storeQuickTimerList(timerDataArrayList);
         tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
         return timerData.getTimerIntID();
     }
     public int setFiveMinuteTimer(){
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        TimerData timerData = new TimerData();
+        timerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        QuickTimerData timerData = new QuickTimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
         timerData.setTimerHour(0);
         timerData.setTimerMinute(5);
@@ -81,14 +81,14 @@ public class QuickTimerPreset {
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        tickTrackDatabase.storeQuickTimerList(timerDataArrayList);
         tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
     }
     public int setTenMinuteTimer(){
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        TimerData timerData = new TimerData();
+        timerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        QuickTimerData timerData = new QuickTimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
         timerData.setTimerHour(0);
         timerData.setTimerMinute(10);
@@ -102,15 +102,15 @@ public class QuickTimerPreset {
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        tickTrackDatabase.storeQuickTimerList(timerDataArrayList);
         tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
     }
     public int setCustomTimer(int pickedHour, int pickedMinute, int pickedSecond){
 
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        TimerData timerData = new TimerData();
+        timerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        QuickTimerData timerData = new QuickTimerData();
         timerData.setTimerLastEdited(System.currentTimeMillis());
         timerData.setTimerHour(pickedHour);
         timerData.setTimerMinute(pickedMinute);
@@ -124,7 +124,7 @@ public class QuickTimerPreset {
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);
         timerDataArrayList.add(0,timerData);
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
+        tickTrackDatabase.storeQuickTimerList(timerDataArrayList);
         tickTrackTimerDatabase.setAlarm(timerData.getTimerAlarmEndTimeInMillis(), timerData.getTimerIntID(), true);
 
         return timerData.getTimerIntID();
