@@ -65,6 +65,7 @@ public class TimerData implements Comparable<TimerData> {
     }
 
     public void setTimerRinging(boolean timerRinging) {
+        System.out.println("SOMETHING HAPPENED HERE "+timerRinging);
         isTimerRinging = timerRinging;
     }
 

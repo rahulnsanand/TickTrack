@@ -30,7 +30,6 @@ import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
-import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
@@ -133,6 +132,7 @@ public class TimerRingService extends Service {
                 timerDataArrayList.get(i).setTimerNotificationOn(false);
                 timerDataArrayList.get(i).setTimerRinging(false);
                 tickTrackDatabase.storeTimerList(timerDataArrayList);
+                System.out.println("SOMETHING HAPPENED HERE STOP TIMER SHIT");
             }
         }
     }
@@ -282,24 +282,20 @@ public class TimerRingService extends Service {
     }
 
     private void initializeValues() {
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
-        if(getAllOnTimers() > 0){
-            refreshHandler.postDelayed(refreshRunnable, 100);
-        } else {
-            refreshHandler.removeCallbacks(refreshRunnable);
-        }
-
         if(!isSetup){
             setupBaseNotification();
         }
+        if(getAllOnTimers() > 0){
+            refreshHandler.postDelayed(refreshRunnable, 100);
+        }
+
         stopForeground(false);
     }
 
     final Runnable refreshRunnable = new Runnable() {
         public void run() {
             if(getAllOnTimers()>0){
-                if(!(getAllOnTimers() > 1)){
+                if(getAllOnTimers() == 1){
                     setupSingleTimerNotification();
                     updateStopTimeText(SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
                 } else {
@@ -310,6 +306,7 @@ public class TimerRingService extends Service {
                 refreshHandler.postDelayed(refreshRunnable, 100);
             } else {
                 refreshHandler.removeCallbacks(refreshRunnable);
+                stopIfPossible();
             }
         }
     };

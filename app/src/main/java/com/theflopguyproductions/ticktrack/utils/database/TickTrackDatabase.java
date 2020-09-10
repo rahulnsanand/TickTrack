@@ -184,6 +184,7 @@ public class TickTrackDatabase {
         editor.putString("TimerData", json);
         editor.apply();
     }
+
     public ArrayList<TimerData> retrieveTimerList(){
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerData", null);

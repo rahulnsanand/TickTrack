@@ -641,8 +641,8 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         checkValuesInit();
@@ -694,42 +694,45 @@ public class TimerActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        sharedPreferences = tickTrackDatabase.getSharedPref(this);
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        if(getCurrentTimerPosition()!=-1){
-            if(timerDataArrayList.get(getCurrentTimerPosition()).isTimerOn() && !timerDataArrayList.get(getCurrentTimerPosition()).isTimerPause()){
-                if(!isTimerRinging){
-                    timerDataArrayList.get(getCurrentTimerPosition()).setTimerNotificationOn(true);
-                    if(!tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
-                        tickTrackTimerDatabase.startNotificationService();
-                    }
-                } else {
-                    timerDataArrayList.get(getCurrentTimerPosition()).setTimerNotificationOn(false);
-                    if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
-                        tickTrackTimerDatabase.stopNotificationService();
-                    }
-                }
-            } else {
-                timerDataArrayList.get(getCurrentTimerPosition()).setTimerNotificationOn(false);
-                if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
-                    tickTrackTimerDatabase.stopNotificationService();
-                }
-            }
-        }
-        if(timerStopHandler!=null && timerBlinkHandler!=null){
-            timerStopHandler.removeCallbacks(runnable);
-            timerBlinkHandler.removeCallbacks(blinkRunnable);
-        }
-        if(countDownTimer!=null){
-            countDownTimer.cancel();
-        }
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
         tickTrackDatabase.storeCurrentFragmentNumber(2);
     }
+
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        sharedPreferences = tickTrackDatabase.getSharedPref(this);
+//        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+//        if(getCurrentTimerPosition()!=-1){
+//            if(timerDataArrayList.get(getCurrentTimerPosition()).isTimerOn() && !timerDataArrayList.get(getCurrentTimerPosition()).isTimerPause()){
+//                if(!isTimerRinging){
+//                    timerDataArrayList.get(getCurrentTimerPosition()).setTimerNotificationOn(true);
+//                    if(!tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+//                        tickTrackTimerDatabase.startNotificationService();
+//                    }
+//                } else {
+//                    timerDataArrayList.get(getCurrentTimerPosition()).setTimerNotificationOn(false);
+//                    if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+//                        tickTrackTimerDatabase.stopNotificationService();
+//                    }
+//                }
+//            } else {
+//                timerDataArrayList.get(getCurrentTimerPosition()).setTimerNotificationOn(false);
+//                if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
+//                    tickTrackTimerDatabase.stopNotificationService();
+//                }
+//            }
+//        }
+//        if(timerStopHandler!=null && timerBlinkHandler!=null){
+//            timerStopHandler.removeCallbacks(runnable);
+//            timerBlinkHandler.removeCallbacks(blinkRunnable);
+//        }
+//        if(countDownTimer!=null){
+//            countDownTimer.cancel();
+//        }
+//        tickTrackDatabase.storeTimerList(timerDataArrayList,"TimerActivity");
+//        tickTrackDatabase.storeCurrentFragmentNumber(2);
+//    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

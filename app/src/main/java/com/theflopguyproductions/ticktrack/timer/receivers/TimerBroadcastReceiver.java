@@ -5,12 +5,9 @@ import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
@@ -18,7 +15,6 @@ import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -42,7 +38,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
 
             timerIDInteger = intent.getIntExtra("timerIntegerID",-1);
-            timerDataArrayList = retrieveTimerData(tickTrackDatabase.getSharedPref(context));
+            timerDataArrayList = tickTrackDatabase.retrieveTimerList();
 
             int position = getCurrentTimerPosition();
             if(position!=-1){
@@ -56,7 +52,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                         timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                         timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
                         timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
-                        storeTimerList(tickTrackDatabase.getSharedPref(context));
+                        tickTrackDatabase.storeTimerList(timerDataArrayList);
 
                         if(!isMyServiceRunning(TimerRingService.class, context)){
                             startNotificationService(context);
@@ -80,7 +76,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
 
             quickTimerIDInteger = intent.getIntExtra("timerIntegerID",0);
-            quickTimerData = retrieveQuickTimerData(tickTrackDatabase.getSharedPref(context));
+            quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
 
             int position = getCurrentQuickTimerPosition();
             if(position!=-1){
@@ -90,7 +86,8 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                 quickTimerData.get(position).setTimerStartTimeInMillis(-1);
                 quickTimerData.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
 
-                storeQuickTimerList(tickTrackDatabase.getSharedPref(context));
+                tickTrackDatabase.storeQuickTimerList(quickTimerData);
+
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);
                     KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
@@ -147,49 +144,4 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
         context.startService(intent);
     }
 
-    private ArrayList<TimerData> retrieveTimerData(SharedPreferences sharedPreferences){
-
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("TimerData", null);
-        Type type = new TypeToken<ArrayList<TimerData>>() {}.getType();
-        ArrayList<TimerData> timerServiceData = gson.fromJson(json, type);
-
-        if(timerServiceData == null){
-            timerServiceData = new ArrayList<>();
-        }
-
-        return timerServiceData;
-    }
-    public void storeTimerList(SharedPreferences sharedPreferences){
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(timerDataArrayList);
-        editor.putString("TimerData", json);
-        editor.apply();
-
-    }
-
-    private ArrayList<QuickTimerData> retrieveQuickTimerData(SharedPreferences sharedPreferences){
-
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("QuickTimerData", null);
-        Type type = new TypeToken<ArrayList<QuickTimerData>>() {}.getType();
-        ArrayList<QuickTimerData> quickTimerData = gson.fromJson(json, type);
-
-        if(quickTimerData == null){
-            quickTimerData = new ArrayList<>();
-        }
-
-        return quickTimerData;
-    }
-    public void storeQuickTimerList(SharedPreferences sharedPreferences){
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(quickTimerData);
-        editor.putString("QuickTimerData", json);
-        editor.apply();
-
-    }
 }

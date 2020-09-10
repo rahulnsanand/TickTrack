@@ -106,7 +106,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                     timerStatusUpdateHandler.post(holder.timerRunnable);
 
                 } else {
-                    timerElapsedHandler.post(holder.elapsedRunnable);
                     timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                     return;
                 }

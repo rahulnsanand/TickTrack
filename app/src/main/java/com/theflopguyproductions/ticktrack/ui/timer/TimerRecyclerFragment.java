@@ -33,17 +33,17 @@ import java.util.Collections;
 
 public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
-    static TickTrackDatabase tickTrackDatabase;
+    private static TickTrackDatabase tickTrackDatabase;
 
     private static ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private static ArrayList<QuickTimerData> quickTimerDataArrayList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private Activity activity;
     private static RecyclerView timerRecyclerView, quickTimerRecyclerView;
-    private static TextView noTimerText, timerTitleText, quickTimerTitleText;
+    private TextView noTimerText, timerTitleText, quickTimerTitleText;
     private static ConstraintLayout timerRecyclerRootLayout, timerLayout, quickTimerLayout;
     private static TimerAdapter timerAdapter;
-    private static QuickTimerAdapter quickTimerAdapter;
+    private QuickTimerAdapter quickTimerAdapter;
 
     public static void deleteTimer(int timerId, int position, Activity activity, String timerName) {
         deleteItem(timerId, position);
@@ -96,7 +96,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         return root;
     }
 
-    private static void buildQuickTimerRecyclerView(Activity activity) {
+    private void buildQuickTimerRecyclerView(Activity activity) {
 
         quickTimerAdapter = new QuickTimerAdapter(activity, quickTimerDataArrayList);
 
@@ -109,8 +109,8 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             quickTimerLayout.setVisibility(View.VISIBLE);
             timerTitleText.setVisibility(View.VISIBLE);
 
-            Collections.sort(timerDataArrayList);
-            tickTrackDatabase.storeTimerList(timerDataArrayList);
+            Collections.sort(quickTimerDataArrayList);
+            tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
 
             quickTimerRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             quickTimerRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -126,7 +126,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         }
 
     }
-    private static void buildTimerRecyclerView(Activity activity) {
+    private void buildTimerRecyclerView(Activity activity) {
 
         timerAdapter = new TimerAdapter(activity, timerDataArrayList);
 
@@ -203,6 +203,8 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         super.onResume();
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        quickTimerRecyclerView.setAdapter(new QuickTimerAdapter(activity, quickTimerDataArrayList));
+        timerRecyclerView.setAdapter(new TimerAdapter(activity, timerDataArrayList));
     }
 
     @Override
@@ -223,15 +225,13 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         if (s.equals("TimerData") || s.equals("QuickTimerData")){
             timerDataArrayList = tickTrackDatabase.retrieveTimerList();
             quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
-            Collections.sort(timerDataArrayList);
-            Collections.sort(quickTimerDataArrayList);
-            tickTrackDatabase.storeTimerList(timerDataArrayList);
-            tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
 
             if(timerDataArrayList.size()>0){
+                timerRecyclerView.setAdapter(new TimerAdapter(activity, timerDataArrayList));
                 timerAdapter.diffUtilsChangeData(timerDataArrayList);
             }
             if(quickTimerDataArrayList.size()>0){
+                quickTimerRecyclerView.setAdapter(new QuickTimerAdapter(activity, quickTimerDataArrayList));
                 quickTimerAdapter.diffUtilsChangeData(quickTimerDataArrayList);
             }
             checkTimerExists();
