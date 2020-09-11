@@ -86,8 +86,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
-            long totalTimeInMillis = timerDataArrayList.get(holder.getAdapterPosition()).getTimerTotalTimeInMillis();
-            long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerStartTimeInMillis();
+            long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis();
 
             holder.timerDurationLeft.setVisibility(View.VISIBLE);
             holder.timerRunnable = () -> {
@@ -100,7 +99,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                     timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                     return;
                 }
-                long durationLeft = totalTimeInMillis - (System.currentTimeMillis()-startTime);
+                long durationLeft = startTime - SystemClock.elapsedRealtime();
                 if(durationLeft>0){
                     holder.timerDurationLeft.setText(updateTimerTextView(durationLeft));
                     timerStatusUpdateHandler.post(holder.timerRunnable);
