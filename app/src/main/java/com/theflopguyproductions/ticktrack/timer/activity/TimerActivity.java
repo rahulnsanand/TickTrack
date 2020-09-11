@@ -132,7 +132,6 @@ public class TimerActivity extends AppCompatActivity {
                 deleteTimer.dialogMessage.setText("Delete timer ?");
             }
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-            System.out.println("REGISTER NOT");
 
 
             deleteTimer.yesButton.setOnClickListener(view1 -> {
@@ -144,14 +143,12 @@ public class TimerActivity extends AppCompatActivity {
                 TimerRecyclerFragment.refreshRecyclerView();
                 deleteTimer.dismiss();
                 sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-                System.out.println("REGISTER YES");
 
             });
             deleteTimer.setOnCancelListener(dialogInterface -> {
                 TimerRecyclerFragment.refreshRecyclerView();
                 deleteTimer.cancel();
                 sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-                System.out.println("REGISTER YES");
             });
         });
     }
@@ -223,23 +220,13 @@ public class TimerActivity extends AppCompatActivity {
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        System.out.println("REGISTER CHANGE DETECTED");
         if (s.equals("TimerData")){
             if(!timerDataArrayList.get(getCurrentTimerPosition()).isTimerRinging()){
-                if(timerDataArrayList.get(getCurrentTimerPosition()).getTimerTempMaxTimeInMillis()!=-1){
-                    booleanRefresh();
-                    checkConditions();
-                } else {
+                if(!(timerDataArrayList.get(getCurrentTimerPosition()).getTimerTempMaxTimeInMillis() !=-1)){
                     killAndResetTimer();
-                    System.out.println("TEMP MAX KILL");
                 }
             }
-            System.out.println("REGISTER ADD ONE TIMER ADDED ACTIVITY"+timerDataArrayList.get(getCurrentTimerPosition()).getTimerTempMaxTimeInMillis());
-            if(timerDataArrayList.get(getCurrentTimerPosition()).getTimerTempMaxTimeInMillis()>SystemClock.elapsedRealtime()){
-                booleanRefresh();
-                checkConditions();
-                System.out.println("TEMP MAX");
-            }
+
         }
     };
 
@@ -283,14 +270,11 @@ public class TimerActivity extends AppCompatActivity {
         playPauseFAB.setOnClickListener(view -> {
             if(isTimerRunning && !isTimerPaused){
                 if(isTimerRinging){
-                    System.out.println("KillTimer");
                     killAndResetTimer();
                 } else {
-                    System.out.println("PauseTimer");
                     pauseTimer();
                 }
             } else {
-                System.out.println("StartTimer");
                 startTimer(currentTimeInMillis);
             }
         });
@@ -406,7 +390,6 @@ public class TimerActivity extends AppCompatActivity {
 
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        System.out.println("REGISTER NOT");
 
 
         int hours = (int) TimeUnit.MILLISECONDS.toHours(countDownTimerMillis);
@@ -443,7 +426,6 @@ public class TimerActivity extends AppCompatActivity {
 
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        System.out.println("REGISTER NOT");
 
         timerDataArrayList.get(getCurrentTimerPosition()).setTimerOn(false);
         timerDataArrayList.get(getCurrentTimerPosition()).setTimerPause(false);
@@ -565,7 +547,6 @@ public class TimerActivity extends AppCompatActivity {
 
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        System.out.println("REGISTER YES");
 
     }
     private void killAndResetTimer(){
@@ -698,7 +679,6 @@ public class TimerActivity extends AppCompatActivity {
 
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        System.out.println("REGISTER YES");
 
         if(tickTrackTimerDatabase.isMyServiceRunning(TimerService.class)){
             tickTrackTimerDatabase.stopNotificationService();
@@ -712,7 +692,6 @@ public class TimerActivity extends AppCompatActivity {
         super.onPause();
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        System.out.println("REGISTER NOT");
         if(getCurrentTimerPosition()!=-1){
             if(timerDataArrayList.get(getCurrentTimerPosition()).isTimerOn() && !timerDataArrayList.get(getCurrentTimerPosition()).isTimerPause() && !timerDataArrayList.get(getCurrentTimerPosition()).isTimerRinging()){
                 if(!isTimerRinging){
