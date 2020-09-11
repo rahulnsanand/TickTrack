@@ -15,13 +15,13 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerPreset;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.numberpicker.DarkModeNumberPicker;
 import com.theflopguyproductions.ticktrack.ui.utils.numberpicker.LightModeNumberPicker;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
-import com.theflopguyproductions.ticktrack.utils.helpers.QuickTimerPreset;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 public class QuickTimerCreatorFragment extends Fragment {

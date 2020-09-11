@@ -1,11 +1,12 @@
-package com.theflopguyproductions.ticktrack.utils.helpers;
+package com.theflopguyproductions.ticktrack.timer.quick;
 
 import android.content.Context;
 import android.os.SystemClock;
 
-import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
+import com.theflopguyproductions.ticktrack.utils.helpers.UniqueIdGenerator;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class QuickTimerPreset {
         timerData.setTimerIntID(UniqueIdGenerator.getUniqueIntegerTimerID());
         timerData.setQuickTimer(true);
         timerData.setTimerStartTimeInMillis(System.currentTimeMillis());
-        timerData.setTimerAlarmEndTimeInMillis(SystemClock.elapsedRealtime()+TimeAgo.getTimerDataInMillis(0,1,0,0));
+        timerData.setTimerAlarmEndTimeInMillis(SystemClock.elapsedRealtime()+ TimeAgo.getTimerDataInMillis(0,1,0,0));
         timerData.setTimerTotalTimeInMillis(TimeAgo.getTimerDataInMillis(0,1,0,0));
         timerData.setTimerPause(false);
         timerData.setTimerOn(true);

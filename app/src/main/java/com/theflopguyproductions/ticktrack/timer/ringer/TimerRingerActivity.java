@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.ScrollingPagerIndicator;
 import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.SnappingRecyclerView;
@@ -37,6 +38,7 @@ public class TimerRingerActivity extends AppCompatActivity {
     private SnappingRecyclerView timerStopRecyclerView;
     private FloatingActionButton timerStopFAB;
     private ArrayList<TimerData> timerDataArrayList;
+    private ArrayList<QuickTimerData> quickTimerDataArrayList;
     private ArrayList<TimerData> onlyOnTimersArrayList;
     private RingerAdapter timerStopAdapter;
     private SharedPreferences sharedPreferences;
@@ -71,6 +73,7 @@ public class TimerRingerActivity extends AppCompatActivity {
         tickTrackDatabase = new TickTrackDatabase(context);
         tickTrackTimerDatabase = new TickTrackTimerDatabase(context);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
         refreshOnlyOnTimer();
         TickTrackThemeSetter.timerRecycleTheme(this, timerStopRecyclerView, tickTrackDatabase);
 
@@ -103,9 +106,11 @@ public class TimerRingerActivity extends AppCompatActivity {
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
         if (s.equals("TimerData")){
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
+            tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
             refreshOnlyOnTimer();
             if(onlyOnTimersArrayList.size()>0){
                 timerStopAdapter.diffUtilsChangeData(onlyOnTimersArrayList);
@@ -154,8 +159,20 @@ public class TimerRingerActivity extends AppCompatActivity {
 
             }
         }
+        for(int i = 0; i < quickTimerDataArrayList.size(); i++){
+            if(timerDataArrayList.get(i).isTimerRinging()){
+                quickTimerDataArrayList.get(i).setTimerOn(false);
+                quickTimerDataArrayList.get(i).setTimerPause(false);
+                quickTimerDataArrayList.get(i).setTimerNotificationOn(false);
+                quickTimerDataArrayList.get(i).setTimerRinging(false);
+                tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
+
+            }
+        }
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        timerStopAdapter.diffUtilsChangeData(timerDataArrayList);
+        refreshOnlyOnTimer();
+        timerStopAdapter.diffUtilsChangeData(onlyOnTimersArrayList);
         timerStopAdapter.notifyDataSetChanged();
     }
     private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
@@ -172,6 +189,25 @@ public class TimerRingerActivity extends AppCompatActivity {
         for(int i=0; i<timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).isTimerRinging()){
                 onlyOnTimersArrayList.add(timerDataArrayList.get(i));
+            }
+        }
+        for(int i=0; i<quickTimerDataArrayList.size(); i++){
+            if(quickTimerDataArrayList.get(i).isTimerRinging()){
+                TimerData timerData = new TimerData();
+                timerData.setTimerLastEdited(quickTimerDataArrayList.get(i).getTimerLastEdited());
+                timerData.setTimerHour(quickTimerDataArrayList.get(i).getTimerHour());
+                timerData.setTimerMinute(quickTimerDataArrayList.get(i).getTimerMinute());
+                timerData.setTimerSecond(quickTimerDataArrayList.get(i).getTimerSecond());
+                timerData.setTimerID(quickTimerDataArrayList.get(i).getTimerID());
+                timerData.setTimerIntID(quickTimerDataArrayList.get(i).getTimerIntID());
+                timerData.setQuickTimer(quickTimerDataArrayList.get(i).isQuickTimer());
+                timerData.setTimerStartTimeInMillis(quickTimerDataArrayList.get(i).getTimerStartTimeInMillis());
+                timerData.setTimerAlarmEndTimeInMillis(quickTimerDataArrayList.get(i).getTimerAlarmEndTimeInMillis());
+                timerData.setTimerTotalTimeInMillis(quickTimerDataArrayList.get(i).getTimerTotalTimeInMillis());
+                timerData.setTimerPause(quickTimerDataArrayList.get(i).isTimerPause());
+                timerData.setTimerOn(quickTimerDataArrayList.get(i).isTimerOn());
+                timerData.setTimerRinging(quickTimerDataArrayList.get(i).isTimerRinging());
+                onlyOnTimersArrayList.add(timerData);
             }
         }
     }

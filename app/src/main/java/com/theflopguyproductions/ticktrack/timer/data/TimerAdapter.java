@@ -106,9 +106,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
                 } else {
                     timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                    return;
                 }
-                System.out.println("Timer RUNNING Position: "+holder.getAdapterPosition());
             };
 
             final boolean[] isBlink = {true};
@@ -131,7 +129,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 }
 
                 timerElapsedHandler.postDelayed(holder.elapsedRunnable, 500);
-                System.out.println("Timer ELAPSED Position: "+holder.getAdapterPosition());
             };
 
             if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()

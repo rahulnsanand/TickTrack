@@ -35,10 +35,13 @@ public class BootReceiver extends BroadcastReceiver {
         System.out.println(intent.getAction()+" TIMER BOOT");
 
         if(LOCKED_BOOT_COMPLETE.equals(intent.getAction())){
+            System.out.println(intent.getAction()+" TIMER BOOT");
             setupBootProcedure(context, tickTrackDatabase);
             tickTrackDatabase.setLockedBootComplete(true);
         } else {
+            System.out.println(intent.getAction()+" TIMER BOOT ELSE");
             if(!tickTrackDatabase.isLockedBootComplete()){
+                System.out.println(intent.getAction()+" TIMER BOOT ELSE NOT LOCKED");
                 setupBootProcedure(context, tickTrackDatabase);
                 tickTrackDatabase.setLockedBootComplete(false);
             }
@@ -90,6 +93,7 @@ public class BootReceiver extends BroadcastReceiver {
         TickTrackTimerDatabase tickTrackTimerDatabase = new TickTrackTimerDatabase(activity);
 
         for(int i = 0; i<timerData.size(); i++){
+            timerData = tickTrackDatabase.retrieveTimerList();
             if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause() && !timerData.get(i).isTimerRinging()){ //TODO TIMER IS RUNNING, NOT RINGING
                 //TODO CAN BE ELAPSED AND YET TO ELAPSE HERE
                 if(timerData.get(i).getTimerStartTimeInMillis() != -1) {
@@ -118,7 +122,7 @@ public class BootReceiver extends BroadcastReceiver {
                         long endedAgoTime = System.currentTimeMillis() - (timerData.get(i).getTimerStartTimeInMillis()+timerData.get(i).getTimerTotalTimeInMillis());
 
                         System.out.println("TIMER BOOT ELAPSED ALARM TIME :"+endedAgoTime);
-
+                        System.out.println("TIMER BOOT ELAPSED ALARM TIME ELAPSED :"+(SystemClock.elapsedRealtime() - endedAgoTime));
                         timerData.get(i).setTimerNotificationOn(false);
                         timerData.get(i).setTimerRinging(true);
                         timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime() - endedAgoTime);
@@ -166,6 +170,7 @@ public class BootReceiver extends BroadcastReceiver {
         ArrayList<QuickTimerData> quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
 
         for(int i = 0; i<quickTimerData.size(); i++){
+            quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
             if(quickTimerData.get(i).isTimerOn() && !quickTimerData.get(i).isTimerPause() && !quickTimerData.get(i).isTimerRinging()){ //TODO TIMER IS RUNNING, NOT RINGING
                 //TODO CAN BE ELAPSED AND YET TO ELAPSE HERE
                 if(quickTimerData.get(i).getTimerStartTimeInMillis() != -1) {
