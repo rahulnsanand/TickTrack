@@ -577,11 +577,11 @@ public class TimerActivity extends AppCompatActivity {
 
     private Handler timerStopHandler;
     private Handler timerBlinkHandler;
-    float UpdateTime = 0L;
     boolean isBlink = false;
     public Runnable runnable = new Runnable() {
         public void run() {
-            updateStopTimeText();
+            long durationElapsed = SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition()).getTimerEndedTimeInMillis();
+            timerHourMinute.setText(updateStopTimeText(durationElapsed));
             timerStopHandler.postDelayed(this,500);
         }
     };
@@ -598,19 +598,12 @@ public class TimerActivity extends AppCompatActivity {
         }
     };
 
-    private void updateStopTimeText() {
+    private String updateStopTimeText(long countdownValue) {
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(countdownValue);
+        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(countdownValue) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdownValue)));
+        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(countdownValue) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(countdownValue)));
 
-        if(timerDataArrayList.get(getCurrentTimerPosition()).getTimerEndedTimeInMillis() != -1){
-            UpdateTime = (SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition()).getTimerEndedTimeInMillis()) / 1000F;
-        }
-
-        float totalSeconds = UpdateTime;
-        float hours = totalSeconds/3600;
-        float minutes = totalSeconds/60%60;
-        float seconds = totalSeconds%60;
-
-        String hourLeft = String.format(Locale.getDefault(),"-%02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
-        timerHourMinute.setText(hourLeft);
+        return String.format(Locale.getDefault(),"- %02d:%02d:%02d", hours,minutes,seconds);
     }
 
     private void presetStockValues() {

@@ -1,7 +1,6 @@
 package com.theflopguyproductions.ticktrack.receivers;
 
 import android.app.ActivityManager;
-import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -119,50 +118,23 @@ public class BootReceiver extends BroadcastReceiver {
                         }
 
                     } else { //TODO TIMER ALREADY ELAPSED
-                        long endedAgoTime = System.currentTimeMillis() - (timerData.get(i).getTimerStartTimeInMillis()+timerData.get(i).getTimerTotalTimeInMillis());
-
-                        System.out.println("TIMER BOOT ELAPSED ALARM TIME :"+endedAgoTime);
-                        System.out.println("TIMER BOOT ELAPSED ALARM TIME ELAPSED :"+(SystemClock.elapsedRealtime() - endedAgoTime));
-                        timerData.get(i).setTimerNotificationOn(false);
-                        timerData.get(i).setTimerRinging(true);
-                        timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime() - endedAgoTime);
+                        timerData.get(i).setTimerOn(false);
+                        timerData.get(i).setTimerPause(false);
+                        timerData.get(i).setTimerRinging(false);
+                        timerData.get(i).setTimerEndedTimeInMillis(-1);
                         timerData.get(i).setTimerStartTimeInMillis(-1);
                         tickTrackDatabase.storeTimerList(timerData);
-                        if(!isMyServiceRunning(TimerRingService.class, activity)){
-                            startTimerRingNotificationService(activity);
-                            KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
-                            if( myKM.inKeyguardRestrictedInputMode()) {
-                                Intent resultIntent = new Intent();
-                                resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-//                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                activity.startActivity(resultIntent);
-                            }
-                        }
-                        if(isMyServiceRunning(TimerService.class, activity)){
-                            tickTrackTimerDatabase.stopNotificationService();
-                        }
 
                     }
                 }
 
             } else if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause() && timerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
-
-                System.out.println("TIMER BOOT RINGINEG");
-
-                if(!isMyServiceRunning(TimerRingService.class, activity)){
-                    startTimerRingNotificationService(activity);
-                    KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
-                    if( myKM.inKeyguardRestrictedInputMode()) {
-                        Intent resultIntent = new Intent();
-                        resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-//                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(resultIntent);
-                    }
-                }
-                if(isMyServiceRunning(TimerService.class, activity)){
-                    tickTrackTimerDatabase.stopNotificationService();
-                }
-
+                timerData.get(i).setTimerOn(false);
+                timerData.get(i).setTimerPause(false);
+                timerData.get(i).setTimerRinging(false);
+                timerData.get(i).setTimerEndedTimeInMillis(-1);
+                timerData.get(i).setTimerStartTimeInMillis(-1);
+                tickTrackDatabase.storeTimerList(timerData);
             }
 
         }
@@ -193,41 +165,22 @@ public class BootReceiver extends BroadcastReceiver {
 
                     } else { //TODO TIMER ALREADY ELAPSED
 
-                        long endedAgoTime = System.currentTimeMillis() - (quickTimerData.get(i).getTimerStartTimeInMillis()+quickTimerData.get(i).getTimerTotalTimeInMillis());
-                        quickTimerData.get(i).setTimerNotificationOn(false);
-                        quickTimerData.get(i).setTimerRinging(true);
-                        quickTimerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
+                        quickTimerData.get(i).setTimerOn(false);
+                        quickTimerData.get(i).setTimerPause(false);
+                        quickTimerData.get(i).setTimerRinging(false);
+                        quickTimerData.get(i).setTimerEndedTimeInMillis(-1);
                         quickTimerData.get(i).setTimerStartTimeInMillis(-1);
                         tickTrackDatabase.storeQuickTimerList(quickTimerData);
-                        if(!isMyServiceRunning(TimerRingService.class, activity)){
-                            startTimerRingNotificationService(activity);
-                            KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
-                            if( myKM.inKeyguardRestrictedInputMode()) {
-                                Intent resultIntent = new Intent();
-                                resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-//                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                activity.startActivity(resultIntent);
-                            }
-                        }
-                        if(isMyServiceRunning(TimerService.class, activity)){
-                            tickTrackTimerDatabase.stopNotificationService();
-                        }
+                        
                     }
                 }
             } else if(quickTimerData.get(i).isTimerOn() && !quickTimerData.get(i).isTimerPause() && quickTimerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
-                if(!isMyServiceRunning(TimerRingService.class, activity)){
-                    startTimerRingNotificationService(activity);
-                    KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
-                    if( myKM.inKeyguardRestrictedInputMode()) {
-                        Intent resultIntent = new Intent();
-                        resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-//                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(resultIntent);
-                    }
-                }
-                if(isMyServiceRunning(TimerService.class, activity)){
-                    tickTrackTimerDatabase.stopNotificationService();
-                }
+                quickTimerData.get(i).setTimerOn(false);
+                quickTimerData.get(i).setTimerPause(false);
+                quickTimerData.get(i).setTimerRinging(false);
+                quickTimerData.get(i).setTimerEndedTimeInMillis(-1);
+                quickTimerData.get(i).setTimerStartTimeInMillis(-1);
+                tickTrackDatabase.storeQuickTimerList(quickTimerData);
 
             }
         }
