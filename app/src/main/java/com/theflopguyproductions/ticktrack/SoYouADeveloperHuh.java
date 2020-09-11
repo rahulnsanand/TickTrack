@@ -72,6 +72,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         tickTrackDatabase = new TickTrackDatabase(this);
+
         timerManagementHelper = new TimerManagementHelper(this);
         int missedTimers = 0;
         int almostMissedTimers = timerManagementHelper.getAlmostMissedTimer();

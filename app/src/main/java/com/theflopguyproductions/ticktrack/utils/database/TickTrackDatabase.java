@@ -64,6 +64,15 @@ public class TickTrackDatabase {
 
     }
 
+    public void setLockedBootComplete(boolean isLocked){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("lockedBootTime", isLocked);
+        editor.apply();
+    }
+    public boolean isLockedBootComplete() {
+        return sharedPreferences.getBoolean("lockedBootTime", false);
+    }
+
     public void setNewDevice(boolean updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("newDevice", updateNumber);

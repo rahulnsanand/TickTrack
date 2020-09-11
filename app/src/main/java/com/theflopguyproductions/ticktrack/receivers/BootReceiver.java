@@ -25,12 +25,33 @@ import java.util.ArrayList;
 
 public class BootReceiver extends BroadcastReceiver {
 
+    private static final String LOCKED_BOOT_COMPLETE = "android.intent.action.LOCKED_BOOT_COMPLETED";
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
 
-        reestablishTimers(tickTrackDatabase, context);
+        System.out.println(intent.getAction()+" TIMER BOOT");
+
+        if(LOCKED_BOOT_COMPLETE.equals(intent.getAction())){
+            setupBootProcedure(context, tickTrackDatabase);
+            tickTrackDatabase.setLockedBootComplete(true);
+        } else {
+            if(!tickTrackDatabase.isLockedBootComplete()){
+                setupBootProcedure(context, tickTrackDatabase);
+                tickTrackDatabase.setLockedBootComplete(false);
+            }
+            FirebaseHelper firebaseHelper = new FirebaseHelper(context);
+            TickTrackFirebaseDatabase tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
+            if(firebaseHelper.isUserSignedIn()){
+                tickTrackFirebaseDatabase.setBackUpAlarm();
+            }
+        }
+    }
+
+    private void setupBootProcedure(Context context, TickTrackDatabase tickTrackDatabase) {
+        reestablishTimers(context);
 
         ArrayList<CounterData> counterData = tickTrackDatabase.retrieveCounterList();
         checkNotification(context, counterData);
@@ -61,16 +82,10 @@ public class BootReceiver extends BroadcastReceiver {
                 startNotificationService(context);
             }
         }
-
-        FirebaseHelper firebaseHelper = new FirebaseHelper(context);
-        TickTrackFirebaseDatabase tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
-        if(firebaseHelper.isUserSignedIn()){
-            tickTrackFirebaseDatabase.setBackUpAlarm();
-        }
     }
 
-    public void reestablishTimers(TickTrackDatabase tickTrackDatabase, Context activity){
-        tickTrackDatabase = new TickTrackDatabase(activity);
+    public void reestablishTimers(Context activity){
+        TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(activity);
         ArrayList<TimerData> timerData = tickTrackDatabase.retrieveTimerList();
         TickTrackTimerDatabase tickTrackTimerDatabase = new TickTrackTimerDatabase(activity);
 
@@ -81,9 +96,13 @@ public class BootReceiver extends BroadcastReceiver {
 
                     long elapsedTime = System.currentTimeMillis() - timerData.get(i).getTimerStartTimeInMillis();
 
+                    System.out.println("TIMER BOOT RUNNING NOT RINGINER ELAPSED TIME :"+elapsedTime);
+
                     if(elapsedTime<timerData.get(i).getTimerTotalTimeInMillis()){ //TODO TIMER YET TO ELAPSE
 
                         long nextAlarmStamp = SystemClock.elapsedRealtime()+(timerData.get(i).getTimerTotalTimeInMillis()-elapsedTime);
+
+                        System.out.println("TIMER BOOT RUNNING YET TO NEXT ALARM TIME :"+nextAlarmStamp);
 
                         timerData.get(i).setTimerAlarmEndTimeInMillis(nextAlarmStamp);
 
@@ -96,12 +115,14 @@ public class BootReceiver extends BroadcastReceiver {
                         }
 
                     } else { //TODO TIMER ALREADY ELAPSED
-                        long endedAgoTime = System.currentTimeMillis() - timerData.get(i).getTimerStartTimeInMillis()+timerData.get(i).getTimerTotalTimeInMillis();
+                        long endedAgoTime = System.currentTimeMillis() - (timerData.get(i).getTimerStartTimeInMillis()+timerData.get(i).getTimerTotalTimeInMillis());
+
+                        System.out.println("TIMER BOOT ELAPSED ALARM TIME :"+endedAgoTime);
+
                         timerData.get(i).setTimerNotificationOn(false);
                         timerData.get(i).setTimerRinging(true);
-                        timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
+                        timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime() - endedAgoTime);
                         timerData.get(i).setTimerStartTimeInMillis(-1);
-//                        timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
                         tickTrackDatabase.storeTimerList(timerData);
                         if(!isMyServiceRunning(TimerRingService.class, activity)){
                             startTimerRingNotificationService(activity);
@@ -109,7 +130,7 @@ public class BootReceiver extends BroadcastReceiver {
                             if( myKM.inKeyguardRestrictedInputMode()) {
                                 Intent resultIntent = new Intent();
                                 resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 activity.startActivity(resultIntent);
                             }
                         }
@@ -121,13 +142,16 @@ public class BootReceiver extends BroadcastReceiver {
                 }
 
             } else if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause() && timerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
+
+                System.out.println("TIMER BOOT RINGINEG");
+
                 if(!isMyServiceRunning(TimerRingService.class, activity)){
                     startTimerRingNotificationService(activity);
                     KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
                     if( myKM.inKeyguardRestrictedInputMode()) {
                         Intent resultIntent = new Intent();
                         resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(resultIntent);
                     }
                 }
@@ -164,12 +188,11 @@ public class BootReceiver extends BroadcastReceiver {
 
                     } else { //TODO TIMER ALREADY ELAPSED
 
-                        long endedAgoTime = System.currentTimeMillis() - quickTimerData.get(i).getTimerStartTimeInMillis()+quickTimerData.get(i).getTimerTotalTimeInMillis();
+                        long endedAgoTime = System.currentTimeMillis() - (quickTimerData.get(i).getTimerStartTimeInMillis()+quickTimerData.get(i).getTimerTotalTimeInMillis());
                         quickTimerData.get(i).setTimerNotificationOn(false);
                         quickTimerData.get(i).setTimerRinging(true);
                         quickTimerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
                         quickTimerData.get(i).setTimerStartTimeInMillis(-1);
-//                        quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
                         tickTrackDatabase.storeQuickTimerList(quickTimerData);
                         if(!isMyServiceRunning(TimerRingService.class, activity)){
                             startTimerRingNotificationService(activity);
@@ -177,7 +200,7 @@ public class BootReceiver extends BroadcastReceiver {
                             if( myKM.inKeyguardRestrictedInputMode()) {
                                 Intent resultIntent = new Intent();
                                 resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 activity.startActivity(resultIntent);
                             }
                         }
@@ -193,7 +216,7 @@ public class BootReceiver extends BroadcastReceiver {
                     if( myKM.inKeyguardRestrictedInputMode()) {
                         Intent resultIntent = new Intent();
                         resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(resultIntent);
                     }
                 }

@@ -30,6 +30,7 @@ import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
+import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
@@ -221,7 +222,14 @@ public class TimerRingService extends Service {
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop all", killTimerPendingIntent);
 
+        Intent resultIntent = new Intent(this, TimerRingerActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         notificationBuilder.clearActions();
+        notificationBuilder.setContentIntent(resultPendingIntent);
         notificationBuilder.addAction(killTimers);
     }
     private void setupSingleTimerNotification() {
@@ -313,7 +321,9 @@ public class TimerRingService extends Service {
 
     private void stopIfPossible() {
         if(!(getAllOnTimers()>0)){
-            stopTimers();
+            refreshHandler.removeCallbacks(refreshRunnable);
+            stopSelf();
+            onDestroy();
         }
     }
 

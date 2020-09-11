@@ -21,10 +21,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <service
-            android:name=".timer.service.TimerRingBUService"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity android:name=".widgets.clock.ClockWidgetConfigActivity" />
 
@@ -117,8 +113,10 @@
         </receiver>
 
         <activity android:name=".startup.StartUpActivity" />
+
         <activity
-            android:name="com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity"
+            android:name=".timer.ringer.TimerRingerActivity"
+            android:directBootAware="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="TickTrackTimer"
             android:theme="@style/FullscreenTheme" />
