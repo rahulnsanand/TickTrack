@@ -43,7 +43,7 @@ public class TimerRingService extends Service {
     public static final String ACTION_ADD_TIMER_FINISH = "ACTION_ADD_TIMER_FINISH";
     public static final String ACTION_KILL_ALL_TIMERS = "ACTION_KILL_ALL_TIMERS";
     public static final String ACTION_STOP_SERVICE_CHECK = "ACTION_STOP_SERVICE_CHECK";
-    public static final String ACTION_ADD_ONE_MINUTE = "ACTION_ADD_ONE_MINUTE";
+//    public static final String ACTION_ADD_ONE_MINUTE = "ACTION_ADD_ONE_MINUTE";
 
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
@@ -252,10 +252,10 @@ public class TimerRingService extends Service {
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
-        Intent addAMinuteIntent = new Intent(this, TimerRingService.class);
-        addAMinuteIntent.setAction(ACTION_ADD_ONE_MINUTE);
-        PendingIntent addAMinutePendingIntent = PendingIntent.getService(this, 3, addAMinuteIntent, 0);
-        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_baseline_plus_one_white_24, "+1 Minute", addAMinutePendingIntent);
+//        Intent addAMinuteIntent = new Intent(this, TimerRingService.class);
+//        addAMinuteIntent.setAction(ACTION_ADD_ONE_MINUTE);
+//        PendingIntent addAMinutePendingIntent = PendingIntent.getService(this, 3, addAMinuteIntent, 0);
+//        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_baseline_plus_one_white_24, "+1 Minute", addAMinutePendingIntent);
 
         Intent resultIntent;
         if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
@@ -273,9 +273,9 @@ public class TimerRingService extends Service {
         notificationBuilder.clearActions();
         notificationBuilder.setContentIntent(resultPendingIntent);
         notificationBuilder.addAction(killTimers);
-        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
-            notificationBuilder.addAction(addAMinute);
-        }
+//        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+//            notificationBuilder.addAction(addAMinute);
+//        }
         isSingle=true;
         isMulti=false;
     }
@@ -299,53 +299,55 @@ public class TimerRingService extends Service {
                 case ACTION_STOP_SERVICE_CHECK:
                     stopIfPossible();
                     break;
-                case ACTION_ADD_ONE_MINUTE:
-                    addOneMinute();
-                    break;
+//                case ACTION_ADD_ONE_MINUTE:
+//                    addOneMinute();
+//                    break;
             }
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void addOneMinute() {
-        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
-        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
-            addOneTimer();
-        }
-        if(!(getAllOnTimers() > 1) && getAllOnTimers()>0){
-            try {
-                if(mediaPlayer.isPlaying()){
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                }
-            } catch (Exception ignored) {
-            }
-            refreshHandler.removeCallbacks(refreshRunnable);
-            stopSelf();
-            onDestroy();
-        }
-    }
-
-    private void addOneTimer(){
-        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isTimerRinging()){
-            long timerTotalTime = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerTotalTimeInMillis();
-            long timerTempTotalTime = timerTotalTime+(1000*2);
-            long newTimerAlarmEndTime = SystemClock.elapsedRealtime() + (1000*2);
-            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerRinging(false);
-            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerOn(true);
-            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerPause(false);
-            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerTempMaxTimeInMillis(timerTempTotalTime);
-            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerAlarmEndTimeInMillis(newTimerAlarmEndTime);
-            if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerStartTimeInMillis()==-1){
-                timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerStartTimeInMillis(System.currentTimeMillis());
-            }
-            tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerIntID(), false);
-            tickTrackTimerDatabase.setAlarm(newTimerAlarmEndTime,
-                    timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerIntID(), false);
-            tickTrackDatabase.storeTimerList(timerDataArrayList);
-            System.out.println("ADD ONE TIMER ADDED"+newTimerAlarmEndTime);
-        }
-    }
+//    private void addOneMinute() {
+//        refreshHandler.removeCallbacks(refreshRunnable);
+//        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+//        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+//            addOneTimer();
+//        }
+//        if(!(getAllOnTimers() > 1) && getAllOnTimers()>0){
+//            try {
+//                if(mediaPlayer.isPlaying()){
+//                    mediaPlayer.stop();
+//                    mediaPlayer.release();
+//                }
+//            } catch (Exception ignored) {
+//            }
+//            stopSelf();
+//            onDestroy();
+//        } else {
+//            refreshHandler.post(refreshRunnable);
+//        }
+//    }
+//
+//    private void addOneTimer(){
+//        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isTimerRinging()){
+//            long timerTotalTime = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerTotalTimeInMillis();
+//            long timerTempTotalTime = timerTotalTime+(1000*2);
+//            long newTimerAlarmEndTime = SystemClock.elapsedRealtime() + (1000*2);
+//            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerRinging(false);
+//            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerOn(true);
+//            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerPause(false);
+//            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerTempMaxTimeInMillis(timerTempTotalTime);
+//            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerAlarmEndTimeInMillis(newTimerAlarmEndTime);
+//            if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerStartTimeInMillis()==-1){
+//                timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerStartTimeInMillis(System.currentTimeMillis());
+//            }
+//            tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerIntID(), false);
+//            tickTrackTimerDatabase.setAlarm(newTimerAlarmEndTime,
+//                    timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerIntID(), false);
+//            tickTrackDatabase.storeTimerList(timerDataArrayList);
+//            System.out.println("ADD ONE TIMER ADDED"+newTimerAlarmEndTime);
+//        }
+//    }
 
     private void initializeValues() {
         if(!isSetup){
