@@ -118,7 +118,7 @@
 
         <activity android:name=".startup.StartUpActivity" />
         <activity
-            android:name=".timer.ringer.TimerRingerActivity"
+            android:name="com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="TickTrackTimer"
             android:theme="@style/FullscreenTheme" />

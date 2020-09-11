@@ -14,7 +14,6 @@ import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
-import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -108,7 +107,8 @@ public class BootReceiver extends BroadcastReceiver {
                             startTimerRingNotificationService(activity);
                             KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
                             if( myKM.inKeyguardRestrictedInputMode()) {
-                                Intent resultIntent = new Intent(activity, TimerRingerActivity.class);
+                                Intent resultIntent = new Intent();
+                                resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
                                 resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 activity.startActivity(resultIntent);
                             }
@@ -125,7 +125,8 @@ public class BootReceiver extends BroadcastReceiver {
                     startTimerRingNotificationService(activity);
                     KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
                     if( myKM.inKeyguardRestrictedInputMode()) {
-                        Intent resultIntent = new Intent(activity, TimerRingerActivity.class);
+                        Intent resultIntent = new Intent();
+                        resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
                         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(resultIntent);
                     }
@@ -174,7 +175,8 @@ public class BootReceiver extends BroadcastReceiver {
                             startTimerRingNotificationService(activity);
                             KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
                             if( myKM.inKeyguardRestrictedInputMode()) {
-                                Intent resultIntent = new Intent(activity, TimerRingerActivity.class);
+                                Intent resultIntent = new Intent();
+                                resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
                                 resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 activity.startActivity(resultIntent);
                             }
@@ -189,7 +191,8 @@ public class BootReceiver extends BroadcastReceiver {
                     startTimerRingNotificationService(activity);
                     KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
                     if( myKM.inKeyguardRestrictedInputMode()) {
-                        Intent resultIntent = new Intent(activity, TimerRingerActivity.class);
+                        Intent resultIntent = new Intent();
+                        resultIntent.setClassName("com.theflopguyproductions.ticktrack","com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity");
                         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(resultIntent);
                     }
