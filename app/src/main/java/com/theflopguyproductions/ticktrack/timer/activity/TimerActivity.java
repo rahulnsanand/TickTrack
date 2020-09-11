@@ -223,7 +223,13 @@ public class TimerActivity extends AppCompatActivity {
         if (s.equals("TimerData")){
             Collections.sort(timerDataArrayList);
             if(!timerDataArrayList.get(getCurrentTimerPosition()).isTimerRinging()){
-                killAndResetTimer();
+                if(timerDataArrayList.get(getCurrentTimerPosition()).getTimerTempMaxTimeInMillis()!=-1){
+                    booleanRefresh();
+                    checkConditions();
+                    System.out.println("PRESET HAS BEEN CALLED");
+                } else {
+                    killAndResetTimer();
+                }
             }
 //            else {
 //                setupStartEndTime();
@@ -235,7 +241,6 @@ public class TimerActivity extends AppCompatActivity {
         isTimerPaused = timerDataArrayList.get(getCurrentTimerPosition()).isTimerPause();
         isTimerRunning = timerDataArrayList.get(getCurrentTimerPosition()).isTimerOn();
         isTimerRinging = timerDataArrayList.get(getCurrentTimerPosition()).isTimerRinging();
-
     }
 
     private void checkConditions() {

@@ -56,7 +56,7 @@ public class TimerRingService extends Service {
     private Handler refreshHandler = new Handler();
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
-    private boolean isSetup = false;
+    private boolean isSetup = false, isSingle = false, isMulti = false;
 
     public TimerRingService() {
     }
@@ -136,6 +136,7 @@ public class TimerRingService extends Service {
                 timerDataArrayList.get(i).setTimerPause(false);
                 timerDataArrayList.get(i).setTimerNotificationOn(false);
                 timerDataArrayList.get(i).setTimerRinging(false);
+                timerDataArrayList.get(i).setTimerTempMaxTimeInMillis(-1);
                 tickTrackDatabase.storeTimerList(timerDataArrayList);
                 System.out.println("SOMETHING HAPPENED HERE STOP TIMER SHIT");
             }
@@ -155,8 +156,6 @@ public class TimerRingService extends Service {
                 result++;
             }
         }
-
-        System.out.println("ALL ON TIMERS "+result);
         return result;
     }
     private void updateStopTimeText(long UpdateTime) {
@@ -235,6 +234,8 @@ public class TimerRingService extends Service {
         notificationBuilder.clearActions();
         notificationBuilder.setContentIntent(resultPendingIntent);
         notificationBuilder.addAction(killTimers);
+        isMulti=true;
+        isSingle=false;
     }
     private void setupSingleTimerNotification() {
         if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
@@ -252,9 +253,9 @@ public class TimerRingService extends Service {
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
         Intent addAMinuteIntent = new Intent(this, TimerRingService.class);
-        killTimerIntent.setAction(ACTION_ADD_ONE_MINUTE);
+        addAMinuteIntent.setAction(ACTION_ADD_ONE_MINUTE);
         PendingIntent addAMinutePendingIntent = PendingIntent.getService(this, 3, addAMinuteIntent, 0);
-        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "+1 Minute", addAMinutePendingIntent);
+        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_baseline_plus_one_white_24, "+1 Minute", addAMinutePendingIntent);
 
         Intent resultIntent;
         if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
@@ -275,6 +276,8 @@ public class TimerRingService extends Service {
         if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
             notificationBuilder.addAction(addAMinute);
         }
+        isSingle=true;
+        isMulti=false;
     }
 
     @Override
@@ -282,7 +285,7 @@ public class TimerRingService extends Service {
         if(intent != null) {
 
             String action = intent.getAction();
-
+            System.out.println(action+">>>>>>>>>>>>>>>>>>>>>>>>98798798765432132132<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             initializeValues();
 
             assert action != null;
@@ -325,20 +328,22 @@ public class TimerRingService extends Service {
 
     private void addOneTimer(){
         if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isTimerRinging()){
+            long timerTotalTime = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerTotalTimeInMillis();
+            long timerTempTotalTime = timerTotalTime+(1000*2);
+            long newTimerAlarmEndTime = SystemClock.elapsedRealtime() + (1000*2);
             timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerRinging(false);
             timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerOn(true);
             timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerPause(false);
-            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer()))
-                    .setTimerTempMaxTimeInMillis(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerTotalTimeInMillis()+(1000*2));
-            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerAlarmEndTimeInMillis(SystemClock.elapsedRealtime()+(1000*2));
+            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerTempMaxTimeInMillis(timerTempTotalTime);
+            timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerAlarmEndTimeInMillis(newTimerAlarmEndTime);
             if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerStartTimeInMillis()==-1){
                 timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).setTimerStartTimeInMillis(System.currentTimeMillis());
             }
             tickTrackTimerDatabase.cancelAlarm(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerIntID(), false);
-            tickTrackTimerDatabase.setAlarm(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerAlarmEndTimeInMillis(),
+            tickTrackTimerDatabase.setAlarm(newTimerAlarmEndTime,
                     timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerIntID(), false);
-
             tickTrackDatabase.storeTimerList(timerDataArrayList);
+            System.out.println("ADD ONE TIMER ADDED"+newTimerAlarmEndTime);
         }
     }
 
@@ -357,10 +362,14 @@ public class TimerRingService extends Service {
         public void run() {
             if(getAllOnTimers()>0){
                 if(getAllOnTimers() == 1){
-                    setupSingleTimerNotification();
+                    if(!isSingle){
+                        setupSingleTimerNotification();
+                    }
                     updateStopTimeText(SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
                 } else {
-                    setupMultiTimerNotification();
+                    if(!isMulti){
+                        setupMultiTimerNotification();
+                    }
                 }
                 notifyNotification();
                 System.out.println(getAllOnTimers()+" TIMER RINGING");
