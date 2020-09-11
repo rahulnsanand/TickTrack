@@ -82,6 +82,7 @@ public class TimerManagementHelper {
 
                         tickTrackTimerDatabase.setAlarm(nextAlarmStamp, timerData.get(i).getTimerIntID(), false);
 
+                        tickTrackDatabase.storeTimerList(timerData);
 
                         if(!isMyServiceRunning(TimerService.class, activity)){
                             tickTrackTimerDatabase.startNotificationService();
@@ -94,7 +95,7 @@ public class TimerManagementHelper {
                         timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
                         timerData.get(i).setTimerStartTimeInMillis(-1);
                         timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
-
+                        tickTrackDatabase.storeTimerList(timerData);
                         if(!isMyServiceRunning(TimerRingService.class, activity)){
                             startTimerRingNotificationService(activity);
                             KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
@@ -110,6 +111,7 @@ public class TimerManagementHelper {
 
                     }
                 }
+
             } else if(timerData.get(i).isTimerOn() && !timerData.get(i).isTimerPause() && timerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
                 if(!isMyServiceRunning(TimerRingService.class, activity)){
                     startTimerRingNotificationService(activity);
@@ -125,7 +127,7 @@ public class TimerManagementHelper {
                 }
 
             }
-            tickTrackDatabase.storeTimerList(timerData);
+
         }
 
         ArrayList<QuickTimerData> quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
@@ -145,6 +147,7 @@ public class TimerManagementHelper {
 
                         tickTrackTimerDatabase.setAlarm(nextAlarmStamp, quickTimerData.get(i).getTimerIntID(), true);
 
+                        tickTrackDatabase.storeQuickTimerList(quickTimerData);
 
                         if(!isMyServiceRunning(TimerService.class, activity)){
                             tickTrackTimerDatabase.startNotificationService();
@@ -158,7 +161,7 @@ public class TimerManagementHelper {
                         quickTimerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
                         quickTimerData.get(i).setTimerStartTimeInMillis(-1);
                         quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
-
+                        tickTrackDatabase.storeQuickTimerList(quickTimerData);
                         if(!isMyServiceRunning(TimerRingService.class, activity)){
                             startTimerRingNotificationService(activity);
                             KeyguardManager myKM = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
@@ -188,7 +191,6 @@ public class TimerManagementHelper {
                 }
 
             }
-            tickTrackDatabase.storeQuickTimerList(quickTimerData);
         }
 
     }
