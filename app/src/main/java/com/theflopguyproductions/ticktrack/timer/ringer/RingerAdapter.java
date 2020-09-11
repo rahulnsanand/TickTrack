@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.timer.ringer;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
-import com.theflopguyproductions.ticktrack.timer.data.TimerDiffUtilCallback;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerDataViewHolder> {
 
@@ -39,6 +40,11 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         return new RingerDataViewHolder(itemView);
     }
 
+    @Override
+    public void onViewDetachedFromWindow(@NonNull RingerDataViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        timerStopHandler.removeCallbacks(holder.timerRunnable);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull RingerDataViewHolder holder, int position) {
@@ -49,20 +55,23 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         holder.foregroundProgressBar.setProgress(1);
 
 
-        if(!timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel().equals("Set label")) {
-            holder.timerLabel.setText(timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel());
+        if(!timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer()){
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel().equals("Set label")) {
+                holder.timerLabel.setText(timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel());
+            } else {
+                holder.timerLabel.setVisibility(View.GONE);
+            }
         } else {
             holder.timerLabel.setVisibility(View.GONE);
         }
 
-        long stopTimeRetrieve = timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
-        holder.UpdateTime = (System.currentTimeMillis() - stopTimeRetrieve) / 1000F;
-
         holder.timerRunnable = () -> {
             if(timerDataArrayList.get(position).isTimerRinging()){
-                holder.UpdateTime += 1;
-                holder.timerValue.setText(updateTimerTextView(holder.UpdateTime));
-                timerStopHandler.postDelayed(holder.timerRunnable, 1000);
+                long durationElapsed = SystemClock.elapsedRealtime() - timerDataArrayList.get(holder.getAdapterPosition()).getTimerEndedTimeInMillis();
+                holder.timerValue.setText(updateTimerTextView(durationElapsed));
+                timerStopHandler.postDelayed(holder.timerRunnable, 100);
+            } else {
+                timerStopHandler.removeCallbacks(holder.timerRunnable);
             }
         };
 
@@ -75,12 +84,12 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         setTheme(holder, theme);
     }
 
-    private String updateTimerTextView(float countdownValue){
-        float hours = countdownValue /3600;
-        float minutes = countdownValue /60%60;
-        float seconds = countdownValue %60;
+    private String updateTimerTextView(long countdownValue){
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(countdownValue);
+        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(countdownValue) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdownValue)));
+        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(countdownValue) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(countdownValue)));
 
-        return String.format(Locale.getDefault(),"- %02d:%02d:%02d",(int)hours,(int)minutes,(int)seconds);
+        return String.format(Locale.getDefault(),"- %02d:%02d:%02d", hours,minutes,seconds);
     }
     private void setTheme(RingerDataViewHolder holder, int theme) {
         if(theme == 1){
@@ -107,7 +116,7 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
 
     public void diffUtilsChangeData(ArrayList<TimerData> timerDataArrayList){
 
-        TimerDiffUtilCallback timerDiffUtilCallback = new TimerDiffUtilCallback(timerDataArrayList, this.timerDataArrayList);
+        RingerTimerDiffUtilCallback timerDiffUtilCallback = new RingerTimerDiffUtilCallback(timerDataArrayList, this.timerDataArrayList);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(timerDiffUtilCallback, false);
         diffResult.dispatchUpdatesTo(this);
         this.timerDataArrayList = timerDataArrayList;
@@ -122,7 +131,6 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         private Context context;
         private TickTrackDatabase tickTrackDatabase;
         private Runnable timerRunnable;
-        private float UpdateTime = 0L;
 
         public RingerDataViewHolder(@NonNull View parent) {
             super(parent);

@@ -90,6 +90,7 @@ public class BootReceiver extends BroadcastReceiver {
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(activity);
         ArrayList<TimerData> timerData = tickTrackDatabase.retrieveTimerList();
         TickTrackTimerDatabase tickTrackTimerDatabase = new TickTrackTimerDatabase(activity);
+        int missedTimers = 0;
 
         for(int i = 0; i<timerData.size(); i++){
             timerData = tickTrackDatabase.retrieveTimerList();
@@ -124,7 +125,7 @@ public class BootReceiver extends BroadcastReceiver {
                         timerData.get(i).setTimerEndedTimeInMillis(-1);
                         timerData.get(i).setTimerStartTimeInMillis(-1);
                         tickTrackDatabase.storeTimerList(timerData);
-
+                        missedTimers++;
                     }
                 }
 
@@ -171,7 +172,7 @@ public class BootReceiver extends BroadcastReceiver {
                         quickTimerData.get(i).setTimerEndedTimeInMillis(-1);
                         quickTimerData.get(i).setTimerStartTimeInMillis(-1);
                         tickTrackDatabase.storeQuickTimerList(quickTimerData);
-                        
+                        missedTimers++;
                     }
                 }
             } else if(quickTimerData.get(i).isTimerOn() && !quickTimerData.get(i).isTimerPause() && quickTimerData.get(i).isTimerRinging()){ //TODO TIMER IS RINGING
@@ -184,6 +185,16 @@ public class BootReceiver extends BroadcastReceiver {
 
             }
         }
+
+        if(missedTimers>0){
+            showMissedTimerNotification();
+        }
+
+    }
+
+    private void showMissedTimerNotification() {
+
+
 
     }
 

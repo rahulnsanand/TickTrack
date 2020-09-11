@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
@@ -43,6 +44,8 @@ public class TimerRingerActivity extends AppCompatActivity {
     private RingerAdapter timerStopAdapter;
     private SharedPreferences sharedPreferences;
     private ScrollingPagerIndicator recyclerIndicator;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,12 +129,19 @@ public class TimerRingerActivity extends AppCompatActivity {
         super.onStop();
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        timerStopRecyclerView.setAdapter(null);
         System.out.println("ON STOP RINGER ACTIVITY");
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        refreshOnlyOnTimer();
+        if(!(onlyOnTimersArrayList.size() >0)){
+            startActivity(new Intent(this, SoYouADeveloperHuh.class));
+        }
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
@@ -142,6 +152,10 @@ public class TimerRingerActivity extends AppCompatActivity {
             killForeground();
         }
         onStop();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
     private void killForeground() {
         Intent intent = new Intent(context, TimerRingService.class);
@@ -166,7 +180,8 @@ public class TimerRingerActivity extends AppCompatActivity {
                 quickTimerDataArrayList.get(i).setTimerNotificationOn(false);
                 quickTimerDataArrayList.get(i).setTimerRinging(false);
                 tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
-
+                quickTimerDataArrayList.remove(i);
+                tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
             }
         }
         quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
@@ -203,6 +218,7 @@ public class TimerRingerActivity extends AppCompatActivity {
                 timerData.setQuickTimer(quickTimerDataArrayList.get(i).isQuickTimer());
                 timerData.setTimerStartTimeInMillis(quickTimerDataArrayList.get(i).getTimerStartTimeInMillis());
                 timerData.setTimerAlarmEndTimeInMillis(quickTimerDataArrayList.get(i).getTimerAlarmEndTimeInMillis());
+                timerData.setTimerEndedTimeInMillis(quickTimerDataArrayList.get(i).getTimerEndedTimeInMillis());
                 timerData.setTimerTotalTimeInMillis(quickTimerDataArrayList.get(i).getTimerTotalTimeInMillis());
                 timerData.setTimerPause(quickTimerDataArrayList.get(i).isTimerPause());
                 timerData.setTimerOn(quickTimerDataArrayList.get(i).isTimerOn());
