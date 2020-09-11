@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.timer.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.TimerEditDialog;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
@@ -221,9 +224,10 @@ public class TimerActivity extends AppCompatActivity {
             Collections.sort(timerDataArrayList);
             if(!timerDataArrayList.get(getCurrentTimerPosition()).isTimerRinging()){
                 killAndResetTimer();
-            } else {
-                setupStartEndTime();
             }
+//            else {
+//                setupStartEndTime();
+//            }
         }
     };
 
@@ -341,7 +345,7 @@ public class TimerActivity extends AppCompatActivity {
         timerDataArrayList.get(getCurrentTimerPosition()).setTimerOn(true);
         timerDataArrayList.get(getCurrentTimerPosition()).setTimerPause(false);
         tickTrackDatabase.storeTimerList(timerDataArrayList);
-        timerDataArrayList =  tickTrackDatabase.retrieveTimerList();
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         booleanRefresh();
         TickTrackAnimator.fabBounce(playPauseFAB, ContextCompat.getDrawable(activity, R.drawable.ic_round_pause_white_24));
 
@@ -564,13 +568,32 @@ public class TimerActivity extends AppCompatActivity {
         tickTrackDatabase.storeTimerList(timerDataArrayList);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         booleanRefresh();
+
+        if(isMyServiceRunning(TimerRingService.class, activity)){
+            stopRingService();
+        }
     }
 
     private void addOneTimer(){
-        countDownTimer.cancel();
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        if(timerDataArrayList.get(getCurrentTimerPosition()).isTimerRinging()){
+            timerStopHandler.removeCallbacks(runnable);
+            timerBlinkHandler.removeCallbacks(blinkRunnable);
+            timerDataArrayList.get(getCurrentTimerPosition()).setTimerRinging(false);
+            timerDataArrayList.get(getCurrentTimerPosition()).setTimerOn(true);
+            timerDataArrayList.get(getCurrentTimerPosition()).setTimerPause(false);
+            tickTrackDatabase.storeTimerList(timerDataArrayList);
+            if(isMyServiceRunning(TimerRingService.class, activity)){
+                stopRingService();
+            }
+        } else {
+            if(countDownTimer!=null){
+                countDownTimer.cancel();
+            }
+        }
         tickTrackTimerDatabase.cancelAlarm(timerID, false);
-        countDownTimerMillis += 1000*60;
-        maxTimeInMillis += 1000*60;
+        countDownTimerMillis += 1000*2;
+        maxTimeInMillis += 1000*2;
         timerDataArrayList.get(getCurrentTimerPosition()).setTimerTempMaxTimeInMillis(maxTimeInMillis);
         startTimer(countDownTimerMillis);
     }
@@ -633,6 +656,20 @@ public class TimerActivity extends AppCompatActivity {
         timerMillis.setText(resumeMillisLeft);
     }
 
+    private void stopRingService() {
+        Intent intent = new Intent(this, TimerRingService.class);
+        intent.setAction(TimerRingService.ACTION_STOP_SERVICE_CHECK);
+        startService(intent);
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     protected void onResume() {
         super.onResume();
