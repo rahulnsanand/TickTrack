@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import com.theflopguyproductions.ticktrack.R;
@@ -24,64 +23,26 @@ public class TickTrackClockWidget extends AppWidgetProvider {
         tickTrackDatabase = new TickTrackDatabase(context);
         Intent intent = new Intent(context, ClockWidgetConfigActivity.class);
         intent.putExtra("clockId", appWidgetId);
-        System.out.println(appWidgetId+"+++++++++++++++(((((((((()))))))))))))+++++++++++++++++"+getClockTheme(appWidgetId));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
-        //TODO USE MULTIPLE LAYOUTS TO REDUCE LAG. CHECK!
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget);
+        RemoteViews views = setupWidgetTheme(getClockTheme(appWidgetId), context);
         views.setOnClickPendingIntent(R.id.clockWidgetRootLayout, pendingIntent);
-        setupWidgetTheme(views, getClockTheme(appWidgetId));
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
-    private void setupWidgetTheme(RemoteViews views, int clockTheme) {
+    private RemoteViews setupWidgetTheme(int clockTheme, Context context) {
         if(clockTheme==1){
-            views.setViewVisibility(R.id.unordinaryClock, View.VISIBLE);
-            views.setViewVisibility(R.id.oxygenyClock, View.GONE);
-            views.setViewVisibility(R.id.minimalClock, View.GONE);
-            views.setViewVisibility(R.id.simplisticClock, View.GONE);
-            views.setViewVisibility(R.id.romanClock, View.GONE);
-            views.setViewVisibility(R.id.funkyClock, View.GONE);
+            return new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget1);
         } else if (clockTheme==2){
-            views.setViewVisibility(R.id.unordinaryClock, View.GONE);
-            views.setViewVisibility(R.id.oxygenyClock, View.VISIBLE);
-            views.setViewVisibility(R.id.minimalClock, View.GONE);
-            views.setViewVisibility(R.id.simplisticClock, View.GONE);
-            views.setViewVisibility(R.id.romanClock, View.GONE);
-            views.setViewVisibility(R.id.funkyClock, View.GONE);
+            return new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget2);
         } else if (clockTheme==3){
-            views.setViewVisibility(R.id.unordinaryClock, View.GONE);
-            views.setViewVisibility(R.id.oxygenyClock, View.GONE);
-            views.setViewVisibility(R.id.minimalClock, View.VISIBLE);
-            views.setViewVisibility(R.id.simplisticClock, View.GONE);
-            views.setViewVisibility(R.id.romanClock, View.GONE);
-            views.setViewVisibility(R.id.funkyClock, View.GONE);
+            return new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget3);
         } else if (clockTheme==4){
-            views.setViewVisibility(R.id.unordinaryClock, View.GONE);
-            views.setViewVisibility(R.id.oxygenyClock, View.GONE);
-            views.setViewVisibility(R.id.minimalClock, View.GONE);
-            views.setViewVisibility(R.id.simplisticClock, View.VISIBLE);
-            views.setViewVisibility(R.id.romanClock, View.GONE);
-            views.setViewVisibility(R.id.funkyClock, View.GONE);
+            return new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget4);
         } else if (clockTheme==5){
-            views.setViewVisibility(R.id.unordinaryClock, View.GONE);
-            views.setViewVisibility(R.id.oxygenyClock, View.GONE);
-            views.setViewVisibility(R.id.minimalClock, View.GONE);
-            views.setViewVisibility(R.id.simplisticClock, View.GONE);
-            views.setViewVisibility(R.id.romanClock, View.VISIBLE);
-            views.setViewVisibility(R.id.funkyClock, View.GONE);
+            return new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget5);
         } else if (clockTheme==6){
-            views.setViewVisibility(R.id.unordinaryClock, View.GONE);
-            views.setViewVisibility(R.id.oxygenyClock, View.GONE);
-            views.setViewVisibility(R.id.minimalClock, View.GONE);
-            views.setViewVisibility(R.id.simplisticClock, View.GONE);
-            views.setViewVisibility(R.id.romanClock, View.GONE);
-            views.setViewVisibility(R.id.funkyClock, View.VISIBLE);
+            return new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget6);
         } else {
-            views.setViewVisibility(R.id.unordinaryClock, View.VISIBLE);
-            views.setViewVisibility(R.id.oxygenyClock, View.GONE);
-            views.setViewVisibility(R.id.minimalClock, View.GONE);
-            views.setViewVisibility(R.id.simplisticClock, View.GONE);
-            views.setViewVisibility(R.id.romanClock, View.GONE);
-            views.setViewVisibility(R.id.funkyClock, View.GONE);
+            return new RemoteViews(context.getPackageName(), R.layout.tick_track_clock_widget1);
         }
     }
     private int getClockTheme(int clockWidgetId){

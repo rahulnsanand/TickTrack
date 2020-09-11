@@ -73,14 +73,14 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         setTheme(holder, theme);
 
         long totalTimeInMillis = timerDataArrayList.get(holder.getAdapterPosition()).getTimerTotalTimeInMillis();
-        long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerStartTimeInMillis();
+        long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis();
 
         holder.timerRunnable = () -> {
             if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                 return;
             }
-            long durationLeft = totalTimeInMillis - (System.currentTimeMillis()-startTime);
+            long durationLeft = (startTime-SystemClock.elapsedRealtime());
             holder.timerText.setText(updateTimerTextView(durationLeft));
             timerStatusUpdateHandler.post(holder.timerRunnable);
             System.out.println("Timer Update Position: "+holder.getAdapterPosition());
