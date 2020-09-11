@@ -89,12 +89,12 @@ public class TimerManagementHelper {
                         }
 
                     } else { //TODO TIMER ALREADY ELAPSED
-                        long endedAgoTime = System.currentTimeMillis() - timerData.get(i).getTimerEndTimeInMillis();
+                        long endedAgoTime = System.currentTimeMillis() - timerData.get(i).getTimerStartTimeInMillis()+timerData.get(i).getTimerTotalTimeInMillis();
                         timerData.get(i).setTimerNotificationOn(false);
                         timerData.get(i).setTimerRinging(true);
                         timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
                         timerData.get(i).setTimerStartTimeInMillis(-1);
-                        timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
+//                        timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
                         tickTrackDatabase.storeTimerList(timerData);
                         if(!isMyServiceRunning(TimerRingService.class, activity)){
                             startTimerRingNotificationService(activity);
@@ -155,12 +155,12 @@ public class TimerManagementHelper {
 
                     } else { //TODO TIMER ALREADY ELAPSED
 
-                        long endedAgoTime = System.currentTimeMillis() - quickTimerData.get(i).getTimerEndTimeInMillis();
+                        long endedAgoTime = System.currentTimeMillis() - quickTimerData.get(i).getTimerStartTimeInMillis()+quickTimerData.get(i).getTimerTotalTimeInMillis();
                         quickTimerData.get(i).setTimerNotificationOn(false);
                         quickTimerData.get(i).setTimerRinging(true);
                         quickTimerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
                         quickTimerData.get(i).setTimerStartTimeInMillis(-1);
-                        quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
+//                        quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis()-endedAgoTime);
                         tickTrackDatabase.storeQuickTimerList(quickTimerData);
                         if(!isMyServiceRunning(TimerRingService.class, activity)){
                             startTimerRingNotificationService(activity);

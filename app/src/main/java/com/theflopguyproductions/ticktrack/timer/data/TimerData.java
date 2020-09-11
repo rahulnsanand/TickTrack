@@ -14,7 +14,7 @@ public class TimerData implements Comparable<TimerData> {
     int timerHour, timerMinute, timerSecond, timerFlag, timerIntID;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
-    long timerAlarmEndTimeInMillis, timerEndTimeInMillis;
+    long timerAlarmEndTimeInMillis;
     long timerTotalTimeInMillis;
     long timerEndedTimeInMillis;
 
@@ -44,14 +44,14 @@ public class TimerData implements Comparable<TimerData> {
         this.timerIntID = timerIntID;
     }
 
-    public long getTimerEndTimeInMillis() {
-        return timerEndTimeInMillis;
-    }
+//    public long getTimerEndTimeInMillis() {
+//        return timerEndTimeInMillis;
+//    }
 
-    public void setTimerEndTimeInMillis(long timerEndTimeInMillis) {
-        this.timerEndTimeInMillis = timerEndTimeInMillis;
-    }
-
+//    public void setTimerEndTimeInMillis(long timerEndTimeInMillis) {
+//        this.timerEndTimeInMillis = timerEndTimeInMillis;
+//    }
+//
     public long getTimerStartTimeInMillis() {
         return timerStartTimeInMillis;
     }

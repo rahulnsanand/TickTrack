@@ -51,7 +51,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                         timerDataArrayList.get(position).setTimerNotificationOn(false);
                         timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                         timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
-                        timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
+//                        timerDataArrayList.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
                         tickTrackDatabase.storeTimerList(timerDataArrayList);
 
                         if(!isMyServiceRunning(TimerRingService.class, context)){
@@ -84,7 +84,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                 quickTimerData.get(position).setTimerNotificationOn(false);
                 quickTimerData.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                 quickTimerData.get(position).setTimerStartTimeInMillis(-1);
-                quickTimerData.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
+//                quickTimerData.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
 
                 tickTrackDatabase.storeQuickTimerList(quickTimerData);
 

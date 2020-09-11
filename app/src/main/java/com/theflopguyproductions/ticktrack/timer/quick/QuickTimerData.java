@@ -15,7 +15,7 @@ public class QuickTimerData implements Comparable<QuickTimerData>  {
     int timerHour, timerMinute, timerSecond, timerFlag, timerIntID;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;
-    long timerAlarmEndTimeInMillis, timerEndTimeInMillis;
+    long timerAlarmEndTimeInMillis;
     long timerTotalTimeInMillis;
     long timerEndedTimeInMillis;
 
@@ -117,13 +117,13 @@ public class QuickTimerData implements Comparable<QuickTimerData>  {
         this.timerAlarmEndTimeInMillis = timerAlarmEndTimeInMillis;
     }
 
-    public long getTimerEndTimeInMillis() {
-        return timerEndTimeInMillis;
-    }
-
-    public void setTimerEndTimeInMillis(long timerEndTimeInMillis) {
-        this.timerEndTimeInMillis = timerEndTimeInMillis;
-    }
+//    public long getTimerEndTimeInMillis() {
+//        return timerEndTimeInMillis;
+//    }
+//
+//    public void setTimerEndTimeInMillis(long timerEndTimeInMillis) {
+//        this.timerEndTimeInMillis = timerEndTimeInMillis;
+//    }
 
     public long getTimerTotalTimeInMillis() {
         return timerTotalTimeInMillis;

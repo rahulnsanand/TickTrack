@@ -29,7 +29,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
 
                     timerData.get(i).setTimerStartTimeInMillis(System.currentTimeMillis() - (timerData.get(i).getTimerTotalTimeInMillis()
                             - (timerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())));
-                    timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (timerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
+//                    timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (timerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
 
                     Toast.makeText(context, "Time Changed", Toast.LENGTH_SHORT).show();
 
@@ -46,7 +46,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
 
                     quickTimerData.get(i).setTimerStartTimeInMillis(System.currentTimeMillis() - (quickTimerData.get(i).getTimerTotalTimeInMillis()
                             - (quickTimerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())));
-                    quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (quickTimerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
+//                    quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (quickTimerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
 
                     Toast.makeText(context, "Time Changed", Toast.LENGTH_SHORT).show();
 
