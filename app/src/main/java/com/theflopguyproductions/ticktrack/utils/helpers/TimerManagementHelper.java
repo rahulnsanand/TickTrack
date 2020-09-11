@@ -88,9 +88,7 @@ public class TimerManagementHelper {
                         }
 
                     } else { //TODO TIMER ALREADY ELAPSED
-                        long endedAgoTime = timerData.get(i).getTimerEndTimeInMillis() - timerData.get(i).getTimerStartTimeInMillis();
-                        timerData.get(i).setTimerOn(false);
-                        timerData.get(i).setTimerPause(false);
+                        long endedAgoTime = System.currentTimeMillis() - timerData.get(i).getTimerEndTimeInMillis();
                         timerData.get(i).setTimerNotificationOn(false);
                         timerData.get(i).setTimerRinging(true);
                         timerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);
@@ -154,9 +152,7 @@ public class TimerManagementHelper {
 
                     } else { //TODO TIMER ALREADY ELAPSED
 
-                        long endedAgoTime = quickTimerData.get(i).getTimerEndTimeInMillis() - quickTimerData.get(i).getTimerStartTimeInMillis();
-                        quickTimerData.get(i).setTimerOn(false);
-                        quickTimerData.get(i).setTimerPause(false);
+                        long endedAgoTime = System.currentTimeMillis() - quickTimerData.get(i).getTimerEndTimeInMillis();
                         quickTimerData.get(i).setTimerNotificationOn(false);
                         quickTimerData.get(i).setTimerRinging(true);
                         quickTimerData.get(i).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime()-endedAgoTime);

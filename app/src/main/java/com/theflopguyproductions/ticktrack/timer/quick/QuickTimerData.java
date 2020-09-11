@@ -2,6 +2,16 @@ package com.theflopguyproductions.ticktrack.timer.quick;
 
 public class QuickTimerData implements Comparable<QuickTimerData>  {
 
+
+    /**
+     * AlarmEndTimeInMillis = Elapsed
+     * timerEndedTimeInMillis = Elapsed
+     *
+     * timerEndTimeInMillis = CurrentTime
+     * timerStartTimeInMillis = CurrentTime
+     *
+     */
+
     int timerHour, timerMinute, timerSecond, timerFlag, timerIntID;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
     float timerMilliSecondLeft;

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
+import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
 
                     timerData.get(i).setTimerStartTimeInMillis(System.currentTimeMillis() - (timerData.get(i).getTimerTotalTimeInMillis()
                             - (timerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())));
+                    timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (timerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
 
                     Toast.makeText(context, "Time Changed", Toast.LENGTH_SHORT).show();
 
@@ -35,6 +37,23 @@ public class TimeChangeReceiver extends BroadcastReceiver {
             }
         }
         tickTrackDatabase.storeTimerList(timerData);
+
+        ArrayList<QuickTimerData> quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
+
+        for(int i = 0; i <quickTimerData.size(); i ++){
+            if(quickTimerData.get(i).isTimerOn()){
+                if(quickTimerData.get(i).getTimerStartTimeInMillis()!=-1){
+
+                    quickTimerData.get(i).setTimerStartTimeInMillis(System.currentTimeMillis() - (quickTimerData.get(i).getTimerTotalTimeInMillis()
+                            - (quickTimerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())));
+                    quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (quickTimerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
+
+                    Toast.makeText(context, "Time Changed", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }
+        tickTrackDatabase.storeQuickTimerList(quickTimerData);
 
         ArrayList<StopwatchData> stopwatchData = tickTrackDatabase.retrieveStopwatchData();
         ArrayList<StopwatchLapData> stopwatchLapData = tickTrackDatabase.retrieveStopwatchLapData();

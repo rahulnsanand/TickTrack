@@ -2,6 +2,14 @@ package com.theflopguyproductions.ticktrack.timer.data;
 
 public class TimerData implements Comparable<TimerData> {
 
+    /**
+     * AlarmEndTimeInMillis = Elapsed
+     * timerEndedTimeInMillis = Elapsed
+     *
+     * timerEndTimeInMillis = CurrentTime
+     * timerStartTimeInMillis = CurrentTime
+     *
+     */
 
     int timerHour, timerMinute, timerSecond, timerFlag, timerIntID;
     int timerHourLeft, timerMinuteLeft, timerSecondLeft;
@@ -65,7 +73,6 @@ public class TimerData implements Comparable<TimerData> {
     }
 
     public void setTimerRinging(boolean timerRinging) {
-        System.out.println("SOMETHING HAPPENED HERE "+timerRinging);
         isTimerRinging = timerRinging;
     }
 
