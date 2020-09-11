@@ -104,6 +104,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
+
     private void stopTimerNotification(Context context) {
         Intent intent = new Intent(context, TimerService.class);
         intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
