@@ -228,14 +228,16 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
             if(timerDataArrayList.size()>0){
                 timerRecyclerView.setAdapter(new TimerAdapter(activity, timerDataArrayList));
-                timerAdapter.diffUtilsChangeData(timerDataArrayList);
             }
+            timerAdapter.diffUtilsChangeData(timerDataArrayList);
             if(quickTimerDataArrayList.size()>0){
                 quickTimerRecyclerView.setAdapter(new QuickTimerAdapter(activity, quickTimerDataArrayList));
-                quickTimerAdapter.diffUtilsChangeData(quickTimerDataArrayList);
             }
+            quickTimerAdapter.diffUtilsChangeData(quickTimerDataArrayList);
             checkTimerExists();
+            System.out.println("TIMER DATA SIZE = "+quickTimerDataArrayList.size());
         }
+
     };
 
     private void checkTimerExists() {
@@ -251,7 +253,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             quickTimerLayout.setVisibility(View.GONE);
             timerTitleText.setVisibility(View.GONE);
         } else {
-            buildQuickTimerRecyclerView(activity);
+//            buildQuickTimerRecyclerView(activity);
         }
     }
 

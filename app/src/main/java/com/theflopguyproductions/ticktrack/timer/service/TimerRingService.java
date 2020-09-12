@@ -132,19 +132,30 @@ public class TimerRingService extends Service {
 
     @SuppressWarnings("SuspiciousListRemoveInLoop")
     private void stopTimerRinging() {
-        System.out.println("STOP TIMER SHIT HAPPENED");
-        for(int i = 0; i < quickTimerData.size(); i++){
-            if(quickTimerData.get(i).isTimerRinging()){
-                if(quickTimerData.get(i).isQuickTimer()){
+        quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
+        ArrayList<QuickTimerData> newQuickTimerList = quickTimerData;
+        int size = quickTimerData.size();
+        int count = 0;
+        while(count<size){
+            System.out.println("WHILE RAN");
+            for(int i=0; i<quickTimerData.size(); i++){
+                System.out.println(quickTimerData.size()+" TIMER DATA SIZE");
+                System.out.println(i+" TIMER DATA NUMBER");
+                if(quickTimerData.get(i).isTimerRinging()){
                     quickTimerData.get(i).setTimerOn(false);
                     quickTimerData.get(i).setTimerPause(false);
-                    quickTimerData.get(i).setTimerNotificationOn(false);
                     quickTimerData.get(i).setTimerRinging(false);
                     tickTrackDatabase.storeQuickTimerList(quickTimerData);
-                    quickTimerData.remove(i);
+                    removeQuickTimer(quickTimerData.get(i).getTimerID(), newQuickTimerList);
                 }
-                tickTrackDatabase.storeQuickTimerList(quickTimerData);
             }
+            count++;
+        }
+
+        if(!(newQuickTimerList.size() > 0)){
+            tickTrackDatabase.storeQuickTimerList(new ArrayList<>());
+        } else {
+            tickTrackDatabase.storeQuickTimerList(newQuickTimerList);
         }
 
         for(int i = 0; i < timerDataArrayList.size(); i++){
@@ -158,7 +169,18 @@ public class TimerRingService extends Service {
                 System.out.println("SOMETHING HAPPENED HERE STOP TIMER SHIT");
             }
         }
+
     }
+
+    private void removeQuickTimer(String timerID, ArrayList<QuickTimerData> newTimerList) {
+        for(int i=0; i<newTimerList.size(); i++){
+            if(newTimerList.get(i).getTimerID().equals(timerID)){
+                newTimerList.remove(i);
+                return;
+            }
+        }
+    }
+
     private int getAllOnTimers() {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
@@ -251,7 +273,6 @@ public class TimerRingService extends Service {
     }
     private void setupMultiTimerNotification() {
         notificationBuilder.setContentTitle("TickTrack Timers");
-        notificationBuilder.setContentText(getAllOnTimers()+" timers complete");
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
         PendingIntent killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, 0);
@@ -419,6 +440,7 @@ public class TimerRingService extends Service {
                     if(!isMulti){
                         setupMultiTimerNotification();
                     }
+                    notificationBuilder.setContentText(getAllOnTimers()+" timers complete");
                 }
                 notifyNotification();
                 System.out.println(getAllOnTimers()+" TIMER RINGING");
@@ -483,8 +505,8 @@ public class TimerRingService extends Service {
             }
         } catch (Exception ignored) {
         }
-        stopTimerRinging();
         refreshHandler.removeCallbacks(refreshRunnable);
+        stopTimerRinging();
         stopSelf();
         stopForeground(false);
         onDestroy();

@@ -174,6 +174,9 @@ public class TimerRingerActivity extends AppCompatActivity {
                 tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
             }
         }
+        if(!(quickTimerDataArrayList.size() >0)){
+            tickTrackDatabase.storeQuickTimerList(new ArrayList<>());
+        }
         quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         refreshOnlyOnTimer();
