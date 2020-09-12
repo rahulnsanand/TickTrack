@@ -85,8 +85,10 @@ public class TickTrack extends Application {
             if(account!=null){
                 FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
             }
+            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
+        } else {
+            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
         }
-        FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

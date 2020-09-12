@@ -67,16 +67,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:typeface="roboto_italic" />
 
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/timerItemButton"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_white"
+            android:text="Start"
+            android:textColor="@color/Accent"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/timerDurationLeftItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textColor="@color/Accent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/timerItemButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"

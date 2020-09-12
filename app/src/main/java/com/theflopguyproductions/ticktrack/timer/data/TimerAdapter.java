@@ -2,12 +2,14 @@ package com.theflopguyproductions.ticktrack.timer.data;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
@@ -65,24 +68,30 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         if(holder.getAdapterPosition() != timerDataArrayList.size()) {
             if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()
                     && !timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()){
-
+                holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                holder.timerItemButton.setVisibility(View.GONE);
                 timerStatusUpdateHandler.post(holder.timerRunnable);
 
             } else if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()) {
 
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                 timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
-
+                holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                holder.timerItemButton.setVisibility(View.GONE);
                 holder.timerDurationLeft.setText("PAUSED");
 
             } else if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
 
+                holder.timerDurationLeft.setVisibility(View.VISIBLE);
+                holder.timerItemButton.setVisibility(View.GONE);
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                 timerElapsedHandler.post(holder.elapsedRunnable);
 
             } else {
 
                 holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                holder.timerItemButton.setVisibility(View.VISIBLE);
+
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                 timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
             }
@@ -94,8 +103,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
     public void onBindViewHolder(@NonNull timerDataViewHolder holder, int position) {
 
         int theme = holder.tickTrackDatabase.getThemeMode();
-
-
 
         if(position == timerDataArrayList.size()) {
             if(theme == 1){
@@ -118,9 +125,12 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerLabel.setVisibility(View.GONE);
             }
 
+            holder.timerItemButton.setVisibility(View.GONE);
+            holder.timerDurationLeft.setVisibility(View.GONE);
+
             long startTime = timerDataArrayList.get(holder.getAdapterPosition()).getTimerAlarmEndTimeInMillis();
 
-            holder.timerDurationLeft.setVisibility(View.VISIBLE);
+
             holder.timerRunnable = () -> {
                 timerDataArrayList = holder.tickTrackDatabase.retrieveTimerList();
                 if(!(timerDataArrayList.size() >0)){
@@ -170,6 +180,25 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
             holder.timerLayout.setOnClickListener(v -> TimerFragment.startTimerActivity(timerDataArrayList.get(position).getTimerID(), (Activity) holder.context));
 
+            holder.timerItemButton.setOnClickListener(view -> {
+                ArrayList<TimerData> tempArray = holder.tickTrackDatabase.retrieveTimerList();
+                String timerId = timerDataArrayList.get(holder.getAdapterPosition()).getTimerID();
+                setOn(tempArray, holder, timerId);
+                Intent startTimerIntent = new Intent(holder.context, TimerActivity.class);
+                startTimerIntent.putExtra("timerID", timerId );
+                startTimerIntent.setAction(TimerActivity.ACTION_TIMER_NEW_ADDITION);
+                holder.context.startActivity(startTimerIntent);
+            });
+
+        }
+    }
+
+    private void setOn(ArrayList<TimerData> tempArray, timerDataViewHolder holder, String timerId) {
+        for(int i=0; i<tempArray.size(); i++){
+            if (tempArray.get(i).getTimerID().equals(timerId)) {
+                tempArray.get(i).setTimerOn(true);
+                holder.tickTrackDatabase.storeTimerList(tempArray);
+            }
         }
     }
 
@@ -185,8 +214,10 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_light);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.Gray));
+            holder.timerItemButton.setBackgroundResource(R.drawable.button_selector_white);
         } else {
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
+            holder.timerItemButton.setBackgroundResource(R.drawable.button_selector_dark);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.LightText));
         }
@@ -244,6 +275,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         private Context context;
         private TextView footerCounterTextView;
         private Runnable timerRunnable, elapsedRunnable;
+        private Button timerItemButton;
 
         TickTrackDatabase tickTrackDatabase;
 
@@ -256,7 +288,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
             timerLayout = parent.findViewById(R.id.timerItemRootLayout);
             timerFlag = parent.findViewById(R.id.timerFlagItemImageView);
             footerCounterTextView = parent.findViewById(R.id.recylerFooterTextView);
-
+            timerItemButton = parent.findViewById(R.id.timerItemButton);
             context=parent.getContext();
             tickTrackDatabase = new TickTrackDatabase(context);
 
