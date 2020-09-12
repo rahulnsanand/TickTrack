@@ -237,7 +237,7 @@ public class CounterNotificationService extends Service {
 //
 
 
-        startForeground(1, notificationBuilder.build());
+        startForeground(TickTrack.COUNTER_NOTIFICATION_ID, notificationBuilder.build());
         Toast.makeText(this, "Notification created!", Toast.LENGTH_SHORT).show();
     }
 
@@ -312,7 +312,7 @@ public class CounterNotificationService extends Service {
     }
 
     public void notifyNotification(){
-        notificationManagerCompat.notify(1, notificationBuilder.build());
+        notificationManagerCompat.notify(TickTrack.COUNTER_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     public int getCurrentCounterNotificationID(){

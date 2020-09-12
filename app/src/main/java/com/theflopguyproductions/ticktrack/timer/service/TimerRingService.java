@@ -222,7 +222,7 @@ public class TimerRingService extends Service {
         notificationBuilder.setContentText(getAllOnTimers()+" timers complete");
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
-        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
+        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop all", killTimerPendingIntent);
 
         Intent resultIntent = new Intent(this, TimerRingerActivity.class);
@@ -249,12 +249,12 @@ public class TimerRingService extends Service {
 
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
-        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, 3, killTimerIntent, 0);
+        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, 0);
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
 //        Intent addAMinuteIntent = new Intent(this, TimerRingService.class);
 //        addAMinuteIntent.setAction(ACTION_ADD_ONE_MINUTE);
-//        PendingIntent addAMinutePendingIntent = PendingIntent.getService(this, 3, addAMinuteIntent, 0);
+//        PendingIntent addAMinutePendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, addAMinuteIntent, 0);
 //        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_baseline_plus_one_white_24, "+1 Minute", addAMinutePendingIntent);
 
         Intent resultIntent;
@@ -400,13 +400,13 @@ public class TimerRingService extends Service {
 
     private void startSoundAndForeground() {
         playAlarmSound(this);
-        startForeground(3, notificationBuilder.build());
+        startForeground(TickTrack.TIMER_RINGING_NOTIFICATION_ID, notificationBuilder.build());
         Toast.makeText(this, "Timer Received!", Toast.LENGTH_SHORT).show();
     }
 
     private void notifyNotification() {
         if(getAllOnTimers()>0){
-            notificationManagerCompat.notify(3, notificationBuilder.build());
+            notificationManagerCompat.notify(TickTrack.TIMER_RINGING_NOTIFICATION_ID, notificationBuilder.build());
         } else {
             stopRingerService();
         }

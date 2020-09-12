@@ -53,12 +53,12 @@ public class StopwatchNotificationService extends Service {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(4, PendingIntent.FLAG_UPDATE_CURRENT);
+                stackBuilder.getPendingIntent(TickTrack.STOPWATCH_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent deleteIntent = new Intent(this, StopwatchNotificationService.class);
         deleteIntent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
         PendingIntent deletePendingIntent = PendingIntent.getService(this,
-                4,
+                TickTrack.STOPWATCH_NOTIFICATION_ID,
                 deleteIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -84,30 +84,30 @@ public class StopwatchNotificationService extends Service {
 
         Intent lapIntent = new Intent(this, StopwatchNotificationService.class);
         lapIntent.setAction(ACTION_LAP_STOPWATCH_SERVICE);
-        PendingIntent pendingLapIntent = PendingIntent.getService(this, 5, lapIntent, 0);
+        PendingIntent pendingLapIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, lapIntent, 0);
         NotificationCompat.Action lapAction = new NotificationCompat.Action(R.drawable.ic_round_flag_light_24, "Lap", pendingLapIntent);
 
         Intent pauseIntent = new Intent(this, StopwatchNotificationService.class);
         pauseIntent.setAction(ACTION_PAUSE_STOPWATCH_SERVICE);
-        PendingIntent pendingPauseIntent = PendingIntent.getService(this, 5, pauseIntent, 0);
+        PendingIntent pendingPauseIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, pauseIntent, 0);
         NotificationCompat.Action pauseAction = new NotificationCompat.Action(R.drawable.ic_round_pause_white_24, "Pause", pendingPauseIntent);
 
         notificationBuilder.addAction(pauseAction);
         notificationBuilder.addAction(lapAction);
 
-        notificationManagerCompat.notify(4, notificationBuilder.build());
+        notificationManagerCompat.notify(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     private void setupResumeReset(){
 
         Intent resumeIntent = new Intent(this, StopwatchNotificationService.class);
         resumeIntent.setAction(ACTION_RESUME_STOPWATCH_SERVICE);
-        PendingIntent pendingPlusIntent = PendingIntent.getService(this, 5, resumeIntent, 0);
+        PendingIntent pendingPlusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resumeIntent, 0);
         NotificationCompat.Action resumeAction = new NotificationCompat.Action(R.drawable.ic_round_play_white_24, "Resume", pendingPlusIntent);
 
         Intent resetIntent = new Intent(this, StopwatchNotificationService.class);
         resetIntent.setAction(ACTION_RESET_STOPWATCH_SERVICE);
-        PendingIntent pendingMinusIntent = PendingIntent.getService(this, 5, resetIntent, 0);
+        PendingIntent pendingMinusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resetIntent, 0);
         NotificationCompat.Action resetAction = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Reset", pendingMinusIntent);
 
         notificationBuilder.setContentText("Paused");
@@ -115,7 +115,7 @@ public class StopwatchNotificationService extends Service {
         notificationBuilder.addAction(resumeAction);
         notificationBuilder.addAction(resetAction);
 
-        notificationManagerCompat.notify(4, notificationBuilder.build());
+        notificationManagerCompat.notify(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     @Override
@@ -179,7 +179,7 @@ public class StopwatchNotificationService extends Service {
 
         setupLayout();
 
-        startForeground(4, notificationBuilder.build());
+        startForeground(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
         Toast.makeText(this, "Stopwatch Notification created!", Toast.LENGTH_SHORT).show();
 
     }

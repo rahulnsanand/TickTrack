@@ -117,7 +117,7 @@ public class TimerService extends Service {
             setupBaseNotification();
         }
         if(getAllOnTimers()>0){
-            startForeground(2, notificationBuilder.build());
+            startForeground(TickTrack.TIMER_RUNNING_NOTIFICATION_ID, notificationBuilder.build());
             timerServiceRefreshHandler.post(refreshRunnable);
         }
 
@@ -138,7 +138,7 @@ public class TimerService extends Service {
                     }
                     notificationBuilder.setContentText(getAllOnTimers()+" timers running");
                 }
-                notificationManagerCompat.notify(2, notificationBuilder.build());
+                notificationManagerCompat.notify(TickTrack.TIMER_RUNNING_NOTIFICATION_ID, notificationBuilder.build());
                 timerServiceRefreshHandler.post(refreshRunnable);
             } else {
                 timerServiceRefreshHandler.removeCallbacks(refreshRunnable);

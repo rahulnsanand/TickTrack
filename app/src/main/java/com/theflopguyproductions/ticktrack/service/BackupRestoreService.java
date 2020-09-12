@@ -70,7 +70,7 @@ public class BackupRestoreService extends Service {
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(resultIntent);
             PendingIntent resultPendingIntent =
-                    stackBuilder.getPendingIntent(6, PendingIntent.FLAG_UPDATE_CURRENT);
+                    stackBuilder.getPendingIntent(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
 
             assert action != null;
             switch (action) {
@@ -97,7 +97,7 @@ public class BackupRestoreService extends Service {
     }
     private void setupForeground() {
         System.out.println("FOREGROUND BEGINS");
-        startForeground(6, notificationBuilder.build());
+        startForeground(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     Handler restoreCheckHandler = new Handler();
@@ -193,7 +193,7 @@ public class BackupRestoreService extends Service {
     }
 
     public void notifyNotification(){
-        notificationManagerCompat.notify(6, notificationBuilder.build());
+        notificationManagerCompat.notify(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     @Override

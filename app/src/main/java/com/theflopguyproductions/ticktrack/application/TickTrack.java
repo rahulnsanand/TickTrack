@@ -24,6 +24,16 @@ public class TickTrack extends Application {
     public static final String MISCELLANEOUS_NOTIFICATION = "MISCELLANEOUS_NOTIFICATION";
     public static final String DATA_BACKUP_RESTORE_NOTIFICATION = "DATA_BACKUP_RESTORE_NOTIFICATION";
 
+    public static final int COUNTER_NOTIFICATION_ID = 1;
+    public static final int TIMER_RUNNING_NOTIFICATION_ID = 2;
+    public static final int TIMER_RINGING_NOTIFICATION_ID = 3;
+    public static final int STOPWATCH_NOTIFICATION_ID = 4;
+    public static final int TIMER_MISSED_NOTIFICATION_ID = 5;
+    public static final int BACKUP_RESTORE_NOTIFICATION_ID = 6;
+    public static final int MISCELLANEOUS_NOTIFICATION_ID = 7;
+    public static final int GENERAL_NOTIFICATION_ID = 8;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
