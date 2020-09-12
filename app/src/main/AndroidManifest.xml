@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
         android:name=".application.TickTrack"
@@ -120,6 +121,9 @@
             android:showOnLockScreen="true"
             android:showWhenLocked="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:label="TickTrackTimer"
             android:theme="@style/FullscreenTheme" />
 
@@ -129,7 +133,7 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".timer.service.TimerRingService"
+            android:name="com.theflopguyproductions.ticktrack.timer.service.TimerRingService"
             android:directBootAware="true"
             android:enabled="true"
             android:exported="false" />

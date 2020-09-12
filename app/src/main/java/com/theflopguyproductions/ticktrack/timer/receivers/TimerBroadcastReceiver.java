@@ -1,7 +1,6 @@
 package com.theflopguyproductions.ticktrack.timer.receivers;
 
 import android.app.ActivityManager;
-import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +9,7 @@ import android.widget.Toast;
 
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
-import com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
-import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.ArrayList;
@@ -56,19 +53,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
                         if(!isMyServiceRunning(TimerRingService.class, context)){
                             startNotificationService(context);
-                            System.out.println("TIMER BROADCAST RINGER SERVICE START");
-
-                            KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-                            if( myKM.inKeyguardRestrictedInputMode()) {
-                                Intent resultIntent = new Intent(context, TimerRingerActivity.class);
-                                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(resultIntent);
-                                System.out.println("TIMER BROADCAST RINGER ACTIVITY START");
-
-                            }
-                        }
-                        if(isMyServiceRunning(TimerService.class, context)){
-                            stopTimerNotification(context);
                         }
                     }
                 }
@@ -88,33 +72,23 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                 quickTimerData.get(position).setTimerNotificationOn(false);
                 quickTimerData.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                 quickTimerData.get(position).setTimerStartTimeInMillis(-1);
-//                quickTimerData.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
-
                 tickTrackDatabase.storeQuickTimerList(quickTimerData);
                 System.out.println("QUICK TIMER BROADCAST RINGER SERVICE GOT");
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);
-                    System.out.println("QUICK TIMER BROADCAST RINGER SERVICE START");
-                    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-                    if( myKM.inKeyguardRestrictedInputMode()) {
-                        Intent resultIntent = new Intent(context, TimerRingerActivity.class);
-                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(resultIntent);
-                        System.out.println("QUICK TIMER BROADCAST RINGER ACTIVITY START");
-                    }
-                }
-                if(isMyServiceRunning(TimerService.class, context)){
-                    stopTimerNotification(context);
                 }
             }
         }
     }
 
-
-    private void stopTimerNotification(Context context) {
-        Intent intent = new Intent(context, TimerService.class);
-        intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
-        context.startService(intent);
+    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int getCurrentTimerPosition(){
@@ -133,16 +107,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             }
         }
         return -1;
-    }
-
-    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void startNotificationService(Context context) {

@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
+import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -76,6 +78,21 @@ public class TimerRingService extends Service {
         alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + getPackageName() + "/raw/timer_beep.mp3");
         Log.d("TAG_TIMER_RANG_SERVICE", "My foreground service onCreate().");
+
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void stopTimerNotification(Context context) {
+        Intent intent = new Intent(context, TimerService.class);
+        intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
+        context.startService(intent);
     }
 
     static MediaPlayer mediaPlayer;
@@ -158,6 +175,21 @@ public class TimerRingService extends Service {
         }
         return result;
     }
+    private boolean isQuickTimerOn() {
+        timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+        quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
+        for(int i = 0; i < timerDataArrayList.size(); i ++){
+            if(timerDataArrayList.get(i).isTimerRinging()){
+                return false;
+            }
+        }
+        for(int i=0; i<quickTimerData.size(); i++){
+            if(quickTimerData.get(i).isTimerRinging()){
+                return true;
+            }
+        }
+        return false;
+    }
     private void updateStopTimeText(long UpdateTime) {
 
         int hours = (int) TimeUnit.MILLISECONDS.toHours(UpdateTime);
@@ -206,7 +238,7 @@ public class TimerRingService extends Service {
                 .setSmallIcon(R.drawable.timer_notification_mini_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
@@ -260,7 +292,7 @@ public class TimerRingService extends Service {
 //        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_baseline_plus_one_white_24, "+1 Minute", addAMinutePendingIntent);
 
         Intent resultIntent;
-        if(!(timerDataArrayList.size() >0)){
+        if(isQuickTimerOn()){
             resultIntent = new Intent(this, SoYouADeveloperHuh.class);
             tickTrackDatabase.storeCurrentFragmentNumber(2);
         } else {
@@ -284,11 +316,15 @@ public class TimerRingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
         if(intent != null) {
 
             String action = intent.getAction();
             System.out.println(action+">>>>>>>>>>>>>>>>>>>>>>>>98798798765432132132<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             initializeValues();
+            if(isMyServiceRunning(TimerService.class, this)){
+                stopTimerNotification(this);
+            }
 
             assert action != null;
             switch (action) {
@@ -359,8 +395,6 @@ public class TimerRingService extends Service {
         if(getAllOnTimers() > 0){
             refreshHandler.postDelayed(refreshRunnable, 100);
         }
-
-        stopForeground(false);
     }
     private void stopTimerRunningService() {
         Intent intent = new Intent(this, TimerService.class);
@@ -375,7 +409,7 @@ public class TimerRingService extends Service {
                     if(!isSingle){
                         setupSingleTimerNotification();
                     }
-                    if(timerDataArrayList.size()>0){
+                    if(!isQuickTimerOn()){
                         updateStopTimeText(SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
                     } else {
                         updateStopTimeText(SystemClock.elapsedRealtime() - quickTimerData.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
@@ -407,14 +441,23 @@ public class TimerRingService extends Service {
             } catch (Exception ignored) {
             }
             stopSelf();
+            stopForeground(false);
             onDestroy();
         }
     }
 
     private void startSoundAndForeground() {
         playAlarmSound(this);
+        KeyguardManager myKM = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
+        if( myKM.isKeyguardLocked()) {
+            Intent resultIntent = new Intent(this, TimerRingerActivity.class);
+            PendingIntent timerRingPending = PendingIntent.getActivity(this, 2122, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            System.out.println("QUICK TIMER BROADCAST RINGER ACTIVITY START");
+            notificationBuilder.setFullScreenIntent(timerRingPending, true);
+        }
         startForeground(TickTrack.TIMER_RINGING_NOTIFICATION_ID, notificationBuilder.build());
         Toast.makeText(this, "Timer Received!", Toast.LENGTH_SHORT).show();
+        stopForeground(false);
     }
 
     private void notifyNotification() {
@@ -443,7 +486,14 @@ public class TimerRingService extends Service {
         stopTimerRinging();
         refreshHandler.removeCallbacks(refreshRunnable);
         stopSelf();
+        stopForeground(false);
         onDestroy();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopForeground(false);
     }
 
 }

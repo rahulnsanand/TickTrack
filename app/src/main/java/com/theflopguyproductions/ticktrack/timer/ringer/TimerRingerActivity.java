@@ -44,12 +44,13 @@ public class TimerRingerActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private ScrollingPagerIndicator recyclerIndicator;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer_ringer);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                |  View.SYSTEM_UI_FLAG_LOW_PROFILE);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
@@ -60,7 +61,7 @@ public class TimerRingerActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         System.out.println("RINGER ACTIVITY BUILD FLAG");
-        
+
         rootLayout = findViewById(R.id.timerRingActivityRootLayout);
         timerStopRecyclerView = findViewById(R.id.timerStopActivityRecyclerView);
         timerStopRecyclerView.setHasFixedSize(true);
@@ -107,7 +108,7 @@ public class TimerRingerActivity extends AppCompatActivity {
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
-        if (s.equals("TimerData")){
+        if (s.equals("TimerData") || s.equals("QuickTimerData")){
             Collections.sort(timerDataArrayList);
             tickTrackDatabase.storeTimerList(timerDataArrayList);
             tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
@@ -126,7 +127,6 @@ public class TimerRingerActivity extends AppCompatActivity {
         super.onStop();
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        timerStopRecyclerView.setAdapter(null);
         System.out.println("ON STOP RINGER ACTIVITY");
     }
 
