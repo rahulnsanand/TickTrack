@@ -51,9 +51,9 @@ public class StopwatchLapData implements Comparable<StopwatchLapData>{
     @Override
     public int compareTo(StopwatchLapData stopwatchLapData) {
         if(this.lapNumber < stopwatchLapData.getLapNumber()){
-            return 1;
-        } else {
             return 0;
+        } else {
+            return 1;
         }
     }
 }

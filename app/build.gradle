@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     signingConfigs {
@@ -87,8 +89,11 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
+    //TIMER FAB LIBRARY
     implementation 'com.getbase:floatingactionbutton:1.10.1'
 
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-perf:19.0.8'
 
 }
 repositories {

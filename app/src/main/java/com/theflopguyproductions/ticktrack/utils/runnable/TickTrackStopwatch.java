@@ -229,7 +229,7 @@ public class TickTrackStopwatch {
             stopwatchLapData.setLapNumber(currentLapNumber+1);
             stopwatchLapData.setElapsedTimeInMillis(stopwatchDurationElapsed);
             stopwatchLapData.setLapTimeInMillis(lapTime);
-            this.stopwatchLapData.add(stopwatchLapData);
+            this.stopwatchLapData.add(0, stopwatchLapData);
             this.stopwatchLapData.get(0).setLastLapUpdateRealtimeInMillis(SystemClock.elapsedRealtime());
             this.stopwatchLapData.get(0).setLastLapUpdateSystemTimeInMillis(System.currentTimeMillis());
             tickTrackDatabase.storeLapData(this.stopwatchLapData);

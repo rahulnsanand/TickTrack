@@ -28,7 +28,6 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.runnable.TickTrackStopwatch;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class StopwatchFragment extends Fragment {
 
@@ -48,17 +47,9 @@ public class StopwatchFragment extends Fragment {
 
     private static StopwatchAdapter stopwatchAdapter;
 
-
-
-
-
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
         if (s.equals("StopwatchLapData")){
             stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
-            if(stopwatchLapDataArrayList.size()>0){
-                Collections.sort(stopwatchLapDataArrayList);
-                stopwatchAdapter.diffUtilsChangeData(stopwatchLapDataArrayList);
-            }
             buildRecyclerView(activity);
         }
         if(s.equals("StopwatchData")){
@@ -98,7 +89,7 @@ public class StopwatchFragment extends Fragment {
 
             stopwatchLapLayout.setVisibility(View.VISIBLE);
 
-            Collections.sort(stopwatchLapDataArrayList);
+//            Collections.sort(stopwatchLapDataArrayList);
 
             stopwatchLapRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             stopwatchLapRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -265,6 +256,8 @@ public class StopwatchFragment extends Fragment {
         stopwatchMillisText = parent.findViewById(R.id.stopwatchFragmentMillisTextView);
         stopwatchLapTitleText = parent.findViewById(R.id.stopwatchFragmentLapTextView);
         stopwatchLapRecyclerView = parent.findViewById(R.id.stopwatchFragmentRecyclerView);
+        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL,true);
+        stopwatchLapRecyclerView.setLayoutManager(layoutManager);
         foregroundProgressBar = parent.findViewById(R.id.stopwatchFragmentProgressForeground);
         backgroundProgressBar = parent.findViewById(R.id.stopwatchFragmentProgressBackground);
         playPauseFAB = parent.findViewById(R.id.stopwatchFragmentPlayPauseFAB);

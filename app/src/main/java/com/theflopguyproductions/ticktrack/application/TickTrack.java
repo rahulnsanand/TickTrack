@@ -12,7 +12,13 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.theflopguyproductions.ticktrack.timer.receivers.TimerBroadcastReceiver;
+import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
+
+import java.util.Objects;
 
 public class TickTrack extends Application {
 
@@ -69,6 +75,18 @@ public class TickTrack extends Application {
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
 
+        setupCrashAnalyticsBasicData();
+
+    }
+
+    private void setupCrashAnalyticsBasicData() {
+        if(new FirebaseHelper(this).isUserSignedIn()){
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+            if(account!=null){
+                FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
+            }
+        }
+        FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
