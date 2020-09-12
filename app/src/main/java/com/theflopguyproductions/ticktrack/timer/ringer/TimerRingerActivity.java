@@ -163,25 +163,46 @@ public class TimerRingerActivity extends AppCompatActivity {
 
             }
         }
-        for(int i = 0; i < quickTimerDataArrayList.size(); i++){
-            if(quickTimerDataArrayList.get(i).isTimerRinging()){
-                quickTimerDataArrayList.get(i).setTimerOn(false);
-                quickTimerDataArrayList.get(i).setTimerPause(false);
-                quickTimerDataArrayList.get(i).setTimerNotificationOn(false);
-                quickTimerDataArrayList.get(i).setTimerRinging(false);
-                tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
-                quickTimerDataArrayList.remove(i);
-                tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
+
+        quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
+        ArrayList<QuickTimerData> newQuickTimerList = quickTimerDataArrayList;
+        int size = quickTimerDataArrayList.size();
+        int count = 0;
+        while(count<size){
+            System.out.println("WHILE RAN");
+            for(int i=0; i<quickTimerDataArrayList.size(); i++){
+                System.out.println(quickTimerDataArrayList.size()+" TIMER DATA SIZE");
+                System.out.println(i+" TIMER DATA NUMBER");
+                if(quickTimerDataArrayList.get(i).isTimerRinging()){
+                    quickTimerDataArrayList.get(i).setTimerOn(false);
+                    quickTimerDataArrayList.get(i).setTimerPause(false);
+                    quickTimerDataArrayList.get(i).setTimerRinging(false);
+                    tickTrackDatabase.storeQuickTimerList(quickTimerDataArrayList);
+                    removeQuickTimer(quickTimerDataArrayList.get(i).getTimerID(), newQuickTimerList);
+                }
             }
+            count++;
         }
-        if(!(quickTimerDataArrayList.size() >0)){
+
+        if(!(newQuickTimerList.size() > 0)){
             tickTrackDatabase.storeQuickTimerList(new ArrayList<>());
+        } else {
+            tickTrackDatabase.storeQuickTimerList(newQuickTimerList);
         }
+
         quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         refreshOnlyOnTimer();
         timerStopAdapter.diffUtilsChangeData(onlyOnTimersArrayList);
         timerStopAdapter.notifyDataSetChanged();
+    }
+    private void removeQuickTimer(String timerID, ArrayList<QuickTimerData> newTimerList) {
+        for(int i=0; i<newTimerList.size(); i++){
+            if(newTimerList.get(i).getTimerID().equals(timerID)){
+                newTimerList.remove(i);
+                return;
+            }
+        }
     }
     private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
