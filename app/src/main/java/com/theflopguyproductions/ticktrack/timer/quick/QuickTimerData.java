@@ -215,7 +215,7 @@ public class QuickTimerData implements Comparable<QuickTimerData>  {
 
     @Override
     public int compareTo(QuickTimerData quickTimerData) {
-        return Long.compare(this.timerTotalTimeInMillis, quickTimerData.getTimerTotalTimeInMillis());
+        return Long.compare(this.getTimerLastEdited(), quickTimerData.getTimerLastEdited());
     }
 
 }

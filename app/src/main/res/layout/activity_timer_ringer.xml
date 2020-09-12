@@ -8,27 +8,21 @@
     android:background="@color/Black"
     tools:context=".timer.ringer.TimerRingerActivity">
 
-    <com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.SnappingRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timerStopActivityRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:foregroundGravity="center_vertical|center"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.ScrollingPagerIndicator
-        android:id="@+id/indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:spi_orientation="vertical" />
+        app:layout_constraintVertical_bias="0.0"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="100dp"
+        android:requiresFadingEdge="vertical"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/timerStopActivityStopFAB"

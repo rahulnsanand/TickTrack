@@ -63,6 +63,31 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         timerRelapsedHandler.removeCallbacks(holder.elapsedRunnable);
     }
 
+    @Override
+    public void onViewAttachedToWindow(@NonNull timerDataViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+
+            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_refresh_white_24));
+            System.out.println("THIS IF RAN");
+
+            timerStatusUpdateHandler.post(holder.timerRunnable);
+            holder.timerResetButton.setOnClickListener(view -> resetAndRemoveQuickTimer(holder.getAdapterPosition(), holder));
+
+        } else {
+            timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+            holder.timerProgressbar.setProgress(1f);
+            timerRelapsedHandler.post(holder.elapsedRunnable);
+            timerElapsedBlinkHandler.post(holder.blinkRunnable);
+            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_stop_white_24));
+
+            holder.timerResetButton.setOnClickListener(view -> deleteQuickTimer(holder.getAdapterPosition(), holder));
+
+        }
+
+    }
+
     private float getCurrentStep(long currentValue, long maxLength){
         return ((currentValue-0f)/(maxLength-0f)) *(1f-0f)+0f;
     }
@@ -114,25 +139,6 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
             }
             timerElapsedBlinkHandler.postDelayed(holder.blinkRunnable, 500);
         };
-
-        if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
-
-            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_refresh_white_24));
-            System.out.println("THIS IF RAN");
-
-            timerStatusUpdateHandler.post(holder.timerRunnable);
-            holder.timerResetButton.setOnClickListener(view -> resetAndRemoveQuickTimer(holder.getAdapterPosition(), holder));
-
-        } else {
-            timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-            holder.timerProgressbar.setProgress(1f);
-            timerRelapsedHandler.post(holder.elapsedRunnable);
-            timerElapsedBlinkHandler.post(holder.blinkRunnable);
-            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_stop_white_24));
-
-            holder.timerResetButton.setOnClickListener(view -> deleteQuickTimer(holder.getAdapterPosition(), holder));
-
-        }
 
         holder.timerLayout.setOnLongClickListener(view -> deleteQuickTimer(holder.getAdapterPosition(), holder));
 

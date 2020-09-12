@@ -5,6 +5,8 @@
 
     <attr name="scrollingPagerIndicatorStyle" />
 
+    <bool name="is_rtl">false</bool>
+
     <declare-styleable name="JazzyViewPager">
         <attr name="style">
             <enum name="standard" value="0" />

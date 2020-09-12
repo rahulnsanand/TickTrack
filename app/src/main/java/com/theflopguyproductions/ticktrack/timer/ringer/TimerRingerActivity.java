@@ -12,6 +12,8 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
@@ -19,8 +21,6 @@ import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
-import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.ScrollingPagerIndicator;
-import com.theflopguyproductions.ticktrack.ui.utils.recyclerutils.SnappingRecyclerView;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
@@ -35,14 +35,13 @@ public class TimerRingerActivity extends AppCompatActivity {
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
     private Context context;
-    private SnappingRecyclerView timerStopRecyclerView;
+    private RecyclerView timerStopRecyclerView;
     private FloatingActionButton timerStopFAB;
     private ArrayList<TimerData> timerDataArrayList;
     private ArrayList<QuickTimerData> quickTimerDataArrayList;
     private ArrayList<TimerData> onlyOnTimersArrayList;
     private RingerAdapter timerStopAdapter;
     private SharedPreferences sharedPreferences;
-    private ScrollingPagerIndicator recyclerIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +63,10 @@ public class TimerRingerActivity extends AppCompatActivity {
 
         rootLayout = findViewById(R.id.timerRingActivityRootLayout);
         timerStopRecyclerView = findViewById(R.id.timerStopActivityRecyclerView);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        timerStopRecyclerView.setLayoutManager(layoutManager);
         timerStopRecyclerView.setHasFixedSize(true);
-        timerStopRecyclerView.enableViewScaling(true);
-        recyclerIndicator = findViewById(R.id.indicator);
 
         timerStopFAB = findViewById(R.id.timerStopActivityStopFAB);
 
@@ -88,18 +88,11 @@ public class TimerRingerActivity extends AppCompatActivity {
     }
 
     private void buildRecyclerView(Activity activity) {
-
         timerStopAdapter = new RingerAdapter(activity, onlyOnTimersArrayList);
-
         if(onlyOnTimersArrayList.size()>0){
             timerStopRecyclerView.setVisibility(View.VISIBLE);
-
             timerStopRecyclerView.setAdapter(timerStopAdapter);
-            timerStopRecyclerView.setOrientation(SnappingRecyclerView.Orientation.VERTICAL);
-            recyclerIndicator.attachToRecyclerView(timerStopRecyclerView);
-
             timerStopAdapter.diffUtilsChangeData(onlyOnTimersArrayList);
-
         } else {
             onBackPressed();
         }

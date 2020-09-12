@@ -17,6 +17,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -47,22 +48,51 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RingerDataViewHolder holder, int position) {
+    public void onViewAttachedToWindow(@NonNull RingerDataViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+            timerStopHandler.postDelayed(holder.timerRunnable, 0);
+        } else {
+            timerStopHandler.removeCallbacks(holder.timerRunnable);
+        }
 
-        int theme = holder.tickTrackDatabase.getThemeMode();
+        int timerHour = timerDataArrayList.get(holder.getAdapterPosition()).getTimerHour();
+        int timerMinute = timerDataArrayList.get(holder.getAdapterPosition()).getTimerMinute();
+        int timerSecond = timerDataArrayList.get(holder.getAdapterPosition()).getTimerSecond();
+        if(!timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer()){
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel().equals("Set label")) {
+                holder.timerLabel.setText(timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel());
+            } else {
+                holder.timerLabel.setText("Timer "+TimeAgo.getTimerTitle(timerHour, timerMinute, timerSecond));
+            }
+        } else {
+            holder.timerLabel.setText("QuickTimer "+TimeAgo.getTimerTitle(timerHour, timerMinute, timerSecond));
+            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.roboto_calendar_circle_1));
+        }
 
         holder.backgroundProgressBar.setInstantProgress(1);
         holder.foregroundProgressBar.setProgress(1);
 
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RingerDataViewHolder holder, int position) {
+
+        int theme = holder.tickTrackDatabase.getThemeMode();
+
+        int timerHour = timerDataArrayList.get(holder.getAdapterPosition()).getTimerHour();
+        int timerMinute = timerDataArrayList.get(holder.getAdapterPosition()).getTimerMinute();
+        int timerSecond = timerDataArrayList.get(holder.getAdapterPosition()).getTimerSecond();
 
         if(!timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer()){
             if(!timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel().equals("Set label")) {
                 holder.timerLabel.setText(timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel());
             } else {
-                holder.timerLabel.setVisibility(View.GONE);
+                holder.timerLabel.setText("Timer "+TimeAgo.getTimerTitle(timerHour, timerMinute, timerSecond));
             }
         } else {
-            holder.timerLabel.setVisibility(View.GONE);
+            holder.timerLabel.setText("QuickTimer "+TimeAgo.getTimerTitle(timerHour, timerMinute, timerSecond));
+            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.roboto_calendar_circle_1));
         }
 
         holder.timerRunnable = () -> {
@@ -74,12 +104,6 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
                 timerStopHandler.removeCallbacks(holder.timerRunnable);
             }
         };
-
-        if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
-            timerStopHandler.postDelayed(holder.timerRunnable, 0);
-        } else {
-            timerStopHandler.removeCallbacks(holder.timerRunnable);
-        }
 
         setTheme(holder, theme);
     }
@@ -93,11 +117,13 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
     }
     private void setTheme(RingerDataViewHolder holder, int theme) {
         if(theme == 1){
-//            holder.rootLayout.setBackgroundResource(R.drawable.recycler_layout_light);
+            holder.rootLayout.setBackgroundResource(R.color.GrayOnLight);
+            holder.dataLayout.setBackgroundResource(R.color.Light);
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
         } else {
-//            holder.rootLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
-            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            holder.rootLayout.setBackgroundResource(R.color.GrayOnDark);
+            holder.dataLayout.setBackgroundResource(R.color.Black);
+            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Accent));
         }
     }
 
@@ -127,7 +153,7 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
 
         private TextView timerLabel, timerValue;
         private TickTrackProgressBar backgroundProgressBar, foregroundProgressBar;
-        private ConstraintLayout rootLayout;
+        private ConstraintLayout rootLayout, dataLayout;
         private Context context;
         private TickTrackDatabase tickTrackDatabase;
         private Runnable timerRunnable;
@@ -140,6 +166,7 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
             backgroundProgressBar = parent.findViewById(R.id.timerStopActivityBackgroundProgressBar);
             foregroundProgressBar = parent.findViewById(R.id.timerStopActivityProgressBar);
             rootLayout = parent.findViewById(R.id.timerStopActivityRootLayout);
+            dataLayout = parent.findViewById(R.id.timerStopActivityDataLayout);
 
             context=parent.getContext();
             tickTrackDatabase = new TickTrackDatabase(context);

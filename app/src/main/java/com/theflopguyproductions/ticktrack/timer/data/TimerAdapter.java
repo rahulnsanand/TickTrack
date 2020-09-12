@@ -59,6 +59,38 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
     }
 
     @Override
+    public void onViewAttachedToWindow(@NonNull timerDataViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        if(holder.getAdapterPosition() != timerDataArrayList.size()) {
+            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()
+                    && !timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()){
+
+                timerStatusUpdateHandler.post(holder.timerRunnable);
+
+            } else if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()) {
+
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
+
+                holder.timerDurationLeft.setText("PAUSED");
+
+            } else if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
+
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedHandler.post(holder.elapsedRunnable);
+
+            } else {
+
+                holder.timerDurationLeft.setVisibility(View.INVISIBLE);
+                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
+            }
+        }
+
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull timerDataViewHolder holder, int position) {
 
         int theme = holder.tickTrackDatabase.getThemeMode();
@@ -130,30 +162,6 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
                 timerElapsedHandler.postDelayed(holder.elapsedRunnable, 500);
             };
-
-            if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()
-                    && !timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()){
-
-                timerStatusUpdateHandler.post(holder.timerRunnable);
-
-            } else if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()) {
-
-                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
-
-                holder.timerDurationLeft.setText("PAUSED");
-
-            } else if(timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
-
-                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                timerElapsedHandler.post(holder.elapsedRunnable);
-
-            } else {
-
-                holder.timerDurationLeft.setVisibility(View.INVISIBLE);
-                timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
-                timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
-            }
 
             holder.itemColor = timerDataArrayList.get(position).timerFlag;
 
