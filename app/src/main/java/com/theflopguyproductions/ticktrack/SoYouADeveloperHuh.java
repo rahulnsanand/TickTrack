@@ -6,7 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
@@ -28,17 +29,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.DriveScopes;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
-import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
+import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService;
@@ -48,14 +42,13 @@ import com.theflopguyproductions.ticktrack.ui.timer.QuickTimerCreatorFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
-import com.theflopguyproductions.ticktrack.utils.firebase.GDriveHelper;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimerManagementHelper;
 
-public class SoYouADeveloperHuh extends AppCompatActivity {
+public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerCreatorFragment.QuickTimerCreateListener{
 
     TickTrackDatabase tickTrackDatabase;
     TimerManagementHelper timerManagementHelper;
@@ -211,6 +204,43 @@ public class SoYouADeveloperHuh extends AppCompatActivity {
                 break;
         }
         return false;
+    }
+
+    //TODO SHARE FEATURE
+    private void sendFeedback() {
+
+        String feedbackSubject = "TickTrack Feedback";
+        String sendToEmail = "ticktrackapp@gmail.com";
+        String feedbackMessage = "Hey Developer,\n\n\t";
+
+        final Intent _Intent = new Intent(android.content.Intent.ACTION_SENDTO);
+//        _Intent.setType("text/html");
+        _Intent.setData(Uri.parse("mailto:"));
+        _Intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{sendToEmail});
+        _Intent.putExtra(android.content.Intent.EXTRA_SUBJECT, feedbackSubject);
+        _Intent.putExtra(android.content.Intent.EXTRA_TEXT, feedbackMessage);
+//        _Intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+//        _Intent.setPackage("com.google.android.gm");
+//        final PackageManager pm = getPackageManager();
+//        final List<ResolveInfo> matches = pm.queryIntentActivities(_Intent, 0);
+//        ResolveInfo best = null;
+//        for(final ResolveInfo info : matches)
+//            if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
+//                best = info;
+//        if (best != null)
+//            _Intent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
+        if (_Intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(_Intent, 100);
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100){
+            Toast.makeText(this, "Hallelujah", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
