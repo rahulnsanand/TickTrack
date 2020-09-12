@@ -52,14 +52,19 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
                         timerDataArrayList.get(position).setTimerEndedTimeInMillis(SystemClock.elapsedRealtime());
                         timerDataArrayList.get(position).setTimerStartTimeInMillis(-1);
                         tickTrackDatabase.storeTimerList(timerDataArrayList);
+                        System.out.println("TIMER BROADCAST RINGER SERVICE GOT");
 
                         if(!isMyServiceRunning(TimerRingService.class, context)){
                             startNotificationService(context);
+                            System.out.println("TIMER BROADCAST RINGER SERVICE START");
+
                             KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
                             if( myKM.inKeyguardRestrictedInputMode()) {
                                 Intent resultIntent = new Intent(context, TimerRingerActivity.class);
                                 resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(resultIntent);
+                                System.out.println("TIMER BROADCAST RINGER ACTIVITY START");
+
                             }
                         }
                         if(isMyServiceRunning(TimerService.class, context)){
@@ -86,14 +91,16 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 //                quickTimerData.get(position).setTimerEndTimeInMillis(System.currentTimeMillis());
 
                 tickTrackDatabase.storeQuickTimerList(quickTimerData);
-
+                System.out.println("QUICK TIMER BROADCAST RINGER SERVICE GOT");
                 if(!isMyServiceRunning(TimerRingService.class, context)){
                     startNotificationService(context);
+                    System.out.println("QUICK TIMER BROADCAST RINGER SERVICE START");
                     KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
                     if( myKM.inKeyguardRestrictedInputMode()) {
                         Intent resultIntent = new Intent(context, TimerRingerActivity.class);
                         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(resultIntent);
+                        System.out.println("QUICK TIMER BROADCAST RINGER ACTIVITY START");
                     }
                 }
                 if(isMyServiceRunning(TimerService.class, context)){

@@ -238,10 +238,12 @@ public class TimerRingService extends Service {
         isSingle=false;
     }
     private void setupSingleTimerNotification() {
-        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
-            String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
-            if(!timerLabel.equals("Set label")){
-                notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+        if(timerDataArrayList.size()>0){
+            if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+                String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
+                if(!timerLabel.equals("Set label")){
+                    notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+                }
             }
         } else {
             notificationBuilder.setContentTitle("TickTrack Timer");
@@ -258,7 +260,7 @@ public class TimerRingService extends Service {
 //        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_baseline_plus_one_white_24, "+1 Minute", addAMinutePendingIntent);
 
         Intent resultIntent;
-        if(timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+        if(!(timerDataArrayList.size() >0)){
             resultIntent = new Intent(this, SoYouADeveloperHuh.class);
             tickTrackDatabase.storeCurrentFragmentNumber(2);
         } else {
@@ -373,7 +375,12 @@ public class TimerRingService extends Service {
                     if(!isSingle){
                         setupSingleTimerNotification();
                     }
-                    updateStopTimeText(SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
+                    if(timerDataArrayList.size()>0){
+                        updateStopTimeText(SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
+                    } else {
+                        updateStopTimeText(SystemClock.elapsedRealtime() - quickTimerData.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
+                    }
+
                 } else {
                     if(!isMulti){
                         setupMultiTimerNotification();

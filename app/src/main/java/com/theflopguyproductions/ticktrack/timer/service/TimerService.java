@@ -72,6 +72,7 @@ public class TimerService extends Service {
                 result++;
             }
         }
+        System.out.println("On Timer "+result);
         return result;
     }
     private void setupBaseNotification() {
@@ -280,7 +281,11 @@ public class TimerService extends Service {
             }
         }
 
-        return Collections.min(endTimes);
+        if(endTimes.size()>0){
+            return Collections.min(endTimes);
+        }
+
+        return -1;
     }
 
     private void stopTimerService() {

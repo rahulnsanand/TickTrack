@@ -2,7 +2,6 @@ package com.theflopguyproductions.ticktrack.timer.ringer;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,16 +53,14 @@ public class TimerRingerActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
-            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            if(keyguardManager!=null)
-                keyguardManager.requestDismissKeyguard(this, null);
+            System.out.println("RINGER ACTIVITY BUILD ONE");
         }
-        else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        System.out.println("RINGER ACTIVITY BUILD FLAG");
+        
         rootLayout = findViewById(R.id.timerRingActivityRootLayout);
         timerStopRecyclerView = findViewById(R.id.timerStopActivityRecyclerView);
         timerStopRecyclerView.setHasFixedSize(true);
@@ -174,7 +171,7 @@ public class TimerRingerActivity extends AppCompatActivity {
             }
         }
         for(int i = 0; i < quickTimerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).isTimerRinging()){
+            if(quickTimerDataArrayList.get(i).isTimerRinging()){
                 quickTimerDataArrayList.get(i).setTimerOn(false);
                 quickTimerDataArrayList.get(i).setTimerPause(false);
                 quickTimerDataArrayList.get(i).setTimerNotificationOn(false);

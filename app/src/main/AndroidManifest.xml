@@ -117,6 +117,8 @@
         <activity
             android:name=".timer.ringer.TimerRingerActivity"
             android:directBootAware="true"
+            android:showOnLockScreen="true"
+            android:showWhenLocked="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="TickTrackTimer"
             android:theme="@style/FullscreenTheme" />

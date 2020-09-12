@@ -183,6 +183,8 @@ public class BootReceiver extends BroadcastReceiver {
                         quickTimerData.get(i).setTimerEndedTimeInMillis(-1);
                         quickTimerData.get(i).setTimerStartTimeInMillis(-1);
                         tickTrackDatabase.storeQuickTimerList(quickTimerData);
+                        quickTimerData.remove(i);
+                        tickTrackDatabase.storeQuickTimerList(quickTimerData);
                         missedTimers++;
                     }
                 }
@@ -192,6 +194,8 @@ public class BootReceiver extends BroadcastReceiver {
                 quickTimerData.get(i).setTimerRinging(false);
                 quickTimerData.get(i).setTimerEndedTimeInMillis(-1);
                 quickTimerData.get(i).setTimerStartTimeInMillis(-1);
+                tickTrackDatabase.storeQuickTimerList(quickTimerData);
+                quickTimerData.remove(i);
                 tickTrackDatabase.storeQuickTimerList(quickTimerData);
                 missedTimers++;
             }
@@ -221,6 +225,7 @@ public class BootReceiver extends BroadcastReceiver {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setColor(ContextCompat.getColor(context, R.color.Accent));
