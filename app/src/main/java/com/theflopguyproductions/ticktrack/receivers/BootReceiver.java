@@ -143,6 +143,7 @@ public class BootReceiver extends BroadcastReceiver {
                 timerData.get(i).setTimerEndedTimeInMillis(-1);
                 timerData.get(i).setTimerStartTimeInMillis(-1);
                 tickTrackDatabase.storeTimerList(timerData);
+                missedTimers++;
             }
 
         }
@@ -189,7 +190,7 @@ public class BootReceiver extends BroadcastReceiver {
                 quickTimerData.get(i).setTimerEndedTimeInMillis(-1);
                 quickTimerData.get(i).setTimerStartTimeInMillis(-1);
                 tickTrackDatabase.storeQuickTimerList(quickTimerData);
-
+                missedTimers++;
             }
         }
 
