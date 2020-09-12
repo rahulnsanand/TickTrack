@@ -292,6 +292,7 @@ public class TimerRingService extends Service {
             switch (action) {
                 case ACTION_ADD_TIMER_FINISH:
                     startSoundAndForeground();
+                    stopTimerRunningService();
                     break;
                 case ACTION_KILL_ALL_TIMERS:
                     stopTimers();
@@ -358,6 +359,11 @@ public class TimerRingService extends Service {
         }
 
         stopForeground(false);
+    }
+    private void stopTimerRunningService() {
+        Intent intent = new Intent(this, TimerService.class);
+        intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
+        startService(intent);
     }
 
     final Runnable refreshRunnable = new Runnable() {

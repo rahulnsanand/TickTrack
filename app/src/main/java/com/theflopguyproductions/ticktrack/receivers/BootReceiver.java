@@ -1,11 +1,18 @@
 package com.theflopguyproductions.ticktrack.receivers;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+
+import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
@@ -187,14 +194,32 @@ public class BootReceiver extends BroadcastReceiver {
         }
 
         if(missedTimers>0){
-            showMissedTimerNotification();
+            showMissedTimerNotification(activity, missedTimers);
         }
 
     }
 
-    private void showMissedTimerNotification() {
+    private NotificationCompat.Builder notificationBuilder;
+    private NotificationManagerCompat notificationManagerCompat;
+    private void showMissedTimerNotification(Context context, int missedTimers) {
+        notificationManagerCompat = NotificationManagerCompat.from(context);
+        notificationBuilder = new NotificationCompat.Builder(context, TickTrack.TIMER_MISSED_NOTIFICATION)
+                .setSmallIcon(R.drawable.timer_notification_mini_icon)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setVibrate(new long[0])
+                .setOnlyAlertOnce(true)
+                .setColor(ContextCompat.getColor(context, R.color.Accent));
 
+        notificationBuilder.setContentTitle("TickTrack Timer");
+        if(missedTimers>1){
+            notificationBuilder.setContentText(missedTimers+" timers missed!");
+        } else {
+            notificationBuilder.setContentText(missedTimers+" timer missed!");
+        }
 
+        notificationManagerCompat.notify(TickTrack.TIMER_MISSED_NOTIFICATION_ID, notificationBuilder.build());
 
     }
 

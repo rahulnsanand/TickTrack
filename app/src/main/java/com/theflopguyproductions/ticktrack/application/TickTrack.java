@@ -19,6 +19,7 @@ public class TickTrack extends Application {
     public static final String COUNTER_NOTIFICATION = "TICK_TRACK_COUNTER";
     public static final String STOPWATCH_NOTIFICATION = "TICK_TRACK_STOPWATCH";
     public static final String TIMER_RUNNING_NOTIFICATION = "TIMER_RUNNING_NOTIFICATION";
+    public static final String TIMER_MISSED_NOTIFICATION = "TIMER_MISSED_NOTIFICATION";
     public static final String TIMER_COMPLETE_NOTIFICATION = "TIMER_COMPLETE_NOTIFICATION";
     public static final String GENERAL_NOTIFICATION = "TICK_TRACK_GENERAL";
     public static final String MISCELLANEOUS_NOTIFICATION = "MISCELLANEOUS_NOTIFICATION";
@@ -48,6 +49,7 @@ public class TickTrack extends Application {
             createTimerCompleteChannel(mNotificationManager);
             createMiscellaneousChannel(mNotificationManager);
             createDataBackupRestoreChannel(mNotificationManager);
+            createTimerMissedNotificationChannel(mNotificationManager);
 
         }
 
@@ -61,6 +63,27 @@ public class TickTrack extends Application {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createTimerMissedNotificationChannel(NotificationManager mNotificationManager) {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
+                .setUsage(AudioAttributes. USAGE_ALARM )
+                .build() ;
+
+        int importance = NotificationManager. IMPORTANCE_LOW ;
+        NotificationChannel notificationChannel = new
+                NotificationChannel( TIMER_MISSED_NOTIFICATION , "Missed Timers Notification" , importance) ;
+        notificationChannel.enableLights( true ) ;
+        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.enableVibration( true ) ;
+        notificationChannel.setVibrationPattern( new long []{ 100 , 100 , 100 , 100}) ;
+
+//            notificationChannel.setSound(sound , audioAttributes) ;
+
+        assert mNotificationManager != null;
+        mNotificationManager.createNotificationChannel(notificationChannel) ;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void createDataBackupRestoreChannel(NotificationManager mNotificationManager) {
 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -70,7 +93,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_LOW ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "Backup Notifications" , importance) ;
+                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "Backup Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
@@ -93,7 +116,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "Miscellaneous Notifications" , importance) ;
+                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "Miscellaneous Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
@@ -116,7 +139,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( COUNTER_NOTIFICATION , "Counter Notifications" , importance) ;
+                NotificationChannel( COUNTER_NOTIFICATION , "Counter Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
@@ -139,7 +162,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager.IMPORTANCE_LOW ;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Timer Running Notifications" , importance) ;
+                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Timer Running Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
@@ -162,7 +185,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Timer Complete Notifications" , importance) ;
+                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Timer Complete Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
@@ -185,7 +208,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager.IMPORTANCE_MIN ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( STOPWATCH_NOTIFICATION , "Stopwatch Notifications" , importance) ;
+                NotificationChannel( STOPWATCH_NOTIFICATION , "Stopwatch Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color.BLUE ) ;
         notificationChannel.enableVibration( true ) ;
@@ -208,7 +231,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( GENERAL_NOTIFICATION , "TickTrack Notifications" , importance) ;
+                NotificationChannel( GENERAL_NOTIFICATION , "TickTrack Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
