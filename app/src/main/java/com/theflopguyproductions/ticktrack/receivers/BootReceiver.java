@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.receivers;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +10,11 @@ import android.os.SystemClock;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
@@ -195,14 +198,23 @@ public class BootReceiver extends BroadcastReceiver {
         }
 
         if(missedTimers>0){
-            showMissedTimerNotification(activity, missedTimers);
+            showMissedTimerNotification(activity, missedTimers, tickTrackDatabase);
         }
 
     }
 
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
-    private void showMissedTimerNotification(Context context, int missedTimers) {
+    private void showMissedTimerNotification(Context context, int missedTimers, TickTrackDatabase tickTrackDatabase) {
+
+        Intent resultIntent;
+        resultIntent = new Intent(context, SoYouADeveloperHuh.class);
+        tickTrackDatabase.storeCurrentFragmentNumber(2);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationBuilder = new NotificationCompat.Builder(context, TickTrack.TIMER_MISSED_NOTIFICATION)
                 .setSmallIcon(R.drawable.timer_notification_mini_icon)
@@ -214,10 +226,11 @@ public class BootReceiver extends BroadcastReceiver {
                 .setColor(ContextCompat.getColor(context, R.color.Accent));
 
         notificationBuilder.setContentTitle("TickTrack Timer");
+        notificationBuilder.setContentIntent(resultPendingIntent);
         if(missedTimers>1){
-            notificationBuilder.setContentText(missedTimers+" timers missed!");
+            notificationBuilder.setContentText("Missed "+missedTimers+" timers");
         } else {
-            notificationBuilder.setContentText(missedTimers+" timer missed!");
+            notificationBuilder.setContentText("Missed "+missedTimers+" timer");
         }
 
         notificationManagerCompat.notify(TickTrack.TIMER_MISSED_NOTIFICATION_ID, notificationBuilder.build());

@@ -69,11 +69,11 @@ public class TickTrack extends Application {
                 .setUsage(AudioAttributes. USAGE_ALARM )
                 .build() ;
 
-        int importance = NotificationManager. IMPORTANCE_LOW ;
+        int importance = NotificationManager.IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
                 NotificationChannel( TIMER_MISSED_NOTIFICATION , "Missed Timers Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.setLightColor(Color. RED ) ;
         notificationChannel.enableVibration( true ) ;
         notificationChannel.setVibrationPattern( new long []{ 100 , 100 , 100 , 100}) ;
 
@@ -86,20 +86,9 @@ public class TickTrack extends Application {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createDataBackupRestoreChannel(NotificationManager mNotificationManager) {
 
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
-
         int importance = NotificationManager. IMPORTANCE_LOW ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "Backup Notification" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
-        notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
-
-//            notificationChannel.setSound(sound , audioAttributes) ;
+                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "TickTrack Backup" , importance) ;
 
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
@@ -116,11 +105,11 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "Miscellaneous Notification" , importance) ;
+                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "TickTrack Miscellaneous" , importance) ;
         notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.setLightColor(Color. YELLOW ) ;
         notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+        notificationChannel.setVibrationPattern( new long []{ 200 , 200 , 200 , 200 }) ;
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 
@@ -139,11 +128,11 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( COUNTER_NOTIFICATION , "Counter Notification" , importance) ;
+                NotificationChannel( COUNTER_NOTIFICATION , "TickTrack Counter" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+        notificationChannel.setVibrationPattern( new long []{ 100 , 100 , 100}) ;
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 
@@ -155,20 +144,9 @@ public class TickTrack extends Application {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerChannel(NotificationManager mNotificationManager) {
 
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
-
         int importance = NotificationManager.IMPORTANCE_LOW ;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Timer Running Notification" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
-        notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 300 , 300 , 300 , 300 , 300 , 300 , 300 , 300 , 300 }) ;
-
-//            notificationChannel.setSound(sound , audioAttributes) ;
+                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "TickTrack Ongoing Timer" , importance) ;
 
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
@@ -185,11 +163,11 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Timer Complete Notification" , importance) ;
+                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "TickTrack Elapsed Timer" , importance) ;
         notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.setLightColor(Color. GREEN ) ;
         notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+        notificationChannel.setVibrationPattern( new long []{ 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 }) ;
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 
@@ -201,20 +179,9 @@ public class TickTrack extends Application {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createStopwatchChannel(NotificationManager mNotificationManager) {
 
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
-
         int importance = NotificationManager.IMPORTANCE_MIN ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( STOPWATCH_NOTIFICATION , "Stopwatch Notification" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color.BLUE ) ;
-        notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
-
-//            notificationChannel.setSound(sound , audioAttributes) ;
+                NotificationChannel( STOPWATCH_NOTIFICATION , "TickTrack Stopwatch" , importance) ;
 
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
@@ -224,21 +191,14 @@ public class TickTrack extends Application {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createGeneralChannel(NotificationManager mNotificationManager) {
 
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
-
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
                 NotificationChannel( GENERAL_NOTIFICATION , "TickTrack Notification" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 200 , 300 , 400 , 500 , 400 , 300 , 200 , 400 }) ;
+        notificationChannel.setVibrationPattern( new long []{ 100 , 100, 100}) ;
         notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
-
-//            notificationChannel.setSound(sound , audioAttributes) ;
 
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
