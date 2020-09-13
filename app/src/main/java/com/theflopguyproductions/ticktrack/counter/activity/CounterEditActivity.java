@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -40,9 +39,9 @@ public class CounterEditActivity extends AppCompatActivity {
     private Switch counterButtonSwitch, counterNotificationSwitch;
     private TextView counterLabel, counterValue, counterMilestone, counterButtonMode;
     private TextView counterLabelTitle, counterValueTitle, counterMilestoneTitle, counterButtonModeTitle, counterFlagTitle, counterNotificationTitle, counterNotificationDetail, counterMilestoneDetail;
-    private Button saveChangesButton;
+    private ImageButton saveChangesButton;
     private ConstraintLayout counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout, counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout, counterEditToolbarLayout, counterFlagGroupLayout;
-    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider;
+    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider, toolbarDivider;
     private ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private Activity activity;
     private ChipGroup counterFlagGroup;
@@ -76,7 +75,7 @@ public class CounterEditActivity extends AppCompatActivity {
                 counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout,
                 counterLabel, counterValue, counterMilestone, counterButtonMode, counterNotificationDetail, counterMilestoneDetail, flagColor,
                 counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider, tickTrackDatabase,
-                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag);
+                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout, toolbarDivider);
 
         setupPrefixValues();
 
@@ -142,7 +141,7 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void initVariables() {
         backButton = findViewById(R.id.counterEditActivityBackButton);
-        deleteCounterButton = findViewById(R.id.counterEditActivitySaveButton);
+        deleteCounterButton = findViewById(R.id.counterEditActivityDeleteButton);
         counterFlag = findViewById(R.id.counterEditActivityFlagImageView);
         counterButtonSwitch = findViewById(R.id.counterEditActivityButtonModeSwitch);
         counterNotificationSwitch = findViewById(R.id.counterEditActivityNotificationSwitch);
@@ -150,7 +149,7 @@ public class CounterEditActivity extends AppCompatActivity {
         counterValue = findViewById(R.id.counterEditActivityValueTextView);
         counterMilestone = findViewById(R.id.counterEditActivitySignificantTextView);
         counterButtonMode = findViewById(R.id.counterEditActivityButtonModeTextView);
-        saveChangesButton = findViewById(R.id.counterEditActivityDeleteButton);
+        saveChangesButton = findViewById(R.id.counterEditActivitySaveButton);
         counterLabelTitle = findViewById(R.id.counterEditActivityLabelTitle);
         counterValueTitle = findViewById(R.id.counterEditActivityValueTitle);
         counterMilestoneTitle = findViewById(R.id.counterEditActivitySignificantTitle);
@@ -175,6 +174,7 @@ public class CounterEditActivity extends AppCompatActivity {
         counterFlagDivider = findViewById(R.id.counterEditActivityFlagDivider);
         counterButtonModeDivider = findViewById(R.id.counterEditActivityButtonModeDivider);
         counterNotificationDivider = findViewById(R.id.counterEditActivityNotificationDivider);
+        toolbarDivider = findViewById(R.id.counterEditTopDivider);
 
         counterFlagGroup = findViewById(R.id.counterEditActivityFlagGroup);
         cherryFlag = findViewById(R.id.counterEditActivityCherryFlag);
@@ -216,30 +216,24 @@ public class CounterEditActivity extends AppCompatActivity {
     private void setFlagColor(int flagColor) {
         if(flagColor==1){
             counterFlag.setImageResource(R.drawable.ic_flag_red);
-            counterEditToolbarLayout.setBackgroundResource(counterActivityToolbarColor(flagColor));
             cherryFlag.setChecked(true);
         }
         else if(flagColor==2){
             counterFlag.setImageResource(R.drawable.ic_flag_green);
-            counterEditToolbarLayout.setBackgroundResource(counterActivityToolbarColor(flagColor));
             limeFlag.setChecked(true);
         }
         else if(flagColor==3){
             counterFlag.setImageResource(R.drawable.ic_flag_orange);
-            counterEditToolbarLayout.setBackgroundResource(counterActivityToolbarColor(flagColor));
             peachFlag.setChecked(true);
         }
         else if(flagColor==4){
             counterFlag.setImageResource(R.drawable.ic_flag_purple);
-            counterEditToolbarLayout.setBackgroundResource(counterActivityToolbarColor(flagColor));
             plumFlag.setChecked(true);
         }
         else if(flagColor==5){
             counterFlag.setImageResource(R.drawable.ic_flag_blue);
-            counterEditToolbarLayout.setBackgroundResource(counterActivityToolbarColor(flagColor));
             berryFlag.setChecked(true);
         } else {
-            counterEditToolbarLayout.setBackgroundResource(R.color.Accent);
             if(tickTrackDatabase.getThemeMode()==1){
                 counterFlag.setImageResource(R.drawable.ic_round_flag_dark_24);
             } else {

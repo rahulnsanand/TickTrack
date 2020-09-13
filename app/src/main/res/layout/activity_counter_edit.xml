@@ -10,7 +10,7 @@
         android:id="@+id/counterEditActivityToolBarLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/Accent"
+        android:background="@color/LightGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,40 +26,64 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/counterEditActivityDeleteButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/actionBarItemBackground"
+            android:src="@drawable/ic_round_delete_outline_white_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/counterEditActivitySaveButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
             android:id="@+id/counterEditActivitySaveButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?attr/actionBarItemBackground"
-            android:src="@drawable/ic_round_delete_white_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_round_tick_white_24" />
 
         <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
             android:id="@+id/counterEditActivityAppNameToolbar"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/app_name"
-            android:textColor="@color/LightText"
+            android:text="Counter Settings"
+            android:textColor="@color/Accent"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/counterEditActivityDeleteButton"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/counterEditActivityBackButton"
             app:layout_constraintTop_toTopOf="parent"
             app:typeface="montserrat_semi_bold_italic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/counterEditTopDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/Accent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/counterEditActivityToolBarLayout">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterEditActivityToolBarLayout"
-        android:fillViewport="true">
+        app:layout_constraintTop_toBottomOf="@+id/counterEditTopDivider">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/counterEditActivityRootLayout"
@@ -81,11 +105,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="Counter label"
-                    android:textSize="18sp"
                     android:textColor="@color/Accent"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="roboto_regular"/>
+                    app:typeface="roboto_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/counterEditActivityLabelTextView"
@@ -98,7 +122,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivityLabelTitle"
-                    app:typeface="roboto_italic"/>
+                    app:typeface="roboto_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -306,12 +330,12 @@
                             android:id="@+id/counterEditActivityCherryFlag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cherry"
                             android:checkable="true"
+                            android:text="Cherry"
+                            android:textAppearance="@style/Chip"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
                             android:textSize="14sp"
-                            app:chipIcon="@drawable/ic_flag_red"
-                            android:textAppearance="@style/Chip"/>
+                            app:chipIcon="@drawable/ic_flag_red" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/counterEditActivityLimeFlag"
@@ -319,9 +343,9 @@
                             android:layout_height="wrap_content"
                             android:checkable="true"
                             android:text="Lime"
+                            android:textAppearance="@style/Chip"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-                            app:chipIcon="@drawable/ic_flag_green"
-                            android:textAppearance="@style/Chip"/>
+                            app:chipIcon="@drawable/ic_flag_green" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/counterEditActivityPeachFlag"
@@ -329,9 +353,9 @@
                             android:layout_height="wrap_content"
                             android:checkable="true"
                             android:text="Peach"
+                            android:textAppearance="@style/Chip"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-                            app:chipIcon="@drawable/ic_flag_orange"
-                            android:textAppearance="@style/Chip"/>
+                            app:chipIcon="@drawable/ic_flag_orange" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/counterEditActivityPlumFlag"
@@ -339,9 +363,9 @@
                             android:layout_height="wrap_content"
                             android:checkable="true"
                             android:text="Plum"
+                            android:textAppearance="@style/Chip"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-                            app:chipIcon="@drawable/ic_flag_purple"
-                            android:textAppearance="@style/Chip"/>
+                            app:chipIcon="@drawable/ic_flag_purple" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/counterEditActivityBerryFlag"
@@ -349,9 +373,9 @@
                             android:layout_height="wrap_content"
                             android:checkable="true"
                             android:text="Berry"
+                            android:textAppearance="@style/Chip"
                             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-                            app:chipIcon="@drawable/ic_flag_blue"
-                            android:textAppearance="@style/Chip"/>
+                            app:chipIcon="@drawable/ic_flag_blue" />
 
                     </com.google.android.material.chip.ChipGroup>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -498,18 +522,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNotificationLayout">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-                style="@style/button"
-                android:background="?attr/selectableItemBackground"
-                android:id="@+id/counterEditActivityDeleteButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/Accent"
-                android:text="SAVE CHANGES"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

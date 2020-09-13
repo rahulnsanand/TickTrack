@@ -255,7 +255,7 @@ public class TickTrackThemeSetter {
                                                 TextView notificationDetail, TextView milestoneDetail, int flagColor,
                                                 ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
                                                 ConstraintLayout buttonDivider, ConstraintLayout notificationDivider, TickTrackDatabase tickTrackDatabase,
-                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip) {
+                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar, ConstraintLayout toolbarDivider) {
 
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
@@ -266,6 +266,7 @@ public class TickTrackThemeSetter {
             counterButtonModeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             counterNotificationLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             counterEditRootLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            toolbar.setBackgroundResource(R.color.GrayOnLight);
 
             counterLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
             counterValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
@@ -280,6 +281,7 @@ public class TickTrackThemeSetter {
             buttonDivider.setBackgroundResource(R.color.GrayOnLight);
             notificationDivider.setBackgroundResource(R.color.GrayOnLight);
             flagDivider.setBackgroundResource(R.color.GrayOnLight);
+            toolbarDivider.setBackgroundResource(R.color.GrayOnLight);
 
             redChip.setChipBackgroundColorResource(R.color.Clickable);
             greenCip.setChipBackgroundColorResource(R.color.Clickable);
@@ -299,6 +301,7 @@ public class TickTrackThemeSetter {
             counterButtonModeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             counterNotificationLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             counterEditRootLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            toolbar.setBackgroundResource(R.color.Black);
 
             counterLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
             counterValue.setTextColor(activity.getResources().getColor(R.color.LightText));
@@ -313,6 +316,7 @@ public class TickTrackThemeSetter {
             buttonDivider.setBackgroundResource(R.color.GrayOnDark);
             notificationDivider.setBackgroundResource(R.color.GrayOnDark);
             flagDivider.setBackgroundResource(R.color.GrayOnDark);
+            toolbarDivider.setBackgroundResource(R.color.GrayOnDark);
 
             redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
             greenCip.setChipBackgroundColorResource(R.color.GrayOnDark);
