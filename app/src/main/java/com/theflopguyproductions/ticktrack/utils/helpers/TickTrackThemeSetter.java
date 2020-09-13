@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -190,17 +189,17 @@ public class TickTrackThemeSetter {
 
     public static void counterActivityTheme(Activity activity, ConstraintLayout toolbar, ConstraintLayout rootLayout, int flagColor,
                                             ConstraintLayout plusButtonBig, ConstraintLayout minusButtonBig, TextView plusText, TextView minusText, SwipeButton plusLightButton, SwipeButton minusLightButton,
-                                            SwipeButton plusDarkButton, SwipeButton minusDarkButton, TextView counterSwitchMode, Switch buttonSwitch, ConstraintLayout switchLayout,
-                                            ConstraintLayout switchLowerDivider, ConstraintLayout switchUpperDivider, TickTrackDatabase tickTrackDatabase){
+                                            SwipeButton plusDarkButton, SwipeButton minusDarkButton, ConstraintLayout switchLayout, ConstraintLayout switchUpperDivider,
+                                            TickTrackDatabase tickTrackDatabase, TextView counterValue){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
-        toolbar.setBackgroundResource(counterActivityToolbarColor(flagColor));
+        counterValue.setTextColor(activity.getResources().getColor(counterActivityToolbarColor(flagColor)));
 
         if(checkTheme==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             switchLayout.setBackgroundResource(R.color.LightGray);
+            toolbar.setBackgroundResource(R.color.GrayOnLight);
 
-            counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.DarkText));
             plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
             plusText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -211,14 +210,13 @@ public class TickTrackThemeSetter {
             plusLightButton.setVisibility(View.VISIBLE);
             minusLightButton.setVisibility(View.VISIBLE);
 
-            switchLowerDivider.setBackgroundResource(R.color.GrayOnLight);
             switchUpperDivider.setBackgroundResource(R.color.GrayOnLight);
 
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
             switchLayout.setBackgroundResource(R.color.Black);
+            toolbar.setBackgroundResource(R.color.Black);
 
-            counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.LightText));
             plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             plusText.setTextColor(activity.getResources().getColor(R.color.LightText));
             minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);
@@ -230,7 +228,6 @@ public class TickTrackThemeSetter {
             minusLightButton.setVisibility(View.GONE);
 
             switchUpperDivider.setBackgroundResource(R.color.GrayOnDark);
-            switchLowerDivider.setBackgroundResource(R.color.GrayOnDark);
         }
 
     }

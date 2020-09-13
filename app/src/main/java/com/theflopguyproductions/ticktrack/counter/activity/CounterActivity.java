@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,11 +34,10 @@ public class CounterActivity extends AppCompatActivity {
 
     private SwipeButton plusLightButton, minusLightButton, plusDarkButton, minusDarkButton;
     private ConstraintLayout plusButtonBig, minusButtonBig;
-    private Switch buttonSwitch;
-    private TextView CounterText, counterLabel, counterSwitchMode, plusText, minusText;
+    private TextView CounterText, counterLabel, plusText, minusText;
     private int currentCount;
     private ArrayList<CounterData> counterDataArrayList;
-    ConstraintLayout toolbar, rootLayout, switchLayout, switchUpperDivider, switchLowerDivider;
+    ConstraintLayout toolbar, rootLayout, switchLayout, switchUpperDivider;
     int flagColor;
     private ImageButton backButton, deleteButton, editButton;
     private Activity activity;
@@ -63,7 +60,7 @@ public class CounterActivity extends AppCompatActivity {
         flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
         TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
                 plusText, minusText, plusLightButton, minusLightButton,
-                plusDarkButton, minusDarkButton, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider, tickTrackDatabase);
+                plusDarkButton, minusDarkButton, switchLayout , switchUpperDivider, tickTrackDatabase, CounterText);
         milestoneItIs();
     }
 
@@ -124,15 +121,12 @@ public class CounterActivity extends AppCompatActivity {
         minusDarkButton = findViewById(R.id.minusDarkbtn);
         plusButtonBig = findViewById(R.id.plusButton);
         minusButtonBig =findViewById(R.id.minusButton);
-        buttonSwitch = findViewById(R.id.counterActivityButtonSwitch);
         lottieAnimationView = findViewById(R.id.counterActivityLottieAnimationView);
         vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         activity = this;
         tickTrackDatabase = new TickTrackDatabase(activity);
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
 
-        counterSwitchMode = findViewById(R.id.counterActivitySwitchModeTextView);
-        counterSwitchMode.setText("Swipe mode");
         plusText = findViewById(R.id.counterActivityPlusText);
         minusText = findViewById(R.id.counterActivityMinusText);
 
@@ -140,7 +134,6 @@ public class CounterActivity extends AppCompatActivity {
         rootLayout = findViewById(R.id.counterActivityLayout);
         switchLayout = findViewById(R.id.counterActivitySwitchLayout);
         switchUpperDivider = findViewById(R.id.counterActivitySwitchLayoutUpperDivider);
-        switchLowerDivider = findViewById(R.id.counterActivitySwitchLayoutLowerDivider);
 
         counterID = getIntent().getStringExtra("currentCounterPosition");
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
@@ -155,10 +148,6 @@ public class CounterActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(view -> onBackPressed());
 
-        buttonSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            changeButtonVisibility(compoundButton);
-        });
-        buttonSwitch.setChecked(counterDataArrayList.get(getCurrentPosition()).isCounterSwipeMode());
         setOnClickListeners();
 
         editButton.setOnClickListener(view -> {
@@ -178,6 +167,7 @@ public class CounterActivity extends AppCompatActivity {
 
         milestoneItIs();
 
+        changeButtonVisibility();
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
@@ -214,11 +204,9 @@ public class CounterActivity extends AppCompatActivity {
         }
     }
 
-    private void changeButtonVisibility(CompoundButton compoundButton){
-        if(compoundButton.isChecked()){
-            counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(true);
+    private void changeButtonVisibility(){
+        if(counterDataArrayList.get(getCurrentPosition()).isCounterSwipeMode()){
             tickTrackDatabase.storeCounterList(counterDataArrayList);
-            counterSwitchMode.setText("Click mode");
             plusButtonBig.setVisibility(View.VISIBLE);
             minusButtonBig.setVisibility(View.VISIBLE);
             plusLightButton.setVisibility(View.GONE);
@@ -227,9 +215,7 @@ public class CounterActivity extends AppCompatActivity {
             minusDarkButton.setVisibility(View.GONE);
 
         } else {
-            counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(false);
             tickTrackDatabase.storeCounterList(counterDataArrayList);
-            counterSwitchMode.setText("Swipe mode");
             plusButtonBig.setVisibility(View.GONE);
             minusButtonBig.setVisibility(View.GONE);
             if(tickTrackDatabase.getThemeMode()==1){
