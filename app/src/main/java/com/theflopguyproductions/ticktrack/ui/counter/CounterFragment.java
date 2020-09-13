@@ -45,6 +45,9 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     private SharedPreferences sharedPreferences;
     private static TickTrackDatabase tickTrackDatabase;
 
+    private ConstraintLayout sumLayout;
+    private TextView sumValue;
+
     private String receivedAction;
 
     public CounterFragment() {
@@ -76,6 +79,26 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             CreateCounter createCounter = new CreateCounter(getActivity());
             createCounter.show();
         }
+        if(tickTrackDatabase.isSumEnabled()){
+            setupSumLayout();
+        } else {
+            sumLayout.setVisibility(View.GONE);
+            sumValue.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupSumLayout() {
+        sumLayout.setVisibility(View.VISIBLE);
+        sumValue.setVisibility(View.VISIBLE);
+
+        long sum = 0;
+        counterDataArrayList = tickTrackDatabase.retrieveCounterList();
+        for(int i=0; i<counterDataArrayList.size(); i++){
+            if(counterDataArrayList.get(i).getCounterValue()>0){
+                sum += counterDataArrayList.get(i).getCounterValue();
+            }
+        }
+        sumValue.setText("Sum: "+sum);
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
@@ -96,6 +119,8 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterRecyclerView = root.findViewById(R.id.counterRecycleView);
         noCounterText = root.findViewById(R.id.counterFragmentNoCounterText);
         counterFragmentRootLayout = root.findViewById(R.id.counterRootLayout);
+        sumLayout = root.findViewById(R.id.counterFragmentSumLayout);
+        sumValue = root.findViewById(R.id.counterFragmentSumValue);
 
         buildRecyclerView(activity);
 

@@ -8,6 +8,39 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.counter.CounterFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/counterFragmentSumLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/round_rect_dark"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/counterAddButton"
+        app:layout_constraintEnd_toStartOf="@+id/counterAddButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/counterAddButton">
+
+        <TextView
+            android:id="@+id/counterFragmentSumValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="0"
+            android:textColor="@color/Accent"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/counterAddButton"
         android:layout_width="wrap_content"
