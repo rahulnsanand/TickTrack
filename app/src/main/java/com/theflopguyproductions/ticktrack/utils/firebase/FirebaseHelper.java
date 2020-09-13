@@ -117,7 +117,6 @@ public class FirebaseHelper {
                 tickTrackDatabase.storeStartUpFragmentID(3);
                 intent.setAction(receivedAction);
                 context.startActivity(intent);
-
             } catch (ApiException e) {
                 e.printStackTrace();
                 progressBarDialog.dismiss();
@@ -161,6 +160,7 @@ public class FirebaseHelper {
                                     Toast.makeText(context, "Welcome back, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
                                     checkIfDataExists(account);
                                 }
+                                tickTrackFirebaseDatabase.setDriveLinkFail(false);
                             }
                         } else {
                             Toast.makeText(context, "Welcome, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();

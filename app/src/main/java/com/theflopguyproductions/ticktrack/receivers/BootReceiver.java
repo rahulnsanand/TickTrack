@@ -56,7 +56,7 @@ public class BootReceiver extends BroadcastReceiver {
             }
             FirebaseHelper firebaseHelper = new FirebaseHelper(context);
             TickTrackFirebaseDatabase tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
-            if(firebaseHelper.isUserSignedIn()){
+            if(firebaseHelper.isUserSignedIn() && !tickTrackFirebaseDatabase.isDriveLinkFail()){
                 tickTrackFirebaseDatabase.setBackUpAlarm();
             }
         }

@@ -1,10 +1,14 @@
 package com.theflopguyproductions.ticktrack.utils.firebase;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.util.Pair;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
@@ -13,6 +17,7 @@ import com.google.api.services.drive.model.FileList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
+import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.timer.data.TimerBackupData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
@@ -60,7 +65,8 @@ public class GDriveHelper {
                     System.out.println("File ID: " + uploadFile.getId());
                     return Pair.create(1, uploadFile.getId());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("An error occurred: " + e);
+                    exceptionHandler();
                 }
             } else {
                 return Pair.create(-1, null);
@@ -87,7 +93,8 @@ public class GDriveHelper {
                     System.out.println("File ID: " + uploadFile.getId());
                     return Pair.create(1, uploadFile.getId());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("An error occurred: " + e);
+                    exceptionHandler();
                 }
             } else {
                 return Pair.create(-1, null);
@@ -114,7 +121,8 @@ public class GDriveHelper {
                     System.out.println("File ID: " + uploadFile.getId());
                     return Pair.create(1, uploadFile.getId());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("An error occurred: " + e);
+                    exceptionHandler();
                 }
             } else {
                 return Pair.create(-1, null);
@@ -185,7 +193,8 @@ public class GDriveHelper {
                         readFile(file.getId());
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("An error occurred: " + e);
+                    exceptionHandler();
                 }
             return null;
         });
@@ -206,14 +215,45 @@ public class GDriveHelper {
                         mDriveService.files().delete(file.getId()).execute();
                     }
                     return 1;
-                } catch (IOException e) {
+                } catch (GoogleAuthIOException e) {
                     System.out.println("An error occurred: " + e);
+                    exceptionHandler();
                 }
             } else {
                 return -1;
             }
             return 0;
         });
+    }
+
+    public boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void exceptionHandler() {
+        new TickTrackFirebaseDatabase(context).cancelBackUpAlarm();
+        new TickTrackFirebaseDatabase(context).setDriveLinkFail(true);
+        if(isMyServiceRunning(BackupRestoreService.class, context)){
+            stopBackupService();
+        }
+
+    }
+
+    private void stopBackupService() {
+        Intent intent = new Intent(context, BackupRestoreService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(BackupRestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
     }
 
 
@@ -242,19 +282,24 @@ public class GDriveHelper {
                             }
                             contents = stringBuilder.toString();
                         }
-                        if(file.getName().equals("counterBackup.json")){
-                            tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
-                            setupCounterCount(contents, tickTrackFirebaseDatabase);
-                        } else if (file.getName().equals("timerBackup.json")){
-                            tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
-                            setupTimerCount(contents, tickTrackFirebaseDatabase);
-                        } else  if(file.getName().equals("settingsBackup.json")){
-                            setupPreferencesExist(contents, tickTrackFirebaseDatabase);
+                        switch (file.getName()) {
+                            case "counterBackup.json":
+                                tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
+                                setupCounterCount(contents, tickTrackFirebaseDatabase);
+                                break;
+                            case "timerBackup.json":
+                                tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
+                                setupTimerCount(contents, tickTrackFirebaseDatabase);
+                                break;
+                            case "settingsBackup.json":
+                                setupPreferencesExist(contents, tickTrackFirebaseDatabase);
+                                break;
                         }
                     }
                     return 1;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("An error occurred: " + e);
+                    exceptionHandler();
                 }
             } else {
                 return -1;

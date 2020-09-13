@@ -30,6 +30,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 
 import java.util.ArrayList;
 
@@ -179,7 +180,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupLastBackupText() {
         if(tickTrackDatabase.getLastBackupSystemTime()!=-1){
-            syncDataLastSync.setText("Last backup at "+tickTrackDatabase.getLastBackupSystemTime());
+            syncDataLastSync.setText("Last backup "+ TimeAgo.getTimeAgo(tickTrackDatabase.getLastBackupSystemTime()));
         } else {
             syncDataLastSync.setText("No backup yet");
         }
@@ -541,7 +542,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         googleAccountLayout.setOnClickListener(view -> {
-            if(firebaseHelper.isUserSignedIn()){
+            if(firebaseHelper.isUserSignedIn() && tickTrackFirebaseDatabase.isDriveLinkFail()){
                 toggleGoogleAccountOptionsLayout();
             } else {
                 backupEmail.setText("...");
@@ -669,7 +670,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupEmailText() {
         if(firebaseHelper.isUserSignedIn()){
-            backupEmail.setText(tickTrackFirebaseDatabase.getCurrentUserEmail());
+            if(tickTrackFirebaseDatabase.isDriveLinkFail()){
+                backupEmail.setTextColor(getResources().getColor(R.color.roboto_calendar_circle_1));
+                backupEmail.setText("Drive link failed. Sign in Again");
+            } else {
+                backupEmail.setText(tickTrackFirebaseDatabase.getCurrentUserEmail());
+            }
         } else {
             backupEmail.setText("Add an account");
         }

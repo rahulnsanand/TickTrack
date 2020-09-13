@@ -30,6 +30,7 @@ public class BackupRestoreService extends Service {
     public static final String RESTORE_SERVICE_START_INIT_RETRIEVE = "RESTORE_SERVICE_START_INIT_RETRIEVE";
     public static final String RESTORE_SERVICE_START_RESTORE = "RESTORE_SERVICE_START_RESTORE";
     public static final String RESTORE_SERVICE_START_BACKUP = "RESTORE_SERVICE_START_BACKUP";
+    public static final String CANCEL_RESTORE_SERVICE = "CANCEL_RESTORE_SERVICE";
 
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManagerCompat;
@@ -75,6 +76,7 @@ public class BackupRestoreService extends Service {
             assert action != null;
             switch (action) {
                 case RESTORE_SERVICE_STOP_FOREGROUND:
+                case CANCEL_RESTORE_SERVICE:
                     stopForegroundService();
                     break;
                 case RESTORE_SERVICE_START_INIT_RETRIEVE:
@@ -107,7 +109,6 @@ public class BackupRestoreService extends Service {
             if(tickTrackFirebaseDatabase.getRestoreCompleteStatus()==1){
                 System.out.println("RESTORE COMPLETE");
                 restoreCheckHandler.removeCallbacks(dataRestoreCheck);
-                tickTrackFirebaseDatabase.setBackUpAlarm();
                 stopForegroundService();
                 prefixFirebaseVariables();
             } else if(tickTrackFirebaseDatabase.getRestoreCompleteStatus()==-1){
@@ -152,7 +153,6 @@ public class BackupRestoreService extends Service {
         public void run() {
             if(!tickTrackFirebaseDatabase.isBackupMode()){
                 System.out.println("BACKUP OVER");
-
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
@@ -170,14 +170,22 @@ public class BackupRestoreService extends Service {
     }
 
     private void stopForegroundService() {
-        stopForeground(true);
+        backupCheckHandler.removeCallbacks(dataBackupCheck);
+        restoreCheckHandler.removeCallbacks(dataRestoreCheck);
+
+        stopForeground(false);
         stopSelf();
+        onDestroy();
     }
 
     private void setupCustomNotification(){
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
+        Intent cancelIntent = new Intent(this, BackupRestoreService.class);
+        cancelIntent.setAction(CANCEL_RESTORE_SERVICE);
+        PendingIntent pendingCancelIntent = PendingIntent.getService(this, 10, cancelIntent, 0);
+        NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Cancel", pendingCancelIntent);
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -185,6 +193,8 @@ public class BackupRestoreService extends Service {
                 .setOnlyAlertOnce(true)
                 .setProgress(0,0,true)
                 .setColor(getResources().getColor(R.color.Accent));
+
+        notificationBuilder.addAction(cancelAction);
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION);

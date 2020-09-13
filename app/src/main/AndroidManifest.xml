@@ -56,10 +56,10 @@
         <activity
             android:name=".screensaver.ScreensaverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
             android:excludeFromRecents="true"
-            android:label="@string/title_activity_screensaver" />
+            android:label="@string/title_activity_screensaver"
+            android:launchMode="singleTask"
+            android:taskAffinity="" />
 
         <receiver
             android:name=".receivers.BackupScheduleReceiver"
@@ -117,17 +117,16 @@
         </receiver>
 
         <activity android:name=".startup.StartUpActivity" />
-
         <activity
             android:name=".timer.ringer.TimerRingerActivity"
-            android:directBootAware="true"
-            android:showOnLockScreen="true"
-            android:showWhenLocked="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
+            android:directBootAware="true"
             android:excludeFromRecents="true"
             android:label="TickTrackTimer"
+            android:launchMode="singleTask"
+            android:showOnLockScreen="true"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
             android:theme="@style/FullscreenTheme" />
 
         <service
@@ -136,7 +135,7 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name="com.theflopguyproductions.ticktrack.timer.service.TimerRingService"
+            android:name=".timer.service.TimerRingService"
             android:directBootAware="true"
             android:enabled="true"
             android:exported="false" />
