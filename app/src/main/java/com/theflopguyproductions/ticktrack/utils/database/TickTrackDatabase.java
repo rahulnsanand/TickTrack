@@ -294,6 +294,15 @@ public class TickTrackDatabase {
         return sharedPreferences.getBoolean("isHapticEnabled",true);
     }
 
+    public void setSumEnabled(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isSumEnabled", value);
+        editor.apply();
+    }
+    public boolean isSumEnabled(){
+        return sharedPreferences.getBoolean("isSumEnabled",true);
+    }
+
     public void storeSyncFrequency(int id){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("syncFrequency", id);
@@ -335,6 +344,15 @@ public class TickTrackDatabase {
     }
     public long getLastBackupSystemTime(){
         return sharedPreferences.getLong("lastBackupTime",-1);
+    }
+
+    public void storeScreenSaverClock(int id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("screensaverClockStyle", id);
+        editor.apply();
+    }
+    public int getScreenSaverClock(){
+        return sharedPreferences.getInt("screensaverClockStyle",1);
     }
 
     public void resetData(Context context) {

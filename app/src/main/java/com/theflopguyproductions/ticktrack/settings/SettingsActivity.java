@@ -6,15 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -57,9 +60,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     private ConstraintLayout deleteBackupLayout, factoryResetLayout;
 
+    private ConstraintLayout rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout;
+    private TextView rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue;
+    private ImageView unordinaryImage, oxygenyImage, minimalImage, simplisticImage, romanImage, funkyImage;
+    private ImageView unordinaryImageCheck, oxygenyImageCheck, minimalImageCheck, simplisticImageCheck, romanImageCheck, funkyImageCheck;
+    private Switch displaySumSwitch;
+
+
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(firebaseHelper.isUserSignedIn()){
             setupEmailText();
@@ -223,7 +233,8 @@ public class SettingsActivity extends AppCompatActivity {
         TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
                 tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
-                hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout);
+                hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout, rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout,
+                rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue);
     }
 
     private boolean isSyncOptionOpen = false;
@@ -298,6 +309,93 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    private int clockStyle = -1;
+    private boolean isClockVisible = false;
+    private void setupClockStyle() {
+        if(clockStyle==-1){
+            clockStyle = tickTrackDatabase.getScreenSaverClock();
+        }
+        removeAllCheck();
+        if(clockStyle==1){
+            unordinaryImageCheck.setVisibility(View.VISIBLE);
+            clockStyleValue.setText("Unordinary");
+        } else if (clockStyle==2){
+            oxygenyImageCheck.setVisibility(View.VISIBLE);
+            clockStyleValue.setText("Oxygeny");
+        } else if (clockStyle==3){
+            minimalImageCheck.setVisibility(View.VISIBLE);
+            clockStyleValue.setText("Truly Minimal");
+        } else if (clockStyle==4){
+            simplisticImageCheck.setVisibility(View.VISIBLE);
+            clockStyleValue.setText("Simplistic");
+        } else if (clockStyle==5){
+            romanImageCheck.setVisibility(View.VISIBLE);
+            clockStyleValue.setText("Roman");
+        } else if (clockStyle==6){
+            funkyImageCheck.setVisibility(View.VISIBLE);
+            clockStyleValue.setText("Funky");
+        } else {
+            unordinaryImageCheck.setVisibility(View.VISIBLE);
+            clockStyleValue.setText("Unordinary");
+        }
+        tickTrackDatabase.storeScreenSaverClock(clockStyle);
+    }
+    private void removeAllCheck() {
+        unordinaryImageCheck.setVisibility(View.INVISIBLE);
+        oxygenyImageCheck.setVisibility(View.INVISIBLE);
+        minimalImageCheck.setVisibility(View.INVISIBLE);
+        simplisticImageCheck.setVisibility(View.INVISIBLE);
+        romanImageCheck.setVisibility(View.INVISIBLE);
+        funkyImageCheck.setVisibility(View.INVISIBLE);
+    }
+    private void setOnClickListeners(){
+        unordinaryImage.setOnClickListener(view -> {
+            clockStyle=1;
+            setupClockStyle();
+        });
+        oxygenyImage.setOnClickListener(view -> {
+            clockStyle=2;
+            setupClockStyle();
+        });
+        minimalImage.setOnClickListener(view -> {
+            clockStyle=3;
+            setupClockStyle();
+        });
+        simplisticImage.setOnClickListener(view -> {
+            clockStyle=4;
+            setupClockStyle();
+        });
+        romanImage.setOnClickListener(view -> {
+            clockStyle=5;
+            setupClockStyle();
+        });
+        funkyImage.setOnClickListener(view -> {
+            clockStyle=6;
+            setupClockStyle();
+        });
+    }
+    private void setupClockOptionsToggle() {
+        if(isClockVisible){
+            clockOptionsLayout.setVisibility(View.GONE);
+            isClockVisible=false;
+        } else {
+            clockOptionsLayout.setVisibility(View.VISIBLE);
+            isClockVisible=true;
+        }
+    }
+
+    private void setupTimerSound() {
+
+    }
+
+    private void setupCounterSum() {
+        if(tickTrackDatabase.isSumEnabled()){
+            displaySumSwitch.setChecked(true);
+        } else {
+            displaySumSwitch.setChecked(false);
+        }
+    }
+
     private void initVariables() {
         themeLayout = findViewById(R.id.themeSettingsLayout);
         themeTitle = findViewById(R.id.themeSettingsLabel);
@@ -333,6 +431,35 @@ public class SettingsActivity extends AppCompatActivity {
         hapticLayout = findViewById(R.id.hapticVibrateSettingsLayout);
         hapticTextTitle = findViewById(R.id.hapticTitleSettingsTextView);
 
+        rateUsLayout = findViewById(R.id.rateUsSettingsLayout);
+        displaySumLayout = findViewById(R.id.showSumCounterSettingsLayout);
+        timerSoundLayout = findViewById(R.id.timerSoundSettingsLayout);
+        clockStyleLayout = findViewById(R.id.clockStyleScreensaverSettingsLayout);
+        clockOptionsLayout = findViewById(R.id.clockStyleScreensaverSettingsOptionsLayout);
+        dateTimeLayout = findViewById(R.id.dateTimeSettingsLayout);
+        rateUsTitle = findViewById(R.id.rateUsSettingsTitleText);
+        rateUsValue = findViewById(R.id.rateUsSettingsContentText);
+        displaySumTitle = findViewById(R.id.showSumCounterSettingsTitle);
+        timerSoundTitle = findViewById(R.id.timerSoundSettingsTitle);
+        timerSoundValue = findViewById(R.id.timerSoundSettingsValue);
+        clockStyleTitle = findViewById(R.id.clockStyleScreensaverSettingsTitle);
+        clockStyleValue = findViewById(R.id.clockStyleScreensaverSettingsValue);
+        dateTimeTitle = findViewById(R.id.dateTimeSettingsTitle);
+        dateTimeValue = findViewById(R.id.dateTimeSettingsValue);
+        unordinaryImage = findViewById(R.id.screensaverUnordinaryImage);
+        oxygenyImage = findViewById(R.id.screensaverOxygenyImage);
+        minimalImage = findViewById(R.id.screensaverTrulyMinimalImage);
+        simplisticImage = findViewById(R.id.screensaverSimplisticImage);
+        romanImage = findViewById(R.id.screensaverRomanImage);
+        funkyImage = findViewById(R.id.screensaverFunkyImage);
+        unordinaryImageCheck = findViewById(R.id.screensaverUnordinaryImageCheck);
+        oxygenyImageCheck = findViewById(R.id.screensaverOxygenyImageCheck);
+        minimalImageCheck = findViewById(R.id.screensaverTrulyMinimalImageCheck);
+        simplisticImageCheck = findViewById(R.id.screensaverSimplisticImageCheck);
+        romanImageCheck = findViewById(R.id.screensaverRomanImageCheck);
+        funkyImageCheck = findViewById(R.id.screensaverFunkyImageCheck);
+        displaySumSwitch = findViewById(R.id.showSumCounterSettingsSwitch);
+
         deleteBackupLayout = findViewById(R.id.dangerZoneDeleteBackupLayout);
         factoryResetLayout = findViewById(R.id.dangerZoneFactoryResetLayout);
 
@@ -352,7 +479,16 @@ public class SettingsActivity extends AppCompatActivity {
         setupThemeText();
         setupHapticData();
 
+        setupClockStyle();
+        setOnClickListeners();
+
+        setupTimerSound();
+
+        setupCounterSum();
+
         accountOptionsLayout.setVisibility(View.GONE);
+        clockOptionsLayout.setVisibility(View.GONE);
+        themeOptionsLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -490,7 +626,35 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        clockStyleLayout.setOnClickListener(view -> setupClockOptionsToggle());
+
+        displaySumLayout.setOnClickListener(view -> {
+            if(tickTrackDatabase.isSumEnabled()){
+                tickTrackDatabase.setSumEnabled(false);
+            } else {
+                tickTrackDatabase.setSumEnabled(true);
+            }
+            setupCounterSum();
+        });
+
+        displaySumSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(compoundButton.isChecked()){
+                tickTrackDatabase.setSumEnabled(true);
+            } else {
+                tickTrackDatabase.setSumEnabled(false);
+            }
+            setupCounterSum();
+        });
+
         backButton.setOnClickListener(view -> onBackPressed());
+
+        dateTimeLayout.setOnClickListener(view -> startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 1));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
@@ -521,8 +685,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         tickTrackDatabase.storeCurrentFragmentNumber(prevFragment);

@@ -651,6 +651,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView9">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/timerSoundSettingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/clickable_layout_light_background"
@@ -659,7 +660,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/textView20"
+                        android:id="@+id/timerSoundSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -672,7 +673,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/timerSoundSettingsValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -684,7 +685,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+                        app:layout_constraintTop_toBottomOf="@+id/timerSoundSettingsTitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
