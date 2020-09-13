@@ -566,7 +566,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/hapticVibrateSettingsLayout">
 
                     <TextView
-                        android:id="@+id/textView24"
+                        android:id="@+id/showSumCounterSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -577,7 +577,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Switch
-                        android:id="@+id/switch1"
+                        android:id="@+id/showSumCounterSettingsSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -587,7 +587,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/textView24"
+                        app:layout_constraintStart_toEndOf="@+id/showSumCounterSettingsTitle"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -712,7 +712,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView10">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout20"
+                    android:id="@+id/clockStyleScreensaverSettingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/clickable_layout_light_background"
@@ -721,7 +721,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/textView25"
+                        android:id="@+id/clockStyleScreensaverSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -735,7 +735,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView26"
+                        android:id="@+id/clockStyleScreensaverSettingsValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -747,18 +747,18 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                        app:layout_constraintTop_toBottomOf="@+id/clockStyleScreensaverSettingsTitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout21"
+                    android:id="@+id/clockStyleScreensaverSettingsOptionsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/clickable_layout_light_background"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout20">
+                    app:layout_constraintTop_toBottomOf="@+id/clockStyleScreensaverSettingsLayout">
 
                     <HorizontalScrollView
                         android:layout_width="wrap_content"
@@ -986,15 +986,16 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dateTimeSettingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout21">
+                    app:layout_constraintTop_toBottomOf="@+id/clockStyleScreensaverSettingsOptionsLayout">
 
                     <TextView
-                        android:id="@+id/textView27"
+                        android:id="@+id/dateTimeSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -1008,7 +1009,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView28"
+                        android:id="@+id/dateTimeSettingsValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -1020,7 +1021,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+                        app:layout_constraintTop_toBottomOf="@+id/dateTimeSettingsTitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
