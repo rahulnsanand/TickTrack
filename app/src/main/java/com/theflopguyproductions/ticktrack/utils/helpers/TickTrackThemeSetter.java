@@ -25,13 +25,15 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 public class TickTrackThemeSetter {
 
     public static void mainActivityTheme(BottomNavigationView bottomNavigationView, Activity activity, TickTrackDatabase tickTrackDatabase, Toolbar mainToolbar,
-                                         TextView ticktrackAppName){
+                                         TextView ticktrackAppName, ConstraintLayout container){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
+            container.setBackgroundResource(R.color.LightGray);
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
             mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
             bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.DarkText)));
         } else {
+            container.setBackgroundResource(R.color.Black);
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.Gray));
             mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.Black));
             mainToolbar.setPopupTheme(R.style.LightOverflow);
@@ -64,12 +66,12 @@ public class TickTrackThemeSetter {
             hapticLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             deleteBackupLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
             factoryResetLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
-            rateUsLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
-            counterSumLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
-            timerSoundLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
-            clockStyleLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
-            clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
-            dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_white_background);
+            rateUsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            counterSumLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            timerSoundLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            clockStyleLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
 
             timerSoundTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             timerSoundValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
@@ -108,12 +110,12 @@ public class TickTrackThemeSetter {
             hapticLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             deleteBackupLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
             factoryResetLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
-            rateUsLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
-            counterSumLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
-            timerSoundLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
-            clockStyleLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
-            clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
-            dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_gray_background);
+            rateUsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            counterSumLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            timerSoundLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            clockStyleLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
 
             timerSoundTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             timerSoundValue.setTextColor(activity.getResources().getColor(R.color.LightText));
@@ -145,15 +147,17 @@ public class TickTrackThemeSetter {
     }
 
     public static void counterFragmentTheme(Activity activity, RecyclerView recyclerView, ConstraintLayout counterFragmentRootLayout, TextView noCounterText
-            , TickTrackDatabase tickTrackDatabase){
+            , TickTrackDatabase tickTrackDatabase, ConstraintLayout sumLayout){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             counterFragmentRootLayout.setBackgroundResource(R.color.LightGray);
+            sumLayout.setBackgroundResource(R.drawable.round_rect_white);
             recyclerView.setBackgroundResource(R.color.LightGray);
             noCounterText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
 
         } else {
             counterFragmentRootLayout.setBackgroundResource(R.color.Black);
+            sumLayout.setBackgroundResource(R.drawable.round_rect_dark);
             recyclerView.setBackgroundResource(R.color.Black);
             noCounterText.setTextColor(activity.getResources().getColor(R.color.LightText) );
         }

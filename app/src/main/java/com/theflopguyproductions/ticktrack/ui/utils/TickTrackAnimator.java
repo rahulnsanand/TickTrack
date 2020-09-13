@@ -3,11 +3,21 @@ package com.theflopguyproductions.ticktrack.ui.utils;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TickTrackAnimator {
 
+    public static void layoutUnDissolve(ConstraintLayout fab){
+        fab.setAlpha(0f);
+        fab.setVisibility(View.VISIBLE);
+        fab.animate()
+                .setDuration(350)
+                .alpha(1f)
+                .start();
+    }
 
     public static void fabDissolve(FloatingActionButton fab){
         fab.animate()

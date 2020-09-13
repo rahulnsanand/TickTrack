@@ -35,6 +35,8 @@ import java.util.Collections;
 
 public class CounterFragment extends Fragment implements CounterSlideDeleteHelper.RecyclerItemTouchHelperListener{
 
+    private static final long LONG_MAX_VALUE = 9223372036854775807L;
+
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private static CounterAdapter counterAdapter;
     private static RecyclerView counterRecyclerView;
@@ -85,17 +87,20 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             sumLayout.setVisibility(View.GONE);
             sumValue.setVisibility(View.GONE);
         }
+        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase, sumLayout);
     }
 
     private void setupSumLayout() {
-        sumLayout.setVisibility(View.VISIBLE);
+        TickTrackAnimator.layoutUnDissolve(sumLayout);
         sumValue.setVisibility(View.VISIBLE);
 
-        long sum = 0;
+        long sum = 0L;
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         for(int i=0; i<counterDataArrayList.size(); i++){
             if(counterDataArrayList.get(i).getCounterValue()>0){
-                sum += counterDataArrayList.get(i).getCounterValue();
+                if(sum<LONG_MAX_VALUE){
+                    sum += counterDataArrayList.get(i).getCounterValue();
+                }
             }
         }
         sumValue.setText("Sum: "+sum);
@@ -123,8 +128,6 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         sumValue = root.findViewById(R.id.counterFragmentSumValue);
 
         buildRecyclerView(activity);
-
-        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase);
 
         counterFab = root.findViewById(R.id.counterAddButton);
 

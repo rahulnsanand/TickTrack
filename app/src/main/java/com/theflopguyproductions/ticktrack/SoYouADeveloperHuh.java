@@ -14,13 +14,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -31,7 +31,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
-import com.theflopguyproductions.ticktrack.dialogs.MissedItemDialog;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -56,30 +55,19 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     private Toolbar mainToolbar;
     private TextView tickTrackAppName;
     private BottomNavigationView navView;
+    private ConstraintLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        setContentView(R.layout.activity_so_you_a_developer_huh);
 
         tickTrackDatabase = new TickTrackDatabase(this);
 
-        timerManagementHelper = new TimerManagementHelper(this);
-        int missedTimers = 0;
-        int almostMissedTimers = timerManagementHelper.getAlmostMissedTimer();
-
-        if(missedTimers>0 || almostMissedTimers >0){
-            MissedItemDialog missedItemDialog = new MissedItemDialog(this, missedTimers, almostMissedTimers);
-            missedItemDialog.setCancelable(true);
-            missedItemDialog.show();
-        }
-
-        setContentView(R.layout.activity_so_you_a_developer_huh);
-
         mainToolbar = findViewById(R.id.mainActivityToolbar);
         tickTrackAppName = findViewById(R.id.ticktrackAppName);
+        container = findViewById(R.id.container);
         navView = findViewById(R.id.nav_view);
         navView.setItemIconTintList(null);
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
@@ -283,7 +271,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 openFragment(getFragment(tickTrackDatabase.retrieveCurrentFragmentNumber()));
             }
         }
-        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName);
+        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName, container);
     }
 
     @Override

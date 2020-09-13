@@ -9,6 +9,7 @@
         <item name="colorSecondary">@color/Accent</item>
         <item name="colorOnSecondary">@color/LightText</item>
         <item name="android:textColorSecondary">@color/Accent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="DarkOverflow" parent="Theme.AppCompat.Light.NoActionBar">
