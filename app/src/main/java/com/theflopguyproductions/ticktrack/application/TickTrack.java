@@ -3,9 +3,7 @@ package com.theflopguyproductions.ticktrack.application;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.os.Build;
@@ -15,7 +13,6 @@ import androidx.annotation.RequiresApi;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.theflopguyproductions.ticktrack.timer.receivers.TimerBroadcastReceiver;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
 import java.util.Objects;
@@ -54,6 +51,7 @@ public class TickTrack extends Application {
     public void onCreate() {
         super.onCreate();
 
+
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
 
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context. NOTIFICATION_SERVICE ) ;
@@ -67,13 +65,6 @@ public class TickTrack extends Application {
             createTimerMissedNotificationChannel(mNotificationManager);
 
         }
-
-        ComponentName receiver = new ComponentName(this, TimerBroadcastReceiver.class);
-        PackageManager pm = this.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
 
         setupCrashAnalyticsBasicData();
 

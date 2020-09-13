@@ -190,8 +190,7 @@ public class TickTrackThemeSetter {
 
     public static void counterActivityTheme(Activity activity, ConstraintLayout toolbar, ConstraintLayout rootLayout, int flagColor,
                                             ConstraintLayout plusButtonBig, ConstraintLayout minusButtonBig, TextView plusText, TextView minusText, SwipeButton plusLightButton, SwipeButton minusLightButton,
-                                            SwipeButton plusDarkButton, SwipeButton minusDarkButton,
-                                            ScrollView counterActivityScrollView, TextView counterSwitchMode, Switch buttonSwitch, ConstraintLayout switchLayout,
+                                            SwipeButton plusDarkButton, SwipeButton minusDarkButton, TextView counterSwitchMode, Switch buttonSwitch, ConstraintLayout switchLayout,
                                             ConstraintLayout switchLowerDivider, ConstraintLayout switchUpperDivider, TickTrackDatabase tickTrackDatabase){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
@@ -200,7 +199,6 @@ public class TickTrackThemeSetter {
         if(checkTheme==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             switchLayout.setBackgroundResource(R.color.LightGray);
-            counterActivityScrollView.setBackgroundResource(R.color.LightGray);
 
             counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.DarkText));
             plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -219,7 +217,6 @@ public class TickTrackThemeSetter {
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
             switchLayout.setBackgroundResource(R.color.Black);
-            counterActivityScrollView.setBackgroundResource(R.color.Black);
 
             counterSwitchMode.setTextColor(activity.getResources().getColor(R.color.LightText));
             plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);

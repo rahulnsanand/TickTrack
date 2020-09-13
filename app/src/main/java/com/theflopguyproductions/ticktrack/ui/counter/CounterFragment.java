@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -70,6 +71,13 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     public void onStart() {
         super.onStart();
         TickTrackAnimator.fabUnDissolve(counterFab);
+        if(tickTrackDatabase.isSumEnabled()){
+            setupSumLayout();
+        } else {
+            sumLayout.setVisibility(View.GONE);
+            sumValue.setVisibility(View.GONE);
+        }
+        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase, sumLayout);
     }
 
     @Override
@@ -81,13 +89,6 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             CreateCounter createCounter = new CreateCounter(getActivity());
             createCounter.show();
         }
-        if(tickTrackDatabase.isSumEnabled()){
-            setupSumLayout();
-        } else {
-            sumLayout.setVisibility(View.GONE);
-            sumValue.setVisibility(View.GONE);
-        }
-        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase, sumLayout);
     }
 
     private void setupSumLayout() {
@@ -114,6 +115,23 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         }
     };
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        buildRecyclerView(activity);
+
+        counterFab.setOnClickListener(view1 -> {
+            CreateCounter createCounter = new CreateCounter(getActivity());
+            createCounter.show();
+        });
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new CounterSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(counterRecyclerView);
+        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_counter, container, false);
@@ -126,23 +144,13 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterFragmentRootLayout = root.findViewById(R.id.counterRootLayout);
         sumLayout = root.findViewById(R.id.counterFragmentSumLayout);
         sumValue = root.findViewById(R.id.counterFragmentSumValue);
-
-        buildRecyclerView(activity);
-
         counterFab = root.findViewById(R.id.counterAddButton);
 
-        counterFab.setOnClickListener(view -> {
-            CreateCounter createCounter = new CreateCounter(getActivity());
-            createCounter.show();
-        });
-
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new CounterSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(counterRecyclerView);
-        sharedPreferences = tickTrackDatabase.getSharedPref(activity);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         return root;
     }
+
+
 
     private static void buildRecyclerView(Activity activity) {
 

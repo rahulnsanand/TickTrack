@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -37,7 +37,6 @@ public class CounterActivity extends AppCompatActivity {
     private SwipeButton plusLightButton, minusLightButton, plusDarkButton, minusDarkButton;
     private ConstraintLayout plusButtonBig, minusButtonBig;
     private Switch buttonSwitch;
-    private ScrollView counterActivityScrollView;
     private TextView CounterText, counterLabel, counterSwitchMode, plusText, minusText;
     private int currentCount;
     private ArrayList<CounterData> counterDataArrayList;
@@ -48,6 +47,7 @@ public class CounterActivity extends AppCompatActivity {
     LottieAnimationView lottieAnimationView;
     private SharedPreferences sharedPreferences;
     private String counterID;
+    private Vibrator vibrator;
 
     @Override
     protected void onStop() {
@@ -63,7 +63,7 @@ public class CounterActivity extends AppCompatActivity {
         flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
         TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
                 plusText, minusText, plusLightButton, minusLightButton,
-                plusDarkButton, minusDarkButton, counterActivityScrollView, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider, tickTrackDatabase);
+                plusDarkButton, minusDarkButton, counterSwitchMode, buttonSwitch, switchLayout, switchLowerDivider, switchUpperDivider, tickTrackDatabase);
         milestoneItIs();
     }
 
@@ -126,14 +126,13 @@ public class CounterActivity extends AppCompatActivity {
         minusButtonBig =findViewById(R.id.minusButton);
         buttonSwitch = findViewById(R.id.counterActivityButtonSwitch);
         lottieAnimationView = findViewById(R.id.counterActivityLottieAnimationView);
-
+        vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         activity = this;
         tickTrackDatabase = new TickTrackDatabase(activity);
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
 
         counterSwitchMode = findViewById(R.id.counterActivitySwitchModeTextView);
         counterSwitchMode.setText("Swipe mode");
-        counterActivityScrollView = findViewById(R.id.counterActivityScrollView);
         plusText = findViewById(R.id.counterActivityPlusText);
         minusText = findViewById(R.id.counterActivityMinusText);
 
@@ -147,13 +146,6 @@ public class CounterActivity extends AppCompatActivity {
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
 
         flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
-
-        TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
-                plusText, minusText,
-                plusLightButton, minusLightButton,
-                plusDarkButton, minusDarkButton,  counterActivityScrollView, counterSwitchMode, buttonSwitch,
-                switchLayout, switchLowerDivider, switchUpperDivider, tickTrackDatabase);
-
 
         currentCount = counterDataArrayList.get(getCurrentPosition()).getCounterValue();
         counterLabel.setText(counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
@@ -319,6 +311,11 @@ public class CounterActivity extends AppCompatActivity {
         });
     }
     private void refreshNotificationStatus() {
+
+        if(tickTrackDatabase.isHapticEnabled()){
+            vibrator.vibrate(50);
+        }
+
         if(counterDataArrayList.get(getCurrentPosition()).isCounterPersistentNotification()){
             Intent intent = new Intent(this, CounterNotificationService.class);
             intent.setAction(CounterNotificationService.ACTION_REFRESH_SERVICE);

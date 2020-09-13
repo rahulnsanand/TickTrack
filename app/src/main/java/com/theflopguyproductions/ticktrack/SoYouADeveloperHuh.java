@@ -42,15 +42,12 @@ import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
-import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
-import com.theflopguyproductions.ticktrack.utils.helpers.TimerManagementHelper;
 
 public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerCreatorFragment.QuickTimerCreateListener{
 
     TickTrackDatabase tickTrackDatabase;
-    TimerManagementHelper timerManagementHelper;
 
     private Toolbar mainToolbar;
     private TextView tickTrackAppName;
@@ -60,7 +57,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_so_you_a_developer_huh);
 
         tickTrackDatabase = new TickTrackDatabase(this);
@@ -69,16 +65,16 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         tickTrackAppName = findViewById(R.id.ticktrackAppName);
         container = findViewById(R.id.container);
         navView = findViewById(R.id.nav_view);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         navView.setItemIconTintList(null);
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         setSupportActionBar(mainToolbar);
         setTitle("");
-
-        boolean setHappen = AutoStartPermissionHelper.getInstance().getAutoStartPermission(getApplicationContext());
-        boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this);
-
     }
-
 
     private void goToStartUpActivity(int id, boolean optimise) {
         tickTrackDatabase.setNotOptimised(optimise);
@@ -226,15 +222,13 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100){
-            Toast.makeText(this, "Hallelujah", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(new TickTrackFirebaseDatabase(this).isRestoreInitMode()==-1 || new TickTrackFirebaseDatabase(this).isRestoreInitMode()==1 ||
+        int restoreMore = new TickTrackFirebaseDatabase(this).isRestoreInitMode();
+        if(restoreMore==-1 || restoreMore==1 ||
                 new TickTrackFirebaseDatabase(this).isRestoreMode()){
             goToStartUpActivity(3, true);
         } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
@@ -273,12 +267,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 openFragment(getFragment(tickTrackDatabase.retrieveCurrentFragmentNumber()));
             }
         }
-        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName, container);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName, container);
     }
 
     @Override

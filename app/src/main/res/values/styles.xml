@@ -1,4 +1,8 @@
 <resources>
+
+    <style name="SplashTheme" parent="DarkTheme">
+        <item name="android:windowBackground">@drawable/button_selector_accent</item>
+    </style>
     <!-- Base application theme. -->
     <style name="DarkTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
