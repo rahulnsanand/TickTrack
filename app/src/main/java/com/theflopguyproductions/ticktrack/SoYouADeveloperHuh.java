@@ -81,7 +81,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
 
     private void goToStartUpActivity(int id, boolean optimise) {
-        tickTrackDatabase.storeNotOptimiseBool(optimise);
+        tickTrackDatabase.setNotOptimised(optimise);
         tickTrackDatabase.storeStartUpFragmentID(id);
         Intent intent = new Intent(this, StartUpActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -238,8 +238,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 new TickTrackFirebaseDatabase(this).isRestoreMode()){
             goToStartUpActivity(3, true);
         } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
-                .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED) || tickTrackDatabase.retrieveFirstLaunch()){
+                .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
             goToStartUpActivity(5, false);
+        } else if(tickTrackDatabase.retrieveFirstLaunch()){
+            goToStartUpActivity(1, false);
         } else {
             if(isMyServiceRunning(StopwatchNotificationService.class, this)){
                 stopNotificationService();

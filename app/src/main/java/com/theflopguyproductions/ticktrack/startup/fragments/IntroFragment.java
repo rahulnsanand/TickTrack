@@ -50,8 +50,6 @@ public class IntroFragment extends Fragment {
         lottieAnimationView.setAnimation(R.raw.logo_animation_ticktrack);
         lottieAnimationView.playAnimation();
 
-        getStartedButton.setVisibility(View.VISIBLE);
-
         displayStuff.postDelayed(displayRunnable, 3500);
 
 

@@ -70,7 +70,7 @@ public class MissedItemDialog extends Dialog {
     }
 
     private void goToStartUpActivity() {
-        tickTrackDatabase.storeNotOptimiseBool(false);
+        tickTrackDatabase.setNotOptimised(false);
         tickTrackDatabase.storeStartUpFragmentID(5);
         Intent intent = new Intent(activity, StartUpActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

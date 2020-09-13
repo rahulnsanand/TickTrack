@@ -93,13 +93,13 @@ public class TickTrackDatabase {
         return sharedPreferences.getBoolean("firstLaunch", true);
     }
 
-    public void storeNotOptimiseBool(boolean updateNumber){
+    public void setNotOptimised(boolean updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isNotOptimised", updateNumber);
         editor.apply();
     }
 
-    public boolean retrieveNotOptimiseBool() {
+    public boolean isNotOptimised() {
         return sharedPreferences.getBoolean("isNotOptimised", false);
     }
 

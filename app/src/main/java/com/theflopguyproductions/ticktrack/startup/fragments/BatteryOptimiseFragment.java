@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
+import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class BatteryOptimiseFragment extends Fragment {
 
@@ -37,10 +37,11 @@ public class BatteryOptimiseFragment extends Fragment {
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
 
-        boolean isAvailable = AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(requireContext());
-        boolean checkAgain = tickTrackDatabase.retrieveNotOptimiseBool();
+        PowerSaverHelper.WhiteListedInBatteryOptimizations appWhiteListState
+                = PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(requireContext(), requireContext().getPackageName());
 
-        if(!isAvailable && !checkAgain){
+        if(tickTrackDatabase.isNotOptimised() || appWhiteListState.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.WHITE_LISTED)
+                || appWhiteListState.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.ERROR_GETTING_STATE) ){
             Intent intent = new Intent(requireContext(), SoYouADeveloperHuh.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -48,7 +49,6 @@ public class BatteryOptimiseFragment extends Fragment {
         } else {
 
             View root = inflater.inflate(R.layout.fragment_ticktrack_battery_optimize, container, false);
-
 
             themeMode = tickTrackDatabase.getThemeMode();
             tickTrackDatabase.storeStartUpFragmentID(5);

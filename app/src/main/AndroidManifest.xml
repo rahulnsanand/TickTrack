@@ -56,6 +56,9 @@
         <activity
             android:name=".screensaver.ScreensaverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:label="@string/title_activity_screensaver" />
 
         <receiver
