@@ -688,7 +688,7 @@ public class TickTrackProgressBar extends View {
          *
          * @param progress a double value between 0.00 and 1.00 both included
          */
-        public void onProgressUpdate(float progress);
+        void onProgressUpdate(float progress);
     }
 
     static class WheelSavedState extends BaseSavedState {

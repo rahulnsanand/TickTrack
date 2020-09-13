@@ -61,7 +61,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/counterEditActivityBackButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="montserrat_semi_bold_italic" />
+            app:typeface="montserrat_medium_italic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -462,7 +462,7 @@
                 android:id="@+id/counterEditActivityNotificationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                app:layout_constraintBottom_toTopOf="@+id/counterEditActivityDeleteButton"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/counterEditActivityButtonModeDivider"

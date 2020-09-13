@@ -65,6 +65,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         tickTrackAppName = findViewById(R.id.ticktrackAppName);
         container = findViewById(R.id.container);
         navView = findViewById(R.id.nav_view);
+        System.out.println("ActivityManager: Displayed SoYouDev OnCreate "+System.currentTimeMillis());
     }
 
     @Override
@@ -74,6 +75,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         setSupportActionBar(mainToolbar);
         setTitle("");
+        System.out.println("ActivityManager: Displayed SoYouDev OnPostCreate "+System.currentTimeMillis());
     }
 
     private void goToStartUpActivity(int id, boolean optimise) {
@@ -267,6 +269,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 openFragment(getFragment(tickTrackDatabase.retrieveCurrentFragmentNumber()));
             }
         }
+        System.out.println("ActivityManager: Displayed SoYouDev onResume "+System.currentTimeMillis());
     }
 
     @Override

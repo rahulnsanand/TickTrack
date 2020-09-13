@@ -78,6 +78,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             sumValue.setVisibility(View.GONE);
         }
         TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase, sumLayout);
+        System.out.println("ActivityManager: Displayed CounterFrag OnStart "+System.currentTimeMillis());
     }
 
     @Override
@@ -89,6 +90,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             CreateCounter createCounter = new CreateCounter(getActivity());
             createCounter.show();
         }
+        System.out.println("ActivityManager: Displayed CounterFrag OnResume "+System.currentTimeMillis());
     }
 
     private void setupSumLayout() {
@@ -113,13 +115,15 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             Collections.sort(counterDataArrayList);
             counterAdapter.diffUtilsChangeData(counterDataArrayList);
         }
+        System.out.println("ActivityManager: Displayed CounterFrag SharedPref "+System.currentTimeMillis());
     };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        buildRecyclerView(activity);
+        counterDataArrayList = tickTrackDatabase.retrieveCounterList();
 
+        buildRecyclerView(activity);
         counterFab.setOnClickListener(view1 -> {
             CreateCounter createCounter = new CreateCounter(getActivity());
             createCounter.show();
@@ -129,7 +133,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(counterRecyclerView);
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-
+        System.out.println("ActivityManager: Displayed CounterFrag OnCreateViewED "+System.currentTimeMillis());
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -138,7 +142,6 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         activity = getActivity();
         assert activity != null;
         tickTrackDatabase = new TickTrackDatabase(activity);
-        counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         counterRecyclerView = root.findViewById(R.id.counterRecycleView);
         noCounterText = root.findViewById(R.id.counterFragmentNoCounterText);
         counterFragmentRootLayout = root.findViewById(R.id.counterRootLayout);
@@ -146,11 +149,9 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         sumValue = root.findViewById(R.id.counterFragmentSumValue);
         counterFab = root.findViewById(R.id.counterAddButton);
 
-
+        System.out.println("ActivityManager: Displayed CounterFrag OnCreateView "+System.currentTimeMillis());
         return root;
     }
-
-
 
     private static void buildRecyclerView(Activity activity) {
 

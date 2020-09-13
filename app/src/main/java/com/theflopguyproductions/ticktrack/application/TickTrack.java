@@ -68,6 +68,8 @@ public class TickTrack extends Application {
 
         setupCrashAnalyticsBasicData();
 
+        System.out.println("ActivityManager: Displayed TickTrack OnCreate "+System.currentTimeMillis());
+
     }
 
     private void setupCrashAnalyticsBasicData() {
