@@ -149,7 +149,7 @@ public class FirebaseHelper {
         if(account!=null){
             firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).get()
                     .addOnSuccessListener(snapshot -> {
-                        Map<String, Object> retrieveData = new HashMap<>();
+                        Map<String, Object> retrieveData;
                         if(snapshot.exists()){
                             retrieveData = snapshot.getData();
                             if (retrieveData != null) {
@@ -352,6 +352,7 @@ public class FirebaseHelper {
                 tickTrackFirebaseDatabase.setBackupMode(false);
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
                 tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
+                tickTrackDatabase.setNewDevice(false);
                 Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(activity, "Not signed out, try again", Toast.LENGTH_SHORT).show();
@@ -373,6 +374,7 @@ public class FirebaseHelper {
                 tickTrackFirebaseDatabase.setBackupMode(false);
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
                 tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
+                tickTrackDatabase.setNewDevice(false);
                 Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
                 tickTrackDatabase.storeStartUpFragmentID(2);
                 Intent startUpSignInIntent = new Intent(activity, StartUpActivity.class);

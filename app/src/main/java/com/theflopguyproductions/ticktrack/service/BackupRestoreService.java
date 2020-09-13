@@ -11,6 +11,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -18,6 +21,11 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.firebase.JsonHelper;
+
+import java.text.DateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class BackupRestoreService extends Service {
 
@@ -37,6 +45,12 @@ public class BackupRestoreService extends Service {
 
     private String receivedAction;
 
+    /**
+     * DEBUG VALUES
+     */
+
+    private FirebaseFirestore firebaseFirestore;
+
     public BackupRestoreService() {
     }
 
@@ -54,6 +68,7 @@ public class BackupRestoreService extends Service {
         tickTrackDatabase = new TickTrackDatabase(this);
         jsonHelper = new JsonHelper(this);
         setupCustomNotification();
+        firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -162,11 +177,33 @@ public class BackupRestoreService extends Service {
         }
     };
     private void startBackup() {
+        updateFirebaseData();
         notificationBuilder.setContentTitle("TickTrack backup");
         notificationBuilder.setContentText("In progress");
         notifyNotification();
         backupCheckHandler.post(dataBackupCheck);
         firebaseHelper.backup();
+    }
+
+    private void updateFirebaseData() {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account!=null){
+            firebaseFirestore.collection("TickTrackUsers Backup Debug").document(Objects.requireNonNull(account.getEmail())).get()
+                    .addOnSuccessListener(snapshot -> {
+                        Map<String, Object> retrieveData = new HashMap<>();
+                        if(snapshot.exists()){
+                            retrieveData = snapshot.getData();
+                            if (retrieveData == null) {
+                                retrieveData = new HashMap<>();
+                            }
+                        }
+                        retrieveData.put("Backup "+retrieveData.size(), DateFormat.getDateTimeInstance().format(System.currentTimeMillis()));
+                        firebaseFirestore.collection("TickTrackUsers Backup Debug")
+                                .document(Objects.requireNonNull(account.getEmail())).set(retrieveData);
+                    }).addOnFailureListener(e -> {
+
+            });
+        }
     }
 
     private void stopForegroundService() {

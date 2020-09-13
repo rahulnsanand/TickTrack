@@ -542,9 +542,10 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         googleAccountLayout.setOnClickListener(view -> {
-            if(firebaseHelper.isUserSignedIn() && tickTrackFirebaseDatabase.isDriveLinkFail()){
+            if(firebaseHelper.isUserSignedIn() && !tickTrackFirebaseDatabase.isDriveLinkFail()){
                 toggleGoogleAccountOptionsLayout();
             } else {
+                firebaseHelper.signOut(activity);
                 backupEmail.setText("...");
                 tickTrackDatabase.storeStartUpFragmentID(2);
                 Intent startUpSignInIntent = new Intent(this, StartUpActivity.class);
