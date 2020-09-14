@@ -37,7 +37,7 @@ public class CounterActivity extends AppCompatActivity {
     private TextView CounterText, counterLabel, plusText, minusText;
     private int currentCount;
     private ArrayList<CounterData> counterDataArrayList;
-    ConstraintLayout toolbar, rootLayout, switchLayout, switchUpperDivider;
+    ConstraintLayout toolbar, rootLayout;
     int flagColor;
     private ImageButton backButton, deleteButton, editButton;
     private Activity activity;
@@ -60,7 +60,7 @@ public class CounterActivity extends AppCompatActivity {
         flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
         TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
                 plusText, minusText, plusLightButton, minusLightButton,
-                plusDarkButton, minusDarkButton, switchLayout , switchUpperDivider, tickTrackDatabase, CounterText);
+                plusDarkButton, minusDarkButton, tickTrackDatabase, CounterText);
         milestoneItIs();
     }
 
@@ -132,8 +132,6 @@ public class CounterActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.counterActivityToolbar);
         rootLayout = findViewById(R.id.counterActivityLayout);
-        switchLayout = findViewById(R.id.counterActivitySwitchLayout);
-        switchUpperDivider = findViewById(R.id.counterActivitySwitchLayoutUpperDivider);
 
         counterID = getIntent().getStringExtra("currentCounterPosition");
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();

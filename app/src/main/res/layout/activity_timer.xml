@@ -11,6 +11,7 @@
         android:id="@+id/timerActivityToolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:elevation="4dp"
         android:animateLayoutChanges="true"
         android:background="@color/Accent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +36,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="Label"
-            android:textColor="@color/LightText"
+            android:textColor="@color/Accent"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/timerActivityBackImageButton"
@@ -68,49 +69,105 @@
         android:id="@+id/timerActivityContentLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/LightGray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerActivityToolbarLayout">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timerActivityResetFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:visibility="gone"
-            app:fabSize="mini"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/fab_light_background"
+            android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB"
-            app:srcCompat="@drawable/ic_round_refresh_white_24" />
+            app:layout_constraintEnd_toStartOf="@+id/timerActivityPlayPauseFAB">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_refresh_white_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timerActivityPlusOneFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="32dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:visibility="gone"
-            app:fabSize="mini"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/fab_light_background"
+            android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/timerActivityPlayPauseFAB"
-            wheel:srcCompat="@drawable/ic_baseline_plus_one_white_24" />
+            app:layout_constraintStart_toEndOf="@+id/timerActivityPlayPauseFAB">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_plus_one_white_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timerActivityPlayPauseFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="24dp"
             android:clickable="true"
             android:focusable="true"
-            app:elevation="7dp"
+            android:elevation="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/timerActivityScrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_round_pause_white_24" />
+            android:background="@drawable/fab_light_background" >
+
+            <ImageView
+                android:id="@+id/timerActivityPlayImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_round_play_white_24"
+                app:layout_constraintBottom_toBottomOf="@+id/timerActivityPauseImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/timerActivityPauseImage"
+                android:padding="15dp"/>
+
+            <ImageView
+                android:id="@+id/timerActivityPauseImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_round_pause_white_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/timerActivityPlayImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="15dp"/>
+
+            <ImageView
+                android:id="@+id/timerActivityStopImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_stop_white_24"
+                app:layout_constraintBottom_toBottomOf="@+id/timerActivityPlayImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="15dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
             android:id="@+id/timerActivityScrollView"

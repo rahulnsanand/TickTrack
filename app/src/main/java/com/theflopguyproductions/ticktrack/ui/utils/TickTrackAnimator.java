@@ -26,6 +26,24 @@ public class TickTrackAnimator {
                 .start();
     }
 
+    public static void fabLayoutDissolve(ConstraintLayout fab){
+        if(fab.getAlpha()==1f){
+            fab.animate()
+                    .setDuration(350)
+                    .alpha(0f)
+                    .withEndAction(() -> fab.setVisibility(View.GONE)).start();
+        }
+    }
+    public static void fabLayoutUnDissolve(ConstraintLayout fab){
+        if(fab.getAlpha()!=1f){
+            fab.setAlpha(0f);
+            fab.setVisibility(View.VISIBLE);
+            fab.animate()
+                    .setDuration(350)
+                    .alpha(1f)
+                    .start();
+        }
+    }
     public static void layoutUnDissolve(ConstraintLayout fab){
         fab.setAlpha(0f);
         fab.setVisibility(View.VISIBLE);
