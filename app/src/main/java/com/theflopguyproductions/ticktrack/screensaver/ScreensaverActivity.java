@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.screensaver;
 
+import android.animation.ValueAnimator;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -14,7 +15,6 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
-import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
+import com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
@@ -39,7 +39,7 @@ public class ScreensaverActivity extends AppCompatActivity {
     private static int DISPLAY_DURATION = 2500;
     private static final float DARK_MODE_ALPHA = 0.2f;
     private static final float LIGHT_MODE_ALPHA = 1f;
-    private static final int FADE_DURATION = 200;
+    private static final int FADE_DURATION = 500;
 
     public static final String ACTION_SCREENSAVER_EDIT = "ACTION_SCREENSAVER_EDIT";
     public static final String ACTION_TIME_CHANGE_ANALOG = "ACTION_TIME_CHANGE_ANALOG";
@@ -52,7 +52,7 @@ public class ScreensaverActivity extends AppCompatActivity {
     private TextView dismissTextHelper;
     private Button settingsButton;
     private ConstraintLayout fabLayout;
-    private ImageView darkImage, lightImage;
+    private LottieAnimationView darkLightAnim;
     private TextView dateText, salutationText;
 
     private Runnable optionsDisplayRunnable = new Runnable() {
@@ -94,23 +94,32 @@ public class ScreensaverActivity extends AppCompatActivity {
     private void toggleNightMode(){
         currentTime = SystemClock.elapsedRealtime();
         if(isNightMode){
-            TickTrackAnimator.fabImageDissolve(lightImage);
-            TickTrackAnimator.fabImageReveal(darkImage);
+            darkLightAnim.playAnimation();
             isNightMode=false;
         } else {
-            TickTrackAnimator.fabImageDissolve(darkImage);
-            TickTrackAnimator.fabImageReveal(lightImage);
+            reverseAnimation();
             isNightMode=true;
         }
         setupClock(clockStyle);
         setupLayout();
     }
 
+    private void reverseAnimation(){
+        float progress = darkLightAnim.getProgress();
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(-progress,0 ).setDuration((long) ( darkLightAnim.getDuration()* progress));
+        valueAnimator.addUpdateListener(animation -> darkLightAnim.setProgress(Math.abs((float)animation.getAnimatedValue())));
+        valueAnimator.start();
+    }
+
     private void setupLayout() {
         if(isNightMode){
+            salutationText.animate().setDuration(FADE_DURATION).alpha(0f).start();
+            dateText.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
             fabLayout.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
             settingsButton.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
         } else {
+            dateText.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
+            salutationText.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
             fabLayout.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
             settingsButton.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
         }
@@ -228,20 +237,17 @@ public class ScreensaverActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        isNightMode=false;
         setupScreensaverAlarms();
-
+        reverseAnimation();
         setupTimeText();
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(this);
         clockStyle = tickTrackDatabase.getScreenSaverClock();
         setupClock(clockStyle);
 
-        TickTrackAnimator.fabImageDissolve(lightImage);
-        TickTrackAnimator.fabImageReveal(darkImage);
-        isNightMode=false;
-
         isOptionsOpen = false;
-        DISPLAY_DURATION = 500;
+        DISPLAY_DURATION = 1000;
         showOptionsDisplay();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 |  View.SYSTEM_UI_FLAG_LOW_PROFILE);
@@ -262,8 +268,7 @@ public class ScreensaverActivity extends AppCompatActivity {
         dismissTextHelper = findViewById(R.id.screensaverDismissText);
         settingsButton = findViewById(R.id.screensaverEditButton);
         fabLayout = findViewById(R.id.screensaverFabLayout);
-        darkImage = findViewById(R.id.screensaverNightImage);
-        lightImage = findViewById(R.id.screensaverDayImage);
+        darkLightAnim = findViewById(R.id.screensaverDayImage);
         dateText = findViewById(R.id.screensaverDateDayText);
         salutationText = findViewById(R.id.screensaverSalutationText);
 
@@ -311,12 +316,12 @@ public class ScreensaverActivity extends AppCompatActivity {
         } else {
             v = layoutInflater.inflate(R.layout.tick_track_clock_widget1, null);
         }
-        if(isNightMode){
-            v.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
-        } else {
-            v.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
-        }
         clockLayout.addView(v);
+        if(isNightMode){
+            clockLayout.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
+        } else {
+            clockLayout.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
+        }
     }
 
     @Override
