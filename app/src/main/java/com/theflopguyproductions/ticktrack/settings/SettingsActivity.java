@@ -300,6 +300,9 @@ public class SettingsActivity extends AppCompatActivity {
         if(isAccountOptionsOpen){
             toggleGoogleAccountOptionsLayout();
         }
+        if(isClockVisible){
+            setupClockOptionsToggle();
+        }
     }
 
     private void setupHapticData() {
@@ -380,6 +383,7 @@ public class SettingsActivity extends AppCompatActivity {
             clockOptionsLayout.setVisibility(View.GONE);
             isClockVisible=false;
         } else {
+            toggleOthersClose();
             clockOptionsLayout.setVisibility(View.VISIBLE);
             isClockVisible=true;
         }
@@ -515,14 +519,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         monthlyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.MONTHLY.getCode());
+            tickTrackFirebaseDatabase.cancelBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm();
             toggleSyncOptionsLayout();
         });
         weeklyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.WEEKLY.getCode());
+            tickTrackFirebaseDatabase.cancelBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm();
             toggleSyncOptionsLayout();
         });
         dailyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.DAILY.getCode());
+            tickTrackFirebaseDatabase.cancelBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm();
             toggleSyncOptionsLayout();
         });
 

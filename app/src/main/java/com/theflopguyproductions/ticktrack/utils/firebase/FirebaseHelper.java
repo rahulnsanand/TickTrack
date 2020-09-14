@@ -150,6 +150,9 @@ public class FirebaseHelper {
             firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).get()
                     .addOnSuccessListener(snapshot -> {
                         Map<String, Object> retrieveData;
+
+                        tickTrackFirebaseDatabase.setDriveLinkFail(false);
+
                         if(snapshot.exists()){
                             retrieveData = snapshot.getData();
                             if (retrieveData != null) {
@@ -160,7 +163,7 @@ public class FirebaseHelper {
                                     Toast.makeText(context, "Welcome back, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
                                     checkIfDataExists(account);
                                 }
-                                tickTrackFirebaseDatabase.setDriveLinkFail(false);
+
                             }
                         } else {
                             Toast.makeText(context, "Welcome, "+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
