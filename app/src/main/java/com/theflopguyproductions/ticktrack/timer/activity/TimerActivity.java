@@ -124,53 +124,57 @@ public class TimerActivity extends AppCompatActivity {
     private void setupOnClickListeners(){
         backButton.setOnClickListener(view -> onBackPressed());
         editButton.setOnClickListener(view -> {
-            TimerEditDialog timerEditDialog = new TimerEditDialog(activity, timerDataArrayList.get(getCurrentTimerPosition()).getTimerLabel(), timerDataArrayList.get(getCurrentTimerPosition()).getTimerFlag());
-            timerEditDialog.show();
+            new Handler().post(() -> {
+                TimerEditDialog timerEditDialog = new TimerEditDialog(activity, timerDataArrayList.get(getCurrentTimerPosition()).getTimerLabel(), timerDataArrayList.get(getCurrentTimerPosition()).getTimerFlag());
+                timerEditDialog.show();
 
-            timerEditDialog.saveButton.setOnClickListener(view1 -> {
-                if(timerEditDialog.labelInput.getText().toString().trim().length()>0){
-                    timerDataArrayList.get(getCurrentTimerPosition()).setTimerLabel(timerEditDialog.labelInput.getText().toString());
-                    labelTextView.setText(timerEditDialog.labelInput.getText().toString());
-                }
-                if(timerEditDialog.currentFlag!=timerDataArrayList.get(getCurrentTimerPosition()).getTimerFlag()){
-                    timerDataArrayList.get(getCurrentTimerPosition()).setTimerFlag(timerEditDialog.currentFlag);
-                    timerActivityToolbar.setBackgroundResource(timerActivityToolbarColor(timerEditDialog.currentFlag));
-                    timerProgressBar.setBarColor(timerActivityToolbarColor(timerEditDialog.currentFlag));
-                }
-                tickTrackDatabase.storeTimerList(timerDataArrayList);
-                timerEditDialog.dismiss();
+                timerEditDialog.saveButton.setOnClickListener(view1 -> {
+                    if(timerEditDialog.labelInput.getText().toString().trim().length()>0){
+                        timerDataArrayList.get(getCurrentTimerPosition()).setTimerLabel(timerEditDialog.labelInput.getText().toString());
+                        labelTextView.setText(timerEditDialog.labelInput.getText().toString());
+                    }
+                    if(timerEditDialog.currentFlag!=timerDataArrayList.get(getCurrentTimerPosition()).getTimerFlag()){
+                        timerDataArrayList.get(getCurrentTimerPosition()).setTimerFlag(timerEditDialog.currentFlag);
+                        timerActivityToolbar.setBackgroundResource(timerActivityToolbarColor(timerEditDialog.currentFlag));
+                        timerProgressBar.setBarColor(timerActivityToolbarColor(timerEditDialog.currentFlag));
+                    }
+                    tickTrackDatabase.storeTimerList(timerDataArrayList);
+                    timerEditDialog.dismiss();
+                });
+                timerEditDialog.cancelButton.setOnClickListener(view12 -> timerEditDialog.dismiss());
             });
-            timerEditDialog.cancelButton.setOnClickListener(view12 -> timerEditDialog.dismiss());
+
         });
         String deletedTimer = timerDataArrayList.get(getCurrentTimerPosition()).getTimerLabel();
         int timerId = timerDataArrayList.get(getCurrentTimerPosition()).getTimerIntID();
         deleteButton.setOnClickListener(view -> {
-            DeleteTimer deleteTimer = new DeleteTimer(activity);
-            deleteTimer.show();
-            if(!"Set label".equals(deletedTimer)){
-                deleteTimer.dialogMessage.setText("Delete timer "+deletedTimer+"?");
-            } else {
-                deleteTimer.dialogMessage.setText("Delete timer ?");
-            }
-            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+            new Handler().post(() -> {
+                DeleteTimer deleteTimer = new DeleteTimer(activity);
+                deleteTimer.show();
+                if(!"Set label".equals(deletedTimer)){
+                    deleteTimer.dialogMessage.setText("Delete timer "+deletedTimer+"?");
+                } else {
+                    deleteTimer.dialogMessage.setText("Delete timer ?");
+                }
+                sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                deleteTimer.yesButton.setOnClickListener(view1 -> {
+                    TimerRecyclerFragment.deleteTimer(timerId, getCurrentTimerPosition(), activity, deletedTimer);
+                    onBackPressed();
+                    deleteTimer.dismiss();
+                });
+                deleteTimer.noButton.setOnClickListener(view1 -> {
+                    TimerRecyclerFragment.refreshRecyclerView();
+                    deleteTimer.dismiss();
+                    sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
+                });
+                deleteTimer.setOnCancelListener(dialogInterface -> {
+                    TimerRecyclerFragment.refreshRecyclerView();
+                    deleteTimer.cancel();
+                    sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                });
+            });
 
-            deleteTimer.yesButton.setOnClickListener(view1 -> {
-                TimerRecyclerFragment.deleteTimer(timerId, getCurrentTimerPosition(), activity, deletedTimer);
-                onBackPressed();
-                deleteTimer.dismiss();
-            });
-            deleteTimer.noButton.setOnClickListener(view1 -> {
-                TimerRecyclerFragment.refreshRecyclerView();
-                deleteTimer.dismiss();
-                sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-
-            });
-            deleteTimer.setOnCancelListener(dialogInterface -> {
-                TimerRecyclerFragment.refreshRecyclerView();
-                deleteTimer.cancel();
-                sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-            });
         });
     }
     private static int timerActivityToolbarColor(int flagColor){

@@ -157,10 +157,11 @@ public class CounterActivity extends AppCompatActivity {
         });
 
         deleteButton.setOnClickListener(view -> {
-            DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, getCurrentPosition(), counterDataArrayList.get(getCurrentPosition()).getCounterLabel(),
-                    counterDataArrayList.get(getCurrentPosition()).getCounterID(), sharedPreferenceChangeListener);
-
-            counterDelete.show();
+            new Handler().post(() -> {
+                DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, getCurrentPosition(), counterDataArrayList.get(getCurrentPosition()).getCounterLabel(),
+                        counterDataArrayList.get(getCurrentPosition()).getCounterID(), sharedPreferenceChangeListener);
+                counterDelete.show();
+            });
         });
 
         milestoneItIs();

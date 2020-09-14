@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,10 +87,16 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if("counterCreate".equals(receivedAction)){
-            CreateCounter createCounter = new CreateCounter(getActivity());
-            createCounter.show();
+            createCounterDialog(activity);
         }
         System.out.println("ActivityManager: Displayed CounterFrag OnResume "+System.currentTimeMillis());
+    }
+
+    private static void createCounterDialog(Activity context){
+        new Handler().post(() -> {
+            CreateCounter createCounter = new CreateCounter(context);
+            createCounter.show();
+        });
     }
 
     private void setupSumLayout() {
@@ -124,8 +131,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
         buildRecyclerView(activity);
         counterFab.setOnClickListener(view1 -> {
-            CreateCounter createCounter = new CreateCounter(getActivity());
-            createCounter.show();
+            createCounterDialog(activity);
         });
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new CounterSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
@@ -201,15 +207,14 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof CounterAdapter.counterDataViewHolder) {
 
-            sharedPreferences = tickTrackDatabase.getSharedPref(activity);
-//            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-
             deletedCounter = counterDataArrayList.get(viewHolder.getAdapterPosition()).getCounterLabel();
             position = viewHolder.getAdapterPosition();
 
-            DeleteCounter counterDelete = new DeleteCounter(getActivity(), position, deletedCounter);
-            counterDelete.show();
-
+            int finalPosition = position;
+            new Handler().post(() -> {
+                DeleteCounter counterDelete = new DeleteCounter(getActivity(), finalPosition, deletedCounter);
+                counterDelete.show();
+            });
         }
     }
 

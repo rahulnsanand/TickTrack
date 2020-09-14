@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.CheckBox;
@@ -631,13 +632,17 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
             } else {
                 if(firebaseHelper.isUserSignedIn()){
-                    ProgressBarDialog progressBarDialog = new ProgressBarDialog(this);
-                    progressBarDialog.show();
-                    progressBarDialog.setContentText("Resetting TickTrack");
-                    progressBarDialog.titleText.setVisibility(View.GONE);
-                    tickTrackDatabase.resetData(this);
-                    progressBarDialog.dismiss();
-
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ProgressBarDialog progressBarDialog = new ProgressBarDialog(activity);
+                            progressBarDialog.show();
+                            progressBarDialog.setContentText("Resetting TickTrack");
+                            progressBarDialog.titleText.setVisibility(View.GONE);
+                            tickTrackDatabase.resetData(activity);
+                            progressBarDialog.dismiss();
+                        }
+                    });
                 }
             }
         });
