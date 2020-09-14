@@ -5,6 +5,7 @@
     android:id="@+id/screenSaverRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/Black"
     android:fitsSystemWindows="true"
     tools:context=".screensaver.ScreensaverActivity">
@@ -23,5 +24,40 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/screensaverButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/screensaverEditButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Edit Screensaver Settings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/button_selector_dark"
+            android:textColor="@color/GrayOnLight"
+            style="@style/button"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/screensaverDismissText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Tap again to close Screensaver"
+        android:textAlignment="center"
+        android:textColor="@color/GrayOnLight"
+        app:layout_constraintBottom_toTopOf="@+id/screensaverButtonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clockContainer"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
