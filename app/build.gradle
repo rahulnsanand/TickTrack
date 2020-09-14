@@ -99,8 +99,6 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    //TIMER FAB LIBRARY
-    implementation 'com.getbase:floatingactionbutton:1.10.1'
 
 //    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
 //    implementation 'com.google.firebase:firebase-perf:19.0.8'

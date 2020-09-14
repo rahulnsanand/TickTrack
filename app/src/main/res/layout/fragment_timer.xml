@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/timerFragmentRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.timer.TimerFragment">
+    tools:context=".ui.timer.TimerFragment"
+    android:background="@color/LightGray">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/timerCreateFragmentDiscardFAB"
@@ -24,45 +24,146 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/multiple_actions"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/fab_light_background"
+        android:elevation="6dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:src="@drawable/ic_add_white_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/quickTimerFragmentFAB"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0"
+        android:background="@drawable/fab_light_background"
+        android:elevation="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/multiple_actions"
+        app:layout_constraintStart_toStartOf="@+id/multiple_actions">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_shortcut_quicktimericon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/timerFragmentQuickTimerTextFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="11dp"
-        android:elevation="6dp"
-        android:visibility="gone"
+        android:layout_marginEnd="8dp"
+        android:alpha="0"
+        android:elevation="4dp"
+        android:text="Create a QuickTimer"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/quickTimerFragmentFAB"
+        app:layout_constraintEnd_toStartOf="@+id/quickTimerFragmentFAB"
+        app:layout_constraintTop_toTopOf="@+id/quickTimerFragmentFAB" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/normalTimerFragmentFAB"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0"
+        android:background="@drawable/fab_light_background"
+        android:elevation="4dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        fab:fab_addButtonColorNormal="@color/Accent"
-        fab:fab_addButtonColorPressed="@color/roboto_calendar_month_font"
-        fab:fab_addButtonPlusIconColor="@color/Light"
-        fab:fab_icon="@drawable/ic_add_white_24"
-        fab:fab_labelStyle="@style/menu_labels_style">
+        app:layout_constraintEnd_toEndOf="@+id/multiple_actions"
+        app:layout_constraintStart_toStartOf="@+id/multiple_actions">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/quickTimerFragmentFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_icon="@drawable/ic_shortcut_quicktimericon"
-            app:fab_size="mini"
-            fab:fab_colorNormal="@color/Accent"
-            fab:fab_colorPressed="@color/roboto_calendar_month_font"
-            fab:fab_title="Create a QuickTimer" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_shortcut_timericon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/normalTimerFragmentFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_icon="@drawable/ic_shortcut_timericon"
-            app:fab_size="mini"
-            fab:fab_colorNormal="@color/Accent"
-            fab:fab_colorPressed="@color/roboto_calendar_month_font"
-            fab:fab_title="Create a Timer" />
+    <TextView
+        android:id="@+id/timerFragmentTimerTextFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:alpha="0"
+        android:elevation="4dp"
+        android:text="Create a Timer"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/normalTimerFragmentFAB"
+        app:layout_constraintEnd_toStartOf="@+id/normalTimerFragmentFAB"
+        app:layout_constraintTop_toTopOf="@+id/normalTimerFragmentFAB" />
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+<!--    <com.getbase.floatingactionbutton.FloatingActionsMenu-->
+<!--        android:id="@+id/multiple_actions"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginEnd="15dp"-->
+<!--        android:layout_marginBottom="11dp"-->
+<!--        android:elevation="6dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        fab:fab_addButtonColorNormal="@color/Accent"-->
+<!--        fab:fab_addButtonColorPressed="@color/roboto_calendar_month_font"-->
+<!--        fab:fab_addButtonPlusIconColor="@color/Light"-->
+<!--        fab:fab_icon="@drawable/ic_add_white_24"-->
+<!--        fab:fab_labelStyle="@style/menu_labels_style">-->
+
+<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/quickTimerFragmentFAB"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:fab_icon="@drawable/ic_shortcut_quicktimericon"-->
+<!--            app:fab_size="mini"-->
+<!--            fab:fab_colorNormal="@color/Accent"-->
+<!--            fab:fab_colorPressed="@color/roboto_calendar_month_font"-->
+<!--            fab:fab_title="Create a QuickTimer" />-->
+
+<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/normalTimerFragmentFAB"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:fab_icon="@drawable/ic_shortcut_timericon"-->
+<!--            app:fab_size="mini"-->
+<!--            fab:fab_colorNormal="@color/Accent"-->
+<!--            fab:fab_colorPressed="@color/roboto_calendar_month_font"-->
+<!--            fab:fab_title="Create a Timer" />-->
+
+<!--    </com.getbase.floatingactionbutton.FloatingActionsMenu>-->
 
     <FrameLayout
         android:id="@+id/timerFragmentInnerFragmentContainer"

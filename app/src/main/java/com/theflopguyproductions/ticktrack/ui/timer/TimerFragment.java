@@ -7,13 +7,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
@@ -26,8 +27,9 @@ public class TimerFragment extends Fragment {
 
     static TickTrackDatabase tickTrackDatabase;
 
-    private FloatingActionButton quickTimerFab, normalTimerFab;
-    private FloatingActionsMenu timerPlusFab;
+    private ConstraintLayout quickTimerFab, normalTimerFab;
+    private ConstraintLayout timerPlusFab;
+    private TextView timerText, quickTimerText;
     private com.google.android.material.floatingactionbutton.FloatingActionButton timerDiscardFAB;
     private boolean recyclerOn=false;
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
@@ -66,6 +68,8 @@ public class TimerFragment extends Fragment {
             displayRecyclerView();
         }
 
+        timerPlusFab.setOnClickListener(view1 -> toggleFabOptions());
+
         normalTimerFab.setOnClickListener(view12 -> addTimer());
         quickTimerFab.setOnClickListener(view15 -> addQuickTimer());
         timerDiscardFAB.setOnClickListener(view14 -> displayRecyclerView());
@@ -75,6 +79,9 @@ public class TimerFragment extends Fragment {
         requireView().setOnKeyListener((v, keyCode, event) -> {
             if( keyCode == KeyEvent.KEYCODE_BACK ) {
                 if(!recyclerOn){
+                    if(isOptionsOpen){
+                        toggleFabOptions();
+                    }
                     displayRecyclerView();
                     return true;
                 } else {
@@ -87,26 +94,17 @@ public class TimerFragment extends Fragment {
 
     }
 
-    private void displayCreatorView() {
-        timerPlusFab.collapse();
-        timerPlusFab.setVisibility(View.GONE);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        tickTrackDatabase.setFirstTimer(true);
-        transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
-        recyclerOn=false;
-    }
-
     private void displayRecyclerView() {
         TickTrackAnimator.fabDissolve(timerDiscardFAB);
-        TickTrackAnimator.timerFabFadeIn(timerPlusFab);
+        TickTrackAnimator.fabLayoutUnDissolve(timerPlusFab);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer,  new TimerRecyclerFragment()).commit();
         recyclerOn=true;
     }
 
     private void addTimer(){
-        timerPlusFab.collapse();
-        TickTrackAnimator.timerFabFadeOut(timerPlusFab);
+        toggleFabOptions();
+        TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
         TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(false);
@@ -115,12 +113,23 @@ public class TimerFragment extends Fragment {
     }
 
     private void addQuickTimer(){
-        timerPlusFab.collapse();
-        TickTrackAnimator.timerFabFadeOut(timerPlusFab);
+        toggleFabOptions();
+        TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
         TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new QuickTimerCreatorFragment()).commit();
         recyclerOn=false;
+    }
+
+    private boolean isOptionsOpen = false;
+    private void toggleFabOptions() {
+        if(isOptionsOpen){
+            TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+            isOptionsOpen=false;
+        } else {
+            TickTrackAnimator.expandFabMenu(activity, timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+            isOptionsOpen=true;
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -131,6 +140,14 @@ public class TimerFragment extends Fragment {
         quickTimerFab = root.findViewById(R.id.quickTimerFragmentFAB);
         normalTimerFab = root.findViewById(R.id.normalTimerFragmentFAB);
         timerPlusFab = root.findViewById(R.id.multiple_actions);
+        timerText = root.findViewById(R.id.timerFragmentTimerTextFab);
+        quickTimerText = root.findViewById(R.id.timerFragmentQuickTimerTextFab);
+        FrameLayout fragmentContainer = root.findViewById(R.id.timerFragmentInnerFragmentContainer);
+        fragmentContainer.setOnClickListener(view -> {
+            if(isOptionsOpen){
+                TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+            }
+        });
         activity = getActivity();
 
         assert activity != null;
@@ -140,4 +157,9 @@ public class TimerFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+    }
 }
