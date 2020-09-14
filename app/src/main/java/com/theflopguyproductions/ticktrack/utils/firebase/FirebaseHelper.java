@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -302,7 +303,7 @@ public class FirebaseHelper {
         jsonHelper.createBackup();
     }
 
-    Handler backupCheckHandler = new Handler();
+    Handler backupCheckHandler = new Handler(Looper.getMainLooper());
     Runnable backupCheckRunnable = new Runnable() {
         @Override
         public void run() {
@@ -324,7 +325,7 @@ public class FirebaseHelper {
         jsonHelper.restoreTimerData();
     }
 
-    Handler restoreCheckHandler = new Handler();
+    Handler restoreCheckHandler = new Handler(Looper.getMainLooper());
     Runnable restoreCheckRunnable = new Runnable() {
         @Override
         public void run() {

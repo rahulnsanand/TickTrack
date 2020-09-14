@@ -50,12 +50,13 @@ public class TickTrackThemeSetter {
                                              ConstraintLayout rateUsLayout, ConstraintLayout counterSumLayout, ConstraintLayout timerSoundLayout, ConstraintLayout clockStyleLayout,
                                              ConstraintLayout clockOptionsLayout, ConstraintLayout dateTimeLayout, TextView rateUsTitle, TextView rateUsValue, TextView counterSumTitle,
                                              TextView timerSoundTitle, TextView timerSoundValue, TextView clockStyleTitle, TextView clockStyleValue,
-                                             TextView dateTimeTitle, TextView dateTimeValue){
+                                             TextView dateTimeTitle, TextView dateTimeValue, ConstraintLayout toolbar){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
         if(checkTheme==1){
             settingsScrollView.setBackgroundResource(R.color.LightGray);
+            toolbar.setBackgroundResource(R.color.LightGray);
             themeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             backupLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             switchAccountLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -100,6 +101,7 @@ public class TickTrackThemeSetter {
             themeLabel.setText("Light Mode");
         } else {
             settingsScrollView.setBackgroundResource(R.color.Black);
+            toolbar.setBackgroundResource(R.color.Black);
             themeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             backupLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             switchAccountLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);

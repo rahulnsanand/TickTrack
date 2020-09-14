@@ -84,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="montserrat_medium_italic"/>
+        app:typeface="montserrat_light_italic"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

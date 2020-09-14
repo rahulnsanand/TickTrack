@@ -57,13 +57,13 @@
             android:layout_marginBottom="8dp"
             android:text="Counter Settings"
             android:textColor="@color/Accent"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/counterEditActivityDeleteButton"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/counterEditActivityBackButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="montserrat_medium_italic" />
+            app:typeface="montserrat_semi_bold_italic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

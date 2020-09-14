@@ -43,7 +43,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium_italic" />
+                    app:typeface="montserrat_semi_bold_italic" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/autoStartGoogleFragmentSubTitleText"
@@ -57,7 +57,7 @@
                     app:layout_constraintStart_toStartOf="@+id/autoStartGoogleFragmentTitleText"
                     app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentTitleText"
                     app:layout_constraintVertical_bias="0.0"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="montserrat_light_italic" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,7 +108,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="montserrat_semi_bold_italic" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/autoStartGoogleFragmentSignInDetailText"
@@ -125,7 +125,7 @@ preferences, timers and counters"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentSignInTitle"
-                    app:typeface="montserrat_italic" />
+                    app:typeface="roboto_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

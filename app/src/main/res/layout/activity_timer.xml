@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:elevation="4dp"
         android:animateLayoutChanges="true"
-        android:background="@color/Accent"
+        android:background="@color/LightGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

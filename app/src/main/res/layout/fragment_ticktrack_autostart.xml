@@ -32,7 +32,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_medium_italic" />
+                app:typeface="montserrat_semi_bold_italic" />
 
             <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
                 android:id="@+id/ticktrackFragmentAutoStartImageView"
@@ -58,7 +58,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView5"
-                app:typeface="montserrat_italic" />
+                app:typeface="montserrat_light_italic" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/textView7"
@@ -75,7 +75,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentAutoStartImageView"
-                app:typeface="montserrat_medium" />
+                app:typeface="montserrat_semi_bold_italic" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/ticktrackFragmentAutoStartDetailText"
@@ -92,7 +92,7 @@ that were cancelled during reboot."
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
-                app:typeface="montserrat_italic" />
+                app:typeface="roboto_italic" />
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                 android:id="@+id/ticktrackFragmentAutoStartSubHelperText"
@@ -110,7 +110,7 @@ that were cancelled during reboot."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentAutoStartDetailText"
                 app:layout_constraintVertical_bias="1.0"
-                app:typeface="montserrat_semi_bold" />
+                app:typeface="roboto_medium" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

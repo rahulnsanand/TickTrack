@@ -5,8 +5,10 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.CheckBox;
@@ -48,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
     private SharedPreferences sharedPreferences;
 
-    private ConstraintLayout themeLayout;
+    private ConstraintLayout themeLayout, toolbar;
     private TextView themeName, themeTitle;
 
     private ConstraintLayout googleAccountLayout, accountOptionsLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, syncDataLayout, syncFreqOptionsLayout,
@@ -69,15 +71,16 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView unordinaryImageCheck, oxygenyImageCheck, minimalImageCheck, simplisticImageCheck, romanImageCheck, funkyImageCheck;
     private Switch displaySumSwitch;
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        if(firebaseHelper.isUserSignedIn()){
-            setupEmailText();
+        if(settingsLoadState){
+            sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+            if(firebaseHelper.isUserSignedIn()){
+                setupEmailText();
+            }
+            refreshTheme();
         }
-        refreshTheme();
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
@@ -237,7 +240,7 @@ public class SettingsActivity extends AppCompatActivity {
                 tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
                 hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout, rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout,
-                rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue);
+                rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue, toolbar);
     }
 
     private boolean isSyncOptionOpen = false;
@@ -405,6 +408,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initVariables() {
         themeLayout = findViewById(R.id.themeSettingsLayout);
+        toolbar = findViewById(R.id.settingsToolbar);
         themeTitle = findViewById(R.id.themeSettingsLabel);
         themeName = findViewById(R.id.themeValueSettingsTextView);
         backButton = findViewById(R.id.settingsActivityBackButton);
@@ -493,24 +497,51 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupCounterSum();
 
-        accountOptionsLayout.setVisibility(View.GONE);
-        clockOptionsLayout.setVisibility(View.GONE);
-        themeOptionsLayout.setVisibility(View.GONE);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            accountOptionsLayout.setVisibility(View.GONE);
+            clockOptionsLayout.setVisibility(View.GONE);
+            themeOptionsLayout.setVisibility(View.GONE);
+        });
     }
 
     private String receivedAction = null;
+    private boolean settingsLoadState = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        initVariables();
-
-        setupClickListeners();
-
+        loadHandler.post(settingsLoadRunnable);
+        AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
+        asyncTaskRunner.execute();
         receivedAction = getIntent().getAction();
-
     }
+
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            initVariables();
+            setupClickListeners();
+            return "Done";
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            settingsLoadState = true;
+        }
+    }
+    private Handler loadHandler = new Handler();
+    private Runnable settingsLoadRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(settingsLoadState){
+                System.out.println("SETTINGS DONE");
+                loadHandler.removeCallbacks(settingsLoadRunnable);
+                onResume();
+            } else {
+                System.out.println("SETTINGS NOT DONE");
+                loadHandler.post(settingsLoadRunnable);
+            }
+        }
+    };
 
     private void toggleHapticEnable() {
         if(tickTrackDatabase.isHapticEnabled()){

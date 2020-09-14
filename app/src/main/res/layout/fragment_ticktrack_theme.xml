@@ -33,7 +33,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_medium_italic" />
+                app:typeface="montserrat_semi_bold_italic" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -126,7 +126,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeLightMatterText"
-                    app:typeface="montserrat_medium" />
+                    app:typeface="roboto_italic" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/ticktrackFragmentThemeHelpText"
@@ -141,7 +141,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeCustomizeText"
-                    app:typeface="montserrat_regular" />
+                    app:typeface="roboto_regular" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView

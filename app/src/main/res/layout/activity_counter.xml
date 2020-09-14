@@ -58,13 +58,13 @@
             android:text="Counter"
             android:textAlignment="textStart"
             android:textColor="@color/Accent"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/counterActivityTrashButton"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/counterActivityBackButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="montserrat_medium_italic" />
+            app:typeface="montserrat_semi_bold_italic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -222,7 +222,7 @@
                 android:textSize="214sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:typeface="montserrat_regular" />
+                app:typeface="roboto_regular" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -247,7 +247,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_regular" />
+                app:typeface="roboto_regular" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

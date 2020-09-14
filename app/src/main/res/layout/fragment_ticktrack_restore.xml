@@ -43,7 +43,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium_italic"
+                    app:typeface="montserrat_semi_bold_italic"
                     android:textColor="@color/Accent"/>
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
@@ -57,7 +57,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/restoreFragmentTitleText"
                     app:layout_constraintTop_toBottomOf="@+id/restoreFragmentTitleText"
-                    app:typeface="montserrat_italic"/>
+                    app:typeface="montserrat_light_italic"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -114,7 +114,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_medium"/>
+                    app:typeface="montserrat_semi_bold_italic"/>
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentPreferencesText"
@@ -129,7 +129,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentTimerText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:typeface="montserrat_italic"/>
+                    app:typeface="roboto_italic"/>
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentTimerText"
@@ -145,7 +145,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:typeface="montserrat_italic"/>
+                    app:typeface="roboto_italic"/>
 
                 <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
                     android:id="@+id/restoreFragmentCounterText"
@@ -161,7 +161,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:typeface="montserrat_italic"/>
+                    app:typeface="roboto_italic"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
