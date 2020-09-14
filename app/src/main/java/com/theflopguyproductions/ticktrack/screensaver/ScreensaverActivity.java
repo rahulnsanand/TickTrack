@@ -12,15 +12,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
-import com.theflopguyproductions.ticktrack.ui.utils.AnalogClock;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class ScreensaverActivity extends AppCompatActivity {
 
     private ConstraintLayout rootLayout;
-    private AnalogClock analogClock;
     private int dialogClock, hourHandClock, minuteHandClock;
-    LayoutInflater linf;
+    LayoutInflater layoutInflater;
     ConstraintLayout rr;
 
     @Override
@@ -47,52 +45,34 @@ public class ScreensaverActivity extends AppCompatActivity {
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(this);
         int style = tickTrackDatabase.getScreenSaverClock();
 
-        linf = (LayoutInflater) getApplicationContext().getSystemService(
+        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
-        linf = LayoutInflater.from(ScreensaverActivity.this);
+        layoutInflater = LayoutInflater.from(ScreensaverActivity.this);
 
         rr = (ConstraintLayout) findViewById(R.id.clockContainer);
-
-        final  View v = linf.inflate(R.layout.tick_track_clock_widget6, null);
-
-        rr.removeAllViews();
-        rr.addView(v);
-
-//        setupClock(style);
+        setupClock(style);
 
     }
 
     private void setupClock(int style) {
+        rr.removeAllViews();
+        final  View v;
         if(style==1){
-
-            analogClock = new AnalogClock(this);
-            analogClock.setupClockDrawables(R.drawable.white_hour_hand_unordinary, R.drawable.white_minute_hand_unordinary, R.drawable.transparent_dial_unordinary);
+            v = layoutInflater.inflate(R.layout.tick_track_clock_widget1, null);
         } else if(style==2){
-
-            analogClock = new AnalogClock(this);
-            analogClock.setupClockDrawables(R.drawable.white_hour_hand_oxygeny, R.drawable.white_minute_hand_oxygeny, R.drawable.white_dial_oxygeny);
+            v = layoutInflater.inflate(R.layout.tick_track_clock_widget2, null);
         } else if(style==3){
-
-            analogClock = new AnalogClock(this);
-            analogClock.setupClockDrawables(R.drawable.white_hour_hand_truly_minimal, R.drawable.white_minute_hand_truly_minimal, R.drawable.white_dial_truly_minimal);
+            v = layoutInflater.inflate(R.layout.tick_track_clock_widget3, null);
         } else if(style==4){
-
-            analogClock = new AnalogClock(this);
-            analogClock.setupClockDrawables(R.drawable.white_hour_hand_simplistic, R.drawable.white_minute_hand_simplistic, R.drawable.white_dial_simplistic);
+            v = layoutInflater.inflate(R.layout.tick_track_clock_widget4, null);
         } else if(style==5){
-
-            analogClock = new AnalogClock(this);
-            analogClock.setupClockDrawables(R.drawable.white_hour_hand_roman, R.drawable.white_minute_hand_roman, R.drawable.white_dial_roman);
+            v = layoutInflater.inflate(R.layout.tick_track_clock_widget5, null);
         } else if(style==6){
-
-            analogClock = new AnalogClock(this);
-            analogClock.setupClockDrawables(R.drawable.white_hour_hand_funky, R.drawable.white_minute_hand_funky, R.drawable.white_dial_funky);
+            v = layoutInflater.inflate(R.layout.tick_track_clock_widget6, null);
         } else {
-
-            analogClock = new AnalogClock(this);
-            analogClock.setupClockDrawables(R.drawable.white_hour_hand_unordinary, R.drawable.white_minute_hand_unordinary, R.drawable.transparent_dial_unordinary);
+            v = layoutInflater.inflate(R.layout.tick_track_clock_widget1, null);
         }
-        analogClock.onTimeChanged();
+        rr.addView(v);
     }
 
 
