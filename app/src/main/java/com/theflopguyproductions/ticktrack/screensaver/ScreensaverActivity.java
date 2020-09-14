@@ -237,14 +237,16 @@ public class ScreensaverActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        isNightMode=false;
-        setupScreensaverAlarms();
-        reverseAnimation();
-        setupTimeText();
-
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(this);
         clockStyle = tickTrackDatabase.getScreenSaverClock();
         setupClock(clockStyle);
+
+        setupScreensaverAlarms();
+        if(!isNightMode){
+            darkLightAnim.playAnimation();
+        }
+
+        setupTimeText();
 
         isOptionsOpen = false;
         DISPLAY_DURATION = 1000;
