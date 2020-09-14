@@ -21,21 +21,22 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class ScreensaverActivity extends AppCompatActivity {
 
+    private static final int DISPLAY_DURATION = 2500;
+
     private ConstraintLayout rootLayout;
     private LayoutInflater layoutInflater;
     private ConstraintLayout clockLayout;
     private ConstraintLayout buttonLayout;
-    private Handler optionsDisplayHandler;
+    private Handler optionsDisplayHandler = new Handler();
     private TextView dismissTextHelper;
     private Button settingsButton;
 
     private Runnable optionsDisplayRunnable = new Runnable() {
-        long currentTime = SystemClock.elapsedRealtime();
         @Override
         public void run() {
             long loopTime = SystemClock.elapsedRealtime();
             long difference = loopTime-currentTime;
-            if(difference<3000){
+            if(difference < DISPLAY_DURATION){
                 optionsDisplayHandler.post(optionsDisplayRunnable);
             } else {
                 hideOptionsDisplay();
@@ -45,6 +46,7 @@ public class ScreensaverActivity extends AppCompatActivity {
     };
 
     private boolean isOptionsOpen = false;
+    long currentTime;
     private void hideOptionsDisplay() {
         if(isOptionsOpen){
             dismissTextHelper.setVisibility(View.GONE);
@@ -55,11 +57,27 @@ public class ScreensaverActivity extends AppCompatActivity {
     }
     private void showOptionsDisplay() {
         if(!isOptionsOpen){
+            currentTime = SystemClock.elapsedRealtime();
             optionsDisplayHandler.post(optionsDisplayRunnable);
             buttonLayout.setVisibility(View.VISIBLE);
             dismissTextHelper.setVisibility(View.VISIBLE);
             isOptionsOpen = true;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isOptionsOpen = true;
+        hideOptionsDisplay();
+        getWindow().setStatusBarColor(getResources().getColor(R.color.Accent));
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                |  View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
     }
 
     @Override
@@ -83,17 +101,6 @@ public class ScreensaverActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(view -> {
                 startActivityForResult(new Intent(this, SettingsActivity.class), 1012);
         });
-
-        getWindow().setStatusBarColor(getResources().getColor(R.color.Accent));
-
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                |  View.SYSTEM_UI_FLAG_LOW_PROFILE);
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(this);
         int style = tickTrackDatabase.getScreenSaverClock();
@@ -127,6 +134,7 @@ public class ScreensaverActivity extends AppCompatActivity {
         } else {
             v = layoutInflater.inflate(R.layout.tick_track_clock_widget1, null);
         }
+        v.setAlpha(0.2f);
         clockLayout.addView(v);
     }
 
