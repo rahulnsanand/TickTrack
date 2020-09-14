@@ -41,7 +41,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private TextView counterLabelTitle, counterValueTitle, counterMilestoneTitle, counterButtonModeTitle, counterFlagTitle, counterNotificationTitle, counterNotificationDetail, counterMilestoneDetail;
     private ImageButton saveChangesButton;
     private ConstraintLayout counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout, counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout, counterEditToolbarLayout, counterFlagGroupLayout;
-    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider, toolbarDivider;
+    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider;
     private ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private Activity activity;
     private ChipGroup counterFlagGroup;
@@ -74,8 +74,8 @@ public class CounterEditActivity extends AppCompatActivity {
         TickTrackThemeSetter.counterEditActivityTheme(this, counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout,
                 counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout,
                 counterLabel, counterValue, counterMilestone, counterButtonMode, counterNotificationDetail, counterMilestoneDetail, flagColor,
-                counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNotificationDivider, tickTrackDatabase,
-                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout, toolbarDivider);
+                counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, tickTrackDatabase,
+                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout);
 
         setupPrefixValues();
 
@@ -173,8 +173,6 @@ public class CounterEditActivity extends AppCompatActivity {
         counterMilestoneDivider = findViewById(R.id.counterEditActivityMilestoneDivider);
         counterFlagDivider = findViewById(R.id.counterEditActivityFlagDivider);
         counterButtonModeDivider = findViewById(R.id.counterEditActivityButtonModeDivider);
-        counterNotificationDivider = findViewById(R.id.counterEditActivityNotificationDivider);
-        toolbarDivider = findViewById(R.id.counterEditTopDivider);
 
         counterFlagGroup = findViewById(R.id.counterEditActivityFlagGroup);
         cherryFlag = findViewById(R.id.counterEditActivityCherryFlag);

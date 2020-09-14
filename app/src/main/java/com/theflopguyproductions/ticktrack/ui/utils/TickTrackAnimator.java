@@ -12,6 +12,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class TickTrackAnimator {
 
     public static void fabImageDissolve(ImageView imageView){
+        if(imageView.getVisibility()==View.VISIBLE){
+            imageView.setVisibility(View.INVISIBLE);
+        }
         imageView.animate()
                 .setDuration(100)
                 .scaleX(0f)
@@ -19,6 +22,9 @@ public class TickTrackAnimator {
                 .start();
     }
     public static void fabImageReveal(ImageView imageView){
+        if(imageView.getVisibility()==View.INVISIBLE){
+            imageView.setVisibility(View.VISIBLE);
+        }
         imageView.animate()
                 .setDuration(100)
                 .scaleX(1f)

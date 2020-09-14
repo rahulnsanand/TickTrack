@@ -6,44 +6,77 @@
     android:id="@+id/stopwatchRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/LightGray"
     tools:context=".ui.stopwatch.StopwatchFragment">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/stopwatchFragmentPlayPauseFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="24dp"
-        android:clickable="true"
-        android:src="@drawable/ic_round_play_white_24"
+        android:background="@drawable/fab_light_background"
+        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="6dp">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageView
+            android:id="@+id/stopwatchFragmentPlayImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_round_play_white_24"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/stopwatchFragmentPauseImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_round_pause_white_24"
+            android:visibility="invisible"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/stopwatchFragmentFlagFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_round_flag_light_24"
-        android:visibility="gone"
+        android:background="@drawable/fab_light_background"
+        android:visibility="visible"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/stopwatchFragmentPlayPauseFAB" />
+        app:layout_constraintStart_toEndOf="@+id/stopwatchFragmentPlayPauseFAB"
+        android:elevation="4dp">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_round_flag_light_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/stopwatchFragmentResetFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_round_refresh_white_24"
-        android:visibility="gone"
-        app:fabSize="mini"
+        android:background="@drawable/fab_light_background"
+        android:padding="10dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/stopwatchFragmentPlayPauseFAB" />
+        app:layout_constraintEnd_toStartOf="@+id/stopwatchFragmentPlayPauseFAB"
+        android:elevation="4dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_round_refresh_white_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"

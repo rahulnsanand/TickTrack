@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/LightGray"
     tools:context=".counter.activity.CounterEditActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/LightGray"
+        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="4dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/counterEditActivityBackButton"
@@ -66,17 +67,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/counterEditTopDivider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/Accent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/counterEditActivityToolBarLayout">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -84,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterEditTopDivider">
+        app:layout_constraintTop_toBottomOf="@id/counterEditActivityToolBarLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/counterEditActivityRootLayout"
@@ -508,19 +498,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNotificationTitle"
                     app:typeface="roboto_italic" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/counterEditActivityNotificationDivider"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/Accent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNotificationLayout">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

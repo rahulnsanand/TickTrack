@@ -237,9 +237,9 @@ public class TickTrackThemeSetter {
         } else if(flagColor == 3){
             return R.color.orange_matte;
         } else if(flagColor == 4){
-            return R.color.blue_matte;
-        } else if(flagColor == 5){
             return R.color.purple_matte;
+        } else if(flagColor == 5){
+            return R.color.blue_matte;
         }
         return R.color.Accent;
     }
@@ -251,8 +251,8 @@ public class TickTrackThemeSetter {
                                                 TextView counterLabel, TextView counterValue, TextView counterMilestone, TextView counterButtonMode,
                                                 TextView notificationDetail, TextView milestoneDetail, int flagColor,
                                                 ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
-                                                ConstraintLayout buttonDivider, ConstraintLayout notificationDivider, TickTrackDatabase tickTrackDatabase,
-                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar, ConstraintLayout toolbarDivider) {
+                                                ConstraintLayout buttonDivider, TickTrackDatabase tickTrackDatabase,
+                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar) {
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
@@ -277,9 +277,7 @@ public class TickTrackThemeSetter {
             valueDivider.setBackgroundResource(R.color.GrayOnLight);
             milestoneDivider.setBackgroundResource(R.color.GrayOnLight);
             buttonDivider.setBackgroundResource(R.color.GrayOnLight);
-            notificationDivider.setBackgroundResource(R.color.GrayOnLight);
             flagDivider.setBackgroundResource(R.color.GrayOnLight);
-            toolbarDivider.setBackgroundResource(R.color.GrayOnLight);
 
             redChip.setChipBackgroundColorResource(R.color.Clickable);
             greenCip.setChipBackgroundColorResource(R.color.Clickable);
@@ -312,9 +310,7 @@ public class TickTrackThemeSetter {
             valueDivider.setBackgroundResource(R.color.GrayOnDark);
             milestoneDivider.setBackgroundResource(R.color.GrayOnDark);
             buttonDivider.setBackgroundResource(R.color.GrayOnDark);
-            notificationDivider.setBackgroundResource(R.color.GrayOnDark);
             flagDivider.setBackgroundResource(R.color.GrayOnDark);
-            toolbarDivider.setBackgroundResource(R.color.GrayOnDark);
 
             redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
             greenCip.setChipBackgroundColorResource(R.color.GrayOnDark);
