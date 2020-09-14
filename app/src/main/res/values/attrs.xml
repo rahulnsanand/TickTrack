@@ -155,16 +155,16 @@
     <attr name="typeface" format="enum">
         <enum name="roboto_regular" value="0" />
         <enum name="roboto_bold" value="1" />
-        <enum name="montserrat_light_italic" value="3" />
-        <enum name="montserrat_semi_bold_italic" value="13" />
-        <enum name="roboto_italic" value="16" />
-        <enum name="roboto_bold_italic" value="17" />
-        <enum name="roboto_medium" value="18" />
-        <enum name="roboto_medium_italic" value="19" />
-        <enum name="roboto_light" value="20" />
-        <enum name="roboto_light_italic" value="21" />
-        <enum name="roboto_thin" value="22" />
-        <enum name="roboto_thin_italic" value="23" />
+        <enum name="montserrat_light_italic" value="2" />
+        <enum name="montserrat_semi_bold_italic" value="3" />
+        <enum name="roboto_italic" value="4" />
+        <enum name="roboto_bold_italic" value="5" />
+        <enum name="roboto_medium" value="6" />
+        <enum name="roboto_medium_italic" value="7" />
+        <enum name="roboto_light" value="8" />
+        <enum name="roboto_light_italic" value="9" />
+        <enum name="roboto_thin" value="10" />
+        <enum name="roboto_thin_italic" value="11" />
     </attr>
 
     <declare-styleable name="CustomFont">

@@ -13,18 +13,16 @@ public class MontserratTextView extends androidx.appcompat.widget.AppCompatTextV
 
     private final static int ROBOTO_REGULAR = 0;
     private final static int ROBOTO_BOLD = 1;
-    private final static int ROBOTO_ITALIC = 16;
-    private final static int ROBOTO_BOLD_ITALIC = 17;
-    private final static int ROBOTO_MEDIUM = 18;
-    private final static int ROBOTO_MEDIUM_ITALIC = 19;
-    private final static int ROBOTO_LIGHT = 20;
-    private final static int ROBOTO_LIGHT_ITALIC = 21;
-    private final static int ROBOTO_THIN = 22;
-    private final static int ROBOTO_THIN_ITALIC = 23;
-
-    private final static int MONTSERRAT_SEMI_BOLD_ITALIC = 13;
-    private final static int MONTSERRAT_EXTRA_LIGHT_ITALIC = 15;
-
+    private final static int MONTSERRAT_LIGHT_ITALIC = 2;
+    private final static int MONTSERRAT_SEMI_BOLD_ITALIC = 3;
+    private final static int ROBOTO_ITALIC = 4;
+    private final static int ROBOTO_BOLD_ITALIC = 5;
+    private final static int ROBOTO_MEDIUM = 6;
+    private final static int ROBOTO_MEDIUM_ITALIC = 7;
+    private final static int ROBOTO_LIGHT = 8;
+    private final static int ROBOTO_LIGHT_ITALIC = 9;
+    private final static int ROBOTO_THIN = 10;
+    private final static int ROBOTO_THIN_ITALIC = 11;
 
     private final static SparseArray<Typeface> mTypefaces = new SparseArray<Typeface>(16);
 
@@ -65,11 +63,12 @@ public class MontserratTextView extends androidx.appcompat.widget.AppCompatTextV
         Typeface typeface;
         switch (typefaceValue) {
 
+
+            case MONTSERRAT_LIGHT_ITALIC:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-LightItalic.ttf");
+                break;
             case MONTSERRAT_SEMI_BOLD_ITALIC:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-SemiBoldItalic.ttf");
-                break;
-            case MONTSERRAT_EXTRA_LIGHT_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/SourceCodePro-ExtraLightItalic.ttf");
                 break;
             case ROBOTO_REGULAR:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");

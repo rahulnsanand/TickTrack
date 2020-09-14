@@ -9,7 +9,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -18,8 +17,6 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -298,13 +295,8 @@ public class TimerCreatorFragment extends Fragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, timerLabelText.getText().toString());
-                labelDialog.setOnShowListener(dialog -> new Handler().postDelayed(() -> {
-                    BottomSheetDialog d = (BottomSheetDialog) dialog;
-                    FrameLayout bottomSheet = d.findViewById(R.id.design_bottom_sheet);
-                    BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                },0));
+//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, timerLabelText.getText().toString());
+                SingleInputDialog labelDialog = new SingleInputDialog(activity, timerLabelText.getText().toString());
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);

@@ -1,4 +1,4 @@
-package com.theflopguyproductions.ticktrack.utils.radiobutton;
+package com.theflopguyproductions.ticktrack.ui.utils.radiobutton;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -261,7 +261,9 @@ public class CounterEditActivity extends AppCompatActivity {
 
         counterLabelLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
-                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterLabel.getText().toString());
+//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterLabel.getText().toString());
+                SingleInputDialog labelDialog = new SingleInputDialog(activity, counterLabel.getText().toString());
+
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
@@ -276,36 +278,37 @@ public class CounterEditActivity extends AppCompatActivity {
             });
         });
         counterValueLayout.setOnClickListener(view -> {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
-                    labelDialog.show();
-                    labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
-                    labelDialog.inputText.setVisibility(View.VISIBLE);
-                    labelDialog.helperText.setVisibility(View.VISIBLE);
-                    labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
-                    labelDialog.helperText.setText(" Counter value ");
-                    labelDialog.okButton.setOnClickListener(view1 -> {
-                        try {
-                            int value = Integer.parseInt(labelDialog.inputText.getText().toString());
-                            counterValue.setText(value+"");
-                            labelDialog.dismiss();
-                            isChanged = true;
-                        } catch (Exception e){
-                            labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_error);
-                            new Handler().postDelayed(() -> labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_accent), 2000);
-                            Toast.makeText(activity, "Value must be less than 10 digits", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
-                }
+            new Handler().post(() -> {
+//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+
+                labelDialog.show();
+                labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
+                labelDialog.inputText.setVisibility(View.VISIBLE);
+                labelDialog.helperText.setVisibility(View.VISIBLE);
+                labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
+                labelDialog.helperText.setText(" Counter value ");
+                labelDialog.okButton.setOnClickListener(view1 -> {
+                    try {
+                        int value = Integer.parseInt(labelDialog.inputText.getText().toString());
+                        counterValue.setText(value+"");
+                        labelDialog.dismiss();
+                        isChanged = true;
+                    } catch (Exception e){
+                        labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_error);
+                        new Handler().postDelayed(() -> labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_accent), 2000);
+                        Toast.makeText(activity, "Value must be less than 10 digits", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
             });
 
         });
         counterMilestoneLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
-                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
+//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
+                SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
+
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
@@ -478,7 +481,9 @@ public class CounterEditActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             new Handler().post(() -> {
-                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
+//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
+                SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
+
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.VISIBLE);
                 labelDialog.inputText.setVisibility(View.INVISIBLE);

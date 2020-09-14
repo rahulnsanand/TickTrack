@@ -1,27 +1,23 @@
 package com.theflopguyproductions.ticktrack.dialogs;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
 
-public class SingleInputDialog extends BottomSheetDialog {
+public class SingleInputDialog extends Dialog {
 
     private Activity activity;
     public EditText inputText;
@@ -38,6 +34,12 @@ public class SingleInputDialog extends BottomSheetDialog {
         this.currentLabel = currentLabel;
     }
 
+    public SingleInputDialog(Activity activity, String currentLabel){
+        super(activity);
+        this.activity = activity;
+        this.currentLabel = currentLabel;
+    }
+
 
 
     @Override
@@ -48,13 +50,13 @@ public class SingleInputDialog extends BottomSheetDialog {
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        int width = Math.min(metrics.widthPixels, 1280);
-        int height = -1; // MATCH_PARENT
-        getWindow().setLayout(width, height);
+//        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+//        Display display = wm.getDefaultDisplay();
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        display.getMetrics(metrics);
+//        int width = Math.min(metrics.widthPixels, 1280);
+//        int height = -1; // MATCH_PARENT
+//        getWindow().setLayout(width, height);
 
         initVariables(view);
 
