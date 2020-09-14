@@ -10,13 +10,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
-
-import java.util.Objects;
-
 public class TickTrack extends Application {
 
     public static final String COUNTER_NOTIFICATION = "TICK_TRACK_COUNTER";
@@ -66,23 +59,23 @@ public class TickTrack extends Application {
 
         }
 
-        setupCrashAnalyticsBasicData();
+//        setupCrashAnalyticsBasicData();
 
         System.out.println("ActivityManager: Displayed TickTrack OnCreate "+System.currentTimeMillis());
 
     }
 
-    private void setupCrashAnalyticsBasicData() {
-        if(new FirebaseHelper(this).isUserSignedIn()){
-            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-            if(account!=null){
-                FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
-            }
-            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
-        } else {
-            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
-        }
-    }
+//    private void setupCrashAnalyticsBasicData() {
+//        if(new FirebaseHelper(this).isUserSignedIn()){
+//            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//            if(account!=null){
+//                FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
+//            }
+//            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
+//        } else {
+//            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
+//        }
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerMissedNotificationChannel(NotificationManager mNotificationManager) {

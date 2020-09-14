@@ -5,17 +5,21 @@
     android:id="@+id/screenSaverRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Accent"
+    android:background="@color/Black"
     android:fitsSystemWindows="true"
     tools:context=".screensaver.ScreensaverActivity">
 
-
-    <com.theflopguyproductions.ticktrack.ui.utils.AnalogClock
-        android:id="@+id/analogClock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clockContainer"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

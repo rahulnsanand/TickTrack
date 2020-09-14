@@ -48,7 +48,6 @@ public class BackupRestoreService extends Service {
     /**
      * DEBUG VALUES
      */
-
     private FirebaseFirestore firebaseFirestore;
 
     public BackupRestoreService() {

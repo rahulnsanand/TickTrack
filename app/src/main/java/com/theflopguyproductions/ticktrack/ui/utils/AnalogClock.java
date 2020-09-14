@@ -13,6 +13,7 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.theflopguyproductions.ticktrack.R;
@@ -59,45 +60,79 @@ public class AnalogClock extends View {
     private TimeZone mTimeZone;
     private boolean mEnableSeconds = true;
 
+    private int hourHandDrawable = -1;
+    private int minuteHandDrawable = -1;
+    private int dialDrawable = -1;
+
+    private Context context;
+
     public AnalogClock(Context context) {
         this(context, null);
+        this.context = context;
     }
 
     public AnalogClock(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-
-    public AnalogClock(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public void setupClockDrawables(int hour_hand, int minute_hand, int dial_clock){
+        this.hourHandDrawable = hour_hand;
+        this.minuteHandDrawable = minute_hand;
+        this.dialDrawable = dial_clock;
 
         final Resources r = context.getResources();
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AnalogClock);
-        mTime = Calendar.getInstance();
-        mDescFormat = ((SimpleDateFormat) DateFormat.getTimeFormat(context)).toLocalizedPattern();
-        mEnableSeconds = a.getBoolean(R.styleable.AnalogClock_showSecondHand, true);
+        final TypedArray a = context.obtainStyledAttributes(null, R.styleable.AnalogClock);
         mDial = a.getDrawable(R.styleable.AnalogClock_dial);
+//        setupClockDrawables(hour_hand, minute_hand, dial_clock);
         if (mDial == null) {
+//            if(dialDrawable==-1){
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    mDial = ContextCompat.getDrawable(context, R.drawable.transparent_dial_unordinary);
+//                } else {
+//                    mDial = r.getDrawable(R.drawable.transparent_dial_unordinary);
+//                }
+//            }
+//            else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mDial = ContextCompat.getDrawable(context, R.drawable.ic_dial_old);
+                mDial = ContextCompat.getDrawable(context, dialDrawable);
             } else {
-                mDial = r.getDrawable(R.drawable.ic_dial_old);
+                mDial = r.getDrawable(dialDrawable);
             }
+//            }
         }
         mHourHand = a.getDrawable(R.styleable.AnalogClock_hour);
         if (mHourHand == null) {
+//            if(hourHandDrawable==-1){
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    mHourHand = ContextCompat.getDrawable(context, R.drawable.white_hour_hand_unordinary);
+//                } else {
+//                    mHourHand = r.getDrawable(R.drawable.white_hour_hand_unordinary);
+//                }
+//            }
+//            else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mHourHand = ContextCompat.getDrawable(context, R.drawable.ic_hour_wo_center);
+                mHourHand = ContextCompat.getDrawable(context, hourHandDrawable);
             } else {
-                mHourHand = r.getDrawable(R.drawable.ic_hour_wo_center);
+                mHourHand = r.getDrawable(hourHandDrawable);
             }
+//            }
+
         }
         mMinuteHand = a.getDrawable(R.styleable.AnalogClock_minute);
         if (mMinuteHand == null) {
+//            if(minuteHandDrawable==-1){
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    mMinuteHand = ContextCompat.getDrawable(context, R.drawable.white_minute_hand_unordinary);
+//                } else {
+//                    mMinuteHand = r.getDrawable(R.drawable.white_minute_hand_unordinary);
+//                }
+//            }
+//            else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mMinuteHand = ContextCompat.getDrawable(context, R.drawable.ic_minute_wo_center);
+                mMinuteHand = ContextCompat.getDrawable(context, minuteHandDrawable);
             } else {
-                mMinuteHand = r.getDrawable(R.drawable.ic_minute_wo_center);
+                mMinuteHand = r.getDrawable(minuteHandDrawable);
             }
+//            }
         }
         mSecondHand = a.getDrawable(R.styleable.AnalogClock_second);
         if (mSecondHand == null) {
@@ -111,6 +146,16 @@ public class AnalogClock extends View {
         initDrawable(context, mHourHand);
         initDrawable(context, mMinuteHand);
         initDrawable(context, mSecondHand);
+    }
+    public AnalogClock(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+
+        final Resources r = context.getResources();
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AnalogClock);
+        mTime = Calendar.getInstance();
+        mDescFormat = ((SimpleDateFormat) DateFormat.getTimeFormat(context)).toLocalizedPattern();
+        mEnableSeconds = a.getBoolean(R.styleable.AnalogClock_showSecondHand, false);
+
     }
 
     @Override
@@ -178,7 +223,7 @@ public class AnalogClock extends View {
     }
 
     @Override
-    protected boolean verifyDrawable(Drawable who) {
+    protected boolean verifyDrawable(@NonNull Drawable who) {
         return mDial == who
                 || mHourHand == who
                 || mMinuteHand == who

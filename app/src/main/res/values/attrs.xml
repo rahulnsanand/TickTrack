@@ -91,6 +91,7 @@
         <attr name="second" format="reference" />
         <attr name="showSecondHand" format="boolean" />
     </declare-styleable>
+
     <declare-styleable name="SwipeButton">
         <attr name="inner_text" format="string" />
         <attr name="inner_text_color" format="color" />

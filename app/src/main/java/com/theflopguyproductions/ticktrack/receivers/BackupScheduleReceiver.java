@@ -15,12 +15,12 @@ public class BackupScheduleReceiver extends BroadcastReceiver {
     public static final String START_BACKUP_SCHEDULE = "START_BACKUP_SCHEDULE";
 
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
-    private FirebaseHelper firebaseHelper;
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
-        firebaseHelper = new FirebaseHelper(context);
+        FirebaseHelper firebaseHelper = new FirebaseHelper(context);
 
         if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, context)){
             startBackupService(context);
