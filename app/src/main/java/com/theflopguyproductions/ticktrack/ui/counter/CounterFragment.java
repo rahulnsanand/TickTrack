@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
@@ -41,7 +40,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private static CounterAdapter counterAdapter;
     private static RecyclerView counterRecyclerView;
-    private FloatingActionButton counterFab;
+    private ConstraintLayout counterFab;
     private static TextView noCounterText;
     private ConstraintLayout counterFragmentRootLayout;
     private Activity activity;
@@ -70,7 +69,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     @Override
     public void onStart() {
         super.onStart();
-        TickTrackAnimator.fabUnDissolve(counterFab);
+        TickTrackAnimator.fabLayoutUnDissolve(counterFab);
         if(tickTrackDatabase.isSumEnabled()){
             setupSumLayout();
         } else {
