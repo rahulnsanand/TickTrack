@@ -118,23 +118,53 @@ public class ScreensaverActivity extends AppCompatActivity {
 
     private void setupTimeText() {
 
+        System.out.println("SETUP CALLED");
+
         Calendar fiveAm = Calendar.getInstance();
         fiveAm.set(Calendar.HOUR_OF_DAY, 5);
+        fiveAm.set(Calendar.MINUTE, 0);
+        fiveAm.set(Calendar.SECOND, 0);
 
         Calendar twelvePm = Calendar.getInstance();
         twelvePm.set(Calendar.HOUR_OF_DAY, 12);
+        twelvePm.set(Calendar.MINUTE, 0);
+        twelvePm.set(Calendar.SECOND, 0);
 
         Calendar fivePm = Calendar.getInstance();
         fivePm.set(Calendar.HOUR_OF_DAY, 17);
+        fivePm.set(Calendar.MINUTE, 0);
+        fivePm.set(Calendar.SECOND, 0);
 
         Calendar twelveAm = Calendar.getInstance();
         twelveAm.set(Calendar.HOUR_OF_DAY, 0);
+        twelveAm.set(Calendar.MINUTE, 0);
+        twelveAm.set(Calendar.SECOND, 0);
+
+        Calendar fiveAmNext = Calendar.getInstance();
+        fiveAmNext.set(Calendar.HOUR_OF_DAY, 5);
+        fiveAmNext.add(Calendar.DATE, 1);
+        fiveAmNext.set(Calendar.MINUTE, 0);
+        fiveAmNext.set(Calendar.SECOND, 0);
+
+        Calendar fivePmPrev = Calendar.getInstance();
+        fivePmPrev.set(Calendar.HOUR_OF_DAY, 17);
+        fivePmPrev.add(Calendar.DATE, -1);
+        fivePmPrev.set(Calendar.MINUTE, 0);
+        fivePmPrev.set(Calendar.SECOND, 0);
+
+        Calendar twelveAmNext = Calendar.getInstance();
+        twelveAmNext.set(Calendar.HOUR_OF_DAY, 0);
+        twelveAmNext.add(Calendar.DATE, 1);
+        twelveAmNext.set(Calendar.MINUTE, 0);
+        twelveAmNext.set(Calendar.SECOND, 0);
 
         if(Calendar.getInstance().before(twelvePm) && Calendar.getInstance().after(fiveAm)){
             setupSalutation(1);
         } else if (Calendar.getInstance().before(fivePm) && Calendar.getInstance().after(twelvePm)){
             setupSalutation(2);
-        } else if (Calendar.getInstance().before(fiveAm) && Calendar.getInstance().after(fivePm)){
+        } else if (Calendar.getInstance().before(twelveAmNext) && Calendar.getInstance().after(fivePm)){
+            setupSalutation(3);
+        } else if (Calendar.getInstance().before(fiveAm) && Calendar.getInstance().after(twelveAm)){
             setupSalutation(3);
         } else {
             setupSalutation(0);
@@ -170,6 +200,7 @@ public class ScreensaverActivity extends AppCompatActivity {
         } else if(i==3){
             salutation += "Good evening, ";
         } else {
+            System.out.println("SALUTATION INT ZERO");
             salutationText.setVisibility(View.GONE);
             return;
         }
@@ -180,8 +211,10 @@ public class ScreensaverActivity extends AppCompatActivity {
                     String firstName = account.getDisplayName();
                     salutation += firstName;
                     salutationText.setText(salutation);
+                    salutationText.setVisibility(View.VISIBLE);
                 }
             } else {
+                System.out.println("DRIVE FAILED");
                 salutationText.setVisibility(View.GONE);
             }
         } else {
@@ -300,14 +333,13 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         dayChange.set(Calendar.HOUR_OF_DAY, 0);
         dayChange.set(Calendar.MINUTE, 0);
-        dayChange.set(Calendar.SECOND, 5);
+        dayChange.set(Calendar.SECOND, 0);
         if(Calendar.getInstance().after(dayChange)){
             dayChange.add(Calendar.DATE, 1);
         }
 
         AlarmManager dayAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent dayTimeChange = new Intent(this, ScreensaverActivity.class);
-        dayTimeChange.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
+        Intent dayTimeChange = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
         PendingIntent dayPendIntent = PendingIntent.getBroadcast(this, 500, dayTimeChange, 0);
         dayAlarm.setRepeating(
                 AlarmManager.RTC_WAKEUP,
@@ -321,14 +353,13 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         morningAlarm.set(Calendar.HOUR_OF_DAY, 5);
         morningAlarm.set(Calendar.MINUTE, 0);
-        morningAlarm.set(Calendar.SECOND, 5);
+        morningAlarm.set(Calendar.SECOND, 0);
         if(Calendar.getInstance().after(morningAlarm)){
             morningAlarm.add(Calendar.DATE, 1);
         }
 
         AlarmManager morningAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent morningIntent = new Intent(this, ScreensaverActivity.class);
-        morningIntent.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
+        Intent morningIntent = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
         PendingIntent morningPendIntent = PendingIntent.getBroadcast(this, 505, morningIntent, 0);
         morningAlarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
@@ -342,14 +373,13 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         afternoonAlarm.set(Calendar.HOUR_OF_DAY, 12);
         afternoonAlarm.set(Calendar.MINUTE, 0);
-        afternoonAlarm.set(Calendar.SECOND, 5);
+        afternoonAlarm.set(Calendar.SECOND, 0);
         if(Calendar.getInstance().after(afternoonAlarm)){
             afternoonAlarm.add(Calendar.DATE, 1);
         }
 
         AlarmManager afternoonAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent afternoonIntent = new Intent(this, ScreensaverActivity.class);
-        afternoonIntent.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
+        Intent afternoonIntent = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
         PendingIntent afternoonPendIntent = PendingIntent.getBroadcast(this, 1205, afternoonIntent, 0);
         afternoonAlarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
@@ -363,14 +393,13 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         eveningAlarm.set(Calendar.HOUR_OF_DAY, 17);
         eveningAlarm.set(Calendar.MINUTE, 0);
-        eveningAlarm.set(Calendar.SECOND, 5);
+        eveningAlarm.set(Calendar.SECOND, 0);
         if(Calendar.getInstance().after(eveningAlarm)){
             eveningAlarm.add(Calendar.DATE, 1);
         }
 
         AlarmManager eveningAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent eveningIntent = new Intent(this, ScreensaverActivity.class);
-        eveningIntent.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
+        Intent eveningIntent = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
         PendingIntent eveningPendIntent = PendingIntent.getBroadcast(this, 1705, eveningIntent, 0);
         eveningAlarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
@@ -382,9 +411,15 @@ public class ScreensaverActivity extends AppCompatActivity {
         final IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_TIME_CHANGE_ANALOG);
         registerReceiver(timeChangeReceiver, filter);
+
+        System.out.println("ALARM SET");
+
     }
 
     private void cancelScreensaverAlarms(){
+
+        System.out.println("ALARM CANCELED");
+
         AlarmManager eveningAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent eveningIntent = new Intent(this, ScreensaverActivity.class);
         eveningIntent.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
@@ -413,9 +448,8 @@ public class ScreensaverActivity extends AppCompatActivity {
     private final BroadcastReceiver timeChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(ACTION_TIME_CHANGE_ANALOG.equals(getIntent().getAction())){
-                setupTimeText();
-            }
+            System.out.println("RECEIVED BROAD");
+            setupTimeText();
         }
     };
 
