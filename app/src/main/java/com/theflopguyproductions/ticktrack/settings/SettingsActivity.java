@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
+import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -496,6 +497,7 @@ public class SettingsActivity extends AppCompatActivity {
         themeOptionsLayout.setVisibility(View.GONE);
     }
 
+    private String receivedAction = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -504,6 +506,8 @@ public class SettingsActivity extends AppCompatActivity {
         initVariables();
 
         setupClickListeners();
+
+        receivedAction = getIntent().getAction();
 
     }
 
@@ -696,9 +700,15 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        Intent intent = new Intent(this, SoYouADeveloperHuh.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+
+        if(ScreensaverActivity.ACTION_SCREENSAVER_EDIT.equals(receivedAction)){
+            Intent intent = new Intent(this, ScreensaverActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, SoYouADeveloperHuh.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     @Override

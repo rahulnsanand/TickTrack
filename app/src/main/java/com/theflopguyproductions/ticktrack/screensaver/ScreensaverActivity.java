@@ -21,7 +21,9 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class ScreensaverActivity extends AppCompatActivity {
 
-    private static final int DISPLAY_DURATION = 2500;
+    private static int DISPLAY_DURATION = 2500;
+
+    public static final String ACTION_SCREENSAVER_EDIT = "ACTION_SCREENSAVER_EDIT";
 
     private ConstraintLayout rootLayout;
     private LayoutInflater layoutInflater;
@@ -53,6 +55,7 @@ public class ScreensaverActivity extends AppCompatActivity {
             buttonLayout.setVisibility(View.GONE);
             isOptionsOpen = false;
             optionsDisplayHandler.removeCallbacks(optionsDisplayRunnable);
+            DISPLAY_DURATION = 2500;
         }
     }
     private void showOptionsDisplay() {
@@ -68,8 +71,9 @@ public class ScreensaverActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        isOptionsOpen = true;
-        hideOptionsDisplay();
+        isOptionsOpen = false;
+        DISPLAY_DURATION = 500;
+        showOptionsDisplay();
         getWindow().setStatusBarColor(getResources().getColor(R.color.Accent));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 |  View.SYSTEM_UI_FLAG_LOW_PROFILE);
@@ -99,7 +103,9 @@ public class ScreensaverActivity extends AppCompatActivity {
         });
 
         settingsButton.setOnClickListener(view -> {
-                startActivityForResult(new Intent(this, SettingsActivity.class), 1012);
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            settingsIntent.setAction(ACTION_SCREENSAVER_EDIT);
+                startActivityForResult(settingsIntent, 1012);
         });
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(this);
