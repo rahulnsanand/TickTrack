@@ -2,6 +2,7 @@ package com.theflopguyproductions.ticktrack.ui.utils;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -9,6 +10,21 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TickTrackAnimator {
+
+    public static void fabImageDissolve(ImageView imageView){
+        imageView.animate()
+                .setDuration(100)
+                .scaleX(0f)
+                .scaleY(0f)
+                .start();
+    }
+    public static void fabImageReveal(ImageView imageView){
+        imageView.animate()
+                .setDuration(100)
+                .scaleX(1f)
+                .scaleY(1f)
+                .start();
+    }
 
     public static void layoutUnDissolve(ConstraintLayout fab){
         fab.setAlpha(0f);

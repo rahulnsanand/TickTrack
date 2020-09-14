@@ -9,6 +9,7 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,11 +18,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 public class ScreensaverActivity extends AppCompatActivity {
 
     private static int DISPLAY_DURATION = 2500;
+    private static final float DARK_MODE_ALPHA = 0.2f;
+    private static final float LIGHT_MODE_ALPHA = 1f;
+    private static final int FADE_DURATION = 200;
 
     public static final String ACTION_SCREENSAVER_EDIT = "ACTION_SCREENSAVER_EDIT";
 
@@ -32,6 +37,8 @@ public class ScreensaverActivity extends AppCompatActivity {
     private Handler optionsDisplayHandler = new Handler();
     private TextView dismissTextHelper;
     private Button settingsButton;
+    private ConstraintLayout fabLayout;
+    private ImageView darkImage, lightImage;
 
     private Runnable optionsDisplayRunnable = new Runnable() {
         @Override
@@ -68,12 +75,44 @@ public class ScreensaverActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isNightMode = false;
+    private void toggleNightMode(){
+        currentTime = SystemClock.elapsedRealtime();
+        if(isNightMode){
+            TickTrackAnimator.fabImageDissolve(lightImage);
+            TickTrackAnimator.fabImageReveal(darkImage);
+            isNightMode=false;
+        } else {
+            TickTrackAnimator.fabImageDissolve(darkImage);
+            TickTrackAnimator.fabImageReveal(lightImage);
+            isNightMode=true;
+        }
+        setupClock(clockStyle);
+        setupLayout();
+    }
+
+    private void setupLayout() {
+        if(isNightMode){
+            fabLayout.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
+            settingsButton.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
+        } else {
+            fabLayout.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
+            settingsButton.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+
+        TickTrackAnimator.fabImageDissolve(lightImage);
+        TickTrackAnimator.fabImageReveal(darkImage);
+        isNightMode=false;
+
         isOptionsOpen = false;
         DISPLAY_DURATION = 500;
         showOptionsDisplay();
+
         getWindow().setStatusBarColor(getResources().getColor(R.color.Accent));
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 |  View.SYSTEM_UI_FLAG_LOW_PROFILE);
@@ -81,9 +120,9 @@ public class ScreensaverActivity extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-
     }
 
+    private int clockStyle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +132,11 @@ public class ScreensaverActivity extends AppCompatActivity {
         buttonLayout = findViewById(R.id.screensaverButtonLayout);
         dismissTextHelper = findViewById(R.id.screensaverDismissText);
         settingsButton = findViewById(R.id.screensaverEditButton);
+        fabLayout = findViewById(R.id.screensaverFabLayout);
+        darkImage = findViewById(R.id.screensaverNightImage);
+        lightImage = findViewById(R.id.screensaverDayImage);
 
+        fabLayout.setOnClickListener(view -> toggleNightMode());
         rootLayout.setOnClickListener(view ->{
             if(isOptionsOpen){
                 startActivity(new Intent(this, SoYouADeveloperHuh.class));
@@ -109,14 +152,14 @@ public class ScreensaverActivity extends AppCompatActivity {
         });
 
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(this);
-        int style = tickTrackDatabase.getScreenSaverClock();
+        clockStyle = tickTrackDatabase.getScreenSaverClock();
 
         layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater = LayoutInflater.from(ScreensaverActivity.this);
 
         clockLayout = (ConstraintLayout) findViewById(R.id.clockContainer);
-        setupClock(style);
+        setupClock(clockStyle);
 
     }
 
@@ -140,7 +183,11 @@ public class ScreensaverActivity extends AppCompatActivity {
         } else {
             v = layoutInflater.inflate(R.layout.tick_track_clock_widget1, null);
         }
-        v.setAlpha(0.2f);
+        if(isNightMode){
+            v.animate().setDuration(FADE_DURATION).alpha(DARK_MODE_ALPHA).start();
+        } else {
+            v.animate().setDuration(FADE_DURATION).alpha(LIGHT_MODE_ALPHA).start();
+        }
         clockLayout.addView(v);
     }
 

@@ -33,17 +33,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/screensaverFabLayout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/screensaverEditButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/fab_dark_background">
+
+            <ImageView
+                android:id="@+id/screensaverNightImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/ic_shortcut_screensavericon"
+                app:layout_constraintBottom_toBottomOf="@+id/screensaverDayImage"
+                app:layout_constraintEnd_toEndOf="@+id/screensaverDayImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/screensaverDayImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/counter_start_stop_drawable"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
             android:id="@+id/screensaverEditButton"
+            style="@style/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_dark"
             android:text="Edit Screensaver Settings"
+            android:textColor="@color/Accent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/button_selector_dark"
-            android:textColor="@color/GrayOnLight"
-            style="@style/button"/>
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
