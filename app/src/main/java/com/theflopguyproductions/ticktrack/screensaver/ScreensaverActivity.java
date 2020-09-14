@@ -165,7 +165,7 @@ public class ScreensaverActivity extends AppCompatActivity {
         } else if (Calendar.getInstance().before(twelveAmNext) && Calendar.getInstance().after(fivePm)){
             setupSalutation(3);
         } else if (Calendar.getInstance().before(fiveAm) && Calendar.getInstance().after(twelveAm)){
-            setupSalutation(3);
+            setupSalutation(1);
         } else {
             setupSalutation(0);
         }
@@ -194,11 +194,11 @@ public class ScreensaverActivity extends AppCompatActivity {
         FirebaseHelper firebaseHelper = new FirebaseHelper(this);
         boolean isDriveFail = new TickTrackFirebaseDatabase(this).isDriveLinkFail();
         if(i==1){
-            salutation += "Good morning, ";
+            salutation += "Good morning";
         } else if(i==2){
-            salutation += "Good afternoon, ";
+            salutation += "Good afternoon";
         } else if(i==3){
-            salutation += "Good evening, ";
+            salutation += "Good evening";
         } else {
             System.out.println("SALUTATION INT ZERO");
             salutationText.setVisibility(View.GONE);
@@ -209,7 +209,7 @@ public class ScreensaverActivity extends AppCompatActivity {
                 GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
                 if(account!=null){
                     String firstName = account.getDisplayName();
-                    salutation += firstName;
+                    salutation += ", "+firstName;
                     salutationText.setText(salutation);
                     salutationText.setVisibility(View.VISIBLE);
                 }
