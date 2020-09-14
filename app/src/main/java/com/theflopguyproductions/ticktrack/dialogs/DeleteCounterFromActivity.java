@@ -1,21 +1,22 @@
 package com.theflopguyproductions.ticktrack.dialogs;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
@@ -24,7 +25,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
 
-public class DeleteCounterFromActivity extends Dialog {
+public class DeleteCounterFromActivity extends BottomSheetDialog {
 
     TickTrackDatabase tickTrackDatabase;
 
@@ -48,12 +49,17 @@ public class DeleteCounterFromActivity extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_counter_deletor, new ConstraintLayout(activity), false);
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int width = Math.min(metrics.widthPixels, 1280);
+        int height = -1; // MATCH_PARENT
+        getWindow().setLayout(width, height);
         tickTrackDatabase = new TickTrackDatabase(activity);
 
         sharedPreferences  = tickTrackDatabase.getSharedPref(activity);
@@ -67,11 +73,6 @@ public class DeleteCounterFromActivity extends Dialog {
         themeSet = tickTrackDatabase.getThemeMode();
 
         setupTheme();
-
-        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
-        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
-        view.setAnimation( transition_in_view );
-        view.startAnimation( transition_in_view );
 
         yesButton.setOnClickListener(view12 -> {
             killNotification();

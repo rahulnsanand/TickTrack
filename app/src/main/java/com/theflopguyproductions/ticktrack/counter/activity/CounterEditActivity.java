@@ -258,7 +258,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private void setupOnClickListeners() {
 
         counterLabelLayout.setOnClickListener(view -> {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, counterLabel.getText().toString());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterLabel.getText().toString());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
             labelDialog.inputText.setVisibility(View.VISIBLE);
@@ -272,7 +272,7 @@ public class CounterEditActivity extends AppCompatActivity {
             labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
         });
         counterValueLayout.setOnClickListener(view -> {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
             labelDialog.inputText.setVisibility(View.VISIBLE);
@@ -294,7 +294,7 @@ public class CounterEditActivity extends AppCompatActivity {
             labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
         });
         counterMilestoneLayout.setOnClickListener(view -> {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
             labelDialog.inputText.setVisibility(View.VISIBLE);
@@ -464,7 +464,7 @@ public class CounterEditActivity extends AppCompatActivity {
             intent.putExtra("currentCounterPosition", counterID);
             startActivity(intent);
         } else {
-            SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
+            SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
             labelDialog.show();
             labelDialog.saveChangesText.setVisibility(View.VISIBLE);
             labelDialog.inputText.setVisibility(View.INVISIBLE);

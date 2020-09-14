@@ -34,18 +34,21 @@ public class TickTrackAnimator {
 
     }
     public static void collapseFabMenu(ConstraintLayout plusFab, ConstraintLayout timerFab, ConstraintLayout quickTimerFab, TextView timerText, TextView quickTimerText){
+        if(plusFab.getRotation()!=0f){
 
-        timerFab.animate().setDuration(250).alpha(0f).translationY(0);
-        quickTimerFab.animate().setDuration(250).alpha(0f).translationY(0);
-        timerText.animate().setDuration(250).alpha(0f).translationY(0);
-        quickTimerText.animate().setDuration(250).alpha(0f).translationY(0);
+            timerFab.animate().setDuration(250).alpha(0f).translationY(0);
+            quickTimerFab.animate().setDuration(250).alpha(0f).translationY(0);
+            timerText.animate().setDuration(250).alpha(0f).translationY(0);
+            quickTimerText.animate().setDuration(250).alpha(0f).translationY(0);
 
-        plusFab.animate()
-                .setDuration(100)
-                .rotation(155f)
-                .withEndAction(() -> {
-                    plusFab.animate().rotation(0f).setDuration(150);
-                }).start();
+
+            plusFab.animate()
+                    .setDuration(100)
+                    .rotation(155f)
+                    .withEndAction(() -> {
+                        plusFab.animate().rotation(0f).setDuration(150);
+                    }).start();
+        }
     }
 
     public static void fabImageDissolve(ImageView imageView){

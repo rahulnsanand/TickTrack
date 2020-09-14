@@ -39,13 +39,14 @@ import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.QuickTimerCreatorFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
+import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
-public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerCreatorFragment.QuickTimerCreateListener{
+public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerCreatorFragment.QuickTimerCreateListener, TimerRecyclerFragment.RootLayoutClickListener {
 
     TickTrackDatabase tickTrackDatabase;
 
@@ -372,5 +373,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     @Override
     public void onCreatedListener() {
         openFragment(new TimerFragment());
+    }
+
+    @Override
+    public void onRootLayoutClick() {
+        System.out.println("CLICKED");
+        TimerFragment.onRootLayoutClick();
     }
 }

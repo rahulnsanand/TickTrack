@@ -1,14 +1,14 @@
 package com.theflopguyproductions.ticktrack.dialogs;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
@@ -25,7 +26,7 @@ import com.theflopguyproductions.ticktrack.utils.helpers.UniqueIdGenerator;
 
 import java.util.Objects;
 
-public class CreateCounter extends Dialog {
+public class CreateCounter extends BottomSheetDialog {
 
     private TickTrackDatabase tickTrackDatabase;
 
@@ -44,14 +45,23 @@ public class CreateCounter extends Dialog {
         this.activity = activity;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_counter_creator, new ConstraintLayout(activity), false);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(view);
+
+        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int width = Math.min(metrics.widthPixels, 1280);
+        int height = -1; // MATCH_PARENT
+        getWindow().setLayout(width, height);
 
         tickTrackDatabase = new TickTrackDatabase(getContext());
         themeSet = tickTrackDatabase.getThemeMode();
@@ -78,10 +88,10 @@ public class CreateCounter extends Dialog {
 
         setupTheme();
 
-        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
-        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
-        view.setAnimation( transition_in_view );
-        view.startAnimation( transition_in_view );
+//        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
+//        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
+//        view.setAnimation( transition_in_view );
+//        view.startAnimation( transition_in_view );
 
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = chipGroup.findViewById(checkedId);

@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,9 +26,9 @@ public class TimerFragment extends Fragment {
 
     static TickTrackDatabase tickTrackDatabase;
 
-    private ConstraintLayout quickTimerFab, normalTimerFab;
-    private ConstraintLayout timerPlusFab;
-    private TextView timerText, quickTimerText;
+    private static ConstraintLayout quickTimerFab, normalTimerFab;
+    private static ConstraintLayout timerPlusFab;
+    private static TextView timerText, quickTimerText;
     private com.google.android.material.floatingactionbutton.FloatingActionButton timerDiscardFAB;
     private boolean recyclerOn=false;
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
@@ -121,7 +120,7 @@ public class TimerFragment extends Fragment {
         recyclerOn=false;
     }
 
-    private boolean isOptionsOpen = false;
+    private static boolean isOptionsOpen = false;
     private void toggleFabOptions() {
         if(isOptionsOpen){
             TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
@@ -142,12 +141,6 @@ public class TimerFragment extends Fragment {
         timerPlusFab = root.findViewById(R.id.multiple_actions);
         timerText = root.findViewById(R.id.timerFragmentTimerTextFab);
         quickTimerText = root.findViewById(R.id.timerFragmentQuickTimerTextFab);
-        FrameLayout fragmentContainer = root.findViewById(R.id.timerFragmentInnerFragmentContainer);
-        fragmentContainer.setOnClickListener(view -> {
-            if(isOptionsOpen){
-                TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
-            }
-        });
         activity = getActivity();
 
         assert activity != null;
@@ -160,6 +153,13 @@ public class TimerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        isOptionsOpen = false;
         TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+    }
+
+    public static void onRootLayoutClick() {
+        if(isOptionsOpen){
+            TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.ui.timer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -82,6 +83,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
 
         noTimerText = root.findViewById(R.id.timerFragmentNoTimerText);
         timerRecyclerRootLayout = root.findViewById(R.id.timerRecyclerRootLayout);
+        timerRecyclerRootLayout.setOnClickListener(view -> rootLayoutClickListener.onRootLayoutClick());
 
         TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase, timerRecyclerRootLayout, noTimerText);
 
@@ -167,7 +169,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             timerDelete.yesButton.setOnClickListener(view -> {
                 TimerRecyclerFragment.deleteTimer(timerId, position, activity, deletedTimer);
-                timerDelete.dismiss();
+                timerDelete.cancel();
                 if(timerDataArrayList.size()>0){
                     timerRecyclerView.setVisibility(View.VISIBLE);
                     noTimerText.setVisibility(View.INVISIBLE);
@@ -175,16 +177,19 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
                     timerRecyclerView.setVisibility(View.INVISIBLE);
                     noTimerText.setVisibility(View.VISIBLE);
                 }
+                buildTimerRecyclerView(activity);
                 sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             });
             timerDelete.noButton.setOnClickListener(view -> {
                 TimerRecyclerFragment.refreshRecyclerView();
-                timerDelete.dismiss();
+                timerDelete.cancel();
+                buildTimerRecyclerView(activity);
                 sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             });
             timerDelete.setOnCancelListener(dialogInterface -> {
                 TimerRecyclerFragment.refreshRecyclerView();
                 timerDelete.cancel();
+                buildTimerRecyclerView(activity);
                 sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             });
 
@@ -263,4 +268,26 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         quickTimerRecyclerView.setAdapter(null);
         timerRecyclerView.setAdapter(null);
     }
+
+
+    private RootLayoutClickListener rootLayoutClickListener;
+    public interface RootLayoutClickListener {
+        void onRootLayoutClick();
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            rootLayoutClickListener = (RootLayoutClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement " + RootLayoutClickListener.class.getName());
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        rootLayoutClickListener = null;
+    }
+
 }
