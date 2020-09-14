@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -60,9 +61,6 @@ public class AnalogClock extends View {
     private TimeZone mTimeZone;
     private boolean mEnableSeconds = true;
 
-    private int hourHandDrawable = -1;
-    private int minuteHandDrawable = -1;
-    private int dialDrawable = -1;
 
     private Context context;
 
@@ -74,65 +72,39 @@ public class AnalogClock extends View {
     public AnalogClock(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-    public void setupClockDrawables(int hour_hand, int minute_hand, int dial_clock){
-        this.hourHandDrawable = hour_hand;
-        this.minuteHandDrawable = minute_hand;
-        this.dialDrawable = dial_clock;
+
+    public AnalogClock(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
 
         final Resources r = context.getResources();
-        final TypedArray a = context.obtainStyledAttributes(null, R.styleable.AnalogClock);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AnalogClock);
+        mTime = Calendar.getInstance();
+        mDescFormat = ((SimpleDateFormat) DateFormat.getTimeFormat(context)).toLocalizedPattern();
+        mEnableSeconds = a.getBoolean(R.styleable.AnalogClock_showSecondHand, false);
+
         mDial = a.getDrawable(R.styleable.AnalogClock_dial);
-//        setupClockDrawables(hour_hand, minute_hand, dial_clock);
         if (mDial == null) {
-//            if(dialDrawable==-1){
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    mDial = ContextCompat.getDrawable(context, R.drawable.transparent_dial_unordinary);
-//                } else {
-//                    mDial = r.getDrawable(R.drawable.transparent_dial_unordinary);
-//                }
-//            }
-//            else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mDial = ContextCompat.getDrawable(context, dialDrawable);
+                mDial = ContextCompat.getDrawable(context, R.drawable.transparent_dial_unordinary);
             } else {
-                mDial = r.getDrawable(dialDrawable);
+                mDial = r.getDrawable(R.drawable.transparent_dial_unordinary);
             }
-//            }
         }
         mHourHand = a.getDrawable(R.styleable.AnalogClock_hour);
         if (mHourHand == null) {
-//            if(hourHandDrawable==-1){
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    mHourHand = ContextCompat.getDrawable(context, R.drawable.white_hour_hand_unordinary);
-//                } else {
-//                    mHourHand = r.getDrawable(R.drawable.white_hour_hand_unordinary);
-//                }
-//            }
-//            else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mHourHand = ContextCompat.getDrawable(context, hourHandDrawable);
+                mHourHand = ContextCompat.getDrawable(context, R.drawable.white_hour_hand_unordinary);
             } else {
-                mHourHand = r.getDrawable(hourHandDrawable);
+                mHourHand = r.getDrawable(R.drawable.white_hour_hand_unordinary);
             }
-//            }
-
         }
         mMinuteHand = a.getDrawable(R.styleable.AnalogClock_minute);
         if (mMinuteHand == null) {
-//            if(minuteHandDrawable==-1){
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    mMinuteHand = ContextCompat.getDrawable(context, R.drawable.white_minute_hand_unordinary);
-//                } else {
-//                    mMinuteHand = r.getDrawable(R.drawable.white_minute_hand_unordinary);
-//                }
-//            }
-//            else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mMinuteHand = ContextCompat.getDrawable(context, minuteHandDrawable);
+                mMinuteHand = ContextCompat.getDrawable(context, R.drawable.white_minute_hand_unordinary);
             } else {
-                mMinuteHand = r.getDrawable(minuteHandDrawable);
+                mMinuteHand = r.getDrawable(R.drawable.white_minute_hand_unordinary);
             }
-//            }
         }
         mSecondHand = a.getDrawable(R.styleable.AnalogClock_second);
         if (mSecondHand == null) {
@@ -146,16 +118,6 @@ public class AnalogClock extends View {
         initDrawable(context, mHourHand);
         initDrawable(context, mMinuteHand);
         initDrawable(context, mSecondHand);
-    }
-    public AnalogClock(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        final Resources r = context.getResources();
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AnalogClock);
-        mTime = Calendar.getInstance();
-        mDescFormat = ((SimpleDateFormat) DateFormat.getTimeFormat(context)).toLocalizedPattern();
-        mEnableSeconds = a.getBoolean(R.styleable.AnalogClock_showSecondHand, false);
-
     }
 
     @Override
@@ -220,6 +182,7 @@ public class AnalogClock extends View {
             mSecondHand.draw(canvas);
         }
         canvas.restoreToCount(saveCount);
+
     }
 
     @Override
@@ -238,9 +201,17 @@ public class AnalogClock extends View {
     }
 
     public void onTimeChanged() {
+        updateTimeChange();
         mTime.setTimeInMillis(System.currentTimeMillis());
         setContentDescription(DateFormat.format(mDescFormat, mTime));
         invalidate();
+    }
+
+    private void updateTimeChange() {
+        Intent timeChange = new Intent(context, ScreensaverActivity.class);
+        timeChange.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
+        context.sendBroadcast(timeChange);
+        System.out.println("SENT TIME CHANGE BROADCAST");
     }
 
     public void setTimeZone(String id) {
