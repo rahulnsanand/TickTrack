@@ -312,37 +312,59 @@ public class FirebaseHelper {
         @Override
         public void run() {
             if(isCounter && isTimer && isSettings){
+                System.out.println("COUNTER< TIMER< SETTINGS");
                 if(tickTrackFirebaseDatabase.isCounterBackupComplete() && tickTrackFirebaseDatabase.isTimerBackupComplete() && tickTrackFirebaseDatabase.isSettingsBackupComplete()){
                     tickTrackFirebaseDatabase.setBackupMode(false);
                     backupCheckHandler.removeCallbacks(backupCheckRunnable);
+                } else {
+                    System.out.println("ELSE");
+                    backupCheckHandler.post(backupCheckRunnable);
                 }
             } else if (isTimer && isSettings){
+                System.out.println("TIMER< SETTINGS");
                 if(tickTrackFirebaseDatabase.isTimerBackupComplete() && tickTrackFirebaseDatabase.isSettingsBackupComplete()){
                     tickTrackFirebaseDatabase.setBackupMode(false);
                     backupCheckHandler.removeCallbacks(backupCheckRunnable);
+                } else {
+                    System.out.println("ELSE");
+                    backupCheckHandler.post(backupCheckRunnable);
                 }
             } else if (isCounter && isSettings){
+                System.out.println("COUNTER< SETTINGS");
                 if(tickTrackFirebaseDatabase.isCounterBackupComplete() && tickTrackFirebaseDatabase.isSettingsBackupComplete()){
                     tickTrackFirebaseDatabase.setBackupMode(false);
                     backupCheckHandler.removeCallbacks(backupCheckRunnable);
+                } else {
+                    System.out.println("ELSE");
+                    backupCheckHandler.post(backupCheckRunnable);
                 }
             } else if (isSettings){
+                System.out.println("SETTINGS");
                 if(tickTrackFirebaseDatabase.isSettingsBackupComplete()){
                     tickTrackFirebaseDatabase.setBackupMode(false);
                     backupCheckHandler.removeCallbacks(backupCheckRunnable);
+                } else {
+                    System.out.println("ELSE");
+                    backupCheckHandler.post(backupCheckRunnable);
                 }
             } else if (isTimer){
+                System.out.println("TIMER");
                 if(tickTrackFirebaseDatabase.isTimerBackupComplete()){
                     tickTrackFirebaseDatabase.setBackupMode(false);
                     backupCheckHandler.removeCallbacks(backupCheckRunnable);
+                } else {
+                    System.out.println("ELSE");
+                    backupCheckHandler.post(backupCheckRunnable);
                 }
             } else if (isCounter){
+                System.out.println("COUNTER");
                 if(tickTrackFirebaseDatabase.isCounterBackupComplete()){
                     tickTrackFirebaseDatabase.setBackupMode(false);
                     backupCheckHandler.removeCallbacks(backupCheckRunnable);
+                } else {
+                    System.out.println("ELSE");
+                    backupCheckHandler.post(backupCheckRunnable);
                 }
-            } else {
-                backupCheckHandler.post(backupCheckRunnable);
             }
         }
     };
