@@ -15,6 +15,7 @@ public class TickTrackButton extends androidx.appcompat.widget.AppCompatButton {
         TickTrackFontHelper.setCustomFont(this, context, attrs);
     }
 
+
     public TickTrackButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TickTrackFontHelper.setCustomFont(this, context, attrs);
