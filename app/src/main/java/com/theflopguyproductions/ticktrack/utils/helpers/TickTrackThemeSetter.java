@@ -440,7 +440,7 @@ public class TickTrackThemeSetter {
     }
 
     public static void stopwatchFragmentTheme(Activity activity, ConstraintLayout rootLayout, TextView lapTitleText, TextView stopwatchValueText, TickTrackDatabase tickTrackDatabase,
-                                              TickTrackProgressBar backgroundProgressBar, TextView millisText){
+                                              TickTrackProgressBar backgroundProgressBar, TextView millisText, ConstraintLayout playPauseFab, ConstraintLayout resetFab, ConstraintLayout lapFab){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
@@ -449,12 +449,18 @@ public class TickTrackThemeSetter {
             stopwatchValueText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             millisText.setTextColor(activity.getResources().getColor(R.color.Accent) );
             backgroundProgressBar.setBarColor(R.color.GrayOnLight);
+            playPauseFab.setBackgroundResource(R.drawable.fab_light_background);
+            resetFab.setBackgroundResource(R.drawable.fab_light_background);
+            lapFab.setBackgroundResource(R.drawable.fab_light_background);
         } else {
             rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
             lapTitleText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             stopwatchValueText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             millisText.setTextColor(activity.getResources().getColor(R.color.Accent) );
             backgroundProgressBar.setBarColor(R.color.Accent);
+            playPauseFab.setBackgroundResource(R.drawable.fab_dark_background);
+            resetFab.setBackgroundResource(R.drawable.fab_dark_background);
+            lapFab.setBackgroundResource(R.drawable.fab_dark_background);
         }
         backgroundProgressBar.setProgress(1f);
     }

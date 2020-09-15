@@ -11,14 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackTimerDatabase;
@@ -69,7 +68,8 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
 
         if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging()){
 
-            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_refresh_white_24));
+            TickTrackAnimator.fabImageDissolve(holder.stopImage);
+            TickTrackAnimator.fabImageReveal(holder.resetImage);
             System.out.println("THIS IF RAN");
 
             timerStatusUpdateHandler.post(holder.timerRunnable);
@@ -80,7 +80,8 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
             holder.timerProgressbar.setProgress(1f);
             timerRelapsedHandler.post(holder.elapsedRunnable);
             timerElapsedBlinkHandler.post(holder.blinkRunnable);
-            holder.timerResetButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_stop_white_24));
+            TickTrackAnimator.fabImageDissolve(holder.resetImage);
+            TickTrackAnimator.fabImageReveal(holder.stopImage);
 
             holder.timerResetButton.setOnClickListener(view -> deleteQuickTimer(holder.getAdapterPosition(), holder));
 
@@ -196,11 +197,13 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
     }
     private void setTheme(timerDataViewHolder holder, int theme) {
         if(theme == 1){
-            holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_light);
+            holder.timerLayout.setBackgroundResource(R.color.Light);
             holder.timerText.setTextColor(holder.context.getResources().getColor(R.color.Gray));
+            holder.timerResetButton.setBackgroundResource(R.drawable.fab_light_background);
         } else {
-            holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
+            holder.timerLayout.setBackgroundResource(R.color.GrayOnDark);
             holder.timerText.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            holder.timerResetButton.setBackgroundResource(R.drawable.fab_dark_background);
         }
     }
 
@@ -230,11 +233,12 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
         public ConstraintLayout timerLayout;
         private ImageView timerFlag;
         private Context context;
-        private FloatingActionButton timerResetButton;
+        private ConstraintLayout timerResetButton;
         private Runnable timerRunnable, blinkRunnable, progressRunnable, elapsedRunnable;
         private long stopTimeRetrieve;
         private boolean isBlink = false;
         private TickTrackProgressBar timerProgressbar;
+        private ImageView stopImage, resetImage;
 
         TickTrackDatabase tickTrackDatabase;
 
@@ -246,6 +250,8 @@ public class QuickTimerAdapter extends RecyclerView.Adapter<QuickTimerAdapter.ti
             timerLayout = parent.findViewById(R.id.quickTimerItemRootLayout);
             timerFlag = parent.findViewById(R.id.quickTimerItemImageView);
             timerProgressbar = parent.findViewById(R.id.quickTimerItemTimerProgress);
+            stopImage = parent.findViewById(R.id.quickTimerStopImage);
+            resetImage = parent.findViewById(R.id.quickTimerResetImage);
 
             context=parent.getContext();
             tickTrackDatabase = new TickTrackDatabase(context);

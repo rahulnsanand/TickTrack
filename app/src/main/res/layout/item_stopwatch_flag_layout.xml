@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="apercu_medium_italic"/>
+        app:typeface="odudo_regular"/>
 
     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/stopwatchLapTimeDifferenceTextView"

@@ -240,6 +240,7 @@ public class StopwatchFragment extends Fragment {
             tickTrackDatabase.storeStopwatchData(stopwatchDataArrayList);
             stopwatchDataArrayList = tickTrackDatabase.retrieveStopwatchData();
         }
+        TickTrackAnimator.fabLayoutUnDissolve(resetFAB);
     }
 
     private void startStopwatch() {
@@ -285,7 +286,7 @@ public class StopwatchFragment extends Fragment {
     public void onResume() {
         super.onResume();
         TickTrackThemeSetter.stopwatchFragmentTheme(activity, stopwatchRootLayout, stopwatchLapTitleText, stopwatchValueText,
-                tickTrackDatabase, backgroundProgressBar, stopwatchMillisText);
+                tickTrackDatabase, backgroundProgressBar, stopwatchMillisText, playPauseFAB, resetFAB, flagFAB);
 
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);

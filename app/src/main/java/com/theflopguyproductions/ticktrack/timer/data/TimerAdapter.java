@@ -106,9 +106,9 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
         if(position == timerDataArrayList.size()) {
             if(theme == 1){
-                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightDarkText));
             } else {
-                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkLightText));
             }
             Resources resources = holder.context.getResources();
             String[] footerArray = resources.getStringArray(R.array.footer_string_array);
@@ -212,13 +212,13 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
     private void setTheme(timerDataViewHolder holder, int theme) {
         if(theme == 1){
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_light);
-            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
-            holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.Gray));
+            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightDarkText));
+            holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
             holder.timerItemButton.setBackgroundResource(R.drawable.button_selector_white);
         } else {
             holder.timerLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
             holder.timerItemButton.setBackgroundResource(R.drawable.button_selector_dark);
-            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.DarkLightText));
             holder.timerTitle.setTextColor(holder.context.getResources().getColor(R.color.LightText));
         }
         holder.timerDurationLeft.setTextColor(holder.context.getResources().getColor(R.color.Accent));
