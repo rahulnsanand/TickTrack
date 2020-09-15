@@ -36,12 +36,12 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
     private void setTheme(counterDataViewHolder holder, int theme) {
         if(theme == 1){
             holder.counterLayout.setBackgroundResource(R.drawable.recycler_layout_light);
-            holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
-            holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.Gray));
+            holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
+            holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.LightDarkText));
         } else {
             holder.counterLayout.setBackgroundResource(R.drawable.recycler_layout_dark);
             holder.counterLabel.setTextColor(holder.context.getResources().getColor(R.color.LightText));
-            holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+            holder.lastModified.setTextColor(holder.context.getResources().getColor(R.color.DarkLightText));
         }
         holder.countValue.setTextColor(holder.context.getResources().getColor(R.color.Accent));
     }
@@ -88,9 +88,9 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
 
         if(position == counterDataArrayList.size()) {
             if(currentTheme == 1){
-                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkText));
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightDarkText));
             } else {
-                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.LightText));
+                holder.footerCounterTextView.setTextColor(holder.context.getResources().getColor(R.color.DarkLightText));
             }
             Resources resources = holder.context.getResources();
             String[] footerArray = resources.getStringArray(R.array.footer_string_array);
