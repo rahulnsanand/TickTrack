@@ -46,6 +46,8 @@ import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
+import java.util.Objects;
+
 public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerCreatorFragment.QuickTimerCreateListener, TimerRecyclerFragment.RootLayoutClickListener {
 
     TickTrackDatabase tickTrackDatabase;
@@ -251,7 +253,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
             String shortcutAction;
             System.out.println(extras+"<<<<<<<<<<<<<<<<<<<<<<<<<");
             if(extras!=null){
-                shortcutAction = (String) getIntent().getExtras().get("fragmentID");
+                shortcutAction = (String) Objects.requireNonNull(getIntent().getExtras()).get("fragmentID");
                 System.out.println(shortcutAction);
                 if(shortcutAction!=null){
                     switch (shortcutAction) {
@@ -271,7 +273,18 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                     getIntent().removeExtra("fragmentID");
                 }
             } else {
+                int currentFragment = tickTrackDatabase.retrieveCurrentFragmentNumber();
+                if(currentFragment==1){
+                    navView.setSelectedItemId(R.id.navigation_counter);
+                } else if(currentFragment==2){
+                    navView.setSelectedItemId(R.id.navigation_timer);
+                } else if(currentFragment==3){
+                    navView.setSelectedItemId(R.id.navigation_stopwatch);
+                } else {
+                    navView.setSelectedItemId(R.id.navigation_counter);
+                }
                 openFragment(getFragment(tickTrackDatabase.retrieveCurrentFragmentNumber()));
+
             }
         }
         System.out.println("ActivityManager: Displayed SoYouDev onResume "+System.currentTimeMillis());

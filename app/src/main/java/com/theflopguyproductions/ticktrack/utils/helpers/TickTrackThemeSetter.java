@@ -29,7 +29,6 @@ public class TickTrackThemeSetter {
         if(checkTheme==1){
             container.setBackgroundResource(R.color.LightGray);
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
-//            bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.bottom_navigation_tint)));
             mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
         } else {
             container.setBackgroundResource(R.color.Black);
