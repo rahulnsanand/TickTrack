@@ -1,11 +1,13 @@
 package com.theflopguyproductions.ticktrack.ui.stopwatch;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ public class StopwatchFragment extends Fragment {
     private TickTrackProgressBar foregroundProgressBar, backgroundProgressBar;
     private ConstraintLayout playPauseFAB, flagFAB, resetFAB;
     private ImageView playImage, pauseImage;
+    private ImageButton shareButton;
 
     private Activity activity;
     private TickTrackDatabase tickTrackDatabase;
@@ -203,6 +206,32 @@ public class StopwatchFragment extends Fragment {
             System.out.println("LAP STOPWATCH CONDITION CLICK");
             lapStopwatch();
         });
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(stopwatchLapDataArrayList.size()>0){
+                    stopwatchLapShareData();
+                }
+            }
+        });
+    }
+
+    private void stopwatchLapShareData() {
+        stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
+        String lapDataShare = "---- TickTrack Stopwatch Lap Data ----\n";
+        StringBuilder lapData = new StringBuilder();
+        for(int i=0; i<stopwatchLapDataArrayList.size(); i++){
+            lapData.append("Lap :").append(stopwatchLapDataArrayList.get(i).getLapNumber()).append(" - ").append(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()).append("\n");
+        }
+        lapDataShare += lapData;
+
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "TickTrack Stopwatch Lap Data");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, lapDataShare);
+        startActivity(Intent.createChooser(intent, "Share using"));
+        
     }
 
     private void lapStopwatch() {
@@ -276,6 +305,7 @@ public class StopwatchFragment extends Fragment {
         resetFAB = parent.findViewById(R.id.stopwatchFragmentResetFAB);
         playImage = parent.findViewById(R.id.stopwatchFragmentPlayImage);
         pauseImage = parent.findViewById(R.id.stopwatchFragmentPauseImage);
+        shareButton = parent.findViewById(R.id.stopwatchFragmentShareButton);
 
         backgroundProgressBar.setInstantProgress(1);
         foregroundProgressBar.setLinearProgress(true);
