@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -147,6 +148,9 @@ public class TimerFragment extends Fragment {
         assert activity != null;
         tickTrackDatabase = new TickTrackDatabase(activity);
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
+
+        FrameLayout frameLayout = root.findViewById(R.id.timerFragmentInnerFragmentContainer);
+        frameLayout.setOnClickListener(view -> onRootLayoutClick());
 
         return root;
     }

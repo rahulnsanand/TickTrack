@@ -85,6 +85,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         noTimerText = root.findViewById(R.id.timerFragmentNoTimerText);
         timerRecyclerRootLayout = root.findViewById(R.id.timerRecyclerRootLayout);
         timerRecyclerRootLayout.setOnClickListener(view -> rootLayoutClickListener.onRootLayoutClick());
+        timerRecyclerView.setOnClickListener(view -> rootLayoutClickListener.onRootLayoutClick());
 
         TickTrackThemeSetter.timerRecycleTheme(activity, timerRecyclerView, tickTrackDatabase, timerRecyclerRootLayout, noTimerText);
 

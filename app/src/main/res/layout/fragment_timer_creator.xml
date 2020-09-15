@@ -152,7 +152,7 @@
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:typeface="apercu_regular" />
+                        app:typeface="apercu_bold" />
 
                     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/timerCreatorFragmentFlagTextView"
@@ -167,7 +167,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentFlagTitleTextView"
                         app:layout_constraintVertical_bias="0.0"
-                        app:typeface="apercu_italic" />
+                        app:typeface="apercu_medium_italic" />
 
                     <ImageView
                         android:id="@+id/timerCreatorFragmentFlagImageView"
@@ -290,7 +290,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/timerCreatorFragmentLabelTitleTextView"
-                        app:typeface="apercu_italic" />
+                        app:typeface="apercu_medium_italic" />
 
                     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/timerCreatorFragmentLabelTitleTextView"
@@ -304,7 +304,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:typeface="apercu_regular" />
+                        app:typeface="apercu_bold" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
