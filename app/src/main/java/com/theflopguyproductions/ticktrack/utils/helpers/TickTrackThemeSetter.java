@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.utils.helpers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.View;
 import android.widget.Button;
@@ -495,6 +496,26 @@ public class TickTrackThemeSetter {
         } else {
             rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
             optionText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+        }
+    }
+
+    public static void timerFragmentTheme(Context context, TickTrackDatabase tickTrackDatabase, ConstraintLayout timerPlusFab, ConstraintLayout quickTimerFab,
+                                          ConstraintLayout normalTimerFab, ConstraintLayout timerDiscardFAB, TextView timerText, TextView quickTimerText) {
+        int checkTheme = tickTrackDatabase.getThemeMode();
+        if(checkTheme==1){
+            timerPlusFab.setBackgroundResource(R.drawable.fab_light_background);
+            normalTimerFab.setBackgroundResource(R.drawable.fab_light_background);
+            timerDiscardFAB.setBackgroundResource(R.drawable.fab_light_background);
+            quickTimerFab.setBackgroundResource(R.drawable.fab_light_background);
+            timerText.setTextColor(context.getResources().getColor(R.color.DarkText) );
+            quickTimerText.setTextColor(context.getResources().getColor(R.color.DarkText) );
+        } else {
+            timerPlusFab.setBackgroundResource(R.drawable.fab_dark_background);
+            normalTimerFab.setBackgroundResource(R.drawable.fab_dark_background);
+            timerDiscardFAB.setBackgroundResource(R.drawable.fab_dark_background);
+            quickTimerFab.setBackgroundResource(R.drawable.fab_dark_background);
+            timerText.setTextColor(context.getResources().getColor(R.color.LightText) );
+            quickTimerText.setTextColor(context.getResources().getColor(R.color.LightText) );
         }
     }
 }

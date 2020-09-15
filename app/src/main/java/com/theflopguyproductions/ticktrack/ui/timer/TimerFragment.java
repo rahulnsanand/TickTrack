@@ -19,6 +19,7 @@ import com.theflopguyproductions.ticktrack.timer.activity.TimerActivity;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class TimerFragment extends Fragment {
     private static ConstraintLayout quickTimerFab, normalTimerFab;
     private static ConstraintLayout timerPlusFab;
     private static TextView timerText, quickTimerText;
-    private com.google.android.material.floatingactionbutton.FloatingActionButton timerDiscardFAB;
+    private ConstraintLayout timerDiscardFAB;
     private boolean recyclerOn=false;
     private ArrayList<TimerData> timerDataArrayList = new ArrayList<>();
     private Activity activity;
@@ -94,7 +95,7 @@ public class TimerFragment extends Fragment {
     }
 
     private void displayRecyclerView() {
-        TickTrackAnimator.fabDissolve(timerDiscardFAB);
+        TickTrackAnimator.fabLayoutDissolve(timerDiscardFAB);
         TickTrackAnimator.fabLayoutUnDissolve(timerPlusFab);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer,  new TimerRecyclerFragment()).commit();
@@ -104,7 +105,7 @@ public class TimerFragment extends Fragment {
     private void addTimer(){
         toggleFabOptions();
         TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
-        TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
+        TickTrackAnimator.fabLayoutUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         tickTrackDatabase.setFirstTimer(false);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
@@ -114,7 +115,7 @@ public class TimerFragment extends Fragment {
     private void addQuickTimer(){
         toggleFabOptions();
         TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
-        TickTrackAnimator.fabUnDissolve(timerDiscardFAB);
+        TickTrackAnimator.fabLayoutUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new QuickTimerCreatorFragment()).commit();
         recyclerOn=false;
@@ -155,6 +156,7 @@ public class TimerFragment extends Fragment {
         super.onResume();
         isOptionsOpen = false;
         TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+        TickTrackThemeSetter.timerFragmentTheme(activity, tickTrackDatabase, timerPlusFab, quickTimerFab, normalTimerFab, timerDiscardFAB, timerText, quickTimerText);
     }
 
     public static void onRootLayoutClick() {
