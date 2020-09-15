@@ -30,11 +30,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/counterActivityTrashButton"
+            android:id="@+id/counterActivityShareButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?attr/actionBarItemBackground"
-            android:src="@drawable/ic_round_delete_outline_white_24"
+            android:src="@drawable/ic_baseline_share_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/counterActivityEditButton"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +60,7 @@
             android:textColor="@color/Accent"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/counterActivityTrashButton"
+            app:layout_constraintEnd_toStartOf="@+id/counterActivityShareButton"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/counterActivityBackButton"
             app:layout_constraintTop_toTopOf="parent"

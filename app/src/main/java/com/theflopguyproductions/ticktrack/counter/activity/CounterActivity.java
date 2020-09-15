@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -19,14 +20,15 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
-import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
 import com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.widgets.counter.CounterWidget;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CounterActivity extends AppCompatActivity {
 
@@ -39,7 +41,7 @@ public class CounterActivity extends AppCompatActivity {
     private ArrayList<CounterData> counterDataArrayList;
     ConstraintLayout toolbar, rootLayout;
     int flagColor;
-    private ImageButton backButton, deleteButton, editButton;
+    private ImageButton backButton, shareButton, editButton;
     private Activity activity;
     LottieAnimationView lottieAnimationView;
     private SharedPreferences sharedPreferences;
@@ -113,7 +115,7 @@ public class CounterActivity extends AppCompatActivity {
         CounterText = findViewById(R.id.counterActivityValueTextView);
         backButton = findViewById(R.id.counterActivityBackButton);
         editButton = findViewById(R.id.counterActivityEditButton);
-        deleteButton = findViewById(R.id.counterActivityTrashButton);
+        shareButton = findViewById(R.id.counterActivityShareButton);
         counterLabel = findViewById(R.id.counterActivityLabelTextView);
         plusLightButton = findViewById(R.id.plusbtn);
         minusLightButton = findViewById(R.id.minusbtn);
@@ -156,12 +158,8 @@ public class CounterActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        deleteButton.setOnClickListener(view -> {
-            new Handler().post(() -> {
-                DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, getCurrentPosition(), counterDataArrayList.get(getCurrentPosition()).getCounterLabel(),
-                        counterDataArrayList.get(getCurrentPosition()).getCounterID(), sharedPreferenceChangeListener);
-                counterDelete.show();
-            });
+        shareButton.setOnClickListener(view -> {
+            new Handler().post(this::getCounterDataInText);
         });
 
         milestoneItIs();
@@ -170,6 +168,47 @@ public class CounterActivity extends AppCompatActivity {
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
+    }
+
+    private void getCounterDataInText() {
+
+        Locale locale ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            locale = getResources().getConfiguration().getLocales().get(0);
+        } else{
+            locale = getResources().getConfiguration().locale;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss a, MMM dd, yyyy", locale);
+        long editedTime = counterDataArrayList.get(getCurrentPosition()).getCounterTimestamp();
+
+        String editTimeInText = simpleDateFormat.format(editedTime);
+
+        String shareText = "---- Counter Data ----\n" +
+                "Counter Name: "+counterDataArrayList.get(getCurrentPosition()).getCounterLabel()+"\n"+
+                "Counter Value: "+counterDataArrayList.get(getCurrentPosition()).getCounterValue()+"\n"+
+                "Counter Flag: "+counterActivityToolbarColor(counterDataArrayList.get(getCurrentPosition()).getCounterFlag())+"\n"+
+                "Counter Last Edited: "+ editTimeInText;
+
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "TickTrack Counter Data");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
+        startActivity(Intent.createChooser(intent, "Share using"));
+    }
+
+    private static String counterActivityToolbarColor(int flagColor){
+        if(flagColor == 1){
+            return "Cherry";
+        } else if(flagColor == 2){
+            return "Lime";
+        } else if(flagColor == 3){
+            return "Peach";
+        } else if(flagColor == 4){
+            return "Plum";
+        } else if(flagColor == 5){
+            return "Berry";
+        }
+        return "NA";
     }
 
     private int getCurrentPosition() {
