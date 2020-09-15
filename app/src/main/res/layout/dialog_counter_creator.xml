@@ -96,13 +96,15 @@
     <EditText
         android:id="@+id/counterLabelInputText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/label_edit_text_accent"
         android:ems="10"
         android:hint="Counter label"
         android:inputType="textAutoCorrect|text|textCapWords"
+        android:padding="10dp"
         android:textColor="@color/roboto_calendar_day_of_the_month_font"
         android:textColorHint="@color/daysLabelColor"
         android:textStyle="normal"
@@ -153,5 +155,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/counterCreatorLabelCharLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/15"
+        app:layout_constraintBottom_toTopOf="@+id/counterLabelInputText"
+        app:layout_constraintEnd_toEndOf="@+id/counterLabelInputText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -34,7 +36,7 @@ public class CreateCounter extends BottomSheetDialog {
     public int counterFlag= 0, themeSet = 1;
     public Button createCounterButton, cancelCounterButton;
     public EditText counterLabelText;
-    private TextView titleText, counterFlagTitle;
+    private TextView titleText, counterFlagTitle, characterCountText;
     private ConstraintLayout rootLayout;
     private Chip redChip, greenCip, orangeChip, purpleChip, blueChip;
     public int counterNumber;
@@ -72,6 +74,7 @@ public class CreateCounter extends BottomSheetDialog {
         titleText = view.findViewById(R.id.createCounterDialogTitle);
         counterFlagTitle = view.findViewById(R.id.counterFlagTextView);
         rootLayout = view.findViewById(R.id.counterCreateRootLayout);
+        characterCountText = view.findViewById(R.id.counterCreatorLabelCharLength);
 
         redChip = view.findViewById(R.id.redCounterFlag);
         greenCip = view.findViewById(R.id.greenCounterFlag);
@@ -131,6 +134,37 @@ public class CreateCounter extends BottomSheetDialog {
         cancelCounterButton.setOnClickListener(view12 -> {
             dismiss();
         });
+
+
+        counterLabelText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int length = charSequence.length();
+                if(length>10 && length<15){
+                    characterCountText.setTextColor(activity.getResources().getColor(R.color.roboto_calendar_circle_1));
+                } else if (length==15){
+                    characterCountText.setTextColor(activity.getResources().getColor(R.color.red_matte));
+                } else {
+                    if(themeSet==1) {
+                        characterCountText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+                    } else {
+                        characterCountText.setTextColor(activity.getResources().getColor(R.color.LightText));
+                    }
+                }
+                characterCountText.setText(length+"/15");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     private void setupTheme(){

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -29,7 +31,7 @@ public class TimerEditDialog extends BottomSheetDialog {
     private Activity activity;
     public EditText labelInput;
     public Button saveButton, cancelButton;
-    public TextView labelTitle, flagTitle, mainTitle;
+    public TextView labelTitle, flagTitle, mainTitle, characterCountText;
     private String currentLabel;
     public int currentFlag, themeSet = 1;
     private ChipGroup flagChipGroup;
@@ -66,6 +68,36 @@ public class TimerEditDialog extends BottomSheetDialog {
 
         setupTheme();
         flagCheck();
+
+        labelInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int length = charSequence.length();
+                if(length>10 && length<15){
+                    characterCountText.setTextColor(activity.getResources().getColor(R.color.roboto_calendar_circle_1));
+                } else if (length==15){
+                    characterCountText.setTextColor(activity.getResources().getColor(R.color.red_matte));
+                } else {
+                    if(themeSet==1) {
+                        characterCountText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+                    } else {
+                        characterCountText.setTextColor(activity.getResources().getColor(R.color.LightText));
+                    }
+                }
+                characterCountText.setText(length+"/15");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     private void setupTheme() {
@@ -127,6 +159,7 @@ public class TimerEditDialog extends BottomSheetDialog {
         purpleChip = view.findViewById(R.id.timerEditDialogPurpleFlag);
         blueChip = view.findViewById(R.id.timerEditDialogBlueFlag);
         rootLayout = view.findViewById(R.id.timerEditDialogRootLayout);
+        characterCountText = view.findViewById(R.id.timerEditDialogCharacterCounter);
 
         setPrefixFlag();
     }

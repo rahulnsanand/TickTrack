@@ -145,7 +145,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogLabelText"
         app:typeface="roboto_italic" />
 
     <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
@@ -163,10 +163,10 @@
         app:typeface="roboto_italic" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/timerEditDialogCharacterCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0/15"
-        app:layout_constraintEnd_toEndOf="@+id/timerEditDialogLabelText"
-        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogLabelText" />
+        app:layout_constraintBottom_toTopOf="@+id/timerEditDialogLabelText"
+        app:layout_constraintEnd_toEndOf="@+id/timerEditDialogLabelText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
