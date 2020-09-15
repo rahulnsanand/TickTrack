@@ -31,6 +31,8 @@ import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.CounterSlideDel
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -70,6 +72,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
+    private boolean isLongSumDisplayed = false;
     @Override
     public void onResume() {
         super.onResume();
@@ -86,7 +89,20 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             sumValue.setVisibility(View.GONE);
         }
         TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase, sumLayout);
-        sumLayout.setOnClickListener(view -> sumValue.setText("Sum: "+sum));
+        sumLayout.setOnClickListener(view -> {
+            if(isLongSumDisplayed){
+                if(sum>1000){
+                    sumValue.setText("Sum: "+format(sum));
+
+                }
+                isLongSumDisplayed = false;
+            } else {
+                NumberFormat myFormat = new DecimalFormat("#,###");
+                sumValue.setText("Sum: "+myFormat.format(sum));
+                isLongSumDisplayed = true;
+            }
+
+        });
     }
 
     private static void createCounterDialog(Activity context){
