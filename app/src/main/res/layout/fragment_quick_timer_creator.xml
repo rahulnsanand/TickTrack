@@ -68,7 +68,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/quickTimerFragmentPlayCustomHourText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomLightHourNumberPicker"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/quickTimerFragmentPlayCustomMinuteText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/quickTimerFragmentPlayCustomSecondText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

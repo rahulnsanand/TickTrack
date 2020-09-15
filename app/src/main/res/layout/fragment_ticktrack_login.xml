@@ -30,7 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/autoStartGoogleFragmentTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,9 +43,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_semi_bold_italic" />
+                    app:typeface="apercu_italic" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/autoStartGoogleFragmentSubTitleText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                     app:layout_constraintStart_toStartOf="@+id/autoStartGoogleFragmentTitleText"
                     app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentTitleText"
                     app:layout_constraintVertical_bias="0.0"
-                    app:typeface="montserrat_light_italic" />
+                    app:typeface="apercu_light_italic" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,7 +96,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/autoStartGoogleFragmentSignInTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -108,9 +108,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="montserrat_semi_bold_italic" />
+                    app:typeface="apercu_bold" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/autoStartGoogleFragmentSignInDetailText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -125,7 +125,7 @@ preferences, timers and counters"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/autoStartGoogleFragmentSignInTitle"
-                    app:typeface="roboto_italic" />
+                    app:typeface="apercu_regular" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

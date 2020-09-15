@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/ticktrackFragmentThemeTitleFlavor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_semi_bold_italic" />
+                app:typeface="apercu_italic" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -95,7 +95,7 @@
                     app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeLightThemeButton"
                     app:layout_constraintTop_toTopOf="@+id/ticktrackFragmentThemeLightThemeButton" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/ticktrackFragmentThemeLightMatterText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,9 +103,9 @@
                     app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeLightThemeButton"
                     app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeLightThemeButton"
                     app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeLightThemeButton"
-                    app:typeface="roboto_italic" />
+                    app:typeface="apercu_medium_italic" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/ticktrackFragmentThemeDarkMatterText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -113,9 +113,9 @@
                     app:layout_constraintEnd_toEndOf="@+id/ticktrackFragmentThemeDarkThemeButton"
                     app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeDarkThemeButton"
                     app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeDarkThemeButton"
-                    app:typeface="roboto_italic" />
+                    app:typeface="apercu_medium_italic" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/ticktrackFragmentThemeCustomizeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,9 +126,9 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeLightMatterText"
-                    app:typeface="roboto_italic" />
+                    app:typeface="apercu_bold" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/ticktrackFragmentThemeHelpText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,10 +141,10 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeCustomizeText"
-                    app:typeface="roboto_regular" />
+                    app:typeface="apercu_regular" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/ticktrackFragmentThemeSubText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/ticktrackFragmentThemeTitleFlavor"
                 app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentThemeTitleFlavor"
-                app:typeface="montserrat_light_italic" />
+                app:typeface="apercu_light_italic" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

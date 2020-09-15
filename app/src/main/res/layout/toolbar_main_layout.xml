@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/ticktrackAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_semi_bold_italic" />
+                app:typeface="source_code_pro_semi_bold_italic" />
 
         </androidx.appcompat.widget.Toolbar>
 

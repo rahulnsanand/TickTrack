@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/labelDialogHelpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/labelDialogInputText"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="roboto_regular"/>
+        app:typeface="apercu_bold"/>
 
 
     <TextView
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/labelDialogCharacterCount"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/labelDialogSaveChangesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,6 +88,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="roboto_italic"/>
+        app:typeface="apercu_bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

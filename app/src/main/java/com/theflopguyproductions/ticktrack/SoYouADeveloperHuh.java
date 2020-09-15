@@ -139,7 +139,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overflow_menu, menu);
 
-        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.roboto_regular);
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.apercu_regular);
 
         for (int i = 0; i < menu.size(); i++) {
             MenuItem mi = menu.getItem(i);

@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/counterLastUpdateItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,9 +54,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/counterLabelItemTextView"
-            app:typeface="roboto_light_italic"/>
+            app:typeface="apercu_italic"/>
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/counterValueItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="roboto_medium"/>
+            app:typeface="odudo_regular"/>
 
         <ImageView
             android:id="@+id/counterFlagItemImageView"
@@ -78,7 +78,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/counterLabelItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/counterFlagItemImageView"
-            app:typeface="roboto_medium"/>
+            app:typeface="apercu_regular"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

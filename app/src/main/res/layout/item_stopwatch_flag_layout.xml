@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/stopwatchLapNumberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,9 +17,9 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="roboto_medium_italic"/>
+        app:typeface="apercu_medium_italic"/>
 
-    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/stopwatchLapTimeDifferenceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,9 +30,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopwatchLapTimeStampTextView"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="roboto_medium"/>
+        app:typeface="odudo_regular"/>
 
-    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/stopwatchLapTimeStampTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +41,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="roboto_medium"/>
+        app:typeface="odudo_regular"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

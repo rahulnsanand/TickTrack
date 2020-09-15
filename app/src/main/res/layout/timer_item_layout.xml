@@ -41,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/timerTitleItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,9 +53,9 @@
             app:layout_constraintBottom_toTopOf="@+id/timerLabelItemTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timerFlagItemImageView"
-            app:typeface="roboto_medium" />
+            app:typeface="apercu_regular" />
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/timerLabelItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:typeface="roboto_italic" />
+            app:typeface="apercu_italic" />
 
         <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
             android:id="@+id/timerItemButton"
@@ -81,7 +81,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/timerDurationLeftItemTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timerFlagItemImageView"
-            app:typeface="roboto_medium_italic" />
+            app:typeface="odudo_regular" />
 
         <ImageView
             android:id="@+id/timerFlagItemImageView"

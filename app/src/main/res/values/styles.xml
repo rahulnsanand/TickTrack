@@ -26,7 +26,7 @@
     <style name="menu_labels_style">
         <item name="android:background">@drawable/clickable_layout_gray_background</item>
         <item name="android:textColor">@color/LightGray</item>
-        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/apercu_regular</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -40,21 +40,21 @@
     </style>
 
     <style name="button" parent="@android:style/Widget.Button">
-        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="fontFamily">@font/apercu_bold</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="buttonStartup" parent="@android:style/Widget.Button">
-        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/apercu_bold</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/apercu_regular</item>
     </style>
 
     <style name="Chip" parent="TextAppearance.MaterialComponents.Chip">
-        <item name="fontFamily">@font/roboto_light</item>
+        <item name="fontFamily">@font/apercu_regular</item>
     </style>
 
     <style name="LightOverflow" parent="Theme.AppCompat.Light.NoActionBar">
@@ -64,7 +64,7 @@
     </style>
 
     <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
-        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="fontFamily">@font/apercu_bold</item>
     </style>
 
 

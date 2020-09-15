@@ -12,7 +12,7 @@ import java.util.Objects;
 public class TickTrackFontCacheHelper {
     private static final String FEATURE_FONT_PATH = "Fonts/";
     private static final String APP_FONT_PATH = "Fonts/App/";
-    public static final String DEFAULT_FONT_NAME = "roboto_medium.ttf";
+    public static final String DEFAULT_FONT_NAME = "apercu_regular.otf";
     private static TickTrackFontCacheHelper fontCacheHelper;
     private Map<String, Typeface> fontMap = new HashMap<>();
 

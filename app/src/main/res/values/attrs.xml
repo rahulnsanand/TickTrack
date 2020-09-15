@@ -3,46 +3,7 @@
 
     <attr name="toolbarStyle" format="reference" />
 
-    <attr name="scrollingPagerIndicatorStyle" />
-
     <bool name="is_rtl">false</bool>
-
-    <declare-styleable name="JazzyViewPager">
-        <attr name="style">
-            <enum name="standard" value="0" />
-            <enum name="tablet" value="1" />
-            <enum name="cubein" value="2" />
-            <enum name="cubeout" value="3" />
-            <enum name="flipvertical" value="4" />
-            <enum name="fliphorizontal" value="5" />
-            <enum name="stack" value="6" />
-            <enum name="zoomin" value="7" />
-            <enum name="zoomout" value="8" />
-            <enum name="rotateup" value="9" />
-            <enum name="rotatedown" value="10" />
-            <enum name="accordion" value="11" />
-        </attr>
-        <attr name="fadeEnabled" format="boolean" />
-        <attr name="outlineEnabled" format="boolean" />
-        <attr name="outlineColor" format="color|reference" />
-    </declare-styleable>
-
-    <declare-styleable name="ScrollingPagerIndicator">
-        <attr name="spi_dotColor" format="color" />
-        <attr name="spi_dotSelectedColor" format="color" />
-        <attr name="spi_dotSize" format="dimension" />
-        <attr name="spi_dotSelectedSize" format="dimension" />
-        <attr name="spi_dotMinimumSize" format="dimension" />
-        <attr name="spi_dotSpacing" format="dimension" />
-        <attr name="spi_visibleDotCount" format="integer" />
-        <attr name="spi_visibleDotThreshold" format="integer" />
-        <attr name="spi_looped" format="boolean" />
-        <attr name="spi_orientation" format="enum">
-            <enum name="horizontal" value="0" />
-            <enum name="vertical" value="1" />
-        </attr>
-    </declare-styleable>
-
 
     <declare-styleable name="LottieAnimationView">
         <attr name="lottie_fileName" format="string" />
@@ -148,23 +109,19 @@
         <enum name="range_picker" value="3" />
     </attr>
 
-    <declare-styleable name="MontserratTextView">
+    <declare-styleable name="TickTrackTextView">
         <attr name="typeface" />
     </declare-styleable>
 
     <attr name="typeface" format="enum">
-        <enum name="roboto_regular" value="0" />
-        <enum name="roboto_bold" value="1" />
-        <enum name="montserrat_light_italic" value="2" />
-        <enum name="montserrat_semi_bold_italic" value="3" />
-        <enum name="roboto_italic" value="4" />
-        <enum name="roboto_bold_italic" value="5" />
-        <enum name="roboto_medium" value="6" />
-        <enum name="roboto_medium_italic" value="7" />
-        <enum name="roboto_light" value="8" />
-        <enum name="roboto_light_italic" value="9" />
-        <enum name="roboto_thin" value="10" />
-        <enum name="roboto_thin_italic" value="11" />
+        <enum name="source_code_pro_semi_bold_italic" value="0" />
+        <enum name="source_code_pro_light_italic" value="1" />
+        <enum name="apercu_regular" value="2" />
+        <enum name="apercu_italic" value="3" />
+        <enum name="apercu_light_italic" value="4" />
+        <enum name="apercu_medium_italic" value="5" />
+        <enum name="apercu_bold" value="6" />
+        <enum name="odudo_regular" value="7" />
     </attr>
 
     <declare-styleable name="CustomFont">

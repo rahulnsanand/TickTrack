@@ -77,7 +77,7 @@
 
     </com.google.android.material.chip.ChipGroup>
 
-    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/createCounterDialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="roboto_italic" />
+        app:typeface="apercu_medium_italic" />
 
     <com.theflopguyproductions.ticktrack.ui.utils.TickTrackEditText
         android:id="@+id/counterLabelInputText"
@@ -113,7 +113,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createCounterDialogTitle" />
 
-    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/counterFlagTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterLabelInputText"
-        app:typeface="roboto_medium_italic" />
+        app:typeface="apercu_medium_italic" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/dismissCounterButton"

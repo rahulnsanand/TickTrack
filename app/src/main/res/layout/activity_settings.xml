@@ -15,7 +15,7 @@
         android:elevation="4dp">
 
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/settingsLabelToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="montserrat_semi_bold_italic" />
+            app:typeface="apercu_medium_italic" />
 
         <ImageButton
             android:id="@+id/settingsActivityBackButton"
@@ -58,7 +58,7 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/generalSettingsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="roboto_medium" />
+                app:typeface="apercu_bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/generalSettingsWrapperLayout"
@@ -131,7 +131,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/themeSettingsLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,9 +144,9 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:typeface="roboto_regular" />
+                        app:typeface="apercu_regular" />
 
-                    <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/themeValueSettingsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/themeSettingsLabel"
-                        app:typeface="roboto_italic" />
+                        app:typeface="apercu_italic" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

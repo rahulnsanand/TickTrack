@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_round_arrow_white_24" />
 
-        <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/timerActivityLabelTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toStartOf="@+id/timerActivityDeleteImageButton"
             app:layout_constraintStart_toEndOf="@+id/timerActivityBackImageButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="montserrat_semi_bold_italic" />
+            app:typeface="apercu_medium_italic" />
 
         <ImageButton
             android:id="@+id/timerActivityDeleteImageButton"
@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true">
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/timerActivityTimeLeftTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -204,9 +204,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
-                    app:typeface="roboto_medium" />
+                    app:typeface="odudo_regular" />
 
-                <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/timerActivityTimeLeftMillisTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -219,7 +219,7 @@
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toBottomOf="@+id/timerActivityTimeLeftTextView"
                     app:layout_constraintVertical_bias="0.0"
-                    app:typeface="roboto_regular" />
+                    app:typeface="odudo_regular" />
 
                 <com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar
                     android:id="@+id/timerActivityTimerProgressBar"

@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,9 +31,9 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"
-                app:typeface="montserrat_light_italic" />
+                app:typeface="apercu_light_italic" />
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,9 +46,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:typeface="montserrat_semi_bold_italic" />
+                app:typeface="apercu_medium_italic" />
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentBatteryOptimiseLottie"
-                app:typeface="montserrat_semi_bold_italic" />
+                app:typeface="apercu_bold" />
 
             <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
                 android:id="@+id/ticktrackFragmentBatteryOptimiseLottie"
@@ -76,7 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
                 app:lottie_loop="true" />
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/ticktrackFragmentOptimiseBoldHelpText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,9 +91,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentOptimiseHelpText"
                 app:layout_constraintVertical_bias="1.0"
-                app:typeface="roboto_medium" />
+                app:typeface="apercu_bold" />
 
-            <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/ticktrackFragmentOptimiseHelpText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
-                app:typeface="roboto_italic" />
+                app:typeface="apercu_regular" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
