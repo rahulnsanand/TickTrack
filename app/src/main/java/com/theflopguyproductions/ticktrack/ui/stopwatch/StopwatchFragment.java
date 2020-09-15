@@ -29,6 +29,8 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.runnable.TickTrackStopwatch;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class StopwatchFragment extends Fragment {
 
@@ -221,8 +223,39 @@ public class StopwatchFragment extends Fragment {
         stopwatchLapDataArrayList = tickTrackDatabase.retrieveStopwatchLapData();
         String lapDataShare = "---- TickTrack Stopwatch Lap Data ----\n";
         StringBuilder lapData = new StringBuilder();
-        for(int i=0; i<stopwatchLapDataArrayList.size(); i++){
-            lapData.append("Lap :").append(stopwatchLapDataArrayList.get(i).getLapNumber()).append(" - ").append(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()).append("\n");
+        for(int i=stopwatchLapDataArrayList.size()-1; i>=0; i--){
+
+            String hms = String.format(Locale.getDefault(), "%02d:%02d:%02d:%03d",
+                    TimeUnit.MILLISECONDS.toHours(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()),
+                    TimeUnit.MILLISECONDS.toMinutes(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())),
+                    TimeUnit.MILLISECONDS.toSeconds(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())),
+                    TimeUnit.MILLISECONDS.toMillis(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())));
+
+            String hours = String.format(Locale.getDefault(), "%02d",TimeUnit.MILLISECONDS.toHours(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()));
+
+            String minutes = String.format(Locale.getDefault(), "%02d",TimeUnit.MILLISECONDS.toMinutes(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())
+                    - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())));
+
+            String seconds = String.format(Locale.getDefault(), "%02d",TimeUnit.MILLISECONDS.toSeconds(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())
+                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())));
+
+            String millis = String.format(Locale.getDefault(), "%03d", TimeUnit.MILLISECONDS.toMillis(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())
+                    - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())));
+
+            if (stopwatchLapDataArrayList.get(i).getLapTimeInMillis() >= 60*1000L && stopwatchLapDataArrayList.get(i).getLapTimeInMillis() < 60*60*1000L){
+
+                lapData.append("Lap :").append(stopwatchLapDataArrayList.get(i).getLapNumber()).append(" - ").append(minutes).append(":").append(seconds).append(millis).append("\n");
+
+            } else if (stopwatchLapDataArrayList.get(i).getLapTimeInMillis() >= 60*60*1000L){
+
+                lapData.append("Lap :").append(stopwatchLapDataArrayList.get(i).getLapNumber()).append(" - ")
+                        .append(hours).append(":").append(minutes).append(":").append(seconds).append(":").append(millis).append("\n");
+
+            } else {
+                lapData.append("Lap :").append(stopwatchLapDataArrayList.get(i).getLapNumber()).append(" - ")
+                        .append(seconds).append(":").append(millis).append("\n");
+            }
+
         }
         lapDataShare += lapData;
 
@@ -231,7 +264,7 @@ public class StopwatchFragment extends Fragment {
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "TickTrack Stopwatch Lap Data");
         intent.putExtra(android.content.Intent.EXTRA_TEXT, lapDataShare);
         startActivity(Intent.createChooser(intent, "Share using"));
-        
+
     }
 
     private void lapStopwatch() {
