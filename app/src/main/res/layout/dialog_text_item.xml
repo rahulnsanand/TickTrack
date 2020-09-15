@@ -14,9 +14,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/label_edit_text_accent"
-        android:ems="9"
+        android:maxLength="15"
         android:hint="Enter label"
-        android:paddingStart="10dp"
+        android:padding="10dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,24 +38,31 @@
         app:typeface="roboto_regular"/>
 
 
+    <TextView
+        android:id="@+id/labelDialogCharacterCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/10"
+        app:layout_constraintEnd_toEndOf="@+id/labelDialogInputText"
+        app:layout_constraintTop_toBottomOf="@+id/labelDialogInputText" />
+
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-        style="@style/button"
         android:id="@+id/labelDialogCancelButton"
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:backgroundTint="@android:color/transparent"
         android:text="CANCEL"
         android:textColor="@color/Accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/labelDialogOkButton"
-        app:layout_constraintTop_toBottomOf="@+id/labelDialogInputText"
+        app:layout_constraintTop_toBottomOf="@+id/labelDialogCharacterCount"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-        style="@style/button"
         android:id="@+id/labelDialogOkButton"
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -65,7 +72,7 @@
         android:textColor="@color/Accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelDialogInputText"
+        app:layout_constraintTop_toBottomOf="@+id/labelDialogCharacterCount"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.theflopguyproductions.ticktrack.utils.font.MontserratTextView

@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +24,7 @@ public class SingleInputDialog extends Dialog {
     private Activity activity;
     public EditText inputText;
     public Button okButton, cancelButton;
-    public TextView helperText, saveChangesText;
+    public TextView helperText, saveChangesText, characterCountText;
     private String currentLabel;
     private TickTrackDatabase tickTrackDatabase;
     private ConstraintLayout rootLayout;
@@ -65,6 +67,35 @@ public class SingleInputDialog extends Dialog {
 
         setupTheme();
 
+        inputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int length = charSequence.length();
+                if(length>10 && length<15){
+                    characterCountText.setTextColor(activity.getResources().getColor(R.color.roboto_calendar_circle_1));
+                } else if (length==15){
+                    characterCountText.setTextColor(activity.getResources().getColor(R.color.red_matte));
+                } else {
+                    if(themeSet==1) {
+                        characterCountText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+                    } else {
+                        characterCountText.setTextColor(activity.getResources().getColor(R.color.LightText));
+                    }
+                }
+                characterCountText.setText(length+"/15");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     private void setupTheme() {
@@ -76,6 +107,7 @@ public class SingleInputDialog extends Dialog {
             cancelButton.setBackgroundResource(R.drawable.button_selector_light);
             inputText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             inputText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
+
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             helperText.setBackgroundResource(R.color.Gray);
@@ -84,6 +116,7 @@ public class SingleInputDialog extends Dialog {
             cancelButton.setBackgroundResource(R.drawable.button_selector_dark);
             inputText.setTextColor(activity.getResources().getColor(R.color.LightText));
             inputText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
+
         }
     }
 
@@ -95,6 +128,7 @@ public class SingleInputDialog extends Dialog {
         inputText.setHint(currentLabel);
         saveChangesText = findViewById(R.id.labelDialogSaveChangesText);
         rootLayout = findViewById(R.id.singleItemDialogRootLayout);
+        characterCountText = findViewById(R.id.labelDialogCharacterCount);
     }
 
 }

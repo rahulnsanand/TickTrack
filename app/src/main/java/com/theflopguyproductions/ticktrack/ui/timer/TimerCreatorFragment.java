@@ -292,24 +292,21 @@ public class TimerCreatorFragment extends Fragment {
     }
 
     private void labelDialogSetup(){
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
+        new Handler().post(() -> {
 //                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, timerLabelText.getText().toString());
-                SingleInputDialog labelDialog = new SingleInputDialog(activity, timerLabelText.getText().toString());
-                labelDialog.show();
-                labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
-                labelDialog.inputText.setVisibility(View.VISIBLE);
-                labelDialog.helperText.setVisibility(View.VISIBLE);
-                labelDialog.inputText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE |InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-                labelDialog.okButton.setOnClickListener(view1 -> {
-                    if(labelDialog.inputText.getText().toString().trim().length() > 0){
-                        timerLabelText.setText(labelDialog.inputText.getText().toString());
-                    }
-                    labelDialog.dismiss();
-                });
-                labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
-            }
+            SingleInputDialog labelDialog = new SingleInputDialog(activity, timerLabelText.getText().toString());
+            labelDialog.show();
+            labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
+            labelDialog.inputText.setVisibility(View.VISIBLE);
+            labelDialog.helperText.setVisibility(View.VISIBLE);
+            labelDialog.inputText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE |InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+            labelDialog.okButton.setOnClickListener(view1 -> {
+                if(labelDialog.inputText.getText().toString().trim().length() > 0){
+                    timerLabelText.setText(labelDialog.inputText.getText().toString());
+                }
+                labelDialog.dismiss();
+            });
+            labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
         });
     }
 
