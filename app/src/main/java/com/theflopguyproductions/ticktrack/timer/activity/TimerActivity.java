@@ -236,7 +236,7 @@ public class TimerActivity extends AppCompatActivity {
             }
 
             TickTrackThemeSetter.timerActivityTheme(activity,timerActivityToolbar, timerDataArrayList.get(getCurrentTimerPosition()).getTimerFlag(),timerActivityRootLayout,
-                    timerHourMinute, timerMillis, timerProgressBarBackground, tickTrackDatabase, timerProgressBar);
+                    timerHourMinute, timerMillis, timerProgressBarBackground, tickTrackDatabase, timerProgressBar, startData, startTitle, endData, endTitle);
 
         } else {
             onBackPressed();

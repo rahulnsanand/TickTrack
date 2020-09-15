@@ -405,7 +405,7 @@ public class TickTrackThemeSetter {
 
     public static void timerActivityTheme(Activity activity, ConstraintLayout toolBar, int flagColor, ConstraintLayout timerRootLayout,
                                           TextView chronometer, TextView timerMillisText, TickTrackProgressBar backgroundProgressBar, TickTrackDatabase tickTrackDatabase,
-                                          TickTrackProgressBar tickTrackProgressBar){
+                                          TickTrackProgressBar tickTrackProgressBar, TextView startData, TextView startTitle, TextView endData, TextView endTitle){
 
         tickTrackProgressBar.setBarColor(activity.getResources().getColor(timerActivityToolbarColor(flagColor)));
         int checkTheme = tickTrackDatabase.getThemeMode();
@@ -415,12 +415,20 @@ public class TickTrackThemeSetter {
             chronometer.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             timerMillisText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             backgroundProgressBar.setBarColor(R.color.GrayOnLight);
+            startData.setTextColor(activity.getResources().getColor(R.color.LightDarkText) );
+            endData.setTextColor(activity.getResources().getColor(R.color.LightDarkText) );
+            startTitle.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            endTitle.setTextColor(activity.getResources().getColor(R.color.DarkText) );
         } else {
             timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
             toolBar.setBackgroundColor(activity.getResources().getColor(R.color.Black));
             chronometer.setTextColor(activity.getResources().getColor(R.color.LightText) );
             timerMillisText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             backgroundProgressBar.setBarColor(R.color.Black);
+            startData.setTextColor(activity.getResources().getColor(R.color.DarkLightText) );
+            endData.setTextColor(activity.getResources().getColor(R.color.DarkLightText) );
+            startTitle.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            endTitle.setTextColor(activity.getResources().getColor(R.color.LightText) );
         }
     }
 
