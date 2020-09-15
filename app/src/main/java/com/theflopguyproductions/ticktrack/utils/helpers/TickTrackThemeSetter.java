@@ -72,29 +72,29 @@ public class TickTrackThemeSetter {
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
 
             timerSoundTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            timerSoundValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            clockStyleValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            timerSoundValue.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            clockStyleValue.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             clockStyleTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             dateTimeTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            dateTimeValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            dateTimeValue.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             rateUsTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            rateUsValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            rateUsValue.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             counterSumTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
             hapticTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            themeLabel.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            backupEmail.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            backupEmail.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             switchText.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            counterCheck.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            timerCheck.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterCheck.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            timerCheck.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             disconnectText.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            monthly.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            weekly.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            daily.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            darkButton.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            lightButton.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            monthly.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            weekly.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            daily.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            darkButton.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            lightButton.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
 
             themeLabel.setText("Light Mode");
         } else {
@@ -117,48 +117,50 @@ public class TickTrackThemeSetter {
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
 
             timerSoundTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            timerSoundValue.setTextColor(activity.getResources().getColor(R.color.LightText));
-            clockStyleValue.setTextColor(activity.getResources().getColor(R.color.LightText));
+            timerSoundValue.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            clockStyleValue.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             clockStyleTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             dateTimeTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            dateTimeValue.setTextColor(activity.getResources().getColor(R.color.LightText));
+            dateTimeValue.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             rateUsTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            rateUsValue.setTextColor(activity.getResources().getColor(R.color.LightText));
+            rateUsValue.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             counterSumTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
 
             hapticTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            themeLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
+            themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            backupEmail.setTextColor(activity.getResources().getColor(R.color.LightText));
+            backupEmail.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             switchText.setTextColor(activity.getResources().getColor(R.color.LightText));
-            counterCheck.setTextColor(activity.getResources().getColor(R.color.LightText));
-            timerCheck.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterCheck.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            timerCheck.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             disconnectText.setTextColor(activity.getResources().getColor(R.color.LightText));
-            monthly.setTextColor(activity.getResources().getColor(R.color.LightText));
-            weekly.setTextColor(activity.getResources().getColor(R.color.LightText));
-            daily.setTextColor(activity.getResources().getColor(R.color.LightText));
-            lightButton.setTextColor(activity.getResources().getColor(R.color.LightText));
-            darkButton.setTextColor(activity.getResources().getColor(R.color.LightText));
+            monthly.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            weekly.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            daily.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            lightButton.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            darkButton.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
 
             themeLabel.setText("Dark Mode");
         }
     }
 
     public static void counterFragmentTheme(Activity activity, RecyclerView recyclerView, ConstraintLayout counterFragmentRootLayout, TextView noCounterText
-            , TickTrackDatabase tickTrackDatabase, ConstraintLayout sumLayout){
+            , TickTrackDatabase tickTrackDatabase, ConstraintLayout sumLayout, ConstraintLayout counterFab){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             counterFragmentRootLayout.setBackgroundResource(R.color.LightGray);
             sumLayout.setBackgroundResource(R.drawable.round_rect_white);
             recyclerView.setBackgroundResource(R.color.LightGray);
             noCounterText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            counterFab.setBackgroundResource(R.drawable.fab_light_background);
 
         } else {
             counterFragmentRootLayout.setBackgroundResource(R.color.Black);
             sumLayout.setBackgroundResource(R.drawable.round_rect_dark);
             recyclerView.setBackgroundResource(R.color.Black);
             noCounterText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            counterFab.setBackgroundResource(R.drawable.fab_dark_background);
         }
     }
 

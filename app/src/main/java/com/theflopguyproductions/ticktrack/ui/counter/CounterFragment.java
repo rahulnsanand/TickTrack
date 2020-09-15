@@ -88,7 +88,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             sumLayout.setVisibility(View.GONE);
             sumValue.setVisibility(View.GONE);
         }
-        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase, sumLayout);
+        TickTrackThemeSetter.counterFragmentTheme(getActivity(), counterRecyclerView, counterFragmentRootLayout, noCounterText, tickTrackDatabase, sumLayout, counterFab);
         sumLayout.setOnClickListener(view -> {
             if(isLongSumDisplayed){
                 if(sum>1000){
@@ -101,7 +101,6 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
                 sumValue.setText("Sum: "+myFormat.format(sum));
                 isLongSumDisplayed = true;
             }
-
         });
     }
 
