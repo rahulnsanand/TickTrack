@@ -467,13 +467,22 @@ public class TickTrackThemeSetter {
 
     public static void quickTimerActivityTheme(Activity activity,TickTrackDatabase tickTrackDatabase, NumberPicker hourPickerLight, NumberPicker minutePickerLight, NumberPicker secondPickerLight,
                                                NumberPicker hourPickerDark, NumberPicker minutePickerDark, NumberPicker secondPickerDark, TextView hourText, TextView minuteText,
-                                               TextView secondText, ConstraintLayout rootLayout) {
+                                               TextView secondText, ConstraintLayout rootLayout, Button customButton, ConstraintLayout oneMinute, ConstraintLayout twoMinute, ConstraintLayout fiveMinute,
+                                               ConstraintLayout tenMinute, ConstraintLayout playFab) {
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             rootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
             hourText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             minuteText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             secondText.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+            customButton.setBackgroundResource(R.drawable.button_selector_white);
+
+            oneMinute.setBackgroundResource(R.drawable.fab_light_background);
+            twoMinute.setBackgroundResource(R.drawable.fab_light_background);
+            fiveMinute.setBackgroundResource(R.drawable.fab_light_background);
+            tenMinute.setBackgroundResource(R.drawable.fab_light_background);
+            playFab.setBackgroundResource(R.drawable.fab_light_background);
+
             hourPickerDark.setVisibility(View.VISIBLE);
             minutePickerDark.setVisibility(View.VISIBLE);
             secondPickerDark.setVisibility(View.VISIBLE);
@@ -485,6 +494,14 @@ public class TickTrackThemeSetter {
             hourText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             minuteText.setTextColor(activity.getResources().getColor(R.color.LightText) );
             secondText.setTextColor(activity.getResources().getColor(R.color.LightText) );
+            customButton.setBackgroundResource(R.drawable.button_selector_dark);
+
+            oneMinute.setBackgroundResource(R.drawable.fab_dark_background);
+            twoMinute.setBackgroundResource(R.drawable.fab_dark_background);
+            fiveMinute.setBackgroundResource(R.drawable.fab_dark_background);
+            tenMinute.setBackgroundResource(R.drawable.fab_dark_background);
+            playFab.setBackgroundResource(R.drawable.fab_dark_background);
+
             hourPickerDark.setVisibility(View.INVISIBLE);
             minutePickerDark.setVisibility(View.INVISIBLE);
             secondPickerDark.setVisibility(View.INVISIBLE);

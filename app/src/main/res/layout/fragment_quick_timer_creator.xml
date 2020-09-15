@@ -23,9 +23,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/button_selector_accent"
+            android:background="@drawable/button_selector_light"
             android:text="Enable Custom QuickTimer"
-            android:textColor="@color/LightText"
+            android:textColor="@color/Accent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout15" />
@@ -166,66 +166,116 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/quickTimerFragmentPlayCustomOneQuickTimerFAB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    app:elevation="0dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/fab_light_background"
+                    android:elevation="1dp"
+                    android:padding="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_one_minute" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_one_minute"
+                        app:tint="@color/Accent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/quickTimerFragmentPlayCustomTwoQuickTimerFAB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_marginStart="16dp"
-                    android:clickable="true"
-                    app:elevation="0dp"
+                    android:elevation="4dp"
+                    android:padding="15dp"
+                    android:background="@drawable/fab_light_background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomOneQuickTimerFAB"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_two_minute" />
+                    app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/ic_two_minute"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/Accent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/quickTimerFragmentPlayCustomFiveQuickTimerFAB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_marginStart="16dp"
-                    android:clickable="true"
-                    app:elevation="0dp"
+                    android:elevation="4dp"
+                    android:padding="15dp"
+                    android:background="@drawable/fab_light_background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomTwoQuickTimerFAB"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_five_minute" />
+                    app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/ic_five_minute"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/Accent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/quickTimerFragmentPlayCustomTenQuickTimerFAB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_marginStart="16dp"
-                    android:clickable="true"
-                    app:elevation="0dp"
+                    android:background="@drawable/fab_light_background"
+                    android:elevation="4dp"
+                    android:padding="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomFiveQuickTimerFAB"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_ten_minute" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_ten_minute"
+                        app:tint="@color/Accent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/quickTimerFragmentPlayCustomTimerFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:visibility="gone"
+        android:background="@drawable/fab_dark_background"
+        android:elevation="4dp"
+        android:padding="10dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_round_play_white_24" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_round_play_white_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

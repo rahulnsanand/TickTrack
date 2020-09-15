@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerPreset;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
@@ -26,7 +25,7 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 public class QuickTimerCreatorFragment extends Fragment {
 
-    private FloatingActionButton oneMinute, twoMinute, fiveMinute, tenMinute, playFab;
+    private ConstraintLayout oneMinute, twoMinute, fiveMinute, tenMinute, playFab;
     private DarkModeNumberPicker darkHourPicker, darkMinutePicker, darkSecondPicker;
     private LightModeNumberPicker lightHourPicker, lightMinutePicker, lightSecondPicker;
     private TextView hourText, minuteText, secondText;
@@ -90,30 +89,30 @@ public class QuickTimerCreatorFragment extends Fragment {
         darkHourPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedHour = darkHourPicker.getValue();
             if(isCreateOn()){
-                TickTrackAnimator.fabUnDissolve(playFab);
+                TickTrackAnimator.fabLayoutUnDissolve(playFab);
                 hasChanged=true;
             } else {
-                TickTrackAnimator.fabDissolve(playFab);
+                TickTrackAnimator.fabLayoutDissolve(playFab);
                 hasChanged=false;
             }
         });
         darkMinutePicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedMinute = darkMinutePicker.getValue();
             if(isCreateOn()){
-                TickTrackAnimator.fabUnDissolve(playFab);
+                TickTrackAnimator.fabLayoutUnDissolve(playFab);
                 hasChanged=true;
             } else {
-                TickTrackAnimator.fabDissolve(playFab);
+                TickTrackAnimator.fabLayoutDissolve(playFab);
                 hasChanged=false;
             }
         });
         darkSecondPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedSecond = darkSecondPicker.getValue();
             if(isCreateOn()){
-                TickTrackAnimator.fabUnDissolve(playFab);
+                TickTrackAnimator.fabLayoutUnDissolve(playFab);
                 hasChanged=true;
             } else {
-                TickTrackAnimator.fabDissolve(playFab);
+                TickTrackAnimator.fabLayoutDissolve(playFab);
                 hasChanged=false;
             }
         });
@@ -121,30 +120,30 @@ public class QuickTimerCreatorFragment extends Fragment {
         lightHourPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedHour = lightHourPicker.getValue();
             if(isCreateOn()){
-                TickTrackAnimator.fabUnDissolve(playFab);
+                TickTrackAnimator.fabLayoutUnDissolve(playFab);
                 hasChanged=true;
             } else {
-                TickTrackAnimator.fabDissolve(playFab);
+                TickTrackAnimator.fabLayoutDissolve(playFab);
                 hasChanged=false;
             }
         });
         lightMinutePicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedMinute = lightMinutePicker.getValue();
             if(isCreateOn()){
-                TickTrackAnimator.fabUnDissolve(playFab);
+                TickTrackAnimator.fabLayoutUnDissolve(playFab);
                 hasChanged=true;
             } else {
-                TickTrackAnimator.fabDissolve(playFab);
+                TickTrackAnimator.fabLayoutDissolve(playFab);
                 hasChanged=false;
             }
         });
         lightSecondPicker.setOnValueChangedListener((numberPicker, i, i1) -> {
             pickedSecond = lightSecondPicker.getValue();
             if(isCreateOn()){
-                TickTrackAnimator.fabUnDissolve(playFab);
+                TickTrackAnimator.fabLayoutUnDissolve(playFab);
                 hasChanged=true;
             } else {
-                TickTrackAnimator.fabDissolve(playFab);
+                TickTrackAnimator.fabLayoutDissolve(playFab);
                 hasChanged=false;
             }
         });
@@ -161,7 +160,7 @@ public class QuickTimerCreatorFragment extends Fragment {
         setupOnClickListeners();
 
         TickTrackThemeSetter.quickTimerActivityTheme(getActivity(), tickTrackDatabase, lightHourPicker, lightMinutePicker, lightSecondPicker,
-                darkHourPicker, darkMinutePicker, darkSecondPicker, hourText, minuteText, secondText, rootLayout);
+                darkHourPicker, darkMinutePicker, darkSecondPicker, hourText, minuteText, secondText, rootLayout, customOptionsButton, oneMinute, twoMinute, fiveMinute, tenMinute, playFab);
 
         return view;
     }
