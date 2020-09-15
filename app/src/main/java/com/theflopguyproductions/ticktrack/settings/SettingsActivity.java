@@ -15,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Activity activity;
     private ImageButton backButton;
-    private ScrollView settingsScrollView;
+    private NestedScrollView settingsScrollView;
     private int prevFragment = -1;
 
     private FirebaseHelper firebaseHelper;

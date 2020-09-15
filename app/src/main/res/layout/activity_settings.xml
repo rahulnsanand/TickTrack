@@ -42,7 +42,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <com.theflopguyproductions.ticktrack.ui.utils.TickTrackScrollView
         android:id="@+id/settingsActivityScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -84,14 +84,14 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/rateUsSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/themeSettingsOptionsLayout">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/rateUsSettingsTitleText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,9 +103,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/rateUsSettingsContentText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -118,13 +119,15 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rateUsSettingsTitleText" />
+                        app:layout_constraintTop_toBottomOf="@+id/rateUsSettingsTitleText"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:typeface="apercu_italic" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/themeSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -160,6 +163,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/themeSettingsLabel"
+                        app:layout_constraintVertical_bias="0.0"
                         app:typeface="apercu_italic" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -199,7 +203,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/backupSettingsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,7 +213,8 @@
                 android:textColor="@color/Accent"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/generalSettingsWrapperLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/generalSettingsWrapperLayout"
+                app:typeface="apercu_bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/backupSettingsWrapperLayout"
@@ -236,12 +241,12 @@
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
                         android:background="@drawable/clickable_layout_light_background"
-                        android:minHeight="100dp"
+                        android:minHeight="80dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
+                        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                             android:id="@+id/backupTitleSettingsTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -250,9 +255,10 @@
                             android:text="Google Account"
                             android:textSize="18sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:typeface="apercu_regular" />
 
-                        <TextView
+                        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                             android:id="@+id/backupEmailSettingsTextView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -264,7 +270,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/backupTitleSettingsTextView" />
+                            app:layout_constraintTop_toBottomOf="@+id/backupTitleSettingsTextView"
+                            app:typeface="apercu_italic" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -289,7 +296,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:id="@+id/backupAccountSwitchTitleText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -298,9 +305,10 @@
                                 android:text="Switch account"
                                 android:textSize="14sp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:typeface="apercu_regular" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:id="@+id/textView16"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -315,7 +323,8 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/backupAccountSwitchTitleText" />
+                                app:layout_constraintTop_toBottomOf="@+id/backupAccountSwitchTitleText"
+                                app:typeface="apercu_italic" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -329,7 +338,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/backupSettingsSwitchAccountLayout">
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:id="@+id/backupAccountDisconnectTitleText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -338,9 +347,10 @@
                                 android:text="Disconnect account"
                                 android:textSize="14sp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:typeface="apercu_regular" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:id="@+id/textView18"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -355,7 +365,8 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/backupAccountDisconnectTitleText" />
+                                app:layout_constraintTop_toBottomOf="@+id/backupAccountDisconnectTitleText"
+                                app:typeface="apercu_italic" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -377,12 +388,12 @@
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
                         android:background="@drawable/clickable_layout_light_background"
-                        android:minHeight="100dp"
+                        android:minHeight="80dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
+                        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                             android:id="@+id/backupFrequencyTitleSettingsTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -391,9 +402,10 @@
                             android:text="Sync data"
                             android:textSize="18sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:typeface="apercu_regular" />
 
-                        <TextView
+                        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                             android:id="@+id/backupFrequencyValueSettingsTextView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -403,19 +415,21 @@
                             android:text="Monthly"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/backupFrequencyTitleSettingsTextView" />
+                            app:layout_constraintTop_toBottomOf="@+id/backupFrequencyTitleSettingsTextView"
+                            app:typeface="apercu_italic" />
 
-                        <TextView
+                        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                             android:id="@+id/backupLastBackupValueSettingsTextView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:text="last backup : 25/08/2020 at 01:30am"
+                            android:text="last backup : 12hrs ago"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/backupFrequencyValueSettingsTextView"
                             app:layout_constraintStart_toStartOf="@+id/backupFrequencyValueSettingsTextView"
-                            app:layout_constraintTop_toBottomOf="@+id/backupFrequencyValueSettingsTextView" />
+                            app:layout_constraintTop_toBottomOf="@+id/backupFrequencyValueSettingsTextView"
+                            app:typeface="apercu_light_italic" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -474,12 +488,12 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
-                    android:minHeight="100dp"
+                    android:minHeight="80dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayoutFrequency">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/backupDataSummarySettingsTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -489,9 +503,10 @@
                         android:text="Counters, Timers, Preferences"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/backupDataTitleSettingsTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/backupDataTitleSettingsTextView"
+                        app:typeface="apercu_italic" />
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/backupDataTitleSettingsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -500,7 +515,8 @@
                         android:text="Included data"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/backupDataOptionsLayout"
@@ -543,7 +559,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/counterSettingsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -555,7 +571,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/backupSettingsWrapperLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/backupSettingsWrapperLayout"
+                app:typeface="apercu_bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/counterSettingsWrapperLayout"
@@ -570,7 +587,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/showSumCounterSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -578,7 +595,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hapticVibrateSettingsLayout">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/showSumCounterSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -587,7 +604,8 @@
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
                     <Switch
                         android:id="@+id/showSumCounterSettingsSwitch"
@@ -607,14 +625,14 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/hapticVibrateSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/hapticTitleSettingsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -623,7 +641,8 @@
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
                     <Switch
                         android:id="@+id/hapticVibrateSettingsSwitch"
@@ -641,7 +660,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -653,7 +672,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterSettingsWrapperLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/counterSettingsWrapperLayout"
+                app:typeface="apercu_bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/timerSettingsWrapperLayout"
@@ -668,14 +688,14 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/timerSoundSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/timerSoundSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -686,9 +706,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/timerSoundSettingsValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -701,11 +722,13 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/timerSoundSettingsTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/timerSoundSettingsTitle"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:typeface="apercu_italic" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -717,7 +740,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timerSettingsWrapperLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/timerSettingsWrapperLayout"
+                app:typeface="apercu_bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/screensaverSettingsWrapperLayout"
@@ -732,14 +756,14 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clockStyleScreensaverSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/clockStyleScreensaverSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -751,9 +775,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/clockStyleScreensaverSettingsValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -766,7 +791,9 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/clockStyleScreensaverSettingsTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/clockStyleScreensaverSettingsTitle"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:typeface="apercu_italic" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -786,8 +813,10 @@
                         android:fillViewport="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
@@ -809,12 +838,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
                                 app:srcCompat="@drawable/ic_unordinarythumb" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -825,7 +856,8 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverUnordinaryImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverUnordinaryImage"
-                                app:layout_constraintTop_toBottomOf="@+id/screensaverUnordinaryImage" />
+                                app:layout_constraintTop_toBottomOf="@+id/screensaverUnordinaryImage"
+                                app:typeface="apercu_light_italic" />
 
                             <ImageView
                                 android:id="@+id/screensaverOxygenyImageCheck"
@@ -843,12 +875,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
+                                android:layout_marginTop="8dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/screensaverUnordinaryImage"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
                                 app:srcCompat="@drawable/ic_oxygenythumb" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -859,7 +893,8 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverOxygenyImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverOxygenyImage"
-                                app:layout_constraintTop_toBottomOf="@+id/screensaverOxygenyImage" />
+                                app:layout_constraintTop_toBottomOf="@+id/screensaverOxygenyImage"
+                                app:typeface="apercu_light_italic" />
 
                             <ImageView
                                 android:id="@+id/screensaverTrulyMinimalImageCheck"
@@ -877,12 +912,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
+                                android:layout_marginTop="8dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/screensaverOxygenyImage"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
                                 app:srcCompat="@drawable/ic_trulyminimalthumb" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -893,7 +930,8 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverTrulyMinimalImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverTrulyMinimalImage"
-                                app:layout_constraintTop_toBottomOf="@+id/screensaverTrulyMinimalImage" />
+                                app:layout_constraintTop_toBottomOf="@+id/screensaverTrulyMinimalImage"
+                                app:typeface="apercu_light_italic" />
 
                             <ImageView
                                 android:id="@+id/screensaverSimplisticImageCheck"
@@ -911,12 +949,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
+                                android:layout_marginTop="8dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/screensaverTrulyMinimalImage"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
                                 app:srcCompat="@drawable/ic_simplisticthumb" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -927,7 +967,8 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverSimplisticImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverSimplisticImage"
-                                app:layout_constraintTop_toBottomOf="@+id/screensaverSimplisticImage" />
+                                app:layout_constraintTop_toBottomOf="@+id/screensaverSimplisticImage"
+                                app:typeface="apercu_light_italic" />
 
                             <ImageView
                                 android:id="@+id/screensaverRomanImageCheck"
@@ -945,12 +986,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
+                                android:layout_marginTop="8dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/screensaverSimplisticImage"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
                                 app:srcCompat="@drawable/ic_romanthumb" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -961,7 +1004,8 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverRomanImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverRomanImage"
-                                app:layout_constraintTop_toBottomOf="@+id/screensaverRomanImage" />
+                                app:layout_constraintTop_toBottomOf="@+id/screensaverRomanImage"
+                                app:typeface="apercu_light_italic" />
 
                             <ImageView
                                 android:id="@+id/screensaverFunkyImageCheck"
@@ -979,15 +1023,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
+                                android:layout_marginTop="8dp"
                                 android:layout_marginEnd="8dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toEndOf="@+id/screensaverRomanImage"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
                                 app:srcCompat="@drawable/ic_funkythumb" />
 
-                            <TextView
+                            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -998,7 +1044,8 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverFunkyImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverFunkyImage"
-                                app:layout_constraintTop_toBottomOf="@+id/screensaverFunkyImage" />
+                                app:layout_constraintTop_toBottomOf="@+id/screensaverFunkyImage"
+                                app:typeface="apercu_light_italic" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </HorizontalScrollView>
@@ -1008,14 +1055,14 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dateTimeSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
                     android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clockStyleScreensaverSettingsOptionsLayout">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/dateTimeSettingsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1027,9 +1074,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/dateTimeSettingsValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -1042,12 +1090,14 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dateTimeSettingsTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/dateTimeSettingsTitle"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:typeface="apercu_italic" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/textView22"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -1060,7 +1110,8 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/screensaverSettingsWrapperLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/screensaverSettingsWrapperLayout"
+                app:typeface="apercu_bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dangerZoneDeleteBackupLayout"
@@ -1073,7 +1124,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView22">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1088,7 +1139,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="apercu_bold" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1105,7 +1157,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dangerZoneDeleteBackupLayout">
 
-                <TextView
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/textView23"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -1120,11 +1172,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="apercu_bold" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
-
+    </com.theflopguyproductions.ticktrack.ui.utils.TickTrackScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
