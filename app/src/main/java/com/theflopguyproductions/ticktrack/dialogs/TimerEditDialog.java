@@ -101,6 +101,7 @@ public class TimerEditDialog extends BottomSheetDialog {
     }
 
     private void setupTheme() {
+
         if(themeSet==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             mainTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
@@ -110,7 +111,7 @@ public class TimerEditDialog extends BottomSheetDialog {
             saveButton.setBackgroundResource(R.drawable.button_selector_light);
             labelInput.setTextColor(activity.getResources().getColor(R.color.DarkText));
             labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
-
+            characterCountText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             redChip.setChipBackgroundColorResource(R.color.Clickable);
             greenChip.setChipBackgroundColorResource(R.color.Clickable);
             orangeChip.setChipBackgroundColorResource(R.color.Clickable);
@@ -130,7 +131,7 @@ public class TimerEditDialog extends BottomSheetDialog {
             saveButton.setBackgroundResource(R.drawable.button_selector_dark);
             labelInput.setTextColor(activity.getResources().getColor(R.color.LightText));
             labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
-
+            characterCountText.setTextColor(activity.getResources().getColor(R.color.LightText));
             redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
             greenChip.setChipBackgroundColorResource(R.color.GrayOnDark);
             orangeChip.setChipBackgroundColorResource(R.color.GrayOnDark);

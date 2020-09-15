@@ -158,13 +158,10 @@ public class CreateCounter extends BottomSheetDialog {
                 }
                 characterCountText.setText(length+"/15");
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
-
     }
 
     private void setupTheme(){
@@ -186,6 +183,7 @@ public class CreateCounter extends BottomSheetDialog {
             orangeChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
             purpleChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
             blueChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            characterCountText.setTextColor(activity.getResources().getColor(R.color.DarkText));
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             titleText.setTextColor(activity.getResources().getColor(R.color.LightText));
@@ -204,6 +202,7 @@ public class CreateCounter extends BottomSheetDialog {
             orangeChip.setTextColor(activity.getResources().getColor(R.color.LightText));
             purpleChip.setTextColor(activity.getResources().getColor(R.color.LightText));
             blueChip.setTextColor(activity.getResources().getColor(R.color.LightText));
+            characterCountText.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
 
     }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/round_rect_light">
 
-    <EditText
+    <com.theflopguyproductions.ticktrack.ui.utils.TickTrackEditText
         android:id="@+id/timerEditDialogLabelText"
         android:layout_width="0dp"
         android:layout_height="50dp"
