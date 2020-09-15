@@ -160,6 +160,7 @@ public class TimerFragment extends Fragment {
     public static void onRootLayoutClick() {
         if(isOptionsOpen){
             TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
+            isOptionsOpen = false;
         }
     }
 }
