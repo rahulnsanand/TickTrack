@@ -81,7 +81,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/sign_in_lottie" />
+                    app:lottie_rawRes="@raw/sign_in_lottie"
+                    app:lottie_imageAssetsFolder="images"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -300,9 +300,15 @@ public class JsonHelper {
         gDriveHelper.clearData().addOnSuccessListener(resultInt -> {
             if(resultInt==1){
                 System.out.println("CLEAR DATA HAPPENED");
-                timerDataBackup(tickTrackDatabase.retrieveTimerList());
-                counterDataBackup(tickTrackDatabase.retrieveCounterList());
-                preferencesDataBackup();
+                if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("counterDataBackup", true)){
+                    counterDataBackup(tickTrackDatabase.retrieveCounterList());
+                }
+                if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("timerDataBackup", false)){
+                    timerDataBackup(tickTrackDatabase.retrieveTimerList());
+                }
+                if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("preferencesDataBackup", true)){
+                    preferencesDataBackup();
+                }
             } else if(resultInt==0){
                 System.out.println("EXCEPTION CAUGHT");
             } else {

@@ -225,12 +225,6 @@ public class StopwatchFragment extends Fragment {
         StringBuilder lapData = new StringBuilder();
         for(int i=stopwatchLapDataArrayList.size()-1; i>=0; i--){
 
-            String hms = String.format(Locale.getDefault(), "%02d:%02d:%02d:%03d",
-                    TimeUnit.MILLISECONDS.toHours(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()),
-                    TimeUnit.MILLISECONDS.toMinutes(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())),
-                    TimeUnit.MILLISECONDS.toSeconds(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())),
-                    TimeUnit.MILLISECONDS.toMillis(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())));
-
             String hours = String.format(Locale.getDefault(), "%02d",TimeUnit.MILLISECONDS.toHours(stopwatchLapDataArrayList.get(i).getLapTimeInMillis()));
 
             String minutes = String.format(Locale.getDefault(), "%02d",TimeUnit.MILLISECONDS.toMinutes(stopwatchLapDataArrayList.get(i).getLapTimeInMillis())
