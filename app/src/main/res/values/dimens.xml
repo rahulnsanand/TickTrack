@@ -17,7 +17,7 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="widget_margin">8dp</dimen>
 
     <dimen name="standard_55">70dp</dimen>
-    <dimen name="standard_105">120dp</dimen>
+    <dimen name="standard_105">130dp</dimen>
 
 
 </resources>
