@@ -72,7 +72,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        navView.setItemIconTintList(null);
+
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         setSupportActionBar(mainToolbar);
         setTitle("");
@@ -100,12 +100,14 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
+
         switch (item.getItemId()) {
             case R.id.navigation_counter:
                 if(!(tickTrackDatabase.retrieveCurrentFragmentNumber()==1 || tickTrackDatabase.retrieveCurrentFragmentNumber()==-1)) {
                     tickTrackDatabase.storeCurrentFragmentNumber(1);
                     openFragment(new CounterFragment());
                 }
+                item.setChecked(true);
                 return true;
 
             case R.id.navigation_stopwatch:
@@ -113,6 +115,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                     tickTrackDatabase.storeCurrentFragmentNumber(3);
                     openFragment(new StopwatchFragment());
                 }
+                item.setChecked(true);
                 return true;
 
             case R.id.navigation_timer:
@@ -120,6 +123,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                     tickTrackDatabase.storeCurrentFragmentNumber(2);
                     openFragment(new TimerFragment());
                 }
+                item.setChecked(true);
                 return true;
         }
         return false;

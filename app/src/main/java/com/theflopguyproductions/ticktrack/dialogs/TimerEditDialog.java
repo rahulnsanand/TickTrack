@@ -53,6 +53,7 @@ public class TimerEditDialog extends BottomSheetDialog {
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_timer_edit_layout, new ConstraintLayout(activity), false);
         setContentView(view);
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();

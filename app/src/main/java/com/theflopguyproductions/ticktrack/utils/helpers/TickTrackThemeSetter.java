@@ -29,14 +29,13 @@ public class TickTrackThemeSetter {
         if(checkTheme==1){
             container.setBackgroundResource(R.color.LightGray);
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
+//            bottomNavigationView.setItemIconTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.bottom_navigation_tint)));
             mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.LightGray));
-            bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.DarkText)));
         } else {
             container.setBackgroundResource(R.color.Black);
             bottomNavigationView.setBackgroundColor(activity.getResources().getColor(R.color.Gray));
             mainToolbar.setBackgroundColor(activity.getResources().getColor(R.color.Black));
             mainToolbar.setPopupTheme(R.style.LightOverflow);
-            bottomNavigationView.setItemTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.LightText)));
         }
         ticktrackAppName.setTextColor(ColorStateList.valueOf(activity.getResources().getColor(R.color.Accent)));
     }

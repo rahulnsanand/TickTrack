@@ -33,7 +33,7 @@
             android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
             android:textSize="14sp"
-            app:chipIcon="@drawable/ic_flag_red" />
+            app:chipIcon="@drawable/ic_flag_red_represent" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/greenCounterFlag"
@@ -43,7 +43,7 @@
             android:text="Lime"
             android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_green" />
+            app:chipIcon="@drawable/ic_flag_green_represent" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/orangeCounterFlag"
@@ -53,7 +53,7 @@
             android:text="Peach"
             android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_orange" />
+            app:chipIcon="@drawable/ic_flag_orange_represent" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/purpleCounterFlag"
@@ -63,7 +63,7 @@
             android:text="Plum"
             android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_purple" />
+            app:chipIcon="@drawable/ic_flag_purple_represent" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/blueCounterFlag"
@@ -73,7 +73,7 @@
             android:text="Berry"
             android:textAppearance="@style/Chip"
             android:textColor="@color/roboto_calendar_day_of_the_month_font"
-            app:chipIcon="@drawable/ic_flag_blue" />
+            app:chipIcon="@drawable/ic_flag_blue_represent" />
 
     </com.google.android.material.chip.ChipGroup>
 

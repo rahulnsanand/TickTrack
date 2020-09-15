@@ -34,6 +34,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu"
-        android:theme="@style/Widget.BottomNavigationView"/>
+        android:theme="@style/Widget.BottomNavigationView"
+        app:itemIconTint="@color/bottom_navigation_tint"
+        app:itemTextColor="@color/bottom_navigation_tint"
+        app:itemRippleColor="#140088A3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

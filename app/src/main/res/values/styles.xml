@@ -65,6 +65,8 @@
 
     <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/apercu_bold</item>
+        <item name="android:state_checked">true</item>
+        <item name="checkedIconTint">#140088A3</item>
     </style>
 
 

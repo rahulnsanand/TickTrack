@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="Black">#000000</color>
+    <color name="HoloBlack">#81858585</color>
     <color name="Gray">#151515</color>
     <color name="Accent">#0088a3</color>
+    <color name="HoloAccent">#140088A3</color>
     <color name="Light">#ffffff</color>
     <color name="LightGray">#ebebeb</color>
     <color name="DarkText">#151515</color>
