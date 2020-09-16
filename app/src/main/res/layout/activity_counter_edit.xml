@@ -133,7 +133,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/counterEditActivityValueLayout"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/counterEditActivityLabelDivider">
@@ -155,13 +156,14 @@
 
                 <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/counterEditActivityValueTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="16dp"
                     android:text="0"
+                    android:textAlignment="viewEnd"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -242,7 +244,7 @@
                 android:minHeight="80dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNegativeLayout">
+                app:layout_constraintTop_toBottomOf="@+id/counterEditActivityNegativeDivider">
 
                 <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/counterEditActivitySignificantTitle"

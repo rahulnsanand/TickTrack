@@ -46,6 +46,7 @@ import java.util.TreeMap;
 public class CounterFragment extends Fragment implements CounterSlideDeleteHelper.RecyclerItemTouchHelperListener{
 
     private static final long LONG_MAX_VALUE = 9223372036854775807L;
+    private static final long LONG_MAX_VALUE_NEGATIVE = -9223372036854775807L;
 
     private static ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private static CounterAdapter counterAdapter;
@@ -132,10 +133,9 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         sum = 0L;
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         for(int i=0; i<counterDataArrayList.size(); i++){
-            if(counterDataArrayList.get(i).getCounterValue()>0){
-                if(sum<LONG_MAX_VALUE){
-                    sum += counterDataArrayList.get(i).getCounterValue();
-                }
+            long currentValue = counterDataArrayList.get(i).getCounterValue();
+            if(sum>=LONG_MAX_VALUE_NEGATIVE && sum<LONG_MAX_VALUE){
+                sum += currentValue;
             }
         }
         sumValue.setText("Sum: "+format(sum));

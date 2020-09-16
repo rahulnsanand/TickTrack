@@ -255,7 +255,8 @@ public class TickTrackThemeSetter {
                                                 TextView notificationDetail, TextView milestoneDetail, int flagColor,
                                                 ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
                                                 ConstraintLayout buttonDivider, TickTrackDatabase tickTrackDatabase,
-                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar, ConstraintLayout negativeValueLayout) {
+                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar, ConstraintLayout negativeValueLayout,
+                                                ConstraintLayout negativeDivider) {
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
@@ -282,6 +283,7 @@ public class TickTrackThemeSetter {
             milestoneDivider.setBackgroundResource(R.color.GrayOnLight);
             buttonDivider.setBackgroundResource(R.color.GrayOnLight);
             flagDivider.setBackgroundResource(R.color.GrayOnLight);
+            negativeDivider.setBackgroundResource(R.color.GrayOnLight);
 
             redChip.setChipBackgroundColorResource(R.color.Clickable);
             greenCip.setChipBackgroundColorResource(R.color.Clickable);
@@ -316,6 +318,7 @@ public class TickTrackThemeSetter {
             milestoneDivider.setBackgroundResource(R.color.GrayOnDark);
             buttonDivider.setBackgroundResource(R.color.GrayOnDark);
             flagDivider.setBackgroundResource(R.color.GrayOnDark);
+            negativeDivider.setBackgroundResource(R.color.GrayOnDark);
 
             redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
             greenCip.setChipBackgroundColorResource(R.color.GrayOnDark);

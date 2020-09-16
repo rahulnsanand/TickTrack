@@ -42,7 +42,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private TextView counterLabelTitle, counterValueTitle, counterMilestoneTitle, counterButtonModeTitle, counterFlagTitle, counterNotificationTitle, counterNotificationDetail, counterMilestoneDetail;
     private ImageButton saveChangesButton;
     private ConstraintLayout counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout, counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout, counterEditToolbarLayout, counterFlagGroupLayout;
-    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNegativeLayout;
+    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNegativeLayout, negativeDivider;
     private ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private Activity activity;
     private ChipGroup counterFlagGroup;
@@ -76,7 +76,7 @@ public class CounterEditActivity extends AppCompatActivity {
                 counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout,
                 counterLabel, counterValue, counterMilestone, counterButtonMode, counterNotificationDetail, counterMilestoneDetail, flagColor,
                 counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, tickTrackDatabase,
-                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout, counterNegativeLayout);
+                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout, counterNegativeLayout, negativeDivider);
 
         setupPrefixValues();
 
@@ -185,6 +185,7 @@ public class CounterEditActivity extends AppCompatActivity {
         counterMilestoneDivider = findViewById(R.id.counterEditActivityMilestoneDivider);
         counterFlagDivider = findViewById(R.id.counterEditActivityFlagDivider);
         counterButtonModeDivider = findViewById(R.id.counterEditActivityButtonModeDivider);
+        negativeDivider = findViewById(R.id.counterEditActivityNegativeDivider);
 
         counterFlagGroup = findViewById(R.id.counterEditActivityFlagGroup);
         cherryFlag = findViewById(R.id.counterEditActivityCherryFlag);
@@ -275,17 +276,15 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void setupOnClickListeners() {
 
-        counterNegativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
-                    counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(false);
-                    negativeValueSwitch.setChecked(false);
-                } else {
-                    counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(true);
-                    negativeValueSwitch.setChecked(true);
-                }
+        counterNegativeLayout.setOnClickListener(view -> {
+            if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
+                counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(false);
+                negativeValueSwitch.setChecked(false);
+            } else {
+                counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(true);
+                negativeValueSwitch.setChecked(true);
             }
+            isChanged = true;
         });
 
         counterLabelLayout.setOnClickListener(view -> {
@@ -308,7 +307,7 @@ public class CounterEditActivity extends AppCompatActivity {
         });
         counterValueLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
-                SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterValue.getText().toString());
 
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
@@ -470,6 +469,7 @@ public class CounterEditActivity extends AppCompatActivity {
             } else {
                 counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
             }
+            
             tickTrackDatabase.storeCounterList(counterDataArrayList);
 
             isChanged = false;

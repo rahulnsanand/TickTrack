@@ -284,14 +284,23 @@ public class CounterActivity extends AppCompatActivity {
         });
 
         minusLightButton.setOnActiveListener(() -> {
-            if(currentCount>=1){
+            if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
                 currentCount-=1;
                 counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
                 CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
                 tickTrackDatabase.storeCounterList(counterDataArrayList);
                 milestoneItIs();
                 refreshNotificationStatus();
+            } else {
+                if(currentCount>=1){
+                    currentCount-=1;
+                    counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+                    counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
+                    CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                    tickTrackDatabase.storeCounterList(counterDataArrayList);
+                    milestoneItIs();
+                    refreshNotificationStatus();
+                }
             }
         });
         plusDarkButton.setOnActiveListener(() -> {
@@ -307,15 +316,25 @@ public class CounterActivity extends AppCompatActivity {
         });
 
         minusDarkButton.setOnActiveListener(() -> {
-            if(currentCount>=1){
+            if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
                 currentCount-=1;
                 counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
                 CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
                 tickTrackDatabase.storeCounterList(counterDataArrayList);
                 milestoneItIs();
                 refreshNotificationStatus();
+            } else {
+                if(currentCount>=1){
+                    currentCount-=1;
+                    counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+                    counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
+                    CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                    tickTrackDatabase.storeCounterList(counterDataArrayList);
+                    milestoneItIs();
+                    refreshNotificationStatus();
+                }
             }
+
         });
         plusButtonBig.setOnClickListener(view -> {
             if(!(currentCount >= 9223372036854775807L)){
@@ -330,14 +349,24 @@ public class CounterActivity extends AppCompatActivity {
         });
 
         minusButtonBig.setOnClickListener(view -> {
-            if(currentCount>=1){
+            if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
                 currentCount-=1;
                 counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
                 CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
                 tickTrackDatabase.storeCounterList(counterDataArrayList);
                 milestoneItIs();
                 refreshNotificationStatus();
+            } else {
+                if(currentCount>=1){
+                    currentCount-=1;
+                    counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+                    CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                    tickTrackDatabase.storeCounterList(counterDataArrayList);
+                    milestoneItIs();
+                    refreshNotificationStatus();
+                }
             }
+
         });
     }
     private void refreshNotificationStatus() {
