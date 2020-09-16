@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".widgets.counter.CounterWidgetConfigActivity">
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/counterWidgetActivityNoCounterText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="source_code_pro_light_italic"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/counterWidgetActivityFAB"
@@ -36,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/textView19"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,7 +52,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_italic"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,7 +74,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/round_rect_black" />
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/counterWidgetActivityBlackThemeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,13 +84,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
             app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityBlackThemeButton"
-            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityBlackThemeButton" />
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:typeface="apercu_medium_italic"/>
 
         <ImageButton
             android:id="@+id/counterWidgetActivityGrayThemeButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/theme_selector_light"
             android:padding="5dp"
             app:layout_constraintStart_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
@@ -99,14 +102,15 @@
             android:id="@+id/counterWidgetActivityLightThemeButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/theme_selector_dark"
             android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/round_rect_light" />
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/counterWidgetActivityGrayThemeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,9 +120,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
             app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityGrayThemeButton"
-            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityGrayThemeButton" />
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:typeface="apercu_medium_italic"/>
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/counterWidgetActivityLightThemeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,7 +133,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityLightThemeButton"
             app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityLightThemeButton"
-            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityLightThemeButton" />
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityLightThemeButton"
+            app:typeface="apercu_medium_italic"/>
 
         <ImageView
             android:id="@+id/counterWidgetActivityBlackThemeTick"
@@ -208,7 +214,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout12">
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/quickTimerWidgetTwoMinuteText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -223,7 +229,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_medium_italic"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

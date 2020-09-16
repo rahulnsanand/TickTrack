@@ -22,10 +22,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
+        <receiver android:name=".widgets.shortcuts.panel.CreateTimerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-        <activity android:name=".widgets.clock.ClockWidgetConfigActivity"
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/create_timer_widget_info" />
+        </receiver>
+
+        <activity android:name=".widgets.shortcuts.panel.ShortcutsPanelConfigActivity" />
+
+        <receiver android:name=".widgets.shortcuts.panel.ShortcutsPanelWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/shortcuts_panel_widget_info" />
+        </receiver>
+
+        <activity
+            android:name=".widgets.clock.ClockWidgetConfigActivity"
             android:launchMode="singleTask"
-            android:taskAffinity=""/>
+            android:taskAffinity="" />
 
         <receiver
             android:name=".widgets.clock.TickTrackClockWidget"
@@ -39,9 +61,10 @@
                 android:resource="@xml/tick_track_clock_widget_info" />
         </receiver>
 
-        <activity android:name=".widgets.counter.CounterWidgetConfigActivity"
+        <activity
+            android:name=".widgets.counter.CounterWidgetConfigActivity"
             android:launchMode="singleTask"
-            android:taskAffinity=""/>
+            android:taskAffinity="" />
 
         <receiver
             android:name=".widgets.counter.CounterWidget"

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shortcutPanelConfigActivityRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LightGray"
+    tools:context=".widgets.shortcuts.panel.ShortcutsPanelConfigActivity">
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/shortcutPanelConfigTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Customise your widget"
+        android:textColor="@color/Accent"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="apercu_italic"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigTitle">
+
+        <ImageButton
+            android:id="@+id/shortcutPanelConfigBlackButton"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/button_selector_dark" />
+
+        <ImageView
+            android:id="@+id/shortcutPanelConfigBlackButtonCheck"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/shortcutPanelConfigBlackButton"
+            app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigBlackButton"
+            app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigBlackButton"
+            app:layout_constraintTop_toTopOf="@+id/shortcutPanelConfigBlackButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/shortcutPanelConfigBlackText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Black"
+            app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigBlackButton"
+            app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigBlackButton"
+            app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigBlackButton"
+            app:typeface="apercu_medium_italic"/>
+
+        <ImageButton
+            android:id="@+id/shortcutPanelConfigGrayButton"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigBlackText"
+            app:srcCompat="@drawable/clickable_layout_gray_background" />
+
+        <ImageView
+            android:id="@+id/shortcutPanelConfigGrayButtonCheck"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/shortcutPanelConfigGrayButton"
+            app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigGrayButton"
+            app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigGrayButton"
+            app:layout_constraintTop_toTopOf="@+id/shortcutPanelConfigGrayButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/shortcutPanelConfigGrayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Gray"
+            app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigGrayButton"
+            app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigGrayButton"
+            app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigGrayButton"
+            app:typeface="apercu_medium_italic"/>
+
+        <ImageButton
+            android:id="@+id/shortcutPanelConfigLightButton"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigGrayText"
+            app:srcCompat="@drawable/button_selector_light" />
+
+        <ImageView
+            android:id="@+id/shortcutPanelConfigLightButtonCheck"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/shortcutPanelConfigLightButton"
+            app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigLightButton"
+            app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigLightButton"
+            app:layout_constraintTop_toTopOf="@+id/shortcutPanelConfigLightButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/shortcutPanelConfigLightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Light"
+            app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigLightButton"
+            app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigLightButton"
+            app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigLightButton"
+            app:typeface="apercu_medium_italic"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
