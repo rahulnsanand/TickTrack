@@ -16,6 +16,21 @@
     </shortcut>
 
     <shortcut
+        android:shortcutId="quick_timer_shortcut"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_quicktimericon"
+        android:shortcutShortLabel="@string/quick_timer_shortcut_shortLabel"
+        android:shortcutLongLabel="@string/quick_timer_shortcut_longLabel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.theflopguyproductions.ticktrack"
+            android:targetClass="com.theflopguyproductions.ticktrack.SoYouADeveloperHuh" >
+            <extra android:name="fragmentID" android:value="quickTimerCreate" />
+        </intent>
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
         android:shortcutId="counter_shortcut"
         android:enabled="true"
         android:icon="@drawable/ic_shortcut_countericon"

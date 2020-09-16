@@ -3,6 +3,9 @@
     <string name="timer_shortcut_shortLabel">New Timer</string>
     <string name="timer_shortcut_longLabel">Create timer</string>
 
+    <string name="quick_timer_shortcut_shortLabel">QuickTimer</string>
+    <string name="quick_timer_shortcut_longLabel">Create QuickTimer</string>
+
     <string name="counter_shortcut_shortLabel">New Counter</string>
     <string name="counter_shortcut_longLabel">Create counter</string>
 
