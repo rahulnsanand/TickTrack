@@ -106,7 +106,9 @@ public class TimerFragment extends Fragment {
     }
 
     private void addTimer(){
-        toggleFabOptions();
+        if(isOptionsOpen){
+            toggleFabOptions();
+        }
         TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
         TickTrackAnimator.fabLayoutUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -116,7 +118,9 @@ public class TimerFragment extends Fragment {
     }
 
     private void addQuickTimer(){
-        toggleFabOptions();
+        if(isOptionsOpen){
+            toggleFabOptions();
+        }
         TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
         TickTrackAnimator.fabLayoutUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
