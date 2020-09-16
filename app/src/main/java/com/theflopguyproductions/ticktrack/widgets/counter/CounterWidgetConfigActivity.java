@@ -387,6 +387,7 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         counterData.setCounterSwipeMode(isSwipe);
         counterData.setCounterPersistentNotification(isPersistent);
         counterData.setCounterID(uniqueCounterID);
+        counterData.setNegativeAllowed(false);
 
         counterDataArrayList.add(counterData);
         System.out.println(counterDataArrayList.size());

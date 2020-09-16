@@ -168,12 +168,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup" />
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/counterCreatorLabelCharLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0/15"
         app:layout_constraintBottom_toTopOf="@+id/counterLabelInputText"
-        app:layout_constraintEnd_toEndOf="@+id/counterLabelInputText" />
+        app:layout_constraintEnd_toEndOf="@+id/counterLabelInputText"
+        app:typeface="odudo_regular"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

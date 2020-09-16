@@ -2,16 +2,23 @@ package com.theflopguyproductions.ticktrack.counter;
 
 public class CounterBackupData {
 
-    int counterValue, counterFlag, counterSignificantCount;
-    boolean counterSignificantExist, counterSwipeMode;
+    long counterValue;
+    int  counterFlag, counterSignificantCount;
+    boolean counterSignificantExist, counterSwipeMode, isNegativeAllowed;
     String counterLabel, counterID;
     long counterTimestamp;
+    public boolean isNegativeAllowed() {
+        return isNegativeAllowed;
+    }
 
-    public int getCounterValue() {
+    public void setNegativeAllowed(boolean negativeAllowed) {
+        isNegativeAllowed = negativeAllowed;
+    }
+    public long getCounterValue() {
         return counterValue;
     }
 
-    public void setCounterValue(int counterValue) {
+    public void setCounterValue(long counterValue) {
         this.counterValue = counterValue;
     }
 

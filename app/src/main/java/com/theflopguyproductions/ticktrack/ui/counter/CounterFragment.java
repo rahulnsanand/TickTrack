@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.ui.counter;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,6 +32,8 @@ import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
 import com.theflopguyproductions.ticktrack.ui.utils.deletehelper.CounterSlideDeleteHelper;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
+import com.theflopguyproductions.ticktrack.widgets.counter.CounterWidget;
+import com.theflopguyproductions.ticktrack.widgets.counter.data.CounterWidgetData;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -115,10 +119,10 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     static {
         suffixes.put(1_000L, "k");
         suffixes.put(1_000_000L, "M");
-        suffixes.put(1_000_000_000L, "G");
+        suffixes.put(1_000_000_000L, "B");
         suffixes.put(1_000_000_000_000L, "T");
-        suffixes.put(1_000_000_000_000_000L, "P");
-        suffixes.put(1_000_000_000_000_000_000L, "E");
+        suffixes.put(1_000_000_000_000_000L, "q");
+        suffixes.put(1_000_000_000_000_000_000L, "Q");
     }
     private long sum = 0;
     private void setupSumLayout() {
@@ -232,6 +236,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterData.setCounterSwipeMode(isSwipe);
         counterData.setCounterPersistentNotification(isPersistent);
         counterData.setCounterID(uniqueCounterID);
+        counterData.setNegativeAllowed(false);
 
         counterDataArrayList.add(counterData);
         System.out.println(counterDataArrayList.size());
@@ -258,6 +263,11 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
     public static void deleteCounter(int position, Activity activity, String counterName){
         deleteItem(position);
+        Intent intent = new Intent(activity, CounterWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), CounterWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        activity.sendBroadcast(intent);
         Toast.makeText(activity, "Deleted Counter " + counterName, Toast.LENGTH_SHORT).show();
     }
     public static void refreshItemChanged(int position){
@@ -265,8 +275,15 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     }
     public static void deleteItem(int position){
         counterAdapter.notifyItemRemoved(position);
+        ArrayList<CounterWidgetData> counterWidgetData = tickTrackDatabase.retrieveCounterWidgetList();
+        for(int i=0; i<counterWidgetData.size(); i++){
+            if(counterWidgetData.get(i).getCounterIdString().equals(counterDataArrayList.get(position).getCounterID())){
+                counterWidgetData.remove(i);
+            }
+        }
         counterDataArrayList.remove(position);
         tickTrackDatabase.storeCounterList(counterDataArrayList);
+        tickTrackDatabase.storeCounterWidgetList(counterWidgetData);
     }
 
     public static void startCounterActivity(String counterID, Activity activity) {

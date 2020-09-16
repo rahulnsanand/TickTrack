@@ -100,7 +100,7 @@ public class SingleInputDialog extends Dialog {
 
     private void setupTheme() {
         if(themeSet==1){
-            rootLayout.setBackgroundResource(R.color.LightGray);
+            rootLayout.setBackgroundResource(R.drawable.round_rect_light);
             helperText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             helperText.setBackgroundResource(R.color.LightGray);
             okButton.setBackgroundResource(R.drawable.button_selector_light);
@@ -109,7 +109,7 @@ public class SingleInputDialog extends Dialog {
             inputText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
 
         } else {
-            rootLayout.setBackgroundResource(R.color.Gray);
+            rootLayout.setBackgroundResource(R.drawable.round_rect_dark);
             helperText.setBackgroundResource(R.color.Gray);
             helperText.setTextColor(activity.getResources().getColor(R.color.LightText));
             okButton.setBackgroundResource(R.drawable.button_selector_dark);

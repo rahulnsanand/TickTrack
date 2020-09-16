@@ -22,6 +22,7 @@ public class CounterWidget extends AppWidgetProvider {
 
     public static final String ACTION_WIDGET_CLICK_PLUS = "ACTION_WIDGET_CLICK_PLUS";
     public static final String ACTION_WIDGET_CLICK_MINUS = "ACTION_WIDGET_CLICK_MINUS";
+    public static final String ACTION_WIDGET_DELETED = "ACTION_WIDGET_DELETED";
 
     private TickTrackDatabase tickTrackDatabase;
 
@@ -48,14 +49,37 @@ public class CounterWidget extends AppWidgetProvider {
 
             System.out.println("UPDATE "+counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue());
 
+            views.setViewVisibility(R.id.counterWidgetDefaultText, View.INVISIBLE);
+            views.setViewVisibility(R.id.counterWidgetPlusButton, View.VISIBLE);
+            views.setViewVisibility(R.id.counterWidgetMinusButton, View.VISIBLE);
+            views.setViewVisibility(R.id.counterWidgetCountText, View.VISIBLE);
+            views.setViewVisibility(R.id.counterWidgetCounterNameText, View.VISIBLE);
             views.setOnClickPendingIntent(R.id.counterWidgetRootRelativeLayout, pendingIntent);
             views.setOnClickPendingIntent(R.id.counterWidgetPlusButton, getPendingSelfIntent(context, ACTION_WIDGET_CLICK_PLUS, counterIntId, counterStringId, appWidgetIds ));
             views.setOnClickPendingIntent(R.id.counterWidgetMinusButton, getPendingSelfIntent(context, ACTION_WIDGET_CLICK_MINUS, counterIntId, counterStringId, appWidgetIds ));
-            views.setTextViewText(R.id.counterWidgetCountText, ""+counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue());
+
+            long counterValue = counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue();
+            if(counterValue>100000000000000L){
+                views.setFloat(R.id.counterWidgetCountText, "setTextSize",16F);
+            } else {
+                views.setFloat(R.id.counterWidgetCountText, "setTextSize",24F);
+            }
             views.setTextViewText(R.id.counterWidgetCounterNameText, counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterLabel());
+            views.setTextViewText(R.id.counterWidgetCountText, ""+counterValue);
             setFlag(views, counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterFlag());
             setupTheme(views, currentTheme, context);
             System.out.println(currentTheme+"<<<<<<<<<<<<<THEME");
+        } else {
+
+            Intent intent = new Intent(context, CounterWidgetConfigActivity.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, counterIntId, intent, 0);
+            views.setOnClickPendingIntent(R.id.counterWidgetRootRelativeLayout, pendingIntent);
+            views.setViewVisibility(R.id.counterWidgetDefaultText, View.VISIBLE);
+            views.setViewVisibility(R.id.counterWidgetPlusButton, View.INVISIBLE);
+            views.setViewVisibility(R.id.counterWidgetMinusButton, View.INVISIBLE);
+            views.setViewVisibility(R.id.counterWidgetCountText, View.INVISIBLE);
+            views.setViewVisibility(R.id.counterWidgetCounterNameText, View.INVISIBLE);
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -190,10 +214,10 @@ public class CounterWidget extends AppWidgetProvider {
 
         if(counterID!=null && extras!=null){
             int[] appWidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
-            int currentCount = counterDataArrayList.get(getCurrentPosition(counterID)).getCounterValue();
+            long currentCount = counterDataArrayList.get(getCurrentPosition(counterID)).getCounterValue();
             if (ACTION_WIDGET_CLICK_PLUS.equals(intent.getAction())) {
                 System.out.println("PLUS SOMETHING");
-                if(currentCount<999999999) {
+                if(!(currentCount >= 9223372036854775807L)){
                     currentCount += 1;
                     counterDataArrayList.get(getCurrentPosition(counterID)).setCounterValue(currentCount);
                     counterDataArrayList.get(getCurrentPosition(counterID)).setCounterTimestamp(System.currentTimeMillis());
@@ -209,6 +233,8 @@ public class CounterWidget extends AppWidgetProvider {
                     tickTrackDatabase.storeCounterList(counterDataArrayList);
                     refreshNotificationStatus(context, counterID);
                 }
+            } else if (ACTION_WIDGET_DELETED.equals(intent.getAction())) {
+
             }
             if(appWidgetIds!=null){
                 System.out.println("ON UPDATE HAPPENED");

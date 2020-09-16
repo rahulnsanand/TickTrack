@@ -142,6 +142,7 @@ public class JsonHelper {
             counterBackupData1.setCounterSwipeMode(counterData.get(i).isCounterSwipeMode());
             counterBackupData1.setCounterTimestamp(counterData.get(i).getCounterTimestamp());
             counterBackupData1.setCounterValue(counterData.get(i).getCounterValue());
+            counterBackupData1.setNegativeAllowed(counterData.get(i).isNegativeAllowed());
             counterBackupData.add(counterBackupData1);
         }
 
@@ -398,6 +399,7 @@ public class JsonHelper {
                 newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
                 newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
                 newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
+                newCounter.setNegativeAllowed(counterBackupData.get(i).isNegativeAllowed());
 
                 mergeCounterData(newCounter);
 

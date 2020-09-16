@@ -10,12 +10,12 @@
         android:id="@+id/labelDialogInputText"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/label_edit_text_accent"
-        android:maxLength="15"
         android:hint="Enter label"
+        android:maxLength="15"
         android:padding="10dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,59 +27,62 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@color/LightGray"
-        android:text=" Label "
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Label"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/labelDialogInputText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/labelDialogInputText"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="apercu_bold"/>
+        app:typeface="apercu_regular" />
 
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/labelDialogCharacterCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:text="0/10"
         app:layout_constraintEnd_toEndOf="@+id/labelDialogInputText"
-        app:layout_constraintTop_toBottomOf="@+id/labelDialogInputText" />
+        app:layout_constraintTop_toBottomOf="@+id/labelDialogInputText"
+        app:typeface="odudo_regular" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/labelDialogCancelButton"
         style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:backgroundTint="@android:color/transparent"
         android:text="CANCEL"
         android:textColor="@color/Accent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/labelDialogOkButton"
         app:layout_constraintEnd_toStartOf="@+id/labelDialogOkButton"
-        app:layout_constraintTop_toBottomOf="@+id/labelDialogCharacterCount"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/labelDialogOkButton" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/labelDialogOkButton"
         style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/transparent"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/button_selector_light"
         android:text="OK"
         android:textColor="@color/Accent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelDialogCharacterCount"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/labelDialogCharacterCount" />
 
     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/labelDialogSaveChangesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="Save changes?"
         android:textSize="18sp"
@@ -88,6 +91,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="apercu_bold"/>
+        app:typeface="apercu_bold" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

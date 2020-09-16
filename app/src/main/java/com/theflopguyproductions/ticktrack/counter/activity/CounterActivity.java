@@ -37,7 +37,7 @@ public class CounterActivity extends AppCompatActivity {
     private SwipeButton plusLightButton, minusLightButton, plusDarkButton, minusDarkButton;
     private ConstraintLayout plusButtonBig, minusButtonBig;
     private TextView CounterText, counterLabel, plusText, minusText;
-    private int currentCount;
+    private long currentCount;
     private ArrayList<CounterData> counterDataArrayList;
     ConstraintLayout toolbar, rootLayout;
     int flagColor;
@@ -78,7 +78,7 @@ public class CounterActivity extends AppCompatActivity {
     };
 
     private void setupCounterTextSize() {
-        int countValue = counterDataArrayList.get(getCurrentPosition()).getCounterValue();
+        long countValue = counterDataArrayList.get(getCurrentPosition()).getCounterValue();
         int numberOfDigits = countDigits(countValue);
         if(numberOfDigits<4){
             CounterText.setTextSize(150);
@@ -97,7 +97,7 @@ public class CounterActivity extends AppCompatActivity {
         }
     }
 
-    private int countDigits(int countValue){
+    private int countDigits(long countValue){
         int count = 0;
         while(countValue != 0) {
             countValue /= 10;
@@ -272,13 +272,15 @@ public class CounterActivity extends AppCompatActivity {
 
     private void setOnClickListeners(){
         plusLightButton.setOnActiveListener(() -> {
-            currentCount+=1;
-            counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
-            CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
-            tickTrackDatabase.storeCounterList(counterDataArrayList);
-            milestoneItIs();
-            refreshNotificationStatus();
+            if(!(currentCount >= 9223372036854775807L)){
+                currentCount+=1;
+                counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
+                CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                tickTrackDatabase.storeCounterList(counterDataArrayList);
+                milestoneItIs();
+                refreshNotificationStatus();
+            }
         });
 
         minusLightButton.setOnActiveListener(() -> {
@@ -293,13 +295,15 @@ public class CounterActivity extends AppCompatActivity {
             }
         });
         plusDarkButton.setOnActiveListener(() -> {
-            currentCount+=1;
-            counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
-            CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
-            tickTrackDatabase.storeCounterList(counterDataArrayList);
-            milestoneItIs();
-            refreshNotificationStatus();
+            if(!(currentCount >= 9223372036854775807L)){
+                currentCount+=1;
+                counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
+                CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                tickTrackDatabase.storeCounterList(counterDataArrayList);
+                milestoneItIs();
+                refreshNotificationStatus();
+            }
         });
 
         minusDarkButton.setOnActiveListener(() -> {
@@ -314,13 +318,15 @@ public class CounterActivity extends AppCompatActivity {
             }
         });
         plusButtonBig.setOnClickListener(view -> {
-            currentCount+=1;
-            counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
-            counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
-            CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
-            tickTrackDatabase.storeCounterList(counterDataArrayList);
-            milestoneItIs();
-            refreshNotificationStatus();
+            if(!(currentCount >= 9223372036854775807L)){
+                currentCount+=1;
+                counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
+                counterDataArrayList.get(getCurrentPosition()).setCounterTimestamp(System.currentTimeMillis());
+                CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
+                tickTrackDatabase.storeCounterList(counterDataArrayList);
+                milestoneItIs();
+                refreshNotificationStatus();
+            }
         });
 
         minusButtonBig.setOnClickListener(view -> {

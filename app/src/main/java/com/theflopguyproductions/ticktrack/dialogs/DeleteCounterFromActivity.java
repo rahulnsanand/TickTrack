@@ -89,13 +89,13 @@ public class DeleteCounterFromActivity extends BottomSheetDialog {
         if(themeSet==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             dialogTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            yesButton.setBackgroundResource(R.drawable.button_selector_light);
+//            yesButton.setBackgroundResource(R.drawable.button_selector_light);
             noButton.setBackgroundResource(R.drawable.button_selector_light);
             dialogMessage.setTextColor(activity.getResources().getColor(R.color.DarkText));
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             dialogTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            yesButton.setBackgroundResource(R.drawable.button_selector_dark);
+//            yesButton.setBackgroundResource(R.drawable.button_selector_dark);
             noButton.setBackgroundResource(R.drawable.button_selector_dark);
             dialogMessage.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
@@ -103,7 +103,7 @@ public class DeleteCounterFromActivity extends BottomSheetDialog {
 
     public void killNotification() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        if(tickTrackDatabase.getCurrentCounterNotificationID().equals(counterID)){
+        if(counterID.equals(tickTrackDatabase.getCurrentCounterNotificationID())){
             Intent intent = new Intent(activity, CounterNotificationService.class);
             intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
             activity.startService(intent);

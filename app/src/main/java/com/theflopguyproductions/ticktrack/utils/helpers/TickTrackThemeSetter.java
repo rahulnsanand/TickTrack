@@ -255,7 +255,7 @@ public class TickTrackThemeSetter {
                                                 TextView notificationDetail, TextView milestoneDetail, int flagColor,
                                                 ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
                                                 ConstraintLayout buttonDivider, TickTrackDatabase tickTrackDatabase,
-                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar) {
+                                                Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar, ConstraintLayout negativeValueLayout) {
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
@@ -267,6 +267,7 @@ public class TickTrackThemeSetter {
             counterButtonModeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             counterNotificationLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             counterEditRootLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            negativeValueLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             toolbar.setBackgroundResource(R.color.LightGray);
 
             counterLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
@@ -300,6 +301,7 @@ public class TickTrackThemeSetter {
             counterButtonModeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             counterNotificationLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             counterEditRootLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            negativeValueLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             toolbar.setBackgroundResource(R.color.Black);
 
             counterLabel.setTextColor(activity.getResources().getColor(R.color.LightText));

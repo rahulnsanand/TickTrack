@@ -36,7 +36,7 @@ public class CounterNotificationService extends Service {
     private int currentCounterPosition;
 
     private static String counterLabel;
-    private static int counterValue;
+    private static long counterValue;
     private static int counterRequestID;
     private static ArrayList<CounterData> counterDataList = new ArrayList<>();
 
@@ -162,6 +162,7 @@ public class CounterNotificationService extends Service {
     }
 
     private void minusButtonPressed() {
+
         if(counterValue>=1){
             counterValue-=1;
             counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
@@ -178,12 +179,14 @@ public class CounterNotificationService extends Service {
     }
 
     private void plusButtonPressed() {
-        counterValue+=1;
-        counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
-        counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
-        storeCounterList(tickTrackDatabase.getSharedPref(this));
-        notificationBuilder.setContentText("Value: "+counterValue+"");
-        notifyNotification();
+        if(!(counterValue >= 9223372036854775807L)){
+            counterValue+=1;
+            counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
+            counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
+            storeCounterList(tickTrackDatabase.getSharedPref(this));
+            notificationBuilder.setContentText("Value: "+counterValue+"");
+            notifyNotification();
+        }
     }
 
     private void startForegroundService() {

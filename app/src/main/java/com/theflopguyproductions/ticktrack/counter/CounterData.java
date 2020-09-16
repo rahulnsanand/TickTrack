@@ -2,10 +2,19 @@ package com.theflopguyproductions.ticktrack.counter;
 
 public class CounterData implements Comparable<CounterData>{
 
-    int counterValue, counterFlag, counterSignificantCount;
-    boolean counterSignificantExist, counterSwipeMode, counterPersistentNotification;
+    int counterFlag, counterSignificantCount;
+    long counterValue;
+    boolean counterSignificantExist, counterSwipeMode, counterPersistentNotification, isNegativeAllowed;
     String counterLabel, counterID;
     long counterTimestamp;
+
+    public boolean isNegativeAllowed() {
+        return isNegativeAllowed;
+    }
+
+    public void setNegativeAllowed(boolean negativeAllowed) {
+        isNegativeAllowed = negativeAllowed;
+    }
 
     public String getCounterID() {
         return counterID;
@@ -47,11 +56,11 @@ public class CounterData implements Comparable<CounterData>{
         this.counterSignificantExist = counterSignificantExist;
     }
 
-    public int getCounterValue() {
+    public long getCounterValue() {
         return counterValue;
     }
 
-    public void setCounterValue(int counterValue) {
+    public void setCounterValue(long counterValue) {
         this.counterValue = counterValue;
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,12 +37,12 @@ public class CounterEditActivity extends AppCompatActivity {
     private String counterID;
     private ImageButton backButton, deleteCounterButton;
     private ImageView counterFlag;
-    private Switch counterButtonSwitch, counterNotificationSwitch;
+    private Switch counterButtonSwitch, counterNotificationSwitch, negativeValueSwitch;
     private TextView counterLabel, counterValue, counterMilestone, counterButtonMode;
     private TextView counterLabelTitle, counterValueTitle, counterMilestoneTitle, counterButtonModeTitle, counterFlagTitle, counterNotificationTitle, counterNotificationDetail, counterMilestoneDetail;
     private ImageButton saveChangesButton;
     private ConstraintLayout counterLabelLayout, counterValueLayout, counterMilestoneLayout, counterFlagLayout, counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout, counterEditToolbarLayout, counterFlagGroupLayout;
-    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider;
+    private ConstraintLayout counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, counterNegativeLayout;
     private ArrayList<CounterData> counterDataArrayList = new ArrayList<>();
     private Activity activity;
     private ChipGroup counterFlagGroup;
@@ -75,7 +76,7 @@ public class CounterEditActivity extends AppCompatActivity {
                 counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout,
                 counterLabel, counterValue, counterMilestone, counterButtonMode, counterNotificationDetail, counterMilestoneDetail, flagColor,
                 counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, tickTrackDatabase,
-                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout);
+                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout, counterNegativeLayout);
 
         setupPrefixValues();
 
@@ -124,6 +125,13 @@ public class CounterEditActivity extends AppCompatActivity {
             }
             isChanged = true;
         });
+        negativeValueSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(compoundButton.isChecked()){
+                counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(true);
+            } else {
+                counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(false);
+            }
+        });
     }
 
     private void stopNotificationService() {
@@ -169,6 +177,8 @@ public class CounterEditActivity extends AppCompatActivity {
         counterNotificationDetail = findViewById(R.id.counterEditActivityNotificationDetailTextView);
         counterMilestoneDetail = findViewById(R.id.counterEditActivitySignificantDescription);
         counterFlagGroupLayout = findViewById(R.id.counterEditActivityFlagChipLayout);
+        negativeValueSwitch = findViewById(R.id.counterEditNegativeValueSwitch);
+        counterNegativeLayout = findViewById(R.id.counterEditActivityNegativeLayout);
 
         counterLabelDivider = findViewById(R.id.counterEditActivityLabelDivider);
         counterValueDivider = findViewById(R.id.counterEditActivityValueDivider);
@@ -211,6 +221,12 @@ public class CounterEditActivity extends AppCompatActivity {
 
         counterFlagGroupLayout.setVisibility(View.GONE);
         flagLayoutOpen = true;
+
+        if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
+            negativeValueSwitch.setChecked(true);
+        } else {
+            negativeValueSwitch.setChecked(false);
+        }
 
     }
     private void setFlagColor(int flagColor) {
@@ -259,6 +275,19 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void setupOnClickListeners() {
 
+        counterNegativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
+                    counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(false);
+                    negativeValueSwitch.setChecked(false);
+                } else {
+                    counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(true);
+                    negativeValueSwitch.setChecked(true);
+                }
+            }
+        });
+
         counterLabelLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
 //                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterLabel.getText().toString());
@@ -279,25 +308,26 @@ public class CounterEditActivity extends AppCompatActivity {
         });
         counterValueLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
-//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
 
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
+                labelDialog.characterCountText.setVisibility(View.GONE);
                 labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
-                labelDialog.helperText.setText(" Counter value ");
+                labelDialog.helperText.setText("Value");
+                labelDialog.inputText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(19)});
                 labelDialog.okButton.setOnClickListener(view1 -> {
                     try {
-                        int value = Integer.parseInt(labelDialog.inputText.getText().toString());
+                        long value = Long.parseLong(labelDialog.inputText.getText().toString());
                         counterValue.setText(value+"");
                         labelDialog.dismiss();
                         isChanged = true;
                     } catch (Exception e){
                         labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_error);
                         new Handler().postDelayed(() -> labelDialog.inputText.setBackgroundResource(R.drawable.label_edit_text_accent), 2000);
-                        Toast.makeText(activity, "Value must be less than 10 digits", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Value must be less than 9223372036854775807", Toast.LENGTH_SHORT).show();
                     }
                 });
                 labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
@@ -423,7 +453,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private void saveData(){
         if(isChanged){
             counterDataArrayList.get(getCurrentPosition()).setCounterLabel(counterLabel.getText().toString());
-            counterDataArrayList.get(getCurrentPosition()).setCounterValue(Integer.parseInt(counterValue.getText().toString()));
+            counterDataArrayList.get(getCurrentPosition()).setCounterValue(Long.parseLong(counterValue.getText().toString()));
             if(!counterMilestone.getText().toString().equals("NA")){
                 counterDataArrayList.get(getCurrentPosition()).setCounterSignificantCount(Integer.parseInt(counterMilestone.getText().toString()));
                 counterDataArrayList.get(getCurrentPosition()).setCounterSignificantExist(true);
