@@ -236,7 +236,7 @@ public class TimerActivity extends AppCompatActivity {
             }
 
             TickTrackThemeSetter.timerActivityTheme(activity,timerActivityToolbar, timerDataArrayList.get(getCurrentTimerPosition()).getTimerFlag(),timerActivityRootLayout,
-                    timerHourMinute, timerMillis, timerProgressBarBackground, tickTrackDatabase, timerProgressBar, startData, startTitle, endData, endTitle);
+                    timerHourMinute, timerMillis, timerProgressBarBackground, tickTrackDatabase, timerProgressBar, startData, startTitle, endData, endTitle, playPauseFAB, resetFAB, plusOneFAB);
 
         } else {
             onBackPressed();
@@ -618,8 +618,8 @@ public class TimerActivity extends AppCompatActivity {
             }
         }
         tickTrackTimerDatabase.cancelAlarm(timerID, false);
-        countDownTimerMillis += 1000*2;
-        maxTimeInMillis += 1000*2;
+        countDownTimerMillis += 1000*60;
+        maxTimeInMillis += 1000*60;
         timerDataArrayList.get(getCurrentTimerPosition()).setTimerTempMaxTimeInMillis(maxTimeInMillis);
         startTimer(countDownTimerMillis);
     }

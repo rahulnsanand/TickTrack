@@ -410,7 +410,8 @@ public class TickTrackThemeSetter {
 
     public static void timerActivityTheme(Activity activity, ConstraintLayout toolBar, int flagColor, ConstraintLayout timerRootLayout,
                                           TextView chronometer, TextView timerMillisText, TickTrackProgressBar backgroundProgressBar, TickTrackDatabase tickTrackDatabase,
-                                          TickTrackProgressBar tickTrackProgressBar, TextView startData, TextView startTitle, TextView endData, TextView endTitle){
+                                          TickTrackProgressBar tickTrackProgressBar, TextView startData, TextView startTitle, TextView endData, TextView endTitle, ConstraintLayout playFab,
+                                          ConstraintLayout resetFab, ConstraintLayout oneFab){
 
         tickTrackProgressBar.setBarColor(activity.getResources().getColor(timerActivityToolbarColor(flagColor)));
         int checkTheme = tickTrackDatabase.getThemeMode();
@@ -424,6 +425,10 @@ public class TickTrackThemeSetter {
             endData.setTextColor(activity.getResources().getColor(R.color.LightDarkText) );
             startTitle.setTextColor(activity.getResources().getColor(R.color.DarkText) );
             endTitle.setTextColor(activity.getResources().getColor(R.color.DarkText) );
+
+            playFab.setBackgroundResource(R.drawable.fab_light_background);
+            resetFab.setBackgroundResource(R.drawable.fab_light_background);
+            oneFab.setBackgroundResource(R.drawable.fab_light_background);
         } else {
             timerRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
             toolBar.setBackgroundColor(activity.getResources().getColor(R.color.Black));
@@ -434,6 +439,10 @@ public class TickTrackThemeSetter {
             endData.setTextColor(activity.getResources().getColor(R.color.DarkLightText) );
             startTitle.setTextColor(activity.getResources().getColor(R.color.LightText) );
             endTitle.setTextColor(activity.getResources().getColor(R.color.LightText) );
+
+            playFab.setBackgroundResource(R.drawable.fab_dark_background);
+            resetFab.setBackgroundResource(R.drawable.fab_dark_background);
+            oneFab.setBackgroundResource(R.drawable.fab_dark_background);
         }
     }
 
