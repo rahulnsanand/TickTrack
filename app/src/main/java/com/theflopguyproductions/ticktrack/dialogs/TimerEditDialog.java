@@ -106,10 +106,9 @@ public class TimerEditDialog extends BottomSheetDialog {
         if(themeSet==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             mainTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            labelTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            flagTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            labelTitle.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            flagTitle.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             cancelButton.setBackgroundResource(R.drawable.button_selector_light);
-            saveButton.setBackgroundResource(R.drawable.button_selector_light);
             labelInput.setTextColor(activity.getResources().getColor(R.color.DarkText));
             labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
             characterCountText.setTextColor(activity.getResources().getColor(R.color.DarkText));
@@ -126,10 +125,9 @@ public class TimerEditDialog extends BottomSheetDialog {
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             mainTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            labelTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            flagTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            labelTitle.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            flagTitle.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             cancelButton.setBackgroundResource(R.drawable.button_selector_dark);
-            saveButton.setBackgroundResource(R.drawable.button_selector_dark);
             labelInput.setTextColor(activity.getResources().getColor(R.color.LightText));
             labelInput.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
             characterCountText.setTextColor(activity.getResources().getColor(R.color.LightText));

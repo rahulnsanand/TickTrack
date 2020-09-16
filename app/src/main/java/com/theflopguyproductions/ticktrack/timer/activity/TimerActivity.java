@@ -135,8 +135,7 @@ public class TimerActivity extends AppCompatActivity {
                     }
                     if(timerEditDialog.currentFlag!=timerDataArrayList.get(getCurrentTimerPosition()).getTimerFlag()){
                         timerDataArrayList.get(getCurrentTimerPosition()).setTimerFlag(timerEditDialog.currentFlag);
-                        timerActivityToolbar.setBackgroundResource(timerActivityToolbarColor(timerEditDialog.currentFlag));
-                        timerProgressBar.setBarColor(timerActivityToolbarColor(timerEditDialog.currentFlag));
+                        timerProgressBar.setBarColor(activity.getResources().getColor(timerActivityToolbarColor(timerEditDialog.currentFlag)));
                     }
                     tickTrackDatabase.storeTimerList(timerDataArrayList);
                     timerEditDialog.dismiss();

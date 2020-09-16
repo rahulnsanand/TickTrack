@@ -64,15 +64,15 @@ public class DeleteTimer extends BottomSheetDialog {
         if(themeSet==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             dialogTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            yesButton.setBackgroundResource(R.drawable.button_selector_light);
+//            yesButton.setBackgroundResource(R.drawable.button_selector_light);
             noButton.setBackgroundResource(R.drawable.button_selector_light);
-            dialogMessage.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             dialogTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            yesButton.setBackgroundResource(R.drawable.button_selector_dark);
+//            yesButton.setBackgroundResource(R.drawable.button_selector_dark);
             noButton.setBackgroundResource(R.drawable.button_selector_dark);
-            dialogMessage.setTextColor(activity.getResources().getColor(R.color.LightText));
+            dialogMessage.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
         }
     }
 

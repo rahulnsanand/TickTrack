@@ -27,41 +27,42 @@
         android:id="@+id/timerEditDialogLabelTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Label"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerEditDialogTitleText"
-        app:typeface="apercu_medium_italic" />
+        app:typeface="apercu_bold" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-        style="@style/button"
         android:id="@+id/timerEditDialogCancelButton"
-        android:layout_width="wrap_content"
+        style="@style/button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@android:color/transparent"
         android:text="CANCEL"
         android:textColor="@color/Accent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/timerEditDialogSaveButton"
-        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogFlagChipGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogSaveButton"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-        style="@style/button"
         android:id="@+id/timerEditDialogSaveButton"
-        android:layout_width="wrap_content"
+        style="@style/button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/transparent"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_selector_accent"
         android:text="SAVE"
-        android:textColor="@color/Accent"
+        android:textColor="@color/LightText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerEditDialogFlagChipGroup"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -138,21 +139,21 @@
         android:id="@+id/timerEditDialogFlagTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Flag"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timerEditDialogLabelText"
-        app:typeface="apercu_medium_italic" />
+        app:typeface="apercu_bold" />
 
     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/timerEditDialogTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Edit timer"
         android:textSize="24sp"
@@ -160,7 +161,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="apercu_medium_italic" />
+        app:typeface="apercu_bold" />
 
     <TextView
         android:id="@+id/timerEditDialogCharacterCounter"
