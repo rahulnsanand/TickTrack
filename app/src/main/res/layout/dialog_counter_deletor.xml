@@ -35,14 +35,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:typeface="apercu_bold" />
+        app:typeface="apercu_regular" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/acceptDeleteCounterButton"
         style="@style/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_selector_accent"
         android:text="DELETE"
         android:textColor="@color/LightText"
