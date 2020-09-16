@@ -24,8 +24,8 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
     private static final String ACTION_CREATE_SCREENSAVER = "ACTION_CREATE_SCREENSAVER";
 
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                int appWidgetId, int[] appWidgetIds) {
         TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
         ArrayList<ShortcutsData> shortcutsData = tickTrackDatabase.retrieveShortcutWidgetData();
 
@@ -35,40 +35,37 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.shortcuts_panel_widget);
                 setupTheme(theme, views);
 
-                Intent createCounterIntent = new Intent(context, SoYouADeveloperHuh.class);
-                createCounterIntent.putExtra("fragmentID","counterCreate");
-                createCounterIntent.setAction(ACTION_CREATE_COUNTER);
-                PendingIntent createCounterPending = PendingIntent.getActivity(context, 98, createCounterIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                views.setOnClickPendingIntent(R.id.counterShortcutButton, createCounterPending);
 
-                Intent createTimerIntent = new Intent(context, SoYouADeveloperHuh.class);
-                createTimerIntent.putExtra("fragmentID","timerCreate");
-                createTimerIntent.setAction(ACTION_CREATE_TIMER);
-                PendingIntent createTimerPending = PendingIntent.getActivity(context, 987, createTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                views.setOnClickPendingIntent(R.id.timerShortcutButton, createTimerPending);
+                views.setOnClickPendingIntent(R.id.counterShortcutButton,
+                        getPendingSelfIntent(context, ACTION_CREATE_COUNTER, 9, "counterCreate", appWidgetIds ));
 
-                Intent createQTimerIntent = new Intent(context, SoYouADeveloperHuh.class);
-                createQTimerIntent.putExtra("fragmentID","quickTimerCreate");
-                createTimerIntent.setAction(ACTION_CREATE_QUICK_TIMER);
-                PendingIntent createQTimerPending = PendingIntent.getActivity(context, 987, createQTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                views.setOnClickPendingIntent(R.id.quickTimerShortcutButton, createQTimerPending);
 
-                Intent createStopwatchIntent = new Intent(context, SoYouADeveloperHuh.class);
-                createStopwatchIntent.putExtra("fragmentID","stopwatchCreate");
-                createTimerIntent.setAction(ACTION_CREATE_STOPWATCH);
-                PendingIntent createStopwatchPending = PendingIntent.getActivity(context, 9874, createStopwatchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                views.setOnClickPendingIntent(R.id.stopwatchShortcutButton, createStopwatchPending);
+                views.setOnClickPendingIntent(R.id.timerShortcutButton,
+                        getPendingSelfIntent(context, ACTION_CREATE_TIMER, 99, "timerCreate", appWidgetIds ));
 
-                Intent createScreensaverIntent = new Intent(context, SoYouADeveloperHuh.class);
-                createScreensaverIntent.putExtra("fragmentID","screensaverCreate");
-                createTimerIntent.setAction(ACTION_CREATE_SCREENSAVER);
-                PendingIntent createScreensaverPending = PendingIntent.getActivity(context, 9875, createScreensaverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                views.setOnClickPendingIntent(R.id.screensaverShortcutButton, createScreensaverPending);
+
+                views.setOnClickPendingIntent(R.id.quickTimerShortcutButton,
+                        getPendingSelfIntent(context, ACTION_CREATE_QUICK_TIMER, 999, "quickTimerCreate", appWidgetIds ));
+
+
+                views.setOnClickPendingIntent(R.id.stopwatchShortcutButton,
+                        getPendingSelfIntent(context, ACTION_CREATE_STOPWATCH, 9999, "stopwatchCreate", appWidgetIds ));
+
+
+                views.setOnClickPendingIntent(R.id.screensaverShortcutButton,
+                        getPendingSelfIntent(context, ACTION_CREATE_SCREENSAVER, 99999, "screensaverCreate", appWidgetIds ));
 
 
                 appWidgetManager.updateAppWidget(appWidgetId, views);
             }
         }
+    }
+
+    private PendingIntent getPendingSelfIntent(Context context, String action, int counterID, String counterIdString, int[] appWidgetIds) {
+
+        Intent intent = new Intent(context, getClass());
+        intent.setAction(action);
+        return PendingIntent.getBroadcast(context, counterID, intent, 0);
     }
 
     private static void setupTheme(int theme, RemoteViews views) {
@@ -116,7 +113,7 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId, appWidgetIds);
         }
     }
 
@@ -144,6 +141,38 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
         }
         tickTrackDatabase.storeShortcutWidgetData(shortcutsData);
     }
-    
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        System.out.println("RECEIVED SOEMTHING CREATE BROADCAST");
+        if(ACTION_CREATE_COUNTER.equals(intent.getAction())){
+            Intent createCounterIntent = new Intent(context, SoYouADeveloperHuh.class);
+            createCounterIntent.putExtra("fragmentID","counterCreate");
+            createCounterIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(createCounterIntent);
+            System.out.println("RECEIVED COUNTER CREATE BROADCAST");
+        } else if(ACTION_CREATE_TIMER.equals(intent.getAction())){
+            Intent createTimerIntent = new Intent(context, SoYouADeveloperHuh.class);
+            createTimerIntent.putExtra("fragmentID","timerCreate");
+            createTimerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(createTimerIntent);
+        } else if(ACTION_CREATE_QUICK_TIMER.equals(intent.getAction())){
+            Intent createQTimerIntent = new Intent(context, SoYouADeveloperHuh.class);
+            createQTimerIntent.putExtra("fragmentID","quickTimerCreate");
+            createQTimerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(createQTimerIntent);
+        } else if(ACTION_CREATE_STOPWATCH.equals(intent.getAction())){
+            Intent createStopwatchIntent = new Intent(context, SoYouADeveloperHuh.class);
+            createStopwatchIntent.putExtra("fragmentID","stopwatchCreate");
+            createStopwatchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(createStopwatchIntent);
+        } else if(ACTION_CREATE_SCREENSAVER.equals(intent.getAction())){
+            Intent createScreensaverIntent = new Intent(context, SoYouADeveloperHuh.class);
+            createScreensaverIntent.putExtra("fragmentID","screensaverCreate");
+            createScreensaverIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(createScreensaverIntent);
+        }
+    }
 }
 

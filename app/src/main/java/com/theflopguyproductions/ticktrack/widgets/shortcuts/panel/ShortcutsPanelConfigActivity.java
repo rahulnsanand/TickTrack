@@ -119,22 +119,22 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
         views.setOnClickPendingIntent(R.id.counterShortcutButton, createCounterPending);
 
         Intent createTimerIntent = new Intent(this, SoYouADeveloperHuh.class);
-        createCounterIntent.putExtra("fragmentID","timerCreate");
+        createTimerIntent.putExtra("fragmentID","timerCreate");
         PendingIntent createTimerPending = PendingIntent.getActivity(this, 987, createTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.timerShortcutButton, createTimerPending);
 
         Intent createQTimerIntent = new Intent(this, SoYouADeveloperHuh.class);
-        createCounterIntent.putExtra("fragmentID","quickTimerCreate");
+        createQTimerIntent.putExtra("fragmentID","quickTimerCreate");
         PendingIntent createQTimerPending = PendingIntent.getActivity(this, 987, createQTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.quickTimerShortcutButton, createQTimerPending);
 
         Intent createStopwatchIntent = new Intent(this, SoYouADeveloperHuh.class);
-        createCounterIntent.putExtra("fragmentID","stopwatchCreate");
+        createStopwatchIntent.putExtra("fragmentID","stopwatchCreate");
         PendingIntent createStopwatchPending = PendingIntent.getActivity(this, 9874, createStopwatchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.stopwatchShortcutButton, createStopwatchPending);
 
         Intent createScreensaverIntent = new Intent(this, SoYouADeveloperHuh.class);
-        createCounterIntent.putExtra("fragmentID","screensaverCreate");
+        createScreensaverIntent.putExtra("fragmentID","screensaverCreate");
         PendingIntent createScreensaverPending = PendingIntent.getActivity(this, 9875, createScreensaverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.screensaverShortcutButton, createScreensaverPending);
 
