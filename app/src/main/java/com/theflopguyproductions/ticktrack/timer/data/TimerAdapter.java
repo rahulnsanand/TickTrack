@@ -71,9 +71,10 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 holder.timerDurationLeft.setVisibility(View.VISIBLE);
                 holder.timerItemButton.setVisibility(View.GONE);
                 timerStatusUpdateHandler.post(holder.timerRunnable);
+                holder.isRunning = true;
 
             } else if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerRinging() && timerDataArrayList.get(holder.getAdapterPosition()).isTimerPause()) {
-
+                holder.isRunning = false;
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                 timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
                 holder.timerDurationLeft.setVisibility(View.VISIBLE);
@@ -91,7 +92,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
                 holder.timerDurationLeft.setVisibility(View.INVISIBLE);
                 holder.timerItemButton.setVisibility(View.VISIBLE);
-
+                holder.isRunning = false;
                 timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                 timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
             }
@@ -135,18 +136,21 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                 timerDataArrayList = holder.tickTrackDatabase.retrieveTimerList();
                 if(!(timerDataArrayList.size() >0)){
                     timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                    holder.isRunning = false;
                     return;
                 }
                 if(!timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
                     timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
+                    holder.isRunning = false;
                     return;
                 }
                 long durationLeft = startTime - SystemClock.elapsedRealtime();
                 if(durationLeft>0){
                     holder.timerDurationLeft.setText(updateTimerTextView(durationLeft));
                     timerStatusUpdateHandler.post(holder.timerRunnable);
-
+                    holder.isRunning = true;
                 } else {
+                    holder.isRunning = false;
                     timerStatusUpdateHandler.removeCallbacks(holder.timerRunnable);
                 }
             };
@@ -157,6 +161,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
 
                 if(!(timerDataArrayList.size() >0) || !timerDataArrayList.get(holder.getAdapterPosition()).isTimerOn()){
                     timerElapsedHandler.removeCallbacks(holder.elapsedRunnable);
+                    holder.isRunning = false;
                     return;
                 }
 
@@ -169,7 +174,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
                     holder.timerDurationLeft.setVisibility(View.INVISIBLE);
                     isBlink[0] = true;
                 }
-
+                holder.isRunning = true;
                 timerElapsedHandler.postDelayed(holder.elapsedRunnable, 500);
             };
 
@@ -276,6 +281,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.timerDataVie
         private TextView footerCounterTextView;
         private Runnable timerRunnable, elapsedRunnable;
         private Button timerItemButton;
+        public boolean isRunning;
 
         TickTrackDatabase tickTrackDatabase;
 

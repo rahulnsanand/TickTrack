@@ -48,8 +48,10 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private QuickTimerAdapter quickTimerAdapter;
 
     public static void deleteTimer(int timerId, int position, Activity activity, String timerName) {
-        deleteItem(timerId, position);
-        Toast.makeText(activity, "Deleted Timer " + timerName, Toast.LENGTH_SHORT).show();
+        if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause()){
+            deleteItem(timerId, position);
+            Toast.makeText(activity, "Deleted Timer " + timerName, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static void deleteItem(int timerId, int position){
@@ -197,7 +199,11 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
                 });
             });
         }
+
     }
+
+
+
 
     @Override
     public void onStop() {

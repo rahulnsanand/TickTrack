@@ -19,25 +19,39 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     }
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        System.out.println("<<<<<<<<<<<onMove<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,,,,");
+
         return false;
     }
 
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
+            if(!((TimerAdapter.timerDataViewHolder) viewHolder).isRunning){
+                final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
 
-            getDefaultUIUtil().onSelected(foregroundView);
+                getDefaultUIUtil().onSelected(foregroundView);
+            }
+
         }
+    }
+
+    @Override
+    public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        if(((TimerAdapter.timerDataViewHolder) viewHolder).isRunning) return 0;
+
+        return super.getSwipeDirs(recyclerView, viewHolder);
     }
 
     @Override
     public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
-        getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
-                actionState, isCurrentlyActive);
+        if(!((TimerAdapter.timerDataViewHolder) viewHolder).isRunning){
+            final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
+            getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
+                    actionState, isCurrentlyActive);
+        }
     }
 
     @Override
@@ -50,15 +64,20 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                             @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
 
-        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
-                actionState, isCurrentlyActive);
+        if(!((TimerAdapter.timerDataViewHolder) viewHolder).isRunning){
+            final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
+
+            getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
+                    actionState, isCurrentlyActive);
+        }
     }
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+        if(!((TimerAdapter.timerDataViewHolder) viewHolder).isRunning){
+            listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+        }
     }
 
     @Override
