@@ -6,25 +6,21 @@
     android:foregroundGravity="center_vertical"
     android:padding="@dimen/widget_margin">
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/ticktrackShortcutPanelWidgetTitle"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="0dp"
-        android:text="TickTrack Shortcuts"
-        android:textAlignment="center"
-        android:textColor="@color/Accent"
-        android:textSize="18sp" />
+        android:layout_marginEnd="0dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView17"
+        android:layout_below="@+id/ticktrackShortcutPanelWidgetTitle"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

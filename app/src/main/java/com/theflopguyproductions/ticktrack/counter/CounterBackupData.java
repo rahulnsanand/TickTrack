@@ -2,8 +2,8 @@ package com.theflopguyproductions.ticktrack.counter;
 
 public class CounterBackupData {
 
-    long counterValue;
-    int  counterFlag, counterSignificantCount;
+    long counterValue, counterSignificantCount;
+    int  counterFlag;
     boolean counterSignificantExist, counterSwipeMode, isNegativeAllowed;
     String counterLabel, counterID;
     long counterTimestamp;
@@ -30,11 +30,11 @@ public class CounterBackupData {
         this.counterFlag = counterFlag;
     }
 
-    public int getCounterSignificantCount() {
+    public long getCounterSignificantCount() {
         return counterSignificantCount;
     }
 
-    public void setCounterSignificantCount(int counterSignificantCount) {
+    public void setCounterSignificantCount(long counterSignificantCount) {
         this.counterSignificantCount = counterSignificantCount;
     }
 

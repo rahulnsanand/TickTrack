@@ -1,6 +1,9 @@
 package com.theflopguyproductions.ticktrack.startup.fragments;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,10 @@ import androidx.fragment.app.Fragment;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.CreateTimerWidget;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.QuickTimerWidget;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget;
 
 public class ThemeFragment extends Fragment {
 
@@ -130,7 +137,32 @@ public class ThemeFragment extends Fragment {
             themeDetailText.setTextColor(getResources().getColor(R.color.LightText));
 
         }
+        updateWidgets();
     }
+    private void updateWidgets() {
+        Intent intent1 = new Intent(requireActivity(), CreateTimerWidget.class);
+        intent1.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids1 = AppWidgetManager.getInstance(requireActivity().getApplication()).getAppWidgetIds(new ComponentName(requireActivity().getApplication(), CreateTimerWidget.class));
+        intent1.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids1);
+        requireActivity().sendBroadcast(intent1);
+        Intent intent2 = new Intent(requireActivity(), QuickTimerWidget.class);
+        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids2 = AppWidgetManager.getInstance(requireActivity().getApplication()).getAppWidgetIds(new ComponentName(requireActivity().getApplication(), QuickTimerWidget.class));
+        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids2);
+        requireActivity().sendBroadcast(intent2);
+        Intent intent3 = new Intent(requireActivity(), ScreensaverWidget.class);
+        intent3.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids3 = AppWidgetManager.getInstance(requireActivity().getApplication()).getAppWidgetIds(new ComponentName(requireActivity().getApplication(), ScreensaverWidget.class));
+        intent3.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids3);
+        requireActivity().sendBroadcast(intent3);
+        Intent intent4 = new Intent(requireActivity(), StopwatchWidget.class);
+        intent4.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids4 = AppWidgetManager.getInstance(requireActivity().getApplication()).getAppWidgetIds(new ComponentName(requireActivity().getApplication(), StopwatchWidget.class));
+        intent4.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids4);
+        requireActivity().sendBroadcast(intent4);
+    }
+
+
 
     public interface OnThemeSetClickListener {
         void onThemeSetClickListener();

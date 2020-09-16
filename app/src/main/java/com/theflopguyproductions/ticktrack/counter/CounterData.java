@@ -2,8 +2,8 @@ package com.theflopguyproductions.ticktrack.counter;
 
 public class CounterData implements Comparable<CounterData>{
 
-    int counterFlag, counterSignificantCount;
-    long counterValue;
+    int counterFlag;
+    long counterValue, counterSignificantCount;
     boolean counterSignificantExist, counterSwipeMode, counterPersistentNotification, isNegativeAllowed;
     String counterLabel, counterID;
     long counterTimestamp;
@@ -40,11 +40,11 @@ public class CounterData implements Comparable<CounterData>{
         this.counterSwipeMode = counterSwipeMode;
     }
 
-    public int getCounterSignificantCount() {
+    public long getCounterSignificantCount() {
         return counterSignificantCount;
     }
 
-    public void setCounterSignificantCount(int counterSignificantCount) {
+    public void setCounterSignificantCount(long counterSignificantCount) {
         this.counterSignificantCount = counterSignificantCount;
     }
 

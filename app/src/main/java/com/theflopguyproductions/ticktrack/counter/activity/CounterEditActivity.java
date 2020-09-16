@@ -453,8 +453,8 @@ public class CounterEditActivity extends AppCompatActivity {
         if(isChanged){
             counterDataArrayList.get(getCurrentPosition()).setCounterLabel(counterLabel.getText().toString());
             counterDataArrayList.get(getCurrentPosition()).setCounterValue(Long.parseLong(counterValue.getText().toString()));
-            if(!counterMilestone.getText().toString().equals("NA")){
-                counterDataArrayList.get(getCurrentPosition()).setCounterSignificantCount(Integer.parseInt(counterMilestone.getText().toString()));
+            if(!counterMilestone.getText().toString().equals("-")){
+                counterDataArrayList.get(getCurrentPosition()).setCounterSignificantCount(Long.parseLong(counterMilestone.getText().toString()));
                 counterDataArrayList.get(getCurrentPosition()).setCounterSignificantExist(true);
             } else {
                 counterDataArrayList.get(getCurrentPosition()).setCounterSignificantCount(0);

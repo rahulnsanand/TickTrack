@@ -2,6 +2,8 @@ package com.theflopguyproductions.ticktrack.settings;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +37,10 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatab
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.CreateTimerWidget;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.QuickTimerWidget;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget;
 
 import java.util.ArrayList;
 
@@ -241,6 +247,30 @@ public class SettingsActivity extends AppCompatActivity {
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
                 hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout, rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout,
                 rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue, toolbar);
+        updateWidgets();
+    }
+
+    private void updateWidgets() {
+        Intent intent1 = new Intent(activity, CreateTimerWidget.class);
+        intent1.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids1 = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), CreateTimerWidget.class));
+        intent1.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids1);
+        activity.sendBroadcast(intent1);
+        Intent intent2 = new Intent(activity, QuickTimerWidget.class);
+        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids2 = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), QuickTimerWidget.class));
+        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids2);
+        activity.sendBroadcast(intent2);
+        Intent intent3 = new Intent(activity, ScreensaverWidget.class);
+        intent3.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids3 = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), ScreensaverWidget.class));
+        intent3.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids3);
+        activity.sendBroadcast(intent3);
+        Intent intent4 = new Intent(activity, StopwatchWidget.class);
+        intent4.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids4 = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), StopwatchWidget.class));
+        intent4.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids4);
+        activity.sendBroadcast(intent4);
     }
 
     private boolean isSyncOptionOpen = false;

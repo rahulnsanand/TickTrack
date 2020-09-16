@@ -5,6 +5,10 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.widget.RemoteViews;
 
 import com.theflopguyproductions.ticktrack.R;
@@ -35,6 +39,7 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.shortcuts_panel_widget);
                 setupTheme(theme, views);
 
+                views.setImageViewBitmap(R.id.ticktrackShortcutPanelWidgetTitle, buildUpdate("TickTrack Shortcut Console", context));
 
                 views.setOnClickPendingIntent(R.id.counterShortcutButton,
                         getPendingSelfIntent(context, ACTION_CREATE_COUNTER, 9, "counterCreate", appWidgetIds ));
@@ -59,6 +64,22 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
                 appWidgetManager.updateAppWidget(appWidgetId, views);
             }
         }
+    }
+
+    public Bitmap buildUpdate(String time, Context context) {
+        Bitmap myBitmap = Bitmap.createBitmap(700, 84, Bitmap.Config.ARGB_8888);
+        Canvas myCanvas = new Canvas(myBitmap);
+        Paint paint = new Paint();
+        Typeface clock = Typeface.createFromAsset(context.getAssets(),"fonts/apercu_regular.otf");
+        paint.setAntiAlias(true);
+        paint.setSubpixelText(true);
+        paint.setTypeface(clock);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(context.getResources().getColor(R.color.Accent) );
+        paint.setTextSize(50);
+        paint.setTextAlign(Paint.Align.CENTER);
+        myCanvas.drawText(time, 350, 60, paint);
+        return myBitmap;
     }
 
     private PendingIntent getPendingSelfIntent(Context context, String action, int counterID, String counterIdString, int[] appWidgetIds) {
