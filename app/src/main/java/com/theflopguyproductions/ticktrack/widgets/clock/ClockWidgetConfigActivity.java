@@ -69,12 +69,10 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_clock_widget_config);
         initVariables();
 
-        int clockId = getIntent().getIntExtra("clockId", -1);
-        int retrieveTheme = getClockTheme(clockId);
-
         Intent clockIntent = getIntent();
         Bundle extras = clockIntent.getExtras();
         if(extras!=null){
+            System.out.println("THIS OPENED");
             clockWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
@@ -82,12 +80,13 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, clockWidgetId);
         setResult(RESULT_CANCELED, resultValue);
 
+        int retrieveTheme = getClockTheme(clockWidgetId);
         System.out.println("THIS OPENED");
-        if(clockId!=-1 && retrieveTheme!=-1){
+        if(clockWidgetId!=AppWidgetManager.INVALID_APPWIDGET_ID && retrieveTheme!=-1){
             isNotNew = true;
-            presetValues(clockId, retrieveTheme);
+            presetValues(clockWidgetId, retrieveTheme);
         }
-        System.out.println(clockId+"++++++++++++++"+retrieveTheme);
+        System.out.println(clockWidgetId+"++++++++++++++"+retrieveTheme);
 
         if(clockWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
             finish();

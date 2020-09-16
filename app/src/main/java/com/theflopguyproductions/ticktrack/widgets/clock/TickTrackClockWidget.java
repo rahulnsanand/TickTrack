@@ -22,7 +22,7 @@ public class TickTrackClockWidget extends AppWidgetProvider {
 
         tickTrackDatabase = new TickTrackDatabase(context);
         Intent intent = new Intent(context, ClockWidgetConfigActivity.class);
-        intent.putExtra("clockId", appWidgetId);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
         RemoteViews views = setupWidgetTheme(getClockTheme(appWidgetId), context);
         views.setOnClickPendingIntent(R.id.clockWidgetRootLayout, pendingIntent);

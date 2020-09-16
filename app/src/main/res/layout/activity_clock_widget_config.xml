@@ -11,11 +11,12 @@
         android:id="@+id/constraintLayout16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/clockWidgetConfigTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +30,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_italic" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout16">
 
-        <TextView
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/clockWidgetConfigOptionChosenTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,7 +56,8 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:typeface="apercu_bold"/>
 
         <ImageView
             android:id="@+id/clockWidgetConfigOptionChosenImage"
@@ -229,10 +232,11 @@
         android:id="@+id/clockWidgetConfigSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="SAVE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/button_selector_accent"
-        android:textColor="@color/LightText"/>
+        android:textColor="@color/LightText"
+        style="@style/buttonStartup"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

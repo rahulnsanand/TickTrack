@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
 
-        <activity android:name=".widgets.clock.ClockWidgetConfigActivity" />
+        <activity android:name=".widgets.clock.ClockWidgetConfigActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""/>
 
         <receiver
             android:name=".widgets.clock.TickTrackClockWidget"
@@ -37,7 +39,9 @@
                 android:resource="@xml/tick_track_clock_widget_info" />
         </receiver>
 
-        <activity android:name=".widgets.counter.CounterWidgetConfigActivity" />
+        <activity android:name=".widgets.counter.CounterWidgetConfigActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""/>
 
         <receiver
             android:name=".widgets.counter.CounterWidget"
