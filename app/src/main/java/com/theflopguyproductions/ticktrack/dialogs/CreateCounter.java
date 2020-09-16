@@ -36,7 +36,7 @@ public class CreateCounter extends BottomSheetDialog {
     public int counterFlag= 0, themeSet = 1;
     public Button createCounterButton, cancelCounterButton;
     public EditText counterLabelText;
-    private TextView titleText, counterFlagTitle, characterCountText;
+    private TextView titleText, counterFlagTitle, characterCountText, counterLabelTitleTextView;
     private ConstraintLayout rootLayout;
     private Chip redChip, greenCip, orangeChip, purpleChip, blueChip;
     public int counterNumber;
@@ -75,6 +75,7 @@ public class CreateCounter extends BottomSheetDialog {
         counterFlagTitle = view.findViewById(R.id.counterFlagTextView);
         rootLayout = view.findViewById(R.id.counterCreateRootLayout);
         characterCountText = view.findViewById(R.id.counterCreatorLabelCharLength);
+        counterLabelTitleTextView = view.findViewById(R.id.counterLabelTitleTextView);
 
         redChip = view.findViewById(R.id.redCounterFlag);
         greenCip = view.findViewById(R.id.greenCounterFlag);
@@ -168,9 +169,8 @@ public class CreateCounter extends BottomSheetDialog {
         if(themeSet==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             titleText.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            counterFlagTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterFlagTitle.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             cancelCounterButton.setBackgroundResource(R.drawable.button_selector_light);
-            createCounterButton.setBackgroundResource(R.drawable.button_selector_light);
             counterLabelText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             counterLabelText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
             redChip.setChipBackgroundColorResource(R.color.Clickable);
@@ -184,12 +184,12 @@ public class CreateCounter extends BottomSheetDialog {
             purpleChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
             blueChip.setTextColor(activity.getResources().getColor(R.color.DarkText));
             characterCountText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterLabelTitleTextView.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             titleText.setTextColor(activity.getResources().getColor(R.color.LightText));
-            counterFlagTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterFlagTitle.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             cancelCounterButton.setBackgroundResource(R.drawable.button_selector_dark);
-            createCounterButton.setBackgroundResource(R.drawable.button_selector_dark);
             counterLabelText.setTextColor(activity.getResources().getColor(R.color.LightText));
             counterLabelText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
             redChip.setChipBackgroundColorResource(R.color.GrayOnDark);
@@ -203,6 +203,7 @@ public class CreateCounter extends BottomSheetDialog {
             purpleChip.setTextColor(activity.getResources().getColor(R.color.LightText));
             blueChip.setTextColor(activity.getResources().getColor(R.color.LightText));
             characterCountText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterLabelTitleTextView.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
         }
 
     }

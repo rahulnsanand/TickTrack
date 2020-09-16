@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
+import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
@@ -309,7 +310,7 @@ public class TickTrackDatabase {
         editor.apply();
     }
     public int getSyncFrequency(){
-        return sharedPreferences.getInt("syncFrequency",1);
+        return sharedPreferences.getInt("syncFrequency",3);
     }
 
     public void setCounterDataBackup(boolean id){
@@ -386,7 +387,7 @@ public class TickTrackDatabase {
         storeTimerList(new ArrayList<>());
         storeCounterList(new ArrayList<>());
         storeCounterNumber(1);
-        storeSyncFrequency(1);
+        storeSyncFrequency(SettingsData.Frequency.DAILY.getCode());
         setHapticEnabled(true);
         setLastBackupSystemTime(-1);
         setThemeMode(1);

@@ -9,9 +9,9 @@
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/counterFlagGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:alwaysDrawnWithCache="true"
@@ -91,19 +91,19 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="apercu_medium_italic" />
+        app:typeface="apercu_bold" />
 
     <com.theflopguyproductions.ticktrack.ui.utils.TickTrackEditText
         android:id="@+id/counterLabelInputText"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/label_edit_text_accent"
-        android:maxLength="15"
         android:hint="Counter label"
         android:inputType="textAutoCorrect|text|textCapWords"
+        android:maxLength="15"
         android:padding="10dp"
         android:textColor="@color/roboto_calendar_day_of_the_month_font"
         android:textColorHint="@color/daysLabelColor"
@@ -111,50 +111,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createCounterDialogTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/counterLabelTitleTextView" />
 
     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/counterFlagTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Counter flag"
         android:textColor="@color/roboto_calendar_day_of_the_month_font"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterLabelInputText"
-        app:typeface="apercu_medium_italic" />
+        app:typeface="apercu_bold" />
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/counterLabelTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Counter label"
+        android:textColor="@color/roboto_calendar_day_of_the_month_font"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createCounterDialogTitle"
+        app:typeface="apercu_bold" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/dismissCounterButton"
         style="@style/button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackground"
         android:text="CANCEL"
         android:textColor="@color/Accent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/createCounterButton"
-        app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createCounterButton" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/createCounterButton"
         style="@style/button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button_selector_light"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_selector_accent"
         android:elevation="0dp"
         android:text="CREATE"
-        android:textColor="@color/Accent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/LightText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/counterFlagGroup" />
 
     <TextView
         android:id="@+id/counterCreatorLabelCharLength"
