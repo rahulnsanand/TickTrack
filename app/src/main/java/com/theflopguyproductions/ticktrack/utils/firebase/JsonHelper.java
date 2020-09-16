@@ -220,7 +220,6 @@ public class JsonHelper {
         data.setTimerBackupOn(tickTrackDatabase.getSharedPref(context).getBoolean("timerDataBackup", false));
         data.setHapticFeedback(tickTrackDatabase.isHapticEnabled());
         data.setLastBackupTime(System.currentTimeMillis());
-        tickTrackDatabase.setLastBackupSystemTime(System.currentTimeMillis());
         data.setSyncDataFrequency(tickTrackDatabase.getSyncFrequency());
         data.setThemeMode(tickTrackDatabase.getThemeMode());
 

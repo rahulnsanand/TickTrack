@@ -144,6 +144,7 @@ public class BackupRestoreService extends Service {
         tickTrackFirebaseDatabase.setTimerBackupComplete(false);
         tickTrackFirebaseDatabase.setSettingsBackupComplete(false);
         tickTrackFirebaseDatabase.setBackupMode(false);
+        firebaseHelper.stopHandler();
     }
 
     private void startInitRestore() {
@@ -170,16 +171,26 @@ public class BackupRestoreService extends Service {
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
+                tickTrackDatabase.setLastBackupSystemTime(System.currentTimeMillis());
+            } else if (System.currentTimeMillis()-backupStartTime >= 1000*60*5){
+                System.out.println("BACKUP OVER");
+                stopForegroundService();
+                prefixFirebaseVariables();
+                backupCheckHandler.removeCallbacks(dataBackupCheck);
+                tickTrackDatabase.setLastBackupSystemTime(System.currentTimeMillis());
             } else {
                 backupCheckHandler.post(dataBackupCheck);
             }
         }
     };
+
+    private long backupStartTime = 0L;
     private void startBackup() {
         updateFirebaseData();
         notificationBuilder.setContentTitle("TickTrack backup");
         notificationBuilder.setContentText("In progress");
         notifyNotification();
+        backupStartTime = System.currentTimeMillis();
         backupCheckHandler.post(dataBackupCheck);
         firebaseHelper.backup();
     }

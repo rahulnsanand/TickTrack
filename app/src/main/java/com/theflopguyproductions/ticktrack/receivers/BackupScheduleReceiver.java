@@ -12,7 +12,7 @@ import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
 public class BackupScheduleReceiver extends BroadcastReceiver {
 
-    public static final String START_BACKUP_SCHEDULE = "START_BACKUP_SCHEDULE";
+    public static final String START_BACKUP_SCHEDULE = "com.theflopguyproductions.ticktrack.START_BACKUP_SCHEDULE";
 
     private TickTrackFirebaseDatabase tickTrackFirebaseDatabase;
 

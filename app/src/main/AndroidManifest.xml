@@ -63,10 +63,9 @@
 
         <receiver
             android:name=".receivers.BackupScheduleReceiver"
-            android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="START_BACKUP_SCHEDULE" />
+                <action android:name="com.theflopguyproductions.ticktrack.START_BACKUP_SCHEDULE" />
             </intent-filter>
         </receiver>
 

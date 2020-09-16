@@ -369,6 +369,10 @@ public class FirebaseHelper {
         }
     };
 
+    public void stopHandler() {
+        backupCheckHandler.removeCallbacks(backupCheckRunnable);
+    }
+
     public void restore() {
         notificationBuilder.setContentTitle("Restoring TickTrack Data");
         notificationBuilder.setContentText("In progress");
