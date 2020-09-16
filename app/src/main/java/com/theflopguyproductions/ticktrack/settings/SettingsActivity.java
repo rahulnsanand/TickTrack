@@ -165,19 +165,19 @@ public class SettingsActivity extends AppCompatActivity {
             includeDataLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
 
             syncDataTitle.setTextColor(getResources().getColor(R.color.DarkText));
-            syncDataFrequency.setTextColor(getResources().getColor(R.color.DarkText));
-            syncDataLastSync.setTextColor(getResources().getColor(R.color.DarkText));
+            syncDataFrequency.setTextColor(getResources().getColor(R.color.LightDarkText));
+            syncDataLastSync.setTextColor(getResources().getColor(R.color.LightDarkText));
             includeDataTitle.setTextColor(getResources().getColor(R.color.DarkText));
-            includeDataValue.setTextColor(getResources().getColor(R.color.DarkText));
+            includeDataValue.setTextColor(getResources().getColor(R.color.LightDarkText));
         } else {
             syncDataLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             includeDataLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
 
             syncDataTitle.setTextColor(getResources().getColor(R.color.LightText));
-            syncDataFrequency.setTextColor(getResources().getColor(R.color.LightText));
-            syncDataLastSync.setTextColor(getResources().getColor(R.color.LightText));
+            syncDataFrequency.setTextColor(getResources().getColor(R.color.DarkLightText));
+            syncDataLastSync.setTextColor(getResources().getColor(R.color.DarkLightText));
             includeDataTitle.setTextColor(getResources().getColor(R.color.LightText));
-            includeDataValue.setTextColor(getResources().getColor(R.color.LightText));
+            includeDataValue.setTextColor(getResources().getColor(R.color.DarkLightText));
         }
         syncDataLayout.setOnClickListener(view -> toggleSyncOptionsLayout());
         includeDataLayout.setOnClickListener(view -> toggleDataOptionsLayout());

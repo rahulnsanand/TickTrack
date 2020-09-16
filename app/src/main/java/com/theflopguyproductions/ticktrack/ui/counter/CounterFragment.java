@@ -162,6 +162,16 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         if (s.equals("CounterData")){
             Collections.sort(counterDataArrayList);
             counterAdapter.diffUtilsChangeData(counterDataArrayList);
+            setupSumLayout();
+
+            if(counterDataArrayList.size()>0){
+                counterRecyclerView.setVisibility(View.VISIBLE);
+                noCounterText.setVisibility(View.INVISIBLE);
+            } else {
+                counterRecyclerView.setVisibility(View.INVISIBLE);
+                noCounterText.setVisibility(View.VISIBLE);
+            }
+
         }
         System.out.println("ActivityManager: Displayed CounterFrag SharedPref "+System.currentTimeMillis());
     };

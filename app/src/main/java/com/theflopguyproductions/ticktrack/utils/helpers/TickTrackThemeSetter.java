@@ -271,12 +271,12 @@ public class TickTrackThemeSetter {
             negativeValueLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             toolbar.setBackgroundResource(R.color.LightGray);
 
-            counterLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterLabel.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             counterValue.setTextColor(activity.getResources().getColor(R.color.DarkText));
             counterMilestone.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            counterButtonMode.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            notificationDetail.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            milestoneDetail.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            counterButtonMode.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            notificationDetail.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            milestoneDetail.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
 
             labelDivider.setBackgroundResource(R.color.GrayOnLight);
             valueDivider.setBackgroundResource(R.color.GrayOnLight);
@@ -306,12 +306,12 @@ public class TickTrackThemeSetter {
             negativeValueLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             toolbar.setBackgroundResource(R.color.Black);
 
-            counterLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterLabel.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             counterValue.setTextColor(activity.getResources().getColor(R.color.LightText));
             counterMilestone.setTextColor(activity.getResources().getColor(R.color.LightText));
-            counterButtonMode.setTextColor(activity.getResources().getColor(R.color.LightText));
-            notificationDetail.setTextColor(activity.getResources().getColor(R.color.LightText));
-            milestoneDetail.setTextColor(activity.getResources().getColor(R.color.LightText));
+            counterButtonMode.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            notificationDetail.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            milestoneDetail.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
 
             labelDivider.setBackgroundResource(R.color.GrayOnDark);
             valueDivider.setBackgroundResource(R.color.GrayOnDark);

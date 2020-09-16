@@ -187,13 +187,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <RadioButton
+                        <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
                             android:id="@+id/darkRadioButtonSettingsActivity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Dark (Power saving)" />
 
-                        <RadioButton
+                        <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
                             android:id="@+id/lightRadioButtonSettingsActivity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -451,32 +451,27 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <RadioButton
+                            <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
                                 android:id="@+id/syncDataSettingsTickTrackMonthlyRadio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Monthly"
                                 android:textColor="@color/Accent" />
 
-                            <RadioButton
+                            <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
                                 android:id="@+id/syncDataSettingsTickTrackWeeklyRadio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Weekly"
                                 android:textColor="@color/Accent" />
 
-                            <RadioButton
+                            <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
                                 android:id="@+id/syncDataSettingsTickTrackDailyRadio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Daily"
                                 android:textColor="@color/Accent" />
 
-                            <TextView
-                                android:id="@+id/textView17"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="TextView" />
                         </RadioGroup>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -531,7 +526,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/backupDataSummarySettingsTextView">
 
-                        <CheckBox
+                        <com.theflopguyproductions.ticktrack.ui.utils.TickTrackCheckBox
                             android:id="@+id/backupCounterDataOptionSettingsCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -541,7 +536,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <CheckBox
+                        <com.theflopguyproductions.ticktrack.ui.utils.TickTrackCheckBox
                             android:id="@+id/backupTimerDataOptionSettingsCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -857,7 +852,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverUnordinaryImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverUnordinaryImage"
                                 app:layout_constraintTop_toBottomOf="@+id/screensaverUnordinaryImage"
-                                app:typeface="apercu_light_italic" />
+                                app:typeface="apercu_regular" />
 
                             <ImageView
                                 android:id="@+id/screensaverOxygenyImageCheck"
@@ -894,7 +889,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverOxygenyImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverOxygenyImage"
                                 app:layout_constraintTop_toBottomOf="@+id/screensaverOxygenyImage"
-                                app:typeface="apercu_light_italic" />
+                                app:typeface="apercu_regular" />
 
                             <ImageView
                                 android:id="@+id/screensaverTrulyMinimalImageCheck"
@@ -931,7 +926,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverTrulyMinimalImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverTrulyMinimalImage"
                                 app:layout_constraintTop_toBottomOf="@+id/screensaverTrulyMinimalImage"
-                                app:typeface="apercu_light_italic" />
+                                app:typeface="apercu_regular" />
 
                             <ImageView
                                 android:id="@+id/screensaverSimplisticImageCheck"
@@ -968,7 +963,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverSimplisticImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverSimplisticImage"
                                 app:layout_constraintTop_toBottomOf="@+id/screensaverSimplisticImage"
-                                app:typeface="apercu_light_italic" />
+                                app:typeface="apercu_regular" />
 
                             <ImageView
                                 android:id="@+id/screensaverRomanImageCheck"
@@ -1005,7 +1000,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverRomanImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverRomanImage"
                                 app:layout_constraintTop_toBottomOf="@+id/screensaverRomanImage"
-                                app:typeface="apercu_light_italic" />
+                                app:typeface="apercu_regular" />
 
                             <ImageView
                                 android:id="@+id/screensaverFunkyImageCheck"
@@ -1045,7 +1040,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/screensaverFunkyImage"
                                 app:layout_constraintStart_toStartOf="@+id/screensaverFunkyImage"
                                 app:layout_constraintTop_toBottomOf="@+id/screensaverFunkyImage"
-                                app:typeface="apercu_light_italic" />
+                                app:typeface="apercu_regular" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </HorizontalScrollView>

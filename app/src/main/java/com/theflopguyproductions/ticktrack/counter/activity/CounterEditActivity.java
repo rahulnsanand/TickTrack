@@ -210,7 +210,7 @@ public class CounterEditActivity extends AppCompatActivity {
         if(counterDataArrayList.get(getCurrentPosition()).isCounterSignificantExist()){
             counterMilestone.setText(counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount()+"");
         } else {
-            counterMilestone.setText("NA");
+            counterMilestone.setText("-");
         }
         counterButtonSwitch.setChecked(counterDataArrayList.get(getCurrentPosition()).isCounterSwipeMode());
         if(counterDataArrayList.get(getCurrentPosition()).isCounterSwipeMode()){
@@ -469,7 +469,7 @@ public class CounterEditActivity extends AppCompatActivity {
             } else {
                 counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
             }
-            
+
             tickTrackDatabase.storeCounterList(counterDataArrayList);
 
             isChanged = false;
