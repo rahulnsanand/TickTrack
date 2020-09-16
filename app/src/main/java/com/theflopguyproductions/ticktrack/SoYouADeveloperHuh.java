@@ -258,6 +258,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 if(shortcutAction!=null){
                     switch (shortcutAction) {
                         case "timerCreate":
+                        case "quickTimerCreate":
                             tickTrackDatabase.storeCurrentFragmentNumber(2);
                             openFragment(new TimerFragment(shortcutAction));
                             break;
@@ -268,6 +269,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                         case "counterCreate":
                             tickTrackDatabase.storeCurrentFragmentNumber(1);
                             openFragment(new CounterFragment(shortcutAction));
+                            break;
+                        case "screensaverCreate":
+                            startActivity(new Intent(this, ScreensaverActivity.class));
                             break;
                     }
                     getIntent().removeExtra("fragmentID");

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shortcutWidgetRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/round_rect_light"
@@ -30,11 +31,11 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center_horizontal">
 
         <RelativeLayout
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/counterShortcutButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentStart="false"
@@ -67,7 +68,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/floatingActionButton2"
+            android:id="@+id/timerShortcutButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
@@ -76,7 +77,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/floatingActionButton"
+            android:layout_toEndOf="@+id/counterShortcutButton"
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"
@@ -100,7 +101,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/floatingActionButton5"
+            android:id="@+id/quickTimerShortcutButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
@@ -109,7 +110,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/floatingActionButton2"
+            android:layout_toEndOf="@+id/timerShortcutButton"
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"
@@ -133,7 +134,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/floatingActionButton3"
+            android:id="@+id/stopwatchShortcutButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
@@ -142,7 +143,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/floatingActionButton5"
+            android:layout_toEndOf="@+id/quickTimerShortcutButton"
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"
@@ -166,7 +167,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/floatingActionButton4"
+            android:id="@+id/screensaverShortcutButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
@@ -177,7 +178,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/floatingActionButton3"
+            android:layout_toEndOf="@+id/stopwatchShortcutButton"
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"

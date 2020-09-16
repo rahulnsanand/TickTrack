@@ -65,6 +65,8 @@ public class TimerFragment extends Fragment {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         if("timerCreate".equals(action)){
             addTimer();
+        } else if("quickTimerCreate".equals(action)){
+            addQuickTimer();
         } else {
             displayRecyclerView();
         }

@@ -24,6 +24,7 @@ import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
 import com.theflopguyproductions.ticktrack.widgets.clock.ClockData;
 import com.theflopguyproductions.ticktrack.widgets.counter.data.CounterWidgetData;
+import com.theflopguyproductions.ticktrack.widgets.shortcuts.panel.data.ShortcutsData;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -479,6 +480,28 @@ public class TickTrackDatabase {
         }
 
         return clockData;
+    }
+
+    public void storeShortcutWidgetData(ArrayList<ShortcutsData> clockDataArrayList){
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(clockDataArrayList);
+        editor.putString("ShortcutWidgetData", json);
+        editor.apply();
+
+    }
+    public ArrayList<ShortcutsData> retrieveShortcutWidgetData() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("ShortcutWidgetData", null);
+        Type type = new TypeToken<ArrayList<ShortcutsData>>() {}.getType();
+        ArrayList<ShortcutsData> shortcutsData = gson.fromJson(json, type);
+
+        if(shortcutsData == null){
+            shortcutsData = new ArrayList<>();
+        }
+
+        return shortcutsData;
     }
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){
