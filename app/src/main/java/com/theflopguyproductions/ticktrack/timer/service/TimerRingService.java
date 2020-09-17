@@ -12,6 +12,8 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -102,13 +104,22 @@ public class TimerRingService extends Service {
             @Override
             protected Boolean doInBackground(Void... voids) {
                 try {
+
+                    String exampleURI = "content://media/external/audio/media/26751";
+                    final Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(exampleURI));
+
                     mediaPlayer = new MediaPlayer();
                     mediaPlayer.setLooping(true);
                     mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
-                    AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.timer_beep);
-                    if (afd == null) return false;
-                    mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    afd.close();
+
+                    if(ringtone==null){
+                        AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.timer_beep);
+                        if (afd == null) return false;
+                        mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                        afd.close();
+                    } else {
+                        mediaPlayer.setDataSource(context, Uri.parse(exampleURI));
+                    }
 
                     if (Build.VERSION.SDK_INT >= 21) {
                         mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()

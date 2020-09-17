@@ -11,7 +11,7 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/label_edit_text_accent"
         android:hint="Enter label"
@@ -20,7 +20,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/labelDialogSaveChangesText" />
 
     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/labelDialogHelpText"
@@ -62,7 +62,8 @@
         app:layout_constraintEnd_toStartOf="@+id/labelDialogOkButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/labelDialogOkButton" />
+        app:layout_constraintTop_toTopOf="@+id/labelDialogOkButton"
+        app:layout_constraintVertical_bias="1.0" />
 
     <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/labelDialogOkButton"
@@ -86,7 +87,7 @@
         android:layout_marginTop="16dp"
         android:text="Save changes?"
         android:textSize="18sp"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

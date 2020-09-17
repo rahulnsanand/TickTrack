@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.settings;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.appwidget.AppWidgetManager;
@@ -7,7 +8,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,17 +26,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
+import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
+import com.theflopguyproductions.ticktrack.utils.PermissionUtils;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
@@ -581,7 +591,76 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (101 == requestCode) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                readDataExternal();
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (PermissionUtils.neverAskAgainSelected(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        displayNeverAskAgainDialog();
+                    }
+                }
+            }
+        }
+    }
+
+    private void readDataExternal() {
+        final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
+        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        startActivityForResult(ringtone, 0);
+    }
+
+    private void displayNeverAskAgainDialog() {
+
+        SingleInputDialog singleInputDialog = new SingleInputDialog(activity, "");
+        singleInputDialog.show();
+        singleInputDialog.saveChangesText.setVisibility(View.VISIBLE);
+        singleInputDialog.saveChangesText.setText("We need this permission to set custom timer sound");
+        singleInputDialog.characterCountText.setVisibility(View.GONE);
+        singleInputDialog.helperText.setVisibility(View.GONE);
+        singleInputDialog.inputText.setVisibility(View.GONE);
+        singleInputDialog.okButton.setText("Grant Permission");
+        singleInputDialog.okButton.setOnClickListener(view -> {
+            singleInputDialog.dismiss();
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+        });
+    }
+
     private void setupClickListeners() {
+
+        timerSoundLayout.setOnClickListener(view -> {
+
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("ONE");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                        System.out.println("TWO");
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+                    }
+                }
+            } else {
+                readDataExternal();
+            }
+
+//            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+//            } else if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+//            } else {
+//                readDataExternal();
+//            }
+        });
 
         monthlyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.MONTHLY.getCode());
@@ -736,7 +815,11 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            assert data != null;
+            final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            System.out.println(uri+"><<<<<<<<<<<<<<<<<<<<<<<<<<<<<SETTTTTINNGSS");
+        }
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {

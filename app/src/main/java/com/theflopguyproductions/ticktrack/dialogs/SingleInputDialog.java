@@ -107,6 +107,7 @@ public class SingleInputDialog extends Dialog {
             cancelButton.setBackgroundResource(R.drawable.button_selector_light);
             inputText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             inputText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnDark));
+            saveChangesText.setTextColor(activity.getResources().getColor(R.color.DarkText));
 
         } else {
             rootLayout.setBackgroundResource(R.drawable.round_rect_dark);
@@ -116,7 +117,7 @@ public class SingleInputDialog extends Dialog {
             cancelButton.setBackgroundResource(R.drawable.button_selector_dark);
             inputText.setTextColor(activity.getResources().getColor(R.color.LightText));
             inputText.setHintTextColor(activity.getResources().getColor(R.color.GrayOnLight));
-
+            saveChangesText.setTextColor(activity.getResources().getColor(R.color.LightText));
         }
     }
 
