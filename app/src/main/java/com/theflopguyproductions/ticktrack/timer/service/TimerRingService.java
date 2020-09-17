@@ -141,6 +141,9 @@ public class TimerRingService extends Service {
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();
+                    new TickTrackDatabase(context).storeRingtoneURI(null);
+                    new TickTrackDatabase(context).storeRingtoneName("Default Ringtone");
+                    playAlarmSound(context);
                 }
                 return false;
             }
