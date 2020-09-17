@@ -75,6 +75,22 @@ public class TickTrackDatabase {
     public int getAppLaunchNumber() {
         return sharedPreferences.getInt("rateUsRequest", 0);
     }
+    public void setRatedPossibly(boolean b) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("RatedPossibly", b);
+        editor.apply();
+    }
+    public boolean isRatedPossibly() {
+        return sharedPreferences.getBoolean("RatedPossibly", false);
+    }
+    public void setAlreadyDoneCheck(boolean b) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("AlreadyDoneCheck", b);
+        editor.apply();
+    }
+    public boolean isAlreadyDoneCheck() {
+        return sharedPreferences.getBoolean("AlreadyDoneCheck", false);
+    }
 
     public void setLockedBootComplete(boolean isLocked){
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -530,6 +546,7 @@ public class TickTrackDatabase {
 
         return shortcutsData;
     }
+
 
 
 
