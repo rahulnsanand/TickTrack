@@ -48,6 +48,9 @@ public class RestoreFragment extends Fragment {
 
     private String receivedAction;
 
+    public RestoreFragment() {
+    }
+
     public RestoreFragment(String receivedAction) {
         this.receivedAction = receivedAction;
     }
@@ -67,9 +70,25 @@ public class RestoreFragment extends Fragment {
     }
 
     private void checkRestoreMode() {
-        if(tickTrackFirebaseDatabase.isRestoreInitMode()==1){
-            progressBarDialog.dismiss();
-            setupOptionsDisplay();
+        if(tickTrackFirebaseDatabase.isDriveLinkFail()){
+            firebaseHelper.signOut(activity);
+            tickTrackDatabase.storeStartUpFragmentID(3);
+            startActivity(new Intent(activity, StartUpActivity.class));
+        } else if(tickTrackFirebaseDatabase.isRestoreInitMode()==1){
+            internetHandler.removeCallbacks(internetCheck);
+            if(tickTrackFirebaseDatabase.hasPreferencesDataBackup() || tickTrackFirebaseDatabase.getRetrievedCounterCount()!=-1 || tickTrackFirebaseDatabase.getRetrievedTimerCount()!=-1){
+                progressBarDialog.dismiss();
+                setupOptionsDisplay();
+            } else {
+                progressBarDialog.dismiss();
+                if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                    Intent intent = new Intent(requireContext(), SettingsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    requireContext().startActivity(intent);
+                } else {
+                    startFreshListener.onStartFreshClickListener(false);
+                }
+            }
         } else if(tickTrackFirebaseDatabase.isRestoreInitMode()==-1){
             progressBarDialog.dismiss();
         }
@@ -152,9 +171,13 @@ public class RestoreFragment extends Fragment {
         mainTitle = root.findViewById(R.id.restoreFragmentTitleText);
         subTitle = root.findViewById(R.id.restoreFragmentSubtitleText);
         dataReadyTitle = root.findViewById(R.id.restoreFragmentDataReadyText);
+        dataReadyTitle.setVisibility(View.GONE);
         preferencesText = root.findViewById(R.id.restoreFragmentPreferencesText);
+        preferencesText.setVisibility(View.GONE);
         timersText = root.findViewById(R.id.restoreFragmentTimerText);
+        timersText.setVisibility(View.GONE);
         countersText = root.findViewById(R.id.restoreFragmentCounterText);
+        countersText.setVisibility(View.GONE);
         restoreDataButton = root.findViewById(R.id.restoreFragmentRestoreDataButton);
         startFreshButton = root.findViewById(R.id.restoreFragmentStartFreshButton);
 
@@ -249,7 +272,9 @@ public class RestoreFragment extends Fragment {
                 setupNoInternet();
                 tickTrackFirebaseDatabase.setRestoreInitMode(-1);
                 internetHandler.removeCallbacks(internetCheck);
+                System.out.println("LOOP END");
             } else {
+                System.out.println("LOOP RUN");
                 internetHandler.post(internetCheck);
             }
         }

@@ -52,6 +52,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        wheel:matProg_barColor="@color/Accent"/>
+        wheel:matProg_barColor="@color/Accent"
+        wheel:matProg_barWidth="4dp"
+        android:elevation="2dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
