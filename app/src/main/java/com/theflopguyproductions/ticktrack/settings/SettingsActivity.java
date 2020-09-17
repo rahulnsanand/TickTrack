@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -36,8 +37,8 @@ import androidx.core.widget.NestedScrollView;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
+import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
-import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -435,7 +436,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupTimerSound() {
-
+        timerSoundValue.setText(tickTrackDatabase.getRingtoneName());
     }
 
     private void setupCounterSum() {
@@ -616,23 +617,20 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void displayNeverAskAgainDialog() {
-
-        SingleInputDialog singleInputDialog = new SingleInputDialog(activity, "");
-        singleInputDialog.show();
-        singleInputDialog.saveChangesText.setVisibility(View.VISIBLE);
-        singleInputDialog.saveChangesText.setText("We need this permission to set custom timer sound");
-        singleInputDialog.characterCountText.setVisibility(View.GONE);
-        singleInputDialog.helperText.setVisibility(View.GONE);
-        singleInputDialog.inputText.setVisibility(View.GONE);
-        singleInputDialog.okButton.setText("Grant Permission");
-        singleInputDialog.okButton.setOnClickListener(view -> {
-            singleInputDialog.dismiss();
+        DeleteTimer deleteTimer = new DeleteTimer(activity);
+        deleteTimer.show();
+        deleteTimer.yesButton.setText("Grant Permission");
+        deleteTimer.dialogTitle.setText("Uh oh! Permission needed");
+        deleteTimer.dialogMessage.setText("We need this permission to set custom timer sound");
+        deleteTimer.yesButton.setOnClickListener(view -> {
+            deleteTimer.dismiss();
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts("package", getPackageName(), null);
             intent.setData(uri);
             startActivity(intent);
         });
+        deleteTimer.noButton.setOnClickListener(view -> deleteTimer.dismiss());
     }
 
     private void setupClickListeners() {
@@ -818,7 +816,17 @@ public class SettingsActivity extends AppCompatActivity {
         if (requestCode == 0 && resultCode == RESULT_OK) {
             assert data != null;
             final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            System.out.println(uri+"><<<<<<<<<<<<<<<<<<<<<<<<<<<<<SETTTTTINNGSS");
+            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+            String title = ringtone.getTitle(this);
+            if(uri!=null){
+                tickTrackDatabase.storeRingtoneName(title);
+                tickTrackDatabase.storeRingtoneURI(uri.toString());
+            } else {
+                tickTrackDatabase.storeRingtoneURI(null);
+                tickTrackDatabase.storeRingtoneName("Default Ringtone");
+            }
+            setupTimerSound();
+            System.out.println(uri+"<<<<<<<<<<<<<<<<<<");
         }
     }
 

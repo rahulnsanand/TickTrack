@@ -75,6 +75,23 @@ public class TickTrackDatabase {
         return sharedPreferences.getBoolean("lockedBootTime", false);
     }
 
+    public void storeRingtoneURI(String uri) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("timerRingtoneURI", uri);
+        editor.apply();
+    }
+    public String getRingtoneURI(){
+        return sharedPreferences.getString("timerRingtoneURI", null);
+    }
+    public void storeRingtoneName(String title) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("timerRingtone", title);
+        editor.apply();
+    }
+    public String getRingtoneName(){
+        return sharedPreferences.getString("timerRingtone", "Default Ringtone");
+    }
+
     public void setNewDevice(boolean updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("newDevice", updateNumber);
@@ -503,6 +520,8 @@ public class TickTrackDatabase {
 
         return shortcutsData;
     }
+
+
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){
 //
