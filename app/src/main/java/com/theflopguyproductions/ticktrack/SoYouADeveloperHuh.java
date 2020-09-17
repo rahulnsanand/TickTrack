@@ -293,8 +293,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 }
                 openFragment(getFragment(tickTrackDatabase.retrieveCurrentFragmentNumber()));
 
-
-
                 if(!tickTrackDatabase.isAlreadyDoneCheck()){
                     int appLaunchNumber = tickTrackDatabase.getAppLaunchNumber();
                     if(appLaunchNumber<=20){
