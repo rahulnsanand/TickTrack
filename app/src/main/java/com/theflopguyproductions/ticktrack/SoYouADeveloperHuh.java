@@ -31,6 +31,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
+import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -40,6 +41,7 @@ import com.theflopguyproductions.ticktrack.ui.stopwatch.StopwatchFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.QuickTimerCreatorFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
+import com.theflopguyproductions.ticktrack.utils.RateUsUtil;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.JsonHelper;
@@ -290,6 +292,25 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                     navView.setSelectedItemId(R.id.navigation_counter);
                 }
                 openFragment(getFragment(tickTrackDatabase.retrieveCurrentFragmentNumber()));
+
+                int appLaunchNumber = tickTrackDatabase.getAppLaunchNumber();
+
+                if(appLaunchNumber==3 || appLaunchNumber==10 || appLaunchNumber==20 || appLaunchNumber==30 || appLaunchNumber==50){
+                    DeleteTimer deleteTimer = new DeleteTimer(this);
+                    deleteTimer.show();
+                    deleteTimer.yesButton.setText("Alright, Let's do this");
+                    deleteTimer.noButton.setText("Nah, Maybe Later");
+                    deleteTimer.dialogTitle.setText("Hey, This is awkward...");
+                    deleteTimer.dialogMessage.setText("It took a lot of effort to dedication to develop this app and keep it ad-free. Show us your support by just leaving a rating/feedback.");
+                    deleteTimer.yesButton.setOnClickListener(view -> {
+                        deleteTimer.dismiss();
+                        RateUsUtil rateUsUtil = new RateUsUtil(this);
+                        rateUsUtil.rateApp();
+                    });
+                    deleteTimer.noButton.setOnClickListener(view -> deleteTimer.dismiss());
+                }
+                appLaunchNumber++;
+                tickTrackDatabase.setAppLaunchNumber(appLaunchNumber);
 
             }
         }

@@ -66,6 +66,16 @@ public class TickTrackDatabase {
 
     }
 
+
+    public void setAppLaunchNumber(int rateUsRequestNumber){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("rateUsRequest", rateUsRequestNumber);
+        editor.apply();
+    }
+    public int getAppLaunchNumber() {
+        return sharedPreferences.getInt("rateUsRequest", 0);
+    }
+
     public void setLockedBootComplete(boolean isLocked){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("lockedBootTime", isLocked);

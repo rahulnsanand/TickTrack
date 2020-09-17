@@ -43,6 +43,7 @@ import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.PermissionUtils;
+import com.theflopguyproductions.ticktrack.utils.RateUsUtil;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
@@ -635,10 +636,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupClickListeners() {
 
+        rateUsLayout.setOnClickListener(view -> {
+            RateUsUtil rateUsUtil = new RateUsUtil(this);
+            rateUsUtil.rateApp();
+        });
+
         timerSoundLayout.setOnClickListener(view -> {
-
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 System.out.println("ONE");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -650,14 +654,6 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 readDataExternal();
             }
-
-//            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-//            } else if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-//            } else {
-//                readDataExternal();
-//            }
         });
 
         monthlyButton.setOnClickListener((view) -> {
