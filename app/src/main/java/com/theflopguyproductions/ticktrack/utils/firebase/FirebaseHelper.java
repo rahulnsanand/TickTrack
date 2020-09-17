@@ -30,7 +30,6 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
-import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
@@ -251,11 +250,6 @@ public class FirebaseHelper {
     }
 
     private void checkIfDataExists(GoogleSignInAccount account) {
-
-        notificationBuilder.setContentTitle("Fetching TickTrack backup details");
-        notificationBuilder.setContentText("In progress");
-        notifyNotification();
-
         GoogleAccountCredential credential =
                 GoogleAccountCredential.usingOAuth2(
                         context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
@@ -271,7 +265,6 @@ public class FirebaseHelper {
         gDriveHelper = new GDriveHelper(googleDriveService, context);
 
         retrieveDataInit(gDriveHelper);
-
     }
 
     private void retrieveDataInit(GDriveHelper gDriveHelper) {
@@ -285,17 +278,7 @@ public class FirebaseHelper {
                 Log.e("TAG", "Couldn't read file.", exception));
     }
 
-    private void initPreferences() {
-        ArrayList<SettingsData> settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
-        tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
-        tickTrackDatabase.setCounterDataBackup(settingsData.get(0).isCounterBackupOn());
-        tickTrackDatabase.setTimerDataBackup(settingsData.get(0).isTimerBackupOn());
-        tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
-        tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
-        tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
-        System.out.println("INITIALISED PREFERENCES");
-        tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
-    }
+
 
     private boolean isCounter = true, isTimer = false, isSettings = true;
     public void backup() {
@@ -372,32 +355,6 @@ public class FirebaseHelper {
     public void stopHandler() {
         backupCheckHandler.removeCallbacks(backupCheckRunnable);
     }
-
-    public void restore() {
-        notificationBuilder.setContentTitle("Restoring TickTrack Data");
-        notificationBuilder.setContentText("In progress");
-        restoreCheckHandler.post(restoreCheckRunnable);
-        initPreferences();
-        jsonHelper.restoreCounterData();
-        jsonHelper.restoreTimerData();
-    }
-
-    Handler restoreCheckHandler = new Handler(Looper.getMainLooper());
-    Runnable restoreCheckRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if(tickTrackFirebaseDatabase.getCounterDownloadStatus()==1 && tickTrackFirebaseDatabase.getTimerDownloadStatus()==1){
-                tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
-                restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
-            } else if(tickTrackFirebaseDatabase.getCounterDownloadStatus()==-1 || tickTrackFirebaseDatabase.getTimerDownloadStatus()==-1) {
-                //TODO HANDLE ERROR
-                tickTrackFirebaseDatabase.setRestoreCompleteStatus(-1);
-                restoreCheckHandler.removeCallbacks(restoreCheckRunnable);
-            } else {
-                restoreCheckHandler.post(restoreCheckRunnable);
-            }
-        }
-    };
 
     public void signOut(Activity activity) {
         progressBarDialog = new ProgressBarDialog(activity);

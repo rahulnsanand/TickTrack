@@ -5,7 +5,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -37,7 +36,6 @@ public class BackupRestoreService extends Service {
     private JsonHelper jsonHelper;
 
     public static final String RESTORE_SERVICE_STOP_FOREGROUND = "RESTORE_SERVICE_STOP_FOREGROUND";
-    public static final String RESTORE_SERVICE_START_RESTORE = "RESTORE_SERVICE_START_RESTORE";
     public static final String RESTORE_SERVICE_START_BACKUP = "RESTORE_SERVICE_START_BACKUP";
     public static final String CANCEL_RESTORE_SERVICE = "CANCEL_RESTORE_SERVICE";
 
@@ -81,27 +79,11 @@ public class BackupRestoreService extends Service {
             firebaseHelper.setAction(receivedAction);
             System.out.println("RESTORE SERVICE RECEIVED "+receivedAction);
 
-            Intent resultIntent;
-            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
-                resultIntent = new Intent(this, SettingsActivity.class);
-            } else {
-                resultIntent = new Intent(this, SoYouADeveloperHuh.class);
-            }
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addNextIntentWithParentStack(resultIntent);
-            PendingIntent resultPendingIntent =
-                    stackBuilder.getPendingIntent(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
-
             assert action != null;
             switch (action) {
                 case RESTORE_SERVICE_STOP_FOREGROUND:
                 case CANCEL_RESTORE_SERVICE:
                     stopForegroundService();
-                    break;
-                case RESTORE_SERVICE_START_RESTORE:
-                    notificationBuilder.setContentIntent(resultPendingIntent);
-                    setupForeground();
-                    startRestoration();
                     break;
                 case RESTORE_SERVICE_START_BACKUP:
                     setupForeground();
@@ -145,15 +127,6 @@ public class BackupRestoreService extends Service {
         tickTrackFirebaseDatabase.setSettingsBackupComplete(false);
         tickTrackFirebaseDatabase.setBackupMode(false);
         firebaseHelper.stopHandler();
-    }
-
-    private void startRestoration() {
-        tickTrackFirebaseDatabase.setRestoreInitMode(0);
-        tickTrackFirebaseDatabase.setRestoreMode(true);
-        Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
-        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
-        restoreCheckHandler.post(dataRestoreCheck);
-        firebaseHelper.restore();
     }
 
     Handler backupCheckHandler = new Handler();
@@ -212,7 +185,6 @@ public class BackupRestoreService extends Service {
 
     private void stopForegroundService() {
         backupCheckHandler.removeCallbacks(dataBackupCheck);
-        restoreCheckHandler.removeCallbacks(dataRestoreCheck);
 
         stopForeground(false);
         stopSelf();
@@ -222,6 +194,17 @@ public class BackupRestoreService extends Service {
     private void setupCustomNotification(){
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+
+        Intent resultIntent;
+        if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+            resultIntent = new Intent(this, SettingsActivity.class);
+        } else {
+            resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+        }
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent cancelIntent = new Intent(this, BackupRestoreService.class);
         cancelIntent.setAction(CANCEL_RESTORE_SERVICE);
@@ -233,7 +216,8 @@ public class BackupRestoreService extends Service {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setOnlyAlertOnce(true)
                 .setProgress(0,0,true)
-                .setColor(getResources().getColor(R.color.Accent));
+                .setColor(getResources().getColor(R.color.Accent))
+                .setContentIntent(resultPendingIntent);
 
         notificationBuilder.addAction(cancelAction);
 

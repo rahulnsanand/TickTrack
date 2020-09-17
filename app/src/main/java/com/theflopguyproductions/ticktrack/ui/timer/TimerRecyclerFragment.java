@@ -48,9 +48,11 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private QuickTimerAdapter quickTimerAdapter;
 
     public static void deleteTimer(int timerId, int position, Activity activity, String timerName) {
-        if(timerDataArrayList.get(position).isTimerOn() && !timerDataArrayList.get(position).isTimerPause()){
-            deleteItem(timerId, position);
+        deleteItem(timerId, position);
+        if(!"Set label".equals(timerName)){
             Toast.makeText(activity, "Deleted Timer " + timerName, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(activity, "Deleted Timer", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -42,6 +42,7 @@ import com.theflopguyproductions.ticktrack.ui.timer.TimerFragment;
 import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
+import com.theflopguyproductions.ticktrack.utils.firebase.JsonHelper;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
@@ -191,6 +192,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
             case R.id.aboutMenuItem:
                 Toast.makeText(getApplicationContext(),"About",Toast.LENGTH_SHORT).show();
+                new JsonHelper(this).createBackup();
                 return true;
 
             default:

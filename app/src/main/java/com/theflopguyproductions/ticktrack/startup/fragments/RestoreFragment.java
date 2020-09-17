@@ -22,11 +22,13 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
+import com.theflopguyproductions.ticktrack.settings.SettingsData;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.firebase.InternetChecker;
+import com.theflopguyproductions.ticktrack.utils.firebase.JsonHelper;
 
 import java.util.ArrayList;
 
@@ -92,7 +94,7 @@ public class RestoreFragment extends Fragment {
         subTitle.setText("We found something of yours");
         restoreDataButton.setText("Restore Data");
         restoreDataButton.setOnClickListener(view ->{
-            startRestoreDataService();
+            restoreData();
             tickTrackFirebaseDatabase.setBackUpAlarm();
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 Intent intent = new Intent(requireContext(), SettingsActivity.class);
@@ -168,7 +170,11 @@ public class RestoreFragment extends Fragment {
         sharedPreferences = tickTrackDatabase.getSharedPref(getContext());
 
         restoreDataButton.setOnClickListener(view -> {
-            startRestoreDataService();
+            progressBarDialog.show();
+            progressBarDialog.titleText.setVisibility(View.GONE);
+            progressBarDialog.setContentText("Restoring Data");
+            restoreData();
+            progressBarDialog.dismiss();
             tickTrackFirebaseDatabase.setBackUpAlarm();
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 Intent intent = new Intent(requireContext(), SettingsActivity.class);
@@ -214,6 +220,7 @@ public class RestoreFragment extends Fragment {
         if(tickTrackFirebaseDatabase.isRestoreInitMode()==1){
             progressBarDialog.dismiss();
             setupOptionsDisplay();
+            setupChanges();
         } else {
             startRestoreInitService();
         }
@@ -279,18 +286,25 @@ public class RestoreFragment extends Fragment {
 
     }
 
-    private void startRestoreDataService() {
-        Intent intent = new Intent(activity, BackupRestoreService.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(BackupRestoreService.RESTORE_SERVICE_START_RESTORE);
-        intent.putExtra("receivedAction", receivedAction);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            activity.startForegroundService(intent);
-        } else {
-            activity.startService(intent);
-        }
+    private void restoreData(){
+        tickTrackFirebaseDatabase.setRestoreInitMode(0);
+        tickTrackFirebaseDatabase.setRestoreMode(true);
+        initPreferences();
+        new JsonHelper(requireContext()).restoreCounterData();
+        new JsonHelper(requireContext()).restoreTimerData();
+        tickTrackFirebaseDatabase.setRestoreMode(false);
     }
-
+    private void initPreferences() {
+        ArrayList<SettingsData> settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
+        tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
+        tickTrackDatabase.setCounterDataBackup(settingsData.get(0).isCounterBackupOn());
+        tickTrackDatabase.setTimerDataBackup(settingsData.get(0).isTimerBackupOn());
+        tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
+        tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
+        tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
+        System.out.println("INITIALISED PREFERENCES");
+        tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
+    }
 
     @Override
     public void onPause() {
