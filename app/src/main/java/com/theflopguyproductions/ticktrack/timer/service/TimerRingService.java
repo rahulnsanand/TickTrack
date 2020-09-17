@@ -111,14 +111,21 @@ public class TimerRingService extends Service {
                     mediaPlayer.setLooping(true);
                     mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
 
-                    final Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(selectedUri));
-                    if(ringtone==null){
+                    if(selectedUri!=null){
+                        final Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(selectedUri));
+                        if(ringtone==null){
+                            AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.timer_beep);
+                            if (afd == null) return false;
+                            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                            afd.close();
+                        } else {
+                            mediaPlayer.setDataSource(context, Uri.parse(selectedUri));
+                        }
+                    } else {
                         AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.timer_beep);
                         if (afd == null) return false;
                         mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                         afd.close();
-                    } else {
-                        mediaPlayer.setDataSource(context, Uri.parse(selectedUri));
                     }
 
                     if (Build.VERSION.SDK_INT >= 21) {
