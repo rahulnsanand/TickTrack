@@ -223,6 +223,8 @@ public class JsonHelper {
         data.setLastBackupTime(System.currentTimeMillis());
         data.setSyncDataFrequency(tickTrackDatabase.getSyncFrequency());
         data.setThemeMode(tickTrackDatabase.getThemeMode());
+        data.setScreensaverClockStyle(tickTrackDatabase.getScreenSaverClock());
+        data.setSumDisplayed(tickTrackDatabase.isSumEnabled());
 
         settingsData.add(data);
 

@@ -28,7 +28,6 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
-import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -238,14 +237,6 @@ public class FirebaseHelper {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
-        stopRestoreService();
-    }
-    private void stopRestoreService() {
-        Intent intent = new Intent(context, BackupRestoreService.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(BackupRestoreService.RESTORE_SERVICE_STOP_FOREGROUND);
-        intent.putExtra("receivedAction", action);
-        context.startService(intent);
     }
 
     private void checkIfDataExists(GoogleSignInAccount account) {

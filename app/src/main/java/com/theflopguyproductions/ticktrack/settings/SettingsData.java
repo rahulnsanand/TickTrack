@@ -23,9 +23,25 @@ public class SettingsData {
         }
     }
 
-    int themeMode, syncDataFrequency;
-    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn;
+    int themeMode, syncDataFrequency, screensaverClockStyle;
+    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn, isSumDisplayed;
     long lastBackupTime;
+
+    public int getScreensaverClockStyle() {
+        return screensaverClockStyle;
+    }
+
+    public void setScreensaverClockStyle(int screensaverClockStyle) {
+        this.screensaverClockStyle = screensaverClockStyle;
+    }
+
+    public boolean isSumDisplayed() {
+        return isSumDisplayed;
+    }
+
+    public void setSumDisplayed(boolean sumDisplayed) {
+        isSumDisplayed = sumDisplayed;
+    }
 
     public long getLastBackupTime() {
         return lastBackupTime;
