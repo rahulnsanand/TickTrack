@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="@color/LightGray"
     tools:context=".startup.fragments.RestoreFragment">
 
     <ScrollView
@@ -39,12 +40,12 @@
                     android:layout_marginEnd="24dp"
                     android:text="Restore your data"
                     android:textAlignment="center"
+                    android:textColor="@color/Accent"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="apercu_italic"
-                    android:textColor="@color/Accent"/>
+                    app:typeface="apercu_italic" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/restoreFragmentSubtitleText"
@@ -57,7 +58,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/restoreFragmentTitleText"
                     app:layout_constraintTop_toBottomOf="@+id/restoreFragmentTitleText"
-                    app:typeface="apercu_light_italic"/>
+                    app:typeface="apercu_light_italic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,18 +72,19 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
-                app:layout_constraintVertical_bias="0.0" >
+                app:layout_constraintVertical_bias="0.0">
 
                 <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:lottie_rawRes="@raw/restore_lottie"
+                    app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_autoPlay="true" />
+                    app:lottie_rawRes="@raw/restore_lottie" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -114,7 +116,8 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="apercu_bold"/>
+                    app:layout_constraintVertical_bias="0.0"
+                    app:typeface="apercu_bold" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/restoreFragmentPreferencesText"
@@ -129,7 +132,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/restoreFragmentTimerText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:typeface="apercu_regular"/>
+                    app:typeface="apercu_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/restoreFragmentTimerText"
@@ -145,7 +148,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:typeface="apercu_regular"/>
+                    app:typeface="apercu_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                     android:id="@+id/restoreFragmentCounterText"
@@ -161,7 +164,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:typeface="apercu_regular"/>
+                    app:typeface="apercu_regular" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -177,30 +180,30 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-            style="@style/buttonStartup"
             android:id="@+id/restoreFragmentRestoreDataButton"
+            style="@style/buttonStartup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_accent"
             android:text="Restore Data"
+            android:textColor="@color/LightText"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/restoreFragmentStartFreshButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/button_selector_accent"
-            android:textColor="@color/LightText"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-            style="@style/buttonStartup"
             android:id="@+id/restoreFragmentStartFreshButton"
+            style="@style/buttonStartup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_white"
             android:text="Start Fresh"
+            android:textColor="@color/Accent"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/button_selector_white"
-            android:textColor="@color/Accent"/>
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

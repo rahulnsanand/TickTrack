@@ -163,17 +163,19 @@ public class CounterNotificationService extends Service {
 
     private void minusButtonPressed() {
         if(counterDataList.get(currentCounterPosition).isNegativeAllowed()){
-            counterValue-=1;
-            counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
-            counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
-            storeCounterList(tickTrackDatabase.getSharedPref(this));
+            if(!(counterValue < -9223372036854775806L)) {
+                counterValue-=1;
+                counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
+                counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
+                storeCounterList(tickTrackDatabase.getSharedPref(this));
 
-            notificationBuilder.setContentText("Value: "+counterValue+"");
+                notificationBuilder.setContentText("Value: "+counterValue+"");
 
 //            expandedView.setTextViewText(R.id.counterNotificationExpandedValueTextView, counterValue+"");
 //            collapsedView.setTextViewText(R.id.counterNotificationCollapsedValueTextView, counterValue+"");
 
-            notifyNotification();
+                notifyNotification();
+            }
         } else {
             if(counterValue>=1){
                 counterValue-=1;
@@ -193,7 +195,7 @@ public class CounterNotificationService extends Service {
     }
 
     private void plusButtonPressed() {
-        if(!(counterValue >= 9223372036854775807L)){
+        if(!(counterValue >= 9223372036854775806L)){
             counterValue+=1;
             counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
             counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());

@@ -143,9 +143,6 @@ public class FirebaseHelper {
     }
 
     public void restoreInit() {
-        tickTrackFirebaseDatabase.setRestoreInitMode(-1);
-        notificationBuilder.setContentTitle("Signing in TickTrack Account");
-        notificationBuilder.setContentText("In progress");
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
         if(account!=null){
             firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).get()
@@ -206,6 +203,11 @@ public class FirebaseHelper {
     }
 
     private void setupInitUserData(GoogleSignInAccount account) {
+
+        notificationBuilder.setContentTitle("Creating a TickTrack Account");
+        notificationBuilder.setContentText("In progress");
+        notifyNotification();
+
         Map<String, Object> user = new HashMap<>();
         user.put("accountCreateTime", System.currentTimeMillis());
         user.put("isAccountDeleted", false);
@@ -278,8 +280,6 @@ public class FirebaseHelper {
                     System.out.println("Success happened on restore INIT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
                     if(isSuccess==1){
                         tickTrackFirebaseDatabase.setRestoreInitMode(1);
-                    } else if(isSuccess==-1) {
-                        retrieveDataInit(gDriveHelper);
                     }
                 }).addOnFailureListener(exception ->
                 Log.e("TAG", "Couldn't read file.", exception));

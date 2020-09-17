@@ -15,7 +15,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
+import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
@@ -35,7 +37,6 @@ public class BackupRestoreService extends Service {
     private JsonHelper jsonHelper;
 
     public static final String RESTORE_SERVICE_STOP_FOREGROUND = "RESTORE_SERVICE_STOP_FOREGROUND";
-    public static final String RESTORE_SERVICE_START_INIT_RETRIEVE = "RESTORE_SERVICE_START_INIT_RETRIEVE";
     public static final String RESTORE_SERVICE_START_RESTORE = "RESTORE_SERVICE_START_RESTORE";
     public static final String RESTORE_SERVICE_START_BACKUP = "RESTORE_SERVICE_START_BACKUP";
     public static final String CANCEL_RESTORE_SERVICE = "CANCEL_RESTORE_SERVICE";
@@ -80,8 +81,12 @@ public class BackupRestoreService extends Service {
             firebaseHelper.setAction(receivedAction);
             System.out.println("RESTORE SERVICE RECEIVED "+receivedAction);
 
-            Intent resultIntent = new Intent(this, StartUpActivity.class);
-            resultIntent.putExtra("receivedAction", receivedAction);
+            Intent resultIntent;
+            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                resultIntent = new Intent(this, SettingsActivity.class);
+            } else {
+                resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+            }
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(resultIntent);
             PendingIntent resultPendingIntent =
@@ -92,11 +97,6 @@ public class BackupRestoreService extends Service {
                 case RESTORE_SERVICE_STOP_FOREGROUND:
                 case CANCEL_RESTORE_SERVICE:
                     stopForegroundService();
-                    break;
-                case RESTORE_SERVICE_START_INIT_RETRIEVE:
-                    notificationBuilder.setContentIntent(resultPendingIntent);
-                    setupForeground();
-                    startInitRestore();
                     break;
                 case RESTORE_SERVICE_START_RESTORE:
                     notificationBuilder.setContentIntent(resultPendingIntent);
@@ -147,18 +147,12 @@ public class BackupRestoreService extends Service {
         firebaseHelper.stopHandler();
     }
 
-    private void startInitRestore() {
-        prefixFirebaseVariables();
-        tickTrackFirebaseDatabase.setRestoreInitMode(-1);
-        firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
-        restoreCheckHandler.post(dataRestoreCheck);
-        firebaseHelper.restoreInit();
-    }
     private void startRestoration() {
         tickTrackFirebaseDatabase.setRestoreInitMode(0);
         tickTrackFirebaseDatabase.setRestoreMode(true);
         Toast.makeText(this, "Restoring in background", Toast.LENGTH_SHORT).show();
         firebaseHelper.setupNotification(notificationBuilder, notificationManagerCompat);
+        restoreCheckHandler.post(dataRestoreCheck);
         firebaseHelper.restore();
     }
 

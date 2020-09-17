@@ -262,47 +262,43 @@ public class GDriveHelper {
         return Tasks.call(mExecutor, () -> {
             FileList files;
             String contents;
-            if(InternetChecker.isOnline(context)){
-                try {
-                    files = mDriveService.files().list()
-                            .setSpaces("appDataFolder")
-                            .setFields("nextPageToken, files(id, name)")
-                            .setPageSize(10)
-                            .execute();
-                    for (File file : files.getFiles()) {
-                        System.out.printf("Found file: %s (%s)\n",
-                                file.getName(), file.getId());
-                        try (InputStream is = mDriveService.files().get(file.getId()).executeMediaAsInputStream();
-                             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-                            StringBuilder stringBuilder = new StringBuilder();
-                            String line;
+            try {
+                files = mDriveService.files().list()
+                        .setSpaces("appDataFolder")
+                        .setFields("nextPageToken, files(id, name)")
+                        .setPageSize(10)
+                        .execute();
+                for (File file : files.getFiles()) {
+                    System.out.printf("Found file: %s (%s)\n",
+                            file.getName(), file.getId());
+                    try (InputStream is = mDriveService.files().get(file.getId()).executeMediaAsInputStream();
+                         BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String line;
 
-                            while ((line = reader.readLine()) != null) {
-                                stringBuilder.append(line);
-                            }
-                            contents = stringBuilder.toString();
+                        while ((line = reader.readLine()) != null) {
+                            stringBuilder.append(line);
                         }
-                        switch (file.getName()) {
-                            case "counterBackup.json":
-                                tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
-                                setupCounterCount(contents, tickTrackFirebaseDatabase);
-                                break;
-                            case "timerBackup.json":
-                                tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
-                                setupTimerCount(contents, tickTrackFirebaseDatabase);
-                                break;
-                            case "settingsBackup.json":
-                                setupPreferencesExist(contents, tickTrackFirebaseDatabase);
-                                break;
-                        }
+                        contents = stringBuilder.toString();
                     }
-                    return 1;
-                } catch (IOException e) {
-                    System.out.println("An error occurred: " + e);
-                    exceptionHandler();
+                    switch (file.getName()) {
+                        case "counterBackup.json":
+                            tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
+                            setupCounterCount(contents, tickTrackFirebaseDatabase);
+                            break;
+                        case "timerBackup.json":
+                            tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
+                            setupTimerCount(contents, tickTrackFirebaseDatabase);
+                            break;
+                        case "settingsBackup.json":
+                            setupPreferencesExist(contents, tickTrackFirebaseDatabase);
+                            break;
+                    }
                 }
-            } else {
-                return -1;
+                return 1;
+            } catch (IOException e) {
+                System.out.println("An error occurred: " + e);
+                exceptionHandler();
             }
             return 0;
         });
@@ -316,6 +312,7 @@ public class GDriveHelper {
             settingsData = new ArrayList<>();
         }
         tickTrackFirebaseDatabase.storeSettingsRestoredData(settingsData);
+        tickTrackFirebaseDatabase.foundPreferencesDataBackup(true);
         tickTrackFirebaseDatabase.storeRetrievedLastBackupTime(settingsData.get(0).getLastBackupTime());
     }
     private void setupTimerCount(String contents, TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {

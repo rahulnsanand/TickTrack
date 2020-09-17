@@ -185,6 +185,21 @@ public class CounterWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+        tickTrackDatabase = new TickTrackDatabase(context);
+        counterWidgetDataArrayList = tickTrackDatabase.retrieveCounterWidgetList();
+        for(int i=0; i<counterWidgetDataArrayList.size(); i++){
+            for (int appWidgetId : appWidgetIds) {
+                if (appWidgetId == counterWidgetDataArrayList.get(i).getCounterWidgetId()) {
+                    counterWidgetDataArrayList.remove(i);
+                }
+            }
+        }
+        tickTrackDatabase.storeCounterWidgetList(counterWidgetDataArrayList);
+    }
+
     private PendingIntent getPendingSelfIntent(Context context, String action, int counterID, String counterIdString, int[] appWidgetIds) {
 
         Intent intent = new Intent(context, getClass());
@@ -217,7 +232,7 @@ public class CounterWidget extends AppWidgetProvider {
             long currentCount = counterDataArrayList.get(getCurrentPosition(counterID)).getCounterValue();
             if (ACTION_WIDGET_CLICK_PLUS.equals(intent.getAction())) {
                 System.out.println("PLUS SOMETHING");
-                if(!(currentCount >= 9223372036854775807L)){
+                if(!(currentCount >= 9223372036854775806L)){
                     currentCount += 1;
                     counterDataArrayList.get(getCurrentPosition(counterID)).setCounterValue(currentCount);
                     counterDataArrayList.get(getCurrentPosition(counterID)).setCounterTimestamp(System.currentTimeMillis());
@@ -226,14 +241,23 @@ public class CounterWidget extends AppWidgetProvider {
                 }
             } else if (ACTION_WIDGET_CLICK_MINUS.equals(intent.getAction())) {
                 System.out.println("MINUS SOMETHING");
-                if(currentCount>=1){
-                    currentCount-=1;
-                    counterDataArrayList.get(getCurrentPosition(counterID)).setCounterValue(currentCount);
-                    counterDataArrayList.get(getCurrentPosition(counterID)).setCounterTimestamp(System.currentTimeMillis());
-                    tickTrackDatabase.storeCounterList(counterDataArrayList);
-                    refreshNotificationStatus(context, counterID);
+                if(counterDataArrayList.get(getCurrentPosition(counterID)).isNegativeAllowed()){
+                    if(!(currentCount < -9223372036854775806L)) {
+                        currentCount -= 1;
+                        counterDataArrayList.get(getCurrentPosition(counterID)).setCounterValue(currentCount);
+                        counterDataArrayList.get(getCurrentPosition(counterID)).setCounterTimestamp(System.currentTimeMillis());
+                        tickTrackDatabase.storeCounterList(counterDataArrayList);
+                        refreshNotificationStatus(context, counterID);
+                    }
+                } else {
+                    if(currentCount>=1){
+                        currentCount-=1;
+                        counterDataArrayList.get(getCurrentPosition(counterID)).setCounterValue(currentCount);
+                        counterDataArrayList.get(getCurrentPosition(counterID)).setCounterTimestamp(System.currentTimeMillis());
+                        tickTrackDatabase.storeCounterList(counterDataArrayList);
+                        refreshNotificationStatus(context, counterID);
+                    }
                 }
-            } else if (ACTION_WIDGET_DELETED.equals(intent.getAction())) {
 
             }
             if(appWidgetIds!=null){
