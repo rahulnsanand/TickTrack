@@ -30,6 +30,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.theflopguyproductions.ticktrack.about.AboutActivity;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
@@ -44,7 +45,6 @@ import com.theflopguyproductions.ticktrack.ui.timer.TimerRecyclerFragment;
 import com.theflopguyproductions.ticktrack.utils.RateUsUtil;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
-import com.theflopguyproductions.ticktrack.utils.firebase.JsonHelper;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
@@ -193,8 +193,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 return false;
 
             case R.id.aboutMenuItem:
-                Toast.makeText(getApplicationContext(),"About",Toast.LENGTH_SHORT).show();
-                new JsonHelper(this).createBackup();
+                Intent intentAbout = new Intent(this, AboutActivity.class);
+                intentAbout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentAbout);
+//                new JsonHelper(this).createBackup();
                 return true;
             case R.id.contributorsMenuItem:
                 Toast.makeText(this, "Contributors", Toast.LENGTH_SHORT).show();

@@ -1,8 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/aboutActivityRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/LightGray"
     tools:context=".about.AboutActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/aboutActivityToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/LightGray"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="About"
+            android:textColor="@color/Accent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_medium_italic" />
+
+        <ImageButton
+            android:id="@+id/aboutActivityBackButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/actionBarItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_round_arrow_white_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutActivityToolbar">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                    android:id="@+id/aboutActivityTFGProductions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By TheFlopGuy Productions"
+                    android:textColor="@color/Accent"
+                    app:layout_constraintEnd_toEndOf="@+id/aboutActivityTickTrackAppName"
+                    app:layout_constraintStart_toStartOf="@+id/aboutActivityTickTrackAppName"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutActivityTickTrackAppName"
+                    app:typeface="apercu_medium_italic" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                    android:id="@+id/aboutActivityTickTrackAppName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="TickTrack"
+                    android:textColor="@color/Accent"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                    app:layout_constraintStart_toStartOf="@+id/imageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    app:typeface="source_code_pro_semi_bold_italic" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                    android:id="@+id/aboutActivityAppVersionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Version 2.1.2.2"
+                    android:textColor="@color/DarkText"
+                    app:layout_constraintEnd_toEndOf="@+id/aboutActivityTFGProductions"
+                    app:layout_constraintStart_toStartOf="@+id/aboutActivityTFGProductions"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutActivityTFGProductions"
+                    app:typeface="apercu_regular" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                    android:id="@+id/textView25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:text="The Story Of TickTrack"
+                    android:textColor="@color/Accent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutActivityAppVersionText"
+                    app:typeface="apercu_bold" />
+
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                    android:id="@+id/aboutActivityTickTrackStory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="A long time ago, well, perhaps it wasn't such a long time ago, there lived a King called Count-a-terror.
+          \n\nAs the day of the war with the neighbouring kingdom was approaching, king Count-a-terror noticed a huge mark-up in the admittance of soldiers in his army. He got overwhelmed and started losing the count of his soldiers, as important as it was. The soldiers got unruly in the chaos of madness when there was no way of keeping a record of how fast they were compared to others.
+          \n\nIn order to be able to prove the virtue of his army, he needed an awesome software that could cater to his dilemma. Even the brightest minds of his empire couldn't create an application to fit the true purpose. The word spread in the lands far away, but to no avail. King Count-a-terror was distressed.
+          \n\nThen came along a man from a foreign land, called Tricksy, with a remarkable software of TickTrack, not only did it solve the issues of keeping a count but also helped keep  timing the soldiers' speed. But also enabled them to backup their data and restore with the most awesome UI they could get in the fairy world, and all of that, for free.
+          \n\nThus marking the creation of TickTrack.
+          \n\nThe new system, believe it or not, helped the kingdom come out victorious in the war. And Tricksy was crowned the king.
+          \n\n\n\nTrue Story. \n\n\"
+                    android:textColor="@color/DarkText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView25"
+                    app:typeface="apercu_regular" />
+
+                <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+                    android:id="@+id/aboutActivityContributeButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Contribute Now"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView27"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:background="@color/Accent"
+                    android:textColor="@color/LightText"
+                    style="@style/button"/>
+
+                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                    android:id="@+id/textView27"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="TickTrack Army is accepting Contributions for the next Battle!"
+                    android:textAlignment="center"
+                    android:textColor="@color/Accent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aboutActivityTickTrackStory"
+                    app:typeface="odudo_regular" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
