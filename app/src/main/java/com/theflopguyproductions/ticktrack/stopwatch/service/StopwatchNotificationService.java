@@ -63,7 +63,7 @@ public class StopwatchNotificationService extends Service {
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
-                .setSmallIcon(R.drawable.stopwatch_notification_mini_icon)
+                .setSmallIcon(R.drawable.ic_stat_stopwatchiconnotification)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_MIN)

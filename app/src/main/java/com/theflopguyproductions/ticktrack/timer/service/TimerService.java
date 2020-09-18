@@ -79,7 +79,7 @@ public class TimerService extends Service {
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.TIMER_RUNNING_NOTIFICATION)
-                .setSmallIcon(R.drawable.timer_notification_mini_icon)
+                .setSmallIcon(R.drawable.ic_stat_timericonnotification)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MIN)

@@ -212,7 +212,7 @@ public class BackupRestoreService extends Service {
         NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Cancel", pendingCancelIntent);
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_stat_ticktrack_logo_notification_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setOnlyAlertOnce(true)
                 .setProgress(0,0,true)

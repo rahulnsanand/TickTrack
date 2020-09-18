@@ -221,7 +221,7 @@ public class BootReceiver extends BroadcastReceiver {
 
         notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationBuilder = new NotificationCompat.Builder(context, TickTrack.TIMER_MISSED_NOTIFICATION)
-                .setSmallIcon(R.drawable.timer_notification_mini_icon)
+                .setSmallIcon(R.drawable.ic_stat_timericonnotification)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MAX)
