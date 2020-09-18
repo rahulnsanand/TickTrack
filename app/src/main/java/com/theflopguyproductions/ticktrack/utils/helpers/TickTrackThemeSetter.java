@@ -357,7 +357,7 @@ public class TickTrackThemeSetter {
     public static void timerCreateTheme(Activity activity, NumberPicker hourPicker, NumberPicker minutePicker, NumberPicker secondPicker, NumberPicker hourLightPicker, NumberPicker minuteLightPicker,
                                         NumberPicker secondLightPicker, TextView hourLabel, TextView minuteLabel, TextView secondLabel, TextView timerLabelText,
                                         TextView timerFlagText, ConstraintLayout timerCreateRootLayout, TickTrackDatabase tickTrackDatabase ,
-                                        Chip redChip,Chip  greenCip,Chip  orangeChip,Chip  purpleChip,Chip  blueChip){
+                                        Chip redChip,Chip  greenCip,Chip  orangeChip,Chip  purpleChip,Chip  blueChip, ConstraintLayout createFab){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             timerCreateRootLayout.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
@@ -367,6 +367,8 @@ public class TickTrackThemeSetter {
             secondLabel.setTextColor(activity.getResources().getColor(R.color.DarkText));
             timerLabelText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             timerFlagText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+
+            createFab.setBackgroundResource(R.drawable.fab_light_background);
 
             hourLightPicker.setVisibility(View.INVISIBLE);
             minuteLightPicker.setVisibility(View.INVISIBLE);
@@ -390,6 +392,8 @@ public class TickTrackThemeSetter {
             secondLabel.setTextColor(activity.getResources().getColor(R.color.LightText));
             timerLabelText.setTextColor(activity.getResources().getColor(R.color.LightText));
             timerFlagText.setTextColor(activity.getResources().getColor(R.color.LightText));
+
+            createFab.setBackgroundResource(R.drawable.fab_dark_background);
 
             hourPicker.setVisibility(View.INVISIBLE);
             minutePicker.setVisibility(View.INVISIBLE);

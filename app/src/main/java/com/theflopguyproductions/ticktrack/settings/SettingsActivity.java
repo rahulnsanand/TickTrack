@@ -12,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -92,13 +91,11 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(settingsLoadState){
-            sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-            if(firebaseHelper.isUserSignedIn()){
-                setupEmailText();
-            }
-            refreshTheme();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        if(firebaseHelper.isUserSignedIn()){
+            setupEmailText();
         }
+        refreshTheme();
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
@@ -547,43 +544,14 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private String receivedAction = null;
-    private boolean settingsLoadState = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        loadHandler.post(settingsLoadRunnable);
-        AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
-        asyncTaskRunner.execute();
+        initVariables();
+        setupClickListeners();
         receivedAction = getIntent().getAction();
     }
-
-    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            initVariables();
-            setupClickListeners();
-            return "Done";
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            settingsLoadState = true;
-        }
-    }
-    private Handler loadHandler = new Handler();
-    private Runnable settingsLoadRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if(settingsLoadState){
-                System.out.println("SETTINGS DONE");
-                loadHandler.removeCallbacks(settingsLoadRunnable);
-                onResume();
-            } else {
-                System.out.println("SETTINGS NOT DONE");
-                loadHandler.post(settingsLoadRunnable);
-            }
-        }
-    };
 
     private void toggleHapticEnable() {
         if(tickTrackDatabase.isHapticEnabled()){

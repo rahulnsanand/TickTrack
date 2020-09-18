@@ -196,14 +196,14 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 Toast.makeText(getApplicationContext(),"About",Toast.LENGTH_SHORT).show();
                 new JsonHelper(this).createBackup();
                 return true;
-
+            case R.id.contributorsMenuItem:
+                Toast.makeText(this, "Contributors", Toast.LENGTH_SHORT).show();
             default:
                 break;
         }
         return false;
     }
 
-    //TODO SHARE FEATURE
     private void sendFeedback() {
 
         String feedbackSubject = "TickTrack Feedback";
@@ -211,21 +211,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         String feedbackMessage = "Hey Developer,\n\n\t";
 
         final Intent _Intent = new Intent(android.content.Intent.ACTION_SENDTO);
-//        _Intent.setType("text/html");
         _Intent.setData(Uri.parse("mailto:"));
         _Intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{sendToEmail});
         _Intent.putExtra(android.content.Intent.EXTRA_SUBJECT, feedbackSubject);
         _Intent.putExtra(android.content.Intent.EXTRA_TEXT, feedbackMessage);
-//        _Intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-//        _Intent.setPackage("com.google.android.gm");
-//        final PackageManager pm = getPackageManager();
-//        final List<ResolveInfo> matches = pm.queryIntentActivities(_Intent, 0);
-//        ResolveInfo best = null;
-//        for(final ResolveInfo info : matches)
-//            if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
-//                best = info;
-//        if (best != null)
-//            _Intent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
         if (_Intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(_Intent, 100);
         }

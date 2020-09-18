@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@+id/screensaverMenuItem"
         android:title="Screensaver"/>
@@ -13,4 +12,7 @@
     <item
         android:id="@+id/aboutMenuItem"
         android:title="About"/>
+    <item
+        android:id="@+id/contributorsMenuItem"
+        android:title="Contributors"/>
 </menu>

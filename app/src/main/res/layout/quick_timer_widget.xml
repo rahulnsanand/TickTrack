@@ -2,7 +2,6 @@
     android:id="@+id/createQuickTimerShortcutWidgetRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
     android:padding="@dimen/widget_margin">
 
     <ImageView
