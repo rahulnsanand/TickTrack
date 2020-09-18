@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,6 +28,7 @@ public class SwipeDialog extends BottomSheetDialog {
     private ConstraintLayout rootLayout;
     public TextView dialogTitle, dialogMessage;
     public SwipeButton swipeButton;
+    public Button dismissButton;
     int themeSet = 1;
 
     public SwipeDialog(Activity activity){
@@ -75,6 +77,7 @@ public class SwipeDialog extends BottomSheetDialog {
         rootLayout = view.findViewById(R.id.swipeDialogRootLayout);
         dialogTitle = view.findViewById(R.id.swipeDialogTitleText);
         swipeButton = view.findViewById(R.id.swipeDialogSwipeButton);
+        dismissButton = view.findViewById(R.id.swipeDialogDismissButton);
     }
 
 

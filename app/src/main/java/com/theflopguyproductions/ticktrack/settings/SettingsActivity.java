@@ -38,6 +38,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
+import com.theflopguyproductions.ticktrack.dialogs.SwipeDialog;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -721,32 +722,45 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         deleteBackupLayout.setOnClickListener(view -> {
-            if(isMyServiceRunning(BackupRestoreService.class,this)){
-                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
-            } else {
-                if(firebaseHelper.isUserSignedIn()){
-                    firebaseHelper.deleteBackup(this);
+            SwipeDialog swipeDialog = new SwipeDialog(activity);
+            swipeDialog.show();
+            swipeDialog.dialogTitle.setText("Are you sure?");
+            swipeDialog.dialogTitle.setText("This will permanently delete your TickTrack cloud backup");
+            swipeDialog.swipeButton.setOnActiveListener(() -> {
+                swipeDialog.dismiss();
+                if(isMyServiceRunning(BackupRestoreService.class,this)){
+                    Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(firebaseHelper.isUserSignedIn()){
+                        firebaseHelper.deleteBackup(this);
+                    }
                 }
-            }
+            });
+            swipeDialog.dismissButton.setOnClickListener(view1 -> swipeDialog.dismiss());
         });
         factoryResetLayout.setOnClickListener(view -> {
-            if(isMyServiceRunning(BackupRestoreService.class,this)){
-                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
-            } else {
-                if(firebaseHelper.isUserSignedIn()){
-                    new Handler().post(new Runnable() {
-                        @Override
-                        public void run() {
+            SwipeDialog swipeDialog = new SwipeDialog(activity);
+            swipeDialog.show();
+            swipeDialog.dialogTitle.setText("Are you sure?");
+            swipeDialog.dialogTitle.setText("This will permanently delete your device TickTrack Data");
+            swipeDialog.swipeButton.setOnActiveListener(() -> {
+                swipeDialog.dismiss();
+                if(isMyServiceRunning(BackupRestoreService.class,this)){
+                    Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(firebaseHelper.isUserSignedIn()){
+                        new Handler().post(() -> {
                             ProgressBarDialog progressBarDialog = new ProgressBarDialog(activity);
                             progressBarDialog.show();
                             progressBarDialog.setContentText("Resetting TickTrack");
                             progressBarDialog.titleText.setVisibility(View.GONE);
                             tickTrackDatabase.resetData(activity);
                             progressBarDialog.dismiss();
-                        }
-                    });
+                        });
+                    }
                 }
-            }
+            });
+            swipeDialog.dismissButton.setOnClickListener(view1 -> swipeDialog.dismiss());
         });
 
         clockStyleLayout.setOnClickListener(view -> setupClockOptionsToggle());

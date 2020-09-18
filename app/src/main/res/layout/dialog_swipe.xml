@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/round_rect_light">
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/swipeDialogTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,9 +19,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="apercu_bold"/>
 
-    <TextView
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
         android:id="@+id/swipeDialogMessageText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,7 +34,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swipeDialogTitleText" />
+        app:layout_constraintTop_toBottomOf="@+id/swipeDialogTitleText"
+        app:typeface="apercu_regular"/>
 
     <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
         android:id="@+id/swipeDialogSwipeButton"
@@ -42,7 +44,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:button_background="@drawable/shape_button"
         app:button_bottom_padding="100dp"
         app:button_image_width="50dp"
@@ -52,9 +54,22 @@
         app:inner_text_background="@drawable/swipe_button_static_light"
         app:inner_text_color="#434343"
         app:inner_text_size="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/swipeDialogDismissButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swipeDialogMessageText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0">
+
+    </com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton>
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/swipeDialogDismissButton"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Dismiss"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/button"
+        android:background="@drawable/button_selector_white"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

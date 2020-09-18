@@ -131,6 +131,7 @@ public class CounterEditActivity extends AppCompatActivity {
             } else {
                 counterDataArrayList.get(getCurrentPosition()).setNegativeAllowed(false);
             }
+            isChanged = true;
         });
     }
 
@@ -293,7 +294,7 @@ public class CounterEditActivity extends AppCompatActivity {
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, counterLabel.getText().toString());
 
                 labelDialog.show();
-                labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
+                labelDialog.saveChangesText.setVisibility(View.GONE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
                 labelDialog.inputText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE |InputType.TYPE_TEXT_FLAG_CAP_WORDS);
@@ -310,7 +311,7 @@ public class CounterEditActivity extends AppCompatActivity {
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterValue.getText().toString());
 
                 labelDialog.show();
-                labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
+                labelDialog.saveChangesText.setVisibility(View.GONE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
                 labelDialog.characterCountText.setVisibility(View.GONE);
@@ -339,9 +340,10 @@ public class CounterEditActivity extends AppCompatActivity {
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
 
                 labelDialog.show();
-                labelDialog.saveChangesText.setVisibility(View.INVISIBLE);
+                labelDialog.saveChangesText.setVisibility(View.GONE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
+                labelDialog.characterCountText.setVisibility(View.GONE);
                 labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
                 labelDialog.helperText.setText("Milestone value");
 
@@ -516,8 +518,9 @@ public class CounterEditActivity extends AppCompatActivity {
 
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.VISIBLE);
-                labelDialog.inputText.setVisibility(View.INVISIBLE);
-                labelDialog.helperText.setVisibility(View.INVISIBLE);
+                labelDialog.inputText.setVisibility(View.GONE);
+                labelDialog.helperText.setVisibility(View.GONE);
+                labelDialog.characterCountText.setVisibility(View.GONE);
                 labelDialog.okButton.setText("Yes");
                 labelDialog.cancelButton.setText("No");
                 labelDialog.okButton.setOnClickListener(view1 -> {

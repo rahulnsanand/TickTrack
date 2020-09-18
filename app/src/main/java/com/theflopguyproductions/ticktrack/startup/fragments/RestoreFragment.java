@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
+import com.theflopguyproductions.ticktrack.dialogs.SwipeDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
@@ -209,23 +210,32 @@ public class RestoreFragment extends Fragment {
             prefixVariables();
         });
         startFreshButton.setOnClickListener(view -> {
-            tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
-            tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
-            tickTrackFirebaseDatabase.setRestoreInitMode(0);
-            tickTrackFirebaseDatabase.storeTimerRestoreString("");
-            tickTrackFirebaseDatabase.storeCounterRestoreString("");
-            if(isMyServiceRunning(BackupRestoreService.class, activity)){
-                stopRestoreService();
-            }
-            tickTrackFirebaseDatabase.setBackUpAlarm();
-            if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
-                Intent intent = new Intent(requireContext(), SettingsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                requireContext().startActivity(intent);
-            } else {
-                startFreshListener.onStartFreshClickListener(false);
-            }
-            prefixVariables();
+            SwipeDialog swipeDialog = new SwipeDialog(activity);
+            swipeDialog.show();
+            swipeDialog.dialogTitle.setText("Are you sure?");
+            swipeDialog.dialogTitle.setText("This will permanently overwrite your cloud TickTrack Data");
+            swipeDialog.swipeButton.setOnActiveListener(() -> {
+                swipeDialog.dismiss();
+
+                tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
+                tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
+                tickTrackFirebaseDatabase.setRestoreInitMode(0);
+                tickTrackFirebaseDatabase.storeTimerRestoreString("");
+                tickTrackFirebaseDatabase.storeCounterRestoreString("");
+                if(isMyServiceRunning(BackupRestoreService.class, activity)){
+                    stopRestoreService();
+                }
+                tickTrackFirebaseDatabase.setBackUpAlarm();
+                if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+                    Intent intent = new Intent(requireContext(), SettingsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    requireContext().startActivity(intent);
+                } else {
+                    startFreshListener.onStartFreshClickListener(false);
+                }
+                prefixVariables();
+            });
+            swipeDialog.dismissButton.setOnClickListener(view1 -> swipeDialog.dismiss());
         });
     }
 
