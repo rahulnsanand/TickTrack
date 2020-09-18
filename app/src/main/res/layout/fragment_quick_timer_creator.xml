@@ -78,7 +78,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/quickTimerFragmentPlayCustomLightHourNumberPicker"
                     app:layout_constraintStart_toStartOf="@+id/quickTimerFragmentPlayCustomLightHourNumberPicker"
-                    app:layout_constraintTop_toBottomOf="@+id/quickTimerFragmentPlayCustomLightHourNumberPicker" />
+                    app:layout_constraintTop_toBottomOf="@+id/quickTimerFragmentPlayCustomLightHourNumberPicker"
+                    app:typeface="apercu_regular"/>
 
                 <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.LightModeNumberPicker
                     android:id="@+id/quickTimerFragmentPlayCustomLightMinuteNumberPicker"
@@ -108,7 +109,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/quickTimerFragmentPlayCustomLightMinuteNumberPicker"
                     app:layout_constraintStart_toStartOf="@+id/quickTimerFragmentPlayCustomLightMinuteNumberPicker"
-                    app:layout_constraintTop_toBottomOf="@+id/quickTimerFragmentPlayCustomLightMinuteNumberPicker" />
+                    app:layout_constraintTop_toBottomOf="@+id/quickTimerFragmentPlayCustomLightMinuteNumberPicker"
+                    app:typeface="apercu_regular"/>
 
                 <com.theflopguyproductions.ticktrack.ui.utils.numberpicker.LightModeNumberPicker
                     android:id="@+id/quickTimerFragmentPlayCustomLightSecondNumberPicker"
@@ -143,7 +145,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/quickTimerFragmentPlayCustomLightSecondNumberPicker"
                     app:layout_constraintStart_toStartOf="@+id/quickTimerFragmentPlayCustomLightSecondNumberPicker"
-                    app:layout_constraintTop_toBottomOf="@+id/quickTimerFragmentPlayCustomLightSecondNumberPicker" />
+                    app:layout_constraintTop_toBottomOf="@+id/quickTimerFragmentPlayCustomLightSecondNumberPicker"
+                    app:typeface="apercu_regular"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
