@@ -39,34 +39,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:typeface="source_code_pro_semi_bold_italic" />
 
-            <ImageView
-                android:id="@+id/ticktrackToolBarSergeantImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:padding="5dp"
-                app:srcCompat="@drawable/sergeant_badge_png" />
-
-            <ImageView
-                android:id="@+id/ticktrackToolBarLieutenantImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                app:srcCompat="@drawable/lieutenant_badge_png" />
-
-            <ImageView
-                android:id="@+id/ticktrackToolBarMajorImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                app:srcCompat="@drawable/major_badge_png" />
-
-            <ImageView
-                android:id="@+id/ticktrackToolBarColonelImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                app:srcCompat="@drawable/colonel_badge_png" />
 
         </androidx.appcompat.widget.Toolbar>
 
