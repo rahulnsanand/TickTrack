@@ -213,8 +213,8 @@ public class RestoreFragment extends Fragment {
             SwipeDialog swipeDialog = new SwipeDialog(activity);
             swipeDialog.show();
             swipeDialog.dialogTitle.setText("Are you sure?");
-            swipeDialog.dialogTitle.setText("This will permanently overwrite your cloud TickTrack Data");
-            swipeDialog.swipeButton.setOnActiveListener(() -> {
+            swipeDialog.dialogMessage.setText("This will permanently overwrite your cloud TickTrack Data");
+            swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
 
                 tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());

@@ -16,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
@@ -27,7 +26,7 @@ public class SwipeDialog extends BottomSheetDialog {
     private TickTrackDatabase tickTrackDatabase;
     private ConstraintLayout rootLayout;
     public TextView dialogTitle, dialogMessage;
-    public SwipeButton swipeButton;
+    public Button swipeButton;
     public Button dismissButton;
     int themeSet = 1;
 
@@ -65,10 +64,14 @@ public class SwipeDialog extends BottomSheetDialog {
         if(themeSet==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             dialogMessage.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            dismissButton.setBackgroundResource(R.drawable.button_selector_white);
+            dismissButton.setTextColor(activity.getResources().getColor(R.color.DarkText) );
 
         } else {
             rootLayout.setBackgroundResource(R.color.Gray);
             dialogMessage.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            dismissButton.setBackgroundResource(R.drawable.button_selector_dark);
+            dismissButton.setTextColor(activity.getResources().getColor(R.color.LightText) );
         }
     }
 

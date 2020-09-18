@@ -725,8 +725,8 @@ public class SettingsActivity extends AppCompatActivity {
             SwipeDialog swipeDialog = new SwipeDialog(activity);
             swipeDialog.show();
             swipeDialog.dialogTitle.setText("Are you sure?");
-            swipeDialog.dialogTitle.setText("This will permanently delete your TickTrack cloud backup");
-            swipeDialog.swipeButton.setOnActiveListener(() -> {
+            swipeDialog.dialogMessage.setText("This will permanently delete your TickTrack cloud backup");
+            swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
                 if(isMyServiceRunning(BackupRestoreService.class,this)){
                     Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
@@ -742,8 +742,8 @@ public class SettingsActivity extends AppCompatActivity {
             SwipeDialog swipeDialog = new SwipeDialog(activity);
             swipeDialog.show();
             swipeDialog.dialogTitle.setText("Are you sure?");
-            swipeDialog.dialogTitle.setText("This will permanently delete your device TickTrack Data");
-            swipeDialog.swipeButton.setOnActiveListener(() -> {
+            swipeDialog.dialogMessage.setText("This will permanently delete your device TickTrack Data");
+            swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
                 if(isMyServiceRunning(BackupRestoreService.class,this)){
                     Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();

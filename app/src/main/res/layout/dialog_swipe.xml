@@ -37,36 +37,26 @@
         app:layout_constraintTop_toBottomOf="@+id/swipeDialogTitleText"
         app:typeface="apercu_regular"/>
 
-    <com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/swipeDialogSwipeButton"
+        style="@style/button"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        app:button_background="@drawable/shape_button"
-        app:button_bottom_padding="100dp"
-        app:button_image_width="50dp"
-        app:has_activate_state="false"
-        app:initial_state="disabled"
-        app:inner_text="     Swipe to confirm"
-        app:inner_text_background="@drawable/swipe_button_static_light"
-        app:inner_text_color="#434343"
-        app:inner_text_size="20sp"
+        android:background="@drawable/button_selector_accent"
+        android:text="CONFIRM"
+        android:textColor="@color/LightText"
         app:layout_constraintBottom_toTopOf="@+id/swipeDialogDismissButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swipeDialogMessageText"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0" />
 
-    </com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton>
-
-    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
         android:id="@+id/swipeDialogDismissButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:text="Dismiss"
+        android:text="DISMISS"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
