@@ -136,50 +136,22 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="16dp"
                     android:text="A long time ago, well, perhaps it wasn't such a long time ago, there lived a King called Count-a-terror.
           \n\nAs the day of the war with the neighbouring kingdom was approaching, king Count-a-terror noticed a huge mark-up in the admittance of soldiers in his army. He got overwhelmed and started losing the count of his soldiers, as important as it was. The soldiers got unruly in the chaos of madness when there was no way of keeping a record of how fast they were compared to others.
           \n\nIn order to be able to prove the virtue of his army, he needed an awesome software that could cater to his dilemma. Even the brightest minds of his empire couldn't create an application to fit the true purpose. The word spread in the lands far away, but to no avail. King Count-a-terror was distressed.
           \n\nThen came along a man from a foreign land, called Tricksy, with a remarkable software of TickTrack, not only did it solve the issues of keeping a count but also helped keep  timing the soldiers' speed. But also enabled them to backup their data and restore with the most awesome UI they could get in the fairy world, and all of that, for free.
           \n\nThus marking the creation of TickTrack.
           \n\nThe new system, believe it or not, helped the kingdom come out victorious in the war. And Tricksy was crowned the king.
-          \n\n\n\nTrue Story. \n\n\"
+          \n\n\n\nTrue Story. \n\n"
                     android:textColor="@color/DarkText"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView25"
                     app:typeface="apercu_regular" />
 
-                <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
-                    android:id="@+id/aboutActivityContributeButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Contribute Now"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView27"
-                    app:layout_constraintVertical_bias="1.0"
-                    android:background="@color/Accent"
-                    android:textColor="@color/LightText"
-                    style="@style/button"/>
-
-                <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
-                    android:id="@+id/textView27"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="TickTrack Army is accepting Contributions for the next Battle!"
-                    android:textAlignment="center"
-                    android:textColor="@color/Accent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/aboutActivityTickTrackStory"
-                    app:typeface="odudo_regular" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

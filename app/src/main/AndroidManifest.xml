@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".about.AboutActivity"></activity>
+        <activity android:name=".contribution.ContributorsActivity"></activity>
+        <activity android:name=".about.AboutActivity" />
 
         <receiver android:name=".widgets.shortcuts.StopwatchWidget">
             <intent-filter>

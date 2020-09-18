@@ -12,7 +12,5 @@
     <item
         android:id="@+id/aboutMenuItem"
         android:title="About"/>
-    <item
-        android:id="@+id/contributorsMenuItem"
-        android:title="Contributors"/>
+
 </menu>

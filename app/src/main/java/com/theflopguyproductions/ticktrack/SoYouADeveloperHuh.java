@@ -60,6 +60,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     private BottomNavigationView navView;
     private ConstraintLayout container;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +74,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         tickTrackAppName = findViewById(R.id.ticktrackAppName);
         container = findViewById(R.id.container);
         navView = findViewById(R.id.nav_view);
-        System.out.println("ActivityManager: Displayed SoYouDev OnCreate "+System.currentTimeMillis());
+
+
     }
 
     @Override
@@ -198,8 +202,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 startActivity(intentAbout);
 //                new JsonHelper(this).createBackup();
                 return true;
-            case R.id.contributorsMenuItem:
-                Toast.makeText(this, "Contributors", Toast.LENGTH_SHORT).show();
             default:
                 break;
         }

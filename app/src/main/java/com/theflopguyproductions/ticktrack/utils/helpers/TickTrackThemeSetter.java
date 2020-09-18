@@ -569,7 +569,7 @@ public class TickTrackThemeSetter {
     }
 
     public static void aboutActivityTheme(TickTrackDatabase tickTrackDatabase, Context context, ConstraintLayout rootLayout, ConstraintLayout toolbarLayout,
-                                          TextView storyText, TextView versionText, Button contributeButton) {
+                                          TextView storyText, TextView versionText) {
 
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
@@ -577,13 +577,11 @@ public class TickTrackThemeSetter {
             toolbarLayout.setBackgroundResource(R.color.LightGray);
             storyText.setTextColor(context.getResources().getColor(R.color.DarkText) );
             versionText.setTextColor(context.getResources().getColor(R.color.DarkText) );
-            contributeButton.setTextColor(context.getResources().getColor(R.color.DarkText) );
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
             toolbarLayout.setBackgroundResource(R.color.Black);
             storyText.setTextColor(context.getResources().getColor(R.color.LightText) );
             versionText.setTextColor(context.getResources().getColor(R.color.LightText) );
-            contributeButton.setTextColor(context.getResources().getColor(R.color.DarkText) );
         }
     }
 }
