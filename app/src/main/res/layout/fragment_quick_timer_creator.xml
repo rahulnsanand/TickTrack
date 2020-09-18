@@ -10,7 +10,7 @@
         android:id="@+id/constraintLayout17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="100dp"
         android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -171,7 +171,6 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/fab_light_background"
-                    android:elevation="1dp"
                     android:padding="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -193,21 +192,21 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
-                    android:elevation="4dp"
-                    android:padding="15dp"
                     android:background="@drawable/fab_light_background"
+                    android:padding="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomOneQuickTimerFAB"
                     app:layout_constraintTop_toTopOf="parent">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ic_two_minute"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/Accent"/>
+                        app:srcCompat="@drawable/ic_two_minute"
+                        app:tint="@color/Accent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -215,21 +214,21 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
-                    android:elevation="4dp"
-                    android:padding="15dp"
                     android:background="@drawable/fab_light_background"
+                    android:padding="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomTwoQuickTimerFAB"
                     app:layout_constraintTop_toTopOf="parent">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ic_five_minute"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/Accent"/>
+                        app:srcCompat="@drawable/ic_five_minute"
+                        app:tint="@color/Accent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -238,7 +237,6 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
                     android:background="@drawable/fab_light_background"
-                    android:elevation="4dp"
                     android:padding="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/quickTimerFragmentPlayCustomFiveQuickTimerFAB"
@@ -262,7 +260,7 @@
         android:id="@+id/quickTimerFragmentPlayCustomTimerFAB"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/fab_dark_background"
         android:elevation="4dp"
         android:padding="10dp"

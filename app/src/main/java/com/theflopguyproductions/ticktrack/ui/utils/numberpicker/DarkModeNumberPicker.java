@@ -53,7 +53,7 @@ public class DarkModeNumberPicker extends NumberPicker {
             ((EditText) view).setTypeface(type);
             ((EditText) view).setTextSize(25);
             ((EditText) view).setTextColor(getResources().getColor(
-                    R.color.LightText));
+                    R.color.DarkText));
         }
 
     }
