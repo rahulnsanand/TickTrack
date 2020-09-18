@@ -48,6 +48,7 @@
             android:padding="2dp">
 
             <ImageView
+                android:id="@+id/counterShortcutButtonImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="false"
@@ -60,7 +61,7 @@
                 android:clickable="false"
                 android:focusable="true"
                 android:foregroundGravity="center_vertical|center"
-                android:src="@drawable/counter_drawable" />
+                android:src="@drawable/ic_shortcut_countericon" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -77,10 +78,11 @@
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"
-            android:padding="4dp"
+            android:padding="2dp"
             android:visibility="visible">
 
             <ImageView
+                android:id="@+id/timerShortcutButtonImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="false"
@@ -93,7 +95,7 @@
                 android:clickable="false"
                 android:focusable="true"
                 android:foregroundGravity="center_vertical|center"
-                android:src="@drawable/timer_drawable" />
+                android:src="@drawable/ic_shortcut_timericon" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -110,10 +112,11 @@
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"
-            android:padding="4dp"
+            android:padding="2dp"
             android:visibility="visible">
 
             <ImageView
+                android:id="@+id/quickTimerShortcutButtonImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="false"
@@ -143,10 +146,11 @@
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"
-            android:padding="4dp"
+            android:padding="2dp"
             android:visibility="visible">
 
             <ImageView
+                android:id="@+id/stopwatchShortcutButtonImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="false"
@@ -159,7 +163,7 @@
                 android:clickable="false"
                 android:focusable="true"
                 android:foregroundGravity="center_vertical|center"
-                android:src="@drawable/stopwatch_drawable" />
+                android:src="@drawable/ic_shortcut_stopwatchicon" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -178,10 +182,11 @@
             android:background="@drawable/button_selector_light"
             android:clickable="true"
             android:focusable="true"
-            android:padding="4dp"
+            android:padding="2dp"
             android:visibility="visible">
 
             <ImageView
+                android:id="@+id/screensaverShortcutButtonImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="false"

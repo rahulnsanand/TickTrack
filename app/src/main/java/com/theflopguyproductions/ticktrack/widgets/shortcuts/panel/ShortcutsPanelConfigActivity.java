@@ -3,7 +3,12 @@ package com.theflopguyproductions.ticktrack.widgets.shortcuts.panel;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -83,6 +88,9 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
         RemoteViews views = new RemoteViews(this.getPackageName(), R.layout.shortcuts_panel_widget);
+
+        views.setImageViewBitmap(R.id.ticktrackShortcutPanelWidgetTitle, buildUpdate("TickTrack Shortcut Console", this));
+
         if(i==1){
             views.setInt(R.id.shortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_black);
             views.setInt(R.id.counterShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_dark_background);
@@ -90,6 +98,8 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
             views.setInt(R.id.quickTimerShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_dark_background);
             views.setInt(R.id.stopwatchShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_dark_background);
             views.setInt(R.id.screensaverShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_dark_background);
+
+
         } else if(i==2){
             views.setInt(R.id.shortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_dark);
             views.setInt(R.id.counterShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_gray_background);
@@ -97,6 +107,7 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
             views.setInt(R.id.quickTimerShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_gray_background);
             views.setInt(R.id.stopwatchShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_gray_background);
             views.setInt(R.id.screensaverShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_gray_background);
+
         } else if(i==3){
             views.setInt(R.id.shortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_light);
             views.setInt(R.id.counterShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
@@ -104,6 +115,12 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
             views.setInt(R.id.quickTimerShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.stopwatchShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.screensaverShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
+
+            views.setImageViewResource(R.id.counterShortcutButtonImage, R.drawable.ic_shortcut_counter_dark);
+            views.setImageViewResource(R.id.timerShortcutButtonImage,  R.drawable.ic_shortcut_timer_dark);
+            views.setImageViewResource(R.id.quickTimerShortcutButtonImage,  R.drawable.ic_shortcut_quicktimer_dark);
+            views.setImageViewResource(R.id.stopwatchShortcutButtonImage,  R.drawable.ic_shortcut_stopwatch_dark);
+            views.setImageViewResource(R.id.screensaverShortcutButtonImage,  R.drawable.ic_shortcut_screensaver_dark);
         } else {
             views.setInt(R.id.shortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_light);
             views.setInt(R.id.counterShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
@@ -111,6 +128,12 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
             views.setInt(R.id.quickTimerShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.stopwatchShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.screensaverShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
+
+            views.setImageViewResource(R.id.counterShortcutButtonImage, R.drawable.ic_shortcut_counter_dark);
+            views.setImageViewResource(R.id.timerShortcutButtonImage,  R.drawable.ic_shortcut_timer_dark);
+            views.setImageViewResource(R.id.quickTimerShortcutButtonImage,  R.drawable.ic_shortcut_quicktimer_dark);
+            views.setImageViewResource(R.id.stopwatchShortcutButtonImage,  R.drawable.ic_shortcut_stopwatch_dark);
+            views.setImageViewResource(R.id.screensaverShortcutButtonImage,  R.drawable.ic_shortcut_screensaver_dark);
         }
 
         Intent createCounterIntent = new Intent(this, SoYouADeveloperHuh.class);
@@ -164,6 +187,21 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
         int[] ids = AppWidgetManager.getInstance(this).getAppWidgetIds(new ComponentName(this, ShortcutsPanelWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         this.sendBroadcast(intent);
+    }
+    public Bitmap buildUpdate(String time, Context context) {
+        Bitmap myBitmap = Bitmap.createBitmap(700, 84, Bitmap.Config.ARGB_8888);
+        Canvas myCanvas = new Canvas(myBitmap);
+        Paint paint = new Paint();
+        Typeface clock = Typeface.createFromAsset(context.getAssets(),"fonts/apercu_regular.otf");
+        paint.setAntiAlias(true);
+        paint.setSubpixelText(true);
+        paint.setTypeface(clock);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(context.getResources().getColor(R.color.Accent) );
+        paint.setTextSize(50);
+        paint.setTextAlign(Paint.Align.CENTER);
+        myCanvas.drawText(time, 350, 60, paint);
+        return myBitmap;
     }
 
     private void setupInit() {

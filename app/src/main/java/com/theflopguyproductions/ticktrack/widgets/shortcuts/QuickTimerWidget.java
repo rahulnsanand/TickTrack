@@ -22,9 +22,9 @@ public class QuickTimerWidget extends AppWidgetProvider {
         int theme = tickTrackDatabase.getThemeMode();
 
         if(theme==1){
-            views.setInt(R.id.createQuickTimerShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_light);
+            views.setImageViewResource(R.id.appwidget_text3,  R.drawable.ic_shortcut_quicktimer_dark);
         } else {
-            views.setInt(R.id.createQuickTimerShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_dark);
+            views.setImageViewResource(R.id.appwidget_text3,  R.drawable.ic_shortcut_quicktimericon);
         }
 
         Intent createTimerIntent = new Intent(context, SoYouADeveloperHuh.class);

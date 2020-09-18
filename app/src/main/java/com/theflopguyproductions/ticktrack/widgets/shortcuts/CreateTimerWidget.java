@@ -23,9 +23,9 @@ public class CreateTimerWidget extends AppWidgetProvider {
         int theme = tickTrackDatabase.getThemeMode();
 
         if(theme==1){
-            views.setInt(R.id.createTimerShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_light);
+            views.setImageViewResource(R.id.appwidget_text,  R.drawable.ic_shortcut_timer_dark);
         } else {
-            views.setInt(R.id.createTimerShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_dark);
+            views.setImageViewResource(R.id.appwidget_text,  R.drawable.ic_shortcut_timericon);
         }
 
         Intent createTimerIntent = new Intent(context, SoYouADeveloperHuh.class);

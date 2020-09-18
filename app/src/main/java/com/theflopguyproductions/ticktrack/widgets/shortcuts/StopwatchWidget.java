@@ -22,9 +22,11 @@ public class StopwatchWidget extends AppWidgetProvider {
         int theme = tickTrackDatabase.getThemeMode();
 
         if(theme==1){
-            views.setInt(R.id.createStopwatchShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_light);
+            views.setImageViewResource(R.id.appwidget_text4,  R.drawable.ic_shortcut_stopwatch_dark);
+
         } else {
-            views.setInt(R.id.createStopwatchShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_dark);
+            views.setImageViewResource(R.id.appwidget_text4,  R.drawable.ic_shortcut_stopwatchicon);
+
         }
 
         Intent createTimerIntent = new Intent(context, SoYouADeveloperHuh.class);

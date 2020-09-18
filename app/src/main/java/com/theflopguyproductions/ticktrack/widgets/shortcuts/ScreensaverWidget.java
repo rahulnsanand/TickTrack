@@ -22,9 +22,9 @@ public class ScreensaverWidget extends AppWidgetProvider {
         int theme = tickTrackDatabase.getThemeMode();
 
         if(theme==1){
-            views.setInt(R.id.createScreensaverShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_light);
+            views.setImageViewResource(R.id.appwidget_text2,  R.drawable.ic_shortcut_screensaver_dark);
         } else {
-            views.setInt(R.id.createScreensaverShortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_dark);
+            views.setImageViewResource(R.id.appwidget_text2,  R.drawable.ic_shortcut_screensavericon);
         }
 
         Intent createTimerIntent = new Intent(context, SoYouADeveloperHuh.class);

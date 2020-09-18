@@ -63,6 +63,37 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
 
                 appWidgetManager.updateAppWidget(appWidgetId, views);
             }
+        } else {
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.shortcuts_panel_widget);
+            if(tickTrackDatabase.getThemeMode()==1){
+                setupTheme(3, views);
+            } else {
+                setupTheme(1, views);
+            }
+
+            views.setImageViewBitmap(R.id.ticktrackShortcutPanelWidgetTitle, buildUpdate("TickTrack Shortcut Console", context));
+
+            views.setOnClickPendingIntent(R.id.counterShortcutButton,
+                    getPendingSelfIntent(context, ACTION_CREATE_COUNTER, 9, "counterCreate", appWidgetIds ));
+
+
+            views.setOnClickPendingIntent(R.id.timerShortcutButton,
+                    getPendingSelfIntent(context, ACTION_CREATE_TIMER, 99, "timerCreate", appWidgetIds ));
+
+
+            views.setOnClickPendingIntent(R.id.quickTimerShortcutButton,
+                    getPendingSelfIntent(context, ACTION_CREATE_QUICK_TIMER, 999, "quickTimerCreate", appWidgetIds ));
+
+
+            views.setOnClickPendingIntent(R.id.stopwatchShortcutButton,
+                    getPendingSelfIntent(context, ACTION_CREATE_STOPWATCH, 9999, "stopwatchCreate", appWidgetIds ));
+
+
+            views.setOnClickPendingIntent(R.id.screensaverShortcutButton,
+                    getPendingSelfIntent(context, ACTION_CREATE_SCREENSAVER, 99999, "screensaverCreate", appWidgetIds ));
+
+
+            appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
 
@@ -111,6 +142,12 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
             views.setInt(R.id.quickTimerShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.stopwatchShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.screensaverShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
+
+            views.setImageViewResource(R.id.counterShortcutButtonImage, R.drawable.ic_shortcut_counter_dark);
+            views.setImageViewResource(R.id.timerShortcutButtonImage,  R.drawable.ic_shortcut_timer_dark);
+            views.setImageViewResource(R.id.quickTimerShortcutButtonImage,  R.drawable.ic_shortcut_quicktimer_dark);
+            views.setImageViewResource(R.id.stopwatchShortcutButtonImage,  R.drawable.ic_shortcut_stopwatch_dark);
+            views.setImageViewResource(R.id.screensaverShortcutButtonImage,  R.drawable.ic_shortcut_screensaver_dark);
         } else {
             views.setInt(R.id.shortcutWidgetRootLayout, "setBackgroundResource", R.drawable.round_rect_light);
             views.setInt(R.id.counterShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
@@ -118,6 +155,12 @@ public class ShortcutsPanelWidget extends AppWidgetProvider {
             views.setInt(R.id.quickTimerShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.stopwatchShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
             views.setInt(R.id.screensaverShortcutButton, "setBackgroundResource", R.drawable.clickable_layout_light_background);
+
+            views.setImageViewResource(R.id.counterShortcutButtonImage, R.drawable.ic_shortcut_counter_dark);
+            views.setImageViewResource(R.id.timerShortcutButtonImage,  R.drawable.ic_shortcut_timer_dark);
+            views.setImageViewResource(R.id.quickTimerShortcutButtonImage,  R.drawable.ic_shortcut_quicktimer_dark);
+            views.setImageViewResource(R.id.stopwatchShortcutButtonImage,  R.drawable.ic_shortcut_stopwatch_dark);
+            views.setImageViewResource(R.id.screensaverShortcutButtonImage,  R.drawable.ic_shortcut_screensaver_dark);
         }
     }
 
