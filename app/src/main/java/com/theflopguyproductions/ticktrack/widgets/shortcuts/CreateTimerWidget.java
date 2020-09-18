@@ -22,7 +22,7 @@ public class CreateTimerWidget extends AppWidgetProvider {
 
         int theme = tickTrackDatabase.getThemeMode();
 
-        if(theme==1){
+        if(theme==2){
             views.setImageViewResource(R.id.appwidget_text,  R.drawable.ic_shortcut_timer_dark);
         } else {
             views.setImageViewResource(R.id.appwidget_text,  R.drawable.ic_shortcut_timericon);

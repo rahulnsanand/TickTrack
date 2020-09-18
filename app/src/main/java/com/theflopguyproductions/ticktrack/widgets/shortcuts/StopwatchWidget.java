@@ -21,7 +21,7 @@ public class StopwatchWidget extends AppWidgetProvider {
 
         int theme = tickTrackDatabase.getThemeMode();
 
-        if(theme==1){
+        if(theme==2){
             views.setImageViewResource(R.id.appwidget_text4,  R.drawable.ic_shortcut_stopwatch_dark);
 
         } else {

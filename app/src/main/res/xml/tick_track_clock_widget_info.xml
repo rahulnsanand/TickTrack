@@ -5,7 +5,7 @@
     android:initialLayout="@layout/tick_track_clock_widget1"
     android:minHeight="100dip"
     android:minWidth="100dip"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/clock_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen"/>

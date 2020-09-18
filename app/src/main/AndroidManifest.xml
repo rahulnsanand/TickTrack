@@ -23,10 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".contribution.ContributorsActivity"></activity>
         <activity android:name=".about.AboutActivity" />
 
-        <receiver android:name=".widgets.shortcuts.StopwatchWidget">
+        <receiver android:name=".widgets.shortcuts.StopwatchWidget"
+            android:label="Stopwatch">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -35,7 +35,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/stopwatch_widget_info" />
         </receiver>
-        <receiver android:name=".widgets.shortcuts.QuickTimerWidget">
+        <receiver android:name=".widgets.shortcuts.QuickTimerWidget"
+            android:label="QuickTimer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -44,7 +45,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/quick_timer_widget_info" />
         </receiver>
-        <receiver android:name=".widgets.shortcuts.ScreensaverWidget">
+        <receiver android:name=".widgets.shortcuts.ScreensaverWidget"
+            android:label="Screensaver">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -53,7 +55,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/screensaver_widget_info" />
         </receiver>
-        <receiver android:name=".widgets.shortcuts.CreateTimerWidget">
+        <receiver android:name=".widgets.shortcuts.CreateTimerWidget"
+            android:label="Timer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -65,7 +68,8 @@
 
         <activity android:name=".widgets.shortcuts.panel.ShortcutsPanelConfigActivity" />
 
-        <receiver android:name=".widgets.shortcuts.panel.ShortcutsPanelWidget">
+        <receiver android:name=".widgets.shortcuts.panel.ShortcutsPanelWidget"
+            android:label="Shortuts Console">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -82,7 +86,7 @@
 
         <receiver
             android:name=".widgets.clock.TickTrackClockWidget"
-            android:label="TickTrack Clock">
+            android:label="Clock">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -99,7 +103,7 @@
 
         <receiver
             android:name=".widgets.counter.CounterWidget"
-            android:label="TickTrack Counter">
+            android:label="Counter">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="ACTION_WIDGET_CLICK_PLUS" />

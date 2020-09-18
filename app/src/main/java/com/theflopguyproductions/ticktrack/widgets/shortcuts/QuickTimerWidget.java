@@ -21,7 +21,7 @@ public class QuickTimerWidget extends AppWidgetProvider {
 
         int theme = tickTrackDatabase.getThemeMode();
 
-        if(theme==1){
+        if(theme==2){
             views.setImageViewResource(R.id.appwidget_text3,  R.drawable.ic_shortcut_quicktimer_dark);
         } else {
             views.setImageViewResource(R.id.appwidget_text3,  R.drawable.ic_shortcut_quicktimericon);
