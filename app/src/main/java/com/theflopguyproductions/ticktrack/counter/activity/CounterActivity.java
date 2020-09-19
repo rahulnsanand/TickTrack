@@ -337,7 +337,9 @@ public class CounterActivity extends AppCompatActivity {
             } else {
                 milestoneText.setText("Milestone Count Achieved!");
                 playSound(this);
-                vibrateHandler.post(vibrateRunnable);
+                if(tickTrackDatabase.isMilestoneVibrate()){
+                    vibrateHandler.post(vibrateRunnable);
+                }
             }
             if(currentCount==counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount()){
                 lottieAnimationView.setProgress(0);
