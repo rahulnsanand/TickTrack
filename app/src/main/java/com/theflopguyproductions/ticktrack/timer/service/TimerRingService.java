@@ -322,6 +322,7 @@ public class TimerRingService extends Service {
         } else {
             notificationBuilder.setContentTitle("TickTrack Timer");
         }
+        notificationBuilder.setContentText("- 00:00:00");
 
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);

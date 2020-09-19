@@ -121,6 +121,7 @@ public class TimerService extends Service {
             startForeground(TickTrack.TIMER_RUNNING_NOTIFICATION_ID, notificationBuilder.build());
             timerServiceRefreshHandler.post(refreshRunnable);
         }
+        stopForeground(false);
     }
 
     private Runnable refreshRunnable = new Runnable() {
@@ -143,6 +144,7 @@ public class TimerService extends Service {
             } else {
                 timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
                 stopSelf();
+                stopForeground(false);
                 onDestroy();
             }
         }
@@ -259,7 +261,7 @@ public class TimerService extends Service {
         }
 
 
-        return String.format(Locale.getDefault(),"%02d:%02d", hours,minutes);
+        return String.format(Locale.getDefault()," less than %02d:%02d", hours,minutes);
     }
 
     private long getNextStartTime() {
@@ -290,8 +292,8 @@ public class TimerService extends Service {
     private void stopTimerService() {
         if(!(getAllOnTimers() > 0)){
             timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
-
             stopSelf();
+            stopForeground(false);
             onDestroy();
         }
     }
@@ -303,6 +305,6 @@ public class TimerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        stopForeground(false);
     }
 }
