@@ -292,32 +292,39 @@ public class CounterActivity extends AppCompatActivity {
 
         }.execute();
     }
+
+    private Handler vibrateHandler = new Handler();
+    private Runnable vibrateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            vibrator.vibrate(500);
+        }
+    };
+
     private void milestoneItIs() {
         if(counterDataArrayList.get(getCurrentPosition()).isCounterSignificantExist()){
             milestoneText.setVisibility(View.VISIBLE);
             long milestoneCount = counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount();
             long difference =  milestoneCount- currentCount;
             if(difference>0){
-                try {
-                    if(mediaPlayer.isPlaying()){
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
-                    }
-                } catch (Exception ignored) {
+                if(mediaPlayer!=null){
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
                 }
+                vibrateHandler.removeCallbacks(vibrateRunnable);
                 if(difference==1){
                     milestoneText.setText("Next Milestone in "+difference+" count!");
                 } else {
                     milestoneText.setText("Next Milestone in "+difference+" counts!");
                 }
             } else if(difference<0){
-                try {
-                    if(mediaPlayer.isPlaying()){
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
-                    }
-                } catch (Exception ignored) {
+                if(mediaPlayer!=null){
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
                 }
+                vibrateHandler.removeCallbacks(vibrateRunnable);
                 if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
                     if(difference==-1){
                         milestoneText.setText("Next Milestone in "+difference+" count!");
@@ -330,6 +337,7 @@ public class CounterActivity extends AppCompatActivity {
             } else {
                 milestoneText.setText("Milestone Count Achieved!");
                 playSound(this);
+                vibrateHandler.post(vibrateRunnable);
             }
             if(currentCount==counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount()){
                 lottieAnimationView.setProgress(0);
@@ -378,6 +386,8 @@ public class CounterActivity extends AppCompatActivity {
             lottieAnimationView.setVisibility(View.INVISIBLE);
         }
     }
+
+
 
     private void setupRateUsDialog(){
         DeleteTimer deleteTimer = new DeleteTimer(this);
@@ -556,13 +566,12 @@ public class CounterActivity extends AppCompatActivity {
         int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), CounterWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
-        try {
-            if(mediaPlayer.isPlaying()){
-                mediaPlayer.stop();
-                mediaPlayer.release();
-            }
-        } catch (Exception ignored) {
+        if(mediaPlayer!=null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
+        vibrateHandler.removeCallbacks(vibrateRunnable);
     }
 
     @Override

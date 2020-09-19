@@ -476,12 +476,10 @@ public class TimerRingService extends Service {
     private void stopIfPossible() {
         if(!(getAllOnTimers()>0)){
             refreshHandler.removeCallbacks(refreshRunnable);
-            try {
-                if(mediaPlayer.isPlaying()){
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                }
-            } catch (Exception ignored) {
+            if(mediaPlayer!=null){
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer = null;
             }
             stopSelf();
             stopForeground(false);
@@ -519,12 +517,10 @@ public class TimerRingService extends Service {
         }
     }
     private void stopTimers() {
-        try {
-            if(mediaPlayer.isPlaying()){
-                mediaPlayer.stop();
-                mediaPlayer.release();
-            }
-        } catch (Exception ignored) {
+        if(mediaPlayer!=null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
         refreshHandler.removeCallbacks(refreshRunnable);
         stopTimerRinging();

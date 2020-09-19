@@ -639,12 +639,21 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void readDataExternal(int requestCode) {
-        final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
-        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        startActivityForResult(ringtone, requestCode);
+        if(requestCode==0){
+            final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
+            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            startActivityForResult(ringtone, requestCode);
+        } else {
+            final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            startActivityForResult(ringtone, requestCode);
+        }
     }
 
     private void displayNeverAskAgainDialog() {
@@ -978,9 +987,9 @@ public class SettingsActivity extends AppCompatActivity {
                 tickTrackDatabase.setMilestoneSoundUri(uri.toString());
             } else {
                 tickTrackDatabase.setMilestoneSoundUri(null);
-                tickTrackDatabase.setMilestoneSound("Default Ringtone");
+                tickTrackDatabase.setMilestoneSound("Default Sound");
             }
-            setupTimerSound();
+            setupMilestoneSound();
         }
     }
 
