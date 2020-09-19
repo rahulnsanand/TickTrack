@@ -145,7 +145,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     public void openFragment(Fragment fragment) {
         FragmentManager manager = this.getSupportFragmentManager();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
         transaction.replace(R.id.nav_host_fragment, fragment);
         transaction.commit();
         manager.popBackStack();

@@ -93,7 +93,7 @@ public class CreateCounter extends BottomSheetDialog {
         setupTheme();
 
 //        getWindow().getAttributes().windowAnimations = R.style.acceptDialog;
-//        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.from_right);
+//        Animation transition_in_view = AnimationUtils.loadAnimation(getContext(), R.anim.enter_from_right);
 //        view.setAnimation( transition_in_view );
 //        view.startAnimation( transition_in_view );
 

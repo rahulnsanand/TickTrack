@@ -549,9 +549,11 @@ public class TickTrackThemeSetter {
     }
 
     public static void timerFragmentTheme(Context context, TickTrackDatabase tickTrackDatabase, ConstraintLayout timerPlusFab, ConstraintLayout quickTimerFab,
-                                          ConstraintLayout normalTimerFab, ConstraintLayout timerDiscardFAB, TextView timerText, TextView quickTimerText) {
+                                          ConstraintLayout normalTimerFab, ConstraintLayout timerDiscardFAB, TextView timerText, TextView quickTimerText,
+                                          ConstraintLayout rootLayout) {
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
             timerPlusFab.setBackgroundResource(R.drawable.fab_light_background);
             normalTimerFab.setBackgroundResource(R.drawable.fab_light_background);
             timerDiscardFAB.setBackgroundResource(R.drawable.fab_light_background);
@@ -559,6 +561,7 @@ public class TickTrackThemeSetter {
             timerText.setTextColor(context.getResources().getColor(R.color.DarkText) );
             quickTimerText.setTextColor(context.getResources().getColor(R.color.DarkText) );
         } else {
+            rootLayout.setBackgroundResource(R.color.Black);
             timerPlusFab.setBackgroundResource(R.drawable.fab_dark_background);
             normalTimerFab.setBackgroundResource(R.drawable.fab_dark_background);
             timerDiscardFAB.setBackgroundResource(R.drawable.fab_dark_background);

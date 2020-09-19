@@ -278,6 +278,7 @@ public class ScreensaverActivity extends AppCompatActivity {
         rootLayout.setOnClickListener(view ->{
             if(isOptionsOpen){
                 startActivity(new Intent(this, SoYouADeveloperHuh.class));
+                overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
             } else {
                 showOptionsDisplay();
             }
@@ -333,6 +334,11 @@ public class ScreensaverActivity extends AppCompatActivity {
         optionsDisplayHandler.removeCallbacks(optionsDisplayRunnable);
         unregisterReceiver(timeChangeReceiver);
         cancelScreensaverAlarms();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     private void setupScreensaverAlarms(){

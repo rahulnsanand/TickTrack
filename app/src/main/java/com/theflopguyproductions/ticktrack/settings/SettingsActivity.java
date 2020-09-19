@@ -845,10 +845,12 @@ public class SettingsActivity extends AppCompatActivity {
         if(ScreensaverActivity.ACTION_SCREENSAVER_EDIT.equals(receivedAction)){
             Intent intent = new Intent(this, ScreensaverActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
         } else {
             Intent intent = new Intent(this, SoYouADeveloperHuh.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
         }
     }
 

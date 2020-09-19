@@ -28,7 +28,7 @@ public class TimerFragment extends Fragment {
 
     static TickTrackDatabase tickTrackDatabase;
 
-    private static ConstraintLayout quickTimerFab, normalTimerFab;
+    private static ConstraintLayout quickTimerFab, normalTimerFab, rootLayout;
     private static ConstraintLayout timerPlusFab;
     private static TextView timerText, quickTimerText;
     private ConstraintLayout timerDiscardFAB;
@@ -112,6 +112,7 @@ public class TimerFragment extends Fragment {
         TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
         TickTrackAnimator.fabLayoutUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom);
         tickTrackDatabase.setFirstTimer(false);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new TimerCreatorFragment()).commit();
         recyclerOn=false;
@@ -124,6 +125,7 @@ public class TimerFragment extends Fragment {
         TickTrackAnimator.fabLayoutDissolve(timerPlusFab);
         TickTrackAnimator.fabLayoutUnDissolve(timerDiscardFAB);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.exit_to_bottom);
         transaction.replace(R.id.timerFragmentInnerFragmentContainer, new QuickTimerCreatorFragment()).commit();
         recyclerOn=false;
     }
@@ -149,6 +151,7 @@ public class TimerFragment extends Fragment {
         timerPlusFab = root.findViewById(R.id.multiple_actions);
         timerText = root.findViewById(R.id.timerFragmentTimerTextFab);
         quickTimerText = root.findViewById(R.id.timerFragmentQuickTimerTextFab);
+        rootLayout = root.findViewById(R.id.timerFragmentRootLayout);
         activity = getActivity();
 
         assert activity != null;
@@ -166,7 +169,7 @@ public class TimerFragment extends Fragment {
         super.onResume();
         isOptionsOpen = false;
         TickTrackAnimator.collapseFabMenu(timerPlusFab, normalTimerFab, quickTimerFab, timerText, quickTimerText);
-        TickTrackThemeSetter.timerFragmentTheme(activity, tickTrackDatabase, timerPlusFab, quickTimerFab, normalTimerFab, timerDiscardFAB, timerText, quickTimerText);
+        TickTrackThemeSetter.timerFragmentTheme(activity, tickTrackDatabase, timerPlusFab, quickTimerFab, normalTimerFab, timerDiscardFAB, timerText, quickTimerText, rootLayout);
     }
 
     public static void onRootLayoutClick() {
