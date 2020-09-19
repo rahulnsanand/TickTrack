@@ -24,6 +24,7 @@ import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
+import com.theflopguyproductions.ticktrack.dialogs.SwipeDialog;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
@@ -118,10 +119,10 @@ public class CounterEditActivity extends AppCompatActivity {
         counterButtonSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
                 counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(true);
-                counterButtonMode.setText("Swipe mode");
+                counterButtonMode.setText("Switch to Swipe Mode");
             } else {
                 counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(false);
-                counterButtonMode.setText("Click mode");
+                counterButtonMode.setText("Switch to Click Mode");
             }
             isChanged = true;
         });
@@ -346,6 +347,7 @@ public class CounterEditActivity extends AppCompatActivity {
                 labelDialog.characterCountText.setVisibility(View.GONE);
                 labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
                 labelDialog.helperText.setText("Milestone value");
+                labelDialog.cancelButton.setText("Reset");
 
                 labelDialog.okButton.setOnClickListener(view1 -> {
 
@@ -358,20 +360,23 @@ public class CounterEditActivity extends AppCompatActivity {
 
                         } else {
 
-                            counterMilestone.setText("NA");
+                            counterMilestone.setText("-");
 
                         }
 
                     } else {
 
-                        counterMilestone.setText("NA");
+                        counterMilestone.setText("-");
 
                     }
 
                     labelDialog.dismiss();
                 });
 
-                labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
+                labelDialog.cancelButton.setOnClickListener(view12 -> {
+                    labelDialog.dismiss();
+                    counterMilestone.setText("-");
+                });
             });
 
         });
@@ -513,21 +518,19 @@ public class CounterEditActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             new Handler().post(() -> {
-//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
-                SingleInputDialog labelDialog = new SingleInputDialog(activity, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
+                SwipeDialog swipeDialog = new SwipeDialog(activity);
 
-                labelDialog.show();
-                labelDialog.saveChangesText.setVisibility(View.VISIBLE);
-                labelDialog.inputText.setVisibility(View.GONE);
-                labelDialog.helperText.setVisibility(View.GONE);
-                labelDialog.characterCountText.setVisibility(View.GONE);
-                labelDialog.okButton.setText("Yes");
-                labelDialog.cancelButton.setText("No");
-                labelDialog.okButton.setOnClickListener(view1 -> {
+                swipeDialog.show();
+                swipeDialog.dialogTitle.setVisibility(View.VISIBLE);
+                swipeDialog.dialogMessage.setVisibility(View.GONE);
+                swipeDialog.dialogTitle.setText("Save Changes?");
+                swipeDialog.swipeButton.setText("Yes");
+                swipeDialog.dismissButton.setText("No");
+                swipeDialog.swipeButton.setOnClickListener(view1 -> {
                     saveData();
                     isChanged = false;
                 });
-                labelDialog.cancelButton.setOnClickListener(view12 -> {
+                swipeDialog.dismissButton.setOnClickListener(view12 -> {
                     Intent intent = new Intent(activity, CounterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("currentCounterPosition", counterID);

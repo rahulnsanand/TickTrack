@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.counter.activity;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -36,14 +37,14 @@ public class CounterActivity extends AppCompatActivity {
 
     private SwipeButton plusLightButton, minusLightButton, plusDarkButton, minusDarkButton;
     private ConstraintLayout plusButtonBig, minusButtonBig;
-    private TextView CounterText, counterLabel, plusText, minusText;
+    private TextView CounterText, counterLabel, plusText, minusText, milestoneText;
     private long currentCount;
     private ArrayList<CounterData> counterDataArrayList;
-    ConstraintLayout toolbar, rootLayout;
+    private ConstraintLayout toolbar, rootLayout;
     int flagColor;
     private ImageButton backButton, shareButton, editButton;
     private Activity activity;
-    LottieAnimationView lottieAnimationView;
+    private LottieAnimationView lottieAnimationView;
     private SharedPreferences sharedPreferences;
     private String counterID;
     private Vibrator vibrator;
@@ -124,6 +125,7 @@ public class CounterActivity extends AppCompatActivity {
         plusButtonBig = findViewById(R.id.plusButton);
         minusButtonBig =findViewById(R.id.minusButton);
         lottieAnimationView = findViewById(R.id.counterActivityLottieAnimationView);
+        milestoneText = findViewById(R.id.counterActivityMilestoneText);
         vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         activity = this;
         tickTrackDatabase = new TickTrackDatabase(activity);
@@ -223,22 +225,60 @@ public class CounterActivity extends AppCompatActivity {
     private final Handler mHandler = new Handler();
 
     private void milestoneItIs() {
-        if(counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount()>0){
+        if(counterDataArrayList.get(getCurrentPosition()).isCounterSignificantExist()){
+            milestoneText.setVisibility(View.VISIBLE);
+            long milestoneCount = counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount();
+            long difference =  milestoneCount- currentCount;
+            if(difference>0){
+                if(difference==1){
+                    milestoneText.setText("Next Milestone in "+difference+" count!");
+                } else {
+                    milestoneText.setText("Next Milestone in "+difference+" counts!");
+                }
+            } else if(difference<0){
+                if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
+                    if(difference==-1){
+                        milestoneText.setText("Next Milestone in "+difference+" count!");
+                    } else {
+                        milestoneText.setText("Next Milestone in "+difference+" counts!");
+                    }
+                } else {
+                    milestoneText.setText("Last Milestone was "+Math.abs(difference)+" counts ago!");
+                }
+            } else {
+                milestoneText.setText("Milestone Count Achieved!");
+            }
             if(currentCount==counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount()){
+                lottieAnimationView.setProgress(0);
                 lottieAnimationView.playAnimation();
                 lottieAnimationView.setVisibility(View.VISIBLE);
+                lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
 
-                mHandler.postDelayed(() -> {
-                    lottieAnimationView.cancelAnimation();
-                    lottieAnimationView.setVisibility(View.INVISIBLE);
-                }, 5000);
+                    }
 
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        lottieAnimationView.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
             } else {
-                lottieAnimationView.cancelAnimation();
+                lottieAnimationView.setVisibility(View.INVISIBLE);
             }
         } else {
+            milestoneText.setVisibility(View.GONE);
             lottieAnimationView.setVisibility(View.INVISIBLE);
-            lottieAnimationView.cancelAnimation();
         }
     }
 
