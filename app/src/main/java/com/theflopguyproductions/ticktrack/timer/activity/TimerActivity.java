@@ -767,5 +767,6 @@ public class TimerActivity extends AppCompatActivity {
         Intent intent = new Intent(activity, SoYouADeveloperHuh.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
     }
 }

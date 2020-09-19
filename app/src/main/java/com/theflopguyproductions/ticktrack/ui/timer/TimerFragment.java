@@ -68,14 +68,14 @@ public class TimerFragment extends Fragment {
         } else if("quickTimerCreate".equals(action)){
             addQuickTimer();
         } else {
-            displayRecyclerView();
+            displayRecyclerView(false);
         }
 
         timerPlusFab.setOnClickListener(view1 -> toggleFabOptions());
 
         normalTimerFab.setOnClickListener(view12 -> addTimer());
         quickTimerFab.setOnClickListener(view15 -> addQuickTimer());
-        timerDiscardFAB.setOnClickListener(view14 -> displayRecyclerView());
+        timerDiscardFAB.setOnClickListener(view14 -> displayRecyclerView(true));
 
         requireView().setFocusableInTouchMode(true);
         requireView().requestFocus();
@@ -85,7 +85,7 @@ public class TimerFragment extends Fragment {
                     if(isOptionsOpen){
                         toggleFabOptions();
                     }
-                    displayRecyclerView();
+                    displayRecyclerView(false);
                     return true;
                 } else {
                     requireActivity().finish();
@@ -97,10 +97,13 @@ public class TimerFragment extends Fragment {
 
     }
 
-    private void displayRecyclerView() {
+    private void displayRecyclerView(boolean isOptionsClose) {
         TickTrackAnimator.fabLayoutDissolve(timerDiscardFAB);
         TickTrackAnimator.fabLayoutUnDissolve(timerPlusFab);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        if(isOptionsClose){
+            transaction.setCustomAnimations(R.anim.enter_from_top, R.anim.exit_to_bottom);
+        }
         transaction.replace(R.id.timerFragmentInnerFragmentContainer,  new TimerRecyclerFragment()).commit();
         recyclerOn=true;
     }

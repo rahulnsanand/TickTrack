@@ -522,6 +522,7 @@ public class CounterEditActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("currentCounterPosition", counterID);
             startActivity(intent);
+            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
         } else {
             new Handler().post(() -> {
                 SwipeDialog swipeDialog = new SwipeDialog(activity);
@@ -541,6 +542,7 @@ public class CounterEditActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("currentCounterPosition", counterID);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
                 });
             });
 

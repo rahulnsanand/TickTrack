@@ -182,9 +182,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
 
         buildRecyclerView(activity);
-        counterFab.setOnClickListener(view1 -> {
-            createCounterDialog(activity);
-        });
+        counterFab.setOnClickListener(view1 -> createCounterDialog(activity));
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new CounterSlideDeleteHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(counterRecyclerView);

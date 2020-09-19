@@ -491,6 +491,7 @@ public class CounterActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SoYouADeveloperHuh.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
     }
 
 }
