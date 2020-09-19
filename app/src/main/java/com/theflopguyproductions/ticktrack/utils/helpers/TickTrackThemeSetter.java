@@ -349,9 +349,9 @@ public class TickTrackThemeSetter {
     public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView, TickTrackDatabase tickTrackDatabase){
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
-            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
+//            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.LightGray) );
         } else {
-            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
+//            recyclerView.setBackgroundColor(activity.getResources().getColor(R.color.Black) );
         }
     }
     public static void timerRecycleTheme(Activity activity, RecyclerView recyclerView, TickTrackDatabase tickTrackDatabase, ConstraintLayout rootLayout, TextView noTimerText){

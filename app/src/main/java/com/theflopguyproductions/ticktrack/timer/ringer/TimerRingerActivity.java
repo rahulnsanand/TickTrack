@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.gtomato.android.ui.transformer.FlatMerryGoRoundTransformer;
+import com.gtomato.android.ui.widget.CarouselView;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
@@ -35,7 +38,7 @@ public class TimerRingerActivity extends AppCompatActivity {
     private TickTrackDatabase tickTrackDatabase;
     private TickTrackTimerDatabase tickTrackTimerDatabase;
     private Context context;
-    private RecyclerView timerStopRecyclerView;
+    private CarouselView timerStopRecyclerView;
     private FloatingActionButton timerStopFAB;
     private ArrayList<TimerData> timerDataArrayList;
     private ArrayList<QuickTimerData> quickTimerDataArrayList;
@@ -63,10 +66,13 @@ public class TimerRingerActivity extends AppCompatActivity {
 
         rootLayout = findViewById(R.id.timerRingActivityRootLayout);
         timerStopRecyclerView = findViewById(R.id.timerStopActivityRecyclerView);
+        timerStopRecyclerView.setTransformer(new FlatMerryGoRoundTransformer());
+        timerStopRecyclerView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        timerStopRecyclerView.setEnableFling(false);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        timerStopRecyclerView.setLayoutManager(layoutManager);
-        timerStopRecyclerView.setHasFixedSize(true);
+//        timerStopRecyclerView.setLayoutManager(layoutManager);
+//        timerStopRecyclerView.setHasFixedSize(true);
 
         timerStopFAB = findViewById(R.id.timerStopActivityStopFAB);
 

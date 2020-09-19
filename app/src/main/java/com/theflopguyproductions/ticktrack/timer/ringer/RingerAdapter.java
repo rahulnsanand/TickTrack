@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gtomato.android.ui.widget.CarouselView;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackProgressBar;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerDataViewHolder> {
+public class RingerAdapter extends CarouselView.Adapter<RingerAdapter.RingerDataViewHolder> {
 
     private ArrayList<TimerData> timerDataArrayList;
     private Handler timerStopHandler = new Handler();
@@ -70,7 +71,6 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
             holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.roboto_calendar_circle_1));
         }
 
-        holder.backgroundProgressBar.setInstantProgress(1);
         holder.foregroundProgressBar.setProgress(1);
 
     }
@@ -83,6 +83,8 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         int timerHour = timerDataArrayList.get(holder.getAdapterPosition()).getTimerHour();
         int timerMinute = timerDataArrayList.get(holder.getAdapterPosition()).getTimerMinute();
         int timerSecond = timerDataArrayList.get(holder.getAdapterPosition()).getTimerSecond();
+
+        setTheme(holder, theme);
 
         if(!timerDataArrayList.get(holder.getAdapterPosition()).isQuickTimer()){
             if(!timerDataArrayList.get(holder.getAdapterPosition()).getTimerLabel().equals("Set label")) {
@@ -104,8 +106,6 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
                 timerStopHandler.removeCallbacks(holder.timerRunnable);
             }
         };
-
-        setTheme(holder, theme);
     }
 
     private String updateTimerTextView(long countdownValue){
@@ -116,15 +116,8 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
         return String.format(Locale.getDefault(),"- %02d:%02d:%02d", hours,minutes,seconds);
     }
     private void setTheme(RingerDataViewHolder holder, int theme) {
-        if(theme == 1){
-            holder.rootLayout.setBackgroundResource(R.color.GrayOnLight);
-            holder.dataLayout.setBackgroundResource(R.color.Light);
-            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Gray));
-        } else {
-            holder.rootLayout.setBackgroundResource(R.color.GrayOnDark);
-            holder.dataLayout.setBackgroundResource(R.color.Black);
-            holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Accent));
-        }
+        holder.dataLayout.setBackgroundResource(R.drawable.fab_dark_background);
+        holder.timerLabel.setTextColor(holder.context.getResources().getColor(R.color.Accent));
     }
 
     @Override
@@ -152,7 +145,7 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
     public static class RingerDataViewHolder extends RecyclerView.ViewHolder {
 
         private TextView timerLabel, timerValue;
-        private TickTrackProgressBar backgroundProgressBar, foregroundProgressBar;
+        private TickTrackProgressBar  foregroundProgressBar;
         private ConstraintLayout rootLayout, dataLayout;
         private Context context;
         private TickTrackDatabase tickTrackDatabase;
@@ -163,7 +156,6 @@ public class RingerAdapter extends RecyclerView.Adapter<RingerAdapter.RingerData
 
             timerLabel = parent.findViewById(R.id.timerStopActivityLabelTextView);
             timerValue = parent.findViewById(R.id.timerStopActivityTimerValueTextView);
-            backgroundProgressBar = parent.findViewById(R.id.timerStopActivityBackgroundProgressBar);
             foregroundProgressBar = parent.findViewById(R.id.timerStopActivityProgressBar);
             rootLayout = parent.findViewById(R.id.timerStopActivityRootLayout);
             dataLayout = parent.findViewById(R.id.timerStopActivityDataLayout);
