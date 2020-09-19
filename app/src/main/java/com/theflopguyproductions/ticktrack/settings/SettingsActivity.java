@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.settings;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.appwidget.AppWidgetManager;
@@ -42,6 +43,7 @@ import com.theflopguyproductions.ticktrack.dialogs.SwipeDialog;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
+import com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView;
 import com.theflopguyproductions.ticktrack.utils.PermissionUtils;
 import com.theflopguyproductions.ticktrack.utils.RateUsUtil;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -77,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
     private CheckBox counterCheckBox, timerCheckBox;
     private RadioButton monthlyButton, weeklyButton, dailyButton, darkButton, lightButton;
 
-    private ConstraintLayout hapticLayout;
+    private ConstraintLayout hapticLayout, generalRootLayout;
     private TextView hapticTextTitle;
     private Switch hapticSwitch;
 
@@ -88,6 +90,8 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView unordinaryImage, oxygenyImage, minimalImage, simplisticImage, romanImage, funkyImage;
     private ImageView unordinaryImageCheck, oxygenyImageCheck, minimalImageCheck, simplisticImageCheck, romanImageCheck, funkyImageCheck;
     private Switch displaySumSwitch;
+
+    private LottieAnimationView lottieAnimationView;
 
     @Override
     protected void onResume() {
@@ -258,6 +262,7 @@ public class SettingsActivity extends AppCompatActivity {
                 hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout, rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout,
                 rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue, toolbar);
         updateWidgets();
+        checkAccountAvailable();
     }
 
     private void updateWidgets() {
@@ -481,6 +486,9 @@ public class SettingsActivity extends AppCompatActivity {
         hapticSwitch = findViewById(R.id.hapticVibrateSettingsSwitch);
         hapticLayout = findViewById(R.id.hapticVibrateSettingsLayout);
         hapticTextTitle = findViewById(R.id.hapticTitleSettingsTextView);
+        lottieAnimationView = findViewById(R.id.settingsActivityLottieAnim);
+        lottieAnimationView.setVisibility(View.INVISIBLE);
+        generalRootLayout = findViewById(R.id.generalRootLayout);
 
         rateUsLayout = findViewById(R.id.rateUsSettingsLayout);
         displaySumLayout = findViewById(R.id.showSumCounterSettingsLayout);
@@ -651,14 +659,91 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         darkButton.setOnClickListener((view) -> {
+            sharedPreferences = tickTrackDatabase.getSharedPref(this);
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             tickTrackDatabase.setThemeMode(SettingsData.Theme.DARK.getCode());
             toggleThemeOptionsLayout();
-            refreshTheme();
+
+            lottieAnimationView.setAnimation(R.raw.dark_theme_in_anim);
+            lottieAnimationView.setProgress(0);
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            lottieAnimationView.playAnimation();
+
+            lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) { }
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    refreshTheme();
+                    lottieAnimationView.removeAllAnimatorListeners();
+                    generalRootLayout.setVisibility(View.INVISIBLE);
+                    lottieAnimationView.setAnimation(R.raw.dark_theme_out_anim);
+                    lottieAnimationView.setProgress(0);
+                    lottieAnimationView.playAnimation();
+                    generalRootLayout.setVisibility(View.VISIBLE);
+                    lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) {}
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+                            lottieAnimationView.removeAllAnimatorListeners();
+                            lottieAnimationView.setVisibility(View.INVISIBLE);
+                            sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                        }
+                        @Override
+                        public void onAnimationCancel(Animator animator) { }
+                        @Override
+                        public void onAnimationRepeat(Animator animator) { }
+                    });
+                }
+                @Override
+                public void onAnimationCancel(Animator animator) { }
+                @Override
+                public void onAnimationRepeat(Animator animator) { }
+            });
+
         });
         lightButton.setOnClickListener((view) -> {
+            sharedPreferences = tickTrackDatabase.getSharedPref(this);
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             tickTrackDatabase.setThemeMode(SettingsData.Theme.LIGHT.getCode());
             toggleThemeOptionsLayout();
-            refreshTheme();
+            lottieAnimationView.setAnimation(R.raw.light_theme_in_anim);
+            lottieAnimationView.setProgress(0);
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            lottieAnimationView.playAnimation();
+            lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {}
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    refreshTheme();
+                    lottieAnimationView.removeAllAnimatorListeners();
+                    generalRootLayout.setVisibility(View.INVISIBLE);
+                    lottieAnimationView.setAnimation(R.raw.light_theme_out_anim);
+                    lottieAnimationView.setProgress(0);
+                    lottieAnimationView.playAnimation();
+                    generalRootLayout.setVisibility(View.VISIBLE);
+                    lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animator) { }
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+                            lottieAnimationView.removeAllAnimatorListeners();
+                            lottieAnimationView.setVisibility(View.INVISIBLE);
+                            sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                        }
+                        @Override
+                        public void onAnimationCancel(Animator animator) { }
+                        @Override
+                        public void onAnimationRepeat(Animator animator) { }
+                    });
+                }
+                @Override
+                public void onAnimationCancel(Animator animator) { }
+                @Override
+                public void onAnimationRepeat(Animator animator) { }
+            });
         });
 
         themeLayout.setOnClickListener(view -> {
