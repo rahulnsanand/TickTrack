@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -182,7 +181,6 @@ public class TimerEditDialog extends BottomSheetDialog {
         flagChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = flagChipGroup.findViewById(checkedId);
             if(chip != null){
-                Toast.makeText(activity, chip.getText().toString(), Toast.LENGTH_LONG).show();
                 if(chip.getText().toString().equals("Cherry")){
                     currentFlag=1;
                 }

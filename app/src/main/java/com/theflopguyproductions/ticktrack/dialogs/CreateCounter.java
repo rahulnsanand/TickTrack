@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -100,7 +99,6 @@ public class CreateCounter extends BottomSheetDialog {
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = chipGroup.findViewById(checkedId);
             if(chip != null){
-                Toast.makeText(activity, chip.getText().toString(), Toast.LENGTH_LONG).show();
                 if(chip.getText().toString().equals("Cherry")){
                     counterFlag=1;
                 }

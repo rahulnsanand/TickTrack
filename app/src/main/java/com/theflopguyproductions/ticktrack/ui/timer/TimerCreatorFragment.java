@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -169,7 +168,6 @@ public class TimerCreatorFragment extends Fragment {
         timerCreateFlagChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             Chip chip = timerCreateFlagChipGroup.findViewById(checkedId);
             if(chip != null){
-                Toast.makeText(activity, chip.getText().toString(), Toast.LENGTH_LONG).show();
                 if(chip.getText().toString().equals("Cherry")){
                     flagCheck=1;
                     setFlagColor(flagCheck);
@@ -205,28 +203,34 @@ public class TimerCreatorFragment extends Fragment {
         if(flagColor==1){
             timerFlagImage.setImageResource(R.drawable.ic_flag_red);
             redFlag.setChecked(true);
+            timerFlagText.setText("Cherry");
         }
         else if(flagColor==2){
             timerFlagImage.setImageResource(R.drawable.ic_flag_green);
             greenFlag.setChecked(true);
+            timerFlagText.setText("Lime");
         }
         else if(flagColor==3){
             timerFlagImage.setImageResource(R.drawable.ic_flag_orange);
             orangeFlag.setChecked(true);
+            timerFlagText.setText("Peach");
         }
         else if(flagColor==4){
             timerFlagImage.setImageResource(R.drawable.ic_flag_purple);
             purpleFlag.setChecked(true);
+            timerFlagText.setText("Plum");
         }
         else if(flagColor==5){
             timerFlagImage.setImageResource(R.drawable.ic_flag_blue);
             blueFlag.setChecked(true);
+            timerFlagText.setText("Berry");
         } else {
             if(tickTrackDatabase.getThemeMode()==1){
                 timerFlagImage.setImageResource(R.drawable.ic_round_flag_dark_24);
             } else {
                 timerFlagImage.setImageResource(R.drawable.ic_round_flag_light_24);
             }
+            timerFlagText.setText("Set flag");
         }
     }
 
