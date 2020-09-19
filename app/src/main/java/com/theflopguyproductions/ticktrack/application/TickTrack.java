@@ -10,33 +10,11 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
+//import com.google.android.gms.auth.api.signin.GoogleSignIn;
+//import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+//import com.google.firebase.crashlytics.FirebaseCrashlytics;
+//import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
-import java.util.Objects;
-
-
-//@ReportsCrashes(
-//        formUri = "https://{myusername}.cloudant.com/acra-{myapp}/_design/acra-storage/_update/report",
-//        reportType = HttpSender.Type.JSON,
-//        httpMethod = HttpSender.Method.POST,
-//        formUriBasicAuthLogin = "GENERATED_USERNAME_WITH_WRITE_PERMISSIONS",
-//        formUriBasicAuthPassword = "GENERATED_PASSWORD",
-//        formKey = "", // This is required for backward compatibility but not used
-//        customReportContent = {
-//                ReportField.APP_VERSION_CODE,
-//                ReportField.APP_VERSION_NAME,
-//                ReportField.ANDROID_VERSION,
-//                ReportField.PACKAGE_NAME,
-//                ReportField.REPORT_ID,
-//                ReportField.BUILD,
-//                ReportField.STACK_TRACE
-//        },
-//        mode = ReportingInteractionMode.TOAST,
-//        resToastText = R.string.toast_crash
-//)
 public class TickTrack extends Application {
 
     public static final String COUNTER_NOTIFICATION = "TICK_TRACK_COUNTER";
@@ -86,23 +64,23 @@ public class TickTrack extends Application {
 
         }
 
-        setupCrashAnalyticsBasicData();
+//        setupCrashAnalyticsBasicData();
 
         System.out.println("ActivityManager: Displayed TickTrack OnCreate "+System.currentTimeMillis());
 
     }
 
-    private void setupCrashAnalyticsBasicData() {
-        if(new FirebaseHelper(this).isUserSignedIn()){
-            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-            if(account!=null){
-                FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
-            }
-            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
-        } else {
-            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
-        }
-    }
+//    private void setupCrashAnalyticsBasicData() {
+//        if(new FirebaseHelper(this).isUserSignedIn()){
+//            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//            if(account!=null){
+//                FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
+//            }
+//            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
+//        } else {
+//            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
+//        }
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerMissedNotificationChannel(NotificationManager mNotificationManager) {

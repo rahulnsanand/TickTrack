@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack.about;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,13 +20,17 @@ public class AboutActivity extends AppCompatActivity {
     private ConstraintLayout rootLayout, toolbarLayout;
     private TextView storyText, versionText;
     private TickTrackDatabase tickTrackDatabase;
+    private ConstraintLayout githubButton, twitterButton, instaButton;
+
+    private static final String INSTAGRAM_LINK = "https://www.instagram.com/theflopguy/";
+    private static final String GITHUB_LINK = "https://github.com/theflopguy/TickTrack";
+    private static final String TWITTER_LINK = "https://twitter.com/TheFlopGuy";
 
 
     @Override
     protected void onResume() {
         super.onResume();
         TickTrackThemeSetter.aboutActivityTheme(tickTrackDatabase, this, rootLayout, toolbarLayout, storyText, versionText);
-
     }
 
     private void initVariables(){
@@ -34,6 +39,9 @@ public class AboutActivity extends AppCompatActivity {
         storyText = findViewById(R.id.aboutActivityTickTrackStory);
         versionText = findViewById(R.id.aboutActivityAppVersionText);
         backButton = findViewById(R.id.aboutActivityBackButton);
+        githubButton = findViewById(R.id.aboutActivityGithubButton);
+        twitterButton = findViewById(R.id.aboutActivityTwitterButton);
+        instaButton = findViewById(R.id.aboutActivityInstagramButton);
         tickTrackDatabase = new TickTrackDatabase(this);
     }
     @Override
@@ -48,6 +56,65 @@ public class AboutActivity extends AppCompatActivity {
         } else {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
         }
+
+        instaButton.setOnClickListener(view -> openInstagram());
+        twitterButton.setOnClickListener(view -> openTwitter());
+        githubButton.setOnClickListener(view -> openGithub());
+    }
+
+    private void openGithub(){
+        Intent intent;
+        try {
+            this.getPackageManager().getPackageInfo("com.github.android", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_LINK));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            openBrowser(3);
+        }
+    }
+
+    private void openTwitter(){
+        Intent intent;
+        try {
+            this.getPackageManager().getPackageInfo("com.twitter.android", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWITTER_LINK));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            openBrowser(2);
+        }
+    }
+
+    private void openInstagram(){
+        try {
+            Intent i= new Intent(Intent.ACTION_VIEW, Uri.parse(INSTAGRAM_LINK));
+            i.setPackage("com.instagram.android");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        } catch (Exception e) {
+            openBrowser(1);
+        }
+    }
+
+    private void openBrowser (int i) {
+        Uri uriUrl;
+        if(i==1){
+            uriUrl = Uri.parse(INSTAGRAM_LINK);
+        } else if (i==2){
+            uriUrl = Uri.parse(TWITTER_LINK);
+        } else {
+            uriUrl = Uri.parse(GITHUB_LINK);
+        }
+
+//        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+//        startActivity(launchBrowser);
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(uriUrl);
+        startActivity(intent);
     }
 
     @Override
