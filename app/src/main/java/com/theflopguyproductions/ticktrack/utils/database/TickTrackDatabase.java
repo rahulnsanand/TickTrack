@@ -148,6 +148,31 @@ public class TickTrackDatabase {
         return sharedPreferences.getBoolean("isNotOptimised", false);
     }
 
+    public void setMilestoneVibrate(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("milestoneVibrate", value);
+        editor.apply();
+    }
+    public boolean isMilestoneVibrate() {
+        return sharedPreferences.getBoolean("milestoneVibrate", true);
+    }
+    public void setMilestoneSoundYri(String value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("milestoneSoundURI", value);
+        editor.apply();
+    }
+    public String getMilestoneSoundURI() {
+        return sharedPreferences.getString("milestoneSoundURI", null);
+    }
+    public void setMilestoneSound(String value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("milestoneSound", value);
+        editor.apply();
+    }
+    public String getMilestoneSound() {
+        return sharedPreferences.getString("milestoneSound", "Default Sound");
+    }
+
     public void storeStartUpFragmentID(int updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("startupFragmentNumber", updateNumber);
@@ -194,7 +219,7 @@ public class TickTrackDatabase {
     }
 
     public int retrieveLapNumber(){
-        return sharedPreferences.getInt("LapNumber", 1);
+        return sharedPreferences.getInt("LapNumber", 0);
     }
 
     public void storeCounterList(ArrayList<CounterData> counterDataArrayList){

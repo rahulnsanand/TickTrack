@@ -93,6 +93,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private LottieAnimationView lottieAnimationView;
 
+    private TextView vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue;
+    private Switch milestoneSwitch;
+    private ConstraintLayout milestoneVibrateLayout, milestoneSoundLayout;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -260,7 +264,8 @@ public class SettingsActivity extends AppCompatActivity {
                 tickTrackDatabase, backupGoogleTitle, backupEmail, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
                 hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout, rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout,
-                rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue, toolbar);
+                rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue, toolbar, milestoneVibrateLayout, milestoneSoundLayout,
+                vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue);
         updateWidgets();
         checkAccountAvailable();
     }
@@ -518,7 +523,12 @@ public class SettingsActivity extends AppCompatActivity {
         romanImageCheck = findViewById(R.id.screensaverRomanImageCheck);
         funkyImageCheck = findViewById(R.id.screensaverFunkyImageCheck);
         displaySumSwitch = findViewById(R.id.showSumCounterSettingsSwitch);
-
+        vibrateMilestoneTitle = findViewById(R.id.settingsMilestoneVibrateTitle);
+        milestoneSwitch = findViewById(R.id.settingsMilestoneVibrateSwitch);
+        milestoneSoundTitle = findViewById(R.id.settingsMilestoneSoundTitle);
+        milestoneSoundValue = findViewById(R.id.settingsMilestoneSoundValue);
+        milestoneSoundLayout = findViewById(R.id.milestoneSoundSettingsLayout);
+        milestoneVibrateLayout = findViewById(R.id.milestoneVibrateSettingsLayout);
         deleteBackupLayout = findViewById(R.id.dangerZoneDeleteBackupLayout);
         factoryResetLayout = findViewById(R.id.dangerZoneFactoryResetLayout);
 
@@ -537,7 +547,8 @@ public class SettingsActivity extends AppCompatActivity {
         setupSyncFreqOptionText();
         setupThemeText();
         setupHapticData();
-
+        setupMilestoneVibrate();
+        setupMilestoneSound();
         setupClockStyle();
         setOnClickListeners();
 
@@ -550,6 +561,32 @@ public class SettingsActivity extends AppCompatActivity {
             clockOptionsLayout.setVisibility(View.GONE);
             themeOptionsLayout.setVisibility(View.GONE);
         });
+    }
+
+    private void setupMilestoneSound() {
+        milestoneSoundValue.setText(tickTrackDatabase.getMilestoneSound());
+    }
+
+    private boolean isMilestone = true;
+    private void setupMilestoneVibrate() {
+        if(tickTrackDatabase.isMilestoneVibrate()){
+            milestoneSwitch.setChecked(true);
+            isMilestone = true;
+        } else {
+            milestoneSwitch.setChecked(false);
+            isMilestone = false;
+        }
+    }
+    private void toggleMilestoneVibrate(){
+        if(isMilestone){
+            tickTrackDatabase.setMilestoneVibrate(false);
+            milestoneSwitch.setChecked(false);
+            isMilestone = false;
+        } else {
+            tickTrackDatabase.setMilestoneVibrate(true);
+            milestoneSwitch.setChecked(true);
+            isMilestone = true;
+        }
     }
 
     private String receivedAction = null;
@@ -580,7 +617,17 @@ public class SettingsActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (101 == requestCode) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                readDataExternal();
+                readDataExternal(0);
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (PermissionUtils.neverAskAgainSelected(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        displayNeverAskAgainDialog();
+                    }
+                }
+            }
+        } else if (102 == requestCode) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                readDataExternal(1);
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (PermissionUtils.neverAskAgainSelected(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -591,13 +638,13 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void readDataExternal() {
+    private void readDataExternal(int requestCode) {
         final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
         ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
         ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        startActivityForResult(ringtone, 0);
+        startActivityForResult(ringtone, requestCode);
     }
 
     private void displayNeverAskAgainDialog() {
@@ -619,6 +666,32 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupClickListeners() {
 
+        milestoneSoundLayout.setOnClickListener(view -> {
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("ONE");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                        System.out.println("TWO");
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 102);
+                    }
+                }
+            } else {
+                readDataExternal(1);
+            }
+        });
+
+        milestoneVibrateLayout.setOnClickListener(view -> toggleMilestoneVibrate());
+        milestoneSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(compoundButton.isChecked()){
+                tickTrackDatabase.setMilestoneVibrate(true);
+                isMilestone = true;
+            } else {
+                tickTrackDatabase.setMilestoneVibrate(false);
+                isMilestone = false;
+            }
+        });
+
         rateUsLayout.setOnClickListener(view -> {
             RateUsUtil rateUsUtil = new RateUsUtil(this);
             rateUsUtil.rateApp();
@@ -635,7 +708,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                readDataExternal();
+                readDataExternal(0);
             }
         });
 
@@ -895,7 +968,19 @@ public class SettingsActivity extends AppCompatActivity {
                 tickTrackDatabase.storeRingtoneName("Default Ringtone");
             }
             setupTimerSound();
-            System.out.println(uri+"<<<<<<<<<<<<<<<<<<");
+        } else if (requestCode == 1 && resultCode == RESULT_OK) {
+            assert data != null;
+            final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+            String title = ringtone.getTitle(this);
+            if(uri!=null){
+                tickTrackDatabase.setMilestoneSound(title);
+                tickTrackDatabase.setMilestoneSoundYri(uri.toString());
+            } else {
+                tickTrackDatabase.setMilestoneSoundYri(null);
+                tickTrackDatabase.setMilestoneSound("Default Ringtone");
+            }
+            setupTimerSound();
         }
     }
 

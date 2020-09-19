@@ -49,7 +49,8 @@ public class TickTrackThemeSetter {
                                              ConstraintLayout rateUsLayout, ConstraintLayout counterSumLayout, ConstraintLayout timerSoundLayout, ConstraintLayout clockStyleLayout,
                                              ConstraintLayout clockOptionsLayout, ConstraintLayout dateTimeLayout, TextView rateUsTitle, TextView rateUsValue, TextView counterSumTitle,
                                              TextView timerSoundTitle, TextView timerSoundValue, TextView clockStyleTitle, TextView clockStyleValue,
-                                             TextView dateTimeTitle, TextView dateTimeValue, ConstraintLayout toolbar){
+                                             TextView dateTimeTitle, TextView dateTimeValue, ConstraintLayout toolbar, ConstraintLayout vibrateLayout, ConstraintLayout soundLayout,
+                                             TextView milestoneVibrateTitle, TextView milestoneSoundTitle, TextView milestoneSoundValue){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
@@ -71,6 +72,12 @@ public class TickTrackThemeSetter {
             clockStyleLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+
+            soundLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            vibrateLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            milestoneVibrateTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            milestoneSoundTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            milestoneSoundValue.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
 
             timerSoundTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             timerSoundValue.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
@@ -116,6 +123,12 @@ public class TickTrackThemeSetter {
             clockStyleLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+
+            soundLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            vibrateLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            milestoneVibrateTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            milestoneSoundTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            milestoneSoundValue.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
 
             timerSoundTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             timerSoundValue.setTextColor(activity.getResources().getColor(R.color.DarkLightText));

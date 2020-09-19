@@ -102,7 +102,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/counterActivityLottieAnimationView"
-            app:typeface="apercu_italic"/>
+            app:typeface="apercu_italic"
+            android:elevation="1dp"/>
 
         <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/counterActivityValueTextView"
