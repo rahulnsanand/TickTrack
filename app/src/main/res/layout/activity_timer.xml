@@ -202,11 +202,12 @@
                     android:minEms="4"
                     android:text="00:00:00"
                     android:textAlignment="center"
-                    android:textSize="30sp"
+                    android:textSize="36sp"
                     app:layout_constraintBottom_toBottomOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/timerActivityTimerProgressBar"
                     app:layout_constraintTop_toTopOf="@+id/timerActivityTimerProgressBar"
+                    app:layout_constraintVertical_bias="0.45"
                     app:typeface="odudo_regular" />
 
                 <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
