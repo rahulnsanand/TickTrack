@@ -499,7 +499,6 @@ public class TimerRingService extends Service {
         }
         startForeground(TickTrack.TIMER_RINGING_NOTIFICATION_ID, notificationBuilder.build());
         Toast.makeText(this, "Timer Received!", Toast.LENGTH_SHORT).show();
-        stopForeground(false);
     }
 
     private void notifyNotification() {

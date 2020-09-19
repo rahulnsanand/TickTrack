@@ -121,7 +121,6 @@ public class TimerService extends Service {
             startForeground(TickTrack.TIMER_RUNNING_NOTIFICATION_ID, notificationBuilder.build());
             timerServiceRefreshHandler.post(refreshRunnable);
         }
-        stopForeground(false);
     }
 
     private Runnable refreshRunnable = new Runnable() {

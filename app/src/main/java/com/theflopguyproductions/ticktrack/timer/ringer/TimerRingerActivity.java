@@ -13,8 +13,6 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.gtomato.android.ui.transformer.FlatMerryGoRoundTransformer;
@@ -69,10 +67,6 @@ public class TimerRingerActivity extends AppCompatActivity {
         timerStopRecyclerView.setTransformer(new FlatMerryGoRoundTransformer());
         timerStopRecyclerView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         timerStopRecyclerView.setEnableFling(false);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        timerStopRecyclerView.setLayoutManager(layoutManager);
-//        timerStopRecyclerView.setHasFixedSize(true);
 
         timerStopFAB = findViewById(R.id.timerStopActivityStopFAB);
 

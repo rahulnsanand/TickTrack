@@ -723,6 +723,7 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        System.out.println("ON PAUSE CALLED");
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(getCurrentTimerPosition()!=-1){
