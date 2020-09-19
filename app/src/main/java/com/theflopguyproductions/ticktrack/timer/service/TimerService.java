@@ -143,7 +143,6 @@ public class TimerService extends Service {
             } else {
                 timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
                 stopSelf();
-                stopForeground(false);
                 onDestroy();
             }
         }
@@ -237,25 +236,25 @@ public class TimerService extends Service {
             if(minutes==0){
                 return "less than a minute";
             } else if(minutes>1){
-                return "less than an hr";
+                return "less than "+(minutes+1)+" minutes";
             } else if(minutes==1){
-                return "less than a min";
+                return "less than "+(minutes+1)+" minutes";
             }
         } else if (hours==1){
             if(minutes==0){
-                return "less than an hr";
-            } else if(minutes>1){
-                return "less than an hr and "+minutes+" mins";
+                return "less than an hr and a min";
+            } else if(minutes>2){
+                return "less than an hr and "+(minutes+1)+" mins";
             } else if(minutes==1){
-                return "less than an hr and "+minutes+" min";
+                return "less than an hr and "+(minutes+1)+" mins";
             }
         } else if (hours>1){
             if(minutes==0){
-                return "less than "+hours+" hrs and a minute";
+                return "less than "+hours+" hrs and a min";
             } else if(minutes>1){
-                return "less than "+hours+" hrs and "+minutes+" mins";
+                return "less than "+hours+" hrs and "+(minutes+1)+" mins";
             } else if(minutes==1){
-                return "less than  "+hours+" hrs and a min";
+                return "less than  "+hours+" hrs and "+(minutes+1)+" mins";
             }
         }
 
@@ -291,7 +290,7 @@ public class TimerService extends Service {
     private void stopTimerService() {
         if(!(getAllOnTimers() > 0)){
             timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
-            stopForeground(false);
+
             stopSelf();
             onDestroy();
         }
@@ -304,6 +303,6 @@ public class TimerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopForeground(false);
+
     }
 }
