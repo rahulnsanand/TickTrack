@@ -4,8 +4,17 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -230,20 +239,85 @@ public class CounterActivity extends AppCompatActivity {
      return 0;
     }
 
-    private final Handler mHandler = new Handler();
+    static MediaPlayer mediaPlayer;
+    public static void playSound (Context context) {
 
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                try {
+
+                    String selectedUri = new TickTrackDatabase(context).getMilestoneSoundURI();
+
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setLooping(false);
+                    mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
+
+                    if(selectedUri!=null){
+                        final Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(selectedUri));
+                        if(ringtone==null){
+                            AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.achievement_sound);
+                            if (afd == null) return false;
+                            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                            afd.close();
+                        } else {
+                            mediaPlayer.setDataSource(context, Uri.parse(selectedUri));
+                        }
+                    } else {
+                        AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.achievement_sound);
+                        if (afd == null) return false;
+                        mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                        afd.close();
+                    }
+
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .build());
+                    } else {
+                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+                    }
+                    mediaPlayer.setVolume(1.0f, 1.0f);
+                    mediaPlayer.prepare();
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    new TickTrackDatabase(context).storeRingtoneURI(null);
+                    new TickTrackDatabase(context).storeRingtoneName("Default Ringtone");
+                    playSound(context);
+                }
+                return false;
+            }
+
+        }.execute();
+    }
     private void milestoneItIs() {
         if(counterDataArrayList.get(getCurrentPosition()).isCounterSignificantExist()){
             milestoneText.setVisibility(View.VISIBLE);
             long milestoneCount = counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount();
             long difference =  milestoneCount- currentCount;
             if(difference>0){
+                try {
+                    if(mediaPlayer.isPlaying()){
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                    }
+                } catch (Exception ignored) {
+                }
                 if(difference==1){
                     milestoneText.setText("Next Milestone in "+difference+" count!");
                 } else {
                     milestoneText.setText("Next Milestone in "+difference+" counts!");
                 }
             } else if(difference<0){
+                try {
+                    if(mediaPlayer.isPlaying()){
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                    }
+                } catch (Exception ignored) {
+                }
                 if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
                     if(difference==-1){
                         milestoneText.setText("Next Milestone in "+difference+" count!");
@@ -255,6 +329,7 @@ public class CounterActivity extends AppCompatActivity {
                 }
             } else {
                 milestoneText.setText("Milestone Count Achieved!");
+                playSound(this);
             }
             if(currentCount==counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount()){
                 lottieAnimationView.setProgress(0);
@@ -481,6 +556,13 @@ public class CounterActivity extends AppCompatActivity {
         int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), CounterWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
+        try {
+            if(mediaPlayer.isPlaying()){
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }
+        } catch (Exception ignored) {
+        }
     }
 
     @Override

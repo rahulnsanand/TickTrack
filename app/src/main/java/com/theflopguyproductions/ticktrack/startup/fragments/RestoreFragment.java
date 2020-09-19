@@ -338,6 +338,7 @@ public class RestoreFragment extends Fragment {
         tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
         tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
         tickTrackDatabase.storeScreenSaverClock(settingsData.get(0).getScreensaverClockStyle());
+        tickTrackDatabase.setMilestoneVibrate(settingsData.get(0).isMilestoneVibrate());
         tickTrackDatabase.setSumEnabled(settingsData.get(0).isSumDisplayed());
         System.out.println("INITIALISED PREFERENCES");
         tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());

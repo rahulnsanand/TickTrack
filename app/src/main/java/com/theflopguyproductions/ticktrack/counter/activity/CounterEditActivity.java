@@ -297,7 +297,6 @@ public class CounterEditActivity extends AppCompatActivity {
 
         counterLabelLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
-//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, counterLabel.getText().toString());
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, counterLabel.getText().toString());
 
                 labelDialog.show();

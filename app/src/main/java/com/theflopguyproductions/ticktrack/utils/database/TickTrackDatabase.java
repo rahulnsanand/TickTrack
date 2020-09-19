@@ -156,7 +156,7 @@ public class TickTrackDatabase {
     public boolean isMilestoneVibrate() {
         return sharedPreferences.getBoolean("milestoneVibrate", true);
     }
-    public void setMilestoneSoundYri(String value){
+    public void setMilestoneSoundUri(String value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("milestoneSoundURI", value);
         editor.apply();

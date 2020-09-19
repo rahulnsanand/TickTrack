@@ -975,9 +975,9 @@ public class SettingsActivity extends AppCompatActivity {
             String title = ringtone.getTitle(this);
             if(uri!=null){
                 tickTrackDatabase.setMilestoneSound(title);
-                tickTrackDatabase.setMilestoneSoundYri(uri.toString());
+                tickTrackDatabase.setMilestoneSoundUri(uri.toString());
             } else {
-                tickTrackDatabase.setMilestoneSoundYri(null);
+                tickTrackDatabase.setMilestoneSoundUri(null);
                 tickTrackDatabase.setMilestoneSound("Default Ringtone");
             }
             setupTimerSound();

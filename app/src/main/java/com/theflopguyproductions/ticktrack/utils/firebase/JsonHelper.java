@@ -225,6 +225,7 @@ public class JsonHelper {
         data.setThemeMode(tickTrackDatabase.getThemeMode());
         data.setScreensaverClockStyle(tickTrackDatabase.getScreenSaverClock());
         data.setSumDisplayed(tickTrackDatabase.isSumEnabled());
+        data.setMilestoneVibrate(tickTrackDatabase.isMilestoneVibrate());
 
         settingsData.add(data);
 

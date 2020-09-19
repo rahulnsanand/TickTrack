@@ -24,7 +24,7 @@ public class SettingsData {
     }
 
     int themeMode, syncDataFrequency, screensaverClockStyle;
-    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn, isSumDisplayed;
+    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn, isSumDisplayed, isMilestoneVibrate;
     long lastBackupTime;
 
     public int getScreensaverClockStyle() {
@@ -33,6 +33,14 @@ public class SettingsData {
 
     public void setScreensaverClockStyle(int screensaverClockStyle) {
         this.screensaverClockStyle = screensaverClockStyle;
+    }
+
+    public boolean isMilestoneVibrate() {
+        return isMilestoneVibrate;
+    }
+
+    public void setMilestoneVibrate(boolean milestoneVibrate) {
+        isMilestoneVibrate = milestoneVibrate;
     }
 
     public boolean isSumDisplayed() {
