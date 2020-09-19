@@ -656,7 +656,7 @@ public class TimerActivity extends AppCompatActivity {
         int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(countdownValue) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdownValue)));
         int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(countdownValue) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(countdownValue)));
 
-        return String.format(Locale.getDefault(),"- %02d:%02d:%02d", hours,minutes,seconds);
+        return String.format(Locale.getDefault(),"-%02d:%02d:%02d", hours,minutes,seconds);
     }
 
     private void presetStockValues() {

@@ -91,7 +91,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager.IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( TIMER_MISSED_NOTIFICATION , "TickTrack Missed Timers" , importance) ;
+                NotificationChannel( TIMER_MISSED_NOTIFICATION , "Missed Timers" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. RED ) ;
         notificationChannel.enableVibration( true ) ;
@@ -109,7 +109,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_LOW ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "TickTrack Backup" , importance) ;
+                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "Backup [Do Not Disable]" , importance) ;
         notificationChannel.setDescription(DATA_BACKUP_RESTORE_NOTIFICATION_DESCRIPTION);
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
@@ -126,7 +126,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "TickTrack Miscellaneous" , importance) ;
+                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "Miscellaneous" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. YELLOW ) ;
         notificationChannel.enableVibration( true ) ;
@@ -150,7 +150,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( COUNTER_NOTIFICATION , "TickTrack Counter" , importance) ;
+                NotificationChannel( COUNTER_NOTIFICATION , "Counter" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. BLUE ) ;
         notificationChannel.enableVibration( true ) ;
@@ -169,7 +169,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager.IMPORTANCE_LOW ;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "TickTrack Ongoing Timer" , importance) ;
+                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Ongoing Timer [Do Not Disable]" , importance) ;
         notificationChannel.setDescription(TIMER_RUNNING_NOTIFICATION_DESCRIPTION);
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
@@ -186,7 +186,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "TickTrack Elapsed Timer" , importance) ;
+                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Ringing Timer [Do Not Disable]" , importance) ;
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. GREEN ) ;
         notificationChannel.enableVibration( true ) ;
@@ -205,7 +205,7 @@ public class TickTrack extends Application {
 
         int importance = NotificationManager.IMPORTANCE_MIN ;
         NotificationChannel notificationChannel = new
-                NotificationChannel( STOPWATCH_NOTIFICATION , "TickTrack Stopwatch" , importance) ;
+                NotificationChannel( STOPWATCH_NOTIFICATION , "Stopwatch" , importance) ;
         notificationChannel.setDescription(STOPWATCH_NOTIFICATION_DESCRIPTION);
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
