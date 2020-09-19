@@ -296,9 +296,10 @@ public class ScreensaverActivity extends AppCompatActivity {
                 Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater = LayoutInflater.from(ScreensaverActivity.this);
 
-        clockLayout = (ConstraintLayout) findViewById(R.id.clockContainer);
+        clockLayout = findViewById(R.id.clockContainer);
         setupClock(clockStyle);
 
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.Black) );
     }
     private void setupClock(int style) {
         clockLayout.removeAllViews();

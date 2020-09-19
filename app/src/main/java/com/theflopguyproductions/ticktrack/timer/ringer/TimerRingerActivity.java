@@ -85,6 +85,11 @@ public class TimerRingerActivity extends AppCompatActivity {
         sharedPreferences = tickTrackDatabase.getSharedPref(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
     }
 
     private void buildRecyclerView(Activity activity) {

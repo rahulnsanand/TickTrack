@@ -96,6 +96,12 @@ public class CounterEditActivity extends AppCompatActivity {
 
         });
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
     }
     private int getCurrentPosition() {
         for(int i = 0; i < counterDataArrayList.size(); i ++){

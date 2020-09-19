@@ -221,6 +221,11 @@ public class TimerActivity extends AppCompatActivity {
         setupOnClickListeners();
         setupFABListeners();
 
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
     }
     private void checkValuesInit() {
 

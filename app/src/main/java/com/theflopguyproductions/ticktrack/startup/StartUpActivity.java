@@ -67,6 +67,12 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         } else {
             openFragment(getFragment(receivedFragmentID));
         }
+
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
     }
 
     private void setupTheme() {

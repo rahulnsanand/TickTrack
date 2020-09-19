@@ -21,8 +21,10 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
+import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView;
 import com.theflopguyproductions.ticktrack.ui.utils.swipebutton.SwipeButton;
+import com.theflopguyproductions.ticktrack.utils.RateUsUtil;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.widgets.counter.CounterWidget;
@@ -170,6 +172,12 @@ public class CounterActivity extends AppCompatActivity {
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
+
     }
 
     private void getCounterDataInText() {
@@ -261,6 +269,20 @@ public class CounterActivity extends AppCompatActivity {
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         lottieAnimationView.setVisibility(View.INVISIBLE);
+                        if(!tickTrackDatabase.isAlreadyDoneCheck()){
+                            int appLaunchNumber = tickTrackDatabase.getAppLaunchNumber();
+                            if(appLaunchNumber<=20){
+                                if(appLaunchNumber==3 || appLaunchNumber==10 || appLaunchNumber==20){
+                                    setupRateUsDialog();
+                                }
+                            } else {
+                                if(appLaunchNumber%10==0){
+                                    setupRateUsDialog();
+                                }
+                            }
+                            appLaunchNumber++;
+                            tickTrackDatabase.setAppLaunchNumber(appLaunchNumber);
+                        }
                     }
 
                     @Override
@@ -281,6 +303,29 @@ public class CounterActivity extends AppCompatActivity {
             lottieAnimationView.setVisibility(View.INVISIBLE);
         }
     }
+
+    private void setupRateUsDialog(){
+        DeleteTimer deleteTimer = new DeleteTimer(this);
+        deleteTimer.show();
+        deleteTimer.yesButton.setText("Alright, Let's do this");
+
+        deleteTimer.dialogTitle.setText("Hey, This is awkward...");
+        deleteTimer.dialogMessage.setText("It took a lot of effort and dedication to develop this app and keep it ad-free. Show us your support by just leaving a rating/feedback.");
+        deleteTimer.yesButton.setOnClickListener(view -> {
+            deleteTimer.dismiss();
+            RateUsUtil rateUsUtil = new RateUsUtil(this);
+            rateUsUtil.rateApp();
+            tickTrackDatabase.setRatedPossibly(true);
+        });
+        if(tickTrackDatabase.isRatedPossibly()){
+            deleteTimer.noButton.setText("I've already done this");
+            tickTrackDatabase.setAlreadyDoneCheck(true);
+        } else {
+            deleteTimer.noButton.setText("Nah, Maybe Later");
+        }
+        deleteTimer.noButton.setOnClickListener(view -> deleteTimer.dismiss());
+    }
+
 
     private void changeButtonVisibility(){
         if(counterDataArrayList.get(getCurrentPosition()).isCounterSwipeMode()){

@@ -7,6 +7,7 @@
     <color name="HoloAccent">#140088A3</color>
     <color name="Light">#ffffff</color>
     <color name="LightGray">#ebebeb</color>
+    <color name="HoloLightGray">#80EBEBEB</color>
     <color name="DarkText">#272727</color>
     <color name="LightDarkText">#4C4C4C</color>
     <color name="LightText">#DCDCDC</color>

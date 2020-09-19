@@ -43,6 +43,11 @@ public class AboutActivity extends AppCompatActivity {
         initVariables();
         backButton.setOnClickListener(view -> onBackPressed());
 
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
     }
 
 

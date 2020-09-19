@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.crashlytics'
 //apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
@@ -99,8 +99,10 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-//    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
 //    implementation 'com.google.firebase:firebase-perf:19.0.8'
+
+    implementation 'ch.acra:acra:4.9.2'
 
 }
 repositories {

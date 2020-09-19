@@ -75,7 +75,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         container = findViewById(R.id.container);
         navView = findViewById(R.id.nav_view);
 
-
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
     }
 
     @Override

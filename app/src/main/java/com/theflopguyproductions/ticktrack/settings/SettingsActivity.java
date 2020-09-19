@@ -552,6 +552,12 @@ public class SettingsActivity extends AppCompatActivity {
         initVariables();
         setupClickListeners();
         receivedAction = getIntent().getAction();
+
+        if(tickTrackDatabase.getThemeMode()==1){
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        } else {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+        }
     }
 
     private void toggleHapticEnable() {
