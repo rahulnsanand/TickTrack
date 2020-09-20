@@ -92,6 +92,7 @@ public class RestoreFragment extends Fragment {
             }
         } else if(tickTrackFirebaseDatabase.isRestoreInitMode()==-1){
             progressBarDialog.dismiss();
+            setupNoInternet();
         }
     }
 

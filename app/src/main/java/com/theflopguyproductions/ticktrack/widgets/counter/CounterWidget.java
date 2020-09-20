@@ -242,7 +242,7 @@ public class CounterWidget extends AppWidgetProvider {
             } else if (ACTION_WIDGET_CLICK_MINUS.equals(intent.getAction())) {
                 System.out.println("MINUS SOMETHING");
                 if(counterDataArrayList.get(getCurrentPosition(counterID)).isNegativeAllowed()){
-                    if(!(currentCount < -9223372036854775806L)) {
+                    if(!(currentCount <= -9223372036854775806L)) {
                         currentCount -= 1;
                         counterDataArrayList.get(getCurrentPosition(counterID)).setCounterValue(currentCount);
                         counterDataArrayList.get(getCurrentPosition(counterID)).setCounterTimestamp(System.currentTimeMillis());

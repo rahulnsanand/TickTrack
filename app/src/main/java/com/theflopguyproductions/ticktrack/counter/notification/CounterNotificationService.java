@@ -157,21 +157,20 @@ public class CounterNotificationService extends Service {
             counterLabel = counterDataList.get(currentCounterPosition).getCounterLabel();
             counterValue = counterDataList.get(currentCounterPosition).getCounterValue();
             counterRequestID = (int) counterDataList.get(currentCounterPosition).getCounterTimestamp();
+        } else {
+            stopForeground(false);
         }
     }
 
     private void minusButtonPressed() {
         if(counterDataList.get(currentCounterPosition).isNegativeAllowed()){
-            if(!(counterValue < -9223372036854775806L)) {
+            if(!(counterValue <= -9223372036854775806L)) {
                 counterValue-=1;
                 counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
                 counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
                 storeCounterList(tickTrackDatabase.getSharedPref(this));
 
                 notificationBuilder.setContentText("Value: "+counterValue+"");
-
-//            expandedView.setTextViewText(R.id.counterNotificationExpandedValueTextView, counterValue+"");
-//            collapsedView.setTextViewText(R.id.counterNotificationCollapsedValueTextView, counterValue+"");
 
                 notifyNotification();
             }
@@ -183,9 +182,6 @@ public class CounterNotificationService extends Service {
                 storeCounterList(tickTrackDatabase.getSharedPref(this));
 
                 notificationBuilder.setContentText("Value: "+counterValue+"");
-
-//            expandedView.setTextViewText(R.id.counterNotificationExpandedValueTextView, counterValue+"");
-//            collapsedView.setTextViewText(R.id.counterNotificationCollapsedValueTextView, counterValue+"");
 
                 notifyNotification();
             }
@@ -209,59 +205,15 @@ public class CounterNotificationService extends Service {
         notificationCounterTrue();
         setupCustomNotification();
 
-
-//        Intent intent = new Intent();
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, counterRequestID, intent, 0);
-//
-//        // Create notification builder.
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-//        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-//            builder.setChannelId(TickTrack.COUNTER_NOTIFICATION);
-//        }
-//
-//        // Make notification show big text.
-//
-//        bigTextStyle.setBigContentTitle(counterLabel);
-//        bigTextStyle.bigText("Value: "+counterValue);
-//        // Set big text style.
-//        builder.setStyle(bigTextStyle);
-//
-//        builder.setWhen(System.currentTimeMillis());
-//        builder.setSmallIcon(R.mipmap.ic_launcher);
-//        Bitmap largeIconBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_flag_red);
-//        builder.setLargeIcon(largeIconBitmap);
-//
-//        builder.setPriority(Notification.PRIORITY_MAX);
-//
-//
-//        Intent plusIntent = new Intent(this, CounterNotificationService.class);
-//        plusIntent.setAction(ACTION_PLUS);
-//        PendingIntent pendingPlusIntent = PendingIntent.getService(this, counterRequestID, plusIntent, 0);
-//        NotificationCompat.Action plusAction = new NotificationCompat.Action(android.R.drawable.ic_media_play, "Plus", pendingPlusIntent);
-//        builder.addAction(plusAction);
-//
-//        Intent minusIntent = new Intent(this, CounterNotificationService.class);
-//        minusIntent.setAction(ACTION_MINUS);
-//        PendingIntent pendingMinusIntent = PendingIntent.getService(this, counterRequestID, minusIntent, 0);
-//        NotificationCompat.Action minusAction = new NotificationCompat.Action(android.R.drawable.ic_media_pause, "Minus", pendingMinusIntent);
-//        builder.addAction(minusAction);
-//
-//        Intent cancelIntent = new Intent(this, CounterNotificationService.class);
-//        cancelIntent.setAction(ACTION_STOP_COUNTER_SERVICE);
-//        PendingIntent pendingCancelIntent = PendingIntent.getService(this, counterRequestID, cancelIntent, 0);
-//        NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_round_tick_white_24, "Done", pendingCancelIntent);
-//        builder.addAction(cancelAction);
-//
-//
-
-
         startForeground(TickTrack.COUNTER_NOTIFICATION_ID, notificationBuilder.build());
         Toast.makeText(this, "Notification created!", Toast.LENGTH_SHORT).show();
     }
 
     private void stopForegroundService() {
-        stopSelf();
         notificationCounterFalse();
+        stopSelf();
+        onDestroy();
+        stopForeground(false);
     }
 
     private void killNotifications(){
@@ -273,9 +225,11 @@ public class CounterNotificationService extends Service {
         storeCounterList(tickTrackDatabase.getSharedPref(this));
     }
     private void notificationCounterFalse() {
-        counterDataList.get(currentCounterPosition).setCounterPersistentNotification(false);
-        storeCounterList(tickTrackDatabase.getSharedPref(this));
-        setCurrentCounterNotificationID(null);
+        if(currentCounterPosition!=-1){
+            counterDataList.get(currentCounterPosition).setCounterPersistentNotification(false);
+            storeCounterList(tickTrackDatabase.getSharedPref(this));
+            setCurrentCounterNotificationID(null);
+        }
     }
 
     private void setupCustomNotification(){
@@ -308,7 +262,7 @@ public class CounterNotificationService extends Service {
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notificationBuilder = new NotificationCompat.Builder(this,TickTrack.COUNTER_NOTIFICATION)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification_countericon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -340,7 +294,7 @@ public class CounterNotificationService extends Service {
 
     private int getCurrentPosition(String counterNotificationID) {
         for(int i = 0; i <counterDataList.size(); i++){
-            if(counterNotificationID.equals(counterDataList.get(i).getCounterID())){
+            if(counterDataList.get(i).getCounterID().equals(counterNotificationID)){
                 return i;
             }
         }

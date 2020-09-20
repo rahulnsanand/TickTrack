@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
@@ -102,7 +103,11 @@ public class LoginFragment extends Fragment {
         return root;
     }
 
+    private ProgressBarDialog progressBarDialog;
     private void signInClick(){
+        progressBarDialog = new ProgressBarDialog(getActivity());
+        progressBarDialog.show();
+        progressBarDialog.setContentText("Signing In");
         signInButton.setEnabled(false);
         laterButton.setVisibility(View.GONE);
         Intent signInIntent = firebaseHelper.getSignInIntent();
@@ -111,8 +116,8 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if(InternetChecker.isOnline(requireContext())){
-            super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == 1) {
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                 firebaseHelper.signIn(task, getActivity(), receivedAction);
@@ -125,7 +130,9 @@ public class LoginFragment extends Fragment {
                     startActivity(new Intent(getActivity(), SettingsActivity.class));
                 }
             }
+            progressBarDialog.dismiss();
         } else {
+            progressBarDialog.dismiss();
             Toast.makeText(requireContext(), "Kindly Connect To Internet", Toast.LENGTH_SHORT).show();
             firebaseHelper.signOut(getActivity());
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 public class StopwatchNotificationService extends Service {
 
     public static final String ACTION_STOP_STOPWATCH_SERVICE = "ACTION_STOP_STOPWATCH_SERVICE";
+    public static final String ACTION_DISMISS_STOPWATCH_SERVICE = "ACTION_DISMISS_STOPWATCH_SERVICE";
     public static final String ACTION_START_STOPWATCH_SERVICE = "ACTION_START_STOPWATCH_SERVICE";
     public static final String ACTION_RESUME_STOPWATCH_SERVICE = "ACTION_RESUME_STOPWATCH_SERVICE";
     public static final String ACTION_RESET_STOPWATCH_SERVICE = "ACTION_RESET_STOPWATCH_SERVICE";
@@ -55,13 +55,6 @@ public class StopwatchNotificationService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(TickTrack.STOPWATCH_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent deleteIntent = new Intent(this, StopwatchNotificationService.class);
-        deleteIntent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
-        PendingIntent deletePendingIntent = PendingIntent.getService(this,
-                TickTrack.STOPWATCH_NOTIFICATION_ID,
-                deleteIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_stat_stopwatchiconnotification)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
@@ -69,7 +62,6 @@ public class StopwatchNotificationService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(resultPendingIntent)
-                .setDeleteIntent(deletePendingIntent)
                 .setOngoing(true)
                 .setColor(ContextCompat.getColor(this, R.color.Accent));
 
@@ -92,8 +84,14 @@ public class StopwatchNotificationService extends Service {
         PendingIntent pendingPauseIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, pauseIntent, 0);
         NotificationCompat.Action pauseAction = new NotificationCompat.Action(R.drawable.ic_round_pause_white_24, "Pause", pendingPauseIntent);
 
+        Intent dismissIntent = new Intent(this, StopwatchNotificationService.class);
+        dismissIntent.setAction(ACTION_DISMISS_STOPWATCH_SERVICE);
+        PendingIntent pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, 0);
+        NotificationCompat.Action dismissAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Dismiss", pendingDismissIntent);
+
         notificationBuilder.addAction(pauseAction);
         notificationBuilder.addAction(lapAction);
+        notificationBuilder.addAction(dismissAction);
 
         notificationManagerCompat.notify(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
     }
@@ -110,10 +108,17 @@ public class StopwatchNotificationService extends Service {
         PendingIntent pendingMinusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resetIntent, 0);
         NotificationCompat.Action resetAction = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Reset", pendingMinusIntent);
 
+        Intent dismissIntent = new Intent(this, StopwatchNotificationService.class);
+        dismissIntent.setAction(ACTION_DISMISS_STOPWATCH_SERVICE);
+        PendingIntent pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, 0);
+        NotificationCompat.Action dismissAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Dismiss", pendingDismissIntent);
+
+
         notificationBuilder.setContentText("Paused");
 
         notificationBuilder.addAction(resumeAction);
         notificationBuilder.addAction(resetAction);
+        notificationBuilder.addAction(dismissAction);
 
         notificationManagerCompat.notify(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
     }
@@ -147,6 +152,7 @@ public class StopwatchNotificationService extends Service {
                     startForegroundService();
                     break;
                 case ACTION_STOP_STOPWATCH_SERVICE:
+                case ACTION_DISMISS_STOPWATCH_SERVICE:
                     stopStopwatchService();
                     break;
                 case ACTION_RESUME_STOPWATCH_SERVICE:
@@ -180,7 +186,6 @@ public class StopwatchNotificationService extends Service {
         setupLayout();
 
         startForeground(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
-        Toast.makeText(this, "Stopwatch Notification created!", Toast.LENGTH_SHORT).show();
 
     }
     private void setupLayout(){

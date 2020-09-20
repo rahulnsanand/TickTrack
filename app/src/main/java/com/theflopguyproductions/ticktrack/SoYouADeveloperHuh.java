@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -203,7 +202,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 Intent intentAbout = new Intent(this, AboutActivity.class);
                 intentAbout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentAbout);
-//                new JsonHelper(this).createBackup();
                 return true;
             default:
                 break;

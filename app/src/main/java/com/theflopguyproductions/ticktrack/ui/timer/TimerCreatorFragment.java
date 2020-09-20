@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 import com.theflopguyproductions.ticktrack.utils.helpers.UniqueIdGenerator;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TimerCreatorFragment extends Fragment {
 
@@ -301,6 +303,9 @@ public class TimerCreatorFragment extends Fragment {
             labelDialog.saveChangesText.setVisibility(View.GONE);
             labelDialog.inputText.setVisibility(View.VISIBLE);
             labelDialog.helperText.setVisibility(View.VISIBLE);
+            if(labelDialog.inputText.requestFocus()){
+                Objects.requireNonNull(labelDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            }
             labelDialog.inputText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE |InputType.TYPE_TEXT_FLAG_CAP_WORDS);
             labelDialog.okButton.setOnClickListener(view1 -> {
                 if(labelDialog.inputText.getText().toString().trim().length() > 0){
@@ -308,7 +313,10 @@ public class TimerCreatorFragment extends Fragment {
                 }
                 labelDialog.dismiss();
             });
-            labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
+            labelDialog.cancelButton.setOnClickListener(view12 -> {
+                labelDialog.dismiss();
+            });
+
         });
     }
 

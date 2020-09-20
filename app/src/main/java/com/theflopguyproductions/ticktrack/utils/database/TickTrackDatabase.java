@@ -304,10 +304,13 @@ public class TickTrackDatabase {
     }
 
     public String getCurrentCounterNotificationID(){
-        return sharedPreferences.getString("CounterNotificationID", null);
+        String value = sharedPreferences.getString("CounterNotificationID", null);
+        System.out.println("CURRENT NOTIFICATION COUNTER GIVEN "+value);
+        return value;
     }
 
     public void setCurrentCounterNotificationID(String currentCounterID){
+        System.out.println("CURRENT NOTIFICATION COUNTER "+currentCounterID);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("CounterNotificationID", currentCounterID);
         editor.apply();

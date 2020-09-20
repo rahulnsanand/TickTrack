@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">261492330320-gfvhgcgf8fe082a8sgt8u8qrog7l516u.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://tfgproductions-ticktrack.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">261492330320</string>
+    <string name="google_api_key" translatable="false">AIzaSyDeeKBfXdMS_DFPaRXLACKpSM4a9y1tIjE</string>
+    <string name="google_app_id" translatable="false">1:261492330320:android:92e0c0fc8a3aea9f60e655</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDeeKBfXdMS_DFPaRXLACKpSM4a9y1tIjE</string>
+    <string name="google_storage_bucket" translatable="false">tfgproductions-ticktrack.appspot.com</string>
+    <string name="project_id" translatable="false">tfgproductions-ticktrack</string>
+</resources>

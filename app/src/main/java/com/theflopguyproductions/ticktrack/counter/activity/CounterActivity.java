@@ -166,7 +166,6 @@ public class CounterActivity extends AppCompatActivity {
         editButton.setOnClickListener(view -> {
             Intent intent = new Intent(activity, CounterEditActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             intent.putExtra("CurrentPosition", counterID);
             startActivity(intent);
         });
@@ -457,7 +456,7 @@ public class CounterActivity extends AppCompatActivity {
 
         minusLightButton.setOnActiveListener(() -> {
             if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
-                if(!(currentCount >= -9223372036854775806L)){
+                if(!(currentCount <= -9223372036854775806L)){
                     currentCount-=1;
                     counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
                     CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
@@ -491,7 +490,7 @@ public class CounterActivity extends AppCompatActivity {
 
         minusDarkButton.setOnActiveListener(() -> {
             if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
-                if(!(currentCount >= -9223372036854775806L)){
+                if(!(currentCount <= -9223372036854775806L)){
                     currentCount-=1;
                     counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
                     CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());
@@ -526,7 +525,7 @@ public class CounterActivity extends AppCompatActivity {
 
         minusButtonBig.setOnClickListener(view -> {
             if(counterDataArrayList.get(getCurrentPosition()).isNegativeAllowed()){
-                if(!(currentCount >= -9223372036854775806L)){
+                if(!(currentCount <= -9223372036854775806L)){
                     currentCount-=1;
                     counterDataArrayList.get(getCurrentPosition()).setCounterValue(currentCount);
                     CounterText.setText(""+counterDataArrayList.get(getCurrentPosition()).getCounterValue());

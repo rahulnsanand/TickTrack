@@ -263,6 +263,8 @@ public class FirebaseHelper {
                     System.out.println("Success happened on restore INIT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
                     if(isSuccess==1){
                         tickTrackFirebaseDatabase.setRestoreInitMode(1);
+                    } else {
+                        tickTrackFirebaseDatabase.setRestoreInitMode(-1);
                     }
                 }).addOnFailureListener(exception ->
                 Log.e("TAG", "Couldn't read file.", exception));

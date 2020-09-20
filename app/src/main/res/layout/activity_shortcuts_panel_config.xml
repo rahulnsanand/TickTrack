@@ -19,11 +19,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="apercu_italic"/>
+        app:typeface="apercu_bold" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,10 +35,14 @@
             android:id="@+id/shortcutPanelConfigBlackButton"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/theme_selector_light"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/button_selector_dark" />
+            app:srcCompat="@drawable/round_rect_black" />
 
         <ImageView
             android:id="@+id/shortcutPanelConfigBlackButtonCheck"
@@ -61,17 +67,21 @@
             app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigBlackButton"
             app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigBlackButton"
             app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigBlackButton"
-            app:typeface="apercu_medium_italic"/>
+            app:typeface="apercu_medium_italic" />
 
         <ImageButton
             android:id="@+id/shortcutPanelConfigGrayButton"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/theme_selector_light"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigBlackText"
-            app:srcCompat="@drawable/clickable_layout_gray_background" />
+            app:srcCompat="@drawable/round_rect_dark" />
 
         <ImageView
             android:id="@+id/shortcutPanelConfigGrayButtonCheck"
@@ -96,17 +106,21 @@
             app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigGrayButton"
             app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigGrayButton"
             app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigGrayButton"
-            app:typeface="apercu_medium_italic"/>
+            app:typeface="apercu_medium_italic" />
 
         <ImageButton
             android:id="@+id/shortcutPanelConfigLightButton"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/theme_selector_dark"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigGrayText"
-            app:srcCompat="@drawable/button_selector_light" />
+            app:srcCompat="@drawable/round_rect_light" />
 
         <ImageView
             android:id="@+id/shortcutPanelConfigLightButtonCheck"
@@ -133,7 +147,7 @@
             app:layout_constraintEnd_toEndOf="@+id/shortcutPanelConfigLightButton"
             app:layout_constraintStart_toStartOf="@+id/shortcutPanelConfigLightButton"
             app:layout_constraintTop_toBottomOf="@+id/shortcutPanelConfigLightButton"
-            app:typeface="apercu_medium_italic"/>
+            app:typeface="apercu_medium_italic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

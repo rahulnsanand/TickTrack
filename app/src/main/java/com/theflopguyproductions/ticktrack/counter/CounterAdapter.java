@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -138,7 +137,6 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.counterD
 
             holder.counterLayout.setOnClickListener(v -> {
                 CounterFragment.startCounterActivity(counterDataArrayList.get(holder.getAdapterPosition()).getCounterID(), (Activity) holder.context);
-                Toast.makeText(holder.context, "Position:" + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
             });
         }
     }

@@ -16,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.theflopguyproductions.ticktrack.R;
-import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 
 import java.util.Objects;
@@ -62,20 +61,8 @@ public class DeleteCounter  extends BottomSheetDialog {
         themeSet = tickTrackDatabase.getThemeMode();
 
         setupTheme();
-
-        yesButton.setOnClickListener(view12 -> {
-            CounterFragment.deleteCounter(position, activity, counterName);
-            dismiss();
-        });
-        noButton.setOnClickListener(view1 -> {
-            CounterFragment.refreshItemChanged(position);
-            dismiss();
-        });
-        setOnCancelListener(dialogInterface -> {
-            CounterFragment.refreshItemChanged(position);
-            cancel();
-        });
     }
+
 
     private void setupTheme() {
         if(themeSet==1){

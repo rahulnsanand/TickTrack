@@ -21,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.panel.data.ShortcutsData;
 
 import java.util.ArrayList;
@@ -35,6 +36,12 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
     private TickTrackDatabase tickTrackDatabase;
 
     private int widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TickTrackThemeSetter.shortcutPanelActivity(tickTrackDatabase, this, rootLayout, blackText, grayText, lightText);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

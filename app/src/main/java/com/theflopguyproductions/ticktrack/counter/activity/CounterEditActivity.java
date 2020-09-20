@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -29,6 +30,7 @@ import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CounterEditActivity extends AppCompatActivity {
 
@@ -152,7 +154,6 @@ public class CounterEditActivity extends AppCompatActivity {
     private void startNotificationService() {
         Intent intent = new Intent(this, CounterNotificationService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        tickTrackDatabase.setCurrentCounterNotificationID(counterDataArrayList.get(getCurrentPosition()).getCounterID());
         intent.setAction(CounterNotificationService.ACTION_START_COUNTER_SERVICE);
         startService(intent);
     }
@@ -267,21 +268,6 @@ public class CounterEditActivity extends AppCompatActivity {
         }
     }
 
-    private static int counterActivityToolbarColor(int flagColor){
-        if(flagColor == 1){
-            return R.color.red_matte;
-        } else if(flagColor == 2){
-            return R.color.green_matte;
-        } else if(flagColor == 3){
-            return R.color.orange_matte;
-        } else if(flagColor == 5){
-            return R.color.blue_matte;
-        } else if(flagColor == 4){
-            return R.color.purple_matte;
-        }
-        return R.color.Accent;
-    }
-
     private void setupOnClickListeners() {
 
         counterNegativeLayout.setOnClickListener(view -> {
@@ -298,10 +284,12 @@ public class CounterEditActivity extends AppCompatActivity {
         counterLabelLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, counterLabel.getText().toString());
-
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.GONE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
+                if(labelDialog.inputText.requestFocus()){
+                    Objects.requireNonNull(labelDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
                 labelDialog.helperText.setVisibility(View.VISIBLE);
                 labelDialog.inputText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE |InputType.TYPE_TEXT_FLAG_CAP_WORDS);
                 labelDialog.okButton.setOnClickListener(view1 -> {
@@ -309,18 +297,23 @@ public class CounterEditActivity extends AppCompatActivity {
                     labelDialog.dismiss();
                     isChanged = true;
                 });
-                labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
+                labelDialog.cancelButton.setOnClickListener(view12 -> {
+                    labelDialog.dismiss();
+                });
+
             });
         });
         counterValueLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterValue.getText().toString());
-
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.GONE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
                 labelDialog.characterCountText.setVisibility(View.GONE);
+                if(labelDialog.inputText.requestFocus()){
+                    Objects.requireNonNull(labelDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
                 labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
                 labelDialog.helperText.setText("Value");
                 labelDialog.inputText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(19)});
@@ -336,27 +329,31 @@ public class CounterEditActivity extends AppCompatActivity {
                         Toast.makeText(activity, "Value must be less than 9223372036854775807", Toast.LENGTH_SHORT).show();
                     }
                 });
-                labelDialog.cancelButton.setOnClickListener(view12 -> labelDialog.dismiss());
+                labelDialog.cancelButton.setOnClickListener(view12 -> {
+                    labelDialog.dismiss();
+                });
+
             });
 
         });
         counterMilestoneLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
-//                SingleInputDialog labelDialog = new SingleInputDialog(activity,R.style.bottomSheetStyle, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
                 SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
-
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.GONE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
                 labelDialog.characterCountText.setVisibility(View.GONE);
+                if(labelDialog.inputText.requestFocus()){
+                    Objects.requireNonNull(labelDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
                 labelDialog.inputText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_CLASS_NUMBER);
                 labelDialog.helperText.setText("Milestone value");
-                labelDialog.cancelButton.setText("Reset");
+                labelDialog.cancelButton.setText("RESET");
 
                 labelDialog.okButton.setOnClickListener(view1 -> {
 
-                    if(!labelDialog.inputText.getText().toString().equals("")){
+                    if(!labelDialog.inputText.getText().toString().equals("") && !labelDialog.inputText.getText().toString().equals("-")){
 
                         if(Integer.parseInt(labelDialog.inputText.getText().toString().replaceAll("[^\\d]", ""))!=0){
 
@@ -382,6 +379,7 @@ public class CounterEditActivity extends AppCompatActivity {
                     labelDialog.dismiss();
                     counterMilestone.setText("-");
                 });
+
             });
 
         });
@@ -475,8 +473,9 @@ public class CounterEditActivity extends AppCompatActivity {
             counterDataArrayList.get(getCurrentPosition()).setCounterFlag(getCounterFlag());
             counterDataArrayList.get(getCurrentPosition()).setCounterSwipeMode(counterButtonSwitch.isChecked());
             if(counterNotificationSwitch.isChecked()){
-                counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(counterNotificationSwitch.isChecked());
                 revertAllOtherChecks();
+                counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(true);
+                tickTrackDatabase.setCurrentCounterNotificationID(counterDataArrayList.get(getCurrentPosition()).getCounterID());
                 startNotificationService();
             } else {
                 counterDataArrayList.get(getCurrentPosition()).setCounterPersistentNotification(counterNotificationSwitch.isChecked());

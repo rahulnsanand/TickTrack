@@ -42,9 +42,6 @@ public class GDriveHelper {
         this.context = context;
     }
 
-
-
-
     public Task<Pair<Integer, String>> createTimerBackup(String filename) {
         return Tasks.call(mExecutor, () -> {
 

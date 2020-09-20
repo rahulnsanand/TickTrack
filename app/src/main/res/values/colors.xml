@@ -17,11 +17,11 @@
 
     <color name="Clickable">#5EB3B3B3</color>
 
-    <color name="red_matte">#810c0c</color>
-    <color name="green_matte">#1f4e03</color>
-    <color name="orange_matte">#762a04</color>
-    <color name="blue_matte">#013a55</color>
-    <color name="purple_matte">#570968</color>
+    <color name="red_matte">#B60A0A</color>
+    <color name="green_matte">#258729</color>
+    <color name="orange_matte">#BC441F</color>
+    <color name="blue_matte">#1C6BAA</color>
+    <color name="purple_matte">#673AB7</color>
 
     <color name="holo_blue">#FF33E5B5</color>
 

@@ -26,6 +26,7 @@ import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.activity.CounterActivity;
+import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.dialogs.CreateCounter;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounter;
 import com.theflopguyproductions.ticktrack.ui.utils.TickTrackAnimator;
@@ -218,6 +219,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             noCounterText.setVisibility(View.INVISIBLE);
 
             Collections.sort(counterDataArrayList);
+            tickTrackDatabase.storeCounterList(counterDataArrayList);
 
             counterRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             counterRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -258,19 +260,38 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof CounterAdapter.counterDataViewHolder) {
 
-            deletedCounter = counterDataArrayList.get(viewHolder.getAdapterPosition()).getCounterLabel();
-            position = viewHolder.getAdapterPosition();
+            deletedCounter = counterDataArrayList.get(position).getCounterLabel();
 
-            int finalPosition = position;
             new Handler().post(() -> {
-                DeleteCounter counterDelete = new DeleteCounter(getActivity(), finalPosition, deletedCounter);
+                killNotification(counterDataArrayList.get(position).getCounterID());
+                DeleteCounter counterDelete = new DeleteCounter(getActivity(), position, deletedCounter);
                 counterDelete.show();
+                counterDelete.yesButton.setOnClickListener(view12 -> {
+                    deleteCounter(position, activity, deletedCounter);
+                    counterDelete.dismiss();
+                });
+                counterDelete.noButton.setOnClickListener(view1 -> {
+                    refreshItemChanged(position);
+                    counterDelete.dismiss();
+                });
+                counterDelete.setOnCancelListener(dialogInterface -> {
+                    refreshItemChanged(position);
+                    counterDelete.cancel();
+                });
             });
+        }
+    }
+    public void killNotification(String counterID) {
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        if(counterID.equals(tickTrackDatabase.getCurrentCounterNotificationID())){
+            Intent intent = new Intent(activity, CounterNotificationService.class);
+            intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
+            activity.startService(intent);
         }
     }
 
     public static void deleteCounter(int position, Activity activity, String counterName){
-        deleteItem(position);
+        deleteItem(position, activity);
         Intent intent = new Intent(activity, CounterWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int[] ids = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), CounterWidget.class));
@@ -281,17 +302,23 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     public static void refreshItemChanged(int position){
         counterAdapter.notifyItemChanged(position);
     }
-    public static void deleteItem(int position){
-        counterAdapter.notifyItemRemoved(position);
+    public static void deleteItem(int position, Activity activity){
+
         ArrayList<CounterWidgetData> counterWidgetData = tickTrackDatabase.retrieveCounterWidgetList();
         for(int i=0; i<counterWidgetData.size(); i++){
             if(counterWidgetData.get(i).getCounterIdString().equals(counterDataArrayList.get(position).getCounterID())){
                 counterWidgetData.remove(i);
+                tickTrackDatabase.storeCounterWidgetList(counterWidgetData);
+                counterDataArrayList.remove(position);
+                tickTrackDatabase.storeCounterList(counterDataArrayList);
+                counterAdapter.notifyItemRemoved(position);
+                return;
             }
         }
         counterDataArrayList.remove(position);
         tickTrackDatabase.storeCounterList(counterDataArrayList);
-        tickTrackDatabase.storeCounterWidgetList(counterWidgetData);
+        counterAdapter.notifyItemRemoved(position);
+        buildRecyclerView(activity);
     }
 
     public static void startCounterActivity(String counterID, Activity activity) {

@@ -673,7 +673,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/milestoneVibrateSettingsLayout">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/settingsMilestoneSoundTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -682,9 +682,10 @@
                         android:text="Milestone Sound"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular"/>
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/settingsMilestoneSoundValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -695,7 +696,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settingsMilestoneSoundTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/settingsMilestoneSoundTitle"
+                        app:typeface="apercu_italic"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -705,7 +707,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/showSumCounterSettingsLayout">
 
-                    <TextView
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                         android:id="@+id/settingsMilestoneVibrateTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -716,7 +718,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/settingsMilestoneVibrateSwitch"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular"/>
 
                     <Switch
                         android:id="@+id/settingsMilestoneVibrateSwitch"

@@ -600,4 +600,21 @@ public class TickTrackThemeSetter {
             versionText.setTextColor(context.getResources().getColor(R.color.LightText) );
         }
     }
+
+    public static void shortcutPanelActivity(TickTrackDatabase tickTrackDatabase, Context context, ConstraintLayout rootLayout, TextView blackText, TextView grayText, TextView lightText) {
+        int checkTheme = tickTrackDatabase.getThemeMode();
+        if(checkTheme==1){
+            rootLayout.setBackgroundResource(R.color.LightGray);
+            blackText.setTextColor(context.getResources().getColor(R.color.DarkText) );
+            grayText.setTextColor(context.getResources().getColor(R.color.DarkText) );
+            lightText.setTextColor(context.getResources().getColor(R.color.DarkText) );
+
+        } else {
+            rootLayout.setBackgroundResource(R.color.Black);
+            blackText.setTextColor(context.getResources().getColor(R.color.LightText) );
+            lightText.setTextColor(context.getResources().getColor(R.color.LightText) );
+            grayText.setTextColor(context.getResources().getColor(R.color.LightText) );
+
+        }
+    }
 }

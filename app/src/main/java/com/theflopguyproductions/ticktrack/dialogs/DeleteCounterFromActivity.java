@@ -108,6 +108,7 @@ public class DeleteCounterFromActivity extends BottomSheetDialog {
             intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
             activity.startService(intent);
         }
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
     public Button yesButton;

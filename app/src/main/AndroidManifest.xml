@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme">
-        <activity android:name=".about.AboutActivity" />
+        <activity android:name=".about.AboutActivity"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".widgets.shortcuts.StopwatchWidget"
             android:label="Stopwatch">
@@ -99,7 +100,8 @@
         <activity
             android:name=".widgets.counter.CounterWidgetConfigActivity"
             android:launchMode="singleTask"
-            android:taskAffinity="" />
+            android:taskAffinity=""
+            android:screenOrientation="portrait"/>
 
         <receiver
             android:name=".widgets.counter.CounterWidget"
@@ -121,7 +123,8 @@
             android:excludeFromRecents="true"
             android:label="@string/title_activity_screensaver"
             android:launchMode="singleTask"
-            android:taskAffinity="" />
+            android:taskAffinity=""
+            android:screenOrientation="portrait"/>
 
         <receiver
             android:name=".receivers.BackupScheduleReceiver"
@@ -177,7 +180,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".startup.StartUpActivity" />
+        <activity android:name=".startup.StartUpActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".timer.ringer.TimerRingerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -206,17 +210,22 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".timer.activity.TimerActivity" />
-        <activity android:name=".counter.activity.CounterEditActivity" />
+        <activity android:name=".timer.activity.TimerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".counter.activity.CounterEditActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".counter.activity.CounterActivity"
-            android:parentActivityName=".SoYouADeveloperHuh" />
+            android:parentActivityName=".SoYouADeveloperHuh"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SoYouADeveloperHuh"
-            android:label="@string/title_activity_so_you_a_developer_huh">
+            android:label="@string/title_activity_so_you_a_developer_huh"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

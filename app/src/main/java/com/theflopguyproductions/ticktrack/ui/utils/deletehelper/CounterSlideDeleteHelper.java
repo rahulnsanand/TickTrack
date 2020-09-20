@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.ui.utils.deletehelper;
 import android.graphics.Canvas;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,7 +56,7 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
     }
 

@@ -134,7 +134,6 @@ public class CreateCounter extends BottomSheetDialog {
             dismiss();
         });
 
-
         counterLabelText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

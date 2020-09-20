@@ -61,9 +61,11 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         for(int i=0; i<timerDataArrayList.size(); i++){
             if(timerDataArrayList.get(i).getTimerIntID()==timerId){
                 timerDataArrayList.remove(i);
+                tickTrackDatabase.storeTimerList(timerDataArrayList);
+                return;
             }
         }
-        tickTrackDatabase.storeTimerList(timerDataArrayList);
+
     }
 
     public static void refreshRecyclerView() {
