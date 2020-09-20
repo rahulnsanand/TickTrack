@@ -60,7 +60,7 @@ public class RestoreFragment extends Fragment {
     public void onResume() {
         super.onResume();
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        tickTrackDatabase.storeCurrentFragmentNumber(3);
+        tickTrackDatabase.storeStartUpFragmentID(3);
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) -> databaseChangeListener();
@@ -87,7 +87,7 @@ public class RestoreFragment extends Fragment {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intent);
                 } else {
-                    startFreshListener.onStartFreshClickListener(false);
+                    startFreshListener.onStartFreshClickListener(true);
                 }
             }
         } else if(tickTrackFirebaseDatabase.isRestoreInitMode()==-1){
@@ -232,7 +232,7 @@ public class RestoreFragment extends Fragment {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intent);
                 } else {
-                    startFreshListener.onStartFreshClickListener(false);
+                    startFreshListener.onStartFreshClickListener(true);
                 }
                 prefixVariables();
             });
