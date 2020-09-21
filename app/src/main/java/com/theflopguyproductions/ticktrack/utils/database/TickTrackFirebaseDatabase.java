@@ -20,6 +20,7 @@ import com.theflopguyproductions.ticktrack.timer.data.TimerBackupData;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 public class TickTrackFirebaseDatabase {
 
@@ -269,6 +270,128 @@ public class TickTrackFirebaseDatabase {
             counterBackupData = new ArrayList<>();
         }
         return counterBackupData;
+    }
+
+    public void storeCounterRestoreString(String counterData){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("counterRestoreString", counterData);
+        editor.apply();
+    }
+    public String getCounterRestoreString(){
+        return sharedPreferences.getString("counterRestoreString", null);
+    }
+    public void storeTimerRestoreString(String timerData){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("timerRestoreString", timerData);
+        editor.apply();
+    }
+    public String getTimerRestoreString(){
+        return sharedPreferences.getString("timerRestoreString", null);
+    }
+
+    public void setCounterBackupComplete(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("counterBackupComplete", value);
+        editor.apply();
+    }
+    public boolean isCounterBackupComplete(){
+        return sharedPreferences.getBoolean("counterBackupComplete", false);
+    }
+    public void setTimerBackupComplete(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("timerBackupComplete", value);
+        editor.apply();
+    }
+    public boolean isTimerBackupComplete(){
+        return sharedPreferences.getBoolean("timerBackupComplete", false);
+    }
+    public void setSettingsBackupComplete(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("settingsBackupComplete", value);
+        editor.apply();
+    }
+    public boolean isSettingsBackupComplete(){
+        return sharedPreferences.getBoolean("settingsBackupComplete", false);
+    }
+
+    public void setBackUpAlarm(boolean isNowBackup){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        Random r = new Random();
+        int low = 0;
+        int high = 24;
+        int result = r.nextInt(high-low) + low;
+        new TickTrackDatabase(context).storeBackupHour(result);
+        calendar.set(Calendar.HOUR_OF_DAY, result);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        int intervalRange = new TickTrackDatabase(context).getSyncFrequency();
+        long intervalTimeInMillis;
+        if(intervalRange== SettingsData.Frequency.DAILY.getCode()){
+            if(Calendar.getInstance().after(calendar)){
+                calendar.add(Calendar.DATE, 1);
+            }
+            intervalTimeInMillis = 24*60*60*1000L;
+        } else if(intervalRange== SettingsData.Frequency.MONTHLY.getCode()){
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            if(Calendar.getInstance().after(calendar)){
+                calendar.add(Calendar.MONTH, 1);
+            }
+            intervalTimeInMillis = 30*24*60*60*1000L;
+        } else if(intervalRange== SettingsData.Frequency.WEEKLY.getCode()){
+            calendar.set(Calendar.DAY_OF_WEEK, 1);
+            if(Calendar.getInstance().after(calendar)){
+                calendar.add(Calendar.WEEK_OF_YEAR, 1);
+            }
+            intervalTimeInMillis = 7*24*60*60*1000L;
+        } else {
+            if(Calendar.getInstance().after(calendar)){
+                calendar.add(Calendar.DATE, 1);
+            }
+            intervalTimeInMillis = 24*60*60*1000L;
+        }
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
+        intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
+        intent.setPackage("com.theflopguyproductions.ticktrack");
+//        intent.setClass(context, BackupScheduleReceiver.class);
+//        intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
+//        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
+        alarmManager.setRepeating(
+                AlarmManager.RTC,
+                calendar.getTimeInMillis(),
+                intervalTimeInMillis,
+//                System.currentTimeMillis()+6000,
+//                10*60*1000,
+                alarmPendingIntent
+        );
+
+        if(isNowBackup){
+            Intent intentNow = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
+            intentNow.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
+            intentNow.setPackage("com.theflopguyproductions.ticktrack");
+            context.sendBroadcast(intentNow);
+        }
+    }
+    public void cancelBackUpAlarm(){
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, BackupScheduleReceiver.class);
+        intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
+    }
+
+    public void setDriveLinkFail(boolean id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("setDriveLinkFail", id);
+        editor.apply();
+    }
+    public boolean isDriveLinkFail(){
+        return sharedPreferences.getBoolean("setDriveLinkFail",false);
     }
 
 }

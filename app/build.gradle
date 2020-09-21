@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.crashlytics'
 //apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
@@ -21,8 +21,8 @@ android {
         applicationId "com.theflopguyproductions.ticktrack"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 5
-        versionName "2.1.2"
+        versionCode 6
+        versionName "2.1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.TickTracKSigningConfig
@@ -40,8 +40,9 @@ android {
         debug {
             ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             crunchPngs false
-            debuggable true
+            debuggable false
         }
     }
     packagingOptions {
@@ -65,6 +66,7 @@ android {
     configurations {
         all {
             exclude module: 'httpclient'
+            exclude module: 'commons-logging'
         }
     }
 }
@@ -99,14 +101,16 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     
     implementation 'com.google.http-client:google-http-client-gson:1.26.0'
+
     implementation ('com.google.api-client:google-api-client-android:1.26.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    implementation 'commons-codec:commons-codec:1.10'
 
-//    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
 
     implementation 'com.gtomato.android.library:carouselview:2.0.1'
 //    implementation 'com.google.firebase:firebase-perf:19.0.8'

@@ -119,13 +119,10 @@ public class JsonHelper {
                 .addOnSuccessListener(s -> {
                     if(s.first==1){
                         openGDriveFile(gDriveHelper, s.second, jsonObject, "timerBackup.json");
-                        Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show();
                     } else {
                         createTimerBackup(gDriveHelper, jsonObject);
                     }
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(context, "Timer Upload Success", Toast.LENGTH_SHORT).show());
+                });
     }
 
     public void counterDataBackup(ArrayList<CounterData> counterData){
@@ -205,13 +202,10 @@ public class JsonHelper {
                 .addOnSuccessListener(s -> {
                     if(s.first==1){
                         openGDriveFile(gDriveHelper, s.second, jsonObject, "counterBackup.json");
-                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
                     } else {
                         createCounterBackup(gDriveHelper, jsonObject);
                     }
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
+                });
     }
     private void preferencesDataBackup() {
         ArrayList<SettingsData> settingsData = new ArrayList<>();
@@ -267,13 +261,10 @@ public class JsonHelper {
                 .addOnSuccessListener(s -> {
                     if(s.first==1){
                         openGDriveFile(gDriveHelper, s.second, json, "settingsBackup.json");
-                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show();
                     } else {
                         createSettingsBackup(gDriveHelper, json);
                     }
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(context, "Counter Upload Success", Toast.LENGTH_SHORT).show());
+                });
     }
 
     public void createBackup(){
@@ -306,7 +297,7 @@ public class JsonHelper {
                 if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("counterDataBackup", true)){
                     counterDataBackup(tickTrackDatabase.retrieveCounterList());
                 }
-                if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("timerDataBackup", false)){
+                if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("timerDataBackup", true)){
                     timerDataBackup(tickTrackDatabase.retrieveTimerList());
                 }
                 if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("preferencesDataBackup", true)){
@@ -318,7 +309,7 @@ public class JsonHelper {
                 System.out.println("CLEAR DATA FAILED");
                 clearDataSetup(gDriveHelper);
             }
-        }).addOnFailureListener(e -> Toast.makeText(context, "Deletion Error", Toast.LENGTH_SHORT).show());
+        });
     }
 
 

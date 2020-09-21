@@ -22,11 +22,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/DarkTheme">
-        <activity android:name=".about.AboutActivity"
-            android:screenOrientation="portrait"/>
+        android:theme="@style/DarkTheme" >
 
-        <receiver android:name=".widgets.shortcuts.StopwatchWidget"
+        <activity
+            android:name=".about.AboutActivity"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".widgets.shortcuts.StopwatchWidget"
             android:label="Stopwatch">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -36,7 +39,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/stopwatch_widget_info" />
         </receiver>
-        <receiver android:name=".widgets.shortcuts.QuickTimerWidget"
+        <receiver
+            android:name=".widgets.shortcuts.QuickTimerWidget"
             android:label="QuickTimer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -46,7 +50,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/quick_timer_widget_info" />
         </receiver>
-        <receiver android:name=".widgets.shortcuts.ScreensaverWidget"
+        <receiver
+            android:name=".widgets.shortcuts.ScreensaverWidget"
             android:label="Screensaver">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -56,7 +61,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/screensaver_widget_info" />
         </receiver>
-        <receiver android:name=".widgets.shortcuts.CreateTimerWidget"
+        <receiver
+            android:name=".widgets.shortcuts.CreateTimerWidget"
             android:label="Timer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -69,7 +75,8 @@
 
         <activity android:name=".widgets.shortcuts.panel.ShortcutsPanelConfigActivity" />
 
-        <receiver android:name=".widgets.shortcuts.panel.ShortcutsPanelWidget"
+        <receiver
+            android:name=".widgets.shortcuts.panel.ShortcutsPanelWidget"
             android:label="Shortuts Console">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -100,8 +107,8 @@
         <activity
             android:name=".widgets.counter.CounterWidgetConfigActivity"
             android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:taskAffinity="" />
 
         <receiver
             android:name=".widgets.counter.CounterWidget"
@@ -123,8 +130,8 @@
             android:excludeFromRecents="true"
             android:label="@string/title_activity_screensaver"
             android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:taskAffinity="" />
 
         <receiver
             android:name=".receivers.BackupScheduleReceiver"
@@ -180,8 +187,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".startup.StartUpActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".startup.StartUpActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".timer.ringer.TimerRingerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -210,18 +218,21 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".timer.activity.TimerActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".counter.activity.CounterEditActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".timer.activity.TimerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".counter.activity.CounterEditActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".counter.activity.CounterActivity"
             android:parentActivityName=".SoYouADeveloperHuh"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SoYouADeveloperHuh"
             android:label="@string/title_activity_so_you_a_developer_huh"

@@ -352,7 +352,6 @@ public class FirebaseHelper {
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
                 tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
                 tickTrackDatabase.setNewDevice(false);
-                Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(activity, "Not signed out, try again", Toast.LENGTH_SHORT).show();
             }
@@ -427,7 +426,7 @@ public class FirebaseHelper {
                 System.out.println("CLEAR DATA FAILED");
                 clearData(gDriveHelper, progressBarDialog);
             }
-        }).addOnFailureListener(e -> Toast.makeText(context, "Deletion Error", Toast.LENGTH_SHORT).show());
+        });
     }
 
 }

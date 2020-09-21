@@ -107,6 +107,7 @@ public class LoginFragment extends Fragment {
     private void signInClick(){
         progressBarDialog = new ProgressBarDialog(getActivity());
         progressBarDialog.show();
+        progressBarDialog.titleText.setVisibility(View.GONE);
         progressBarDialog.setContentText("Signing In");
         signInButton.setEnabled(false);
         laterButton.setVisibility(View.GONE);

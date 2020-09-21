@@ -237,6 +237,7 @@ public class TickTrackStopwatch {
 
             currentValue = getLapResumeDifference();
             maxProgress = getLastLapValue();
+            differenceProgressValue = SystemClock.elapsedRealtime();
             progressBar.setVisibility(View.INVISIBLE);
             progressBarHandler.removeCallbacks(progressBarRunnable);
             progressBarHandler.post(progressBarRunnable);

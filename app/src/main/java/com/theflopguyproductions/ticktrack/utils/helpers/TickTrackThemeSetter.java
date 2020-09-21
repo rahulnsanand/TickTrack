@@ -217,9 +217,9 @@ public class TickTrackThemeSetter {
 
 
             plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
-            plusText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            plusText.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_light_background);
-            minusText.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            minusText.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
 
             plusDarkButton.setVisibility(View.GONE);
             minusDarkButton.setVisibility(View.GONE);
@@ -232,9 +232,9 @@ public class TickTrackThemeSetter {
             toolbar.setBackgroundResource(R.color.Black);
 
             plusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-            plusText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            plusText.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             minusButtonBig.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-            minusText.setTextColor(activity.getResources().getColor(R.color.LightText));
+            minusText.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
 
             plusDarkButton.setVisibility(View.VISIBLE);
             minusDarkButton.setVisibility(View.VISIBLE);

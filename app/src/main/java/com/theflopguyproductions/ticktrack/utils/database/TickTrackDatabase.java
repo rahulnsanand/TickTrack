@@ -400,7 +400,7 @@ public class TickTrackDatabase {
         if(sharedPreferences.getBoolean("preferencesDataBackup", true)){
             options.add(1);
         }
-        if(sharedPreferences.getBoolean("timerDataBackup", false)){
+        if(sharedPreferences.getBoolean("timerDataBackup", true)){
             options.add(2);
         }
         if(sharedPreferences.getBoolean("counterDataBackup", true)){
@@ -575,7 +575,14 @@ public class TickTrackDatabase {
         return shortcutsData;
     }
 
-
+    public void storeBackupHour(int result) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("backupHour", result);
+        editor.apply();
+    }
+    public int getBackupHour() {
+        return sharedPreferences.getInt("backupHour", -1);
+    }
 
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){

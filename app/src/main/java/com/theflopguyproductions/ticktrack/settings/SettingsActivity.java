@@ -97,6 +97,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch milestoneSwitch;
     private ConstraintLayout milestoneVibrateLayout, milestoneSoundLayout;
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -230,7 +232,19 @@ public class SettingsActivity extends AppCompatActivity {
             frequencyOption = "Monthly";
             monthlyButton.setChecked(true);
         }
-        syncDataFrequency.setText(frequencyOption);
+        int backupHour = tickTrackDatabase.getBackupHour();
+        String timeOfBackup = " at around ";
+        if(backupHour<=12){
+            if(backupHour==0){
+                timeOfBackup += "12 am";
+            } else {
+                timeOfBackup += backupHour+ "am";
+            }
+        } else {
+            timeOfBackup += (backupHour-12)+ "pm";
+        }
+
+        syncDataFrequency.setText(frequencyOption+timeOfBackup);
     }
     private void setupDataOptionsText(){
         ArrayList<Integer> optionsBackup = tickTrackDatabase.getBackupDataOptions();
@@ -724,19 +738,19 @@ public class SettingsActivity extends AppCompatActivity {
         monthlyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.MONTHLY.getCode());
             tickTrackFirebaseDatabase.cancelBackUpAlarm();
-            tickTrackFirebaseDatabase.setBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm(false);
             toggleSyncOptionsLayout();
         });
         weeklyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.WEEKLY.getCode());
             tickTrackFirebaseDatabase.cancelBackUpAlarm();
-            tickTrackFirebaseDatabase.setBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm(false);
             toggleSyncOptionsLayout();
         });
         dailyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.DAILY.getCode());
             tickTrackFirebaseDatabase.cancelBackUpAlarm();
-            tickTrackFirebaseDatabase.setBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm(false);
             toggleSyncOptionsLayout();
         });
 
@@ -847,7 +861,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         switchAccountOptionLayout.setOnClickListener(view -> {
             if(isMyServiceRunning(BackupRestoreService.class, getApplicationContext())){
-                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
             } else {
                 if(firebaseHelper.isUserSignedIn()){
                     firebaseHelper.switchAccount(activity);
@@ -858,12 +872,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         disconnectAccountOptionLayout.setOnClickListener(view -> {
             if(isMyServiceRunning(BackupRestoreService.class,this)){
-                Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
             } else {
                 if(firebaseHelper.isUserSignedIn()){
                     firebaseHelper.signOut(activity);
                     toggleGoogleAccountOptionsLayout();
                     setupEmailText();
+                    Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -902,10 +917,11 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
                 if(isMyServiceRunning(BackupRestoreService.class,this)){
-                    Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
                 } else {
                     if(firebaseHelper.isUserSignedIn()){
                         firebaseHelper.deleteBackup(this);
+                        Toast.makeText(activity, "Deleting in background", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -919,7 +935,7 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
                 if(isMyServiceRunning(BackupRestoreService.class,this)){
-                    Toast.makeText(activity, "Backup/Restore Ongoing, Please wait", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
                 } else {
                     if(firebaseHelper.isUserSignedIn()){
                         new Handler().post(() -> {
@@ -929,6 +945,8 @@ public class SettingsActivity extends AppCompatActivity {
                             progressBarDialog.titleText.setVisibility(View.GONE);
                             tickTrackDatabase.resetData(activity);
                             progressBarDialog.dismiss();
+                            refreshTheme();
+                            Toast.makeText(activity, "Reset Complete", Toast.LENGTH_SHORT).show();
                         });
                     }
                 }

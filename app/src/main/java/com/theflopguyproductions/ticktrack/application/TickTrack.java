@@ -11,7 +11,12 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-//import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
+
+import java.util.Objects;
 
 public class TickTrack extends Application {
 
@@ -64,7 +69,7 @@ public class TickTrack extends Application {
 
         }
 
-//        setupCrashAnalyticsBasicData();
+        setupCrashAnalyticsBasicData();
 
         System.out.println("ActivityManager: Displayed TickTrack OnCreate "+System.currentTimeMillis());
 
@@ -72,8 +77,8 @@ public class TickTrack extends Application {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void notificationGroupCreator(NotificationManager notificationManager) {
-        String[] GroupIDs = {"Counter Group", "Timer Group", "Stopwatch Group", "General Group", "Miscellaneous Group"};
-        String[] groupName = {"Counter", "Timer", "Stopwatch", "General", "Miscellaneous"};
+        String[] GroupIDs = {"Counter Group", "Timer Group", "Stopwatch Group", "General Group", "Miscellaneous Group", "Ultra Critical Group"};
+        String[] groupName = {"Counter", "Timer", "Stopwatch", "General", "Miscellaneous", "Ultra Critical"};
 
         for(int i=0; i<GroupIDs.length; i++){
             NotificationChannelGroup notificationChannelGroup=
@@ -82,17 +87,17 @@ public class TickTrack extends Application {
         }
     }
 
-//    private void setupCrashAnalyticsBasicData() {
-//        if(new FirebaseHelper(this).isUserSignedIn()){
-//            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//            if(account!=null){
-//                FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
-//            }
-//            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
-//        } else {
-//            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
-//        }
-//    }
+    private void setupCrashAnalyticsBasicData() {
+        if(new FirebaseHelper(this).isUserSignedIn()){
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+            if(account!=null){
+                FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
+            }
+            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
+        } else {
+            FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerMissedNotificationChannel(NotificationManager mNotificationManager) {
@@ -123,7 +128,7 @@ public class TickTrack extends Application {
         int importance = NotificationManager. IMPORTANCE_MIN ;
         NotificationChannel notificationChannel = new
                 NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "Backup [Do Not Disable]" , importance) ;
-        notificationChannel.setGroup("General Group");
+        notificationChannel.setGroup("Ultra Critical Group");
         notificationChannel.setDescription(DATA_BACKUP_RESTORE_NOTIFICATION_DESCRIPTION);
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
@@ -187,7 +192,7 @@ public class TickTrack extends Application {
         NotificationChannel notificationChannel = new
                 NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Ongoing Timer [Do Not Disable]" , importance) ;
         notificationChannel.setDescription(TIMER_RUNNING_NOTIFICATION_DESCRIPTION);
-        notificationChannel.setGroup("Timer Group");
+        notificationChannel.setGroup("Ultra Critical Group");
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
 
@@ -207,7 +212,7 @@ public class TickTrack extends Application {
         notificationChannel.enableLights( true ) ;
         notificationChannel.setLightColor(Color. GREEN ) ;
         notificationChannel.enableVibration( true ) ;
-        notificationChannel.setGroup("Timer Group");
+        notificationChannel.setGroup("Ultra Critical Group");
         notificationChannel.setDescription(TIMER_COMPLETE_NOTIFICATION_DESCRIPTION);
         notificationChannel.setVibrationPattern( new long []{ 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 }) ;
 

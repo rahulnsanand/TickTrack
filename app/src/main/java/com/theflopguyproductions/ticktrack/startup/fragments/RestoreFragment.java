@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,6 +74,7 @@ public class RestoreFragment extends Fragment {
     private void checkRestoreMode() {
         if(tickTrackFirebaseDatabase.isDriveLinkFail()){
             firebaseHelper.signOut(activity);
+            Toast.makeText(activity, "Kindly login again", Toast.LENGTH_SHORT).show();
             tickTrackDatabase.storeStartUpFragmentID(3);
             startActivity(new Intent(activity, StartUpActivity.class));
         } else if(tickTrackFirebaseDatabase.isRestoreInitMode()==1){
@@ -116,7 +118,7 @@ public class RestoreFragment extends Fragment {
         restoreDataButton.setText("Restore Data");
         restoreDataButton.setOnClickListener(view ->{
             restoreData();
-            tickTrackFirebaseDatabase.setBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm(false);
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 Intent intent = new Intent(requireContext(), SettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -200,7 +202,7 @@ public class RestoreFragment extends Fragment {
             progressBarDialog.setContentText("Restoring Data");
             restoreData();
             progressBarDialog.dismiss();
-            tickTrackFirebaseDatabase.setBackUpAlarm();
+            tickTrackFirebaseDatabase.setBackUpAlarm(false);
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                 Intent intent = new Intent(requireContext(), SettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -214,7 +216,7 @@ public class RestoreFragment extends Fragment {
             SwipeDialog swipeDialog = new SwipeDialog(activity);
             swipeDialog.show();
             swipeDialog.dialogTitle.setText("Are you sure?");
-            swipeDialog.dialogMessage.setText("This will permanently overwrite your cloud TickTrack Data");
+            swipeDialog.dialogMessage.setText("This will delete your cloud TickTrack data on next backup");
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
 
@@ -226,7 +228,7 @@ public class RestoreFragment extends Fragment {
                 if(isMyServiceRunning(BackupRestoreService.class, activity)){
                     stopRestoreService();
                 }
-                tickTrackFirebaseDatabase.setBackUpAlarm();
+                tickTrackFirebaseDatabase.setBackUpAlarm(true);
                 if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                     Intent intent = new Intent(requireContext(), SettingsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
