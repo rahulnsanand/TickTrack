@@ -76,12 +76,14 @@ Kindly follow the procedure to do the same.
 
 ----
 ### Do note, Rebranding this software as your own, to illegally profit or benefit from it in any manner will cause, well, trouble. 
-#### (If it's to show off among a group of 10 or less, you have my blessing.)
+**(If it's to show off among a group of 10 or less, you have my blessing.)**
 ----
 
-#### 1. Fork the repository onto your profile
-#### 2. Perform your logic to improvise or add a new feature
-#### 3. Create a pull request identifying yourself for further communication
+**1. Fork the repository onto your profile**
+
+**2. Perform your logic to improvise or add a new feature**
+
+**3. Create a pull request identifying yourself for further communication**
 
 ---
 ### Access to Cloud Functionalities like GCC and Firebase is restricted, for access, send in a formal request with reason and motive to ticktrackapp@gmail.com
