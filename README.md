@@ -76,7 +76,9 @@ Kindly follow the procedure to do the same.
 
 ----
 ### Do note, Rebranding this software as your own, to illegally profit or benefit from it in any manner will cause, well, trouble. 
+
 **(If it's to show off among a group of 10 or less, you have my blessing.)**
+
 ----
 
 **1. Fork the repository onto your profile**
