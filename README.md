@@ -6,7 +6,6 @@
 ![GitHub Release Date](https://img.shields.io/badge/Release%20Date-22%2F09%2F2020-red?style=for-the-badge)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/theflopguy/ticktrack?style=for-the-badge)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/theflopguy/TickTrack?style=for-the-badge)
 
 ## What does this app do?
 It caters to the need to create counters, timers and stopwatch in ways that you never knew you needed. There’s also various meticulously designed widgets, for every functionality that the app provides and more. Be sure to check out all the clock faces of the Clock widget.
