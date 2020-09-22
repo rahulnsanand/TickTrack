@@ -1,11 +1,18 @@
 # TickTrack 
 
 ![GitHub](https://img.shields.io/github/license/theflopguy/TickTrack?style=for-the-badge)
+
 ![GitHub release (latest by date)](https://img.shields.io/badge/Version-2.1.2.1-brightgreen?style=for-the-badge)
 
 ![GitHub Release Date](https://img.shields.io/badge/Release%20Date-22%2F09%2F2020-red?style=for-the-badge)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/theflopguy/ticktrack?style=for-the-badge)
+
+----
+<a href="https://play.google.com/store/apps/details?id=com.theflopguyproductions.ticktrack" rel="Playstore Graphic">![Foo](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore%20Feature%20Graphics.jpg)</a>
+
+<a href="https://play.google.com/store/apps/details?id=com.theflopguyproductions.ticktrack" rel="Download now">![Foo](https://img.shields.io/badge/Get%20it%20on%20Playstore-Now-blue?style=for-the-badge)</a>
+----
 
 ## What does this app do?
 It caters to the need to create counters, timers and stopwatch in ways that you never knew you needed. There’s also various meticulously designed widgets, for every functionality that the app provides and more. Be sure to check out all the clock faces of the Clock widget.
@@ -21,23 +28,33 @@ Key Features:
 
 ## Counter:
 
+![Counter Graphic](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore-ScreenshotsArtboard-2.png)
+
 You can create a counter to keep track of things you’d like to not store in your mind. Like, how many glasses of water did you drink or how many times a person sneezed in a day. You know? Truly important things. Only, TickTrack does it all in the most minimalist, elegant manner.
 You can set milestones to commemorate a special count value. Maybe celebrate the fact that you had 15 glasses of water! You can customize the counter to fit just the perfect way you need it.
 
 ## Timer:
 
+![Timer Graphic](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore-ScreenshotsArtboard-1.png)
+
 The timer functionality of the app allows you to set multiple timers and quick timers simultaneously. Like Counters, you can also customize timers which includes naming and flags with various colors. The list of all the timers created by you gets sorted according to the timer value. If the user is in a hurry, they can use the hassle free functionality of Quicktimer. Or if you want to keep a dedicated timer for an occasion or an event. You can just create a custom timer and easily access it from the dashboard whenever required.
 
 ## Screensaver:
+
+![Screensaver Graphic](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore-ScreenshotsArtboard-4.png)
 
 Unlike other screensavers, TickTrack provides a very minimalist screensaver UI with customizability when it comes to clock faces and brightness. Screensavers are best viewed on an AMOLED or higher screen as the blacks are truly your phones pixels being off. And so, your battery is saved splendidly. On LCD displays, you might use up more battery than you think.
 
 
 ## Stopwatch:
 
+![Stopwatch Graphic](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore-ScreenshotsArtboard-3.png)
+
 Just your standard stopwatch to record laps, and keep track of time. Only, on TickTrack it’s the most elegantly designed stopwatch
 
 ## Widgets?
+
+![Widgets Graphic](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore-ScreenshotsArtboard-5.png)
 
 It’s nice to see you’re still into widgets. Widgets are cool aren’t they? Well, We’ve just made them cool-er! You can create a custom Counter Widget that is linked to a counter that exists on your TickTrack app, you can create a custom Clock Widget and show off the 6 brilliantly designed clock faces for your minimalist home screen.
 You can also create a TickTrack Console widget to access all TickTrack functionality from your home screen in a jiffy.
