@@ -91,7 +91,10 @@ class AutoStartPermissionHelper private constructor() {
     private val PACKAGE_ONE_PLUS_MAIN = "com.oneplus.security"
     private val PACKAGE_ONE_PLUS_COMPONENT = "com.oneplus.security.chainlaunch.view.ChainLaunchAppListActivity"
 
-    private val PACKAGES_TO_CHECK_FOR_PERMISSION = listOf(PACKAGE_ASUS_MAIN, PACKAGE_XIAOMI_MAIN, PACKAGE_LETV_MAIN, PACKAGE_HONOR_MAIN, PACKAGE_OPPO_MAIN,
+    private val PACKAGES_TO_CHECK_FOR_PERMISSION = listOf(PACKAGE_ASUS_MAIN, PACKAGE_XIAOMI_MAIN, PACKAGE_LETV_MAIN,
+             PACKAGE_NOKIA_MAIN, PACKAGE_HUAWEI_MAIN, PACKAGE_SAMSUNG_MAIN)
+
+    private val PACKAGES_MAYBE_TO_CHECK_FOR_PERMISSION = listOf(PACKAGE_ASUS_MAIN, PACKAGE_XIAOMI_MAIN, PACKAGE_LETV_MAIN, PACKAGE_HONOR_MAIN, PACKAGE_OPPO_MAIN,
             PACKAGE_OPPO_FALLBACK, PACKAGE_VIVO_MAIN, PACKAGE_VIVO_FALLBACK, PACKAGE_NOKIA_MAIN, PACKAGE_HUAWEI_MAIN, PACKAGE_SAMSUNG_MAIN, PACKAGE_ONE_PLUS_MAIN)
 
     fun getAutoStartPermission(context: Context): Boolean {
@@ -132,6 +135,19 @@ class AutoStartPermissionHelper private constructor() {
         packages = pm.getInstalledApplications(0)
         for (packageInfo in packages) {
             if (PACKAGES_TO_CHECK_FOR_PERMISSION.contains(packageInfo.packageName)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isAutoStartPermissionMaybeAvailable(context: Context): Boolean {
+
+        val packages: List<ApplicationInfo>
+        val pm = context.packageManager
+        packages = pm.getInstalledApplications(0)
+        for (packageInfo in packages) {
+            if (PACKAGES_MAYBE_TO_CHECK_FOR_PERMISSION.contains(packageInfo.packageName)) {
                 return true
             }
         }

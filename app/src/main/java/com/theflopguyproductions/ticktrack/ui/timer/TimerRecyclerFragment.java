@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.timer.data.TimerAdapter;
@@ -42,29 +42,34 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private SharedPreferences sharedPreferences;
     private Activity activity;
     private static RecyclerView timerRecyclerView, quickTimerRecyclerView;
-    private TextView noTimerText, timerTitleText, quickTimerTitleText;
+    private TextView timerTitleText, quickTimerTitleText;
+    private static TextView noTimerText;
     private static ConstraintLayout timerRecyclerRootLayout, timerLayout, quickTimerLayout;
     private static TimerAdapter timerAdapter;
     private QuickTimerAdapter quickTimerAdapter;
 
-    public static void deleteTimer(int timerId, int position, Activity activity, String timerName) {
-        deleteItem(timerId, position);
+    public static void deleteTimer(int position, Activity activity, String timerName) {
+        deleteItem(position, activity);
         if(!"Set label".equals(timerName)){
-            Toast.makeText(activity, "Deleted Timer " + timerName, Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar
+                    .make(timerRecyclerRootLayout, timerName+" Timer Deleted", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(activity.getResources().getColor(R.color.Accent))
+                    .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+                    .setDuration(1000);
+            snackbar.show();
         } else {
-            Toast.makeText(activity, "Deleted Timer", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar
+                    .make(timerRecyclerRootLayout, "Timer Deleted", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(activity.getResources().getColor(R.color.Accent))
+                    .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+                    .setDuration(1000);
+            snackbar.show();
         }
     }
 
-    public static void deleteItem(int timerId, int position){
-        timerAdapter.notifyItemRemoved(position);
-        for(int i=0; i<timerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).getTimerIntID()==timerId){
-                timerDataArrayList.remove(i);
-                tickTrackDatabase.storeTimerList(timerDataArrayList);
-                return;
-            }
-        }
+    public static void deleteItem(int pos, Activity activity){
+        timerDataArrayList.remove(pos);
+        tickTrackDatabase.storeTimerList(timerDataArrayList);
 
     }
 
@@ -136,7 +141,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         }
 
     }
-    private void buildTimerRecyclerView(Activity activity) {
+    private static void buildTimerRecyclerView(Activity activity) {
 
         timerAdapter = new TimerAdapter(activity, timerDataArrayList);
 
@@ -165,45 +170,46 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof TimerAdapter.timerDataViewHolder) {
-            deletedTimer = timerDataArrayList.get(position).getTimerLabel();
-            timerId = timerDataArrayList.get(position).getTimerIntID();
-            new Handler().post(() -> {
-                DeleteTimer timerDelete = new DeleteTimer(activity);
-                timerDelete.show();
-                if(!"Set label".equals(deletedTimer)){
-                    timerDelete.dialogMessage.setText("Delete timer "+deletedTimer+"?");
-                } else {
-                    timerDelete.dialogMessage.setText("Delete timer ?");
-                }
-                sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-                timerDelete.yesButton.setOnClickListener(view -> {
-                    TimerRecyclerFragment.deleteTimer(timerId, position, activity, deletedTimer);
-                    timerDelete.cancel();
-                    if(timerDataArrayList.size()>0){
-                        timerRecyclerView.setVisibility(View.VISIBLE);
-                        noTimerText.setVisibility(View.INVISIBLE);
+            if(position!=timerDataArrayList.size()){
+                deletedTimer = timerDataArrayList.get(position).getTimerLabel();
+                timerId = timerDataArrayList.get(position).getTimerIntID();
+                new Handler().post(() -> {
+                    DeleteTimer timerDelete = new DeleteTimer(activity);
+                    timerDelete.show();
+                    if(!"Set label".equals(deletedTimer)){
+                        timerDelete.dialogMessage.setText("Delete timer "+deletedTimer+"?");
                     } else {
-                        timerRecyclerView.setVisibility(View.INVISIBLE);
-                        noTimerText.setVisibility(View.VISIBLE);
+                        timerDelete.dialogMessage.setText("Delete timer ?");
                     }
-                    buildTimerRecyclerView(activity);
-                    sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                    sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                    timerDelete.yesButton.setOnClickListener(view -> {
+                        TimerRecyclerFragment.deleteTimer(position, activity, deletedTimer);
+                        timerDelete.cancel();
+                        if(timerDataArrayList.size()>0){
+                            timerRecyclerView.setVisibility(View.VISIBLE);
+                            noTimerText.setVisibility(View.INVISIBLE);
+                        } else {
+                            timerRecyclerView.setVisibility(View.INVISIBLE);
+                            noTimerText.setVisibility(View.VISIBLE);
+                        }
+                        buildTimerRecyclerView(activity);
+                        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                    });
+                    timerDelete.noButton.setOnClickListener(view -> {
+                        TimerRecyclerFragment.refreshRecyclerView();
+                        timerDelete.cancel();
+                        buildTimerRecyclerView(activity);
+                        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                    });
+                    timerDelete.setOnCancelListener(dialogInterface -> {
+                        TimerRecyclerFragment.refreshRecyclerView();
+                        timerDelete.cancel();
+                        buildTimerRecyclerView(activity);
+                        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+                    });
                 });
-                timerDelete.noButton.setOnClickListener(view -> {
-                    TimerRecyclerFragment.refreshRecyclerView();
-                    timerDelete.cancel();
-                    buildTimerRecyclerView(activity);
-                    sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-                });
-                timerDelete.setOnCancelListener(dialogInterface -> {
-                    TimerRecyclerFragment.refreshRecyclerView();
-                    timerDelete.cancel();
-                    buildTimerRecyclerView(activity);
-                    sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-                });
-            });
+            }
         }
-
     }
 
 

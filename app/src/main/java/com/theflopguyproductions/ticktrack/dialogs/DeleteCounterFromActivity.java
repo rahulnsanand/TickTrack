@@ -35,15 +35,13 @@ public class DeleteCounterFromActivity extends BottomSheetDialog {
     TextView dialogMessage, dialogTitle;
     SharedPreferences sharedPreferences;
     private ConstraintLayout rootLayout;
-    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener;
 
-    public DeleteCounterFromActivity(Activity activity, int position, String counterName, String counterID, SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener){
+    public DeleteCounterFromActivity(Activity activity, int position, String counterName, String counterID){
         super(activity);
         this.counterName = counterName;
         this.position = position;
         this.activity = activity;
         this.counterID = counterID;
-        this.sharedPreferenceChangeListener = sharedPreferenceChangeListener;
     }
 
     @Override
@@ -102,13 +100,11 @@ public class DeleteCounterFromActivity extends BottomSheetDialog {
     }
 
     public void killNotification() {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         if(counterID.equals(tickTrackDatabase.getCurrentCounterNotificationID())){
             Intent intent = new Intent(activity, CounterNotificationService.class);
             intent.setAction(CounterNotificationService.ACTION_KILL_NOTIFICATIONS);
             activity.startService(intent);
         }
-        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
     public Button yesButton;

@@ -45,6 +45,7 @@ import com.theflopguyproductions.ticktrack.utils.RateUsUtil;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.font.TypefaceSpanSetup;
+import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
@@ -241,6 +242,9 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
                 .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
             goToStartUpActivity(5, false);
+        } else if (AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this) && !tickTrackDatabase.isAutoStart() ){
+            AutoStartPermissionHelper.getInstance().getAutoStartPermission(this);
+            tickTrackDatabase.setAutoStart(true);
         } else if(tickTrackDatabase.retrieveFirstLaunch()){
             goToStartUpActivity(1, false);
         } else {

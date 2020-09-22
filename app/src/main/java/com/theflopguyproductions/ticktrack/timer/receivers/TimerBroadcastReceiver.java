@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.widget.Toast;
 
 import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
@@ -26,11 +25,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String toastText = "TickTrack Timer";
-        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         if(Objects.equals(intent.getAction(), ACTION_TIMER_BROADCAST)){
-
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
 
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
 
@@ -59,8 +54,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
             }
         }
         else if (Objects.equals(intent.getAction(), ACTION_QUICK_TIMER_BROADCAST)){
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
 
             quickTimerIDInteger = intent.getIntExtra("timerIntegerID",0);

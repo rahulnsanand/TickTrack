@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
@@ -54,7 +54,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     private static RecyclerView counterRecyclerView;
     private ConstraintLayout counterFab;
     private static TextView noCounterText;
-    private ConstraintLayout counterFragmentRootLayout;
+    private static ConstraintLayout counterFragmentRootLayout;
     private Activity activity;
     private SharedPreferences sharedPreferences;
     private static TickTrackDatabase tickTrackDatabase;
@@ -259,26 +259,27 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof CounterAdapter.counterDataViewHolder) {
+            if(position!=counterDataArrayList.size()){
+                deletedCounter = counterDataArrayList.get(position).getCounterLabel();
 
-            deletedCounter = counterDataArrayList.get(position).getCounterLabel();
-
-            new Handler().post(() -> {
-                killNotification(counterDataArrayList.get(position).getCounterID());
-                DeleteCounter counterDelete = new DeleteCounter(getActivity(), position, deletedCounter);
-                counterDelete.show();
-                counterDelete.yesButton.setOnClickListener(view12 -> {
-                    deleteCounter(position, activity, deletedCounter);
-                    counterDelete.dismiss();
+                new Handler().post(() -> {
+                    killNotification(counterDataArrayList.get(position).getCounterID());
+                    DeleteCounter counterDelete = new DeleteCounter(getActivity(), position, deletedCounter);
+                    counterDelete.show();
+                    counterDelete.yesButton.setOnClickListener(view12 -> {
+                        deleteCounter(position, activity, deletedCounter);
+                        counterDelete.dismiss();
+                    });
+                    counterDelete.noButton.setOnClickListener(view1 -> {
+                        refreshItemChanged(position);
+                        counterDelete.dismiss();
+                    });
+                    counterDelete.setOnCancelListener(dialogInterface -> {
+                        refreshItemChanged(position);
+                        counterDelete.cancel();
+                    });
                 });
-                counterDelete.noButton.setOnClickListener(view1 -> {
-                    refreshItemChanged(position);
-                    counterDelete.dismiss();
-                });
-                counterDelete.setOnCancelListener(dialogInterface -> {
-                    refreshItemChanged(position);
-                    counterDelete.cancel();
-                });
-            });
+            }
         }
     }
     public void killNotification(String counterID) {
@@ -297,7 +298,12 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         int[] ids = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), CounterWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         activity.sendBroadcast(intent);
-        Toast.makeText(activity, "Deleted Counter " + counterName, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar
+                .make(counterFragmentRootLayout ,"Deleted Counter " + counterName, Snackbar.LENGTH_INDEFINITE)
+                .setBackgroundTint(activity.getResources().getColor(R.color.Accent))
+                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+                .setDuration(1000);
+        snackbar.show();
     }
     public static void refreshItemChanged(int position){
         counterAdapter.notifyItemChanged(position);

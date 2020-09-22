@@ -57,7 +57,9 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
-        getDefaultUIUtil().clearView(foregroundView);
+        if(foregroundView!=null){
+            getDefaultUIUtil().clearView(foregroundView);
+        }
     }
 
     @Override
@@ -67,9 +69,10 @@ public class TimerSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
 
         if(!((TimerAdapter.timerDataViewHolder) viewHolder).isRunning){
             final View foregroundView = ((TimerAdapter.timerDataViewHolder) viewHolder).timerLayout;
-
-            getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
-                    actionState, isCurrentlyActive);
+            if(foregroundView!=null){
+                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
+                        actionState, isCurrentlyActive);
+            }
         }
     }
 

@@ -32,6 +32,12 @@ public class BatteryOptimiseFragment extends Fragment {
     private ScrollView optimiseScroll;
     private boolean isScrolled = false;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tickTrackDatabase.storeStartUpFragmentID(5);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 

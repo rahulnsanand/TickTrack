@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
@@ -24,6 +25,7 @@ public class BackupScheduleReceiver extends BroadcastReceiver {
 
         if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, context)){
             startBackupService(context);
+            Toast.makeText(context, "TickTrack backup in progress", Toast.LENGTH_SHORT).show();
         }
 
     }

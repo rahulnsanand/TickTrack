@@ -94,46 +94,36 @@
                 app:layout_constraintTop_toBottomOf="@+id/generalSettingsTextView">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/rateUsSettingsLayout"
+                    android:id="@+id/themeSettingsOptionsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="match_parent"
                     android:animateLayoutChanges="true"
-                    android:background="@drawable/clickable_layout_light_background"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/themeSettingsOptionsLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/themeSettingsLayout">
 
-                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
-                        android:id="@+id/rateUsSettingsTitleText"
+                    <RadioGroup
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Loving the app?"
-                        android:textColor="@color/DarkText"
-                        android:textSize="18sp"
+                        android:layout_marginStart="56dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:typeface="apercu_regular" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
-                        android:id="@+id/rateUsSettingsContentText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="Rate us on Play Store"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rateUsSettingsTitleText"
-                        app:layout_constraintVertical_bias="0.0"
-                        app:typeface="apercu_italic" />
+                        <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
+                            android:id="@+id/darkRadioButtonSettingsActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Dark (Power saving)" />
+
+                        <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
+                            android:id="@+id/lightRadioButtonSettingsActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Illuminus" />
+                    </RadioGroup>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -181,36 +171,85 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/themeSettingsOptionsLayout"
+                    android:id="@+id/rateUsSettingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="80dp"
                     android:animateLayoutChanges="true"
-                    android:visibility="gone"
+                    android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/themeSettingsLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/themeSettingsOptionsLayout">
 
-                    <RadioGroup
-                        android:layout_width="wrap_content"
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                        android:id="@+id/rateUsSettingsTitleText"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="56dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:text="Loving the app?"
+                        android:textColor="@color/DarkText"
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular" />
 
-                        <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
-                            android:id="@+id/darkRadioButtonSettingsActivity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Dark (Power saving)" />
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                        android:id="@+id/rateUsSettingsContentText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Rate us on Play Store"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rateUsSettingsTitleText"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:typeface="apercu_italic" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
-                            android:id="@+id/lightRadioButtonSettingsActivity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Illuminus" />
-                    </RadioGroup>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/autoStartSettingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rateUsSettingsLayout">
+
+                    <TextView
+                        android:id="@+id/autoStartSettingsTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:text="Missing Timers?"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/autoStartSettingsValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Setup Autostart settings"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/autoStartSettingsTitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -541,25 +580,30 @@
 
                         <com.theflopguyproductions.ticktrack.ui.utils.TickTrackCheckBox
                             android:id="@+id/backupCounterDataOptionSettingsCheckbox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="56dp"
                             android:layout_marginTop="16dp"
                             android:text="Counter data"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.theflopguyproductions.ticktrack.ui.utils.TickTrackCheckBox
                             android:id="@+id/backupTimerDataOptionSettingsCheckbox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="56dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="16dp"
                             android:text="Timer data"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/backupCounterDataOptionSettingsCheckbox" />
+                            app:layout_constraintTop_toBottomOf="@+id/backupCounterDataOptionSettingsCheckbox"
+                            app:layout_constraintVertical_bias="0.0" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

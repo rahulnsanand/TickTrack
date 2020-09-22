@@ -23,6 +23,7 @@ import com.theflopguyproductions.ticktrack.startup.fragments.RestoreFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.ThemeFragment;
 import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
+import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class StartUpActivity extends AppCompatActivity implements IntroFragment.OnGetStartedClickListener, BatteryOptimiseFragment.BatteryOptimiseClickListener,
@@ -170,9 +171,13 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     }
     @Override
     public void onAutoStartSetClickListener() {
-        Intent intent = new Intent(this, SoYouADeveloperHuh.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        if(AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this) && !AutoStartPermissionHelper.getInstance().getAutoStartPermission(this)){
+            AutoStartPermissionHelper.getInstance().getAutoStartPermission(this);
+        } else {
+            Intent intent = new Intent(this, SoYouADeveloperHuh.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
     @Override
     public void onBackPressed() {

@@ -21,11 +21,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.counter.CounterData;
 import com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteCounterFromActivity;
 import com.theflopguyproductions.ticktrack.dialogs.SingleInputDialog;
 import com.theflopguyproductions.ticktrack.dialogs.SwipeDialog;
+import com.theflopguyproductions.ticktrack.ui.counter.CounterFragment;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
@@ -90,10 +92,19 @@ public class CounterEditActivity extends AppCompatActivity {
         flagValueCheck();
 
         deleteCounterButton.setOnClickListener(view -> {
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             new Handler().post(() -> {
                 DeleteCounterFromActivity counterDelete = new DeleteCounterFromActivity(activity, getCurrentPosition(), counterDataArrayList.get(getCurrentPosition()).getCounterLabel(),
-                        counterDataArrayList.get(getCurrentPosition()).getCounterID(), sharedPreferenceChangeListener);
+                        counterDataArrayList.get(getCurrentPosition()).getCounterID());
                 counterDelete.show();
+                counterDelete.yesButton.setOnClickListener(view12 -> {
+                    counterDelete.dismiss();
+                    counterDelete.killNotification();
+                    CounterFragment.deleteCounter(getCurrentPosition(), activity, counterDataArrayList.get(getCurrentPosition()).getCounterLabel());
+                    activity.startActivity(new Intent(activity, SoYouADeveloperHuh.class));
+                    Toast.makeText(activity, "Counter Deleted", Toast.LENGTH_SHORT).show();
+                });
+                counterDelete.setOnCancelListener(dialogInterface -> sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener));
             });
 
         });
@@ -338,12 +349,18 @@ public class CounterEditActivity extends AppCompatActivity {
         });
         counterMilestoneLayout.setOnClickListener(view -> {
             new Handler().post(() -> {
-                SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterDataArrayList.get(getCurrentPosition()).getCounterSignificantCount());
+                SingleInputDialog labelDialog = new SingleInputDialog(activity, ""+counterMilestone.getText().toString());
                 labelDialog.show();
                 labelDialog.saveChangesText.setVisibility(View.GONE);
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
                 labelDialog.characterCountText.setVisibility(View.GONE);
+                if(counterMilestone.getText().toString().equals("-")){
+                    labelDialog.inputText.setHint(counterMilestone.getText().toString());
+                } else {
+                    labelDialog.inputText.setText(counterMilestone.getText().toString());
+                }
+
                 if(labelDialog.inputText.requestFocus()){
                     Objects.requireNonNull(labelDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 }

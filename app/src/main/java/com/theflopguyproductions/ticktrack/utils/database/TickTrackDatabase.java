@@ -585,6 +585,16 @@ public class TickTrackDatabase {
     }
 
 
+    public void setAutoStart(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("autoStart", value);
+        editor.apply();
+    }
+    public boolean isAutoStart() {
+        return sharedPreferences.getBoolean("autoStart", false);
+    }
+
+
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){
 //
 //        SharedPreferences.Editor editor = sharedPreferences.edit();

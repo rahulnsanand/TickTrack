@@ -151,6 +151,11 @@ public class CounterActivity extends AppCompatActivity {
         counterID = getIntent().getStringExtra("currentCounterPosition");
         counterDataArrayList = tickTrackDatabase.retrieveCounterList();
 
+        if(getCurrentPosition()==-1){
+            startActivity(new Intent(this, SoYouADeveloperHuh.class));
+            return;
+        }
+
         flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
 
         currentCount = counterDataArrayList.get(getCurrentPosition()).getCounterValue();
@@ -165,7 +170,7 @@ public class CounterActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(view -> {
             Intent intent = new Intent(activity, CounterEditActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("CurrentPosition", counterID);
             startActivity(intent);
         });
@@ -235,7 +240,7 @@ public class CounterActivity extends AppCompatActivity {
                 return i;
             }
         }
-     return 0;
+        return -1;
     }
 
     static MediaPlayer mediaPlayer;

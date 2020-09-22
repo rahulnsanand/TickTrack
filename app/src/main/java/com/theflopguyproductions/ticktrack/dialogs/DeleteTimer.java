@@ -27,6 +27,7 @@ public class DeleteTimer extends BottomSheetDialog {
     private ConstraintLayout rootLayout;
     int themeSet = 1;
 
+
     public DeleteTimer(Activity activity){
         super(activity);
         this.activity = activity;
@@ -56,8 +57,6 @@ public class DeleteTimer extends BottomSheetDialog {
         themeSet = tickTrackDatabase.getThemeMode();
 
         setupTheme();
-
-
     }
 
     private void setupTheme() {

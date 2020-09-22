@@ -50,9 +50,11 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
         final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
+        if(foregroundView!=null){
+            getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
+                    actionState, isCurrentlyActive);
+        }
 
-        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX/5, dY,
-                actionState, isCurrentlyActive);
     }
 
     @Override

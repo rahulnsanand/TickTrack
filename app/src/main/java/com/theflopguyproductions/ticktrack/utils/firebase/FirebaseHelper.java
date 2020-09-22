@@ -186,14 +186,7 @@ public class FirebaseHelper {
                         deviceMap.put("deviceModel", Build.MODEL);
                         deviceMap.put("deviceSDKVersionInt", Build.VERSION.SDK_INT);
                         deviceMap.put("deviceSDKVersionCode", Build.VERSION.CODENAME);
-                        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).collection("Devices").document(Build.MODEL).get()
-                                .addOnSuccessListener(documentReference -> {
-                                    firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).collection("Devices").document(Build.MODEL).set(deviceMap);
-                                    completedFragmentTask();
-                                })
-                                .addOnFailureListener(e -> {
-                                    System.out.println("ERROR FIREBASE"+e);
-                                });
+                        firebaseFirestore.collection("TickTrackUsers").document(Objects.requireNonNull(account.getEmail())).collection("Devices").document(Build.MODEL).set(deviceMap);
                     }
                 }).addOnFailureListener(e -> {
         });

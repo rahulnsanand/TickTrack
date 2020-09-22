@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.widget.Toast;
 
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchData;
 import com.theflopguyproductions.ticktrack.stopwatch.StopwatchLapData;
@@ -31,7 +30,6 @@ public class TimeChangeReceiver extends BroadcastReceiver {
                             - (timerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())));
 //                    timerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (timerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
 
-                    Toast.makeText(context, "Time Changed", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -48,8 +46,6 @@ public class TimeChangeReceiver extends BroadcastReceiver {
                             - (quickTimerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime())));
 //                    quickTimerData.get(i).setTimerEndTimeInMillis(System.currentTimeMillis() + (quickTimerData.get(i).getTimerAlarmEndTimeInMillis() - SystemClock.elapsedRealtime()));
 
-                    Toast.makeText(context, "Time Changed", Toast.LENGTH_SHORT).show();
-
                 }
             }
         }
@@ -63,13 +59,9 @@ public class TimeChangeReceiver extends BroadcastReceiver {
                 if(!stopwatchData.get(0).isPause()){
                     stopwatchData.get(0).setStopwatchTimerStartTimeInMillis(System.currentTimeMillis()
                             - (SystemClock.elapsedRealtime()-stopwatchData.get(0).getStopwatchTimerStartTimeInRealTimeMillis()));
-
-                    Toast.makeText(context, "STOPWATCH START TIME CHANGE", Toast.LENGTH_SHORT).show();
                 }
                 if(stopwatchData.get(0).isPause()){
                     stopwatchData.get(0).setLastPauseTimeInMillis(System.currentTimeMillis() - (SystemClock.elapsedRealtime() - stopwatchData.get(0).getLastPauseTimeRealTimeInMillis()));
-
-                    Toast.makeText(context, "STOPWATCH PAUSE TIME CHANGE", Toast.LENGTH_SHORT).show();
                 }
                 if(stopwatchLapData.size()>0){
                     stopwatchData.get(0).setProgressSystemValue(System.currentTimeMillis() - (SystemClock.elapsedRealtime() - stopwatchData.get(0).getProgressValue()));

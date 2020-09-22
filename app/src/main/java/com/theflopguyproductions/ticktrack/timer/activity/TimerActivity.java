@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -157,9 +158,11 @@ public class TimerActivity extends AppCompatActivity {
                 }
                 sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
                 deleteTimer.yesButton.setOnClickListener(view1 -> {
-                    TimerRecyclerFragment.deleteTimer(timerId, getCurrentTimerPosition(), activity, deletedTimer);
-                    onBackPressed();
                     deleteTimer.dismiss();
+                    timerDataArrayList.remove(getCurrentTimerPosition());
+                    tickTrackDatabase.storeTimerList(timerDataArrayList);
+                    Toast.makeText(activity, "Timer Deleted", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(activity, SoYouADeveloperHuh.class));
                 });
                 deleteTimer.noButton.setOnClickListener(view1 -> {
                     TimerRecyclerFragment.refreshRecyclerView();
@@ -169,7 +172,6 @@ public class TimerActivity extends AppCompatActivity {
                 });
                 deleteTimer.setOnCancelListener(dialogInterface -> {
                     TimerRecyclerFragment.refreshRecyclerView();
-                    deleteTimer.cancel();
                     sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
                 });
             });

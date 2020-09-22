@@ -35,6 +35,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
@@ -49,6 +50,7 @@ import com.theflopguyproductions.ticktrack.utils.RateUsUtil;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
+import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import com.theflopguyproductions.ticktrack.utils.helpers.TimeAgo;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.CreateTimerWidget;
@@ -97,6 +99,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch milestoneSwitch;
     private ConstraintLayout milestoneVibrateLayout, milestoneSoundLayout;
 
+    private ConstraintLayout autostartLayout;
+    private TextView autostartTitle, autostartValue;
 
 
     @Override
@@ -279,7 +283,7 @@ public class SettingsActivity extends AppCompatActivity {
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
                 hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout, rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout,
                 rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue, toolbar, milestoneVibrateLayout, milestoneSoundLayout,
-                vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue);
+                vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue, autostartLayout, autostartTitle, autostartValue);
         updateWidgets();
         checkAccountAvailable();
     }
@@ -545,6 +549,35 @@ public class SettingsActivity extends AppCompatActivity {
         milestoneVibrateLayout = findViewById(R.id.milestoneVibrateSettingsLayout);
         deleteBackupLayout = findViewById(R.id.dangerZoneDeleteBackupLayout);
         factoryResetLayout = findViewById(R.id.dangerZoneFactoryResetLayout);
+
+        autostartLayout = findViewById(R.id.autoStartSettingsLayout);
+        autostartTitle = findViewById(R.id.autoStartSettingsTitle);
+        autostartValue = findViewById(R.id.autoStartSettingsValue);
+
+        if(AutoStartPermissionHelper.getInstance().isAutoStartPermissionMaybeAvailable(this)){
+            autostartLayout.setVisibility(View.VISIBLE);
+            autostartLayout.setOnClickListener(view -> {
+                boolean resultCode = AutoStartPermissionHelper.getInstance().getAutoStartPermission(this);
+                if(!resultCode){
+                    if(AutoStartPermissionHelper.getInstance().isAutoStartPermissionMaybeAvailable(this)){
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, 298);
+                    } else {
+                        Snackbar snackbar = Snackbar
+                                .make(generalRootLayout, "No Autostart feature detected on your device", Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(activity.getResources().getColor(R.color.Accent))
+                                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+                                .setDuration(1000);
+                        snackbar.show();
+                    }
+                }
+            });
+        } else {
+            autostartLayout.setVisibility(View.GONE);
+        }
 
         activity = this;
         firebaseHelper = new FirebaseHelper(activity);
