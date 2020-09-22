@@ -2,7 +2,7 @@
 
 <a href="https://github.com/theflopguy/TickTrack/blob/master/LICENSE.txt" rel="License">![Foo](https://img.shields.io/github/license/theflopguy/TickTrack?style=for-the-badge )</a>
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/theflopguy/ticktrack?label=Current%20Release%20Version&style=for-the-badge)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/theflopguy/ticktrack?label=Current%20Release&style=for-the-badge)
 
 ![GitHub Release Date](https://img.shields.io/badge/Release%20Date-22%2F09%2F2020-red?style=for-the-badge)
 
