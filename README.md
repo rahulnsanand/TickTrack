@@ -1,6 +1,6 @@
 # TickTrack 
 
-![GitHub](https://img.shields.io/github/license/theflopguy/TickTrack?style=for-the-badge)
+<a href="https://github.com/theflopguy/TickTrack/blob/master/LICENSE.txt" rel="License">![Foo](https://img.shields.io/github/license/theflopguy/TickTrack?style=for-the-badge )</a>
 
 ![GitHub release (latest by date)](https://img.shields.io/badge/Version-2.1.2.1-brightgreen?style=for-the-badge)
 
@@ -9,11 +9,15 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/theflopguy/ticktrack?style=for-the-badge)
 
 ----
-<a href="https://play.google.com/store/apps/details?id=com.theflopguyproductions.ticktrack" rel="Playstore Graphic">![Foo](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore%20Feature%20Graphics.jpg)</a>
+<a href="https://play.google.com/store/apps/details?id=com.theflopguyproductions.ticktrack" rel="Playstore Graphic">![Foo](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore%20Feature%20Graphics.jpg )</a>
 
 <a href="https://play.google.com/store/apps/details?id=com.theflopguyproductions.ticktrack" rel="Download now">![Foo](https://img.shields.io/badge/Get%20it%20on%20Playstore-Now-blue?style=for-the-badge)</a>
 ----
 
+## Looking for developer notes?
+<a href="#devSection" rel="Go to Developer">![Foo](https://img.shields.io/badge/Jump%20to%20Developer-Section-orange?style=for-the-badge)</a>
+
+----
 ## What does this app do?
 It caters to the need to create counters, timers and stopwatch in ways that you never knew you needed. There’s also various meticulously designed widgets, for every functionality that the app provides and more. Be sure to check out all the clock faces of the Clock widget.
 
@@ -67,10 +71,29 @@ Most importantly, we require the app to be kept in the “Do No Optimize” sect
 
 Second Most Important: We want you to allow TickTrack to AutoStart. Yeah, some devices have this special feature that allows the user to turn on Auto Start feature so the app can run as soon as your phone turns on. Why is this important? Well, because without this feature. If your timer is running and your phone restarts due to any reason. It can cause you to miss timers and furthermore, it can cause bugs that will only look bad on us.
 
+## <a name="devSection"></a>Hello, Fellow Developers!
+
+TickTrack is open for developers to improvise. Any Improvements, bug fixes or new features you'd like to contribute to the project is more than welcomed.
+Kindly follow the procedure to do the same. 
+
+----
+### Do note, Rebranding this software as your to illegally profit or benefit from it in any manner will cause, well, trouble.
+----
+
+## 1. Fork the repository onto your profile
+## 2. Perform your logic to improvise or add a new feature
+## 3. Create a pull request identifying yourself for further communication
+
+---
+### Access to Cloud Functionalities like GCC and Firebase is restricted, for access, send in a formal request with reason and motive to ticktrackapp@gmail.com
+---
+
+## Thankyou for helping make TickTrack better!
+
 ![Twitter Follow](https://img.shields.io/twitter/follow/TheFlopGuy?label=Follow%20me%20%40Twitter&style=for-the-badge) ![GitHub followers](https://img.shields.io/github/followers/theflopguy?label=Follow%20me%20%40github&style=for-the-badge)
 
 
-## Apace Licence, Version 2.0
+## Apache Licence, Version 2.0
 
     Copyright 2020 Rahul Anand
     
