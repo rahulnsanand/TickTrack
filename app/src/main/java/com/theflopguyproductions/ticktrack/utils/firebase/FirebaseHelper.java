@@ -337,6 +337,7 @@ public class FirebaseHelper {
         progressBarDialog.titleText.setVisibility(View.GONE);
         googleSignInClient.signOut().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
+                tickTrackDatabase.setNewDevice(true);
                 tickTrackFirebaseDatabase.cancelBackUpAlarm();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                 tickTrackFirebaseDatabase.setRestoreInitMode(0);
@@ -358,6 +359,7 @@ public class FirebaseHelper {
         progressBarDialog.titleText.setVisibility(View.GONE);
         googleSignInClient.signOut().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
+                tickTrackDatabase.setNewDevice(true);
                 tickTrackFirebaseDatabase.cancelBackUpAlarm();
                 tickTrackFirebaseDatabase.storeCurrentUserEmail(null);
                 tickTrackFirebaseDatabase.setRestoreInitMode(0);
