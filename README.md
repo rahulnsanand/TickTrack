@@ -4,8 +4,6 @@
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/theflopguy/ticktrack?label=Current%20Release&style=for-the-badge)
 
-![GitHub Release Date](https://img.shields.io/badge/Release%20Date-22%2F09%2F2020-red?style=for-the-badge)
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/theflopguy/ticktrack?style=for-the-badge)
 
 ----
