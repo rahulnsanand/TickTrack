@@ -594,6 +594,39 @@ public class TickTrackDatabase {
         return sharedPreferences.getBoolean("autoStart", false);
     }
 
+    public void storeUpdateVersion(String versionCode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("appUpdateVersion", versionCode);
+        editor.apply();
+    }
+    public void storeUpdateVersionCode(int versionCode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("appUpdateVersionCode", versionCode);
+        editor.apply();
+    }
+    public void setUpdateCompulsion(String isCompulsory) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("appUpdateCompulsion", isCompulsory);
+        editor.apply();
+    }
+    public void setUpdateTime(long currentTimeMillis) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("appUpdateTime", currentTimeMillis);
+        editor.apply();
+    }
+
+    public long getUpdateTime() {
+        return sharedPreferences.getLong("appUpdateTime", -1);
+    }
+    public String getUpdateCompulsion() {
+        return sharedPreferences.getString("appUpdateCompulsion", "false");
+    }
+    public String  getUpdateVersion() {
+        return sharedPreferences.getString("appUpdateVersion", null);
+    }
+    public int  getUpdateVersionCode() {
+        return sharedPreferences.getInt("appUpdateVersionCode", -1);
+    }
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){
 //

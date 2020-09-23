@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -278,6 +279,13 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                     }
                     getIntent().removeExtra("fragmentID");
                 }
+                if(Objects.equals(extras.get("NOTIFICATION_TYPE"), "IS_UPDATE")){
+                    String versionCode = extras.getString("VERSION");
+                    String isCompulsory = extras.getString("IS_COMPULSORY");
+                    tickTrackDatabase.storeUpdateVersion(versionCode);
+                    tickTrackDatabase.setUpdateCompulsion(isCompulsory);
+                    tickTrackDatabase.setUpdateTime(System.currentTimeMillis());
+                }
             } else {
                 int currentFragment = tickTrackDatabase.retrieveCurrentFragmentNumber();
                 if(currentFragment==1){
@@ -306,8 +314,63 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                     tickTrackDatabase.setAppLaunchNumber(appLaunchNumber);
                 }
             }
+
+
+            int versionCode = BuildConfig.VERSION_CODE;
+            String versionName = BuildConfig.VERSION_NAME;
+            if(versionCode < tickTrackDatabase.getUpdateVersionCode()){
+                if(tickTrackDatabase.getUpdateTime()!=-1
+                        && !((System.currentTimeMillis()-tickTrackDatabase.getUpdateTime()) > (1000*60*60*24*7))
+                        || tickTrackDatabase.getUpdateCompulsion().equals("true")){
+                    showUpdateDialog(tickTrackDatabase.getUpdateCompulsion());
+                } else {
+                    tickTrackDatabase.storeUpdateVersion(versionName);
+                    tickTrackDatabase.setUpdateCompulsion("false");
+                    tickTrackDatabase.setUpdateTime(-1);
+                    tickTrackDatabase.storeUpdateVersionCode(versionCode);
+                }
+            } else {
+                tickTrackDatabase.storeUpdateVersion(versionName);
+                tickTrackDatabase.setUpdateCompulsion("false");
+                tickTrackDatabase.setUpdateTime(-1);
+                tickTrackDatabase.storeUpdateVersionCode(versionCode);
+            }
+
         }
         System.out.println("ActivityManager: Displayed SoYouDev onResume "+System.currentTimeMillis());
+    }
+
+    private void showUpdateDialog(String updateCompulsion) {
+        DeleteTimer deleteTimer = new DeleteTimer(this);
+        deleteTimer.setCancelable(false);
+        deleteTimer.show();
+        if(updateCompulsion.equals("true")){
+            deleteTimer.noButton.setVisibility(View.GONE);
+        }
+        deleteTimer.yesButton.setText("Cool, let's update!");
+        String currentVersion = tickTrackDatabase.getUpdateVersion();
+        if(currentVersion!=null) {
+            deleteTimer.dialogMessage.setText("The latest version "+currentVersion+", is now available for you!\nUpdate now so you don't miss out on awesome features and dreadful bug fixes!");
+        } else {
+            deleteTimer.dialogMessage.setText("The latest version is now available for you!\nUpdate now so you don't miss out on awesome features and dreadful bug fixes!");
+        }
+        deleteTimer.dialogTitle.setText("A newer more awesome version is available!");
+        deleteTimer.yesButton.setOnClickListener(view -> {
+            deleteTimer.dismiss();
+            RateUsUtil rateUsUtil = new RateUsUtil(this);
+            rateUsUtil.rateApp();
+        });
+        deleteTimer.noButton.setText("Nah, maybe later");
+
+        int versionCode = BuildConfig.VERSION_CODE;
+        String versionName = BuildConfig.VERSION_NAME;
+        deleteTimer.noButton.setOnClickListener(view ->{
+            deleteTimer.dismiss();
+//            tickTrackDatabase.storeUpdateVersion(versionName);
+//            tickTrackDatabase.setUpdateCompulsion("false");
+//            tickTrackDatabase.setUpdateTime(-1);
+//            tickTrackDatabase.storeUpdateVersionCode(versionCode);
+        });
     }
 
     private void setupRateUsDialog(){

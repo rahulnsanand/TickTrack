@@ -21,8 +21,8 @@ android {
         applicationId "com.theflopguyproductions.ticktrack"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
-        versionName "2.1.2.1"
+        versionCode 8
+        versionName "2.3.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.TickTracKSigningConfig
@@ -111,6 +111,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.10'
 
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
 
     implementation 'com.gtomato.android.library:carouselview:2.0.1'
 //    implementation 'com.google.firebase:firebase-perf:19.0.8'

@@ -1,24 +1,33 @@
 package com.theflopguyproductions.ticktrack.application;
 
+import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.os.Build;
+import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.theflopguyproductions.ticktrack.service.CloudNotificationService;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
 import java.util.Objects;
 
-public class TickTrack extends Application {
+public class TickTrack extends Application implements Application.ActivityLifecycleCallbacks{
 
     public static final String COUNTER_NOTIFICATION = "TICK_TRACK_COUNTER";
     public static final String STOPWATCH_NOTIFICATION = "TICK_TRACK_STOPWATCH";
@@ -70,9 +79,21 @@ public class TickTrack extends Application {
         }
 
         setupCrashAnalyticsBasicData();
+        setupFirebaseCloudMessaging();
 
         System.out.println("ActivityManager: Displayed TickTrack OnCreate "+System.currentTimeMillis());
 
+    }
+
+    private void setupFirebaseCloudMessaging() {
+        FirebaseMessaging.getInstance().subscribeToTopic("update_notifications")
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        FirebaseCrashlytics.getInstance().setCustomKey("General Notifications", true);
+                    } else {
+                        FirebaseCrashlytics.getInstance().setCustomKey("General Notifications", false);
+                    }
+                });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -254,4 +275,41 @@ public class TickTrack extends Application {
 
     }
 
+    @Override
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityStarted(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(@NonNull Activity activity) {
+        Intent restartService = new Intent(getApplicationContext(), CloudNotificationService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(),91825,restartService,PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME,5000,pendingIntent);
+    }
 }

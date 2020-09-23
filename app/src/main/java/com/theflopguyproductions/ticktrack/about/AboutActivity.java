@@ -1,6 +1,8 @@
 package com.theflopguyproductions.ticktrack.about;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageButton;
@@ -38,6 +40,14 @@ public class AboutActivity extends AppCompatActivity {
         toolbarLayout = findViewById(R.id.aboutActivityToolbar);
         storyText = findViewById(R.id.aboutActivityTickTrackStory);
         versionText = findViewById(R.id.aboutActivityAppVersionText);
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            versionText.setText("V"+version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            versionText.setText("V 2.1.2.2");
+        }
         backButton = findViewById(R.id.aboutActivityBackButton);
         githubButton = findViewById(R.id.aboutActivityGithubButton);
         twitterButton = findViewById(R.id.aboutActivityTwitterButton);

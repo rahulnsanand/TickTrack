@@ -38,4 +38,5 @@ public class RateUsUtil {
         intent.addFlags(flags);
         return intent;
     }
+
 }

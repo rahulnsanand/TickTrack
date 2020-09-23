@@ -355,11 +355,9 @@ public class CounterEditActivity extends AppCompatActivity {
                 labelDialog.inputText.setVisibility(View.VISIBLE);
                 labelDialog.helperText.setVisibility(View.VISIBLE);
                 labelDialog.characterCountText.setVisibility(View.GONE);
-                if(counterMilestone.getText().toString().equals("-")){
-                    labelDialog.inputText.setHint(counterMilestone.getText().toString());
-                } else {
-                    labelDialog.inputText.setText(counterMilestone.getText().toString());
-                }
+                labelDialog.inputText.setHint(counterMilestone.getText().toString());
+
+                String currentValue = counterMilestone.getText().toString();
 
                 if(labelDialog.inputText.requestFocus()){
                     Objects.requireNonNull(labelDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -378,20 +376,18 @@ public class CounterEditActivity extends AppCompatActivity {
                             isChanged = true;
 
                         } else {
-
-                            counterMilestone.setText("-");
-
+                            if(currentValue.equals(labelDialog.inputText.getText().toString())){
+                                counterMilestone.setText(currentValue);
+                            } else {
+                                counterMilestone.setText("-");
+                            }
                         }
 
                     } else {
-
                         counterMilestone.setText("-");
-
                     }
-
                     labelDialog.dismiss();
                 });
-
                 labelDialog.cancelButton.setOnClickListener(view12 -> {
                     labelDialog.dismiss();
                     counterMilestone.setText("-");

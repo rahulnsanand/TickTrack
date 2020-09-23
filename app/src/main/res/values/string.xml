@@ -15,4 +15,5 @@
     <string name="screensaver_shortcut_shortLabel">Screensaver</string>
     <string name="screensaver_shortcut_longLabel">Start screensaver</string>
 
+    <string name="TICK_TRACK_GENERAL">TICK_TRACK_GENERAL</string>
 </resources>
