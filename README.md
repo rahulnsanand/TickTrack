@@ -2,9 +2,7 @@
 
 <a href="https://github.com/theflopguy/TickTrack/blob/master/LICENSE.txt" rel="License">![Foo](https://img.shields.io/github/license/theflopguy/TickTrack?style=for-the-badge )</a>
 
-![GitHub release (latest by date)](https://img.shields.io/badge/Version-2.1.2.1-brightgreen?style=for-the-badge)
-
-![GitHub Release Date](https://img.shields.io/badge/Release%20Date-22%2F09%2F2020-red?style=for-the-badge)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/theflopguy/ticktrack?label=Current%20Release&style=for-the-badge)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/theflopguy/ticktrack?style=for-the-badge)
 
@@ -78,12 +76,16 @@ Kindly follow the procedure to do the same.
 
 ----
 ### Do note, Rebranding this software as your own, to illegally profit or benefit from it in any manner will cause, well, trouble. 
-#### (If it's to show off among a group of 10 or less, you have my blessing.)
+
+**(If it's to show off among a group of 10 or less, you have my blessing.)**
+
 ----
 
-#### 1. Fork the repository onto your profile
-#### 2. Perform your logic to improvise or add a new feature
-#### 3. Create a pull request identifying yourself for further communication
+**1. Fork the repository onto your profile**
+
+**2. Perform your logic to improvise or add a new feature**
+
+**3. Create a pull request identifying yourself for further communication**
 
 ---
 ### Access to Cloud Functionalities like GCC and Firebase is restricted, for access, send in a formal request with reason and motive to ticktrackapp@gmail.com
