@@ -194,6 +194,10 @@ public class FirebaseHelper {
 
     private void setupInitUserData(GoogleSignInAccount account) {
 
+        notificationBuilder.setContentTitle("Creating a TickTrack Account");
+        notificationBuilder.setContentText("In progress");
+        notifyNotification();
+
         Map<String, Object> user = new HashMap<>();
         user.put("accountCreateTime", System.currentTimeMillis());
         user.put("isAccountDeleted", false);

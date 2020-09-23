@@ -21,8 +21,8 @@ android {
         applicationId "com.theflopguyproductions.ticktrack"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 8
-        versionName "2.2.2.1"
+        versionCode 7
+        versionName "2.1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.TickTracKSigningConfig
@@ -42,7 +42,7 @@ android {
             ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             crunchPngs false
-            debuggable false
+            debuggable true
         }
     }
     packagingOptions {
