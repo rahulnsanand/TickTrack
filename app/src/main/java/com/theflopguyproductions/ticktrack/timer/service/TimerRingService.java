@@ -432,6 +432,7 @@ public class TimerRingService extends Service {
 //    }
 
     private void initializeValues() {
+        stopForeground(false);
         if(!isSetup){
             setupBaseNotification();
         }
