@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -33,6 +34,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.about.AboutActivity;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
+import com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -399,6 +401,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     protected void onStart() {
         super.onStart();
         TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName, container);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, CounterMilestoneReceiver.class);
+        intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
     }
 
     @Override
@@ -421,6 +429,18 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     protected void onStop() {
         super.onStop();
         System.out.println("ON STOP MAIN ACTIVITY");
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, CounterMilestoneReceiver.class);
+        intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                1000*60*60*24,
+                1000*60*60*24,
+                alarmPendingIntent
+        );
     }
 
     public void stopNotificationService() {

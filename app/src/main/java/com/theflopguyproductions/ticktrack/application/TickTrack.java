@@ -37,6 +37,7 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     public static final String GENERAL_NOTIFICATION = "TICK_TRACK_GENERAL";
     public static final String MISCELLANEOUS_NOTIFICATION = "MISCELLANEOUS_NOTIFICATION";
     public static final String DATA_BACKUP_RESTORE_NOTIFICATION = "DATA_BACKUP_RESTORE_NOTIFICATION";
+    public static final String PUSH_NOTIFICATION = "PUSH_NOTIFICATION";
 
     public static final int COUNTER_NOTIFICATION_ID = 1;
     public static final int TIMER_RUNNING_NOTIFICATION_ID = 2;
@@ -46,6 +47,7 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     public static final int BACKUP_RESTORE_NOTIFICATION_ID = 6;
     public static final int MISCELLANEOUS_NOTIFICATION_ID = 7;
     public static final int GENERAL_NOTIFICATION_ID = 8;
+    public static final int PUSH_NOTIFICATION_ID = 9;
 
     public static final String COUNTER_NOTIFICATION_DESCRIPTION = "No Sound, Counter feature";
     public static final String STOPWATCH_NOTIFICATION_DESCRIPTION = "No Sound, Stopwatch feature";
@@ -55,6 +57,7 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     public static final String GENERAL_NOTIFICATION_DESCRIPTION = "Make Sound, General App Alerts";
     public static final String MISCELLANEOUS_NOTIFICATION_DESCRIPTION = "Make Sound, Important App Alerts";
     public static final String DATA_BACKUP_RESTORE_NOTIFICATION_DESCRIPTION = "No Sound, Backup/Restore feature [Required]";
+    public static final String PUSH_NOTIFICATION_DESCRIPTION = "Updates, Announcements and Other Important Notifications";
 
 
     @Override
@@ -75,6 +78,7 @@ public class TickTrack extends Application implements Application.ActivityLifecy
             createMiscellaneousChannel(mNotificationManager);
             createDataBackupRestoreChannel(mNotificationManager);
             createTimerMissedNotificationChannel(mNotificationManager);
+            createPushNotificationChannel(mNotificationManager);
 
         }
 
@@ -84,6 +88,8 @@ public class TickTrack extends Application implements Application.ActivityLifecy
         System.out.println("ActivityManager: Displayed TickTrack OnCreate "+System.currentTimeMillis());
 
     }
+
+
 
     private void setupFirebaseCloudMessaging() {
         FirebaseMessaging.getInstance().subscribeToTopic("update_notifications")
@@ -95,6 +101,8 @@ public class TickTrack extends Application implements Application.ActivityLifecy
                     }
                 });
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void notificationGroupCreator(NotificationManager notificationManager) {
@@ -118,6 +126,23 @@ public class TickTrack extends Application implements Application.ActivityLifecy
         } else {
             FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", false);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createPushNotificationChannel(NotificationManager mNotificationManager) {
+        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        NotificationChannel notificationChannel = new
+                NotificationChannel( PUSH_NOTIFICATION , "Push Notifications" , importance) ;
+        notificationChannel.enableLights( true ) ;
+        notificationChannel.setLightColor(Color. BLUE ) ;
+        notificationChannel.enableVibration( true ) ;
+        notificationChannel.setVibrationPattern( new long []{ 100 , 100, 100}) ;
+        notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
+        notificationChannel.setGroup("General Group");
+        notificationChannel.setDescription(PUSH_NOTIFICATION_DESCRIPTION);
+        assert mNotificationManager != null;
+        mNotificationManager.createNotificationChannel(notificationChannel) ;
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

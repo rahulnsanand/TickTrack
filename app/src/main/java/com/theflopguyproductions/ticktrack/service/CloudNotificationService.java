@@ -71,12 +71,12 @@ public class CloudNotificationService extends FirebaseMessagingService {
             rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, TickTrack.GENERAL_NOTIFICATION_ID, rateIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, TickTrack.PUSH_NOTIFICATION_ID, rateIntent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificationBuilder;
         NotificationManagerCompat notificationManagerCompat;
         notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.GENERAL_NOTIFICATION)
+        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.PUSH_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_stat_ticktrack_logo_notification_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -90,7 +90,7 @@ public class CloudNotificationService extends FirebaseMessagingService {
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setContentText(message);
 
-        notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
+        notificationManagerCompat.notify(TickTrack.PUSH_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     private Intent rateIntentForUrl(String url) {
