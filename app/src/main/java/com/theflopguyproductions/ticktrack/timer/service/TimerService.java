@@ -91,9 +91,10 @@ public class TimerService extends Service {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MIN)
-                .setVibrate(new long[0])
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
+                .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(this, R.color.Accent));
 
         notificationBuilder.setContentTitle("TickTrack Timer");

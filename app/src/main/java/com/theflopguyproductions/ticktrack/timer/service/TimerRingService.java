@@ -277,7 +277,7 @@ public class TimerRingService extends Service {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)

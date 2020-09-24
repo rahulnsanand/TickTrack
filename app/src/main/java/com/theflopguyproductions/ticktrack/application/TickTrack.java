@@ -234,7 +234,7 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerChannel(NotificationManager mNotificationManager) {
 
-        int importance = NotificationManager.IMPORTANCE_LOW ;
+        int importance = NotificationManager.IMPORTANCE_MIN ;
         NotificationChannel notificationChannel = new
                 NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Ongoing Timer [Do Not Disable]" , importance) ;
         notificationChannel.setDescription(TIMER_RUNNING_NOTIFICATION_DESCRIPTION);
@@ -247,11 +247,6 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerCompleteChannel(NotificationManager mNotificationManager) {
 
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
-
         int importance = NotificationManager. IMPORTANCE_HIGH ;
         NotificationChannel notificationChannel = new
                 NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Ringing Timer [Do Not Disable]" , importance) ;
@@ -261,8 +256,6 @@ public class TickTrack extends Application implements Application.ActivityLifecy
         notificationChannel.setGroup("Ultra Critical Group");
         notificationChannel.setDescription(TIMER_COMPLETE_NOTIFICATION_DESCRIPTION);
         notificationChannel.setVibrationPattern( new long []{ 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 }) ;
-
-//            notificationChannel.setSound(sound , audioAttributes) ;
 
         assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(notificationChannel) ;
