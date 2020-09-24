@@ -90,7 +90,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/button_selector_accent"
-        android:minHeight="100dp"
+        android:minHeight="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,13 +103,13 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:text="Swipe left to delete"
+            android:text="You can now swipe counters Left to delete"
             android:textColor="@color/LightText"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:typeface="apercu_medium_italic"/>
+            app:typeface="apercu_medium_italic" />
 
         <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/textView24Counter"
@@ -126,21 +126,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView26Counter"
-            app:layout_constraintVertical_bias="1.0"
-            app:typeface="apercu_bold"/>
-
-        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
-            android:id="@+id/textView26Counter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="You can now swipe the counter to left to delete"
-            android:textColor="@color/LightGray"
-            app:layout_constraintEnd_toEndOf="@+id/textView21Counter"
-            app:layout_constraintStart_toStartOf="@+id/textView21Counter"
             app:layout_constraintTop_toBottomOf="@+id/textView21Counter"
-            app:typeface="apercu_italic"/>
+            app:layout_constraintVertical_bias="1.0"
+            app:typeface="apercu_bold" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
