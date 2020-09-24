@@ -38,7 +38,6 @@ public class CounterEditActivity extends AppCompatActivity {
 
     TickTrackDatabase tickTrackDatabase;
 
-//    private int currentPosition;
     private String counterID;
     private ImageButton backButton, deleteCounterButton;
     private ImageView counterFlag;
@@ -54,6 +53,7 @@ public class CounterEditActivity extends AppCompatActivity {
     private Chip cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag;
     private boolean flagLayoutOpen, isChanged = false;
     private SharedPreferences sharedPreferences;
+    private TextView counterNegativeValueText;
 
     @Override
     protected void onStop() {
@@ -81,7 +81,7 @@ public class CounterEditActivity extends AppCompatActivity {
                 counterButtonModeLayout, counterNotificationLayout, counterEditRootLayout,
                 counterLabel, counterValue, counterMilestone, counterButtonMode, counterNotificationDetail, counterMilestoneDetail, flagColor,
                 counterLabelDivider, counterValueDivider, counterMilestoneDivider, counterFlagDivider, counterButtonModeDivider, tickTrackDatabase,
-                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout, counterNegativeLayout, negativeDivider);
+                cherryFlag, limeFlag, peachFlag, plumFlag, berryFlag, counterEditToolbarLayout, counterNegativeLayout, negativeDivider,counterNegativeValueText);
 
         setupPrefixValues();
 
@@ -115,6 +115,9 @@ public class CounterEditActivity extends AppCompatActivity {
         } else {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
         }
+
+
+
     }
     private int getCurrentPosition() {
         for(int i = 0; i < counterDataArrayList.size(); i ++){
@@ -171,6 +174,7 @@ public class CounterEditActivity extends AppCompatActivity {
 
     private void initVariables() {
         backButton = findViewById(R.id.counterEditActivityBackButton);
+        counterNegativeValueText = findViewById(R.id.counterEditActivityNegativeValueText);
         deleteCounterButton = findViewById(R.id.counterEditActivityDeleteButton);
         counterFlag = findViewById(R.id.counterEditActivityFlagImageView);
         counterButtonSwitch = findViewById(R.id.counterEditActivityButtonModeSwitch);
@@ -384,7 +388,11 @@ public class CounterEditActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        counterMilestone.setText("-");
+                        if(!"-".equals(labelDialog.inputText.getHint().toString())){
+                            counterMilestone.setText(currentValue);
+                        } else {
+                            counterMilestone.setText("-");
+                        }
                     }
                     labelDialog.dismiss();
                 });

@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.utils.database;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import com.theflopguyproductions.ticktrack.timer.data.TimerData;
 import com.theflopguyproductions.ticktrack.timer.quick.QuickTimerData;
 import com.theflopguyproductions.ticktrack.timer.service.TimerRingService;
 import com.theflopguyproductions.ticktrack.timer.service.TimerService;
+import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.widgets.clock.ClockData;
 import com.theflopguyproductions.ticktrack.widgets.counter.data.CounterWidgetData;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.panel.data.ShortcutsData;
@@ -428,7 +430,7 @@ public class TickTrackDatabase {
         return sharedPreferences.getInt("screensaverClockStyle",1);
     }
 
-    public void resetData(Context context) {
+    public void resetData(Context context, Activity activity) {
         ArrayList<TimerData> timerData = retrieveTimerList();
         TickTrackTimerDatabase tickTrackTimerDatabase = new TickTrackTimerDatabase(context);
         for(int i = 0; i < timerData.size(); i++){
@@ -466,13 +468,26 @@ public class TickTrackDatabase {
         setTimerDataBackup(true);
         setCounterDataBackup(true);
 
-//        try {
-//            Thread.sleep(500);
-//            context.startActivity(new Intent(context, SettingsActivity.class));
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        setFirstTimer(true);
+        setNewDevice(true);
 
+        setCurrentCounterNotificationID(null);
+        setAlreadyDoneCheck(false);
+        setAppLaunchNumber(0);
+        setMilestoneSoundUri(null);
+        setMilestoneVibrate(true);
+        setSumEnabled(true);
+        storeLapNumber(0);
+        storeCounterNumber(0);
+        storeSyncFrequency(3);
+        storeRingtoneURI(null);
+        storeRingtoneName(null);
+        setMilestoneSound(null);
+        storeScreenSaverClock(1);
+
+        setSwipeDeleteInformed(true);
+
+        new FirebaseHelper(context).signOut(activity);
     }
 
     private void stopService(Class<?> service, Context context) {
@@ -626,6 +641,16 @@ public class TickTrackDatabase {
     }
     public int  getUpdateVersionCode() {
         return sharedPreferences.getInt("appUpdateVersionCode", -1);
+    }
+
+    public boolean isSwipeDeleteInformed() {
+        return sharedPreferences.getBoolean("SwipeDeleteInformed", true);
+    }
+
+    public void setSwipeDeleteInformed(boolean b) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("SwipeDeleteInformed", b);
+        editor.apply();
     }
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){

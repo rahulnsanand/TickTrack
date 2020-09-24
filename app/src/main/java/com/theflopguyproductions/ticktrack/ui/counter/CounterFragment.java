@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+
 public class CounterFragment extends Fragment implements CounterSlideDeleteHelper.RecyclerItemTouchHelperListener{
 
     private static final long LONG_MAX_VALUE = 9223372036854775807L;
@@ -59,7 +60,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
     private SharedPreferences sharedPreferences;
     private static TickTrackDatabase tickTrackDatabase;
 
-    private ConstraintLayout sumLayout;
+    private ConstraintLayout sumLayout, deleteHelpLayout;
     private TextView sumValue;
 
     private String receivedAction;
@@ -168,6 +169,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
             if(counterDataArrayList.size()>0){
                 counterRecyclerView.setVisibility(View.VISIBLE);
                 noCounterText.setVisibility(View.INVISIBLE);
+                checkForFirstCounter();
             } else {
                 counterRecyclerView.setVisibility(View.INVISIBLE);
                 noCounterText.setVisibility(View.VISIBLE);
@@ -176,6 +178,18 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         }
         System.out.println("ActivityManager: Displayed CounterFrag SharedPref "+System.currentTimeMillis());
     };
+
+    private void checkForFirstCounter(){
+        if(tickTrackDatabase.isSwipeDeleteInformed()){
+            if(counterDataArrayList.size()>0){
+                deleteHelpLayout.setVisibility(View.VISIBLE);
+                deleteHelpLayout.setOnClickListener(view -> {
+                    tickTrackDatabase.setSwipeDeleteInformed(false);
+                    deleteHelpLayout.setVisibility(View.GONE);
+                });
+            }
+        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -204,7 +218,8 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         sumLayout = root.findViewById(R.id.counterFragmentSumLayout);
         sumValue = root.findViewById(R.id.counterFragmentSumValue);
         counterFab = root.findViewById(R.id.counterAddButton);
-
+        deleteHelpLayout = root.findViewById(R.id.counterDeleteHelpLayout);
+        deleteHelpLayout.setVisibility(View.GONE);
         System.out.println("ActivityManager: Displayed CounterFrag OnCreateView "+System.currentTimeMillis());
         return root;
     }

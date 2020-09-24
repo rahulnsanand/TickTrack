@@ -278,7 +278,7 @@ public class TickTrackThemeSetter {
                                                 ConstraintLayout labelDivider, ConstraintLayout valueDivider, ConstraintLayout milestoneDivider, ConstraintLayout flagDivider,
                                                 ConstraintLayout buttonDivider, TickTrackDatabase tickTrackDatabase,
                                                 Chip redChip,Chip greenCip,Chip orangeChip,Chip purpleChip,Chip blueChip, ConstraintLayout toolbar, ConstraintLayout negativeValueLayout,
-                                                ConstraintLayout negativeDivider) {
+                                                ConstraintLayout negativeDivider, TextView counterNegativeText) {
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
@@ -299,6 +299,7 @@ public class TickTrackThemeSetter {
             counterButtonMode.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             notificationDetail.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             milestoneDetail.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
+            counterNegativeText.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
 
             labelDivider.setBackgroundResource(R.color.GrayOnLight);
             valueDivider.setBackgroundResource(R.color.GrayOnLight);
@@ -334,6 +335,7 @@ public class TickTrackThemeSetter {
             counterButtonMode.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             notificationDetail.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             milestoneDetail.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
+            counterNegativeText.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
 
             labelDivider.setBackgroundResource(R.color.GrayOnDark);
             valueDivider.setBackgroundResource(R.color.GrayOnDark);

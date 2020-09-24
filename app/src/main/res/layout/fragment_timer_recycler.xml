@@ -13,11 +13,9 @@
         android:animateLayoutChanges="true"
         android:maxHeight="300dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/timerFragmentQuickTimerTitleText"
@@ -60,14 +58,76 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/timerDeleteHelpLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_selector_accent"
+        android:minHeight="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quickTimerRootLayout">
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/textView21Timer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="Swipe left to delete"
+            android:textColor="@color/LightText"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_medium_italic"/>
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/textView24Timer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Tap to dismiss"
+            android:textAlignment="textEnd"
+            android:textColor="@color/LightGray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView26Timer"
+            app:layout_constraintVertical_bias="1.0"
+            app:typeface="apercu_bold"/>
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/textView26Timer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="You can now swipe the counter to left to delete"
+            android:textColor="@color/LightGray"
+            app:layout_constraintEnd_toEndOf="@+id/textView21Timer"
+            app:layout_constraintStart_toStartOf="@+id/textView21Timer"
+            app:layout_constraintTop_toBottomOf="@+id/textView21Timer"
+            app:typeface="apercu_italic"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/timerRootLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quickTimerRootLayout">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout20">
 
         <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
             android:id="@+id/timerFragmentTimerTitleText"

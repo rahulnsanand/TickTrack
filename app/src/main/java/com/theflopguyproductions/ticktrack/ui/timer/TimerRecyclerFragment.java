@@ -33,6 +33,7 @@ import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteHelper.RecyclerItemTouchHelperListener {
 
     private static TickTrackDatabase tickTrackDatabase;
@@ -44,7 +45,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
     private static RecyclerView timerRecyclerView, quickTimerRecyclerView;
     private TextView timerTitleText, quickTimerTitleText;
     private static TextView noTimerText;
-    private static ConstraintLayout timerRecyclerRootLayout, timerLayout, quickTimerLayout;
+    private static ConstraintLayout timerRecyclerRootLayout, timerLayout, quickTimerLayout, deleteHelpLayout;
     private static TimerAdapter timerAdapter;
     private QuickTimerAdapter quickTimerAdapter;
 
@@ -92,7 +93,8 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         quickTimerLayout= root.findViewById(R.id.quickTimerRootLayout);
         timerTitleText = root.findViewById(R.id.timerFragmentTimerTitleText);
         quickTimerTitleText = root.findViewById(R.id.timerFragmentQuickTimerTitleText);
-
+        deleteHelpLayout = root.findViewById(R.id.timerDeleteHelpLayout);
+        deleteHelpLayout.setVisibility(View.GONE);
         noTimerText = root.findViewById(R.id.timerFragmentNoTimerText);
         timerRecyclerRootLayout = root.findViewById(R.id.timerRecyclerRootLayout);
         timerRecyclerRootLayout.setOnClickListener(view -> rootLayoutClickListener.onRootLayoutClick());
@@ -212,8 +214,17 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         }
     }
 
-
-
+    private void checkForFirstTimer(){
+        if(tickTrackDatabase.isSwipeDeleteInformed()){
+            if(timerDataArrayList.size()>0) {
+                deleteHelpLayout.setVisibility(View.VISIBLE);
+                deleteHelpLayout.setOnClickListener(view -> {
+                    tickTrackDatabase.setSwipeDeleteInformed(false);
+                    deleteHelpLayout.setVisibility(View.GONE);
+                });
+            }
+        }
+    }
 
     @Override
     public void onStop() {
@@ -251,6 +262,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
             quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
 
             if(timerDataArrayList.size()>0){
+                checkForFirstTimer();
                 timerRecyclerView.setAdapter(new TimerAdapter(activity, timerDataArrayList));
             }
             timerAdapter.diffUtilsChangeData(timerDataArrayList);

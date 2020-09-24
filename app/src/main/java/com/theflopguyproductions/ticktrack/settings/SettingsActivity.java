@@ -125,6 +125,11 @@ public class SettingsActivity extends AppCompatActivity {
         setupThemeText();
         setupAccountBusy();
         setupHapticData();
+        setupClockStyle();
+        setupTimerSound();
+        setupMilestoneSound();
+        setupMilestoneVibrate();
+        setupCounterSum();
     }
 
     private void setupAccountBusy() {
@@ -389,9 +394,7 @@ public class SettingsActivity extends AppCompatActivity {
     private int clockStyle = -1;
     private boolean isClockVisible = false;
     private void setupClockStyle() {
-        if(clockStyle==-1){
-            clockStyle = tickTrackDatabase.getScreenSaverClock();
-        }
+        clockStyle = tickTrackDatabase.getScreenSaverClock();
         removeAllCheck();
         if(clockStyle==1){
             unordinaryImageCheck.setVisibility(View.VISIBLE);
@@ -970,18 +973,16 @@ public class SettingsActivity extends AppCompatActivity {
                 if(isMyServiceRunning(BackupRestoreService.class,this)){
                     Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
                 } else {
-                    if(firebaseHelper.isUserSignedIn()){
-                        new Handler().post(() -> {
-                            ProgressBarDialog progressBarDialog = new ProgressBarDialog(activity);
-                            progressBarDialog.show();
-                            progressBarDialog.setContentText("Resetting TickTrack");
-                            progressBarDialog.titleText.setVisibility(View.GONE);
-                            tickTrackDatabase.resetData(activity);
-                            progressBarDialog.dismiss();
-                            refreshTheme();
-                            Toast.makeText(activity, "Reset Complete", Toast.LENGTH_SHORT).show();
-                        });
-                    }
+                    new Handler().post(() -> {
+                        ProgressBarDialog progressBarDialog = new ProgressBarDialog(activity);
+                        progressBarDialog.show();
+                        progressBarDialog.setContentText("Resetting TickTrack");
+                        progressBarDialog.titleText.setVisibility(View.GONE);
+                        tickTrackDatabase.resetData(activity, this);
+                        progressBarDialog.dismiss();
+                        refreshTheme();
+                        Toast.makeText(activity, "Reset Complete", Toast.LENGTH_SHORT).show();
+                    });
                 }
             });
             swipeDialog.dismissButton.setOnClickListener(view1 -> swipeDialog.dismiss());
