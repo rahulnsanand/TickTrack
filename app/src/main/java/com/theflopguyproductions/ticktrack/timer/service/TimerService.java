@@ -73,6 +73,14 @@ public class TimerService extends Service {
             }
         }
         System.out.println("On Timer "+result);
+
+        if(result==0){
+            notificationManagerCompat.cancelAll();
+            timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
+            stopSelf();
+            stopForeground(true);
+            onDestroy();
+        }
         return result;
     }
     private void setupBaseNotification() {
@@ -141,11 +149,6 @@ public class TimerService extends Service {
                 }
                 notificationManagerCompat.notify(TickTrack.TIMER_RUNNING_NOTIFICATION_ID, notificationBuilder.build());
                 timerServiceRefreshHandler.post(refreshRunnable);
-            } else {
-                timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
-                stopSelf();
-                stopForeground(false);
-                onDestroy();
             }
         }
     };
@@ -290,7 +293,7 @@ public class TimerService extends Service {
     }
 
     private void stopTimerService() {
-        if(!(getAllOnTimers() > 0)){
+        if(getAllOnTimers() == 0){
             timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
             stopSelf();
             stopForeground(false);

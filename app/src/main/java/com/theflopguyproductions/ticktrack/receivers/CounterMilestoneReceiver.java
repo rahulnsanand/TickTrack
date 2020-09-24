@@ -29,6 +29,7 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        System.out.println("RECEIVED COUNTER MILESTONE CHECK");
         tickTrackDatabase = new TickTrackDatabase(context);
         if(ACTION_COUNTER_MILESTONE_REMINDER.equals(intent.getAction())){
             if(hasMilestone()){
@@ -57,6 +58,7 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
+                .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(context, R.color.Accent));
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setContentTitle("Milestones Awaiting!");
@@ -64,7 +66,7 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
             if(milestoneValue>0){
                 notificationBuilder.setContentText("Just "+milestoneValue+" counts more!");
             } else {
-                notificationBuilder.setContentText("Just "+milestoneValue+" counts less!");
+                notificationBuilder.setContentText("Just "+Math.abs(milestoneValue)+" counts less!");
             }
         } else {
             notificationBuilder.setContentText("You've got "+milestoneCount+" counters waiting to count!");

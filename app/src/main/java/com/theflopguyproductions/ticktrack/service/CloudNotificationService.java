@@ -84,6 +84,7 @@ public class CloudNotificationService extends FirebaseMessagingService {
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
+                .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(this, R.color.Accent));
 
         notificationBuilder.setContentTitle(title);

@@ -435,9 +435,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
         alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                1000*60*60*24,
+//                1000*60*60*24,
+                1000*7,
                 1000*60*60*24,
                 alarmPendingIntent
         );

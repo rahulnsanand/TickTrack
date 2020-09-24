@@ -91,11 +91,6 @@ public class TimerRingService extends Service {
         }
         return false;
     }
-    private void stopTimerNotification(Context context) {
-        Intent intent = new Intent(context, TimerService.class);
-        intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
-        context.startService(intent);
-    }
 
     static MediaPlayer mediaPlayer;
     public static void playAlarmSound (Context context) {
@@ -363,11 +358,7 @@ public class TimerRingService extends Service {
         if(intent != null) {
 
             String action = intent.getAction();
-            System.out.println(action+">>>>>>>>>>>>>>>>>>>>>>>>98798798765432132132<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             initializeValues();
-            if(isMyServiceRunning(TimerService.class, this)){
-                stopTimerNotification(this);
-            }
 
             assert action != null;
             switch (action) {
@@ -469,6 +460,8 @@ public class TimerRingService extends Service {
                 System.out.println(getAllOnTimers()+" TIMER RINGING");
                 refreshHandler.postDelayed(refreshRunnable, 100);
             } else {
+                notificationBuilder.setContentText("This notification will disappear automatically");
+                notificationManagerCompat.notify(TickTrack.TIMER_RINGING_NOTIFICATION_ID, notificationBuilder.build());
                 refreshHandler.removeCallbacks(refreshRunnable);
                 stopIfPossible();
             }

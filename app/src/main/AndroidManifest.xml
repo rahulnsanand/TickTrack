@@ -27,7 +27,11 @@
         <receiver
             android:name=".receivers.CounterMilestoneReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="ACTION_COUNTER_MILESTONE_REMINDER" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".service.CloudNotificationService"
