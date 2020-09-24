@@ -109,6 +109,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
                 isLongSumDisplayed = true;
             }
         });
+        checkForFirstCounter();
     }
 
     private static void createCounterDialog(Activity context){

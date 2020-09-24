@@ -240,6 +240,7 @@ public class TimerRecyclerFragment extends Fragment implements TimerSlideDeleteH
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         quickTimerRecyclerView.setAdapter(new QuickTimerAdapter(activity, quickTimerDataArrayList));
         timerRecyclerView.setAdapter(new TimerAdapter(activity, timerDataArrayList));
+        checkForFirstTimer();
     }
 
     @Override
