@@ -245,6 +245,8 @@ public class SettingsActivity extends AppCompatActivity {
         if(backupHour<=12){
             if(backupHour==0){
                 timeOfBackup += "12 am";
+            } else if(backupHour==12){
+                timeOfBackup += "12 pm";
             } else {
                 timeOfBackup += backupHour+ "am";
             }

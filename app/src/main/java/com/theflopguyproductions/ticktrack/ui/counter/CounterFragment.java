@@ -314,12 +314,16 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
         int[] ids = AppWidgetManager.getInstance(activity.getApplication()).getAppWidgetIds(new ComponentName(activity.getApplication(), CounterWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         activity.sendBroadcast(intent);
-        Snackbar snackbar = Snackbar
-                .make(counterFragmentRootLayout ,"Deleted Counter " + counterName, Snackbar.LENGTH_INDEFINITE)
-                .setBackgroundTint(activity.getResources().getColor(R.color.Accent))
-                .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
-                .setDuration(1000);
-        snackbar.show();
+        try{
+            Snackbar snackbar = Snackbar
+                    .make(counterFragmentRootLayout ,"Deleted Counter " + counterName, Snackbar.LENGTH_INDEFINITE)
+                    .setBackgroundTint(activity.getResources().getColor(R.color.Accent))
+                    .setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE)
+                    .setDuration(1000);
+            snackbar.show();
+        } catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
     }
     public static void refreshItemChanged(int position){
         counterAdapter.notifyItemChanged(position);

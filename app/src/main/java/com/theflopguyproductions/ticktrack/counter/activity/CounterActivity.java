@@ -71,6 +71,11 @@ public class CounterActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(getCurrentPosition()==-1){
+            startActivity(new Intent(this, SoYouADeveloperHuh.class));
+            return;
+        }
+
         flagColor = counterDataArrayList.get(getCurrentPosition()).getCounterFlag();
         TickTrackThemeSetter.counterActivityTheme(this,toolbar, rootLayout, flagColor, plusButtonBig, minusButtonBig,
                 plusText, minusText, plusLightButton, minusLightButton,
