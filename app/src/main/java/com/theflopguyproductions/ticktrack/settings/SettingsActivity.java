@@ -125,7 +125,6 @@ public class SettingsActivity extends AppCompatActivity {
         setupThemeText();
         setupAccountBusy();
         setupHapticData();
-        setupClockStyle();
         setupTimerSound();
         setupMilestoneSound();
         setupMilestoneVibrate();
@@ -357,6 +356,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private boolean isThemeOptionsOpen = false;
     private void toggleThemeOptionsLayout(){
+        removeAllCheck();
         if(isThemeOptionsOpen){
             themeOptionsLayout.setVisibility(View.GONE);
             isThemeOptionsOpen = false;
@@ -381,6 +381,9 @@ public class SettingsActivity extends AppCompatActivity {
         if(isClockVisible){
             setupClockOptionsToggle();
         }
+        if(isThemeOptionsOpen){
+            toggleThemeOptionsLayout();
+        }
     }
 
     private void setupHapticData() {
@@ -394,7 +397,9 @@ public class SettingsActivity extends AppCompatActivity {
     private int clockStyle = -1;
     private boolean isClockVisible = false;
     private void setupClockStyle() {
-        clockStyle = tickTrackDatabase.getScreenSaverClock();
+        if(clockStyle==-1){
+            clockStyle = tickTrackDatabase.getScreenSaverClock();
+        }
         removeAllCheck();
         if(clockStyle==1){
             unordinaryImageCheck.setVisibility(View.VISIBLE);
@@ -981,6 +986,8 @@ public class SettingsActivity extends AppCompatActivity {
                         tickTrackDatabase.resetData(activity, this);
                         progressBarDialog.dismiss();
                         refreshTheme();
+                        clockStyle=-1;
+                        setupClockStyle();
                         Toast.makeText(activity, "Reset Complete", Toast.LENGTH_SHORT).show();
                     });
                 }

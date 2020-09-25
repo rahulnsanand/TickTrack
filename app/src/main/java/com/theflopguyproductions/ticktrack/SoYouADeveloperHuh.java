@@ -438,9 +438,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         alarmManager.cancel(alarmPendingIntent);
         alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-//                1000*60*60*24,
-                1000*7,
                 1000*60*60*24,
+                1000*60*60*24*3,
                 alarmPendingIntent
         );
     }
