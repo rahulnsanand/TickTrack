@@ -334,16 +334,18 @@ public class RestoreFragment extends Fragment {
     }
     private void initPreferences() {
         ArrayList<SettingsData> settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
-        tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
-        tickTrackDatabase.setCounterDataBackup(settingsData.get(0).isCounterBackupOn());
-        tickTrackDatabase.setTimerDataBackup(settingsData.get(0).isTimerBackupOn());
-        tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
-        tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
-        tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
-        tickTrackDatabase.storeScreenSaverClock(settingsData.get(0).getScreensaverClockStyle());
-        tickTrackDatabase.setMilestoneVibrate(settingsData.get(0).isMilestoneVibrate());
-        tickTrackDatabase.setSumEnabled(settingsData.get(0).isSumDisplayed());
-        System.out.println("INITIALISED PREFERENCES");
+        if(settingsData.size()>0){
+            tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
+            tickTrackDatabase.setCounterDataBackup(settingsData.get(0).isCounterBackupOn());
+            tickTrackDatabase.setTimerDataBackup(settingsData.get(0).isTimerBackupOn());
+            tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
+            tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
+            tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
+            tickTrackDatabase.storeScreenSaverClock(settingsData.get(0).getScreensaverClockStyle());
+            tickTrackDatabase.setMilestoneVibrate(settingsData.get(0).isMilestoneVibrate());
+            tickTrackDatabase.setSumEnabled(settingsData.get(0).isSumDisplayed());
+            System.out.println("INITIALISED PREFERENCES");
+        }
         tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
     }
 
