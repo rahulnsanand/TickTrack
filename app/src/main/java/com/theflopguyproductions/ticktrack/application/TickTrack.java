@@ -24,7 +24,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver;
 import com.theflopguyproductions.ticktrack.service.CloudNotificationService;
-import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
 import java.util.Objects;
@@ -91,8 +90,6 @@ public class TickTrack extends Application implements Application.ActivityLifecy
 
     }
 
-
-
     private void setupFirebaseCloudMessaging() {
         FirebaseMessaging.getInstance().subscribeToTopic("update_notifications")
                 .addOnCompleteListener(task -> {
@@ -103,8 +100,6 @@ public class TickTrack extends Application implements Application.ActivityLifecy
                     }
                 });
     }
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void notificationGroupCreator(NotificationManager notificationManager) {
@@ -307,10 +302,6 @@ public class TickTrack extends Application implements Application.ActivityLifecy
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        int appLaunchNumber = new TickTrackDatabase(this).getAppLaunchNumber();
-        appLaunchNumber++;
-        new TickTrackDatabase(this).setAppLaunchNumber(appLaunchNumber);
-        System.out.println("ON ACTIVITY STARTED");
     }
 
     @Override
@@ -340,16 +331,5 @@ public class TickTrack extends Application implements Application.ActivityLifecy
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME,5000,pendingIntent);
 
-        Intent intent = new Intent(this, CounterMilestoneReceiver.class);
-        intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                1000*60*10,
-                1000*60*60*24*3,
-                alarmPendingIntent
-        );
-        System.out.println("ON ACTIVITY DESTROYED");
     }
 }

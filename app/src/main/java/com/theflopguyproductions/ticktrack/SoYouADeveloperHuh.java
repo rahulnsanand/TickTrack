@@ -1,6 +1,7 @@
 package com.theflopguyproductions.ticktrack;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -33,6 +34,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.about.AboutActivity;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
+import com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
@@ -301,8 +303,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
                 if(!tickTrackDatabase.isAlreadyDoneCheck()){
                     int appLaunchNumber = tickTrackDatabase.getAppLaunchNumber();
-                    if(appLaunchNumber<=20){
-                        if(appLaunchNumber==3 || appLaunchNumber==10 || appLaunchNumber==20){
+                    if(appLaunchNumber<=30){
+                        if(appLaunchNumber==10 || appLaunchNumber==20 || appLaunchNumber==30){
                             setupRateUsDialog();
                         }
                     } else {
@@ -310,6 +312,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                             setupRateUsDialog();
                         }
                     }
+                    appLaunchNumber++;
+                    tickTrackDatabase.setAppLaunchNumber(appLaunchNumber);
                 }
             }
 
@@ -397,7 +401,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     protected void onStart() {
         super.onStart();
         TickTrackThemeSetter.mainActivityTheme(navView, this, tickTrackDatabase, mainToolbar, tickTrackAppName, container);
-
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, CounterMilestoneReceiver.class);
+        intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
     }
 
     @Override
@@ -421,7 +430,17 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         super.onStop();
         System.out.println("ON STOP MAIN ACTIVITY");
 
-
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, CounterMilestoneReceiver.class);
+        intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
+        alarmManager.setRepeating(
+                AlarmManager.RTC,
+                1000*60*60*24L,
+                1000*60*60*24*3L,
+                alarmPendingIntent
+        );
     }
 
     public void stopNotificationService() {
