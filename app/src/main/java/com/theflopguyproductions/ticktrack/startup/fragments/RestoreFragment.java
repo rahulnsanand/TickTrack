@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.theflopguyproductions.ticktrack.R;
+import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.dialogs.ProgressBarDialog;
 import com.theflopguyproductions.ticktrack.dialogs.SwipeDialog;
 import com.theflopguyproductions.ticktrack.service.BackupRestoreService;
@@ -83,13 +84,20 @@ public class RestoreFragment extends Fragment {
                 progressBarDialog.dismiss();
                 setupOptionsDisplay();
             } else {
+                tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
+                tickTrackFirebaseDatabase.setRestoreCompleteStatus(1);
+                tickTrackFirebaseDatabase.setRestoreInitMode(0);
+                tickTrackFirebaseDatabase.storeTimerRestoreString("");
+                tickTrackFirebaseDatabase.storeCounterRestoreString("");
                 progressBarDialog.dismiss();
                 if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                     Intent intent = new Intent(requireContext(), SettingsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intent);
                 } else {
-                    startFreshListener.onStartFreshClickListener(true);
+                    if(!tickTrackDatabase.retrieveFirstLaunch()){
+                        startActivity(new Intent(activity, SoYouADeveloperHuh.class));
+                    }
                 }
             }
         } else if(tickTrackFirebaseDatabase.isRestoreInitMode()==-1){
@@ -124,7 +132,9 @@ public class RestoreFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 requireContext().startActivity(intent);
             } else {
-                startFreshListener.onStartFreshClickListener(false);
+                if(!tickTrackDatabase.retrieveFirstLaunch()){
+                    startActivity(new Intent(activity, SoYouADeveloperHuh.class));
+                }
             }
             prefixVariables();
         });
@@ -208,7 +218,9 @@ public class RestoreFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 requireContext().startActivity(intent);
             } else {
-                startFreshListener.onStartFreshClickListener(false);
+                if(!tickTrackDatabase.retrieveFirstLaunch()){
+                    startActivity(new Intent(activity, SoYouADeveloperHuh.class));
+                }
             }
             prefixVariables();
         });
@@ -234,7 +246,9 @@ public class RestoreFragment extends Fragment {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     requireContext().startActivity(intent);
                 } else {
-                    startFreshListener.onStartFreshClickListener(true);
+                    if(!tickTrackDatabase.retrieveFirstLaunch()){
+                        startActivity(new Intent(activity, SoYouADeveloperHuh.class));
+                    }
                 }
                 prefixVariables();
             });
