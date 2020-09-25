@@ -319,9 +319,7 @@ public class TickTrackFirebaseDatabase {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         Random r = new Random();
-        int low = 0;
-        int high = 24;
-        int result = r.nextInt(high-low) + low;
+        int result = r.nextInt(24);
         new TickTrackDatabase(context).storeBackupHour(result);
         calendar.set(Calendar.HOUR_OF_DAY, result);
         calendar.set(Calendar.MINUTE, 0);

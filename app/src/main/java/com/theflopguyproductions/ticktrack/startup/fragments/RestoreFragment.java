@@ -90,6 +90,7 @@ public class RestoreFragment extends Fragment {
                 tickTrackFirebaseDatabase.storeTimerRestoreString("");
                 tickTrackFirebaseDatabase.storeCounterRestoreString("");
                 progressBarDialog.dismiss();
+                tickTrackFirebaseDatabase.setBackUpAlarm(false);
                 if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                     Intent intent = new Intent(requireContext(), SettingsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
