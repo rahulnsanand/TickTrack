@@ -436,7 +436,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
         alarmManager.setRepeating(
-                AlarmManager.RTC,
+                AlarmManager.RTC_WAKEUP,
                 1000*60*60*24L,
                 1000*60*60*24*3L,
                 alarmPendingIntent
