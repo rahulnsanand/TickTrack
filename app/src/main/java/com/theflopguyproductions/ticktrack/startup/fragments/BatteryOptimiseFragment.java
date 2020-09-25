@@ -46,7 +46,7 @@ public class BatteryOptimiseFragment extends Fragment {
         PowerSaverHelper.WhiteListedInBatteryOptimizations appWhiteListState
                 = PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(requireContext(), requireContext().getPackageName());
 
-        if(tickTrackDatabase.isNotOptimised() || appWhiteListState.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.WHITE_LISTED)
+        if(appWhiteListState.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.WHITE_LISTED)
                 || appWhiteListState.equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.ERROR_GETTING_STATE) ){
             Intent intent = new Intent(requireContext(), SoYouADeveloperHuh.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
