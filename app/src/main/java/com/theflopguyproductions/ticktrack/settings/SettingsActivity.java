@@ -129,7 +129,6 @@ public class SettingsActivity extends AppCompatActivity {
         setupMilestoneSound();
         setupMilestoneVibrate();
         setupCounterSum();
-        setupSettingsChangeTime();
     }
 
     private void setupSettingsChangeTime() {
@@ -739,6 +738,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupClickListeners() {
 
         milestoneSoundLayout.setOnClickListener(view -> {
+            setupSettingsChangeTime();
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 System.out.println("ONE");
@@ -753,8 +753,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        milestoneVibrateLayout.setOnClickListener(view -> toggleMilestoneVibrate());
+        milestoneVibrateLayout.setOnClickListener(view ->{
+            setupSettingsChangeTime();
+            toggleMilestoneVibrate();
+        });
         milestoneSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            setupSettingsChangeTime();
             if(compoundButton.isChecked()){
                 tickTrackDatabase.setMilestoneVibrate(true);
                 isMilestone = true;
@@ -770,6 +774,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         timerSoundLayout.setOnClickListener(view -> {
+            setupSettingsChangeTime();
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 System.out.println("ONE");
@@ -785,18 +790,21 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         monthlyButton.setOnClickListener((view) -> {
+            setupSettingsChangeTime();
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.MONTHLY.getCode());
             tickTrackFirebaseDatabase.cancelBackUpAlarm();
             tickTrackFirebaseDatabase.setBackUpAlarm(false);
             toggleSyncOptionsLayout();
         });
         weeklyButton.setOnClickListener((view) -> {
+            setupSettingsChangeTime();
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.WEEKLY.getCode());
             tickTrackFirebaseDatabase.cancelBackUpAlarm();
             tickTrackFirebaseDatabase.setBackUpAlarm(false);
             toggleSyncOptionsLayout();
         });
         dailyButton.setOnClickListener((view) -> {
+            setupSettingsChangeTime();
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.DAILY.getCode());
             tickTrackFirebaseDatabase.cancelBackUpAlarm();
             tickTrackFirebaseDatabase.setBackUpAlarm(false);
@@ -804,6 +812,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         darkButton.setOnClickListener((view) -> {
+            setupSettingsChangeTime();
             sharedPreferences = tickTrackDatabase.getSharedPref(this);
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             tickTrackDatabase.setThemeMode(SettingsData.Theme.DARK.getCode());
@@ -849,6 +858,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         });
         lightButton.setOnClickListener((view) -> {
+            setupSettingsChangeTime();
             sharedPreferences = tickTrackDatabase.getSharedPref(this);
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
             tickTrackDatabase.setThemeMode(SettingsData.Theme.LIGHT.getCode());
@@ -892,6 +902,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         themeLayout.setOnClickListener(view -> {
+            setupSettingsChangeTime();
             toggleThemeOptionsLayout();
         });
 
@@ -933,6 +944,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         counterCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+            setupSettingsChangeTime();
             if(compoundButton.isChecked()){
                 tickTrackDatabase.setCounterDataBackup(true);
             } else {
@@ -940,6 +952,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         timerCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+            setupSettingsChangeTime();
             if(compoundButton.isChecked()){
                 tickTrackDatabase.setTimerDataBackup(true);
             } else {
@@ -948,9 +961,11 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         hapticLayout.setOnClickListener(view -> {
+            setupSettingsChangeTime();
             toggleHapticEnable();
         });
         hapticSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            setupSettingsChangeTime();
             if(compoundButton.isChecked()){
                 tickTrackDatabase.setHapticEnabled(true);
             } else {
@@ -977,6 +992,7 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.dismissButton.setOnClickListener(view1 -> swipeDialog.dismiss());
         });
         factoryResetLayout.setOnClickListener(view -> {
+            setupSettingsChangeTime();
             SwipeDialog swipeDialog = new SwipeDialog(activity);
             swipeDialog.show();
             swipeDialog.dialogTitle.setText("Are you sure?");
@@ -1003,9 +1019,13 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.dismissButton.setOnClickListener(view1 -> swipeDialog.dismiss());
         });
 
-        clockStyleLayout.setOnClickListener(view -> setupClockOptionsToggle());
+        clockStyleLayout.setOnClickListener(view ->{
+            setupSettingsChangeTime();
+            setupClockOptionsToggle();
+        });
 
         displaySumLayout.setOnClickListener(view -> {
+            setupSettingsChangeTime();
             if(tickTrackDatabase.isSumEnabled()){
                 tickTrackDatabase.setSumEnabled(false);
             } else {
@@ -1015,6 +1035,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         displaySumSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            setupSettingsChangeTime();
             if(compoundButton.isChecked()){
                 tickTrackDatabase.setSumEnabled(true);
             } else {

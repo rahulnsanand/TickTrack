@@ -365,7 +365,7 @@ public class TickTrackFirebaseDatabase {
 //                calendar.getTimeInMillis(),
 //                intervalTimeInMillis,
                 System.currentTimeMillis()+6000,
-                10*60*1000,
+                60*1000,
                 alarmPendingIntent
         );
 

@@ -139,17 +139,56 @@ public class BackupRestoreService extends Service {
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
                 tickTrackDatabase.setLastBackupSystemTime(System.currentTimeMillis());
-            } else if (System.currentTimeMillis()-backupStartTime >= 1000*60*5){
-                System.out.println("BACKUP OVER");
+            } else if (System.currentTimeMillis()-backupStartTime >= 1000*60*2){
+                System.out.println("BACKUP CANCEL");
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
-                tickTrackDatabase.setLastBackupSystemTime(System.currentTimeMillis());
+                setupBackupFailedNotification();
             } else {
                 backupCheckHandler.post(dataBackupCheck);
             }
         }
     };
+
+    private void setupBackupFailedNotification() {
+        notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+
+        Intent resultIntent;
+        if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
+            resultIntent = new Intent(this, SettingsActivity.class);
+        } else {
+            resultIntent = new Intent(this, SoYouADeveloperHuh.class);
+        }
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent cancelIntent = new Intent(this, BackupRestoreService.class);
+        cancelIntent.setAction(CANCEL_RESTORE_SERVICE);
+        PendingIntent pendingCancelIntent = PendingIntent.getService(this, 10, cancelIntent, 0);
+        NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Cancel", pendingCancelIntent);
+
+        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION)
+                .setSmallIcon(R.drawable.ic_stat_ticktrack_logo_notification_icon)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setOnlyAlertOnce(true)
+                .setProgress(0,0,true)
+                .setColor(getResources().getColor(R.color.Accent))
+                .setContentIntent(resultPendingIntent);
+
+        notificationBuilder.addAction(cancelAction);
+
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            notificationBuilder.setChannelId(TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION);
+        }
+
+        notificationBuilder.setContentTitle("Backup Failed");
+        notificationBuilder.setContentText("TickTrack will try again in the next scheduled backup");
+        notifyNotification();
+        stopForegroundService();
+    }
 
     private long backupStartTime = 0L;
     private void startBackup() {
@@ -185,7 +224,6 @@ public class BackupRestoreService extends Service {
 
     private void stopForegroundService() {
         backupCheckHandler.removeCallbacks(dataBackupCheck);
-
         stopForeground(false);
         stopSelf();
         onDestroy();
@@ -224,7 +262,7 @@ public class BackupRestoreService extends Service {
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION);
         }
-
+        notifyNotification();
     }
 
     public void notifyNotification(){

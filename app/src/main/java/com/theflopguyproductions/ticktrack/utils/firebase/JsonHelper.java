@@ -448,8 +448,20 @@ public class JsonHelper {
         ArrayList<CounterData> counterLocalData = tickTrackDatabase.retrieveCounterList();
         for(int j=0; j<counterLocalData.size(); j++){
             if(counterData.getCounterID().equals(counterLocalData.get(j).getCounterID())){
+                isNew = false;
                 if(counterData.getCounterTimestamp()<=counterLocalData.get(j).getCounterTimestamp()){
-                    isNew = false;
+                    return;
+                } else {
+                    counterLocalData.get(j).setCounterID(counterData.getCounterID());
+                    counterLocalData.get(j).setCounterLabel(counterData.getCounterLabel());
+                    counterLocalData.get(j).setCounterValue(counterData.getCounterValue());
+                    counterLocalData.get(j).setCounterTimestamp(counterData.getCounterTimestamp());
+                    counterLocalData.get(j).setCounterFlag(counterData.getCounterFlag());
+                    counterLocalData.get(j).setCounterSignificantCount(counterData.getCounterSignificantCount());
+                    counterLocalData.get(j).setCounterSignificantExist(counterData.isCounterSignificantExist());
+                    counterLocalData.get(j).setCounterSwipeMode(counterData.isCounterSwipeMode());
+                    counterLocalData.get(j).setNegativeAllowed(counterData.isNegativeAllowed());
+                    tickTrackDatabase.storeCounterList(counterLocalData);
                 }
             }
         }
@@ -500,8 +512,14 @@ public class JsonHelper {
         ArrayList<TimerData> timerLocalData = tickTrackDatabase.retrieveTimerList();
         for(int j=0; j<timerLocalData.size(); j++){
             if(timerData.getTimerID().equals(timerLocalData.get(j).getTimerID())){
+                isNew = false;
                 if(timerData.getTimerLastEdited()<=timerLocalData.get(j).getTimerLastEdited()){
-                    isNew = false;
+                    return;
+                } else {
+                    timerLocalData.get(j).setTimerLastEdited(timerData.getTimerLastEdited());
+                    timerLocalData.get(j).setTimerFlag(timerData.getTimerFlag());
+                    timerLocalData.get(j).setTimerLabel(timerData.getTimerLabel());
+                    tickTrackDatabase.storeTimerList(timerLocalData);
                 }
             }
         }
