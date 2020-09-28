@@ -9,6 +9,7 @@ import android.util.Pair;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
@@ -61,6 +62,8 @@ public class GDriveHelper {
                             .execute();
                     System.out.println("File ID: " + uploadFile.getId());
                     return Pair.create(1, uploadFile.getId());
+                } catch (GoogleJsonResponseException e){
+                    System.out.println("EXCEPTION createTimerBackup "+e);
                 } catch (IOException e) {
                     System.out.println("An error occurred: " + e);
                     exceptionHandler();
@@ -89,6 +92,8 @@ public class GDriveHelper {
                             .execute();
                     System.out.println("File ID: " + uploadFile.getId());
                     return Pair.create(1, uploadFile.getId());
+                } catch (GoogleJsonResponseException e){
+                    System.out.println("EXCEPTION createCounterBackup "+e);
                 } catch (IOException e) {
                     System.out.println("An error occurred: " + e);
                     exceptionHandler();
@@ -117,6 +122,8 @@ public class GDriveHelper {
                             .execute();
                     System.out.println("File ID: " + uploadFile.getId());
                     return Pair.create(1, uploadFile.getId());
+                } catch (GoogleJsonResponseException e){
+                    System.out.println("EXCEPTION createSettingsBackup "+e);
                 } catch (IOException e) {
                     System.out.println("An error occurred: " + e);
                     exceptionHandler();
@@ -151,6 +158,13 @@ public class GDriveHelper {
                     String contents = stringBuilder.toString();
                     System.out.println(contents);
                     return Pair.create(name, contents);
+                } catch (GoogleJsonResponseException e){
+                    e.printStackTrace();
+                    System.out.println("EXCEPTION GOOGLE JSON RESPONSE "+e);
+                    return Pair.create(null, null);
+                } catch (IOException e){
+                    e.printStackTrace();
+                    return Pair.create(null, null);
                 }
             } else {
                 return Pair.create(null, null);
@@ -168,7 +182,16 @@ public class GDriveHelper {
                 ByteArrayContent contentStream = ByteArrayContent.fromString("text/json", content);
 
                 // Update the metadata and contents.
-                mDriveService.files().update(fileId, metadata, contentStream).execute();
+                try{
+                    mDriveService.files().update(fileId, metadata, contentStream).execute();
+                } catch (GoogleJsonResponseException e){
+                    e.printStackTrace();
+                    System.out.println("EXCEPTION GOOGLE JSON saveFile"+e);
+                } catch (IOException e){
+                    e.printStackTrace();
+                    exceptionHandler();
+                }
+
                 return 1;
             } else {
                 return -1;
@@ -189,6 +212,8 @@ public class GDriveHelper {
                                 file.getName(), file.getId());
                         readFile(file.getId());
                     }
+                } catch (GoogleJsonResponseException e){
+                    System.out.println("EXCEPTION readAllFiles "+e);
                 } catch (IOException e) {
                     System.out.println("An error occurred: " + e);
                     exceptionHandler();
@@ -212,6 +237,8 @@ public class GDriveHelper {
                         mDriveService.files().delete(file.getId()).execute();
                     }
                     return 1;
+                } catch (GoogleJsonResponseException e){
+                    System.out.println("EXCEPTION clearData "+e);
                 } catch (GoogleAuthIOException e) {
                     System.out.println("An error occurred: " + e);
                     exceptionHandler();
@@ -239,7 +266,6 @@ public class GDriveHelper {
         if(isMyServiceRunning(BackupRestoreService.class, context)){
             stopBackupService();
         }
-
     }
 
     private void stopBackupService() {
@@ -276,24 +302,33 @@ public class GDriveHelper {
                             stringBuilder.append(line);
                         }
                         contents = stringBuilder.toString();
-                    }
-                    JsonHelper jsonHelper = new JsonHelper(context);
-                    switch (file.getName()) {
-                        case "counterBackup.json":
-                            tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
-                            jsonHelper.restoreCounterData();
-                            break;
-                        case "timerBackup.json":
-                            tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
-                            jsonHelper.restoreTimerData();
-                            break;
-                        case "settingsBackup.json":
-                            setupPreferencesForSync(contents, tickTrackFirebaseDatabase);
-                            jsonHelper.restorePreferencesSync();
-                            break;
+
+                        JsonHelper jsonHelper = new JsonHelper(context);
+                        switch (file.getName()) {
+                            case "counterBackup.json":
+                                tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
+                                jsonHelper.restoreCounterDataSync();
+                                break;
+                            case "timerBackup.json":
+                                tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
+                                jsonHelper.restoreTimerDataSync();
+                                break;
+                            case "settingsBackup.json":
+                                setupPreferencesForSync(contents, tickTrackFirebaseDatabase);
+                                jsonHelper.restorePreferencesSync();
+                                break;
+                        }
+
+                    } catch (GoogleJsonResponseException e){
+                        System.out.println("EXCEPTION checkDataForSync "+e);
+                    } catch (IOException e) {
+                        System.out.println("An error occurred: " + e);
+                        exceptionHandler();
                     }
                 }
                 return 1;
+            } catch (GoogleJsonResponseException e){
+                System.out.println("EXCEPTION checkDataForSync "+e);
             } catch (IOException e) {
                 System.out.println("An error occurred: " + e);
                 exceptionHandler();
@@ -334,23 +369,30 @@ public class GDriveHelper {
                             stringBuilder.append(line);
                         }
                         contents = stringBuilder.toString();
-                    }
-                    switch (file.getName()) {
-                        case "counterBackup.json":
-                            tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
-                            setupCounterCount(contents, tickTrackFirebaseDatabase);
-                            break;
-                        case "timerBackup.json":
-                            tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
-                            setupTimerCount(contents, tickTrackFirebaseDatabase);
-                            break;
-                        case "settingsBackup.json":
-                            setupPreferencesExist(contents, tickTrackFirebaseDatabase);
-                            break;
+                        switch (file.getName()) {
+                            case "counterBackup.json":
+                                tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
+                                setupCounterCount(contents, tickTrackFirebaseDatabase);
+                                break;
+                            case "timerBackup.json":
+                                tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
+                                setupTimerCount(contents, tickTrackFirebaseDatabase);
+                                break;
+                            case "settingsBackup.json":
+                                setupPreferencesExist(contents, tickTrackFirebaseDatabase);
+                                break;
+                        }
+                    } catch (GoogleJsonResponseException e){
+                        System.out.println("EXCEPTION checkData "+e);
+                    }  catch (IOException e) {
+                        System.out.println("An error occurred: " + e);
+                        exceptionHandler();
                     }
                 }
                 return 1;
-            } catch (IOException e) {
+            } catch (GoogleJsonResponseException e){
+                System.out.println("EXCEPTION checkData "+e);
+            }  catch (IOException e) {
                 System.out.println("An error occurred: " + e);
                 exceptionHandler();
             }

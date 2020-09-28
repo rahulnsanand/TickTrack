@@ -21,6 +21,7 @@ import com.theflopguyproductions.ticktrack.startup.StartUpActivity;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
+import com.theflopguyproductions.ticktrack.utils.firebase.InternetChecker;
 import com.theflopguyproductions.ticktrack.utils.firebase.JsonHelper;
 
 import java.text.DateFormat;
@@ -133,6 +134,13 @@ public class BackupRestoreService extends Service {
     Runnable dataBackupCheck = new Runnable() {
         @Override
         public void run() {
+            if(!InternetChecker.isOnline(getApplicationContext())){
+                System.out.println("BACKUP CANCEL");
+                stopForegroundService();
+                prefixFirebaseVariables();
+                backupCheckHandler.removeCallbacks(dataBackupCheck);
+                setupBackupFailedNotification(true);
+            }
             if(!tickTrackFirebaseDatabase.isBackupMode()){
                 System.out.println("BACKUP OVER");
                 stopForegroundService();
@@ -144,14 +152,14 @@ public class BackupRestoreService extends Service {
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
-                setupBackupFailedNotification();
+                setupBackupFailedNotification(false);
             } else {
                 backupCheckHandler.post(dataBackupCheck);
             }
         }
     };
 
-    private void setupBackupFailedNotification() {
+    private void setupBackupFailedNotification(boolean b) {
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
         Intent resultIntent;
@@ -165,27 +173,27 @@ public class BackupRestoreService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent cancelIntent = new Intent(this, BackupRestoreService.class);
-        cancelIntent.setAction(CANCEL_RESTORE_SERVICE);
-        PendingIntent pendingCancelIntent = PendingIntent.getService(this, 10, cancelIntent, 0);
-        NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Cancel", pendingCancelIntent);
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_stat_ticktrack_logo_notification_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setOnlyAlertOnce(true)
-                .setProgress(0,0,true)
                 .setColor(getResources().getColor(R.color.Accent))
                 .setContentIntent(resultPendingIntent);
 
-        notificationBuilder.addAction(cancelAction);
+        notificationBuilder.clearActions();
 
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             notificationBuilder.setChannelId(TickTrack.DATA_BACKUP_RESTORE_NOTIFICATION);
         }
 
-        notificationBuilder.setContentTitle("Backup Failed");
-        notificationBuilder.setContentText("TickTrack will try again in the next scheduled backup");
+        if(b){
+            notificationBuilder.setContentTitle("Sync Failed (No Internet)");
+        } else {
+            notificationBuilder.setContentTitle("Sync Failed");
+        }
+        notificationBuilder.setContentText("Swipe to dismiss");
+
         notifyNotification();
         stopForegroundService();
     }
@@ -193,8 +201,7 @@ public class BackupRestoreService extends Service {
     private long backupStartTime = 0L;
     private void startBackup() {
         updateFirebaseData();
-        notificationBuilder.setContentTitle("TickTrack backup");
-        notificationBuilder.setContentText("In progress");
+        notificationBuilder.setContentTitle("Sync In Progress");
         notifyNotification();
         backupStartTime = System.currentTimeMillis();
         backupCheckHandler.post(dataBackupCheck);
@@ -256,6 +263,8 @@ public class BackupRestoreService extends Service {
                 .setProgress(0,0,true)
                 .setColor(getResources().getColor(R.color.Accent))
                 .setContentIntent(resultPendingIntent);
+
+        notificationBuilder.setContentTitle("Sync in progress");
 
         notificationBuilder.addAction(cancelAction);
 

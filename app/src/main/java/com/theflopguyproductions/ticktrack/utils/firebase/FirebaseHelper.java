@@ -275,7 +275,6 @@ public class FirebaseHelper {
     Runnable backupCheckRunnable = new Runnable() {
         @Override
         public void run() {
-            System.out.println("BACKUP LOOP IS RUNNING");
             if(isCounter && isTimer && isSettings){
                 if(tickTrackFirebaseDatabase.isCounterBackupComplete() && tickTrackFirebaseDatabase.isTimerBackupComplete() && tickTrackFirebaseDatabase.isSettingsBackupComplete()){
                     tickTrackFirebaseDatabase.setBackupMode(false);

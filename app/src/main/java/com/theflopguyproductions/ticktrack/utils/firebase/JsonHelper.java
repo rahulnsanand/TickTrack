@@ -210,6 +210,7 @@ public class JsonHelper {
                         try {
                             Thread.sleep(10000);
                         } catch (InterruptedException e) {
+
                             e.printStackTrace();
                         }
                         createCounterBackup(gDriveHelper, jsonObject);
@@ -444,14 +445,10 @@ public class JsonHelper {
 
     }
     private void mergeCounterData(CounterData counterData) {
-        boolean isNew = true;
         ArrayList<CounterData> counterLocalData = tickTrackDatabase.retrieveCounterList();
         for(int j=0; j<counterLocalData.size(); j++){
             if(counterData.getCounterID().equals(counterLocalData.get(j).getCounterID())){
-                isNew = false;
-                if(counterData.getCounterTimestamp()<=counterLocalData.get(j).getCounterTimestamp()){
-                    return;
-                } else {
+                if (counterData.getCounterTimestamp() >= counterLocalData.get(j).getCounterTimestamp()) {
                     counterLocalData.get(j).setCounterID(counterData.getCounterID());
                     counterLocalData.get(j).setCounterLabel(counterData.getCounterLabel());
                     counterLocalData.get(j).setCounterValue(counterData.getCounterValue());
@@ -463,12 +460,12 @@ public class JsonHelper {
                     counterLocalData.get(j).setNegativeAllowed(counterData.isNegativeAllowed());
                     tickTrackDatabase.storeCounterList(counterLocalData);
                 }
+                return;
             }
         }
-        if(isNew){
-            counterLocalData.add(counterData);
-            tickTrackDatabase.storeCounterList(counterLocalData);
-        }
+
+        counterLocalData.add(counterData);
+        tickTrackDatabase.storeCounterList(counterLocalData);
     }
 
     public void restoreTimerData(){
@@ -508,25 +505,21 @@ public class JsonHelper {
         tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
     }
     private void mergeTimerData(TimerData timerData) {
-        boolean isNew = true;
         ArrayList<TimerData> timerLocalData = tickTrackDatabase.retrieveTimerList();
         for(int j=0; j<timerLocalData.size(); j++){
             if(timerData.getTimerID().equals(timerLocalData.get(j).getTimerID())){
-                isNew = false;
-                if(timerData.getTimerLastEdited()<=timerLocalData.get(j).getTimerLastEdited()){
-                    return;
-                } else {
+                if (timerData.getTimerLastEdited() >= timerLocalData.get(j).getTimerLastEdited()) {
                     timerLocalData.get(j).setTimerLastEdited(timerData.getTimerLastEdited());
                     timerLocalData.get(j).setTimerFlag(timerData.getTimerFlag());
                     timerLocalData.get(j).setTimerLabel(timerData.getTimerLabel());
                     tickTrackDatabase.storeTimerList(timerLocalData);
                 }
+                return;
             }
         }
-        if(isNew){
-            timerLocalData.add(timerData);
-            tickTrackDatabase.storeTimerList(timerLocalData);
-        }
+
+        timerLocalData.add(timerData);
+        tickTrackDatabase.storeTimerList(timerLocalData);
     }
 
 
@@ -534,7 +527,6 @@ public class JsonHelper {
         ArrayList<SettingsData> settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
         if(settingsData.size()>0){
             if(tickTrackDatabase.getSettingsChangeTime() < settingsData.get(0).getSettingsChangeTime()){
-                tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
                 tickTrackDatabase.setCounterDataBackup(settingsData.get(0).isCounterBackupOn());
                 tickTrackDatabase.setTimerDataBackup(settingsData.get(0).isTimerBackupOn());
                 tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
@@ -547,5 +539,71 @@ public class JsonHelper {
             }
         }
         tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
+    }
+
+    public void restoreCounterDataSync() {
+        String jsonString = tickTrackFirebaseDatabase.getCounterRestoreString();
+
+        if(jsonString!=null){
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
+            ArrayList<CounterBackupData> counterBackupData = gson.fromJson(jsonString, type);
+            if(counterBackupData == null){
+                counterBackupData = new ArrayList<>();
+            }
+
+            tickTrackFirebaseDatabase.storeBackupCounterList(counterBackupData);
+
+            for(int i=0; i<counterBackupData.size(); i++){
+                CounterData newCounter = new CounterData();
+                newCounter.setCounterID(counterBackupData.get(i).getCounterID());
+                newCounter.setCounterLabel(counterBackupData.get(i).getCounterLabel());
+                newCounter.setCounterValue(counterBackupData.get(i).getCounterValue());
+                newCounter.setCounterTimestamp(counterBackupData.get(i).getCounterTimestamp());
+                newCounter.setCounterFlag(counterBackupData.get(i).getCounterFlag());
+                newCounter.setCounterSignificantCount(counterBackupData.get(i).getCounterSignificantCount());
+                newCounter.setCounterSignificantExist(counterBackupData.get(i).isCounterSignificantExist());
+                newCounter.setCounterSwipeMode(counterBackupData.get(i).isCounterSwipeMode());
+                newCounter.setNegativeAllowed(counterBackupData.get(i).isNegativeAllowed());
+
+                mergeCounterData(newCounter);
+
+            }
+        }
+    }
+
+    public void restoreTimerDataSync() {
+        String jsonContent = tickTrackFirebaseDatabase.getTimerRestoreString();
+
+        if(jsonContent!=null){
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
+            ArrayList<TimerBackupData> timerBackupData = gson.fromJson(jsonContent, type);
+
+            if(timerBackupData == null){
+                timerBackupData = new ArrayList<>();
+            }
+
+            tickTrackFirebaseDatabase.storeBackupTimerList(timerBackupData);
+
+            for(int i=0; i<timerBackupData.size(); i++){
+                TimerData newTimer = new TimerData();
+                newTimer.setTimerID(timerBackupData.get(i).getTimerID());
+                newTimer.setTimerIntID(timerBackupData.get(i).getTimerIntID());
+                newTimer.setQuickTimer(false);
+                newTimer.setTimerLastEdited(timerBackupData.get(i).getTimerLastEdited());
+                newTimer.setTimerFlag(timerBackupData.get(i).getTimerFlag());
+                newTimer.setTimerHour(timerBackupData.get(i).getTimerHour());
+                newTimer.setTimerMinute(timerBackupData.get(i).getTimerMinute());
+                newTimer.setTimerSecond(timerBackupData.get(i).getTimerSecond());
+                newTimer.setTimerLabel(timerBackupData.get(i).getTimerLabel());
+                newTimer.setTimerStartTimeInMillis(-1);
+                newTimer.setTimerTotalTimeInMillis(timerBackupData.get(i).getTimerTotalTimeInMillis());
+                newTimer.setTimerPause(false);
+                newTimer.setTimerOn(false);
+
+                mergeTimerData(newTimer);
+            }
+        }
     }
 }
