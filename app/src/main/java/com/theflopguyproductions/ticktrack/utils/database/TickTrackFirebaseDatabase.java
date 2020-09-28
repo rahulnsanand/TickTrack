@@ -362,10 +362,10 @@ public class TickTrackFirebaseDatabase {
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
         alarmManager.setRepeating(
                 AlarmManager.RTC,
-                calendar.getTimeInMillis(),
-                intervalTimeInMillis,
-//                System.currentTimeMillis()+6000,
-//                10*60*1000,
+//                calendar.getTimeInMillis(),
+//                intervalTimeInMillis,
+                System.currentTimeMillis()+6000,
+                10*60*1000,
                 alarmPendingIntent
         );
 

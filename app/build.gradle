@@ -21,8 +21,8 @@ android {
         applicationId "com.theflopguyproductions.ticktrack"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 12
-        versionName "2.1.0.3"
+        versionCode 13
+        versionName "2.1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.TickTracKSigningConfig

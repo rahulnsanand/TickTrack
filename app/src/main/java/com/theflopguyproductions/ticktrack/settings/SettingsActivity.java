@@ -224,9 +224,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupLastBackupText() {
         if(tickTrackDatabase.getLastBackupSystemTime()!=-1){
-            syncDataLastSync.setText("Last backup "+ TimeAgo.getTimeAgo(tickTrackDatabase.getLastBackupSystemTime()));
+            syncDataLastSync.setText("Last sync "+ TimeAgo.getTimeAgo(tickTrackDatabase.getLastBackupSystemTime()));
         } else {
-            syncDataLastSync.setText("No backup yet");
+            syncDataLastSync.setText("No sync yet");
         }
     }
     private void setupSyncFreqOptionText(){
