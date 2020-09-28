@@ -228,6 +228,7 @@ public class RestoreFragment extends Fragment {
             progressBarDialog.titleText.setVisibility(View.GONE);
             progressBarDialog.setContentText("Restoring Data");
             restoreData();
+            prefixVariables();
             progressBarDialog.dismiss();
             tickTrackFirebaseDatabase.setBackUpAlarm(false);
             if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
@@ -239,7 +240,7 @@ public class RestoreFragment extends Fragment {
                     startActivity(new Intent(activity, SoYouADeveloperHuh.class));
                 }
             }
-            prefixVariables();
+            Toast.makeText(activity, "Data restored!", Toast.LENGTH_SHORT).show();
         });
         startFreshButton.setOnClickListener(view -> {
             SwipeDialog swipeDialog = new SwipeDialog(activity);

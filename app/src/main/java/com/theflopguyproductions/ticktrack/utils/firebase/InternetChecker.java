@@ -10,7 +10,12 @@ public class InternetChecker {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm.getActiveNetworkInfo() != null &&
-                cm.getActiveNetworkInfo().isConnectedOrConnecting();
+        try{
+            return cm.getActiveNetworkInfo() != null &&
+                    cm.getActiveNetworkInfo().isConnectedOrConnecting();
+        } catch (StackOverflowError error){
+            error.printStackTrace();
+            return false;
+        }
     }
 }

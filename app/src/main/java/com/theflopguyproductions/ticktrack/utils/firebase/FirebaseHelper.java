@@ -415,6 +415,11 @@ public class FirebaseHelper {
                 System.out.println("EXCEPTION CAUGHT");
             } else {
                 System.out.println("CLEAR DATA FAILED");
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 clearData(gDriveHelper, progressBarDialog);
             }
         });

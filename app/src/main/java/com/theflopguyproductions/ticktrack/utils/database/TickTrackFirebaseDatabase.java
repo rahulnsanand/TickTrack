@@ -190,8 +190,8 @@ public class TickTrackFirebaseDatabase {
         editor.putLong("retrievedLastBackupTime", timeStamp);
         editor.apply();
     }
-    public int getRetrievedLastBackupTime(){
-        return sharedPreferences.getInt("retrievedLastBackupTime",-1);
+    public long getRetrievedLastBackupTime(){
+        return sharedPreferences.getLong("retrievedLastBackupTime", -1);
     }
     public void storeSettingsRestoredData(ArrayList<SettingsData> settingsData){
         SharedPreferences.Editor editor = sharedPreferences.edit();

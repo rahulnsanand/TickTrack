@@ -2,7 +2,6 @@ package com.theflopguyproductions.ticktrack.utils.firebase;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -120,6 +119,11 @@ public class JsonHelper {
                     if(s.first==1){
                         openGDriveFile(gDriveHelper, s.second, jsonObject, "timerBackup.json");
                     } else {
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         createTimerBackup(gDriveHelper, jsonObject);
                     }
                 });
@@ -203,6 +207,11 @@ public class JsonHelper {
                     if(s.first==1){
                         openGDriveFile(gDriveHelper, s.second, jsonObject, "counterBackup.json");
                     } else {
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         createCounterBackup(gDriveHelper, jsonObject);
                     }
                 });
@@ -263,6 +272,11 @@ public class JsonHelper {
                     if(s.first==1){
                         openGDriveFile(gDriveHelper, s.second, json, "settingsBackup.json");
                     } else {
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         createSettingsBackup(gDriveHelper, json);
                     }
                 });
@@ -287,13 +301,12 @@ public class JsonHelper {
 
                 retrieveDataFromCloud(gDriveHelper);
 
-
-                //TODO RETRIEVE ALL DATA INTO RESTORE SECTION
-                //MERGE ALL RETRIEVED DATA WITH LOCAL DATA
-                //CLEAR ALL BACKUP DATA
-                //UPLOAD NEWLY CREATED BACKUP DATA
-
             } else {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 createBackup();
             }
         }
@@ -326,6 +339,11 @@ public class JsonHelper {
             } else if(resultInt==0){
                 System.out.println("SYNC EXCEPTION CAUGHT");
             } else {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("SYNC CLEAR DATA FAILED");
                 clearDataSetup(gDriveHelper);
             }
@@ -347,6 +365,11 @@ public class JsonHelper {
 
                             saveFile(fileId, gDriveHelper, jsonContent, fileName);
                         } else {
+                            try {
+                                Thread.sleep(10000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             openGDriveFile(gDriveHelper, fileId, jsonContent, fileName);
                         }
                     })
@@ -415,7 +438,6 @@ public class JsonHelper {
                 mergeCounterData(newCounter);
 
             }
-            Toast.makeText(context, "Counter data restored", Toast.LENGTH_SHORT).show();
         }
 
         tickTrackFirebaseDatabase.setCounterDownloadStatus(1);
@@ -470,7 +492,6 @@ public class JsonHelper {
 
                 mergeTimerData(newTimer);
             }
-            Toast.makeText(context, "Timer data restored", Toast.LENGTH_SHORT).show();
         }
         tickTrackFirebaseDatabase.setTimerDownloadStatus(1);
     }
