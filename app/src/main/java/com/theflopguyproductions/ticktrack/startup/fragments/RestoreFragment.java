@@ -33,7 +33,9 @@ import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 import com.theflopguyproductions.ticktrack.utils.firebase.InternetChecker;
 import com.theflopguyproductions.ticktrack.utils.firebase.JsonHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class RestoreFragment extends Fragment {
 
@@ -148,6 +150,8 @@ public class RestoreFragment extends Fragment {
             preferencesText.setVisibility(View.VISIBLE);
             preferencesText.setText("Preferences retrieved");
             dataReadyTitle.setVisibility(View.VISIBLE);
+            String lastBackupTime = getLastBackupTime();
+            dataReadyTitle.setText("Data from "+lastBackupTime+" ready to restore");
         }  else {
             preferencesText.setVisibility(View.GONE);
         }
@@ -173,6 +177,18 @@ public class RestoreFragment extends Fragment {
         }  else {
             timersText.setVisibility(View.GONE);
         }
+    }
+
+    private String getLastBackupTime() {
+        long timestamp = tickTrackFirebaseDatabase.getRetrievedLastBackupTime();
+        Locale locale ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            locale = getResources().getConfiguration().getLocales().get(0);
+        } else{
+            locale = getResources().getConfiguration().locale;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a, MMM dd yyyy", locale);
+        return simpleDateFormat.format(timestamp);
     }
 
     private void prefixVariables() {
