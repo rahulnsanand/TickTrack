@@ -364,8 +364,8 @@ public class TickTrackFirebaseDatabase {
                 AlarmManager.RTC,
 //                calendar.getTimeInMillis(),
 //                intervalTimeInMillis,
-                System.currentTimeMillis()+6000,
-                60*1000,
+                System.currentTimeMillis()+(1000*60*10),
+                20*60*1000,
                 alarmPendingIntent
         );
 

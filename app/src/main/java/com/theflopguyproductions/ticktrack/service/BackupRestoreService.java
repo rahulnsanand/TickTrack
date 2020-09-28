@@ -3,6 +3,7 @@ package com.theflopguyproductions.ticktrack.service;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 
@@ -235,7 +236,7 @@ public class BackupRestoreService extends Service {
                                 retrieveData = new HashMap<>();
                             }
                         }
-                        retrieveData.put("Backup "+retrieveData.size(), DateFormat.getDateTimeInstance().format(System.currentTimeMillis()));
+                        retrieveData.put("Backup "+retrieveData.size(), Build.MANUFACTURER+": "+DateFormat.getDateTimeInstance().format(System.currentTimeMillis()));
                         firebaseFirestore.collection("TickTrackUsers Backup Debug")
                                 .document(Objects.requireNonNull(account.getEmail())).set(retrieveData);
                     }).addOnFailureListener(e -> {
