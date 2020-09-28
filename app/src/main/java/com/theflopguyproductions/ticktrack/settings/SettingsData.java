@@ -25,7 +25,15 @@ public class SettingsData {
 
     int themeMode, syncDataFrequency, screensaverClockStyle;
     boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn, isSumDisplayed, isMilestoneVibrate;
-    long lastBackupTime;
+    long lastBackupTime, settingsChangeTime;
+
+    public long getSettingsChangeTime() {
+        return settingsChangeTime;
+    }
+
+    public void setSettingsChangeTime(long settingsChangeTime) {
+        this.settingsChangeTime = settingsChangeTime;
+    }
 
     public int getScreensaverClockStyle() {
         return screensaverClockStyle;

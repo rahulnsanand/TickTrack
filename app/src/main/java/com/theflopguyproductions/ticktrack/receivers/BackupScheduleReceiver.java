@@ -25,7 +25,7 @@ public class BackupScheduleReceiver extends BroadcastReceiver {
 
         if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, context)){
             startBackupService(context);
-            Toast.makeText(context, "TickTrack backup in progress", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "TickTrack Sync In Progress", Toast.LENGTH_SHORT).show();
         }
 
     }

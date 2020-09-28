@@ -123,7 +123,7 @@ public class RestoreFragment extends Fragment {
 
     private void setupOptionsDisplay() {
         mainTitle.setText("Restore your data");
-        subTitle.setText("We found something of yours");
+        subTitle.setText("We found something");
         restoreDataButton.setText("Restore Data");
         restoreDataButton.setOnClickListener(view ->{
             restoreData();
@@ -359,6 +359,7 @@ public class RestoreFragment extends Fragment {
             tickTrackDatabase.storeScreenSaverClock(settingsData.get(0).getScreensaverClockStyle());
             tickTrackDatabase.setMilestoneVibrate(settingsData.get(0).isMilestoneVibrate());
             tickTrackDatabase.setSumEnabled(settingsData.get(0).isSumDisplayed());
+            tickTrackDatabase.storeSettingsChangeTime(System.currentTimeMillis());
             System.out.println("INITIALISED PREFERENCES");
         }
         tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());

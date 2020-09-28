@@ -42,7 +42,7 @@ android {
             ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             crunchPngs false
-            debuggable false
+            debuggable true
         }
     }
     packagingOptions {

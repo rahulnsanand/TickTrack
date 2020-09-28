@@ -129,6 +129,11 @@ public class SettingsActivity extends AppCompatActivity {
         setupMilestoneSound();
         setupMilestoneVibrate();
         setupCounterSum();
+        setupSettingsChangeTime();
+    }
+
+    private void setupSettingsChangeTime() {
+        tickTrackDatabase.storeSettingsChangeTime(System.currentTimeMillis());
     }
 
     private void setupAccountBusy() {

@@ -253,6 +253,63 @@ public class GDriveHelper {
         }
     }
 
+    public Task<Integer> checkDataForSync(TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {
+
+        return Tasks.call(mExecutor, () -> {
+            FileList files;
+            String contents;
+            try {
+                files = mDriveService.files().list()
+                        .setSpaces("appDataFolder")
+                        .setFields("nextPageToken, files(id, name)")
+                        .setPageSize(10)
+                        .execute();
+                for (File file : files.getFiles()) {
+                    System.out.printf("Found file: %s (%s)\n",
+                            file.getName(), file.getId());
+                    try (InputStream is = mDriveService.files().get(file.getId()).executeMediaAsInputStream();
+                         BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String line;
+
+                        while ((line = reader.readLine()) != null) {
+                            stringBuilder.append(line);
+                        }
+                        contents = stringBuilder.toString();
+                    }
+                    JsonHelper jsonHelper = new JsonHelper(context);
+                    switch (file.getName()) {
+                        case "counterBackup.json":
+                            tickTrackFirebaseDatabase.storeCounterRestoreString(contents);
+                            jsonHelper.restoreCounterData();
+                            break;
+                        case "timerBackup.json":
+                            tickTrackFirebaseDatabase.storeTimerRestoreString(contents);
+                            jsonHelper.restoreTimerData();
+                            break;
+                        case "settingsBackup.json":
+                            setupPreferencesForSync(contents, tickTrackFirebaseDatabase);
+                            jsonHelper.restorePreferencesSync();
+                            break;
+                    }
+                }
+                return 1;
+            } catch (IOException e) {
+                System.out.println("An error occurred: " + e);
+                exceptionHandler();
+            }
+            return 0;
+        });
+    }
+    private void setupPreferencesForSync(String contents, TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<SettingsData>>() {}.getType();
+        ArrayList<SettingsData> settingsData = gson.fromJson(contents, type);
+        if(settingsData == null){
+            settingsData = new ArrayList<>();
+        }
+        tickTrackFirebaseDatabase.storeSettingsRestoredData(settingsData);
+    }
 
     public Task<Integer> checkData(TickTrackFirebaseDatabase tickTrackFirebaseDatabase) {
 

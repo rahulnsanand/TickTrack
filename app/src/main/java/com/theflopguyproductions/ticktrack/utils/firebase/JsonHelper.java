@@ -220,6 +220,7 @@ public class JsonHelper {
         data.setScreensaverClockStyle(tickTrackDatabase.getScreenSaverClock());
         data.setSumDisplayed(tickTrackDatabase.isSumEnabled());
         data.setMilestoneVibrate(tickTrackDatabase.isMilestoneVibrate());
+        data.setSettingsChangeTime(tickTrackDatabase.getSettingsChangeTime());
 
         settingsData.add(data);
 
@@ -283,17 +284,36 @@ public class JsonHelper {
                                 .setApplicationName("TickTrack")
                                 .build();
                 gDriveHelper = new GDriveHelper(googleDriveService, context);
-                clearDataSetup(gDriveHelper);
+
+                retrieveDataFromCloud(gDriveHelper);
+
+
+                //TODO RETRIEVE ALL DATA INTO RESTORE SECTION
+                //MERGE ALL RETRIEVED DATA WITH LOCAL DATA
+                //CLEAR ALL BACKUP DATA
+                //UPLOAD NEWLY CREATED BACKUP DATA
+
             } else {
                 createBackup();
             }
         }
     }
 
+    private void retrieveDataFromCloud(GDriveHelper gDriveHelper) {
+        gDriveHelper.checkDataForSync(tickTrackFirebaseDatabase)
+                .addOnSuccessListener(isSuccess -> {
+                    System.out.println("SYNC RESTORED DATA");
+                    if(isSuccess==1){
+                        clearDataSetup(gDriveHelper);
+                    }
+                }).addOnFailureListener(exception ->
+                Log.e("SYNC", "Couldn't read file.", exception));
+    }
+
     private void clearDataSetup(GDriveHelper gDriveHelper) {
         gDriveHelper.clearData().addOnSuccessListener(resultInt -> {
             if(resultInt==1){
-                System.out.println("CLEAR DATA HAPPENED");
+                System.out.println("SYNC CLEAR DATA HAPPENED");
                 if(tickTrackFirebaseDatabase.getSharedPref(context).getBoolean("counterDataBackup", true)){
                     counterDataBackup(tickTrackDatabase.retrieveCounterList());
                 }
@@ -304,16 +324,13 @@ public class JsonHelper {
                     preferencesDataBackup();
                 }
             } else if(resultInt==0){
-                System.out.println("EXCEPTION CAUGHT");
+                System.out.println("SYNC EXCEPTION CAUGHT");
             } else {
-                System.out.println("CLEAR DATA FAILED");
+                System.out.println("SYNC CLEAR DATA FAILED");
                 clearDataSetup(gDriveHelper);
             }
         });
     }
-
-
-
 
     private void openGDriveFile(GDriveHelper gDriveHelper, String fileId, String jsonContent, String fileName) {
         if (gDriveHelper != null) {
@@ -474,5 +491,22 @@ public class JsonHelper {
     }
 
 
-
+    public void restorePreferencesSync() {
+        ArrayList<SettingsData> settingsData = tickTrackFirebaseDatabase.retrieveSettingsRestoredData();
+        if(settingsData.size()>0){
+            if(tickTrackDatabase.getSettingsChangeTime() < settingsData.get(0).getSettingsChangeTime()){
+                tickTrackDatabase.setThemeMode(settingsData.get(0).getThemeMode());
+                tickTrackDatabase.setCounterDataBackup(settingsData.get(0).isCounterBackupOn());
+                tickTrackDatabase.setTimerDataBackup(settingsData.get(0).isTimerBackupOn());
+                tickTrackDatabase.setHapticEnabled(settingsData.get(0).isHapticFeedback());
+                tickTrackDatabase.setLastBackupSystemTime(settingsData.get(0).getLastBackupTime());
+                tickTrackDatabase.storeSyncFrequency(settingsData.get(0).getSyncDataFrequency());
+                tickTrackDatabase.storeScreenSaverClock(settingsData.get(0).getScreensaverClockStyle());
+                tickTrackDatabase.setMilestoneVibrate(settingsData.get(0).isMilestoneVibrate());
+                tickTrackDatabase.setSumEnabled(settingsData.get(0).isSumDisplayed());
+                System.out.println("SYNC INITIALISED PREFERENCES");
+            }
+        }
+        tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
+    }
 }

@@ -653,6 +653,15 @@ public class TickTrackDatabase {
         editor.apply();
     }
 
+    public void storeSettingsChangeTime(long currentTimeMillis) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("settingsChangeTime", currentTimeMillis);
+        editor.apply();
+    }
+    public long getSettingsChangeTime() {
+        return sharedPreferences.getLong("settingsChangeTime", -1);
+    }
+
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){
 //
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
