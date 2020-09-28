@@ -130,6 +130,7 @@ public class TimerActivity extends AppCompatActivity {
                 timerEditDialog.show();
 
                 timerEditDialog.saveButton.setOnClickListener(view1 -> {
+                    timerDataArrayList.get(getCurrentTimerPosition()).setTimerLastEdited(System.currentTimeMillis());
                     if(timerEditDialog.labelInput.getText().toString().trim().length()>0){
                         timerDataArrayList.get(getCurrentTimerPosition()).setTimerLabel(timerEditDialog.labelInput.getText().toString());
                         labelTextView.setText(timerEditDialog.labelInput.getText().toString());
