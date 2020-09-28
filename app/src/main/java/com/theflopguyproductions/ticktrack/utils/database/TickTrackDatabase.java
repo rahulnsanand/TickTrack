@@ -598,7 +598,14 @@ public class TickTrackDatabase {
     public int getBackupHour() {
         return sharedPreferences.getInt("backupHour", -1);
     }
-
+    public void storeBackupMinute(int minuteRandom) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("backupMinute", minuteRandom);
+        editor.apply();
+    }
+    public int getBackupMinute() {
+        return sharedPreferences.getInt("backupMinute", -1);
+    }
 
     public void setAutoStart(boolean value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -661,6 +668,8 @@ public class TickTrackDatabase {
     public long getSettingsChangeTime() {
         return sharedPreferences.getLong("settingsChangeTime", -1);
     }
+
+
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){
 //

@@ -246,17 +246,18 @@ public class SettingsActivity extends AppCompatActivity {
             monthlyButton.setChecked(true);
         }
         int backupHour = tickTrackDatabase.getBackupHour();
+        int backupMinute = tickTrackDatabase.getBackupMinute();
         String timeOfBackup = " at around ";
         if(backupHour<=12){
             if(backupHour==0){
-                timeOfBackup += "12 am";
+                timeOfBackup += "12:"+backupMinute+" am";
             } else if(backupHour==12){
-                timeOfBackup += "12 pm";
+                timeOfBackup += "12:"+backupMinute+" pm";
             } else {
-                timeOfBackup += backupHour+ "am";
+                timeOfBackup += backupHour+ ":"+backupMinute+" am";
             }
         } else {
-            timeOfBackup += (backupHour-12)+ "pm";
+            timeOfBackup += (backupHour-12)+ ":"+backupMinute+" pm";
         }
 
         syncDataFrequency.setText(frequencyOption+timeOfBackup);

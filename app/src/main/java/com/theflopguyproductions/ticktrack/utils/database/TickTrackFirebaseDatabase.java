@@ -319,10 +319,12 @@ public class TickTrackFirebaseDatabase {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         Random r = new Random();
-        int result = r.nextInt(24);
-        new TickTrackDatabase(context).storeBackupHour(result);
-        calendar.set(Calendar.HOUR_OF_DAY, result);
-        calendar.set(Calendar.MINUTE, 0);
+        int hourRandom = r.nextInt(24);
+        int minuteRandom = r.nextInt(59);
+        new TickTrackDatabase(context).storeBackupHour(hourRandom);
+        new TickTrackDatabase(context).storeBackupMinute(minuteRandom);
+        calendar.set(Calendar.HOUR_OF_DAY, hourRandom);
+        calendar.set(Calendar.MINUTE, minuteRandom);
         calendar.set(Calendar.SECOND, 0);
 
         int intervalRange = new TickTrackDatabase(context).getSyncFrequency();
