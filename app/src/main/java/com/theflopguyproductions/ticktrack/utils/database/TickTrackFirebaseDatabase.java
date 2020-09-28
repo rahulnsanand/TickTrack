@@ -394,4 +394,15 @@ public class TickTrackFirebaseDatabase {
         return sharedPreferences.getBoolean("setDriveLinkFail",false);
     }
 
+    public void setRetryAlarm() {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
+        intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
+        intent.setPackage("com.theflopguyproductions.ticktrack");
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 825417, intent, 0);
+        alarmManager.setExact(
+                AlarmManager.RTC,
+                System.currentTimeMillis()+(1000*60*10),
+                alarmPendingIntent);
+    }
 }

@@ -669,6 +669,15 @@ public class TickTrackDatabase {
         return sharedPreferences.getLong("settingsChangeTime", -1);
     }
 
+    public void setSyncRetryCount(int i) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("syncRetryCount", i);
+        editor.apply();
+    }
+
+    public int getSyncRetryCount() {
+        return sharedPreferences.getInt("syncRetryCount", 0);
+    }
 
 
 //    public void storeTimerWidgetList(ArrayList<TimerWidgetData> timerWidgetData){

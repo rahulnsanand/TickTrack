@@ -84,6 +84,7 @@ public class BackupRestoreService extends Service {
             switch (action) {
                 case RESTORE_SERVICE_STOP_FOREGROUND:
                 case CANCEL_RESTORE_SERVICE:
+                    tickTrackDatabase.setSyncRetryCount(0);
                     stopForegroundService();
                     break;
                 case RESTORE_SERVICE_START_BACKUP:
@@ -140,6 +141,13 @@ public class BackupRestoreService extends Service {
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
                 setupBackupFailedNotification(true);
+
+                if(tickTrackDatabase.getSyncRetryCount()<3){
+                    tickTrackDatabase.setSyncRetryCount(tickTrackDatabase.getSyncRetryCount()+1);
+                    tickTrackFirebaseDatabase.setRetryAlarm();
+                } else {
+                    tickTrackDatabase.setSyncRetryCount(0);
+                }
             }
             if(!tickTrackFirebaseDatabase.isBackupMode()){
                 System.out.println("BACKUP OVER");
@@ -147,12 +155,19 @@ public class BackupRestoreService extends Service {
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
                 tickTrackDatabase.setLastBackupSystemTime(System.currentTimeMillis());
+                tickTrackDatabase.setSyncRetryCount(0);
             } else if (System.currentTimeMillis()-backupStartTime >= 1000*60*2){
                 System.out.println("BACKUP CANCEL");
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
                 setupBackupFailedNotification(false);
+                if(tickTrackDatabase.getSyncRetryCount()<3){
+                    tickTrackDatabase.setSyncRetryCount(tickTrackDatabase.getSyncRetryCount()+1);
+                    tickTrackFirebaseDatabase.setRetryAlarm();
+                } else {
+                    tickTrackDatabase.setSyncRetryCount(0);
+                }
             } else {
                 backupCheckHandler.post(dataBackupCheck);
             }
