@@ -184,10 +184,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.screensaverMenuItem:
-                JsonHelper jsonHelper = new JsonHelper(getApplicationContext());
-                jsonHelper.counterDataBackup(tickTrackDatabase.retrieveCounterList());
-                jsonHelper.timerDataBackup(tickTrackDatabase.retrieveTimerList());
-                Toast.makeText(getApplicationContext(),"Screensaver",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, ScreensaverActivity.class));
                 return false;
 
             case R.id.settingsMenuItem:
@@ -197,9 +194,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 return false;
 
             case R.id.feedbackMenuItem:
-                JsonHelper jsonHelper1 = new JsonHelper(getApplicationContext());
-                jsonHelper1.readAllFiles();
-                Toast.makeText(getApplicationContext(),"Feedback",Toast.LENGTH_SHORT).show();
+                sendFeedback();
                 return false;
 
             case R.id.aboutMenuItem:

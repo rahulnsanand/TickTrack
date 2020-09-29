@@ -101,23 +101,6 @@ public class BackupRestoreService extends Service {
         startForeground(TickTrack.BACKUP_RESTORE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    Handler restoreCheckHandler = new Handler();
-    Runnable dataRestoreCheck = new Runnable() {
-        @Override
-        public void run() {
-            if(tickTrackFirebaseDatabase.getRestoreCompleteStatus()==1){
-                System.out.println("RESTORE COMPLETE");
-                restoreCheckHandler.removeCallbacks(dataRestoreCheck);
-                stopForegroundService();
-                prefixFirebaseVariables();
-            } else if(tickTrackFirebaseDatabase.getRestoreCompleteStatus()==-1){
-                System.out.println("RESTORE COMPLETION ERROR");
-            } else {
-                System.out.println("RESTORE COMPLETION NOT");
-                restoreCheckHandler.post(dataRestoreCheck);
-            }
-        }
-    };
     private void prefixFirebaseVariables() {
         tickTrackFirebaseDatabase.setRestoreMode(false);
         tickTrackFirebaseDatabase.setCounterDownloadStatus(0);

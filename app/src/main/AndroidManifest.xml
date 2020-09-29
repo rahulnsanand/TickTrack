@@ -261,6 +261,10 @@
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".contributors.ContributorsActivity"
+            android:label="ContributorsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SoYouADeveloperHuh"
             android:label="@string/title_activity_so_you_a_developer_huh"
             android:screenOrientation="portrait">
