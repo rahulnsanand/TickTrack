@@ -97,6 +97,4 @@ public class ContributorsActivity extends AppCompatActivity {
         String theflopguyURL = "https://github.com/theflopguy";
         theflopguyLayout.setOnClickListener(view -> openTickTrackGithub(theflopguyURL));
     }
-
-
 }
