@@ -27,7 +27,6 @@ import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
 import com.theflopguyproductions.ticktrack.settings.SettingsActivity;
 import com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
-import com.theflopguyproductions.ticktrack.utils.database.TickTrackFirebaseDatabase;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
 import java.text.SimpleDateFormat;
@@ -201,7 +200,6 @@ public class ScreensaverActivity extends AppCompatActivity {
     private void setupSalutation(int i) {
         String salutation = "";
         FirebaseHelper firebaseHelper = new FirebaseHelper(this);
-        boolean isDriveFail = new TickTrackFirebaseDatabase(this).isDriveLinkFail();
         if(i==1){
             salutation += "Good morning";
         } else if(i==2){
@@ -214,18 +212,14 @@ public class ScreensaverActivity extends AppCompatActivity {
             return;
         }
         if(firebaseHelper.isUserSignedIn()){
-            if(!isDriveFail){
-                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-                if(account!=null){
-                    String firstName = account.getDisplayName();
-                    salutation += ", "+firstName;
-                    salutationText.setText(salutation);
-                    salutationText.setVisibility(View.VISIBLE);
-                }
-            } else {
-                System.out.println("DRIVE FAILED");
-                salutationText.setVisibility(View.GONE);
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+            if(account!=null){
+                String firstName = account.getDisplayName();
+                salutation += ", "+firstName;
+                salutationText.setText(salutation);
+                salutationText.setVisibility(View.VISIBLE);
             }
+
         } else {
             salutationText.setText(salutation);
             salutationText.setVisibility(View.VISIBLE);

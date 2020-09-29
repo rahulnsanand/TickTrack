@@ -152,6 +152,7 @@ public class BackupRestoreService extends Service {
             }
             if(!tickTrackFirebaseDatabase.isBackupMode()){
                 System.out.println("BACKUP OVER");
+                tickTrackFirebaseDatabase.setDriveLinkFail(false);
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);

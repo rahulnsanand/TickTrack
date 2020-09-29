@@ -41,7 +41,7 @@ public class TickTrackThemeSetter {
     }
 
     public static void settingsActivityTheme(Activity activity, TextView themeTitle, TextView themeLabel, NestedScrollView settingsScrollView, ConstraintLayout themeLayout
-            , TickTrackDatabase tickTrackDatabase, TextView backupTitle, TextView backupEmail, ConstraintLayout backupLayout,
+            , TickTrackDatabase tickTrackDatabase, TextView backupTitle, ConstraintLayout backupLayout,
                                              ConstraintLayout switchAccountLayout, ConstraintLayout disconnectAccountLayout, TextView switchText, TextView disconnectText, CheckBox counterCheck,
                                              CheckBox timerCheck, RadioButton monthly, RadioButton weekly, RadioButton daily, ConstraintLayout freqOptionsLayout,
                                              RadioButton darkButton, RadioButton lightButton, ConstraintLayout themeOptionsLayout, ConstraintLayout hapticLayout, TextView hapticTitle,
@@ -51,7 +51,7 @@ public class TickTrackThemeSetter {
                                              TextView timerSoundTitle, TextView timerSoundValue, TextView clockStyleTitle, TextView clockStyleValue,
                                              TextView dateTimeTitle, TextView dateTimeValue, ConstraintLayout toolbar, ConstraintLayout vibrateLayout, ConstraintLayout soundLayout,
                                              TextView milestoneVibrateTitle, TextView milestoneSoundTitle, TextView milestoneSoundValue, ConstraintLayout autostartLayout,
-                                             TextView autostartTitle, TextView autostartValue){
+                                             TextView autostartTitle, TextView autostartValue, ConstraintLayout retrySyncLayoutAccount){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
@@ -74,6 +74,7 @@ public class TickTrackThemeSetter {
             clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             autostartLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            retrySyncLayoutAccount.setBackgroundResource(R.drawable.clickable_layout_light_background);
 
             soundLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             vibrateLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -98,7 +99,6 @@ public class TickTrackThemeSetter {
             themeTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
-            backupEmail.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             switchText.setTextColor(activity.getResources().getColor(R.color.DarkText));
             counterCheck.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
             timerCheck.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
@@ -129,6 +129,7 @@ public class TickTrackThemeSetter {
             clockOptionsLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             autostartLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            retrySyncLayoutAccount.setBackgroundResource(R.drawable.clickable_layout_dark_background);
 
             soundLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             vibrateLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
@@ -153,7 +154,6 @@ public class TickTrackThemeSetter {
             themeTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
             themeLabel.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             backupTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
-            backupEmail.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             switchText.setTextColor(activity.getResources().getColor(R.color.LightText));
             counterCheck.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
             timerCheck.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
