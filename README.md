@@ -87,9 +87,19 @@ Kindly follow the procedure to do the same.
 
 **3. Create a pull request identifying yourself for further communication**
 
----
+----
+
+**In order to get your contribution notified within the application, follow these steps**
+
+**1. Duh, Make a contribution to the code. Improvise, Fix, Add new features, etc.**
+
+**2. Create a pull request as mentioned above**
+
+**3. I will get in touch with you for further details!**
+
+----
 ### Access to Cloud Functionalities like GCC and Firebase is restricted, for access, send in a formal request with reason and motive to ticktrackapp@gmail.com
----
+----
 
 ## Thankyou for helping make TickTrack better!
 
