@@ -62,6 +62,7 @@ import com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -253,14 +254,15 @@ public class SettingsActivity extends AppCompatActivity {
         String timeOfBackup = " at around ";
         if(backupHour<=12){
             if(backupHour==0){
-                timeOfBackup += "12:"+backupMinute+" am";
+                timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d am", backupHour,backupMinute);
             } else if(backupHour==12){
-                timeOfBackup += "12:"+backupMinute+" pm";
-            } else {
-                timeOfBackup += backupHour+ ":"+backupMinute+" am";
+                timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d pm", backupHour,backupMinute);
+            } else{
+                timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d am", backupHour,backupMinute);
             }
         } else {
-            timeOfBackup += (backupHour-12)+ ":"+backupMinute+" pm";
+            backupHour = backupHour-12;
+            timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d pm",backupHour,backupMinute);
         }
 
         syncDataFrequency.setText(frequencyOption+timeOfBackup);
