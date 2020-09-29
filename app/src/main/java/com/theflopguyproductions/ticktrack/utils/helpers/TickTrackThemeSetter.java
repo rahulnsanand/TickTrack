@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -629,19 +630,20 @@ public class TickTrackThemeSetter {
         }
     }
 
-    public static void setupContributorsTheme(TickTrackDatabase tickTrackDatabase, Context context) {
+    public static void setupContributorsTheme(TickTrackDatabase tickTrackDatabase, Context context, ConstraintLayout rootLayout, TextView descriptionText, TextView subHeadText,
+                                              ConstraintLayout theflopguyLayout) {
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
-            blackText.setTextColor(context.getResources().getColor(R.color.DarkText) );
-            grayText.setTextColor(context.getResources().getColor(R.color.DarkText) );
-            lightText.setTextColor(context.getResources().getColor(R.color.DarkText) );
+            descriptionText.setTextColor(context.getResources().getColor(R.color.DarkText) );
+            subHeadText.setTextColor(context.getResources().getColor(R.color.LightDarkText) );
+            theflopguyLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
 
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
-            blackText.setTextColor(context.getResources().getColor(R.color.LightText) );
-            lightText.setTextColor(context.getResources().getColor(R.color.LightText) );
-            grayText.setTextColor(context.getResources().getColor(R.color.LightText) );
+            descriptionText.setTextColor(context.getResources().getColor(R.color.LightText) );
+            subHeadText.setTextColor(context.getResources().getColor(R.color.DarkLightText) );
+            theflopguyLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
 
         }
     }
