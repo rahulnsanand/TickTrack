@@ -33,6 +33,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theflopguyproductions.ticktrack.about.AboutActivity;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
+import com.theflopguyproductions.ticktrack.contributors.ContributorsActivity;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
 import com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
@@ -201,6 +202,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 Intent intentAbout = new Intent(this, AboutActivity.class);
                 intentAbout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentAbout);
+                return true;
+            case R.id.contributorsMenuItem:
+                Intent intentContributor = new Intent(this, ContributorsActivity.class);
+                intentContributor.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentContributor);
                 return true;
             default:
                 break;

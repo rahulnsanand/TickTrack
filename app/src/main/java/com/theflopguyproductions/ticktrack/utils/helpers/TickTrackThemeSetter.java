@@ -630,21 +630,19 @@ public class TickTrackThemeSetter {
         }
     }
 
-    public static void setupContributorsTheme(TickTrackDatabase tickTrackDatabase, Context context, ConstraintLayout rootLayout, TextView descriptionText, TextView subHeadText,
+    public static void setupContributorsTheme(TickTrackDatabase tickTrackDatabase, Context context, ConstraintLayout rootLayout, TextView descriptionText, ConstraintLayout toolbar,
                                               ConstraintLayout theflopguyLayout) {
         int checkTheme = tickTrackDatabase.getThemeMode();
         if(checkTheme==1){
             rootLayout.setBackgroundResource(R.color.LightGray);
             descriptionText.setTextColor(context.getResources().getColor(R.color.DarkText) );
-            subHeadText.setTextColor(context.getResources().getColor(R.color.LightDarkText) );
             theflopguyLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
-
+            toolbar.setBackgroundColor(context.getResources().getColor(R.color.LightGray));
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
             descriptionText.setTextColor(context.getResources().getColor(R.color.LightText) );
-            subHeadText.setTextColor(context.getResources().getColor(R.color.DarkLightText) );
             theflopguyLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
-
+            toolbar.setBackgroundResource(R.color.Black);
         }
     }
 }

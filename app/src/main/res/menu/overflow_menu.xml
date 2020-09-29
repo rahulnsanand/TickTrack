@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/settingsMenuItem"
+        android:title="Settings"/>
+    <item
         android:id="@+id/screensaverMenuItem"
         android:title="Screensaver"/>
     <item
-        android:id="@+id/settingsMenuItem"
-        android:title="Settings"/>
+        android:id="@+id/contributorsMenuItem"
+        android:title="Contributors"/>
     <item
         android:id="@+id/feedbackMenuItem"
         android:title="Send feedback"/>
