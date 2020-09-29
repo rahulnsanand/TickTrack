@@ -341,6 +341,8 @@ public class FirebaseHelper {
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
                 tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
                 tickTrackDatabase.setNewDevice(false);
+                tickTrackDatabase.storeBackupHour(-1);
+                tickTrackDatabase.storeBackupMinute(-1);
             } else {
                 Toast.makeText(activity, "Not signed out, try again", Toast.LENGTH_SHORT).show();
             }
@@ -362,6 +364,8 @@ public class FirebaseHelper {
                 tickTrackFirebaseDatabase.setBackupMode(false);
                 tickTrackFirebaseDatabase.storeBackupCounterList(new ArrayList<>());
                 tickTrackFirebaseDatabase.storeBackupTimerList(new ArrayList<>());
+                tickTrackDatabase.storeBackupHour(-1);
+                tickTrackDatabase.storeBackupMinute(-1);
                 tickTrackDatabase.setNewDevice(false);
                 Toast.makeText(activity, "Signed out", Toast.LENGTH_SHORT).show();
                 tickTrackDatabase.storeStartUpFragmentID(2);

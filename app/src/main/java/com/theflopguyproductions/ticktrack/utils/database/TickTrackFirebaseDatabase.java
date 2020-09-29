@@ -321,8 +321,17 @@ public class TickTrackFirebaseDatabase {
         Random r = new Random();
         int hourRandom = r.nextInt(24);
         int minuteRandom = r.nextInt(59);
-        new TickTrackDatabase(context).storeBackupHour(hourRandom);
-        new TickTrackDatabase(context).storeBackupMinute(minuteRandom);
+
+        int localHourPicked = new TickTrackDatabase(context).getBackupHour();
+        int localMinutePicked = new TickTrackDatabase(context).getBackupMinute();
+
+        if(localHourPicked==-1){
+            new TickTrackDatabase(context).storeBackupHour(hourRandom);
+        }
+        if(localMinutePicked==-1){
+            new TickTrackDatabase(context).storeBackupMinute(minuteRandom);
+        }
+
         calendar.set(Calendar.HOUR_OF_DAY, hourRandom);
         calendar.set(Calendar.MINUTE, minuteRandom);
         calendar.set(Calendar.SECOND, 0);
@@ -362,10 +371,10 @@ public class TickTrackFirebaseDatabase {
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
         alarmManager.setRepeating(
                 AlarmManager.RTC,
-//                calendar.getTimeInMillis(),
-//                intervalTimeInMillis,
-                System.currentTimeMillis()+(1000*60*10),
-                20*60*1000,
+                calendar.getTimeInMillis(),
+                intervalTimeInMillis,
+//                System.currentTimeMillis()+(1000*60*10),
+//                10*60*1000,
                 alarmPendingIntent
         );
 
@@ -402,7 +411,7 @@ public class TickTrackFirebaseDatabase {
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 825417, intent, 0);
         alarmManager.setExact(
                 AlarmManager.RTC,
-                System.currentTimeMillis()+(1000*60*10),
+                System.currentTimeMillis()+(1000*60*5),
                 alarmPendingIntent);
     }
 }
