@@ -292,12 +292,7 @@ public class TickTrack extends Application implements Application.ActivityLifecy
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, CounterMilestoneReceiver.class);
-        intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
-        alarmManager.cancel(alarmPendingIntent);
+
     }
 
     @Override

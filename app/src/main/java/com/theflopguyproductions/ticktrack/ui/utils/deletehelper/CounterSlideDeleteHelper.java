@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.theflopguyproductions.ticktrack.counter.CounterAdapter;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
@@ -18,36 +20,39 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
         this.listener = listener;
     }
     @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+    public boolean onMove(@NotNull RecyclerView recyclerView,@NotNull  RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
         return false;
     }
     @Override
-    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-        if (viewHolder != null) {
+    public void onSelectedChanged(@NotNull RecyclerView.ViewHolder viewHolder, int actionState) {
             final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
+            if (foregroundView != null) {
+                getDefaultUIUtil().onSelected(foregroundView);
+            }
+    }
 
-            getDefaultUIUtil().onSelected(foregroundView);
+    @Override
+    public void onChildDrawOver(@NotNull Canvas c, @NotNull RecyclerView recyclerView,
+                                RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                int actionState, boolean isCurrentlyActive) {
+        final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
+        if (foregroundView != null) {
+            getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
+                    actionState, isCurrentlyActive);
         }
     }
 
     @Override
-    public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
-                                RecyclerView.ViewHolder viewHolder, float dX, float dY,
-                                int actionState, boolean isCurrentlyActive) {
+    public void clearView(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
         final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
-        getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
-                actionState, isCurrentlyActive);
+        if (foregroundView != null) {
+            getDefaultUIUtil().clearView(foregroundView);
+        }
     }
 
     @Override
-    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
-        getDefaultUIUtil().clearView(foregroundView);
-    }
-
-    @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView,
-                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
+    public void onChildDraw(@NotNull Canvas c, @NotNull RecyclerView recyclerView,
+                            @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
         final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
         if(foregroundView!=null){

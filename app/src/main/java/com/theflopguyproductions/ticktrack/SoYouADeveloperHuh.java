@@ -405,8 +405,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, CounterMilestoneReceiver.class);
         intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
     }
 
@@ -434,12 +433,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, CounterMilestoneReceiver.class);
         intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 741852, intent, 0);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
         alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 1000*60*60*24L,
-                1000*60*60*24*3L,
+                1000*60*60*24*7L,
                 alarmPendingIntent
         );
     }

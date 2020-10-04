@@ -70,28 +70,31 @@ public class BootReceiver extends BroadcastReceiver {
 
         ArrayList<StopwatchData> stopwatchData = tickTrackDatabase.retrieveStopwatchData();
         ArrayList<StopwatchLapData> stopwatchLapData = tickTrackDatabase.retrieveStopwatchLapData();
-        if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
-            long timeElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getStopwatchTimerStartTimeInMillis();
-            stopwatchData.get(0).setStopwatchTimerStartTimeInRealTimeMillis(SystemClock.elapsedRealtime()-timeElapsedOnBoot);
 
-            if(stopwatchData.get(0).isPause() && stopwatchData.get(0).isRunning()){
-                long pauseElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getLastPauseTimeInMillis();
-                stopwatchData.get(0).setLastPauseTimeRealTimeInMillis(SystemClock.elapsedRealtime()-pauseElapsedOnBoot);
-            }
+        if(stopwatchData.size()>0){
+            if(stopwatchData.get(0).getStopwatchTimerStartTimeInMillis()!=-1){
+                long timeElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getStopwatchTimerStartTimeInMillis();
+                stopwatchData.get(0).setStopwatchTimerStartTimeInRealTimeMillis(SystemClock.elapsedRealtime()-timeElapsedOnBoot);
 
-            if(stopwatchLapData.size()>0){
-                long lapElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getProgressSystemValue();
-                stopwatchData.get(0).setProgressValue(SystemClock.elapsedRealtime()-lapElapsedOnBoot);
-                long lapLastUpdateTime = System.currentTimeMillis() - stopwatchLapData.get(0).getLastLapUpdateSystemTimeInMillis();
-                stopwatchLapData.get(0).setLastLapUpdateRealtimeInMillis(SystemClock.elapsedRealtime() - lapLastUpdateTime);
+                if(stopwatchData.get(0).isPause() && stopwatchData.get(0).isRunning()){
+                    long pauseElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getLastPauseTimeInMillis();
+                    stopwatchData.get(0).setLastPauseTimeRealTimeInMillis(SystemClock.elapsedRealtime()-pauseElapsedOnBoot);
+                }
 
-            }
+                if(stopwatchLapData.size()>0){
+                    long lapElapsedOnBoot = System.currentTimeMillis() - stopwatchData.get(0).getProgressSystemValue();
+                    stopwatchData.get(0).setProgressValue(SystemClock.elapsedRealtime()-lapElapsedOnBoot);
+                    long lapLastUpdateTime = System.currentTimeMillis() - stopwatchLapData.get(0).getLastLapUpdateSystemTimeInMillis();
+                    stopwatchLapData.get(0).setLastLapUpdateRealtimeInMillis(SystemClock.elapsedRealtime() - lapLastUpdateTime);
 
-            tickTrackDatabase.storeStopwatchData(stopwatchData);
-            tickTrackDatabase.storeLapData(stopwatchLapData);
+                }
 
-            if(!isMyServiceRunning(StopwatchNotificationService.class, context)){
-                startNotificationService(context);
+                tickTrackDatabase.storeStopwatchData(stopwatchData);
+                tickTrackDatabase.storeLapData(stopwatchLapData);
+
+                if(!isMyServiceRunning(StopwatchNotificationService.class, context)){
+                    startNotificationService(context);
+                }
             }
         }
     }

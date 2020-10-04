@@ -13,7 +13,7 @@ public class InternetChecker {
         try{
             return cm.getActiveNetworkInfo() != null &&
                     cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        } catch (StackOverflowError error){
+        } catch (Exception error){
             error.printStackTrace();
             return false;
         }

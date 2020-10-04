@@ -65,14 +65,15 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
         if(b){
             if(milestoneValue>0){
                 notificationBuilder.setContentText("Just "+milestoneValue+" counts more!");
-            } else {
+                notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
+            } else if(milestoneValue<0){
                 notificationBuilder.setContentText("Just "+Math.abs(milestoneValue)+" counts less!");
+                notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
             }
         } else {
             notificationBuilder.setContentText("You've got "+milestoneCount+" counters waiting to count!");
+            notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
         }
-
-        notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
 
     }
 
