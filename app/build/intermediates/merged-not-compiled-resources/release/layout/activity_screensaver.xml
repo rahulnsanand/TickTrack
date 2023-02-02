@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screenSaverRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/Black"
+    android:fitsSystemWindows="true"
+    tools:context=".screensaver.ScreensaverActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clockContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/screensaverSalutationText">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/screensaverButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/screensaverFabLayout"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/fab_accent_background"
+            android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/screensaverEditButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
+                android:id="@+id/screensaverDayImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_rawRes="@raw/day_night_anim" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/screensaverEditButton"
+            style="@style/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_dark"
+            android:text="Edit Screensaver Settings"
+            android:textColor="@color/Accent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/screensaverDismissText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Tap again to dismiss screensaver"
+        android:textAlignment="center"
+        android:textColor="@color/GrayOnLight"
+        app:layout_constraintBottom_toTopOf="@+id/screensaverButtonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/screensaverDateDayText"
+        app:layout_constraintVertical_bias="1.0"
+        app:typeface="apercu_regular"/>
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/screensaverDateDayText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Mon 14 Sep, 20'"
+        android:textAlignment="center"
+        android:textColor="@color/GrayOnLight"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clockContainer"
+        app:typeface="apercu_regular"/>
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/screensaverSalutationText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="Good evening, Rahul"
+        android:textAlignment="center"
+        android:textColor="@color/LightGray"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="apercu_regular"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

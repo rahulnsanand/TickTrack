@@ -1,0 +1,1052 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.theflopguyproductions.ticktrack"
+4    android:versionCode="15"
+5    android:versionName="2.2.0.6" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->B:\TickTrack-master\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->B:\TickTrack-master\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+11-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:4:5-79
+11-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:4:22-76
+12    <uses-permission android:name="android.permission.VIBRATE" />
+12-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:5:5-66
+12-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:5:22-63
+13    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+13-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:6:5-81
+13-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:6:22-78
+14    <uses-permission android:name="android.permission.WAKE_LOCK" />
+14-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:7:5-68
+14-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:7:22-65
+15    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+15-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:8:5-75
+15-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:8:22-72
+16    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+16-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:9:5-77
+16-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:9:22-74
+17    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+17-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:10:5-71
+17-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:10:22-68
+18    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+18-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:11:5-74
+18-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:11:22-71
+19    <uses-permission android:name="android.permission.INTERNET" />
+19-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:12:5-67
+19-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:12:22-64
+20    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+20-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:13:5-79
+20-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:13:22-76
+21    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+21-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:14:5-88
+21-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:14:22-85
+22    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+22-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:15:5-81
+22-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:15:22-78
+23    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+23-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:16:5-80
+23-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:16:22-77
+24    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+24-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:17:5-82
+24-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:17:22-79
+25    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+25-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:25:5-77
+25-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:25:22-74
+26    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+26-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:26:5-110
+26-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:26:22-107
+27    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+27-->[com.google.android.gms:play-services-measurement-api:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\cacf6d8b918de03778b7d51e5257c69b\transformed\jetified-play-services-measurement-api-21.2.0\AndroidManifest.xml:25:5-79
+27-->[com.google.android.gms:play-services-measurement-api:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\cacf6d8b918de03778b7d51e5257c69b\transformed\jetified-play-services-measurement-api-21.2.0\AndroidManifest.xml:25:22-76
+28
+29    <permission
+29-->[androidx.core:core:1.9.0] C:\Users\rahul\.gradle\caches\transforms-3\fa68e33cdb1fe134cf9291101cbfb212\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+30        android:name="com.theflopguyproductions.ticktrack.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+30-->[androidx.core:core:1.9.0] C:\Users\rahul\.gradle\caches\transforms-3\fa68e33cdb1fe134cf9291101cbfb212\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+31        android:protectionLevel="signature" />
+31-->[androidx.core:core:1.9.0] C:\Users\rahul\.gradle\caches\transforms-3\fa68e33cdb1fe134cf9291101cbfb212\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+32
+33    <uses-permission android:name="com.theflopguyproductions.ticktrack.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+33-->[androidx.core:core:1.9.0] C:\Users\rahul\.gradle\caches\transforms-3\fa68e33cdb1fe134cf9291101cbfb212\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+33-->[androidx.core:core:1.9.0] C:\Users\rahul\.gradle\caches\transforms-3\fa68e33cdb1fe134cf9291101cbfb212\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+34
+35    <application
+35-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:19:5-308:19
+36        android:name="com.theflopguyproductions.ticktrack.application.TickTrack"
+36-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:20:9-46
+37        android:allowBackup="true"
+37-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:21:9-35
+38        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+38-->[androidx.core:core:1.9.0] C:\Users\rahul\.gradle\caches\transforms-3\fa68e33cdb1fe134cf9291101cbfb212\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+39        android:debuggable="true"
+40        android:icon="@mipmap/ic_launcher"
+40-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:22:9-43
+41        android:label="@string/app_name"
+41-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:23:9-41
+42        android:roundIcon="@mipmap/ic_launcher_round"
+42-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:24:9-54
+43        android:supportsRtl="true"
+43-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:25:9-35
+44        android:theme="@style/DarkTheme" >
+44-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:26:9-41
+45        <receiver
+45-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:27:9-34:20
+46            android:name="com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver"
+46-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:28:13-63
+47            android:enabled="true"
+47-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:29:13-35
+48            android:exported="true" >
+48-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:30:13-36
+49            <intent-filter>
+49-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:31:13-33:29
+50                <action android:name="ACTION_COUNTER_MILESTONE_REMINDER" />
+50-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:32:17-76
+50-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:32:25-73
+51            </intent-filter>
+52        </receiver>
+53
+54        <service
+54-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:36:9-42:19
+55            android:name="com.theflopguyproductions.ticktrack.service.CloudNotificationService"
+55-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:37:13-61
+56            android:exported="false" >
+56-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:38:13-37
+57            <intent-filter>
+57-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:39:13-41:29
+58                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+58-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:40:17-78
+58-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:40:25-75
+59            </intent-filter>
+60        </service>
+61
+62        <meta-data
+62-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:44:9-46:85
+63            android:name="com.google.firebase.messaging.default_notification_icon"
+63-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:45:13-83
+64            android:resource="@drawable/ic_stat_ticktrack_logo_notification_icon" />
+64-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:46:13-82
+65        <meta-data
+65-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:47:9-49:48
+66            android:name="com.google.firebase.messaging.default_notification_color"
+66-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:48:13-84
+67            android:resource="@color/Accent" />
+67-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:49:13-45
+68        <meta-data
+68-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:50:9-52:58
+69            android:name="com.google.firebase.messaging.default_notification_channel_id"
+69-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:51:13-89
+70            android:value="@string/TICK_TRACK_GENERAL" />
+70-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:52:13-55
+71
+72        <activity
+72-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:54:9-56:52
+73            android:name="com.theflopguyproductions.ticktrack.about.AboutActivity"
+73-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:55:13-48
+74            android:screenOrientation="portrait" />
+74-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:56:13-49
+75
+76        <receiver
+76-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:58:9-69:20
+77            android:name="com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget"
+77-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:59:13-62
+78            android:exported="true"
+78-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:61:13-36
+79            android:label="Stopwatch" >
+79-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:60:13-38
+80            <intent-filter>
+80-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:62:13-64:29
+81                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+81-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+81-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+82            </intent-filter>
+83
+84            <meta-data
+84-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+85                android:name="android.appwidget.provider"
+85-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+86                android:resource="@xml/stopwatch_widget_info" />
+86-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+87        </receiver>
+88        <receiver
+88-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:70:9-81:20
+89            android:name="com.theflopguyproductions.ticktrack.widgets.shortcuts.QuickTimerWidget"
+89-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:71:13-63
+90            android:exported="true"
+90-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:73:13-36
+91            android:label="QuickTimer" >
+91-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:72:13-39
+92            <intent-filter>
+92-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:62:13-64:29
+93                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+93-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+93-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+94            </intent-filter>
+95
+96            <meta-data
+96-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+97                android:name="android.appwidget.provider"
+97-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+98                android:resource="@xml/quick_timer_widget_info" />
+98-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+99        </receiver>
+100        <receiver
+100-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:82:9-93:20
+101            android:name="com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget"
+101-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:83:13-64
+102            android:exported="true"
+102-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:85:13-36
+103            android:label="Screensaver" >
+103-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:84:13-40
+104            <intent-filter>
+104-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:62:13-64:29
+105                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+105-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+105-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+106            </intent-filter>
+107
+108            <meta-data
+108-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+109                android:name="android.appwidget.provider"
+109-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+110                android:resource="@xml/screensaver_widget_info" />
+110-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+111        </receiver>
+112        <receiver
+112-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:94:9-105:20
+113            android:name="com.theflopguyproductions.ticktrack.widgets.shortcuts.CreateTimerWidget"
+113-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:95:13-64
+114            android:exported="true"
+114-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:97:13-36
+115            android:label="Timer" >
+115-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:96:13-34
+116            <intent-filter>
+116-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:62:13-64:29
+117                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+117-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+117-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+118            </intent-filter>
+119
+120            <meta-data
+120-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+121                android:name="android.appwidget.provider"
+121-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+122                android:resource="@xml/create_timer_widget_info" />
+122-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+123        </receiver>
+124
+125        <activity android:name="com.theflopguyproductions.ticktrack.widgets.shortcuts.panel.ShortcutsPanelConfigActivity" />
+125-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:107:9-90
+125-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:107:19-87
+126
+127        <receiver
+127-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:109:9-120:20
+128            android:name="com.theflopguyproductions.ticktrack.widgets.shortcuts.panel.ShortcutsPanelWidget"
+128-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:110:13-73
+129            android:exported="true"
+129-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:112:13-36
+130            android:label="Shortuts Console" >
+130-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:111:13-45
+131            <intent-filter>
+131-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:62:13-64:29
+132                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+132-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+132-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+133            </intent-filter>
+134
+135            <meta-data
+135-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+136                android:name="android.appwidget.provider"
+136-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+137                android:resource="@xml/shortcuts_panel_widget_info" />
+137-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+138        </receiver>
+139
+140        <activity
+140-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:122:9-125:39
+141            android:name="com.theflopguyproductions.ticktrack.widgets.clock.ClockWidgetConfigActivity"
+141-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:123:13-68
+142            android:launchMode="singleTask"
+142-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:124:13-44
+143            android:taskAffinity="" />
+143-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:125:13-36
+144
+145        <receiver
+145-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:127:9-138:20
+146            android:name="com.theflopguyproductions.ticktrack.widgets.clock.TickTrackClockWidget"
+146-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:128:13-63
+147            android:exported="true"
+147-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:130:13-36
+148            android:label="Clock" >
+148-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:129:13-34
+149            <intent-filter>
+149-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:62:13-64:29
+150                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+150-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+150-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+151            </intent-filter>
+152
+153            <meta-data
+153-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+154                android:name="android.appwidget.provider"
+154-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+155                android:resource="@xml/tick_track_clock_widget_info" />
+155-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+156        </receiver>
+157
+158        <activity
+158-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:140:9-144:39
+159            android:name="com.theflopguyproductions.ticktrack.widgets.counter.CounterWidgetConfigActivity"
+159-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:141:13-72
+160            android:launchMode="singleTask"
+160-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:142:13-44
+161            android:screenOrientation="portrait"
+161-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:143:13-49
+162            android:taskAffinity="" />
+162-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:144:13-36
+163
+164        <receiver
+164-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:146:9-159:20
+165            android:name="com.theflopguyproductions.ticktrack.widgets.counter.CounterWidget"
+165-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:147:13-58
+166            android:exported="true"
+166-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:149:13-36
+167            android:label="Counter" >
+167-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:148:13-36
+168            <intent-filter>
+168-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:150:13-154:29
+169                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+169-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+169-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+170                <action android:name="ACTION_WIDGET_CLICK_PLUS" />
+170-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:152:17-67
+170-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:152:25-64
+171                <action android:name="ACTION_WIDGET_CLICK_MINUS" />
+171-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:153:17-68
+171-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:153:25-65
+172            </intent-filter>
+173
+174            <meta-data
+174-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+175                android:name="android.appwidget.provider"
+175-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+176                android:resource="@xml/counter_widget_info" />
+176-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+177        </receiver>
+178
+179        <activity
+179-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:161:9-168:39
+180            android:name="com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity"
+180-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:162:13-60
+181            android:configChanges="orientation|keyboardHidden|screenSize"
+181-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:163:13-74
+182            android:excludeFromRecents="true"
+182-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:164:13-46
+183            android:label="@string/title_activity_screensaver"
+183-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:165:13-63
+184            android:launchMode="singleTask"
+184-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:166:13-44
+185            android:screenOrientation="portrait"
+185-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:167:13-49
+186            android:taskAffinity="" />
+186-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:168:13-36
+187
+188        <receiver
+188-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:170:9-176:20
+189            android:name="com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver"
+189-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:171:13-61
+190            android:exported="true" >
+190-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:172:13-36
+191            <intent-filter>
+191-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:173:13-175:29
+192                <action android:name="com.theflopguyproductions.ticktrack.START_BACKUP_SCHEDULE" />
+192-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:174:17-100
+192-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:174:25-97
+193            </intent-filter>
+194        </receiver>
+195
+196        <service
+196-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:178:9-181:40
+197            android:name="com.theflopguyproductions.ticktrack.service.BackupRestoreService"
+197-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:179:13-57
+198            android:enabled="true"
+198-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:180:13-35
+199            android:exported="false" />
+199-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:181:13-37
+200
+201        <activity android:name="com.theflopguyproductions.ticktrack.accounts.SwitchAccountActivity" />
+201-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:183:9-68
+201-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:183:19-65
+202
+203        <receiver
+203-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:185:9-194:20
+204            android:name="com.theflopguyproductions.ticktrack.receivers.TimeChangeReceiver"
+204-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:186:13-57
+205            android:directBootAware="true"
+205-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:187:13-43
+206            android:enabled="true"
+206-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:188:13-35
+207            android:exported="true" >
+207-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:189:13-36
+208            <intent-filter android:priority="999" >
+208-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:190:13-193:29
+208-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:190:28-50
+209                <action android:name="android.intent.action.TIME_SET" />
+209-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:191:17-73
+209-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:191:25-70
+210                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+210-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:192:17-81
+210-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:192:25-78
+211            </intent-filter>
+212        </receiver>
+213        <receiver
+213-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:195:9-208:20
+214            android:name="com.theflopguyproductions.ticktrack.receivers.BootReceiver"
+214-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:196:13-51
+215            android:directBootAware="true"
+215-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:197:13-43
+216            android:enabled="true"
+216-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:198:13-35
+217            android:exported="true"
+217-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:199:13-36
+218            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+218-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:200:13-75
+219            <intent-filter android:priority="999" >
+219-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:201:13-207:29
+219-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:201:28-50
+220                <action android:name="android.intent.action.BOOT_COMPLETED" />
+220-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:202:17-79
+220-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:202:25-76
+221                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+221-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:203:17-82
+221-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:203:25-79
+222                <action android:name="android.intent.action.REBOOT" />
+222-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:204:17-71
+222-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:204:25-68
+223                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+223-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:205:17-86
+223-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:205:25-83
+224                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+224-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:206:17-82
+224-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:206:25-79
+225            </intent-filter>
+226        </receiver>
+227
+228        <service
+228-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:210:9-213:40
+229            android:name="com.theflopguyproductions.ticktrack.startup.service.OptimiserService"
+229-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:211:13-61
+230            android:enabled="true"
+230-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:212:13-35
+231            android:exported="false" />
+231-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:213:13-37
+232
+233        <receiver
+233-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:215:9-222:20
+234            android:name="com.theflopguyproductions.ticktrack.startup.service.BatteryOptimiseReceiver"
+234-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:216:13-68
+235            android:enabled="true"
+235-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:217:13-35
+236            android:exported="true" >
+236-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:218:13-36
+237            <intent-filter>
+237-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:219:13-221:29
+238                <action android:name="ACTION_OPTIMISING_DONE_CHECK" />
+238-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:220:17-71
+238-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:220:25-68
+239            </intent-filter>
+240        </receiver>
+241
+242        <activity
+242-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:224:9-227:52
+243            android:name="com.theflopguyproductions.ticktrack.startup.StartUpActivity"
+243-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:225:13-52
+244            android:noHistory="true"
+244-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:226:13-37
+245            android:screenOrientation="portrait" />
+245-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:227:13-49
+246        <activity
+246-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:228:9-238:54
+247            android:name="com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity"
+247-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:229:13-61
+248            android:configChanges="orientation|keyboardHidden|screenSize"
+248-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:230:13-74
+249            android:directBootAware="true"
+249-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:231:13-43
+250            android:excludeFromRecents="true"
+250-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:232:13-46
+251            android:label="TickTrackTimer"
+251-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:233:13-43
+252            android:launchMode="singleTask"
+252-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:234:13-44
+253            android:showOnLockScreen="true"
+253-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:235:13-44
+254            android:showWhenLocked="true"
+254-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:236:13-42
+255            android:taskAffinity=""
+255-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:237:13-36
+256            android:theme="@style/FullscreenTheme" />
+256-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:238:13-51
+257
+258        <service
+258-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:240:9-244:40
+259            android:name="com.theflopguyproductions.ticktrack.timer.service.TimerService"
+259-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:241:13-55
+260            android:directBootAware="true"
+260-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:242:13-43
+261            android:enabled="true"
+261-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:243:13-35
+262            android:exported="false" />
+262-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:244:13-37
+263        <service
+263-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:245:9-249:40
+264            android:name="com.theflopguyproductions.ticktrack.timer.service.TimerRingService"
+264-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:246:13-59
+265            android:directBootAware="true"
+265-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:247:13-43
+266            android:enabled="true"
+266-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:248:13-35
+267            android:exported="false" />
+267-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:249:13-37
+268        <service
+268-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:250:9-254:40
+269            android:name="com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService"
+269-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:251:13-75
+270            android:directBootAware="true"
+270-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:252:13-43
+271            android:enabled="true"
+271-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:253:13-35
+272            android:exported="false" />
+272-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:254:13-37
+273
+274        <activity
+274-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:256:9-258:52
+275            android:name="com.theflopguyproductions.ticktrack.timer.activity.TimerActivity"
+275-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:257:13-57
+276            android:screenOrientation="portrait" />
+276-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:258:13-49
+277        <activity
+277-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:259:9-261:52
+278            android:name="com.theflopguyproductions.ticktrack.counter.activity.CounterEditActivity"
+278-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:260:13-65
+279            android:screenOrientation="portrait" />
+279-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:261:13-49
+280        <activity
+280-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:262:9-265:52
+281            android:name="com.theflopguyproductions.ticktrack.counter.activity.CounterActivity"
+281-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:263:13-61
+282            android:parentActivityName="com.theflopguyproductions.ticktrack.SoYouADeveloperHuh"
+282-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:264:13-61
+283            android:screenOrientation="portrait" />
+283-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:265:13-49
+284        <activity
+284-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:266:9-269:52
+285            android:name="com.theflopguyproductions.ticktrack.settings.SettingsActivity"
+285-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:267:13-54
+286            android:label="@string/title_activity_settings"
+286-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:268:13-60
+287            android:screenOrientation="portrait" />
+287-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:269:13-49
+288        <activity
+288-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:270:9-273:52
+289            android:name="com.theflopguyproductions.ticktrack.contributors.ContributorsActivity"
+289-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:271:13-62
+290            android:label="ContributorsActivity"
+290-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:272:13-49
+291            android:screenOrientation="portrait" />
+291-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:273:13-49
+292        <activity
+292-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:274:9-292:20
+293            android:name="com.theflopguyproductions.ticktrack.SoYouADeveloperHuh"
+293-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:275:13-47
+294            android:exported="true"
+294-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:278:13-36
+295            android:label="@string/title_activity_so_you_a_developer_huh"
+295-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:276:13-74
+296            android:screenOrientation="portrait" >
+296-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:277:13-49
+297            <intent-filter>
+297-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:279:13-282:29
+298                <action android:name="android.intent.action.MAIN" />
+298-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:280:17-69
+298-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:280:25-66
+299
+300                <category android:name="android.intent.category.LAUNCHER" />
+300-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:281:17-77
+300-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:281:27-74
+301            </intent-filter>
+302            <intent-filter>
+302-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:283:13-287:29
+303                <action android:name="SoYouADeveloperHuh" />
+303-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:284:17-61
+303-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:284:25-58
+304
+305                <category android:name="android.intent.category.DEFAULT" />
+305-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:286:17-76
+305-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:286:27-73
+306            </intent-filter>
+307
+308            <meta-data
+308-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:289:13-291:62
+309                android:name="android.app.shortcuts"
+309-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:290:17-53
+310                android:resource="@xml/ticktrack_shortcut" />
+310-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:291:17-59
+311        </activity>
+312
+313        <receiver
+313-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:294:9-301:20
+314            android:name="com.theflopguyproductions.ticktrack.timer.receivers.TimerBroadcastReceiver"
+314-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:294:19-73
+315            android:enabled="true"
+315-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:295:13-35
+316            android:exported="true" >
+316-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:296:13-36
+317            <intent-filter>
+317-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:297:13-300:29
+318                <action android:name="ACTION_TIMER_BROADCAST" />
+318-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:298:17-65
+318-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:298:25-62
+319                <action android:name="ACTION_QUICK_TIMER_BROADCAST" />
+319-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:299:17-71
+319-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:299:25-68
+320            </intent-filter>
+321        </receiver>
+322
+323        <service
+323-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:303:9-307:40
+324            android:name="com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService"
+324-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:304:13-76
+325            android:directBootAware="true"
+325-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:305:13-43
+326            android:enabled="true"
+326-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:306:13-35
+327            android:exported="false" />
+327-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:307:13-37
+328        <service
+328-->[com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:16:9-22:19
+329            android:name="com.google.firebase.components.ComponentDiscoveryService"
+329-->[com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:17:13-84
+330            android:directBootAware="true"
+330-->[com.google.firebase:firebase-common:20.3.0] C:\Users\rahul\.gradle\caches\transforms-3\819099e12aacd237a1f2fcbe10544308\transformed\jetified-firebase-common-20.3.0\AndroidManifest.xml:34:13-43
+331            android:exported="false" >
+331-->[com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:18:13-37
+332            <meta-data
+332-->[com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:19:13-21:85
+333                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+333-->[com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:20:17-111
+334                android:value="com.google.firebase.components.ComponentRegistrar" />
+334-->[com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:21:17-82
+335            <meta-data
+335-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:55:13-57:85
+336                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+336-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:56:17-119
+337                android:value="com.google.firebase.components.ComponentRegistrar" />
+337-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:57:17-82
+338            <meta-data
+338-->[com.google.android.gms:play-services-measurement-api:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\cacf6d8b918de03778b7d51e5257c69b\transformed\jetified-play-services-measurement-api-21.2.0\AndroidManifest.xml:31:13-33:85
+339                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+339-->[com.google.android.gms:play-services-measurement-api:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\cacf6d8b918de03778b7d51e5257c69b\transformed\jetified-play-services-measurement-api-21.2.0\AndroidManifest.xml:32:17-139
+340                android:value="com.google.firebase.components.ComponentRegistrar" />
+340-->[com.google.android.gms:play-services-measurement-api:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\cacf6d8b918de03778b7d51e5257c69b\transformed\jetified-play-services-measurement-api-21.2.0\AndroidManifest.xml:33:17-82
+341            <meta-data
+341-->[com.google.firebase:firebase-crashlytics:18.3.3] C:\Users\rahul\.gradle\caches\transforms-3\9ebf023dedda9354aa2e9892d840e4cf\transformed\jetified-firebase-crashlytics-18.3.3\AndroidManifest.xml:17:13-19:85
+342                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+342-->[com.google.firebase:firebase-crashlytics:18.3.3] C:\Users\rahul\.gradle\caches\transforms-3\9ebf023dedda9354aa2e9892d840e4cf\transformed\jetified-firebase-crashlytics-18.3.3\AndroidManifest.xml:18:17-115
+343                android:value="com.google.firebase.components.ComponentRegistrar" />
+343-->[com.google.firebase:firebase-crashlytics:18.3.3] C:\Users\rahul\.gradle\caches\transforms-3\9ebf023dedda9354aa2e9892d840e4cf\transformed\jetified-firebase-crashlytics-18.3.3\AndroidManifest.xml:19:17-82
+344            <meta-data
+344-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\rahul\.gradle\caches\transforms-3\bfb6a003bb52ea6ae93237c0cc320ab8\transformed\jetified-firebase-datatransport-18.1.7\AndroidManifest.xml:27:13-29:85
+345                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+345-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\rahul\.gradle\caches\transforms-3\bfb6a003bb52ea6ae93237c0cc320ab8\transformed\jetified-firebase-datatransport-18.1.7\AndroidManifest.xml:28:17-115
+346                android:value="com.google.firebase.components.ComponentRegistrar" />
+346-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\rahul\.gradle\caches\transforms-3\bfb6a003bb52ea6ae93237c0cc320ab8\transformed\jetified-firebase-datatransport-18.1.7\AndroidManifest.xml:29:17-82
+347            <meta-data
+347-->[com.google.firebase:firebase-installations:17.1.0] C:\Users\rahul\.gradle\caches\transforms-3\e83a62ffdaf3538c6bbc5e8f0a91fb68\transformed\jetified-firebase-installations-17.1.0\AndroidManifest.xml:17:13-19:85
+348                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+348-->[com.google.firebase:firebase-installations:17.1.0] C:\Users\rahul\.gradle\caches\transforms-3\e83a62ffdaf3538c6bbc5e8f0a91fb68\transformed\jetified-firebase-installations-17.1.0\AndroidManifest.xml:18:17-127
+349                android:value="com.google.firebase.components.ComponentRegistrar" />
+349-->[com.google.firebase:firebase-installations:17.1.0] C:\Users\rahul\.gradle\caches\transforms-3\e83a62ffdaf3538c6bbc5e8f0a91fb68\transformed\jetified-firebase-installations-17.1.0\AndroidManifest.xml:19:17-82
+350        </service>
+351
+352        <activity
+352-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:23:9-27:75
+353            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+353-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:24:13-93
+354            android:excludeFromRecents="true"
+354-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:25:13-46
+355            android:exported="false"
+355-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:26:13-37
+356            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+356-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:27:13-72
+357        <!--
+358            Service handling Google Sign-In user revocation. For apps that do not integrate with
+359            Google Sign-In, this service will never be started.
+360        -->
+361        <service
+361-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:33:9-37:51
+362            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+362-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:34:13-89
+363            android:exported="true"
+363-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:35:13-36
+364            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+364-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:36:13-107
+365            android:visibleToInstantApps="true" />
+365-->[com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:37:13-48
+366
+367        <receiver
+367-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:31:9-38:20
+368            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+368-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:32:13-78
+369            android:exported="true"
+369-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:33:13-36
+370            android:permission="com.google.android.c2dm.permission.SEND" >
+370-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:34:13-73
+371            <intent-filter>
+371-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:35:13-37:29
+372                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+372-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:36:17-81
+372-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:36:25-78
+373            </intent-filter>
+374        </receiver>
+375        <!--
+376             FirebaseMessagingService performs security checks at runtime,
+377             but set to not exported to explicitly avoid allowing another app to call it.
+378        -->
+379        <service
+379-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:44:9-51:19
+380            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+380-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:45:13-82
+381            android:directBootAware="true"
+381-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:46:13-43
+382            android:exported="false" >
+382-->[com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:47:13-37
+383            <intent-filter android:priority="-500" >
+383-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:39:13-41:29
+384                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+384-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:40:17-78
+384-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:40:25-75
+385            </intent-filter>
+386        </service>
+387
+388        <activity
+388-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\rahul\.gradle\caches\transforms-3\999ba65dc23504ae79d1737d257548ce\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+389            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+389-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\rahul\.gradle\caches\transforms-3\999ba65dc23504ae79d1737d257548ce\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+390            android:exported="false"
+390-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\rahul\.gradle\caches\transforms-3\999ba65dc23504ae79d1737d257548ce\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+391            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+391-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\rahul\.gradle\caches\transforms-3\999ba65dc23504ae79d1737d257548ce\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+392
+393        <receiver
+393-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:29:9-33:20
+394            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+394-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:30:13-85
+395            android:enabled="true"
+395-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:31:13-35
+396            android:exported="false" >
+396-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:32:13-37
+397        </receiver>
+398
+399        <service
+399-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:35:9-38:40
+400            android:name="com.google.android.gms.measurement.AppMeasurementService"
+400-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:36:13-84
+401            android:enabled="true"
+401-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:37:13-35
+402            android:exported="false" />
+402-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:38:13-37
+403        <service
+403-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:39:9-43:72
+404            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+404-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:40:13-87
+405            android:enabled="true"
+405-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:41:13-35
+406            android:exported="false"
+406-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:42:13-37
+407            android:permission="android.permission.BIND_JOB_SERVICE" />
+407-->[com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:43:13-69
+408
+409        <provider
+409-->[com.google.firebase:firebase-common:20.3.0] C:\Users\rahul\.gradle\caches\transforms-3\819099e12aacd237a1f2fcbe10544308\transformed\jetified-firebase-common-20.3.0\AndroidManifest.xml:25:9-30:39
+410            android:name="com.google.firebase.provider.FirebaseInitProvider"
+410-->[com.google.firebase:firebase-common:20.3.0] C:\Users\rahul\.gradle\caches\transforms-3\819099e12aacd237a1f2fcbe10544308\transformed\jetified-firebase-common-20.3.0\AndroidManifest.xml:26:13-77
+411            android:authorities="com.theflopguyproductions.ticktrack.firebaseinitprovider"
+411-->[com.google.firebase:firebase-common:20.3.0] C:\Users\rahul\.gradle\caches\transforms-3\819099e12aacd237a1f2fcbe10544308\transformed\jetified-firebase-common-20.3.0\AndroidManifest.xml:27:13-72
+412            android:directBootAware="true"
+412-->[com.google.firebase:firebase-common:20.3.0] C:\Users\rahul\.gradle\caches\transforms-3\819099e12aacd237a1f2fcbe10544308\transformed\jetified-firebase-common-20.3.0\AndroidManifest.xml:28:13-43
+413            android:exported="false"
+413-->[com.google.firebase:firebase-common:20.3.0] C:\Users\rahul\.gradle\caches\transforms-3\819099e12aacd237a1f2fcbe10544308\transformed\jetified-firebase-common-20.3.0\AndroidManifest.xml:29:13-37
+414            android:initOrder="100" />
+414-->[com.google.firebase:firebase-common:20.3.0] C:\Users\rahul\.gradle\caches\transforms-3\819099e12aacd237a1f2fcbe10544308\transformed\jetified-firebase-common-20.3.0\AndroidManifest.xml:30:13-36
+415
+416        <meta-data
+416-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\rahul\.gradle\caches\transforms-3\695c7951816f9bd5bd662979a0a5365a\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+417            android:name="com.google.android.gms.version"
+417-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\rahul\.gradle\caches\transforms-3\695c7951816f9bd5bd662979a0a5365a\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+418            android:value="@integer/google_play_services_version" />
+418-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\rahul\.gradle\caches\transforms-3\695c7951816f9bd5bd662979a0a5365a\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+419
+420        <provider
+420-->[androidx.emoji2:emoji2:1.2.0] C:\Users\rahul\.gradle\caches\transforms-3\ada9d79c2e6f730e086e7ca40215432d\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+421            android:name="androidx.startup.InitializationProvider"
+421-->[androidx.emoji2:emoji2:1.2.0] C:\Users\rahul\.gradle\caches\transforms-3\ada9d79c2e6f730e086e7ca40215432d\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+422            android:authorities="com.theflopguyproductions.ticktrack.androidx-startup"
+422-->[androidx.emoji2:emoji2:1.2.0] C:\Users\rahul\.gradle\caches\transforms-3\ada9d79c2e6f730e086e7ca40215432d\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+423            android:exported="false" >
+423-->[androidx.emoji2:emoji2:1.2.0] C:\Users\rahul\.gradle\caches\transforms-3\ada9d79c2e6f730e086e7ca40215432d\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+424            <meta-data
+424-->[androidx.emoji2:emoji2:1.2.0] C:\Users\rahul\.gradle\caches\transforms-3\ada9d79c2e6f730e086e7ca40215432d\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+425                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+425-->[androidx.emoji2:emoji2:1.2.0] C:\Users\rahul\.gradle\caches\transforms-3\ada9d79c2e6f730e086e7ca40215432d\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+426                android:value="androidx.startup" />
+426-->[androidx.emoji2:emoji2:1.2.0] C:\Users\rahul\.gradle\caches\transforms-3\ada9d79c2e6f730e086e7ca40215432d\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+427            <meta-data
+427-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:34:13-36:52
+428                android:name="androidx.work.WorkManagerInitializer"
+428-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:35:17-68
+429                android:value="androidx.startup" />
+429-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:36:17-49
+430            <meta-data
+430-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\rahul\.gradle\caches\transforms-3\e2273fe58884a365f6a8d3210dfde238\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+431                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+431-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\rahul\.gradle\caches\transforms-3\e2273fe58884a365f6a8d3210dfde238\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+432                android:value="androidx.startup" />
+432-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\rahul\.gradle\caches\transforms-3\e2273fe58884a365f6a8d3210dfde238\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+433        </provider>
+434
+435        <service
+435-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:39:9-45:35
+436            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+436-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:40:13-88
+437            android:directBootAware="false"
+437-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:41:13-44
+438            android:enabled="@bool/enable_system_alarm_service_default"
+438-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:42:13-72
+439            android:exported="false" />
+439-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:43:13-37
+440        <service
+440-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:46:9-52:35
+441            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+441-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:47:13-84
+442            android:directBootAware="false"
+442-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:48:13-44
+443            android:enabled="@bool/enable_system_job_service_default"
+443-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:49:13-70
+444            android:exported="true"
+444-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:50:13-36
+445            android:permission="android.permission.BIND_JOB_SERVICE" />
+445-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:51:13-69
+446        <service
+446-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:53:9-59:35
+447            android:name="androidx.work.impl.foreground.SystemForegroundService"
+447-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:54:13-81
+448            android:directBootAware="false"
+448-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:55:13-44
+449            android:enabled="@bool/enable_system_foreground_service_default"
+449-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:56:13-77
+450            android:exported="false" />
+450-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:57:13-37
+451
+452        <receiver
+452-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:61:9-66:35
+453            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+453-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:62:13-88
+454            android:directBootAware="false"
+454-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:63:13-44
+455            android:enabled="true"
+455-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:64:13-35
+456            android:exported="false" />
+456-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:65:13-37
+457        <receiver
+457-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:67:9-77:20
+458            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+458-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:68:13-106
+459            android:directBootAware="false"
+459-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:69:13-44
+460            android:enabled="false"
+460-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:70:13-36
+461            android:exported="false" >
+461-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:71:13-37
+462            <intent-filter>
+462-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:73:13-76:29
+463                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+463-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:74:17-87
+463-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:74:25-84
+464                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+464-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:75:17-90
+464-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:75:25-87
+465            </intent-filter>
+466        </receiver>
+467        <receiver
+467-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:78:9-88:20
+468            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+468-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:79:13-104
+469            android:directBootAware="false"
+469-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:80:13-44
+470            android:enabled="false"
+470-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:81:13-36
+471            android:exported="false" >
+471-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:82:13-37
+472            <intent-filter>
+472-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:84:13-87:29
+473                <action android:name="android.intent.action.BATTERY_OKAY" />
+473-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:85:17-77
+473-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:85:25-74
+474                <action android:name="android.intent.action.BATTERY_LOW" />
+474-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:86:17-76
+474-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:86:25-73
+475            </intent-filter>
+476        </receiver>
+477        <receiver
+477-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:89:9-99:20
+478            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+478-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:90:13-104
+479            android:directBootAware="false"
+479-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:91:13-44
+480            android:enabled="false"
+480-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:92:13-36
+481            android:exported="false" >
+481-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:93:13-37
+482            <intent-filter>
+482-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:95:13-98:29
+483                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+483-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:96:17-83
+483-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:96:25-80
+484                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+484-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:97:17-82
+484-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:97:25-79
+485            </intent-filter>
+486        </receiver>
+487        <receiver
+487-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:100:9-109:20
+488            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+488-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:101:13-103
+489            android:directBootAware="false"
+489-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:102:13-44
+490            android:enabled="false"
+490-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:103:13-36
+491            android:exported="false" >
+491-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:104:13-37
+492            <intent-filter>
+492-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:106:13-108:29
+493                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+493-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:107:17-79
+493-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:107:25-76
+494            </intent-filter>
+495        </receiver>
+496        <receiver
+496-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:110:9-121:20
+497            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+497-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:111:13-88
+498            android:directBootAware="false"
+498-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:112:13-44
+499            android:enabled="false"
+499-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:113:13-36
+500            android:exported="false" >
+500-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:114:13-37
+501            <intent-filter>
+501-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:116:13-120:29
+502                <action android:name="android.intent.action.BOOT_COMPLETED" />
+502-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:202:17-79
+502-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:202:25-76
+503                <action android:name="android.intent.action.TIME_SET" />
+503-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:191:17-73
+503-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:191:25-70
+504                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+504-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:192:17-81
+504-->B:\TickTrack-master\app\src\main\AndroidManifest.xml:192:25-78
+505            </intent-filter>
+506        </receiver>
+507        <receiver
+507-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:122:9-131:20
+508            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+508-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:123:13-99
+509            android:directBootAware="false"
+509-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:124:13-44
+510            android:enabled="@bool/enable_system_alarm_service_default"
+510-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:125:13-72
+511            android:exported="false" >
+511-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:126:13-37
+512            <intent-filter>
+512-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:128:13-130:29
+513                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+513-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:129:17-98
+513-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:129:25-95
+514            </intent-filter>
+515        </receiver>
+516        <receiver
+516-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:132:9-142:20
+517            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+517-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:133:13-78
+518            android:directBootAware="false"
+518-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:134:13-44
+519            android:enabled="true"
+519-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:135:13-35
+520            android:exported="true"
+520-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:136:13-36
+521            android:permission="android.permission.DUMP" >
+521-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:137:13-57
+522            <intent-filter>
+522-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:139:13-141:29
+523                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+523-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:140:17-88
+523-->[androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:140:25-85
+524            </intent-filter>
+525        </receiver>
+526
+527        <uses-library
+527-->[androidx.window:window:1.0.0] C:\Users\rahul\.gradle\caches\transforms-3\c14adc0ae48f8e6ba8c35ff4c79c3096\transformed\jetified-window-1.0.0\AndroidManifest.xml:25:9-27:40
+528            android:name="androidx.window.extensions"
+528-->[androidx.window:window:1.0.0] C:\Users\rahul\.gradle\caches\transforms-3\c14adc0ae48f8e6ba8c35ff4c79c3096\transformed\jetified-window-1.0.0\AndroidManifest.xml:26:13-54
+529            android:required="false" />
+529-->[androidx.window:window:1.0.0] C:\Users\rahul\.gradle\caches\transforms-3\c14adc0ae48f8e6ba8c35ff4c79c3096\transformed\jetified-window-1.0.0\AndroidManifest.xml:27:13-37
+530        <uses-library
+530-->[androidx.window:window:1.0.0] C:\Users\rahul\.gradle\caches\transforms-3\c14adc0ae48f8e6ba8c35ff4c79c3096\transformed\jetified-window-1.0.0\AndroidManifest.xml:28:9-30:40
+531            android:name="androidx.window.sidecar"
+531-->[androidx.window:window:1.0.0] C:\Users\rahul\.gradle\caches\transforms-3\c14adc0ae48f8e6ba8c35ff4c79c3096\transformed\jetified-window-1.0.0\AndroidManifest.xml:29:13-51
+532            android:required="false" />
+532-->[androidx.window:window:1.0.0] C:\Users\rahul\.gradle\caches\transforms-3\c14adc0ae48f8e6ba8c35ff4c79c3096\transformed\jetified-window-1.0.0\AndroidManifest.xml:30:13-37
+533
+534        <service
+534-->[androidx.room:room-runtime:2.5.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\673d80bf3fbd1f8c47fb9ae3bf3eaa5e\transformed\room-runtime-2.5.0-rc01\AndroidManifest.xml:24:9-28:63
+535            android:name="androidx.room.MultiInstanceInvalidationService"
+535-->[androidx.room:room-runtime:2.5.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\673d80bf3fbd1f8c47fb9ae3bf3eaa5e\transformed\room-runtime-2.5.0-rc01\AndroidManifest.xml:25:13-74
+536            android:directBootAware="true"
+536-->[androidx.room:room-runtime:2.5.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\673d80bf3fbd1f8c47fb9ae3bf3eaa5e\transformed\room-runtime-2.5.0-rc01\AndroidManifest.xml:26:13-43
+537            android:exported="false" />
+537-->[androidx.room:room-runtime:2.5.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\673d80bf3fbd1f8c47fb9ae3bf3eaa5e\transformed\room-runtime-2.5.0-rc01\AndroidManifest.xml:27:13-37
+538        <service
+538-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:28:9-34:19
+539            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+539-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:29:13-103
+540            android:exported="false" >
+540-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:30:13-37
+541            <meta-data
+541-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:31:13-33:39
+542                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+542-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:32:17-94
+543                android:value="cct" />
+543-->[com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:33:17-36
+544        </service>
+545        <service
+545-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:26:9-30:19
+546            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+546-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:27:13-117
+547            android:exported="false"
+547-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:28:13-37
+548            android:permission="android.permission.BIND_JOB_SERVICE" >
+548-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:29:13-69
+549        </service>
+550
+551        <receiver
+551-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:32:9-34:40
+552            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+552-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:33:13-132
+553            android:exported="false" />
+553-->[com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:34:13-37
+554    </application>
+555
+556</manifest>

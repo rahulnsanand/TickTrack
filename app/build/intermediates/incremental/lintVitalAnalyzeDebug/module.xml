@@ -1,0 +1,18 @@
+<lint-module
+    format="1"
+    dir="B:\TickTrack-master\app"
+    name=":app"
+    type="APP"
+    maven="TickTrack:app:"
+    gradle="7.4.0"
+    buildFolder="build"
+    bootClassPath="C:\Users\rahul\AppData\Local\Android\Sdk\platforms\android-33\android.jar;C:\Users\rahul\AppData\Local\Android\Sdk\build-tools\30.0.3\core-lambda-stubs.jar"
+    javaSourceLevel="1.8"
+    compileTarget="android-33">
+  <lintOptions
+      abortOnError="true"
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="debug"/>
+</lint-module>

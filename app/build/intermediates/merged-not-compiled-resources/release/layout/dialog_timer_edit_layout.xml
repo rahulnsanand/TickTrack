@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/timerEditDialogRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_rect_light">
+
+    <com.theflopguyproductions.ticktrack.ui.utils.TickTrackEditText
+        android:id="@+id/timerEditDialogLabelText"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/label_edit_text_accent"
+        android:maxLength="15"
+        android:hint="Label"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogLabelTitleText" />
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/timerEditDialogLabelTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Label"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogTitleText"
+        app:typeface="apercu_bold" />
+
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        android:id="@+id/timerEditDialogCancelButton"
+        style="@style/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@android:color/transparent"
+        android:text="CANCEL"
+        android:textColor="@color/Accent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogSaveButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        android:id="@+id/timerEditDialogSaveButton"
+        style="@style/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_selector_accent"
+        android:text="SAVE"
+        android:textColor="@color/LightText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogFlagChipGroup"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/timerEditDialogFlagChipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogFlagTitleText"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/timerEditDialogRedFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Cherry"
+            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+            android:textSize="14sp"
+            app:chipIcon="@drawable/ic_flag_red_represent"
+            android:textAppearance="@style/Chip"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/timerEditDialogGreenFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Lime"
+            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+            android:textSize="14sp"
+            app:chipIcon="@drawable/ic_flag_green_represent"
+            android:textAppearance="@style/Chip"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/timerEditDialogOrangeFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Peach"
+            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+            android:textSize="14sp"
+            app:chipIcon="@drawable/ic_flag_orange_represent"
+            android:textAppearance="@style/Chip"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/timerEditDialogPurpleFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Plum"
+            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+            android:textSize="14sp"
+            app:chipIcon="@drawable/ic_flag_purple_represent"
+            android:textAppearance="@style/Chip"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/timerEditDialogBlueFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Berry"
+            android:textColor="@color/roboto_calendar_day_of_the_month_font"
+            android:textSize="14sp"
+            app:chipIcon="@drawable/ic_flag_blue_represent"
+            android:textAppearance="@style/Chip"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/timerEditDialogFlagTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Flag"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerEditDialogLabelText"
+        app:typeface="apercu_bold" />
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/timerEditDialogTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Edit timer"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="apercu_bold" />
+
+    <TextView
+        android:id="@+id/timerEditDialogCharacterCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/15"
+        app:layout_constraintBottom_toTopOf="@+id/timerEditDialogLabelText"
+        app:layout_constraintEnd_toEndOf="@+id/timerEditDialogLabelText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

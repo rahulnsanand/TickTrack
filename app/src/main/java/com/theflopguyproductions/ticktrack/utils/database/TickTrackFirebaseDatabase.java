@@ -368,7 +368,12 @@ public class TickTrackFirebaseDatabase {
 //        intent.setClass(context, BackupScheduleReceiver.class);
 //        intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
 //        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
+        PendingIntent alarmPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
+        }
         alarmManager.setRepeating(
                 AlarmManager.RTC,
                 calendar.getTimeInMillis(),
@@ -390,7 +395,12 @@ public class TickTrackFirebaseDatabase {
         Intent intent = new Intent(context, BackupScheduleReceiver.class);
         intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
+        PendingIntent alarmPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
+        }
         alarmManager.cancel(alarmPendingIntent);
     }
 
@@ -408,7 +418,12 @@ public class TickTrackFirebaseDatabase {
         Intent intent = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
         intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
         intent.setPackage("com.theflopguyproductions.ticktrack");
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, 825417, intent, 0);
+        PendingIntent alarmPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            alarmPendingIntent = PendingIntent.getBroadcast(context, 825417, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            alarmPendingIntent = PendingIntent.getBroadcast(context, 825417, intent, 0);
+        }
         alarmManager.setExact(
                 AlarmManager.RTC,
                 System.currentTimeMillis()+(1000*60*5),

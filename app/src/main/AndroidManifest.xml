@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.theflopguyproductions.ticktrack">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -57,7 +57,8 @@
 
         <receiver
             android:name=".widgets.shortcuts.StopwatchWidget"
-            android:label="Stopwatch">
+            android:label="Stopwatch"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -68,7 +69,8 @@
         </receiver>
         <receiver
             android:name=".widgets.shortcuts.QuickTimerWidget"
-            android:label="QuickTimer">
+            android:label="QuickTimer"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -79,7 +81,8 @@
         </receiver>
         <receiver
             android:name=".widgets.shortcuts.ScreensaverWidget"
-            android:label="Screensaver">
+            android:label="Screensaver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -90,7 +93,8 @@
         </receiver>
         <receiver
             android:name=".widgets.shortcuts.CreateTimerWidget"
-            android:label="Timer">
+            android:label="Timer"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -104,7 +108,8 @@
 
         <receiver
             android:name=".widgets.shortcuts.panel.ShortcutsPanelWidget"
-            android:label="Shortuts Console">
+            android:label="Shortuts Console"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -121,7 +126,8 @@
 
         <receiver
             android:name=".widgets.clock.TickTrackClockWidget"
-            android:label="Clock">
+            android:label="Clock"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -139,7 +145,8 @@
 
         <receiver
             android:name=".widgets.counter.CounterWidget"
-            android:label="Counter">
+            android:label="Counter"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="ACTION_WIDGET_CLICK_PLUS" />
@@ -267,7 +274,8 @@
         <activity
             android:name=".SoYouADeveloperHuh"
             android:label="@string/title_activity_so_you_a_developer_huh"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

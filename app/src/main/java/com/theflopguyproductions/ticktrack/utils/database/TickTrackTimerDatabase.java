@@ -40,7 +40,12 @@ public class TickTrackTimerDatabase {
                 intent.setAction(TimerBroadcastReceiver.ACTION_QUICK_TIMER_BROADCAST);
                 intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 intent.putExtra("timerIntegerID", timerIntegerID);
-                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+                PendingIntent alarmPendingIntent = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, PendingIntent.FLAG_MUTABLE);
+                } else {
+                    alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+                }
                 alarmManager.setExact(
                         AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         endTime,
@@ -63,7 +68,12 @@ public class TickTrackTimerDatabase {
                 intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
                 intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 intent.putExtra("timerIntegerID", timerIntegerID);
-                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+                PendingIntent alarmPendingIntent = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, PendingIntent.FLAG_MUTABLE);
+                } else {
+                    alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+                }
                 alarmManager.setExact(
                         AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         endTime,
@@ -79,14 +89,24 @@ public class TickTrackTimerDatabase {
             Intent intent = new Intent(context, TimerBroadcastReceiver.class);
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             intent.setAction(TimerBroadcastReceiver.ACTION_QUICK_TIMER_BROADCAST);
-            PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+            PendingIntent alarmPendingIntent = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, PendingIntent.FLAG_MUTABLE);
+            } else {
+                alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+            }
             alarmManager.cancel(alarmPendingIntent);
         } else {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, TimerBroadcastReceiver.class);
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             intent.setAction(TimerBroadcastReceiver.ACTION_TIMER_BROADCAST);
-            PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+            PendingIntent alarmPendingIntent = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, PendingIntent.FLAG_MUTABLE);
+            } else {
+                alarmPendingIntent = PendingIntent.getBroadcast(context, timerIntegerID, intent, 0);
+            }
             alarmManager.cancel(alarmPendingIntent);
         }
     }

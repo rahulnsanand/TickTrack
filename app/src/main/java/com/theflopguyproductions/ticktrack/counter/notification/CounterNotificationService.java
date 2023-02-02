@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.counter.notification;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,11 +10,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -74,21 +77,22 @@ public class CounterNotificationService extends Service {
         return null;
     }
 
-    public static ArrayList<CounterData> retrieveCounterList(SharedPreferences sharedPreferences){
+    public static ArrayList<CounterData> retrieveCounterList(SharedPreferences sharedPreferences) {
 
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CounterData", null);
-        Type type = new TypeToken<ArrayList<CounterData>>() {}.getType();
+        Type type = new TypeToken<ArrayList<CounterData>>() {
+        }.getType();
         ArrayList<CounterData> counterDataArrayList = gson.fromJson(json, type);
 
-        if(counterDataArrayList == null){
+        if (counterDataArrayList == null) {
             counterDataArrayList = new ArrayList<>();
         }
 
         return counterDataArrayList;
     }
 
-    public static void storeCounterList(SharedPreferences sharedPreferences){
+    public static void storeCounterList(SharedPreferences sharedPreferences) {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -100,7 +104,7 @@ public class CounterNotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null) {
+        if (intent != null) {
 
             String action = intent.getAction();
 
@@ -109,7 +113,7 @@ public class CounterNotificationService extends Service {
             assert action != null;
             switch (action) {
                 case ACTION_START_COUNTER_SERVICE:
-                    if(currentCounterPosition!=-1) {
+                    if (currentCounterPosition != -1) {
                         startForegroundService();
                     }
                     break;
@@ -117,19 +121,19 @@ public class CounterNotificationService extends Service {
                     stopForegroundService();
                     break;
                 case ACTION_PLUS:
-                    if(currentCounterPosition!=-1){
+                    if (currentCounterPosition != -1) {
                         plusButtonPressed();
                         updateCounterWidgets();
                     }
                     break;
                 case ACTION_MINUS:
-                    if(currentCounterPosition!=-1){
+                    if (currentCounterPosition != -1) {
                         minusButtonPressed();
                         updateCounterWidgets();
                     }
                     break;
                 case ACTION_REFRESH_SERVICE:
-                    if(currentCounterPosition!=-1){
+                    if (currentCounterPosition != -1) {
                         refreshCountValue(tickTrackDatabase.getSharedPref(this));
                     }
                     break;
@@ -153,7 +157,7 @@ public class CounterNotificationService extends Service {
         SharedPreferences sharedPreferences = tickTrackDatabase.getSharedPref(this);
         counterDataList = retrieveCounterList(sharedPreferences);
         currentCounterPosition = getCurrentCounterNotificationID();
-        if(currentCounterPosition!=-1){
+        if (currentCounterPosition != -1) {
             counterLabel = counterDataList.get(currentCounterPosition).getCounterLabel();
             counterValue = counterDataList.get(currentCounterPosition).getCounterValue();
             counterRequestID = (int) counterDataList.get(currentCounterPosition).getCounterTimestamp();
@@ -163,25 +167,25 @@ public class CounterNotificationService extends Service {
     }
 
     private void minusButtonPressed() {
-        if(counterDataList.get(currentCounterPosition).isNegativeAllowed()){
-            if(!(counterValue <= -9223372036854775806L)) {
-                counterValue-=1;
+        if (counterDataList.get(currentCounterPosition).isNegativeAllowed()) {
+            if (!(counterValue <= -9223372036854775806L)) {
+                counterValue -= 1;
                 counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
                 counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
                 storeCounterList(tickTrackDatabase.getSharedPref(this));
 
-                notificationBuilder.setContentText("Value: "+counterValue+"");
+                notificationBuilder.setContentText("Value: " + counterValue + "");
 
                 notifyNotification();
             }
         } else {
-            if(counterValue>=1){
-                counterValue-=1;
+            if (counterValue >= 1) {
+                counterValue -= 1;
                 counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
                 counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
                 storeCounterList(tickTrackDatabase.getSharedPref(this));
 
-                notificationBuilder.setContentText("Value: "+counterValue+"");
+                notificationBuilder.setContentText("Value: " + counterValue + "");
 
                 notifyNotification();
             }
@@ -190,12 +194,12 @@ public class CounterNotificationService extends Service {
     }
 
     private void plusButtonPressed() {
-        if(!(counterValue >= 9223372036854775806L)){
-            counterValue+=1;
+        if (!(counterValue >= 9223372036854775806L)) {
+            counterValue += 1;
             counterDataList.get(currentCounterPosition).setCounterValue(counterValue);
             counterDataList.get(currentCounterPosition).setCounterTimestamp(System.currentTimeMillis());
             storeCounterList(tickTrackDatabase.getSharedPref(this));
-            notificationBuilder.setContentText("Value: "+counterValue+"");
+            notificationBuilder.setContentText("Value: " + counterValue + "");
             notifyNotification();
         }
     }
@@ -216,7 +220,7 @@ public class CounterNotificationService extends Service {
         stopForeground(false);
     }
 
-    private void killNotifications(){
+    private void killNotifications() {
         stopForeground(false);
     }
 
@@ -224,33 +228,49 @@ public class CounterNotificationService extends Service {
         counterDataList.get(currentCounterPosition).setCounterPersistentNotification(true);
         storeCounterList(tickTrackDatabase.getSharedPref(this));
     }
+
     private void notificationCounterFalse() {
-        if(currentCounterPosition!=-1){
+        if (currentCounterPosition != -1) {
             counterDataList.get(currentCounterPosition).setCounterPersistentNotification(false);
             storeCounterList(tickTrackDatabase.getSharedPref(this));
             setCurrentCounterNotificationID(null);
         }
     }
 
-    private void setupCustomNotification(){
+    private void setupCustomNotification() {
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
         Intent plusIntent = new Intent(this, CounterNotificationService.class);
         plusIntent.setAction(ACTION_PLUS);
-        PendingIntent pendingPlusIntent = PendingIntent.getService(this, counterRequestID, plusIntent, 0);
+        PendingIntent pendingPlusIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingPlusIntent = PendingIntent.getService(this, counterRequestID, plusIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingPlusIntent = PendingIntent.getService(this, counterRequestID, plusIntent, 0);
+        }
         NotificationCompat.Action plusAction = new NotificationCompat.Action(R.drawable.ic_add_white_24, "Plus", pendingPlusIntent);
 
         Intent minusIntent = new Intent(this, CounterNotificationService.class);
         minusIntent.setAction(ACTION_MINUS);
-        PendingIntent pendingMinusIntent = PendingIntent.getService(this, counterRequestID, minusIntent, 0);
+        PendingIntent pendingMinusIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingMinusIntent = PendingIntent.getService(this, counterRequestID, minusIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingMinusIntent = PendingIntent.getService(this, counterRequestID, minusIntent, 0);
+        }
         NotificationCompat.Action minusAction = new NotificationCompat.Action(R.drawable.ic_round_minus_white_24, "Minus", pendingMinusIntent);
 
 
         Intent cancelIntent = new Intent(this, CounterNotificationService.class);
         cancelIntent.setAction(ACTION_STOP_COUNTER_SERVICE);
-        PendingIntent pendingCancelIntent = PendingIntent.getService(this, counterRequestID, cancelIntent, 0);
+        PendingIntent pendingCancelIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingCancelIntent = PendingIntent.getService(this, counterRequestID, cancelIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingCancelIntent = PendingIntent.getService(this, counterRequestID, cancelIntent, 0);
+        }
         NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Done", pendingCancelIntent);
 
 
@@ -259,9 +279,14 @@ public class CounterNotificationService extends Service {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_MUTABLE);
+        } else {
+            resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
-        notificationBuilder = new NotificationCompat.Builder(this,TickTrack.COUNTER_NOTIFICATION)
+        notificationBuilder = new NotificationCompat.Builder(this, TickTrack.COUNTER_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_notification_countericon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -275,15 +300,25 @@ public class CounterNotificationService extends Service {
         notificationBuilder.addAction(plusAction);
 
         notificationBuilder.setContentTitle(counterLabel);
-        notificationBuilder.setContentText("Value: "+counterValue+"");
+        notificationBuilder.setContentText("Value: " + counterValue + "");
 
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notificationBuilder.setChannelId(TickTrack.COUNTER_NOTIFICATION);
         }
 
     }
 
-    public void notifyNotification(){
+    public void notifyNotification() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         notificationManagerCompat.notify(TickTrack.COUNTER_NOTIFICATION_ID, notificationBuilder.build());
     }
 

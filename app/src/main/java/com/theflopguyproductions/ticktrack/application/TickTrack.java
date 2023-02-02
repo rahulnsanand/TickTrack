@@ -322,7 +322,12 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
         Intent restartService = new Intent(getApplicationContext(), CloudNotificationService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(),91825,restartService,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getService(getApplicationContext(),91825,restartService,PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getService(getApplicationContext(),91825,restartService,PendingIntent.FLAG_ONE_SHOT);
+        }
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME,5000,pendingIntent);
 

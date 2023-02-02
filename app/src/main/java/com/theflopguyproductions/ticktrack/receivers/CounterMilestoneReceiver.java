@@ -45,7 +45,12 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
     private void buildNotification(boolean b, Context context) {
         Intent contentIntent = new Intent(context, SoYouADeveloperHuh.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, TickTrack.GENERAL_NOTIFICATION_ID, contentIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(context, TickTrack.GENERAL_NOTIFICATION_ID, contentIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(context, TickTrack.GENERAL_NOTIFICATION_ID, contentIntent, PendingIntent.FLAG_ONE_SHOT);
+        }
 
         NotificationCompat.Builder notificationBuilder;
         NotificationManagerCompat notificationManagerCompat;

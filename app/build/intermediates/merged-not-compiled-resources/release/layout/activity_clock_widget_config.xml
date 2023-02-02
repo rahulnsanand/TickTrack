@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clockWidgetConfigRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".widgets.clock.ClockWidgetConfigActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/clockWidgetConfigTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Customize your widget"
+            android:textColor="@color/Accent"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_bold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout16">
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/clockWidgetConfigOptionChosenTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="Unordinary"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:typeface="apercu_bold"/>
+
+        <ImageView
+            android:id="@+id/clockWidgetConfigOptionChosenImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/clockWidgetConfigOptionChosenTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_unordinaryphone"
+            android:elevation="6dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/clockWidgetConfigSaveButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigUnordinaryImageCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/clockWidgetConfigUnordinaryImage"
+                    app:layout_constraintEnd_toEndOf="@+id/clockWidgetConfigUnordinaryImage"
+                    app:layout_constraintStart_toStartOf="@+id/clockWidgetConfigUnordinaryImage"
+                    app:layout_constraintTop_toTopOf="@+id/clockWidgetConfigUnordinaryImage"
+                    app:srcCompat="@drawable/ic_selectedthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigUnordinaryImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_unordinarythumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigOxygenyImageCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/clockWidgetConfigOxygenyImage"
+                    app:layout_constraintEnd_toEndOf="@+id/clockWidgetConfigOxygenyImage"
+                    app:layout_constraintStart_toStartOf="@+id/clockWidgetConfigOxygenyImage"
+                    app:layout_constraintTop_toTopOf="@+id/clockWidgetConfigOxygenyImage"
+                    app:srcCompat="@drawable/ic_selectedthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigOxygenyImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/clockWidgetConfigUnordinaryImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_oxygenythumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigTrulyMinimalImageCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/clockWidgetConfigTrulyMinimalImage"
+                    app:layout_constraintEnd_toEndOf="@+id/clockWidgetConfigTrulyMinimalImage"
+                    app:layout_constraintStart_toStartOf="@+id/clockWidgetConfigTrulyMinimalImage"
+                    app:layout_constraintTop_toTopOf="@+id/clockWidgetConfigTrulyMinimalImage"
+                    app:srcCompat="@drawable/ic_selectedthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigTrulyMinimalImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/clockWidgetConfigOxygenyImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_trulyminimalthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigSimplisticImageCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/clockWidgetConfigSimplisticImage"
+                    app:layout_constraintEnd_toEndOf="@+id/clockWidgetConfigSimplisticImage"
+                    app:layout_constraintStart_toStartOf="@+id/clockWidgetConfigSimplisticImage"
+                    app:layout_constraintTop_toTopOf="@+id/clockWidgetConfigSimplisticImage"
+                    app:srcCompat="@drawable/ic_selectedthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigSimplisticImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/clockWidgetConfigTrulyMinimalImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_simplisticthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigRomanImageCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/clockWidgetConfigRomanImage"
+                    app:layout_constraintEnd_toEndOf="@+id/clockWidgetConfigRomanImage"
+                    app:layout_constraintStart_toStartOf="@+id/clockWidgetConfigRomanImage"
+                    app:layout_constraintTop_toTopOf="@+id/clockWidgetConfigRomanImage"
+                    app:srcCompat="@drawable/ic_selectedthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigRomanImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/clockWidgetConfigSimplisticImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_romanthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigFunkyImageCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/clockWidgetConfigFunkyImage"
+                    app:layout_constraintEnd_toEndOf="@+id/clockWidgetConfigFunkyImage"
+                    app:layout_constraintStart_toStartOf="@+id/clockWidgetConfigFunkyImage"
+                    app:layout_constraintTop_toTopOf="@+id/clockWidgetConfigFunkyImage"
+                    app:srcCompat="@drawable/ic_selectedthumb" />
+
+                <ImageView
+                    android:id="@+id/clockWidgetConfigFunkyImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/clockWidgetConfigRomanImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_funkythumb" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </HorizontalScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+        android:id="@+id/clockWidgetConfigSaveButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/button_selector_accent"
+        android:textColor="@color/LightText"
+        style="@style/buttonStartup"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

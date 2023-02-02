@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.theflopguyproductions.ticktrack.app-mergeDebugResources-5:/values-ldrtl-v17/values-ldrtl-v17.xml",
+            "map": [
+                {
+                    "source": "B:\\TickTrack-master\\app\\src\\main\\res\\values-ldrtl\\attrs.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "35",
+                        "endOffsets": "86"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\rahul\\.gradle\\caches\\transforms-3\\f76bd89f6dcad71b7f050b085a49b9bd\\transformed\\material-1.8.0\\res\\values-ldrtl-v17\\values-ldrtl-v17.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,191",
+                        "endColumns": "135,140",
+                        "endOffsets": "186,327"
+                    },
+                    "to": {
+                        "startLines": "3,4",
+                        "startColumns": "4,4",
+                        "startOffsets": "91,227",
+                        "endColumns": "135,140",
+                        "endOffsets": "222,363"
+                    }
+                }
+            ]
+        }
+    ]
+}

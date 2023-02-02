@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.screensaver;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 import android.animation.ValueAnimator;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -348,7 +350,12 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         AlarmManager dayAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent dayTimeChange = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent dayPendIntent = PendingIntent.getBroadcast(this, 500, dayTimeChange, 0);
+        PendingIntent dayPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            dayPendIntent = PendingIntent.getBroadcast(this, 500, dayTimeChange, FLAG_IMMUTABLE);
+        } else {
+            dayPendIntent = PendingIntent.getBroadcast(this, 500, dayTimeChange, 0);
+        }
         dayAlarm.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 dayChange.getTimeInMillis(),
@@ -368,7 +375,12 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         AlarmManager morningAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent morningIntent = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent morningPendIntent = PendingIntent.getBroadcast(this, 505, morningIntent, 0);
+        PendingIntent morningPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            morningPendIntent = PendingIntent.getBroadcast(this, 505, morningIntent, FLAG_IMMUTABLE);
+        } else {
+            morningPendIntent = PendingIntent.getBroadcast(this, 505, morningIntent, 0);
+        }
         morningAlarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 morningAlarm.getTimeInMillis(),
@@ -388,7 +400,12 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         AlarmManager afternoonAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent afternoonIntent = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent afternoonPendIntent = PendingIntent.getBroadcast(this, 1205, afternoonIntent, 0);
+        PendingIntent afternoonPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            afternoonPendIntent = PendingIntent.getBroadcast(this, 1205, afternoonIntent, FLAG_IMMUTABLE);
+        } else {
+            afternoonPendIntent = PendingIntent.getBroadcast(this, 1205, afternoonIntent, 0);
+        }
         afternoonAlarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 afternoonAlarm.getTimeInMillis(),
@@ -408,7 +425,13 @@ public class ScreensaverActivity extends AppCompatActivity {
 
         AlarmManager eveningAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent eveningIntent = new Intent(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent eveningPendIntent = PendingIntent.getBroadcast(this, 1705, eveningIntent, 0);
+        PendingIntent eveningPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            eveningPendIntent = PendingIntent.getBroadcast(this, 1705, eveningIntent, FLAG_IMMUTABLE);
+        } else {
+            eveningPendIntent = PendingIntent.getBroadcast(this, 1705, eveningIntent, 0);
+        }
+
         eveningAlarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 eveningAlarm.getTimeInMillis(),
@@ -431,25 +454,45 @@ public class ScreensaverActivity extends AppCompatActivity {
         AlarmManager eveningAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent eveningIntent = new Intent(this, ScreensaverActivity.class);
         eveningIntent.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent eveningPendIntent = PendingIntent.getBroadcast(this, 1705, eveningIntent, 0);
+        PendingIntent eveningPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            eveningPendIntent = PendingIntent.getBroadcast(this, 1705, eveningIntent, FLAG_IMMUTABLE);
+        } else {
+            eveningPendIntent = PendingIntent.getBroadcast(this, 1705, eveningIntent, 0);
+        }
         eveningAlarmManager.cancel(eveningPendIntent);
 
         AlarmManager afternoonAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent afternoonIntent = new Intent(this, ScreensaverActivity.class);
         afternoonIntent.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent afternoonPendIntent = PendingIntent.getBroadcast(this, 1205, afternoonIntent, 0);
+        PendingIntent afternoonPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            afternoonPendIntent = PendingIntent.getBroadcast(this, 1205, afternoonIntent, FLAG_IMMUTABLE);
+        } else {
+            afternoonPendIntent = PendingIntent.getBroadcast(this, 1205, afternoonIntent, 0);
+        }
         afternoonAlarmManager.cancel(afternoonPendIntent);
 
         AlarmManager morningAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent morningIntent = new Intent(this, ScreensaverActivity.class);
         morningIntent.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent morningPendIntent = PendingIntent.getBroadcast(this, 505, morningIntent, 0);
+        PendingIntent morningPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            morningPendIntent = PendingIntent.getBroadcast(this, 505, morningIntent, FLAG_IMMUTABLE);
+        } else {
+            morningPendIntent = PendingIntent.getBroadcast(this, 505, morningIntent, 0);
+        }
         morningAlarmManager.cancel(morningPendIntent);
 
         AlarmManager dayAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent dayTimeChange = new Intent(this, ScreensaverActivity.class);
         dayTimeChange.setAction(ScreensaverActivity.ACTION_TIME_CHANGE_ANALOG);
-        PendingIntent dayPendIntent = PendingIntent.getBroadcast(this, 500, dayTimeChange, 0);
+        PendingIntent dayPendIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            dayPendIntent = PendingIntent.getBroadcast(this, 500, dayTimeChange, FLAG_IMMUTABLE);
+        } else {
+            dayPendIntent = PendingIntent.getBroadcast(this, 500, dayTimeChange, 0);
+        }
         dayAlarm.cancel(dayPendIntent);
     }
 

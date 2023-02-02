@@ -31,11 +31,19 @@
           }
         },
         {
-          "client_id": "261492330320-mk9rm2mn86e4b7putddrdfnmp5nch8b9.apps.googleusercontent.com",
+          "client_id": "261492330320-am35ghsrvcrgmjvcm1vflka7o9j3td09.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.theflopguyproductions.ticktrack",
-            "certificate_hash": "94a80011670fa4ba6da43f7e751e00881607b482"
+            "certificate_hash": "2ae491e0731d068632a502d881d632f000cf1e8a"
+          }
+        },
+        {
+          "client_id": "261492330320-ec4j1uguquqj13m28qfib8rh28c0no38.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theflopguyproductions.ticktrack",
+            "certificate_hash": "dee159fbfa11199d673b07ead90aa4e41e0e84ff"
           }
         },
         {
@@ -44,6 +52,14 @@
           "android_info": {
             "package_name": "com.theflopguyproductions.ticktrack",
             "certificate_hash": "d42cdbeb2e4f98162181c8b4b77c45623ad825b8"
+          }
+        },
+        {
+          "client_id": "261492330320-mk9rm2mn86e4b7putddrdfnmp5nch8b9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theflopguyproductions.ticktrack",
+            "certificate_hash": "94a80011670fa4ba6da43f7e751e00881607b482"
           }
         },
         {
@@ -60,7 +76,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "261492330320-gfvhgcgf8fe082a8sgt8u8qrog7l516u.apps.googleusercontent.com",
+              "client_id": "261492330320-09i7mv9g9lc8tpo8ql43u9en1uhlkvd0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

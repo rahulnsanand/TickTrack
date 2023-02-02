@@ -145,27 +145,52 @@ public class ShortcutsPanelConfigActivity extends AppCompatActivity {
 
         Intent createCounterIntent = new Intent(this, SoYouADeveloperHuh.class);
         createCounterIntent.putExtra("fragmentID","counterCreate");
-        PendingIntent createCounterPending = PendingIntent.getActivity(this, 98, createCounterIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent createCounterPending = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            createCounterPending = PendingIntent.getActivity(this, 98, createCounterIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            createCounterPending = PendingIntent.getActivity(this, 98, createCounterIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         views.setOnClickPendingIntent(R.id.counterShortcutButton, createCounterPending);
 
         Intent createTimerIntent = new Intent(this, SoYouADeveloperHuh.class);
         createTimerIntent.putExtra("fragmentID","timerCreate");
-        PendingIntent createTimerPending = PendingIntent.getActivity(this, 987, createTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent createTimerPending = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            createTimerPending = PendingIntent.getActivity(this, 987, createTimerIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            createTimerPending = PendingIntent.getActivity(this, 987, createTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         views.setOnClickPendingIntent(R.id.timerShortcutButton, createTimerPending);
 
         Intent createQTimerIntent = new Intent(this, SoYouADeveloperHuh.class);
         createQTimerIntent.putExtra("fragmentID","quickTimerCreate");
-        PendingIntent createQTimerPending = PendingIntent.getActivity(this, 987, createQTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent createQTimerPending = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            createQTimerPending = PendingIntent.getActivity(this, 987, createQTimerIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            createQTimerPending = PendingIntent.getActivity(this, 987, createQTimerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         views.setOnClickPendingIntent(R.id.quickTimerShortcutButton, createQTimerPending);
 
         Intent createStopwatchIntent = new Intent(this, SoYouADeveloperHuh.class);
         createStopwatchIntent.putExtra("fragmentID","stopwatchCreate");
-        PendingIntent createStopwatchPending = PendingIntent.getActivity(this, 9874, createStopwatchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent createStopwatchPending = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            createStopwatchPending = PendingIntent.getActivity(this, 9874, createStopwatchIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            createStopwatchPending = PendingIntent.getActivity(this, 9874, createStopwatchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         views.setOnClickPendingIntent(R.id.stopwatchShortcutButton, createStopwatchPending);
 
         Intent createScreensaverIntent = new Intent(this, SoYouADeveloperHuh.class);
         createScreensaverIntent.putExtra("fragmentID","screensaverCreate");
-        PendingIntent createScreensaverPending = PendingIntent.getActivity(this, 9875, createScreensaverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent createScreensaverPending = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            createScreensaverPending = PendingIntent.getActivity(this, 9875, createScreensaverIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            createScreensaverPending = PendingIntent.getActivity(this, 9875, createScreensaverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         views.setOnClickPendingIntent(R.id.screensaverShortcutButton, createScreensaverPending);
 
         addShortcutData(i);

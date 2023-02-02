@@ -655,7 +655,12 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
                 intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
                 intent.setPackage("com.theflopguyproductions.ticktrack");
-                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 825417, intent, 0);
+                PendingIntent alarmPendingIntent = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    alarmPendingIntent = PendingIntent.getBroadcast(this, 825417, intent, PendingIntent.FLAG_MUTABLE);
+                } else {
+                    alarmPendingIntent = PendingIntent.getBroadcast(this, 825417, intent, 0);
+                }
                 alarmManager.cancel(alarmPendingIntent);
             });
         } else {

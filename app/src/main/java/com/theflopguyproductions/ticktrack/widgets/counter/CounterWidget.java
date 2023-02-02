@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -45,7 +46,12 @@ public class CounterWidget extends AppWidgetProvider {
 
             Intent intent = new Intent(context, CounterActivity.class);
             intent.putExtra("currentCounterPosition", counterStringId);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, counterIntId, intent, 0);
+            PendingIntent pendingIntent = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                pendingIntent = PendingIntent.getActivity(context, counterIntId, intent, PendingIntent.FLAG_MUTABLE);
+            } else {
+                pendingIntent = PendingIntent.getActivity(context, counterIntId, intent, 0);
+            }
 
             System.out.println("UPDATE "+counterDataArrayList.get(getCurrentPosition(counterStringId)).getCounterValue());
 
@@ -73,7 +79,12 @@ public class CounterWidget extends AppWidgetProvider {
 
             Intent intent = new Intent(context, CounterWidgetConfigActivity.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, counterIntId, intent, 0);
+            PendingIntent pendingIntent = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                pendingIntent = PendingIntent.getActivity(context, counterIntId, intent, PendingIntent.FLAG_MUTABLE);
+            } else {
+                pendingIntent = PendingIntent.getActivity(context, counterIntId, intent, 0);
+            }
             views.setOnClickPendingIntent(R.id.counterWidgetRootRelativeLayout, pendingIntent);
             views.setViewVisibility(R.id.counterWidgetDefaultText, View.VISIBLE);
             views.setViewVisibility(R.id.counterWidgetPlusButton, View.INVISIBLE);
@@ -206,7 +217,11 @@ public class CounterWidget extends AppWidgetProvider {
         intent.setAction(action);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         intent.putExtra("counterID", counterIdString);
-        return PendingIntent.getBroadcast(context, counterID, intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return PendingIntent.getBroadcast(context, counterID, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            return PendingIntent.getBroadcast(context, counterID, intent, 0);
+        }
     }
 
     ArrayList<CounterData> counterDataArrayList;

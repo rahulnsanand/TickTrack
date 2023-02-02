@@ -25,10 +25,14 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     }
     @Override
     public void onSelectedChanged(@NotNull RecyclerView.ViewHolder viewHolder, int actionState) {
+        try{
             final View foregroundView = ((CounterAdapter.counterDataViewHolder) viewHolder).counterLayout;
             if (foregroundView != null) {
                 getDefaultUIUtil().onSelected(foregroundView);
             }
+        } catch (NullPointerException e){
+            listener.onSwiped(viewHolder, 0);
+        }
     }
 
     @Override
@@ -64,7 +68,7 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+        listener.onSwiped(viewHolder, viewHolder.getAdapterPosition());
     }
 
     @Override
@@ -73,6 +77,6 @@ public class CounterSlideDeleteHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     public interface RecyclerItemTouchHelperListener {
-        void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position);
+        void onSwiped(RecyclerView.ViewHolder viewHolder, int position);
     }
 }

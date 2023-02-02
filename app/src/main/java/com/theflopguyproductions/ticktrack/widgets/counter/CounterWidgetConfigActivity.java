@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -185,7 +186,12 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, CounterActivity.class);
         intent.putExtra("currentCounterPosition", counterStringId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, intentUniqueId, intent, 0);
+        PendingIntent pendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(this, intentUniqueId, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this, intentUniqueId, intent, 0);
+        }
 
         addCounterWidgetData(counterStringId, intentUniqueId);
 
@@ -215,7 +221,12 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
 
         Intent intent = new Intent(activity, CounterActivity.class);
         intent.putExtra("currentCounterPosition", counterStringId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(activity, intentUniqueId, intent, 0);
+        PendingIntent pendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(activity, intentUniqueId, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(activity, intentUniqueId, intent, 0);
+        }
 
         ArrayList<CounterWidgetData> counterWidgetDataArrayList = tickTrackDatabase.retrieveCounterWidgetList();
 
@@ -306,14 +317,22 @@ public class CounterWidgetConfigActivity extends AppCompatActivity {
         Intent intent = new Intent(context, context.getClass());
         intent.setAction(action);
         intent.putExtra("counterID", counterIdString);
-        return PendingIntent.getBroadcast(context, counterID, intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return PendingIntent.getBroadcast(context, counterID, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            return PendingIntent.getBroadcast(context, counterID, intent, 0);
+        }
     }
     private PendingIntent getPendingSelfIntent(Context context, String action, int counterID, String counterIdString) {
 
         Intent intent = new Intent(context, getClass());
         intent.setAction(action);
         intent.putExtra("counterID", counterIdString);
-        return PendingIntent.getBroadcast(context, counterID, intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return PendingIntent.getBroadcast(context, counterID, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            return PendingIntent.getBroadcast(context, counterID, intent, 0);
+        }
     }
 
     private static int getCurrentPositionStatic(String counterID) {

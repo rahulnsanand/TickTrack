@@ -1,14 +1,17 @@
 package com.theflopguyproductions.ticktrack.stopwatch.service;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -44,7 +47,7 @@ public class StopwatchNotificationService extends Service {
     public StopwatchNotificationService() {
     }
 
-    private void baseLineNotificationLayout(Context context){
+    private void baseLineNotificationLayout(Context context) {
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
@@ -53,7 +56,12 @@ public class StopwatchNotificationService extends Service {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(TickTrack.STOPWATCH_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            resultPendingIntent = stackBuilder.getPendingIntent(TickTrack.STOPWATCH_NOTIFICATION_ID, PendingIntent.FLAG_MUTABLE);
+        } else {
+            resultPendingIntent = stackBuilder.getPendingIntent(TickTrack.STOPWATCH_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_stat_stopwatchiconnotification)
@@ -65,52 +73,92 @@ public class StopwatchNotificationService extends Service {
                 .setOngoing(true)
                 .setColor(ContextCompat.getColor(this, R.color.Accent));
 
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notificationBuilder.setChannelId(TickTrack.STOPWATCH_NOTIFICATION);
         }
 
     }
 
-    private void setupLapPause(){
+    private void setupLapPause() {
 
 
         Intent lapIntent = new Intent(this, StopwatchNotificationService.class);
         lapIntent.setAction(ACTION_LAP_STOPWATCH_SERVICE);
-        PendingIntent pendingLapIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, lapIntent, 0);
+        PendingIntent pendingLapIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingLapIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, lapIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingLapIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, lapIntent, 0);
+        }
         NotificationCompat.Action lapAction = new NotificationCompat.Action(R.drawable.ic_round_flag_light_24, "Lap", pendingLapIntent);
 
         Intent pauseIntent = new Intent(this, StopwatchNotificationService.class);
         pauseIntent.setAction(ACTION_PAUSE_STOPWATCH_SERVICE);
-        PendingIntent pendingPauseIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, pauseIntent, 0);
+        PendingIntent pendingPauseIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingPauseIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, pauseIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingPauseIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, pauseIntent, 0);
+        }
         NotificationCompat.Action pauseAction = new NotificationCompat.Action(R.drawable.ic_round_pause_white_24, "Pause", pendingPauseIntent);
 
         Intent dismissIntent = new Intent(this, StopwatchNotificationService.class);
         dismissIntent.setAction(ACTION_DISMISS_STOPWATCH_SERVICE);
-        PendingIntent pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, 0);
+        PendingIntent pendingDismissIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, 0);
+        }
         NotificationCompat.Action dismissAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Dismiss", pendingDismissIntent);
 
         notificationBuilder.addAction(pauseAction);
         notificationBuilder.addAction(lapAction);
         notificationBuilder.addAction(dismissAction);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         notificationManagerCompat.notify(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    private void setupResumeReset(){
+    private void setupResumeReset() {
 
         Intent resumeIntent = new Intent(this, StopwatchNotificationService.class);
         resumeIntent.setAction(ACTION_RESUME_STOPWATCH_SERVICE);
-        PendingIntent pendingPlusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resumeIntent, 0);
+        PendingIntent pendingPlusIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingPlusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resumeIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingPlusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resumeIntent, 0);
+        }
         NotificationCompat.Action resumeAction = new NotificationCompat.Action(R.drawable.ic_round_play_white_24, "Resume", pendingPlusIntent);
 
         Intent resetIntent = new Intent(this, StopwatchNotificationService.class);
         resetIntent.setAction(ACTION_RESET_STOPWATCH_SERVICE);
-        PendingIntent pendingMinusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resetIntent, 0);
+        PendingIntent pendingMinusIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingMinusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resetIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingMinusIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, resetIntent, 0);
+        }
         NotificationCompat.Action resetAction = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Reset", pendingMinusIntent);
 
         Intent dismissIntent = new Intent(this, StopwatchNotificationService.class);
         dismissIntent.setAction(ACTION_DISMISS_STOPWATCH_SERVICE);
-        PendingIntent pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, 0);
+        PendingIntent pendingDismissIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingDismissIntent = PendingIntent.getService(this, TickTrack.STOPWATCH_NOTIFICATION_ID, dismissIntent, 0);
+        }
         NotificationCompat.Action dismissAction = new NotificationCompat.Action(R.drawable.ic_round_close_white_24, "Dismiss", pendingDismissIntent);
 
 
@@ -120,6 +168,16 @@ public class StopwatchNotificationService extends Service {
         notificationBuilder.addAction(resetAction);
         notificationBuilder.addAction(dismissAction);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         notificationManagerCompat.notify(TickTrack.STOPWATCH_NOTIFICATION_ID, notificationBuilder.build());
     }
 

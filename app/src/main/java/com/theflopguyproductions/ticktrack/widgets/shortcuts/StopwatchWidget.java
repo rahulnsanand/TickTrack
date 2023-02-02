@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.widget.RemoteViews;
 
 import com.theflopguyproductions.ticktrack.R;
@@ -32,7 +33,11 @@ public class StopwatchWidget extends AppWidgetProvider {
         Intent createTimerIntent = new Intent(context, SoYouADeveloperHuh.class);
         createTimerIntent.putExtra("fragmentID","stopwatchCreate");
         createTimerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        views.setOnClickPendingIntent(R.id.createStopwatchShortcutWidgetRootLayout, PendingIntent.getActivity(context, 77, createTimerIntent, 0));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            views.setOnClickPendingIntent(R.id.createStopwatchShortcutWidgetRootLayout, PendingIntent.getActivity(context, 77, createTimerIntent, PendingIntent.FLAG_MUTABLE));
+        } else {
+            views.setOnClickPendingIntent(R.id.createStopwatchShortcutWidgetRootLayout, PendingIntent.getActivity(context, 77, createTimerIntent, 0));
+        }
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 

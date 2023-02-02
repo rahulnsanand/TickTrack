@@ -5,13 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.bumptech.glide.Glide;
 import com.theflopguyproductions.ticktrack.R;
 import com.theflopguyproductions.ticktrack.SoYouADeveloperHuh;
+import com.theflopguyproductions.ticktrack.ui.utils.TickTrackCircleImageView;
 import com.theflopguyproductions.ticktrack.utils.database.TickTrackDatabase;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
@@ -92,9 +95,12 @@ public class ContributorsActivity extends AppCompatActivity {
         theflopguySetup();
     }
 
+    private TickTrackCircleImageView theflopguyDrawable;
     private void theflopguySetup() {
+        theflopguyDrawable =  findViewById(R.id.imageView9);
         theflopguyLayout = findViewById(R.id.contributorsActivityTheFlopGuyLayout);
         String theflopguyURL = "https://github.com/theflopguy";
         theflopguyLayout.setOnClickListener(view -> openTickTrackGithub(theflopguyURL));
+        Glide.with(this).load("https://avatars.githubusercontent.com/u/41159815?v=4").into(theflopguyDrawable);
     }
 }

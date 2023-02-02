@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_counter"
+        android:icon="@drawable/counter_drawable"
+        android:title="@string/title_counter" />
+
+    <item
+        android:id="@+id/navigation_timer"
+        android:icon="@drawable/timer_drawable"
+        android:title="@string/title_timer" />
+
+    <item
+        android:id="@+id/navigation_stopwatch"
+        android:icon="@drawable/stopwatch_drawable"
+        android:title="@string/title_stopwatch" />
+
+</menu>

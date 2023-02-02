@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -65,8 +67,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     private ConstraintLayout container;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +79,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         container = findViewById(R.id.container);
         navView = findViewById(R.id.nav_view);
 
-        if(tickTrackDatabase.getThemeMode()==1){
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        if (tickTrackDatabase.getThemeMode() == 1) {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray));
         } else {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack));
         }
     }
 
@@ -93,7 +93,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         navView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         setSupportActionBar(mainToolbar);
         setTitle("");
-        System.out.println("ActivityManager: Displayed SoYouDev OnPostCreate "+System.currentTimeMillis());
+        System.out.println("ActivityManager: Displayed SoYouDev OnPostCreate " + System.currentTimeMillis());
     }
 
     private void goToStartUpActivity(int id, boolean optimise) {
@@ -104,12 +104,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         startActivity(intent);
     }
 
-    public Fragment getFragment(int id){
-        if(id==1){
+    public Fragment getFragment(int id) {
+        if (id == 1) {
             return new CounterFragment();
-        } else if(id==2){
+        } else if (id == 2) {
             return new TimerFragment();
-        } else if(id==3){
+        } else if (id == 3) {
             return new StopwatchFragment();
         } else {
             return new CounterFragment();
@@ -120,7 +120,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
         switch (item.getItemId()) {
             case R.id.navigation_counter:
-                if(!(tickTrackDatabase.retrieveCurrentFragmentNumber()==1 || tickTrackDatabase.retrieveCurrentFragmentNumber()==-1)) {
+                if (!(tickTrackDatabase.retrieveCurrentFragmentNumber() == 1 || tickTrackDatabase.retrieveCurrentFragmentNumber() == -1)) {
                     tickTrackDatabase.storeCurrentFragmentNumber(1);
                     openFragment(new CounterFragment());
                 }
@@ -128,7 +128,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 return true;
 
             case R.id.navigation_stopwatch:
-                if(!(tickTrackDatabase.retrieveCurrentFragmentNumber()==3)){
+                if (!(tickTrackDatabase.retrieveCurrentFragmentNumber() == 3)) {
                     tickTrackDatabase.storeCurrentFragmentNumber(3);
                     openFragment(new StopwatchFragment());
                 }
@@ -136,7 +136,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 return true;
 
             case R.id.navigation_timer:
-                if(!(tickTrackDatabase.retrieveCurrentFragmentNumber()==2)) {
+                if (!(tickTrackDatabase.retrieveCurrentFragmentNumber() == 2)) {
                     tickTrackDatabase.storeCurrentFragmentNumber(2);
                     openFragment(new TimerFragment());
                 }
@@ -240,28 +240,28 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
     protected void onResume() {
         super.onResume();
         int restoreMore = new TickTrackFirebaseDatabase(this).isRestoreInitMode();
-        if(restoreMore==-1 || restoreMore==1 ||
-                new TickTrackFirebaseDatabase(this).isRestoreMode()){
+        if (restoreMore == -1 || restoreMore == 1 ||
+                new TickTrackFirebaseDatabase(this).isRestoreMode()) {
             goToStartUpActivity(3, true);
-        } else if(PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
-                .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)){
+        } else if (PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
+                .equals(PowerSaverHelper.WhiteListedInBatteryOptimizations.NOT_WHITE_LISTED)) {
             goToStartUpActivity(5, false);
-        } else if (AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this) && !tickTrackDatabase.isAutoStart() ){
+        } else if (AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this) && !tickTrackDatabase.isAutoStart()) {
             AutoStartPermissionHelper.getInstance().getAutoStartPermission(this);
             tickTrackDatabase.setAutoStart(true);
-        } else if(tickTrackDatabase.retrieveFirstLaunch()){
+        } else if (tickTrackDatabase.retrieveFirstLaunch()) {
             goToStartUpActivity(1, false);
         } else {
-            if(isMyServiceRunning(StopwatchNotificationService.class, this)){
+            if (isMyServiceRunning(StopwatchNotificationService.class, this)) {
                 stopNotificationService();
             }
             Bundle extras = getIntent().getExtras();
             String shortcutAction;
-            System.out.println(extras+"<<<<<<<<<<<<<<<<<<<<<<<<<");
-            if(extras!=null){
+            System.out.println(extras + "<<<<<<<<<<<<<<<<<<<<<<<<<");
+            if (extras != null) {
                 shortcutAction = (String) Objects.requireNonNull(getIntent().getExtras()).get("fragmentID");
                 System.out.println(shortcutAction);
-                if(shortcutAction!=null){
+                if (shortcutAction != null) {
                     switch (shortcutAction) {
                         case "timerCreate":
                         case "quickTimerCreate":
@@ -282,7 +282,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                     }
                     getIntent().removeExtra("fragmentID");
                 }
-                if(Objects.equals(extras.get("NOTIFICATION_TYPE"), "IS_UPDATE")){
+                if (Objects.equals(extras.get("NOTIFICATION_TYPE"), "IS_UPDATE")) {
                     String versionCode = extras.getString("VERSION");
                     String isCompulsory = extras.getString("IS_COMPULSORY");
                     tickTrackDatabase.storeUpdateVersion(versionCode);
@@ -291,25 +291,25 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 }
             } else {
                 int currentFragment = tickTrackDatabase.retrieveCurrentFragmentNumber();
-                if(currentFragment==1){
+                if (currentFragment == 1) {
                     navView.setSelectedItemId(R.id.navigation_counter);
-                } else if(currentFragment==2){
+                } else if (currentFragment == 2) {
                     navView.setSelectedItemId(R.id.navigation_timer);
-                } else if(currentFragment==3){
+                } else if (currentFragment == 3) {
                     navView.setSelectedItemId(R.id.navigation_stopwatch);
                 } else {
                     navView.setSelectedItemId(R.id.navigation_counter);
                 }
                 openFragment(getFragment(tickTrackDatabase.retrieveCurrentFragmentNumber()));
 
-                if(!tickTrackDatabase.isAlreadyDoneCheck()){
+                if (!tickTrackDatabase.isAlreadyDoneCheck()) {
                     int appLaunchNumber = tickTrackDatabase.getAppLaunchNumber();
-                    if(appLaunchNumber<=30){
-                        if(appLaunchNumber==10 || appLaunchNumber==20 || appLaunchNumber==30){
+                    if (appLaunchNumber <= 30) {
+                        if (appLaunchNumber == 10 || appLaunchNumber == 20 || appLaunchNumber == 30) {
                             setupRateUsDialog();
                         }
                     } else {
-                        if(appLaunchNumber%10==0){
+                        if (appLaunchNumber % 10 == 0) {
                             setupRateUsDialog();
                         }
                     }
@@ -321,10 +321,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
             int versionCode = BuildConfig.VERSION_CODE;
             String versionName = BuildConfig.VERSION_NAME;
-            if(versionCode < tickTrackDatabase.getUpdateVersionCode()){
-                if(tickTrackDatabase.getUpdateTime()!=-1
-                        && !((System.currentTimeMillis()-tickTrackDatabase.getUpdateTime()) > (1000*60*60*24*7))
-                        || tickTrackDatabase.getUpdateCompulsion().equals("true")){
+            if (versionCode < tickTrackDatabase.getUpdateVersionCode()) {
+                if (tickTrackDatabase.getUpdateTime() != -1
+                        && !((System.currentTimeMillis() - tickTrackDatabase.getUpdateTime()) > (1000 * 60 * 60 * 24 * 7))
+                        || tickTrackDatabase.getUpdateCompulsion().equals("true")) {
                     showUpdateDialog(tickTrackDatabase.getUpdateCompulsion());
                 } else {
                     tickTrackDatabase.storeUpdateVersion(versionName);
@@ -340,20 +340,20 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
             }
 
         }
-        System.out.println("ActivityManager: Displayed SoYouDev onResume "+System.currentTimeMillis());
+        System.out.println("ActivityManager: Displayed SoYouDev onResume " + System.currentTimeMillis());
     }
 
     private void showUpdateDialog(String updateCompulsion) {
         DeleteTimer deleteTimer = new DeleteTimer(this);
         deleteTimer.setCancelable(false);
         deleteTimer.show();
-        if(updateCompulsion.equals("true")){
+        if (updateCompulsion.equals("true")) {
             deleteTimer.noButton.setVisibility(View.GONE);
         }
         deleteTimer.yesButton.setText("Cool, let's update!");
         String currentVersion = tickTrackDatabase.getUpdateVersion();
-        if(currentVersion!=null) {
-            deleteTimer.dialogMessage.setText("The latest version "+currentVersion+", is now available for you!\nUpdate now so you don't miss out on awesome features and dreadful bug fixes!");
+        if (currentVersion != null) {
+            deleteTimer.dialogMessage.setText("The latest version " + currentVersion + ", is now available for you!\nUpdate now so you don't miss out on awesome features and dreadful bug fixes!");
         } else {
             deleteTimer.dialogMessage.setText("The latest version is now available for you!\nUpdate now so you don't miss out on awesome features and dreadful bug fixes!");
         }
@@ -367,7 +367,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
         int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
-        deleteTimer.noButton.setOnClickListener(view ->{
+        deleteTimer.noButton.setOnClickListener(view -> {
             deleteTimer.dismiss();
 //            tickTrackDatabase.storeUpdateVersion(versionName);
 //            tickTrackDatabase.setUpdateCompulsion("false");
@@ -376,7 +376,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         });
     }
 
-    private void setupRateUsDialog(){
+    private void setupRateUsDialog() {
         DeleteTimer deleteTimer = new DeleteTimer(this);
         deleteTimer.show();
         deleteTimer.yesButton.setText("Alright, Let's do this");
@@ -389,7 +389,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
             rateUsUtil.rateApp();
             tickTrackDatabase.setRatedPossibly(true);
         });
-        if(tickTrackDatabase.isRatedPossibly()){
+        if (tickTrackDatabase.isRatedPossibly()) {
             deleteTimer.noButton.setText("I've already done this");
             tickTrackDatabase.setAlreadyDoneCheck(true);
         } else {
@@ -405,19 +405,34 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, CounterMilestoneReceiver.class);
         intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
+        PendingIntent alarmPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
+        }
         alarmManager.cancel(alarmPendingIntent);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(tickTrackDatabase.retrieveStopwatchData().size()>0){
-            if(tickTrackDatabase.retrieveStopwatchData().get(0).isRunning()){
+        if (tickTrackDatabase.retrieveStopwatchData().size() > 0) {
+            if (tickTrackDatabase.retrieveStopwatchData().get(0).isRunning()) {
                 System.out.println("STOPWATCH RUNNING HAPPENED");
-                if(!isMyServiceRunning(StopwatchNotificationService.class, this)){
+                if (!isMyServiceRunning(StopwatchNotificationService.class, this)) {
                     setupCustomNotification();
-                    notificationManagerCompat.notify(4,  notificationBuilder.build());
+                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    notificationManagerCompat.notify(4, notificationBuilder.build());
                     System.out.println("STOPWATCH RUNNING HAPPENED");
                     startNotificationService();
                 }
@@ -433,7 +448,12 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, CounterMilestoneReceiver.class);
         intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
+        PendingIntent alarmPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
+        }
         alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 1000*60*60*24L,
@@ -484,15 +504,28 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(4, PendingIntent.FLAG_UPDATE_CURRENT);
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            resultPendingIntent = stackBuilder.getPendingIntent(4, PendingIntent.FLAG_MUTABLE);
+        } else {
+            resultPendingIntent = stackBuilder.getPendingIntent(4, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
 
         Intent deleteIntent = new Intent(this, StopwatchNotificationService.class);
         deleteIntent.setAction(StopwatchNotificationService.ACTION_STOP_STOPWATCH_SERVICE);
-        PendingIntent deletePendingIntent = PendingIntent.getService(this,
-                4,
-                deleteIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent deletePendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            deletePendingIntent = PendingIntent.getService(this,
+                    4,
+                    deleteIntent,
+                    PendingIntent.FLAG_MUTABLE);
+        } else {
+            deletePendingIntent = PendingIntent.getService(this,
+                    4,
+                    deleteIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+        }
 
         notificationBuilder = new NotificationCompat.Builder(this, TickTrack.STOPWATCH_NOTIFICATION)
                 .setSmallIcon(R.mipmap.ic_launcher)

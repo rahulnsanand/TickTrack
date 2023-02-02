@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/counterWidgetActivityRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".widgets.counter.CounterWidgetConfigActivity">
+
+    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+        android:id="@+id/counterWidgetActivityNoCounterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a counter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="source_code_pro_light_italic"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/counterWidgetActivityFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_add_white_24" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/textView19"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="Customize widget theme"
+            android:textAlignment="center"
+            android:textColor="@color/Accent"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_bold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11">
+
+        <ImageButton
+            android:id="@+id/counterWidgetActivityBlackThemeButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/theme_selector_light"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/round_rect_black" />
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/counterWidgetActivityBlackThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="True Black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:typeface="apercu_medium_italic" />
+
+        <ImageButton
+            android:id="@+id/counterWidgetActivityGrayThemeButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/theme_selector_light"
+            android:padding="5dp"
+            app:layout_constraintStart_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/round_rect_dark" />
+
+        <ImageButton
+            android:id="@+id/counterWidgetActivityLightThemeButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/theme_selector_dark"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/round_rect_light" />
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/counterWidgetActivityGrayThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:typeface="apercu_medium_italic" />
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/counterWidgetActivityLightThemeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintTop_toBottomOf="@+id/counterWidgetActivityLightThemeButton"
+            app:typeface="apercu_medium_italic" />
+
+        <ImageView
+            android:id="@+id/counterWidgetActivityBlackThemeTick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:layout_constraintTop_toTopOf="@+id/counterWidgetActivityBlackThemeButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+
+        <ImageView
+            android:id="@+id/counterWidgetActivityGrayThemeTick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:layout_constraintTop_toTopOf="@+id/counterWidgetActivityGrayThemeButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+
+        <ImageView
+            android:id="@+id/counterWidgetActivityLightThemeTick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintEnd_toEndOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintStart_toStartOf="@+id/counterWidgetActivityLightThemeButton"
+            app:layout_constraintTop_toTopOf="@+id/counterWidgetActivityLightThemeButton"
+            app:srcCompat="@drawable/ic_light_tick" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout13">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/counterWidgetActivityRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.theflopguyproductions.ticktrack.utils.button.TickTrackButton
+            android:id="@+id/counterWidgetActivityCancelButton"
+            style="@style/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_dark"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout12">
+
+        <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+            android:id="@+id/quickTimerWidgetTwoMinuteText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="Select/Create a Counter"
+            android:textAlignment="center"
+            android:textColor="@color/Accent"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="apercu_bold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.app.Notification;
@@ -8,6 +9,7 @@ import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -23,6 +25,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -82,6 +85,7 @@ public class TimerRingService extends Service {
         Log.d("TAG_TIMER_RANG_SERVICE", "My foreground service onCreate().");
 
     }
+
     private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -93,7 +97,8 @@ public class TimerRingService extends Service {
     }
 
     static MediaPlayer mediaPlayer;
-    public static void playAlarmSound (Context context) {
+
+    public static void playAlarmSound(Context context) {
 
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -106,9 +111,9 @@ public class TimerRingService extends Service {
                     mediaPlayer.setLooping(true);
                     mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
 
-                    if(selectedUri!=null){
+                    if (selectedUri != null) {
                         final Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(selectedUri));
-                        if(ringtone==null){
+                        if (ringtone == null) {
                             AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.timer_beep);
                             if (afd == null) return false;
                             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
@@ -152,12 +157,12 @@ public class TimerRingService extends Service {
         ArrayList<QuickTimerData> newQuickTimerList = quickTimerData;
         int size = quickTimerData.size();
         int count = 0;
-        while(count<size){
+        while (count < size) {
             System.out.println("WHILE RAN");
-            for(int i=0; i<quickTimerData.size(); i++){
-                System.out.println(quickTimerData.size()+" TIMER DATA SIZE");
-                System.out.println(i+" TIMER DATA NUMBER");
-                if(quickTimerData.get(i).isTimerRinging()){
+            for (int i = 0; i < quickTimerData.size(); i++) {
+                System.out.println(quickTimerData.size() + " TIMER DATA SIZE");
+                System.out.println(i + " TIMER DATA NUMBER");
+                if (quickTimerData.get(i).isTimerRinging()) {
                     quickTimerData.get(i).setTimerOn(false);
                     quickTimerData.get(i).setTimerPause(false);
                     quickTimerData.get(i).setTimerRinging(false);
@@ -168,14 +173,14 @@ public class TimerRingService extends Service {
             count++;
         }
 
-        if(!(newQuickTimerList.size() > 0)){
+        if (!(newQuickTimerList.size() > 0)) {
             tickTrackDatabase.storeQuickTimerList(new ArrayList<>());
         } else {
             tickTrackDatabase.storeQuickTimerList(newQuickTimerList);
         }
 
-        for(int i = 0; i < timerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).isTimerRinging()){
+        for (int i = 0; i < timerDataArrayList.size(); i++) {
+            if (timerDataArrayList.get(i).isTimerRinging()) {
                 timerDataArrayList.get(i).setTimerOn(false);
                 timerDataArrayList.get(i).setTimerPause(false);
                 timerDataArrayList.get(i).setTimerNotificationOn(false);
@@ -189,8 +194,8 @@ public class TimerRingService extends Service {
     }
 
     private void removeQuickTimer(String timerID, ArrayList<QuickTimerData> newTimerList) {
-        for(int i=0; i<newTimerList.size(); i++){
-            if(newTimerList.get(i).getTimerID().equals(timerID)){
+        for (int i = 0; i < newTimerList.size(); i++) {
+            if (newTimerList.get(i).getTimerID().equals(timerID)) {
                 newTimerList.remove(i);
                 return;
             }
@@ -201,68 +206,72 @@ public class TimerRingService extends Service {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
         int result = 0;
-        for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).isTimerRinging()){
+        for (int i = 0; i < timerDataArrayList.size(); i++) {
+            if (timerDataArrayList.get(i).isTimerRinging()) {
                 result++;
             }
         }
-        for(int i=0; i<quickTimerData.size(); i++){
-            if(quickTimerData.get(i).isTimerRinging()){
+        for (int i = 0; i < quickTimerData.size(); i++) {
+            if (quickTimerData.get(i).isTimerRinging()) {
                 result++;
             }
         }
         return result;
     }
+
     private boolean isQuickTimerOn() {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
-        for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).isTimerRinging()){
+        for (int i = 0; i < timerDataArrayList.size(); i++) {
+            if (timerDataArrayList.get(i).isTimerRinging()) {
                 return false;
             }
         }
-        for(int i=0; i<quickTimerData.size(); i++){
-            if(quickTimerData.get(i).isTimerRinging()){
+        for (int i = 0; i < quickTimerData.size(); i++) {
+            if (quickTimerData.get(i).isTimerRinging()) {
                 return true;
             }
         }
         return false;
     }
+
     private void updateStopTimeText(long UpdateTime) {
 
         int hours = (int) TimeUnit.MILLISECONDS.toHours(UpdateTime);
         int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(UpdateTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(UpdateTime)));
         int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(UpdateTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(UpdateTime)));
 
-        String hourLeft = String.format(Locale.getDefault(),"- %02d:%02d:%02d", hours,minutes,seconds);
+        String hourLeft = String.format(Locale.getDefault(), "- %02d:%02d:%02d", hours, minutes, seconds);
         notificationBuilder.setContentText(hourLeft);
 
     }
-    private int getCurrentTimerPosition(int timerIntegerID){
+
+    private int getCurrentTimerPosition(int timerIntegerID) {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
-        for(int i = 0; i < timerDataArrayList.size(); i ++){
-            if(timerDataArrayList.get(i).getTimerIntID()==timerIntegerID){
+        for (int i = 0; i < timerDataArrayList.size(); i++) {
+            if (timerDataArrayList.get(i).getTimerIntID() == timerIntegerID) {
                 return i;
             }
         }
-        for(int i = 0; i < quickTimerData.size(); i ++){
-            if(quickTimerData.get(i).getTimerIntID()==timerIntegerID){
+        for (int i = 0; i < quickTimerData.size(); i++) {
+            if (quickTimerData.get(i).getTimerIntID() == timerIntegerID) {
                 return i;
             }
         }
         return -1;
     }
+
     private int getSingleOnTimer() {
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerData = tickTrackDatabase.retrieveQuickTimerList();
-        for(int i=0; i<timerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).isTimerRinging()){
+        for (int i = 0; i < timerDataArrayList.size(); i++) {
+            if (timerDataArrayList.get(i).isTimerRinging()) {
                 return timerDataArrayList.get(i).getTimerIntID();
             }
         }
-        for(int i=0; i<quickTimerData.size(); i++){
-            if(quickTimerData.get(i).isTimerRinging()){
+        for (int i = 0; i < quickTimerData.size(); i++) {
+            if (quickTimerData.get(i).isTimerRinging()) {
                 return quickTimerData.get(i).getTimerIntID();
             }
         }
@@ -285,33 +294,45 @@ public class TimerRingService extends Service {
 
         notificationBuilder.setContentTitle("TickTrack Timer");
         notificationBuilder.setContentText("Timer Elapsed");
-        isSetup=true;
+        isSetup = true;
     }
+
     private void setupMultiTimerNotification() {
         notificationBuilder.setContentTitle("TickTrack Timers");
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
-        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, 0);
+        PendingIntent killTimerPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, 0);
+        }
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop all", killTimerPendingIntent);
 
         Intent resultIntent = new Intent(this, TimerRingerActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_MUTABLE);
+        } else {
+            resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         notificationBuilder.clearActions();
         notificationBuilder.setContentIntent(resultPendingIntent);
         notificationBuilder.addAction(killTimers);
-        isMulti=true;
-        isSingle=false;
+        isMulti = true;
+        isSingle = false;
     }
+
     private void setupSingleTimerNotification() {
-        if(timerDataArrayList.size()>0){
-            if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
+        if (timerDataArrayList.size() > 0) {
+            if (!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()) {
                 String timerLabel = timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel();
-                if(!timerLabel.equals("Set label")){
-                    notificationBuilder.setContentTitle("TickTrack Timer: "+timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
+                if (!timerLabel.equals("Set label")) {
+                    notificationBuilder.setContentTitle("TickTrack Timer: " + timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerLabel());
                 }
             }
         } else {
@@ -321,7 +342,12 @@ public class TimerRingService extends Service {
 
         Intent killTimerIntent = new Intent(this, TimerRingService.class);
         killTimerIntent.setAction(ACTION_KILL_ALL_TIMERS);
-        PendingIntent killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, 0);
+        PendingIntent killTimerPendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            killTimerPendingIntent = PendingIntent.getService(this, TickTrack.TIMER_RINGING_NOTIFICATION_ID, killTimerIntent, 0);
+        }
         NotificationCompat.Action killTimers = new NotificationCompat.Action(R.drawable.ic_stop_white_24, "Stop", killTimerPendingIntent);
 
 //        Intent addAMinuteIntent = new Intent(this, TimerRingService.class);
@@ -330,17 +356,22 @@ public class TimerRingService extends Service {
 //        NotificationCompat.Action addAMinute = new NotificationCompat.Action(R.drawable.ic_baseline_plus_one_white_24, "+1 Minute", addAMinutePendingIntent);
 
         Intent resultIntent;
-        if(isQuickTimerOn()){
+        if (isQuickTimerOn()) {
             resultIntent = new Intent(this, SoYouADeveloperHuh.class);
             tickTrackDatabase.storeCurrentFragmentNumber(2);
         } else {
             resultIntent = new Intent(this, TimerActivity.class);
-            resultIntent.putExtra("timerID",timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
+            resultIntent.putExtra("timerID", timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerID());
         }
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_MUTABLE);
+        } else {
+            resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         notificationBuilder.clearActions();
         notificationBuilder.setContentIntent(resultPendingIntent);
@@ -348,14 +379,14 @@ public class TimerRingService extends Service {
 //        if(!timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).isQuickTimer()){
 //            notificationBuilder.addAction(addAMinute);
 //        }
-        isSingle=true;
-        isMulti=false;
+        isSingle = true;
+        isMulti = false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        if(intent != null) {
+        if (intent != null) {
 
             String action = intent.getAction();
             initializeValues();
@@ -424,13 +455,14 @@ public class TimerRingService extends Service {
 
     private void initializeValues() {
         stopForeground(false);
-        if(!isSetup){
+        if (!isSetup) {
             setupBaseNotification();
         }
-        if(getAllOnTimers() > 0){
+        if (getAllOnTimers() > 0) {
             refreshHandler.postDelayed(refreshRunnable, 100);
         }
     }
+
     private void stopTimerRunningService() {
         Intent intent = new Intent(this, TimerService.class);
         intent.setAction(TimerService.ACTION_STOP_TIMER_SERVICE);
@@ -439,25 +471,25 @@ public class TimerRingService extends Service {
 
     final Runnable refreshRunnable = new Runnable() {
         public void run() {
-            if(getAllOnTimers()>0){
-                if(getAllOnTimers() == 1){
-                    if(!isSingle){
+            if (getAllOnTimers() > 0) {
+                if (getAllOnTimers() == 1) {
+                    if (!isSingle) {
                         setupSingleTimerNotification();
                     }
-                    if(!isQuickTimerOn()){
+                    if (!isQuickTimerOn()) {
                         updateStopTimeText(SystemClock.elapsedRealtime() - timerDataArrayList.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
                     } else {
                         updateStopTimeText(SystemClock.elapsedRealtime() - quickTimerData.get(getCurrentTimerPosition(getSingleOnTimer())).getTimerEndedTimeInMillis());
                     }
 
                 } else {
-                    if(!isMulti){
+                    if (!isMulti) {
                         setupMultiTimerNotification();
                     }
-                    notificationBuilder.setContentText(getAllOnTimers()+" timers complete");
+                    notificationBuilder.setContentText(getAllOnTimers() + " timers complete");
                 }
                 notifyNotification();
-                System.out.println(getAllOnTimers()+" TIMER RINGING");
+                System.out.println(getAllOnTimers() + " TIMER RINGING");
                 refreshHandler.postDelayed(refreshRunnable, 100);
             } else {
                 notificationBuilder.setContentText("This notification will disappear automatically");
@@ -469,9 +501,9 @@ public class TimerRingService extends Service {
     };
 
     private void stopIfPossible() {
-        if(!(getAllOnTimers()>0)){
+        if (!(getAllOnTimers() > 0)) {
             refreshHandler.removeCallbacks(refreshRunnable);
-            if(mediaPlayer!=null){
+            if (mediaPlayer != null) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer = null;
@@ -485,9 +517,14 @@ public class TimerRingService extends Service {
     private void startSoundAndForeground() {
         playAlarmSound(this);
         KeyguardManager myKM = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
-        if( myKM.isKeyguardLocked()) {
+        if (myKM.isKeyguardLocked()) {
             Intent resultIntent = new Intent(this, TimerRingerActivity.class);
-            PendingIntent timerRingPending = PendingIntent.getActivity(this, 2122, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent timerRingPending = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                timerRingPending = PendingIntent.getActivity(this, 2122, resultIntent, PendingIntent.FLAG_MUTABLE);
+            } else {
+                timerRingPending = PendingIntent.getActivity(this, 2122, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            }
             System.out.println("QUICK TIMER BROADCAST RINGER ACTIVITY START");
             notificationBuilder.setFullScreenIntent(timerRingPending, true);
         }
@@ -496,7 +533,17 @@ public class TimerRingService extends Service {
     }
 
     private void notifyNotification() {
-        if(getAllOnTimers()>0){
+        if (getAllOnTimers() > 0) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             notificationManagerCompat.notify(TickTrack.TIMER_RINGING_NOTIFICATION_ID, notificationBuilder.build());
         } else {
             stopRingerService();

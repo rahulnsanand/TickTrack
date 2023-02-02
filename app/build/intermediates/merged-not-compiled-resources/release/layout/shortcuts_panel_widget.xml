@@ -1,0 +1,206 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shortcutWidgetRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_rect_light"
+    android:foregroundGravity="center_vertical"
+    android:padding="@dimen/widget_margin">
+
+    <ImageView
+        android:id="@+id/ticktrackShortcutPanelWidgetTitle"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="0dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ticktrackShortcutPanelWidgetTitle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_horizontal">
+
+        <RelativeLayout
+            android:id="@+id/counterShortcutButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true"
+            android:foregroundGravity="center_vertical|center"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/counterShortcutButtonImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="false"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:clickable="false"
+                android:focusable="true"
+                android:foregroundGravity="center_vertical|center"
+                android:src="@drawable/ic_shortcut_countericon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/timerShortcutButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/counterShortcutButton"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="2dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/timerShortcutButtonImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="false"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:clickable="false"
+                android:focusable="true"
+                android:foregroundGravity="center_vertical|center"
+                android:src="@drawable/ic_shortcut_timericon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/quickTimerShortcutButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/timerShortcutButton"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="2dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/quickTimerShortcutButtonImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="false"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:clickable="false"
+                android:focusable="true"
+                android:foregroundGravity="center_vertical|center"
+                android:src="@drawable/ic_shortcut_quicktimericon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/stopwatchShortcutButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/quickTimerShortcutButton"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="2dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/stopwatchShortcutButtonImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="false"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:clickable="false"
+                android:focusable="true"
+                android:foregroundGravity="center_vertical|center"
+                android:src="@drawable/ic_shortcut_stopwatchicon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/screensaverShortcutButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/stopwatchShortcutButton"
+            android:background="@drawable/button_selector_light"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="2dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/screensaverShortcutButtonImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="false"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:clickable="false"
+                android:focusable="true"
+                android:foregroundGravity="center_vertical|center"
+                android:src="@drawable/ic_shortcut_screensavericon" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

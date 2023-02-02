@@ -198,7 +198,12 @@ public class ClockWidgetConfigActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ClockWidgetConfigActivity.class);
         intent.putExtra("clockId", clockWidgetId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, clockWidgetId, intent, 0);
+        PendingIntent pendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(this, clockWidgetId, intent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this, clockWidgetId, intent, 0);
+        }
 
         addClockData();
 

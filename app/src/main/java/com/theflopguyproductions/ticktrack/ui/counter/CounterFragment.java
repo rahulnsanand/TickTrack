@@ -273,7 +273,7 @@ public class CounterFragment extends Fragment implements CounterSlideDeleteHelpe
 
     String deletedCounter = null;
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof CounterAdapter.counterDataViewHolder) {
             if(position!=counterDataArrayList.size()){
                 deletedCounter = counterDataArrayList.get(position).getCounterLabel();

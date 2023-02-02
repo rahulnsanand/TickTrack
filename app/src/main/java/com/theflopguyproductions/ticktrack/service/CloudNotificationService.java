@@ -71,7 +71,12 @@ public class CloudNotificationService extends FirebaseMessagingService {
             rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, TickTrack.PUSH_NOTIFICATION_ID, rateIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(this, TickTrack.PUSH_NOTIFICATION_ID, rateIntent, PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this, TickTrack.PUSH_NOTIFICATION_ID, rateIntent, PendingIntent.FLAG_ONE_SHOT);
+        }
 
         NotificationCompat.Builder notificationBuilder;
         NotificationManagerCompat notificationManagerCompat;
