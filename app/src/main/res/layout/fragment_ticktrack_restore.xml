@@ -199,7 +199,7 @@
             android:background="@drawable/button_selector_accent"
             android:text="Restore Data"
             android:textColor="@color/LightText"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/restoreFragmentStartFreshButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -212,7 +212,7 @@
             android:background="@drawable/button_selector_white"
             android:text="Start Fresh"
             android:textColor="@color/Accent"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

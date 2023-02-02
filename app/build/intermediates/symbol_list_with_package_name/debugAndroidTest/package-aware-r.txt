@@ -1,3 +1,0 @@
-com.theflopguyproductions.ticktrack.test
-style WhiteBackgroundDialogTheme
-style WhiteBackgroundTheme

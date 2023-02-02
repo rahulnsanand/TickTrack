@@ -1,14 +1,17 @@
 package com.theflopguyproductions.ticktrack.timer.service;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
@@ -62,19 +65,19 @@ public class TimerService extends Service {
         int result = 0;
         timerDataArrayList = tickTrackDatabase.retrieveTimerList();
         quickTimerDataArrayList = tickTrackDatabase.retrieveQuickTimerList();
-        for(int i=0; i<timerDataArrayList.size(); i++){
-            if(timerDataArrayList.get(i).isTimerNotificationOn()){
+        for (int i = 0; i < timerDataArrayList.size(); i++) {
+            if (timerDataArrayList.get(i).isTimerNotificationOn()) {
                 result++;
             }
         }
-        for(int i=0; i<quickTimerDataArrayList.size(); i++){
-            if(quickTimerDataArrayList.get(i).isTimerOn() && !quickTimerDataArrayList.get(i).isTimerRinging()){
+        for (int i = 0; i < quickTimerDataArrayList.size(); i++) {
+            if (quickTimerDataArrayList.get(i).isTimerOn() && !quickTimerDataArrayList.get(i).isTimerRinging()) {
                 result++;
             }
         }
-        System.out.println("On Timer "+result);
+        System.out.println("On Timer " + result);
 
-        if(result==0){
+        if (result == 0) {
             notificationManagerCompat.cancelAll();
             timerServiceRefreshHandler.removeCallbacks(refreshRunnable);
             stopSelf();
@@ -83,6 +86,7 @@ public class TimerService extends Service {
         }
         return result;
     }
+
     private void setupBaseNotification() {
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
@@ -91,7 +95,7 @@ public class TimerService extends Service {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MIN)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setAutoCancel(true)
@@ -99,11 +103,12 @@ public class TimerService extends Service {
 
         notificationBuilder.setContentTitle("TickTrack Timer");
         notificationBuilder.setContentText("Timer Running");
-        isSetup=true;
+        isSetup = true;
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null) {
+        if (intent != null) {
 
             String action = intent.getAction();
 
@@ -124,10 +129,10 @@ public class TimerService extends Service {
 
     private void initializeValues() {
         stopForeground(false);
-        if(!isSetup){
+        if (!isSetup) {
             setupBaseNotification();
         }
-        if(getAllOnTimers()>0){
+        if (getAllOnTimers() > 0) {
             startForeground(TickTrack.TIMER_RUNNING_NOTIFICATION_ID, notificationBuilder.build());
             timerServiceRefreshHandler.post(refreshRunnable);
         }
@@ -135,18 +140,28 @@ public class TimerService extends Service {
 
     private Runnable refreshRunnable = new Runnable() {
         public void run() {
-            if(getAllOnTimers()>0){
-                if(getAllOnTimers()==1){
-                    if(!isSingle){
+            if (getAllOnTimers() > 0) {
+                if (getAllOnTimers() == 1) {
+                    if (!isSingle) {
                         setupSingleTimerNotificationLayout();
                     }
-                    notificationBuilder.setContentText("Next timer in "+getNextOccurrence());
+                    notificationBuilder.setContentText("Next timer in " + getNextOccurrence());
 
                 } else {
-                    if(!isMulti){
+                    if (!isMulti) {
                         setupMultiTimerNotificationLayout();
                     }
-                    notificationBuilder.setContentText(getAllOnTimers()+" timers running");
+                    notificationBuilder.setContentText(getAllOnTimers() + " timers running");
+                }
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
                 }
                 notificationManagerCompat.notify(TickTrack.TIMER_RUNNING_NOTIFICATION_ID, notificationBuilder.build());
                 timerServiceRefreshHandler.post(refreshRunnable);

@@ -4,7 +4,7 @@
             "outputFile": "com.theflopguyproductions.ticktrack.app-mergeDebugResources-5:/values-ldrtl-v17/values-ldrtl-v17.xml",
             "map": [
                 {
-                    "source": "B:\\TickTrack-master\\app\\src\\main\\res\\values-ldrtl\\attrs.xml",
+                    "source": "B:\\TickTrack\\app\\src\\main\\res\\values-ldrtl\\attrs.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -29,6 +30,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +40,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.theflopguyproductions.ticktrack.R;
@@ -80,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView themeName, themeTitle;
 
     private ConstraintLayout googleAccountLayout, accountOptionsLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, syncDataLayout, syncFreqOptionsLayout,
-            includeDataLayout, backupDataOptionsLayout, themeOptionsLayout;
+            includeDataLayout, backupDataOptionsLayout, themeOptionsLayout, notificationsLayout;
     private TextView backupGoogleTitle, backupEmail, switchAccountTitle, disconnectAccountTitle, syncDataTitle, syncDataFrequency, syncDataLastSync, includeDataTitle, includeDataValue;
     private CheckBox counterCheckBox, timerCheckBox;
     private RadioButton monthlyButton, weeklyButton, dailyButton, darkButton, lightButton;
@@ -99,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private LottieAnimationView lottieAnimationView;
 
-    private TextView vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue;
+    private TextView vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue, notificationsTitle, notificationValue;
     private Switch milestoneSwitch;
     private ConstraintLayout milestoneVibrateLayout, milestoneSoundLayout;
 
@@ -115,6 +120,16 @@ public class SettingsActivity extends AppCompatActivity {
             setupEmailText();
         }
         refreshTheme();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED){
+            notificationsLayout.setVisibility(View.GONE);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                notificationsLayout.setVisibility(View.VISIBLE);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                notificationsLayout.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
@@ -141,7 +156,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupAccountBusy() {
-        if(isMyServiceRunning(BackupRestoreService.class, getApplicationContext())){
+        if(isMyServiceRunning(getApplicationContext())){
             if(tickTrackDatabase.getThemeMode()==1){
                 switchAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
                 disconnectAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -293,17 +308,17 @@ public class SettingsActivity extends AppCompatActivity {
             darkButton.setChecked(true);
         }
     }
-
     private void refreshTheme() {
         TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
                 tickTrackDatabase, backupGoogleTitle, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
                 counterCheckBox, timerCheckBox, monthlyButton, weeklyButton, dailyButton, syncFreqOptionsLayout, darkButton, lightButton, themeOptionsLayout,
                 hapticLayout, hapticTextTitle, deleteBackupLayout, factoryResetLayout, rateUsLayout, displaySumLayout, timerSoundLayout, clockStyleLayout, clockOptionsLayout, dateTimeLayout,
                 rateUsTitle, rateUsValue, displaySumTitle, timerSoundTitle, timerSoundValue, clockStyleTitle, clockStyleValue, dateTimeTitle, dateTimeValue, toolbar, milestoneVibrateLayout, milestoneSoundLayout,
-                vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue, autostartLayout, autostartTitle, autostartValue, retrySyncLayoutAccount);
+                vibrateMilestoneTitle, milestoneSoundTitle, milestoneSoundValue, autostartLayout, autostartTitle, autostartValue, retrySyncLayoutAccount, notificationsLayout, notificationsTitle, notificationValue);
         updateWidgets();
         checkAccountAvailable();
         setupEmailText();
+
     }
 
     private void updateWidgets() {
@@ -577,6 +592,9 @@ public class SettingsActivity extends AppCompatActivity {
         milestoneVibrateLayout = findViewById(R.id.milestoneVibrateSettingsLayout);
         deleteBackupLayout = findViewById(R.id.dangerZoneDeleteBackupLayout);
         factoryResetLayout = findViewById(R.id.dangerZoneFactoryResetLayout);
+        notificationsLayout = findViewById(R.id.notificationsSettingsLayout);
+        notificationsTitle = findViewById(R.id.notificationsSettingsTitle);
+        notificationValue = findViewById(R.id.notificationsSettingsValue);
 
         autostartLayout = findViewById(R.id.autoStartSettingsLayout);
         autostartTitle = findViewById(R.id.autoStartSettingsTitle);
@@ -607,6 +625,17 @@ public class SettingsActivity extends AppCompatActivity {
             });
         } else {
             autostartLayout.setVisibility(View.GONE);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED){
+            notificationsLayout.setVisibility(View.GONE);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                notificationsLayout.setVisibility(View.VISIBLE);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                notificationsLayout.setVisibility(View.VISIBLE);
+            }
         }
 
         activity = this;
@@ -711,20 +740,21 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void toggleHapticEnable() {
-        if(tickTrackDatabase.isHapticEnabled()){
-            tickTrackDatabase.setHapticEnabled(false);
-        } else {
-            tickTrackDatabase.setHapticEnabled(true);
-        }
+        tickTrackDatabase.setHapticEnabled(!tickTrackDatabase.isHapticEnabled());
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (101 == requestCode) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 readDataExternal(0);
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (PermissionUtils.neverAskAgainSelected(this, Manifest.permission.READ_MEDIA_AUDIO)) {
+                        displayNeverAskAgainDialog();
+                    }
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (PermissionUtils.neverAskAgainSelected(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         displayNeverAskAgainDialog();
                     }
@@ -734,7 +764,11 @@ public class SettingsActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 readDataExternal(1);
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (PermissionUtils.neverAskAgainSelected(this, Manifest.permission.READ_MEDIA_AUDIO)) {
+                        displayNeverAskAgainDialog();
+                    }
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (PermissionUtils.neverAskAgainSelected(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         displayNeverAskAgainDialog();
                     }
@@ -744,20 +778,46 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void readDataExternal(int requestCode) {
+        final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         if(requestCode==0){
-            final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
-            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-            startActivityForResult(ringtone, requestCode);
         } else {
-            final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
-            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-            ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-            startActivityForResult(ringtone, requestCode);
+        }
+        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+        ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        startActivityForResult(ringtone, requestCode);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            assert data != null;
+            final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+            String title = ringtone.getTitle(this);
+            if(uri!=null){
+                tickTrackDatabase.storeRingtoneName(title);
+                tickTrackDatabase.storeRingtoneURI(uri.toString());
+            } else {
+                tickTrackDatabase.storeRingtoneURI(null);
+                tickTrackDatabase.storeRingtoneName("Default Ringtone");
+            }
+            setupTimerSound();
+        } else if (requestCode == 1 && resultCode == RESULT_OK) {
+            assert data != null;
+            final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+            String title = ringtone.getTitle(this);
+            if(uri!=null){
+                tickTrackDatabase.setMilestoneSound(title);
+                tickTrackDatabase.setMilestoneSoundUri(uri.toString());
+            } else {
+                tickTrackDatabase.setMilestoneSoundUri(null);
+                tickTrackDatabase.setMilestoneSound("Default Sound");
+            }
+            setupMilestoneSound();
         }
     }
 
@@ -780,13 +840,30 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupClickListeners() {
 
+        notificationsLayout.setOnClickListener(v -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+
         milestoneSoundLayout.setOnClickListener(view -> {
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("ONE");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                        System.out.println("TWO");
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 102);
+                    }
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 102);
                     }
                 }
@@ -818,11 +895,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         timerSoundLayout.setOnClickListener(view -> {
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("ONE");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                        System.out.println("TWO");
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 101);
+                    }
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
                     }
                 }
@@ -964,7 +1044,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         switchAccountOptionLayout.setOnClickListener(view -> {
-            if(isMyServiceRunning(BackupRestoreService.class, getApplicationContext())){
+            if(isMyServiceRunning(getApplicationContext())){
                 Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
             } else {
                 if(firebaseHelper.isUserSignedIn()){
@@ -975,7 +1055,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         disconnectAccountOptionLayout.setOnClickListener(view -> {
-            if(isMyServiceRunning(BackupRestoreService.class,this)){
+            if(isMyServiceRunning(this)){
                 Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
             } else {
                 if(firebaseHelper.isUserSignedIn()){
@@ -1024,7 +1104,7 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.dialogMessage.setText("This will permanently delete your TickTrack cloud backup");
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
-                if(isMyServiceRunning(BackupRestoreService.class,this)){
+                if(isMyServiceRunning(this)){
                     Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
                 } else {
                     if(firebaseHelper.isUserSignedIn()){
@@ -1043,7 +1123,7 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.dialogMessage.setText("This will permanently delete your device TickTrack Data");
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
-                if(isMyServiceRunning(BackupRestoreService.class,this)){
+                if(isMyServiceRunning(this)){
                     Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
                 } else {
                     new Handler().post(() -> {
@@ -1092,42 +1172,12 @@ public class SettingsActivity extends AppCompatActivity {
         dateTimeLayout.setOnClickListener(view -> startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 1));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == RESULT_OK) {
-            assert data != null;
-            final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
-            String title = ringtone.getTitle(this);
-            if(uri!=null){
-                tickTrackDatabase.storeRingtoneName(title);
-                tickTrackDatabase.storeRingtoneURI(uri.toString());
-            } else {
-                tickTrackDatabase.storeRingtoneURI(null);
-                tickTrackDatabase.storeRingtoneName("Default Ringtone");
-            }
-            setupTimerSound();
-        } else if (requestCode == 1 && resultCode == RESULT_OK) {
-            assert data != null;
-            final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
-            String title = ringtone.getTitle(this);
-            if(uri!=null){
-                tickTrackDatabase.setMilestoneSound(title);
-                tickTrackDatabase.setMilestoneSoundUri(uri.toString());
-            } else {
-                tickTrackDatabase.setMilestoneSoundUri(null);
-                tickTrackDatabase.setMilestoneSound("Default Sound");
-            }
-            setupMilestoneSound();
-        }
-    }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+
+    private boolean isMyServiceRunning(Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
+            if (BackupRestoreService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
@@ -1165,16 +1215,15 @@ public class SettingsActivity extends AppCompatActivity {
         super.onBackPressed();
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
+        Intent intent;
         if(ScreensaverActivity.ACTION_SCREENSAVER_EDIT.equals(receivedAction)){
-            Intent intent = new Intent(this, ScreensaverActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
+            intent = new Intent(this, ScreensaverActivity.class);
         } else {
-            Intent intent = new Intent(this, SoYouADeveloperHuh.class);
+            intent = new Intent(this, SoYouADeveloperHuh.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
         }
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
     }
 
     @Override

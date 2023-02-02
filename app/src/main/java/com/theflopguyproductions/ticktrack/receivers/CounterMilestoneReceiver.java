@@ -1,11 +1,14 @@
 package com.theflopguyproductions.ticktrack.receivers;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -31,11 +34,11 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         System.out.println("RECEIVED COUNTER MILESTONE CHECK");
         tickTrackDatabase = new TickTrackDatabase(context);
-        if(ACTION_COUNTER_MILESTONE_REMINDER.equals(intent.getAction())){
-            if(hasMilestone()){
-                if(milestoneCount==1){
+        if (ACTION_COUNTER_MILESTONE_REMINDER.equals(intent.getAction())) {
+            if (hasMilestone()) {
+                if (milestoneCount == 1) {
                     buildNotification(true, context);
-                } else if (milestoneCount>1){
+                } else if (milestoneCount > 1) {
                     buildNotification(false, context);
                 }
             }
@@ -59,17 +62,27 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_stat_ticktrack_logo_notification_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setPriority(Notification.PRIORITY_MIN)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(context, R.color.Accent));
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setContentTitle("Milestones Awaiting!");
-        if(b){
-            if(milestoneValue>0){
-                notificationBuilder.setContentText("Just "+milestoneValue+" counts more!");
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        if (b) {
+            if (milestoneValue > 0) {
+                notificationBuilder.setContentText("Just " + milestoneValue + " counts more!");
                 notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
             } else if(milestoneValue<0){
                 notificationBuilder.setContentText("Just "+Math.abs(milestoneValue)+" counts less!");

@@ -4,7 +4,7 @@
             "outputFile": "com.theflopguyproductions.ticktrack.app-mergeDebugResources-5:/values-v14/values-v14.xml",
             "map": [
                 {
-                    "source": "B:\\TickTrack-master\\app\\src\\main\\res\\values-v14\\dimens.xml",
+                    "source": "B:\\TickTrack\\app\\src\\main\\res\\values-v14\\dimens.xml",
                     "from": {
                         "startLines": "7",
                         "startColumns": "4",

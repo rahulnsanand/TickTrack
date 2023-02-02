@@ -76,6 +76,10 @@
         "source": "com.theflopguyproductions.ticktrack.app-main-9:/drawable-xxhdpi/ic_unordinarythumb.webp"
     },
     {
+        "merged": "com.theflopguyproductions.ticktrack.app-merged_res-7:/layout_fragment_notification.xml.flat",
+        "source": "com.theflopguyproductions.ticktrack.app-main-9:/layout/fragment_notification.xml"
+    },
+    {
         "merged": "com.theflopguyproductions.ticktrack.app-merged_res-7:/drawable-xhdpi_ic_shortcut_stopwatch_dark.webp.flat",
         "source": "com.theflopguyproductions.ticktrack.app-main-9:/drawable-xhdpi/ic_shortcut_stopwatch_dark.webp"
     },

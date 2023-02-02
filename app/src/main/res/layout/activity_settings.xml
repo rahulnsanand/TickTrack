@@ -116,7 +116,7 @@
                             android:id="@+id/darkRadioButtonSettingsActivity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Dark (Power saving)" />
+                            android:text="Dark Matter (Power saving)" />
 
                         <com.theflopguyproductions.ticktrack.ui.utils.radiobutton.TickTrackRadioButton
                             android:id="@+id/lightRadioButtonSettingsActivity"
@@ -220,6 +220,7 @@
                     android:layout_height="80dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/clickable_layout_light_background"
                     app:layout_constraintTop_toBottomOf="@+id/rateUsSettingsLayout">
 
                     <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
@@ -230,6 +231,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="24dp"
                         android:text="Missing Timers?"
+                        android:textColor="@color/DarkText"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -251,6 +253,49 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/autoStartSettingsTitle"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:typeface="apercu_italic" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/notificationsSettingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/clickable_layout_light_background"
+                    app:layout_constraintTop_toBottomOf="@+id/autoStartSettingsLayout">
+
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                        android:id="@+id/notificationsSettingsTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:text="Missing Notifications?"
+                        android:textColor="@color/DarkText"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:typeface="apercu_regular"/>
+
+                    <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
+                        android:id="@+id/notificationsSettingsValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Allow Notifications Permission"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/notificationsSettingsTitle"
                         app:layout_constraintVertical_bias="0.0"
                         app:typeface="apercu_italic" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

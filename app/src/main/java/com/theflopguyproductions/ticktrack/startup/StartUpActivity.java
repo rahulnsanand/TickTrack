@@ -1,14 +1,21 @@
 package com.theflopguyproductions.ticktrack.startup;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,6 +26,7 @@ import com.theflopguyproductions.ticktrack.startup.fragments.AutoStartFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.BatteryOptimiseFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.IntroFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.LoginFragment;
+import com.theflopguyproductions.ticktrack.startup.fragments.NotificationFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.RestoreFragment;
 import com.theflopguyproductions.ticktrack.startup.fragments.ThemeFragment;
 import com.theflopguyproductions.ticktrack.startup.service.OptimiserService;
@@ -27,7 +35,8 @@ import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelp
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 
 public class StartUpActivity extends AppCompatActivity implements IntroFragment.OnGetStartedClickListener, BatteryOptimiseFragment.BatteryOptimiseClickListener,
-        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener, LoginFragment.LoginClickListeners, RestoreFragment.StartFreshListener{
+        ThemeFragment.OnThemeSetClickListener, AutoStartFragment.OnAutoStartSetClickListener, LoginFragment.LoginClickListeners, RestoreFragment.StartFreshListener,
+        NotificationFragment.OnNotificationSetClickListener {
 
     public static final String ACTION_SETTINGS_ACCOUNT_ADD = "ACTION_SETTINGS_ACCOUNT_ADD";
 
@@ -54,7 +63,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         optimiseRequestNumber = tickTrackDatabase.retrieveOptimiseRequestNumber();
 
         receivedAction = getIntent().getAction();
-        System.out.println("STARTUP ACTIVITY RECEIVED "+receivedAction);
+        System.out.println("STARTUP ACTIVITY RECEIVED " + receivedAction);
 
         optimiseRequestNumber += 1;
         tickTrackDatabase.storeOptimiseRequestNumber(optimiseRequestNumber);
@@ -63,40 +72,42 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         rootLayout = findViewById(R.id.StartUpActivityRootLayout);
 
         int receivedFragmentID = tickTrackDatabase.retrieveStartUpFragmentID();
-        if(tickTrackDatabase.retrieveFirstLaunch()){
+        if (tickTrackDatabase.retrieveFirstLaunch()) {
             openFragment(getFragment(1));
         } else {
             openFragment(getFragment(receivedFragmentID));
         }
 
-        if(tickTrackDatabase.getThemeMode()==1){
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        if (tickTrackDatabase.getThemeMode() == 1) {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray));
         } else {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack));
         }
     }
 
     private void setupTheme() {
         themeMode = tickTrackDatabase.getThemeMode();
-        if(themeMode==1){
+        if (themeMode == 1) {
             rootLayout.setBackgroundResource(R.color.LightGray);
         } else {
             rootLayout.setBackgroundResource(R.color.Black);
         }
     }
 
-    public Fragment getFragment(int id){
-        if(id==1){
+    public Fragment getFragment(int id) {
+        if (id == 1) {
             return new IntroFragment();
-        } else if(id==2){
+        } else if (id == 2) {
             return new LoginFragment(receivedAction);
-        }  else if(id==3){
+        } else if (id == 3) {
             return new RestoreFragment(receivedAction);
-        } else if(id==4){
+        } else if (id == 4) {
             return new ThemeFragment();
-        } else if(id==5){
+        } else if (id == 5) {
+            return new NotificationFragment();
+        } else if (id == 6) {
             return new BatteryOptimiseFragment();
-        } else if(id==6){
+        } else if (id == 7) {
             return new AutoStartFragment();
         } else {
             return new IntroFragment();
@@ -126,10 +137,10 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
 
     @Override
     public void onStartFreshClickListener(boolean nextFragment) {
-        if(nextFragment){
+        if (nextFragment) {
             openFragment(new ThemeFragment());
         } else {
-            if(tickTrackDatabase.retrieveFirstLaunch()){
+            if (tickTrackDatabase.retrieveFirstLaunch()) {
                 openFragment(new BatteryOptimiseFragment());
             } else {
                 startActivity(new Intent(this, SoYouADeveloperHuh.class));
@@ -140,16 +151,17 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
     @Override
     public void onThemeSetClickListener() {
         setupTheme();
-        openFragment(new BatteryOptimiseFragment());
+        openFragment(new NotificationFragment());
+
     }
 
     @Override
     public void onBatteryOptimiseClickListener() {
-        if(!isMyServiceRunning(OptimiserService.class)){
+        if (!isMyServiceRunning(OptimiserService.class)) {
             startCheckService();
         }
         Intent intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this, getPackageName(), false);
-        if(intent!=null){
+        if (intent != null) {
             startActivity(intent);
         }
     }
@@ -160,6 +172,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         intent.setAction(OptimiserService.ACTION_BATTERY_OPTIMISE_CHECK_START);
         startService(intent);
     }
+
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -169,9 +182,10 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         }
         return false;
     }
+
     @Override
     public void onAutoStartSetClickListener() {
-        if(AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this) && !AutoStartPermissionHelper.getInstance().getAutoStartPermission(this)){
+        if (AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this) && !AutoStartPermissionHelper.getInstance().getAutoStartPermission(this)) {
             AutoStartPermissionHelper.getInstance().getAutoStartPermission(this);
         } else {
             Intent intent = new Intent(this, SoYouADeveloperHuh.class);
@@ -179,6 +193,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
             startActivity(intent);
         }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -188,6 +203,55 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         startActivity(a);
     }
 
+    @Override
+    public void OnNotificationSetupClickListener() {
+        requestNotificationPermission();
+    }
 
+    private void requestNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED)
+            return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 2422);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, 2422);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 2422) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Awesome!", Toast.LENGTH_LONG).show();
+                openFragment(new BatteryOptimiseFragment());
+            } else {
+                Toast.makeText(this, "Oops.. you just denied the permission!", Toast.LENGTH_LONG).show();
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 2422);
+                        openFragment(new NotificationFragment());
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NOTIFICATION_POLICY}, 2422);
+                        openFragment(new NotificationFragment());
+                    }
+                } else {
+                    Toast.makeText(this, "You can always enable this later in Settings Tab", Toast.LENGTH_LONG).show();
+                    openFragment(new BatteryOptimiseFragment());
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public void onNotificationSkipClickListener() {
+        Toast.makeText(this, "You can always enable this later in Settings Tab", Toast.LENGTH_LONG).show();
+        openFragment(new BatteryOptimiseFragment());
+    }
 
 }

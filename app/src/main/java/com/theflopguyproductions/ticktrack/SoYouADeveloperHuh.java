@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack;
 
+import static android.app.AlarmManager.INTERVAL_DAY;
+
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -252,7 +255,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         } else if (tickTrackDatabase.retrieveFirstLaunch()) {
             goToStartUpActivity(1, false);
         } else {
-            if (isMyServiceRunning(StopwatchNotificationService.class, this)) {
+            if (isMyServiceRunning(this)) {
                 stopNotificationService();
             }
             Bundle extras = getIntent().getExtras();
@@ -406,8 +409,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         Intent intent = new Intent(this, CounterMilestoneReceiver.class);
         intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
         PendingIntent alarmPendingIntent = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, PendingIntent.FLAG_IMMUTABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, PendingIntent.FLAG_MUTABLE);
         } else {
             alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
         }
@@ -420,7 +423,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         if (tickTrackDatabase.retrieveStopwatchData().size() > 0) {
             if (tickTrackDatabase.retrieveStopwatchData().get(0).isRunning()) {
                 System.out.println("STOPWATCH RUNNING HAPPENED");
-                if (!isMyServiceRunning(StopwatchNotificationService.class, this)) {
+                if (!isMyServiceRunning(this)) {
                     setupCustomNotification();
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
@@ -449,15 +452,15 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         Intent intent = new Intent(this, CounterMilestoneReceiver.class);
         intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
         PendingIntent alarmPendingIntent = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, PendingIntent.FLAG_IMMUTABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, PendingIntent.FLAG_MUTABLE);
         } else {
             alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
         }
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating (
                 AlarmManager.RTC_WAKEUP,
-                1000*60*60*24L,
-                1000*60*60*24*7L,
+                INTERVAL_DAY,
+                INTERVAL_DAY*7L,
                 alarmPendingIntent
         );
     }
@@ -474,10 +477,10 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         startService(intent);
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+    private boolean isMyServiceRunning(Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
+            if (StopwatchNotificationService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }

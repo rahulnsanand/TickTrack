@@ -1,8 +1,10 @@
 package com.theflopguyproductions.ticktrack.utils.firebase;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -70,14 +73,27 @@ public class FirebaseHelper {
         jsonHelper = new JsonHelper(context);
         firebaseFirestore = FirebaseFirestore.getInstance();
     }
-    public void setAction(String action){
+
+    public void setAction(String action) {
         this.action = action;
     }
-    public void setupNotification(NotificationCompat.Builder notificationBuilder, NotificationManagerCompat notificationManagerCompat){
+
+    public void setupNotification(NotificationCompat.Builder notificationBuilder, NotificationManagerCompat notificationManagerCompat) {
         this.notificationBuilder = notificationBuilder;
         this.notificationManagerCompat = notificationManagerCompat;
     }
+
     private void notifyNotification() {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         notificationManagerCompat.notify(6, notificationBuilder.build());
     }
 

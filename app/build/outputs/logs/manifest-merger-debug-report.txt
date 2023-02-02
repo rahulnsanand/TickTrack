@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
 MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] C:\Users\rahul\.gradle\caches\transforms-3\f719769b49a5c36b4d087018b486110f\transformed\navigation-ui-ktx-2.5.3\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui:2.5.3] C:\Users\rahul\.gradle\caches\transforms-3\81b3c537ea5988b17110afb07f65a2b9\transformed\navigation-ui-2.5.3\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.material:material:1.8.0] C:\Users\rahul\.gradle\caches\transforms-3\f76bd89f6dcad71b7f050b085a49b9bd\transformed\material-1.8.0\AndroidManifest.xml:17:1-26:12
@@ -114,39 +114,45 @@ MERGED from [androidx.sqlite:sqlite-framework:2.3.0-rc01] C:\Users\rahul\.gradle
 MERGED from [androidx.sqlite:sqlite:2.3.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\b6dcb6b092d001a49053aa7a8ad5d819\transformed\sqlite-2.3.0-rc01\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\rahul\.gradle\caches\transforms-3\6d5e59e25ae4f1128625c4ab4e55f889\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\rahul\.gradle\caches\transforms-3\a01576d5117b1169fc8784742a793294\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
 	package
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:1-310:12
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:1-311:12
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:4:5-76
+MERGED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:25:5-77
+MERGED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:25:5-77
+	android:name
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:4:22-74
 uses-permission#android.permission.SCHEDULE_EXACT_ALARM
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:4:5-79
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:5:5-79
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:4:22-76
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:5:22-76
 uses-permission#android.permission.VIBRATE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:5:5-66
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:6:5-66
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:5:22-63
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:6:22-63
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:6:5-81
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:7:5-81
 MERGED from [androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:25:5-81
 MERGED from [androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:25:5-81
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:6:22-78
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:7:22-78
 uses-permission#android.permission.WAKE_LOCK
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:7:5-68
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:8:5-68
 MERGED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:26:5-68
 MERGED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:26:5-68
 MERGED from [com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:25:5-68
@@ -162,27 +168,23 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.2.0] C:
 MERGED from [androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:23:5-68
 MERGED from [androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:23:5-68
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:7:22-65
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:8:22-65
 uses-permission#android.permission.DISABLE_KEYGUARD
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:8:5-75
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:9:5-75
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:8:22-72
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:9:22-72
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:9:5-77
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:10:5-77
 MERGED from [androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:26:5-77
 MERGED from [androidx.work:work-runtime:2.8.0-rc01] C:\Users\rahul\.gradle\caches\transforms-3\2b4051b925feeb8736906164c99bd577\transformed\work-runtime-2.8.0-rc01\AndroidManifest.xml:26:5-77
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:9:22-74
-uses-permission#android.permission.GET_ACCOUNTS
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:10:5-71
-	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:10:22-68
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:10:22-74
 uses-permission#android.permission.MANAGE_ACCOUNTS
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:11:5-74
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:11:5-74
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:11:22-71
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:11:22-71
 uses-permission#android.permission.INTERNET
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:12:5-67
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:12:5-67
 MERGED from [com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:13:5-67
 MERGED from [com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:13:5-67
 MERGED from [com.google.android.gms:play-services-measurement:21.2.0] C:\Users\rahul\.gradle\caches\transforms-3\e208e81cb09c2c1d824e9de728557db3\transformed\jetified-play-services-measurement-21.2.0\AndroidManifest.xml:23:5-67
@@ -202,9 +204,9 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.2.0] C:
 MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:25:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\c6d2e78b65d9ffbeb83e10d42831d82f\transformed\jetified-transport-backend-cct-3.1.8\AndroidManifest.xml:25:5-67
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:12:22-64
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:12:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:13:5-79
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:13:5-79
 MERGED from [com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:12:5-79
 MERGED from [com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:12:5-79
 MERGED from [io.grpc:grpc-android:1.50.2] C:\Users\rahul\.gradle\caches\transforms-3\7f5f871bbc500b07008be6e8c596d126\transformed\jetified-grpc-android-1.50.2\AndroidManifest.xml:9:5-79
@@ -230,29 +232,33 @@ MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.8] C:\Us
 MERGED from [com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:22:5-79
 MERGED from [com.google.android.datatransport:transport-runtime:3.1.8] C:\Users\rahul\.gradle\caches\transforms-3\8f310a1b135922f06b71cfcf532fb84c\transformed\jetified-transport-runtime-3.1.8\AndroidManifest.xml:22:5-79
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:13:22-76
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:13:22-76
 uses-permission#com.android.launcher.permission.INSTALL_SHORTCUT
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:14:5-88
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:14:5-88
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:14:22-85
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:14:22-85
 uses-permission#android.permission.USE_FULL_SCREEN_INTENT
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:15:5-81
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:15:5-81
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:15:22-78
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:15:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:16:5-80
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:16:5-80
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:16:22-77
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:16:22-77
+uses-permission#android.permission.READ_MEDIA_AUDIO
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:17:5-75
+	android:name
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:17:22-72
 uses-permission#com.google.android.c2dm.permission.RECEIVE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:17:5-82
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:18:5-82
 MERGED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:28:5-82
 MERGED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:28:5-82
 MERGED from [com.google.android.gms:play-services-cloud-messaging:17.0.1] C:\Users\rahul\.gradle\caches\transforms-3\5977215ee7311a396bea963c10c70da9\transformed\jetified-play-services-cloud-messaging-17.0.1\AndroidManifest.xml:11:5-82
 MERGED from [com.google.android.gms:play-services-cloud-messaging:17.0.1] C:\Users\rahul\.gradle\caches\transforms-3\5977215ee7311a396bea963c10c70da9\transformed\jetified-play-services-cloud-messaging-17.0.1\AndroidManifest.xml:11:5-82
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:17:22-79
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:18:22-79
 application
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:19:5-308:19
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:20:5-309:19
 MERGED from [com.google.android.material:material:1.8.0] C:\Users\rahul\.gradle\caches\transforms-3\f76bd89f6dcad71b7f050b085a49b9bd\transformed\material-1.8.0\AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.8.0] C:\Users\rahul\.gradle\caches\transforms-3\f76bd89f6dcad71b7f050b085a49b9bd\transformed\material-1.8.0\AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\rahul\.gradle\caches\transforms-3\e49b1c1152719712acf4cbb0dd61201e\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -332,453 +338,453 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\rahul\.gradle\cach
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] C:\Users\rahul\.gradle\caches\transforms-3\fa68e33cdb1fe134cf9291101cbfb212\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:25:9-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:26:9-35
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:23:9-41
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:24:9-41
 	android:roundIcon
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:24:9-54
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:25:9-54
 	android:icon
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:22:9-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:23:9-43
 	android:allowBackup
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:21:9-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:22:9-35
 	android:theme
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:26:9-41
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:27:9-41
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:20:9-46
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:21:9-46
 receiver#com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:27:9-34:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:28:9-35:20
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:29:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:30:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:30:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:31:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:28:13-63
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:29:13-63
 intent-filter#action:name:ACTION_COUNTER_MILESTONE_REMINDER
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:31:13-33:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:32:13-34:29
 action#ACTION_COUNTER_MILESTONE_REMINDER
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:32:17-76
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:33:17-76
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:32:25-73
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:33:25-73
 service#com.theflopguyproductions.ticktrack.service.CloudNotificationService
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:36:9-42:19
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:37:9-43:19
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:38:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:39:13-37
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:37:13-61
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:38:13-61
 intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:39:13-41:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:40:13-42:29
 action#com.google.firebase.MESSAGING_EVENT
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:40:17-78
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:41:17-78
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:40:25-75
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:41:25-75
 meta-data#com.google.firebase.messaging.default_notification_icon
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:44:9-46:85
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:45:9-47:85
 	android:resource
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:46:13-82
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:47:13-82
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:45:13-83
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:46:13-83
 meta-data#com.google.firebase.messaging.default_notification_color
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:47:9-49:48
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:48:9-50:48
 	android:resource
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:49:13-45
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:50:13-45
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:48:13-84
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:49:13-84
 meta-data#com.google.firebase.messaging.default_notification_channel_id
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:50:9-52:58
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:51:9-53:58
 	android:value
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:52:13-55
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:53:13-55
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:51:13-89
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:52:13-89
 activity#com.theflopguyproductions.ticktrack.about.AboutActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:54:9-56:52
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:55:9-57:52
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:56:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:57:13-49
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:55:13-48
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:56:13-48
 receiver#com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:58:9-69:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:59:9-70:20
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:60:13-38
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:61:13-38
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:61:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:62:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:59:13-62
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:60:13-62
 intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:62:13-64:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:63:13-65:29
 action#android.appwidget.action.APPWIDGET_UPDATE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:17-84
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:64:17-84
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:63:25-81
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:64:25-81
 meta-data#android.appwidget.provider
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:66:13-68:65
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:67:13-69:65
 	android:resource
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:68:17-62
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:69:17-62
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:67:17-58
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:68:17-58
 receiver#com.theflopguyproductions.ticktrack.widgets.shortcuts.QuickTimerWidget
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:70:9-81:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:71:9-82:20
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:72:13-39
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:73:13-39
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:73:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:74:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:71:13-63
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:72:13-63
 receiver#com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:82:9-93:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:83:9-94:20
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:84:13-40
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:85:13-40
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:85:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:86:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:83:13-64
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:84:13-64
 receiver#com.theflopguyproductions.ticktrack.widgets.shortcuts.CreateTimerWidget
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:94:9-105:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:95:9-106:20
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:96:13-34
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:97:13-34
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:97:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:98:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:95:13-64
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:96:13-64
 activity#com.theflopguyproductions.ticktrack.widgets.shortcuts.panel.ShortcutsPanelConfigActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:107:9-90
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:108:9-90
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:107:19-87
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:108:19-87
 receiver#com.theflopguyproductions.ticktrack.widgets.shortcuts.panel.ShortcutsPanelWidget
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:109:9-120:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:110:9-121:20
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:111:13-45
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:112:13-45
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:112:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:113:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:110:13-73
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:111:13-73
 activity#com.theflopguyproductions.ticktrack.widgets.clock.ClockWidgetConfigActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:122:9-125:39
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:123:9-126:39
 	android:launchMode
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:124:13-44
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:125:13-44
 	android:taskAffinity
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:125:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:126:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:123:13-68
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:124:13-68
 receiver#com.theflopguyproductions.ticktrack.widgets.clock.TickTrackClockWidget
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:127:9-138:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:128:9-139:20
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:129:13-34
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:130:13-34
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:130:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:131:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:128:13-63
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:129:13-63
 activity#com.theflopguyproductions.ticktrack.widgets.counter.CounterWidgetConfigActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:140:9-144:39
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:141:9-145:39
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:143:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:144:13-49
 	android:launchMode
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:142:13-44
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:143:13-44
 	android:taskAffinity
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:144:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:145:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:141:13-72
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:142:13-72
 receiver#com.theflopguyproductions.ticktrack.widgets.counter.CounterWidget
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:146:9-159:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:147:9-160:20
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:148:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:149:13-36
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:149:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:150:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:147:13-58
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:148:13-58
 intent-filter#action:name:ACTION_WIDGET_CLICK_MINUS+action:name:ACTION_WIDGET_CLICK_PLUS+action:name:android.appwidget.action.APPWIDGET_UPDATE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:150:13-154:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:151:13-155:29
 action#ACTION_WIDGET_CLICK_PLUS
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:152:17-67
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:153:17-67
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:152:25-64
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:153:25-64
 action#ACTION_WIDGET_CLICK_MINUS
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:153:17-68
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:154:17-68
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:153:25-65
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:154:25-65
 activity#com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:161:9-168:39
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:162:9-169:39
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:167:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:168:13-49
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:165:13-63
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:166:13-63
 	android:excludeFromRecents
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:164:13-46
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:165:13-46
 	android:launchMode
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:166:13-44
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:167:13-44
 	android:configChanges
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:163:13-74
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:164:13-74
 	android:taskAffinity
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:168:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:169:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:162:13-60
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:163:13-60
 receiver#com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:170:9-176:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:171:9-177:20
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:172:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:173:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:171:13-61
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:172:13-61
 intent-filter#action:name:com.theflopguyproductions.ticktrack.START_BACKUP_SCHEDULE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:173:13-175:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:174:13-176:29
 action#com.theflopguyproductions.ticktrack.START_BACKUP_SCHEDULE
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:174:17-100
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:175:17-100
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:174:25-97
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:175:25-97
 service#com.theflopguyproductions.ticktrack.service.BackupRestoreService
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:178:9-181:40
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:179:9-182:40
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:180:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:181:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:181:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:182:13-37
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:179:13-57
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:180:13-57
 activity#com.theflopguyproductions.ticktrack.accounts.SwitchAccountActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:183:9-68
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:184:9-68
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:183:19-65
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:184:19-65
 receiver#com.theflopguyproductions.ticktrack.receivers.TimeChangeReceiver
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:185:9-194:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:186:9-195:20
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:188:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:189:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:189:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:190:13-36
 	android:directBootAware
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:187:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:188:13-43
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:186:13-57
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:187:13-57
 intent-filter#action:name:android.intent.action.TIMEZONE_CHANGED+action:name:android.intent.action.TIME_SET
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:190:13-193:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:191:13-194:29
 	android:priority
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:190:28-50
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:191:28-50
 action#android.intent.action.TIME_SET
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:191:17-73
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:192:17-73
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:191:25-70
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:192:25-70
 action#android.intent.action.TIMEZONE_CHANGED
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:192:17-81
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:193:17-81
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:192:25-78
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:193:25-78
 receiver#com.theflopguyproductions.ticktrack.receivers.BootReceiver
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:195:9-208:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:196:9-209:20
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:198:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:199:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:199:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:200:13-36
 	android:permission
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:200:13-75
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:201:13-75
 	android:directBootAware
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:197:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:198:13-43
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:196:13-51
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:197:13-51
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.LOCKED_BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON+action:name:android.intent.action.REBOOT+action:name:com.htc.intent.action.QUICKBOOT_POWERON
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:201:13-207:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:202:13-208:29
 	android:priority
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:201:28-50
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:202:28-50
 action#android.intent.action.BOOT_COMPLETED
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:202:17-79
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:203:17-79
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:202:25-76
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:203:25-76
 action#android.intent.action.QUICKBOOT_POWERON
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:203:17-82
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:204:17-82
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:203:25-79
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:204:25-79
 action#android.intent.action.REBOOT
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:204:17-71
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:205:17-71
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:204:25-68
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:205:25-68
 action#android.intent.action.LOCKED_BOOT_COMPLETED
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:205:17-86
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:206:17-86
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:205:25-83
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:206:25-83
 action#com.htc.intent.action.QUICKBOOT_POWERON
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:206:17-82
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:207:17-82
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:206:25-79
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:207:25-79
 service#com.theflopguyproductions.ticktrack.startup.service.OptimiserService
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:210:9-213:40
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:211:9-214:40
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:212:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:213:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:213:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:214:13-37
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:211:13-61
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:212:13-61
 receiver#com.theflopguyproductions.ticktrack.startup.service.BatteryOptimiseReceiver
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:215:9-222:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:216:9-223:20
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:217:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:218:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:218:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:219:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:216:13-68
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:217:13-68
 intent-filter#action:name:ACTION_OPTIMISING_DONE_CHECK
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:219:13-221:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:220:13-222:29
 action#ACTION_OPTIMISING_DONE_CHECK
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:220:17-71
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:221:17-71
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:220:25-68
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:221:25-68
 activity#com.theflopguyproductions.ticktrack.startup.StartUpActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:224:9-227:52
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:225:9-228:52
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:227:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:228:13-49
 	android:noHistory
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:226:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:227:13-37
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:225:13-52
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:226:13-52
 activity#com.theflopguyproductions.ticktrack.timer.ringer.TimerRingerActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:228:9-238:54
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:229:9-239:54
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:233:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:234:13-43
 	android:excludeFromRecents
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:232:13-46
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:233:13-46
 	android:showWhenLocked
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:236:13-42
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:237:13-42
 	android:launchMode
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:234:13-44
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:235:13-44
 	android:showOnLockScreen
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:235:13-44
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:236:13-44
 	android:configChanges
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:230:13-74
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:231:13-74
 	android:theme
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:238:13-51
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:239:13-51
 	android:directBootAware
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:231:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:232:13-43
 	android:taskAffinity
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:237:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:238:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:229:13-61
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:230:13-61
 service#com.theflopguyproductions.ticktrack.timer.service.TimerService
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:240:9-244:40
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:241:9-245:40
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:243:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:244:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:244:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:245:13-37
 	android:directBootAware
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:242:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:243:13-43
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:241:13-55
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:242:13-55
 service#com.theflopguyproductions.ticktrack.timer.service.TimerRingService
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:245:9-249:40
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:246:9-250:40
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:248:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:249:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:249:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:250:13-37
 	android:directBootAware
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:247:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:248:13-43
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:246:13-59
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:247:13-59
 service#com.theflopguyproductions.ticktrack.stopwatch.service.StopwatchNotificationService
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:250:9-254:40
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:251:9-255:40
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:253:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:254:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:254:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:255:13-37
 	android:directBootAware
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:252:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:253:13-43
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:251:13-75
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:252:13-75
 activity#com.theflopguyproductions.ticktrack.timer.activity.TimerActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:256:9-258:52
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:257:9-259:52
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:258:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:259:13-49
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:257:13-57
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:258:13-57
 activity#com.theflopguyproductions.ticktrack.counter.activity.CounterEditActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:259:9-261:52
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:260:9-262:52
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:261:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:262:13-49
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:260:13-65
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:261:13-65
 activity#com.theflopguyproductions.ticktrack.counter.activity.CounterActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:262:9-265:52
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:263:9-266:52
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:265:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:266:13-49
 	android:parentActivityName
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:264:13-61
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:265:13-61
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:263:13-61
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:264:13-61
 activity#com.theflopguyproductions.ticktrack.settings.SettingsActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:266:9-269:52
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:267:9-270:52
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:269:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:270:13-49
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:268:13-60
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:269:13-60
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:267:13-54
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:268:13-54
 activity#com.theflopguyproductions.ticktrack.contributors.ContributorsActivity
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:270:9-273:52
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:271:9-274:52
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:273:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:274:13-49
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:272:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:273:13-49
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:271:13-62
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:272:13-62
 activity#com.theflopguyproductions.ticktrack.SoYouADeveloperHuh
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:274:9-292:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:275:9-293:20
 	android:screenOrientation
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:277:13-49
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:278:13-49
 	android:label
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:276:13-74
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:277:13-74
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:278:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:279:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:275:13-47
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:276:13-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:279:13-282:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:280:13-283:29
 action#android.intent.action.MAIN
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:280:17-69
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:281:17-69
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:280:25-66
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:281:25-66
 category#android.intent.category.LAUNCHER
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:281:17-77
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:282:17-77
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:281:27-74
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:282:27-74
 intent-filter#action:name:SoYouADeveloperHuh+category:name:android.intent.category.DEFAULT
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:283:13-287:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:284:13-288:29
 action#SoYouADeveloperHuh
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:284:17-61
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:285:17-61
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:284:25-58
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:285:25-58
 category#android.intent.category.DEFAULT
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:286:17-76
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:287:17-76
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:286:27-73
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:287:27-73
 meta-data#android.app.shortcuts
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:289:13-291:62
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:290:13-292:62
 	android:resource
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:291:17-59
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:292:17-59
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:290:17-53
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:291:17-53
 receiver#com.theflopguyproductions.ticktrack.timer.receivers.TimerBroadcastReceiver
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:294:9-301:20
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:295:9-302:20
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:295:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:296:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:296:13-36
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:297:13-36
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:294:19-73
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:295:19-73
 intent-filter#action:name:ACTION_QUICK_TIMER_BROADCAST+action:name:ACTION_TIMER_BROADCAST
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:297:13-300:29
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:298:13-301:29
 action#ACTION_TIMER_BROADCAST
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:298:17-65
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:299:17-65
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:298:25-62
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:299:25-62
 action#ACTION_QUICK_TIMER_BROADCAST
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:299:17-71
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:300:17-71
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:299:25-68
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:300:25-68
 service#com.theflopguyproductions.ticktrack.counter.notification.CounterNotificationService
-ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:303:9-307:40
+ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:304:9-308:40
 	android:enabled
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:306:13-35
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:307:13-35
 	android:exported
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:307:13-37
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:308:13-37
 	android:directBootAware
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:305:13-43
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:306:13-43
 	android:name
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml:304:13-76
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml:305:13-76
 uses-sdk
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
 MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] C:\Users\rahul\.gradle\caches\transforms-3\f719769b49a5c36b4d087018b486110f\transformed\navigation-ui-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] C:\Users\rahul\.gradle\caches\transforms-3\f719769b49a5c36b4d087018b486110f\transformed\navigation-ui-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-ui:2.5.3] C:\Users\rahul\.gradle\caches\transforms-3\81b3c537ea5988b17110afb07f65a2b9\transformed\navigation-ui-2.5.3\AndroidManifest.xml:20:5-22:41
@@ -999,16 +1005,16 @@ MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\rahul\.
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\rahul\.gradle\caches\transforms-3\6d5e59e25ae4f1128625c4ab4e55f889\transformed\jetified-annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\rahul\.gradle\caches\transforms-3\a01576d5117b1169fc8784742a793294\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\rahul\.gradle\caches\transforms-3\a01576d5117b1169fc8784742a793294\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
+INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-		ADDED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
-		INJECTED from B:\TickTrack-master\app\src\main\AndroidManifest.xml
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
+		ADDED from B:\TickTrack\app\src\main\AndroidManifest.xml
+		INJECTED from B:\TickTrack\app\src\main\AndroidManifest.xml
 service#com.google.firebase.components.ComponentDiscoveryService
 ADDED from [com.google.firebase:firebase-firestore:24.4.2] C:\Users\rahul\.gradle\caches\transforms-3\7e3f6629d21ba261e3d24be9216dd36f\transformed\jetified-firebase-firestore-24.4.2\AndroidManifest.xml:16:9-22:19
 MERGED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:52:9-58:19
@@ -1057,10 +1063,6 @@ ADDED from [com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gr
 		ADDED from [com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:36:13-107
 	android:name
 		ADDED from [com.google.android.gms:play-services-auth:20.4.1] C:\Users\rahul\.gradle\caches\transforms-3\593629dd70bf75bce40192b2df9eacf9\transformed\jetified-play-services-auth-20.4.1\AndroidManifest.xml:34:13-89
-uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:25:5-77
-	android:name
-		ADDED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:25:22-74
 receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
 ADDED from [com.google.firebase:firebase-messaging:23.1.1] C:\Users\rahul\.gradle\caches\transforms-3\24dbc1adf08bac6a3a50e7eef67f0b0a\transformed\jetified-firebase-messaging-23.1.1\AndroidManifest.xml:31:9-38:20
 	android:exported

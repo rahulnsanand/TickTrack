@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.theflopguyproductions.ticktrack.ExampleUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-02-01T16:23:12" hostname="THEOMEN" time="0.003">
-  <properties/>
-  <testcase name="addition_isCorrect" classname="com.theflopguyproductions.ticktrack.ExampleUnitTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

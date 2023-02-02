@@ -35,7 +35,7 @@ public class BatteryOptimiseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tickTrackDatabase.storeStartUpFragmentID(5);
+        tickTrackDatabase.storeStartUpFragmentID(6);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -57,7 +57,7 @@ public class BatteryOptimiseFragment extends Fragment {
             View root = inflater.inflate(R.layout.fragment_ticktrack_battery_optimize, container, false);
 
             themeMode = tickTrackDatabase.getThemeMode();
-            tickTrackDatabase.storeStartUpFragmentID(5);
+            tickTrackDatabase.storeStartUpFragmentID(6);
 
             optimiseButton = root.findViewById(R.id.ticktrackFragmentOptimiseBatteryButton);
             lottieAnimationView = root.findViewById(R.id.ticktrackFragmentBatteryOptimiseLottie);

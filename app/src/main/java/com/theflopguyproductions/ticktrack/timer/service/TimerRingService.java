@@ -493,6 +493,16 @@ public class TimerRingService extends Service {
                 refreshHandler.postDelayed(refreshRunnable, 100);
             } else {
                 notificationBuilder.setContentText("This notification will disappear automatically");
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
                 notificationManagerCompat.notify(TickTrack.TIMER_RINGING_NOTIFICATION_ID, notificationBuilder.build());
                 refreshHandler.removeCallbacks(refreshRunnable);
                 stopIfPossible();

@@ -1,14 +1,17 @@
 package com.theflopguyproductions.ticktrack.service;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -33,7 +36,7 @@ public class CloudNotificationService extends FirebaseMessagingService {
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "From: " + remoteMessage.getData().get("NOTIFICATION_TYPE"));
-        Log.d(TAG, "From: " + remoteMessage.getData().get( "VERSION"));
+        Log.d(TAG, "From: " + remoteMessage.getData().get("VERSION"));
         Log.d(TAG, "From: " + remoteMessage.getData().get("VERSION_CODE"));
         Log.d(TAG, "From: " + remoteMessage.getData().get("IS_COMPULSORY"));
         Log.d(TAG, "From: " + remoteMessage.getData().get("NOTIFICATION_TITLE"));
@@ -45,14 +48,14 @@ public class CloudNotificationService extends FirebaseMessagingService {
         if (Objects.equals(remoteMessage.getData().get("NOTIFICATION_TYPE"), "IS_UPDATE")) {
             int versionCode = BuildConfig.VERSION_CODE;
             Log.d(TAG, "From: " + versionCode);
-            if(versionCode < Integer.parseInt(Objects.requireNonNull(remoteMessage.getData().get("VERSION_CODE")))){
-                tickTrackDatabase.storeUpdateVersion(remoteMessage.getData().get( "VERSION"));
+            if (versionCode < Integer.parseInt(Objects.requireNonNull(remoteMessage.getData().get("VERSION_CODE")))) {
+                tickTrackDatabase.storeUpdateVersion(remoteMessage.getData().get("VERSION"));
                 tickTrackDatabase.setUpdateCompulsion(remoteMessage.getData().get("IS_COMPULSORY"));
                 tickTrackDatabase.setUpdateTime(System.currentTimeMillis());
                 tickTrackDatabase.storeUpdateVersionCode(Integer.parseInt(Objects.requireNonNull(remoteMessage.getData().get("VERSION_CODE"))));
                 sendUpdateNotification(remoteMessage.getData().get("NOTIFICATION_TITLE"), remoteMessage.getData().get("NOTIFICATION_CONTENT"));
             } else {
-                tickTrackDatabase.storeUpdateVersion(remoteMessage.getData().get( "VERSION"));
+                tickTrackDatabase.storeUpdateVersion(remoteMessage.getData().get("VERSION"));
                 tickTrackDatabase.setUpdateCompulsion(remoteMessage.getData().get("IS_COMPULSORY"));
                 tickTrackDatabase.setUpdateTime(System.currentTimeMillis());
                 tickTrackDatabase.storeUpdateVersionCode(Integer.parseInt(Objects.requireNonNull(remoteMessage.getData().get("VERSION_CODE"))));
@@ -66,8 +69,7 @@ public class CloudNotificationService extends FirebaseMessagingService {
         Intent rateIntent;
         try {
             rateIntent = rateIntentForUrl("market://details");
-        }
-        catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException e) {
             rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
         }
 
@@ -85,8 +87,8 @@ public class CloudNotificationService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_stat_ticktrack_logo_notification_icon)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setPriority(Notification.PRIORITY_LOW)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setVibrate(new long[0])
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true)
@@ -96,19 +98,23 @@ public class CloudNotificationService extends FirebaseMessagingService {
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setContentText(message);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         notificationManagerCompat.notify(TickTrack.PUSH_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     private Intent rateIntentForUrl(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, getPackageName())));
         int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
-        if (Build.VERSION.SDK_INT >= 21) {
-            flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
-        }
-        else {
-            //noinspection deprecation
-            flags |= Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET;
-        }
+        flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
         intent.addFlags(flags);
         return intent;
     }

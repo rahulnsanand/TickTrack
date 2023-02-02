@@ -3865,6 +3865,9 @@ id north
 id notification_background
 id notification_main_column
 id notification_main_column_container
+id notificationsSettingsLayout
+id notificationsSettingsTitle
+id notificationsSettingsValue
 id odudo_regular
 id off
 id on
@@ -4218,6 +4221,13 @@ id ticktrackFragmentAutoStartSubHelperText
 id ticktrackFragmentBatteryOptimiseLottie
 id ticktrackFragmentBatteryOptimiseScrollView
 id ticktrackFragmentIntroRootLayout
+id ticktrackFragmentNotification1ImageView
+id ticktrackFragmentNotification2ImageView
+id ticktrackFragmentNotificationButton
+id ticktrackFragmentNotificationDetailText
+id ticktrackFragmentNotificationRoot
+id ticktrackFragmentNotificationScroll
+id ticktrackFragmentNotificationSkipButton
 id ticktrackFragmentOptimiseBatteryButton
 id ticktrackFragmentOptimiseBoldHelpText
 id ticktrackFragmentOptimiseHelpText
@@ -4534,6 +4544,7 @@ layout dialog_text_item
 layout dialog_timer_edit_layout
 layout expand_button
 layout fragment_counter
+layout fragment_notification
 layout fragment_quick_timer_creator
 layout fragment_stopwatch
 layout fragment_ticktrack_autostart

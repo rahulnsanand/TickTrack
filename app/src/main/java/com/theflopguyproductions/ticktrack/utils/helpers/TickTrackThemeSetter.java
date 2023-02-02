@@ -52,7 +52,8 @@ public class TickTrackThemeSetter {
                                              TextView timerSoundTitle, TextView timerSoundValue, TextView clockStyleTitle, TextView clockStyleValue,
                                              TextView dateTimeTitle, TextView dateTimeValue, ConstraintLayout toolbar, ConstraintLayout vibrateLayout, ConstraintLayout soundLayout,
                                              TextView milestoneVibrateTitle, TextView milestoneSoundTitle, TextView milestoneSoundValue, ConstraintLayout autostartLayout,
-                                             TextView autostartTitle, TextView autostartValue, ConstraintLayout retrySyncLayoutAccount){
+                                             TextView autostartTitle, TextView autostartValue, ConstraintLayout retrySyncLayoutAccount, ConstraintLayout notificationLayout,
+                                             TextView notificationTitle, TextView notificationValue){
 
         int checkTheme = tickTrackDatabase.getThemeMode();
 
@@ -76,6 +77,9 @@ public class TickTrackThemeSetter {
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             autostartLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             retrySyncLayoutAccount.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            notificationLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
+            notificationTitle.setTextColor(activity.getResources().getColor(R.color.DarkText));
+            notificationValue.setTextColor(activity.getResources().getColor(R.color.LightDarkText));
 
             soundLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             vibrateLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
@@ -131,6 +135,9 @@ public class TickTrackThemeSetter {
             dateTimeLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             autostartLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             retrySyncLayoutAccount.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            notificationLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
+            notificationTitle.setTextColor(activity.getResources().getColor(R.color.LightText));
+            notificationValue.setTextColor(activity.getResources().getColor(R.color.DarkLightText));
 
             soundLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);
             vibrateLayout.setBackgroundResource(R.drawable.clickable_layout_dark_background);

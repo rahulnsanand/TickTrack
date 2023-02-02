@@ -67,7 +67,7 @@ public class StopwatchNotificationService extends Service {
                 .setSmallIcon(R.drawable.ic_stat_stopwatchiconnotification)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(resultPendingIntent)
                 .setOngoing(true)

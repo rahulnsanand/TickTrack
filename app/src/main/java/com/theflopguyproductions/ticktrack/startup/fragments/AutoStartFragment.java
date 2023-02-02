@@ -44,9 +44,9 @@ public class AutoStartFragment extends Fragment {
         helperSubText = root.findViewById(R.id.ticktrackFragmentAutoStartSubHelperText);
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
-        tickTrackDatabase.storeStartUpFragmentID(6);
+        tickTrackDatabase.storeStartUpFragmentID(7);
 
-        if(isMyServiceRunning(OptimiserService.class)){
+        if(isMyServiceRunning()){
             stopCheckService();
         }
 
@@ -93,10 +93,10 @@ public class AutoStartFragment extends Fragment {
         intent.setAction(OptimiserService.ACTION_BATTERY_OPTIMISE_CHECK_STOP);
         requireContext().startService(intent);
     }
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
+    private boolean isMyServiceRunning() {
         ActivityManager manager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
+            if (OptimiserService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
@@ -111,7 +111,7 @@ public class AutoStartFragment extends Fragment {
         try {
             autoStartSetClickListener = (OnAutoStartSetClickListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(context
                     + " must implement " + OnAutoStartSetClickListener.class.getName());
         }
     }
