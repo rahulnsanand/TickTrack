@@ -327,13 +327,15 @@ public class TickTrackFirebaseDatabase {
 
         if(localHourPicked==-1){
             new TickTrackDatabase(context).storeBackupHour(hourRandom);
+            localHourPicked = hourRandom;
         }
         if(localMinutePicked==-1){
             new TickTrackDatabase(context).storeBackupMinute(minuteRandom);
+            localMinutePicked = minuteRandom;
         }
 
-        calendar.set(Calendar.HOUR_OF_DAY, hourRandom);
-        calendar.set(Calendar.MINUTE, minuteRandom);
+        calendar.set(Calendar.HOUR_OF_DAY, localHourPicked);
+        calendar.set(Calendar.MINUTE, localMinutePicked);
         calendar.set(Calendar.SECOND, 0);
 
         int intervalRange = new TickTrackDatabase(context).getSyncFrequency();
@@ -344,13 +346,22 @@ public class TickTrackFirebaseDatabase {
             }
             intervalTimeInMillis = 24*60*60*1000L;
         } else if(intervalRange== SettingsData.Frequency.MONTHLY.getCode()){
-            calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+            int dateRandom = r.nextInt(26)+1;
+            new TickTrackDatabase(context).storeBackupDate(dateRandom);
+            calendar.set(Calendar.DAY_OF_MONTH, dateRandom);
+
             if(Calendar.getInstance().after(calendar)){
                 calendar.add(Calendar.MONTH, 1);
             }
             intervalTimeInMillis = 30*24*60*60*1000L;
         } else if(intervalRange== SettingsData.Frequency.WEEKLY.getCode()){
-            calendar.set(Calendar.DAY_OF_WEEK, 1);
+
+            int dayOfWeekRandom = r.nextInt(6)+1;
+            new TickTrackDatabase(context).storeBackupDay(dayOfWeekRandom);
+
+            calendar.set(Calendar.DAY_OF_WEEK, dayOfWeekRandom);
+
             if(Calendar.getInstance().after(calendar)){
                 calendar.add(Calendar.WEEK_OF_YEAR, 1);
             }
@@ -361,6 +372,7 @@ public class TickTrackFirebaseDatabase {
             }
             intervalTimeInMillis = 24*60*60*1000L;
         }
+
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
         intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");

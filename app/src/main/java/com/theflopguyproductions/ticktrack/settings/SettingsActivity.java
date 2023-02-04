@@ -1,5 +1,7 @@
 package com.theflopguyproductions.ticktrack.settings;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import android.Manifest;
 import android.animation.Animator;
 import android.app.Activity;
@@ -66,7 +68,11 @@ import com.theflopguyproductions.ticktrack.widgets.shortcuts.QuickTimerWidget;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -252,16 +258,21 @@ public class SettingsActivity extends AppCompatActivity {
         String frequencyOption = "";
         int opt = tickTrackDatabase.getSyncFrequency();
         if(opt==1){
-            frequencyOption = "Monthly";
+            int dateOfMonth = tickTrackDatabase.getBackupDate();
+            frequencyOption = "Every "+dateOfMonth+getDayOfMonthSuffix(dateOfMonth)+" of the Month";
             monthlyButton.setChecked(true);
         } else if (opt ==2){
-            frequencyOption = "Weekly";
+            System.out.println(tickTrackDatabase.getBackupDay()+" BACKUP DAY FOUND");
+
+            String dayOfWeek = getDayOfWeek(tickTrackDatabase.getBackupDay());
+
+            frequencyOption = "Every "+dayOfWeek;
             weeklyButton.setChecked(true);
         } else if (opt==3){
             frequencyOption = "Daily";
             dailyButton.setChecked(true);
         } else {
-            frequencyOption = "Monthly";
+            frequencyOption = "Every 1st Day of the Month";
             monthlyButton.setChecked(true);
         }
         int backupHour = tickTrackDatabase.getBackupHour();
@@ -282,6 +293,46 @@ public class SettingsActivity extends AppCompatActivity {
 
         syncDataFrequency.setText(frequencyOption+timeOfBackup);
     }
+    String getDayOfMonthSuffix(final int n) {
+        checkArgument(n >= 1 && n <= 31, "illegal day of month: " + n);
+        if (n >= 11 && n <= 13) {
+            return "th";
+        }
+        switch (n % 10) {
+            case 1:  return "st";
+            case 2:  return "nd";
+            case 3:  return "rd";
+            default: return "th";
+        }
+    }
+    private String getDayOfWeek(int value) {
+        String day = "";
+        switch (value) {
+            case 1:
+                day = "Sunday";
+                break;
+            case 2:
+                day = "Monday";
+                break;
+            case 3:
+                day = "Tuesday";
+                break;
+            case 4:
+                day = "Wednesday";
+                break;
+            case 5:
+                day = "Thursday";
+                break;
+            case 6:
+                day = "Friday";
+                break;
+            case 7:
+                day = "Saturday";
+                break;
+        }
+        return day;
+    }
+
     private void setupDataOptionsText(){
         ArrayList<Integer> optionsBackup = tickTrackDatabase.getBackupDataOptions();
         String options = "";
@@ -918,6 +969,11 @@ public class SettingsActivity extends AppCompatActivity {
             tickTrackFirebaseDatabase.setBackUpAlarm(false);
             toggleSyncOptionsLayout();
             setupSettingsChangeTime();
+
+            //TODO DELETE THIS AFTER BACKUP DEBUG FIX
+            if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, this)){
+                startBackupService(this);
+            }
         });
         weeklyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.WEEKLY.getCode());
@@ -1172,7 +1228,31 @@ public class SettingsActivity extends AppCompatActivity {
         dateTimeLayout.setOnClickListener(view -> startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 1));
     }
 
+    private void startBackupService(Context context) {
+        tickTrackFirebaseDatabase.setBackupMode(true);
+        tickTrackFirebaseDatabase.setCounterBackupComplete(false);
+        tickTrackFirebaseDatabase.setTimerBackupComplete(false);
+        tickTrackFirebaseDatabase.setSettingsBackupComplete(false);
+        Intent intent = new Intent(context, BackupRestoreService.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(BackupRestoreService.RESTORE_SERVICE_START_BACKUP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+    }
 
+    //TODO DELETE THIS AFTER DEBUG BACKUP
+    public boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private boolean isMyServiceRunning(Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

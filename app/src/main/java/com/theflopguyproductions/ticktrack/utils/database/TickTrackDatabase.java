@@ -90,8 +90,8 @@ public class TickTrackDatabase {
         editor.putBoolean("AlreadyDoneCheck", b);
         editor.apply();
     }
-    public boolean isAlreadyDoneCheck() {
-        return sharedPreferences.getBoolean("AlreadyDoneCheck", false);
+    public boolean notAlreadyDoneCheck() {
+        return !sharedPreferences.getBoolean("AlreadyDoneCheck", false);
     }
 
     public void setLockedBootComplete(boolean isLocked){
@@ -384,7 +384,7 @@ public class TickTrackDatabase {
         editor.apply();
     }
     public int getSyncFrequency(){
-        return sharedPreferences.getInt("syncFrequency",3);
+        return sharedPreferences.getInt("syncFrequency",2);
     }
 
     public void setCounterDataBackup(boolean id){
@@ -598,6 +598,26 @@ public class TickTrackDatabase {
     public int getBackupHour() {
         return sharedPreferences.getInt("backupHour", -1);
     }
+
+    public void storeBackupDay(int result) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("backupDay", result);
+        editor.apply();
+    }
+
+    public int getBackupDay() {
+        return sharedPreferences.getInt("backupDay", 1);
+    }
+
+    public void storeBackupDate(int result) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("backupDate", result);
+        editor.apply();
+    }
+    public int getBackupDate() {
+        return sharedPreferences.getInt("backupDate", 1);
+    }
+
     public void storeBackupMinute(int minuteRandom) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("backupMinute", minuteRandom);

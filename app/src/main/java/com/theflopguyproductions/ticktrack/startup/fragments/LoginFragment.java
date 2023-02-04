@@ -62,7 +62,7 @@ public class LoginFragment extends Fragment {
         signInText = root.findViewById(R.id.autoStartGoogleFragmentSignInTitle);
         signInDetailText = root.findViewById(R.id.autoStartGoogleFragmentSignInDetailText);
 
-        retrieveRootLayout.setVisibility(View.GONE);
+        //retrieveRootLayout.setVisibility(View.GONE);
 
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(requireContext());

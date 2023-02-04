@@ -38,6 +38,11 @@ import java.util.ArrayList;
 public class BootReceiver extends BroadcastReceiver {
 
     private static final String LOCKED_BOOT_COMPLETE = "android.intent.action.LOCKED_BOOT_COMPLETED";
+    private static final String LOCKED_BOOT_COMPLETE1 = "android.intent.action.BOOT_COMPLETED" ;
+    private static final String LOCKED_BOOT_COMPLETE2 = "android.intent.action.QUICKBOOT_POWERON" ;
+    private static final String LOCKED_BOOT_COMPLETE3 = "android.intent.action.REBOOT";
+    private static final String LOCKED_BOOT_COMPLETE4 = "android.intent.action.LOCKED_BOOT_COMPLETED";
+    private static final String LOCKED_BOOT_COMPLETE5 = "com.htc.intent.action.QUICKBOOT_POWERON";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -46,7 +51,13 @@ public class BootReceiver extends BroadcastReceiver {
 
         System.out.println(intent.getAction() + " TIMER BOOT");
 
-        if (LOCKED_BOOT_COMPLETE.equals(intent.getAction())) {
+        if (LOCKED_BOOT_COMPLETE.equals(intent.getAction()) ||
+                LOCKED_BOOT_COMPLETE1.equals(intent.getAction()) ||
+                LOCKED_BOOT_COMPLETE2.equals(intent.getAction()) ||
+                LOCKED_BOOT_COMPLETE3.equals(intent.getAction()) ||
+                LOCKED_BOOT_COMPLETE4.equals(intent.getAction()) ||
+                LOCKED_BOOT_COMPLETE5.equals(intent.getAction())) {
+
             System.out.println(intent.getAction() + " TIMER BOOT");
             setupBootProcedure(context, tickTrackDatabase);
             tickTrackDatabase.setLockedBootComplete(true);

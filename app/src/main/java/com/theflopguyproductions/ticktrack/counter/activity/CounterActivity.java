@@ -363,7 +363,7 @@ public class CounterActivity extends AppCompatActivity {
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         lottieAnimationView.setVisibility(View.INVISIBLE);
-                        if(!tickTrackDatabase.isAlreadyDoneCheck()){
+                        if(tickTrackDatabase.notAlreadyDoneCheck()){
                             int appLaunchNumber = tickTrackDatabase.getAppLaunchNumber();
                             if(appLaunchNumber<=20){
                                 if(appLaunchNumber==3 || appLaunchNumber==10 || appLaunchNumber==20){
