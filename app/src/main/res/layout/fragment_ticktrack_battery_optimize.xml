@@ -78,8 +78,8 @@
 
             <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
                 android:id="@+id/ticktrackFragmentBatteryOptimiseLottie"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
@@ -96,13 +96,13 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
-                android:text="Settings > Battery Optimisation > TickTrack\n'Don't Optimise'"
+                android:text="Settings > TickTrack > Battery Usage > \n'Unrestricted / Don't Optimise / Allow Background Activity / Allow Auto Launch'"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentOptimiseHelpText"
-                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintVertical_bias="0.2"
                 app:typeface="apercu_bold" />
 
             <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
@@ -114,7 +114,7 @@
                 android:layout_marginEnd="32dp"
                 android:text="Did you know your timers get cancelled automatically the moment you reboot your device?
                 \nTo ensure you don't miss any timers, this step is essential.
-                \n\nNot to worry, this app does not consume any battery when not in use."
+                \n\nNot to worry, this app does not consume any battery even when in use."
                 android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

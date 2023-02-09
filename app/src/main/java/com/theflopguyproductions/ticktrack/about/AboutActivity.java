@@ -25,7 +25,7 @@ public class AboutActivity extends AppCompatActivity {
     private ConstraintLayout githubButton, twitterButton, instaButton;
 
     private static final String INSTAGRAM_LINK = "https://www.instagram.com/theflopguy/";
-    private static final String GITHUB_LINK = "https://github.com/theflopguy/TickTrack";
+    private static final String GITHUB_LINK = "https://github.com/rahulnsanand/TickTrack";
     private static final String TWITTER_LINK = "https://twitter.com/TheFlopGuy";
 
 
@@ -43,10 +43,10 @@ public class AboutActivity extends AppCompatActivity {
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String version = pInfo.versionName;
-            versionText.setText("V"+version);
+            versionText.setText("V "+version);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            versionText.setText("V 2.1.2.2");
+            versionText.setText("V 2.2.0.6");
         }
         backButton = findViewById(R.id.aboutActivityBackButton);
         githubButton = findViewById(R.id.aboutActivityGithubButton);

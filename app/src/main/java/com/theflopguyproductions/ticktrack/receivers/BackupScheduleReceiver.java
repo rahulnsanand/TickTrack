@@ -30,6 +30,7 @@ public class BackupScheduleReceiver extends BroadcastReceiver {
 
     private void startBackupService(Context context) {
         tickTrackFirebaseDatabase.setBackupMode(true);
+        tickTrackFirebaseDatabase.setBackupFailedMode(false);
         tickTrackFirebaseDatabase.setCounterBackupComplete(false);
         tickTrackFirebaseDatabase.setTimerBackupComplete(false);
         tickTrackFirebaseDatabase.setSettingsBackupComplete(false);

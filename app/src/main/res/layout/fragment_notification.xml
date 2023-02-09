@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ticktrackFragmentNotificationRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -45,32 +46,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:typeface="apercu_italic" />
 
-            <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
-                android:id="@+id/ticktrackFragmentNotification1ImageView"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6"
-                app:lottie_rawRes="@raw/autostart_lottie"
-                app:lottie_loop="true"
-                app:lottie_autoPlay="true"/>
-            <com.theflopguyproductions.ticktrack.ui.lottie.LottieAnimationView
+            <ImageView
                 android:id="@+id/ticktrackFragmentNotification2ImageView"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="220dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
+                android:src="@drawable/artboard_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ticktrackFragmentNotification1ImageView"
-                app:lottie_rawRes="@raw/autostart_lottie"
-                app:lottie_loop="true"
-                app:lottie_autoPlay="true"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <com.theflopguyproductions.ticktrack.utils.font.TickTrackTextView
                 android:id="@+id/textView6"

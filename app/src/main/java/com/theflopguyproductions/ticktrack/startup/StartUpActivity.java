@@ -5,8 +5,10 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -72,7 +74,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         rootLayout = findViewById(R.id.StartUpActivityRootLayout);
 
         int receivedFragmentID = tickTrackDatabase.retrieveStartUpFragmentID();
-        if (tickTrackDatabase.retrieveFirstLaunch()) {
+        if (tickTrackDatabase.retrieveFirstLaunch() && receivedFragmentID==0) {
             openFragment(getFragment(1));
         } else {
             openFragment(getFragment(receivedFragmentID));
@@ -141,7 +143,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
             openFragment(new ThemeFragment());
         } else {
             if (tickTrackDatabase.retrieveFirstLaunch()) {
-                openFragment(new BatteryOptimiseFragment());
+                openFragment(new NotificationFragment());
             } else {
                 startActivity(new Intent(this, SoYouADeveloperHuh.class));
             }
@@ -150,6 +152,7 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
 
     @Override
     public void onThemeSetClickListener() {
+
         setupTheme();
         openFragment(new NotificationFragment());
 
@@ -160,7 +163,28 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
         if (!isMyServiceRunning(OptimiserService.class)) {
             startCheckService();
         }
-        Intent intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this, getPackageName(), false);
+        Intent intent;
+
+        final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if(activityManager.isBackgroundRestricted()){
+                System.out.println("BACKGROUND RESTRICTED");
+                intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+            } else {
+                System.out.println("BACKGROUND RESTRICTED ELSE");
+                intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+//                intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this, getPackageName(), false);
+            }
+
+        } else {
+            System.out.println("ELSE RESTRICTED");
+            intent = PowerSaverHelper.prepareIntentForWhiteListingOfBatteryOptimization(this, getPackageName(), false);
+        }
+
         if (intent != null) {
             startActivity(intent);
         }
@@ -210,8 +234,10 @@ public class StartUpActivity extends AppCompatActivity implements IntroFragment.
 
     private void requestNotificationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED)
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED) {
+            openFragment(new BatteryOptimiseFragment());
             return;
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 2422);

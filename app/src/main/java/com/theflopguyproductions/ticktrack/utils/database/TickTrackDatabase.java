@@ -184,7 +184,14 @@ public class TickTrackDatabase {
     public int retrieveStartUpFragmentID() {
         return sharedPreferences.getInt("startupFragmentNumber", 0);
     }
-
+    public void setNotificationFragmentComplete(boolean value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("setNotificationFragmentComplete", value);
+        editor.apply();
+    }
+    public boolean isNotificationFragmentComplete() {
+        return sharedPreferences.getBoolean("setNotificationFragmentComplete", false);
+    }
     public void storeOptimiseRequestNumber(int updateNumber){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("optimiseRequestNumber", updateNumber);
@@ -697,6 +704,16 @@ public class TickTrackDatabase {
 
     public int getSyncRetryCount() {
         return sharedPreferences.getInt("syncRetryCount", 0);
+    }
+
+    public void setSwitchedToFirebase(boolean i) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isSwitchedToFirebase", i);
+        editor.apply();
+    }
+
+    public boolean isSwitchedToFirebase() {
+        return sharedPreferences.getBoolean("isSwitchedToFirebase", false);
     }
 
 

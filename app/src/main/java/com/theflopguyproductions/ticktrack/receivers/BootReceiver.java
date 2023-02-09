@@ -43,6 +43,11 @@ public class BootReceiver extends BroadcastReceiver {
     private static final String LOCKED_BOOT_COMPLETE3 = "android.intent.action.REBOOT";
     private static final String LOCKED_BOOT_COMPLETE4 = "android.intent.action.LOCKED_BOOT_COMPLETED";
     private static final String LOCKED_BOOT_COMPLETE5 = "com.htc.intent.action.QUICKBOOT_POWERON";
+    public static final String UPDATE_COMPLETE_CUSTOM = "com.theflopguyproductions.ticktrack.UPDATE_CUSTOM_TRIGGER";
+
+    public static final String UPDATE_COMPLETE = "android.intent.action.MY_PACKAGE_REPLACED";
+    public static final String UPDATE_COMPLETE1 = "android.intent.action.PACKAGE_REPLACED";
+    public static final String UPDATE_COMPLETE2 = "android.intent.action.PACKAGE_CHANGED";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -56,7 +61,11 @@ public class BootReceiver extends BroadcastReceiver {
                 LOCKED_BOOT_COMPLETE2.equals(intent.getAction()) ||
                 LOCKED_BOOT_COMPLETE3.equals(intent.getAction()) ||
                 LOCKED_BOOT_COMPLETE4.equals(intent.getAction()) ||
-                LOCKED_BOOT_COMPLETE5.equals(intent.getAction())) {
+                LOCKED_BOOT_COMPLETE5.equals(intent.getAction()) ||
+                UPDATE_COMPLETE.equals(intent.getAction()) ||
+                UPDATE_COMPLETE1.equals(intent.getAction())||
+                UPDATE_COMPLETE2.equals(intent.getAction()) ||
+                UPDATE_COMPLETE_CUSTOM.equals(intent.getAction())) {
 
             System.out.println(intent.getAction() + " TIMER BOOT");
             setupBootProcedure(context, tickTrackDatabase);
@@ -68,11 +77,12 @@ public class BootReceiver extends BroadcastReceiver {
                 setupBootProcedure(context, tickTrackDatabase);
                 tickTrackDatabase.setLockedBootComplete(false);
             }
-            FirebaseHelper firebaseHelper = new FirebaseHelper(context);
-            TickTrackFirebaseDatabase tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
-            if (firebaseHelper.isUserSignedIn() && !tickTrackFirebaseDatabase.isDriveLinkFail()) {
-                tickTrackFirebaseDatabase.setBackUpAlarm(false);
-            }
+        }
+
+        FirebaseHelper firebaseHelper = new FirebaseHelper(context);
+        TickTrackFirebaseDatabase tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
+        if (firebaseHelper.isUserSignedIn() && !tickTrackFirebaseDatabase.isDriveLinkFail()) {
+            tickTrackFirebaseDatabase.setBackUpAlarm(false);
         }
     }
 

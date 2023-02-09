@@ -68,12 +68,14 @@ import com.theflopguyproductions.ticktrack.widgets.shortcuts.QuickTimerWidget;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -259,7 +261,11 @@ public class SettingsActivity extends AppCompatActivity {
         int opt = tickTrackDatabase.getSyncFrequency();
         if(opt==1){
             int dateOfMonth = tickTrackDatabase.getBackupDate();
-            frequencyOption = "Every "+dateOfMonth+getDayOfMonthSuffix(dateOfMonth)+" of the Month";
+//            frequencyOption = "Every "+dateOfMonth+getDayOfMonthSuffix(dateOfMonth)+" of the Month";
+
+            // TODO: EVERY HOUR DEBUG
+            frequencyOption = "Next backup";
+
             monthlyButton.setChecked(true);
         } else if (opt ==2){
             System.out.println(tickTrackDatabase.getBackupDay()+" BACKUP DAY FOUND");
@@ -275,8 +281,15 @@ public class SettingsActivity extends AppCompatActivity {
             frequencyOption = "Every 1st Day of the Month";
             monthlyButton.setChecked(true);
         }
-        int backupHour = tickTrackDatabase.getBackupHour();
-        int backupMinute = tickTrackDatabase.getBackupMinute();
+
+//        //TODO DELETE
+        long nextBackupTimestamp = tickTrackDatabase.getLastBackupSystemTime()+1000*60*60L;
+        Timestamp stamp = new Timestamp(nextBackupTimestamp);
+        int backupHour = stamp.getHours();
+        int backupMinute =stamp.getMinutes();
+
+//        int backupHour = tickTrackDatabase.getBackupHour();
+//        int backupMinute = tickTrackDatabase.getBackupMinute();
         String timeOfBackup = " at around ";
         if(backupHour<=12){
             if(backupHour==0){
@@ -735,7 +748,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
                 intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
                 intent.setPackage("com.theflopguyproductions.ticktrack");
-                PendingIntent alarmPendingIntent = null;
+                PendingIntent alarmPendingIntent;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                     alarmPendingIntent = PendingIntent.getBroadcast(this, 825417, intent, PendingIntent.FLAG_MUTABLE);
                 } else {
@@ -970,7 +983,7 @@ public class SettingsActivity extends AppCompatActivity {
             toggleSyncOptionsLayout();
             setupSettingsChangeTime();
 
-            //TODO DELETE THIS AFTER BACKUP DEBUG FIX
+//            //TODO DELETE THIS AFTER BACKUP DEBUG FIX
             if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, this)){
                 startBackupService(this);
             }
@@ -1165,7 +1178,7 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     if(firebaseHelper.isUserSignedIn()){
                         firebaseHelper.deleteBackup(this);
-                        Toast.makeText(activity, "Deleting in background", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Deleting your backup data in background", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -1230,6 +1243,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void startBackupService(Context context) {
         tickTrackFirebaseDatabase.setBackupMode(true);
+        tickTrackFirebaseDatabase.setBackupFailedMode(false);
         tickTrackFirebaseDatabase.setCounterBackupComplete(false);
         tickTrackFirebaseDatabase.setTimerBackupComplete(false);
         tickTrackFirebaseDatabase.setSettingsBackupComplete(false);

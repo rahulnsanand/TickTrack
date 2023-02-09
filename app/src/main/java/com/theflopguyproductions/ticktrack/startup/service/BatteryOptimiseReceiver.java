@@ -17,7 +17,7 @@ public class BatteryOptimiseReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if(Objects.equals(intent.getAction(), ACTION_OPTIMISING_DONE_CHECK)){
             TickTrackDatabase tickTrackDatabase = new TickTrackDatabase(context);
-            tickTrackDatabase.storeStartUpFragmentID(6);
+            tickTrackDatabase.storeStartUpFragmentID(7);
             tickTrackDatabase.setNotOptimised(true);
 
             Intent fireIntent = new Intent(context, StartUpActivity.class);

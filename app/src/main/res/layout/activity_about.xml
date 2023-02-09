@@ -86,7 +86,7 @@
                     android:id="@+id/aboutActivityTFGProductions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="By TheFlopGuy Productions"
+                    android:text="by Asher Productions"
                     android:textColor="@color/Accent"
                     app:layout_constraintEnd_toEndOf="@+id/aboutActivityTickTrackAppName"
                     app:layout_constraintStart_toStartOf="@+id/aboutActivityTickTrackAppName"
@@ -163,7 +163,8 @@
                         android:layout_marginStart="16dp"
                         android:background="@drawable/fab_light_background"
                         app:layout_constraintStart_toEndOf="@+id/aboutActivityGithubButton"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/imageView7"
@@ -185,7 +186,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/aboutActivityInstagramButton"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/imageView5"

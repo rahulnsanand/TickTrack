@@ -8,7 +8,7 @@ android {
 
     signingConfigs {
         TickTracKSigningConfig {
-            storeFile file('B:\\TickTrack-master\\KeyStore\\TickTrackKeystore.jks')
+            storeFile file('B:\\TickTrack\\KeyStore\\TickTrackKeystore.jks')
             storePassword 'logmein'
             keyAlias 'theflopguy'
             keyPassword 'logmein'
@@ -20,7 +20,7 @@ android {
         applicationId "com.theflopguyproductions.ticktrack"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 15
+        versionCode 16
         versionName "2.2.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -29,15 +29,14 @@ android {
 
     buildTypes {
         release {
-            shrinkResources true
-            minifyEnabled true
+            ext.enableCrashlytics = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable false
+            debuggable true
             crunchPngs false
             signingConfig signingConfigs.TickTracKSigningConfig
         }
         debug {
-            ext.enableCrashlytics = false
+            ext.enableCrashlytics = true
             ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             crunchPngs false
@@ -89,9 +88,16 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20"
     implementation 'com.nineoldandroids:library:2.4.0'
 
-    implementation 'com.google.firebase:firebase-analytics:21.2.0'
-    implementation 'com.google.firebase:firebase-firestore:24.4.2'
-    implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
+
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-messaging'
+//    implementation 'com.google.firebase:firebase-perf:19.0.8'
 
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
     
@@ -105,15 +111,13 @@ dependencies {
     }
     implementation 'commons-codec:commons-codec:1.11'
 
-    implementation 'com.google.firebase:firebase-crashlytics:18.3.3'
-    implementation 'com.google.firebase:firebase-messaging:23.1.1'
-
     implementation 'com.gtomato.android.library:carouselview:2.0.1'
-//    implementation 'com.google.firebase:firebase-perf:19.0.8'
+
 
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     implementation 'androidx.work:work-runtime-ktx:2.8.0-rc01'
+
 }
 repositories {
     google()

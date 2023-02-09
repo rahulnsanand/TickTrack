@@ -62,10 +62,10 @@ public class NotificationFragment extends Fragment {
         tickTrackDatabase = new TickTrackDatabase(requireContext());
         tickTrackDatabase.storeStartUpFragmentID(5);
 
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED){
-            notificationSetClickListener.OnNotificationSetupClickListener();
-        }
+//        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED){
+//            notificationSetClickListener.OnNotificationSetupClickListener();
+//        }
 
 
         setupTheme();
@@ -75,6 +75,7 @@ public class NotificationFragment extends Fragment {
                         <= (notificationScroll.getHeight() + notificationScroll.getScrollY()));
 
         notificationSetButton.setOnClickListener(view -> {
+            tickTrackDatabase.setNotificationFragmentComplete(true);
             if (isScrolled || notificationScroll.getChildAt(0).getBottom()
                     <= (notificationScroll.getHeight() + notificationScroll.getScrollY())) {
                 notificationSetClickListener.OnNotificationSetupClickListener();
@@ -84,6 +85,7 @@ public class NotificationFragment extends Fragment {
         });
 
         notificationSkipButton.setOnClickListener(view -> {
+            tickTrackDatabase.setNotificationFragmentComplete(true);
             if (isScrolled || notificationScroll.getChildAt(0).getBottom()
                     <= (notificationScroll.getHeight() + notificationScroll.getScrollY())) {
                 notificationSetClickListener.onNotificationSkipClickListener();

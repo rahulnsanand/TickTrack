@@ -78,7 +78,7 @@ public class RestoreFragment extends Fragment {
         if(tickTrackFirebaseDatabase.isDriveLinkFail()){
             firebaseHelper.signOut(activity);
             Toast.makeText(activity, "Kindly login again", Toast.LENGTH_SHORT).show();
-            tickTrackDatabase.storeStartUpFragmentID(3);
+            tickTrackDatabase.storeStartUpFragmentID(2);
             startActivity(new Intent(activity, StartUpActivity.class));
         } else if(tickTrackFirebaseDatabase.isRestoreInitMode()==1){
             internetHandler.removeCallbacks(internetCheck);
@@ -99,6 +99,7 @@ public class RestoreFragment extends Fragment {
                     requireContext().startActivity(intent);
                 } else {
                     if(!tickTrackDatabase.retrieveFirstLaunch()){
+                        tickTrackDatabase.storeStartUpFragmentID(4);
                         startActivity(new Intent(activity, SoYouADeveloperHuh.class));
                     }
                 }
@@ -135,6 +136,7 @@ public class RestoreFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 requireContext().startActivity(intent);
             } else {
+                tickTrackDatabase.storeStartUpFragmentID(5);
                 if(!tickTrackDatabase.retrieveFirstLaunch()){
                     startActivity(new Intent(activity, SoYouADeveloperHuh.class));
                 }
@@ -246,7 +248,7 @@ public class RestoreFragment extends Fragment {
             SwipeDialog swipeDialog = new SwipeDialog(activity);
             swipeDialog.show();
             swipeDialog.dialogTitle.setText("Are you sure?");
-            swipeDialog.dialogMessage.setText("This will delete your cloud TickTrack data on next backup");
+            swipeDialog.dialogMessage.setText("This Will Delete Your Cloud TickTrack Data!");
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
 
@@ -258,6 +260,12 @@ public class RestoreFragment extends Fragment {
                 if(isMyServiceRunning(BackupRestoreService.class, activity)){
                     stopRestoreService();
                 }
+
+                if(firebaseHelper.isUserSignedIn()){
+                    firebaseHelper.deleteBackup(activity);
+                    Toast.makeText(activity, "Deleting your cloud TickTrack data in background", Toast.LENGTH_SHORT).show();
+                }
+
                 tickTrackFirebaseDatabase.setBackUpAlarm(true);
                 if(StartUpActivity.ACTION_SETTINGS_ACCOUNT_ADD.equals(receivedAction)){
                     Intent intent = new Intent(requireContext(), SettingsActivity.class);
@@ -317,9 +325,7 @@ public class RestoreFragment extends Fragment {
                 setupNoInternet();
                 tickTrackFirebaseDatabase.setRestoreInitMode(-1);
                 internetHandler.removeCallbacks(internetCheck);
-                System.out.println("LOOP END");
             } else {
-                System.out.println("LOOP RUN");
                 internetHandler.post(internetCheck);
             }
         }
@@ -348,6 +354,7 @@ public class RestoreFragment extends Fragment {
         tickTrackFirebaseDatabase.setTimerBackupComplete(false);
         tickTrackFirebaseDatabase.setSettingsBackupComplete(false);
         tickTrackFirebaseDatabase.setBackupMode(false);
+        tickTrackFirebaseDatabase.setBackupFailedMode(false);
 
         internetHandler.post(internetCheck);
 
@@ -377,6 +384,7 @@ public class RestoreFragment extends Fragment {
             tickTrackDatabase.setMilestoneVibrate(settingsData.get(0).isMilestoneVibrate());
             tickTrackDatabase.setSumEnabled(settingsData.get(0).isSumDisplayed());
             tickTrackDatabase.storeSettingsChangeTime(System.currentTimeMillis());
+            tickTrackDatabase.setSwitchedToFirebase(settingsData.get(0).isSwitchedToFirebase());
             System.out.println("INITIALISED PREFERENCES");
         }
         tickTrackFirebaseDatabase.storeSettingsRestoredData(new ArrayList<>());
@@ -387,7 +395,7 @@ public class RestoreFragment extends Fragment {
         super.onPause();
         sharedPreferences = tickTrackDatabase.getSharedPref(activity);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        tickTrackDatabase.storeStartUpFragmentID(3);
+        // tickTrackDatabase.storeStartUpFragmentID(3);
         internetHandler.removeCallbacks(internetCheck);
     }
 
@@ -410,7 +418,7 @@ public class RestoreFragment extends Fragment {
         try {
             startFreshListener = (StartFreshListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(context
                     + " must implement " + StartFreshListener.class.getName());
         }
     }

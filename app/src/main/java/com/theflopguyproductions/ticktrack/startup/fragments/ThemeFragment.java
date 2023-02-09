@@ -88,6 +88,7 @@ public class ThemeFragment extends Fragment {
             if (isScrolled || ticktrackFragmentThemeScrollView.getChildAt(0).getBottom()
                     <= (ticktrackFragmentThemeScrollView.getHeight() + ticktrackFragmentThemeScrollView.getScrollY())) {
                 onThemeSetClickListener.onThemeSetClickListener();
+
             } else {
                 ticktrackFragmentThemeScrollView.fullScroll(View.FOCUS_DOWN);
             }

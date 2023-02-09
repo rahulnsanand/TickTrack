@@ -93,7 +93,14 @@ public class BackupRestoreService extends Service {
                     break;
                 case RESTORE_SERVICE_START_BACKUP:
                     setupForeground();
-                    startBackup();
+                    try {
+                        startBackup();
+                    } catch (Exception e){
+                        System.out.println("SOME BACKUP EXCEPTION WAS CAUGHT");
+                        System.out.println(e.getMessage());
+                        System.out.println(e.getLocalizedMessage());
+                        updateFailedFirebaseData(e.getMessage() + "\n"+ e.getLocalizedMessage());
+                    }
                     break;
             }
         }
@@ -116,6 +123,7 @@ public class BackupRestoreService extends Service {
         tickTrackFirebaseDatabase.setTimerBackupComplete(false);
         tickTrackFirebaseDatabase.setSettingsBackupComplete(false);
         tickTrackFirebaseDatabase.setBackupMode(false);
+        tickTrackFirebaseDatabase.setBackupFailedMode(false);
         firebaseHelper.stopHandler();
     }
 
@@ -124,7 +132,7 @@ public class BackupRestoreService extends Service {
         @Override
         public void run() {
             if (!InternetChecker.isOnline(getApplicationContext())) {
-                System.out.println("BACKUP CANCEL");
+                System.out.println("BACKUP FAIL - RETRY");
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
@@ -137,13 +145,13 @@ public class BackupRestoreService extends Service {
                     tickTrackDatabase.setSyncRetryCount(0);
                 }
             }
-            if (!tickTrackFirebaseDatabase.isBackupMode()) {
+
+            if (!tickTrackFirebaseDatabase.isBackupMode() && !tickTrackFirebaseDatabase.isBackupFailedMode()) {
                 System.out.println("BACKUP OVER");
                 tickTrackFirebaseDatabase.setDriveLinkFail(false);
                 stopForegroundService();
                 prefixFirebaseVariables();
                 backupCheckHandler.removeCallbacks(dataBackupCheck);
-                tickTrackDatabase.setLastBackupSystemTime(System.currentTimeMillis());
                 tickTrackDatabase.setSyncRetryCount(0);
             } else if (System.currentTimeMillis() - backupStartTime >= 1000 * 60 * 2) {
                 System.out.println("BACKUP CANCEL");
@@ -230,12 +238,67 @@ public class BackupRestoreService extends Service {
                                 retrieveData = new HashMap<>();
                             }
                         }
-                        retrieveData.put("Backup " + retrieveData.size(), Build.MANUFACTURER + ": " + DateFormat.getDateTimeInstance().format(System.currentTimeMillis()));
+                        retrieveData.put("Backup " + retrieveData.size(), Build.MANUFACTURER + ": " +Build.MODEL+": "+
+                                DateFormat.getDateTimeInstance().format(System.currentTimeMillis()) + ": " +syncFrequency());
                         firebaseFirestore.collection("TickTrackUsers Backup Debug")
                                 .document(Objects.requireNonNull(account.getEmail())).set(retrieveData);
                     }).addOnFailureListener(e -> {
 
                     });
+        }
+    }
+
+    private void updateFailedFirebaseData(String exception) {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null) {
+            firebaseFirestore.collection("TickTrackUsers Backup Debug").document(Objects.requireNonNull(account.getEmail())).get()
+                    .addOnSuccessListener(snapshot -> {
+                        Map<String, Object> retrieveData = new HashMap<>();
+                        if (snapshot.exists()) {
+                            retrieveData = snapshot.getData();
+                            if (retrieveData == null) {
+                                retrieveData = new HashMap<>();
+                            }
+                        }
+                        retrieveData.put("Backup FAILED" + retrieveData.size(), Build.MANUFACTURER + ": " +Build.MODEL+": "+
+                                DateFormat.getDateTimeInstance().format(System.currentTimeMillis()) + ": " +syncFrequency() +
+                                ": "+exception);
+                        firebaseFirestore.collection("TickTrackUsers Backup Debug")
+                                .document(Objects.requireNonNull(account.getEmail())).set(retrieveData);
+                    }).addOnFailureListener(e -> {
+
+                    });
+        } else {
+            firebaseFirestore.collection("TickTrackUsers Backup Debug").document("Failed Backup Non-Signed In User").get()
+                    .addOnSuccessListener(snapshot -> {
+                        Map<String, Object> retrieveData = new HashMap<>();
+                        if (snapshot.exists()) {
+                            retrieveData = snapshot.getData();
+                            if (retrieveData == null) {
+                                retrieveData = new HashMap<>();
+                            }
+                        }
+                        retrieveData.put("Backup FAILED" + retrieveData.size(), Build.MANUFACTURER + ": " +Build.MODEL+": "+
+                                DateFormat.getDateTimeInstance().format(System.currentTimeMillis()) + ": " +syncFrequency() +
+                                ": "+exception);
+                        firebaseFirestore.collection("TickTrackUsers Backup Debug")
+                                .document("Failed Backup Non-Signed In User").set(retrieveData);
+                    }).addOnFailureListener(e -> {
+
+                    });
+        }
+    }
+
+    private String syncFrequency(){
+        int i = tickTrackDatabase.getSyncFrequency();
+        if(i==1){
+            return "Monthly";
+        } else if(i==2){
+            return "Weekly";
+        } else if(i==3){
+            return "Daily";
+        } else {
+            return "Monthly";
         }
     }
 

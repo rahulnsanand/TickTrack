@@ -24,7 +24,21 @@ public class SettingsData {
     }
 
     int themeMode, syncDataFrequency, screensaverClockStyle;
-    boolean isHapticFeedback, isCounterBackupOn, isTimerBackupOn, isSumDisplayed, isMilestoneVibrate;
+    boolean isHapticFeedback;
+    boolean isCounterBackupOn;
+    boolean isTimerBackupOn;
+    boolean isSumDisplayed;
+    boolean isMilestoneVibrate;
+
+    public boolean isSwitchedToFirebase() {
+        return isSwitchedToFirebase;
+    }
+
+    public void setSwitchedToFirebase(boolean switchedToFirebase) {
+        isSwitchedToFirebase = switchedToFirebase;
+    }
+
+    boolean isSwitchedToFirebase;
     long lastBackupTime, settingsChangeTime;
 
     public long getSettingsChangeTime() {

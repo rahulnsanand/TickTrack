@@ -12,6 +12,7 @@ import androidx.core.os.BuildCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.theflopguyproductions.ticktrack.BuildConfig;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
@@ -98,7 +99,7 @@ public class TickTrackFirebaseDatabase {
         editor.apply();
     }
     public boolean isBackupMode(){
-        return sharedPreferences.getBoolean("backupMode",false);
+        return sharedPreferences.getBoolean("backupMode", false);
     }
 
     public void setCounterDataRestore(boolean id){
@@ -319,7 +320,7 @@ public class TickTrackFirebaseDatabase {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         Random r = new Random();
-        int hourRandom = r.nextInt(24);
+        int hourRandom = r.nextInt(23);
         int minuteRandom = r.nextInt(59);
 
         int localHourPicked = new TickTrackDatabase(context).getBackupHour();
@@ -346,15 +347,15 @@ public class TickTrackFirebaseDatabase {
             }
             intervalTimeInMillis = 24*60*60*1000L;
         } else if(intervalRange== SettingsData.Frequency.MONTHLY.getCode()){
-
-            int dateRandom = r.nextInt(26)+1;
-            new TickTrackDatabase(context).storeBackupDate(dateRandom);
-            calendar.set(Calendar.DAY_OF_MONTH, dateRandom);
-
-            if(Calendar.getInstance().after(calendar)){
-                calendar.add(Calendar.MONTH, 1);
-            }
-            intervalTimeInMillis = 30*24*60*60*1000L;
+            // TODO: Hourly Debug
+//            int dateRandom = r.nextInt(26)+1;
+//            new TickTrackDatabase(context).storeBackupDate(dateRandom);
+//            calendar.set(Calendar.DAY_OF_MONTH, dateRandom);
+//
+//            if(Calendar.getInstance().after(calendar)){
+//                calendar.add(Calendar.MONTH, 1);
+//            }
+//            intervalTimeInMillis = 30*24*60*60*1000L;
         } else if(intervalRange== SettingsData.Frequency.WEEKLY.getCode()){
 
             int dayOfWeekRandom = r.nextInt(6)+1;
@@ -377,21 +378,20 @@ public class TickTrackFirebaseDatabase {
         Intent intent = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
         intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
         intent.setPackage("com.theflopguyproductions.ticktrack");
-//        intent.setClass(context, BackupScheduleReceiver.class);
-//        intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
-//        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = null;
+        PendingIntent alarmPendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, PendingIntent.FLAG_MUTABLE);
         } else {
             alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, 0);
         }
-        alarmManager.setRepeating(
+
+        // TODO: Hourly Debug
+        alarmManager.setInexactRepeating(
                 AlarmManager.RTC,
-                calendar.getTimeInMillis(),
-                intervalTimeInMillis,
-//                System.currentTimeMillis()+(1000*60*10),
-//                10*60*1000,
+//                calendar.getTimeInMillis(),
+                System.currentTimeMillis()+(1000*60L), // A minute later backup TimeFrame For Debug
+//                intervalTimeInMillis,
+                AlarmManager.INTERVAL_HOUR,
                 alarmPendingIntent
         );
 
@@ -407,7 +407,7 @@ public class TickTrackFirebaseDatabase {
         Intent intent = new Intent(context, BackupScheduleReceiver.class);
         intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        PendingIntent alarmPendingIntent = null;
+        PendingIntent alarmPendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             alarmPendingIntent = PendingIntent.getBroadcast(context, 212206, intent, PendingIntent.FLAG_MUTABLE);
         } else {
@@ -440,5 +440,25 @@ public class TickTrackFirebaseDatabase {
                 AlarmManager.RTC,
                 System.currentTimeMillis()+(1000*60*5),
                 alarmPendingIntent);
+    }
+
+    public void setBackupFailedMode(boolean b) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("setBackupFailedMode", b);
+        editor.apply();
+    }
+
+    public boolean isBackupFailedMode() {
+        return sharedPreferences.getBoolean("setBackupFailedMode",false);
+    }
+
+    public void setPreviousVersion(int b) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("setPreviousVersion", b);
+        editor.apply();
+    }
+
+    public int getPreviousVersion() {
+        return sharedPreferences.getInt("setBackupFailedMode",15);
     }
 }
