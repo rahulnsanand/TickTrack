@@ -102,8 +102,7 @@ Kindly follow the procedure to do the same.
 ----
 
 ## Thankyou for helping make TickTrack better!
-
-![Twitter Follow](https://img.shields.io/twitter/follow/TheFlopGuy?label=Follow%20me%20%40Twitter&style=for-the-badge) ![GitHub followers](https://img.shields.io/github/followers/theflopguy?label=Follow%20me%20%40github&style=for-the-badge)
+![GitHub followers](https://img.shields.io/github/followers/rahulnsanand?label=Follow%20me%20%40github&style=for-the-badge)
 
 
 ## Apache Licence, Version 2.0
