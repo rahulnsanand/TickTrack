@@ -1,10 +1,10 @@
 # TickTrack 
 
-<a href="https://github.com/theflopguy/TickTrack/blob/master/LICENSE.txt" rel="License">![Foo](https://img.shields.io/github/license/theflopguy/TickTrack?style=for-the-badge )</a>
+<a href="https://github.com/rahulnsanand/TickTrack/blob/master/LICENSE.txt" rel="License">![Foo](https://img.shields.io/github/license/rahulnsanand/TickTrack?style=for-the-badge )</a>
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/theflopguy/ticktrack?label=Current%20Release&style=for-the-badge)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/rahulnsanand/ticktrack?label=Current%20Release&style=for-the-badge)
 
-![GitHub last commit](https://img.shields.io/github/last-commit/theflopguy/ticktrack?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/rahulnsanand/ticktrack?style=for-the-badge)
 
 ----
 <a href="https://play.google.com/store/apps/details?id=com.theflopguyproductions.ticktrack" rel="Playstore Graphic">![Foo](https://github.com/theflopguy/TickTrack/blob/master/images/Playstore%20Feature%20Graphics.jpg )</a>
