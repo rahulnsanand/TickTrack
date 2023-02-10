@@ -22,13 +22,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver;
 import com.theflopguyproductions.ticktrack.service.CloudNotificationService;
 import com.theflopguyproductions.ticktrack.utils.firebase.FirebaseHelper;
 
 import java.util.Objects;
 
-public class TickTrack extends Application implements Application.ActivityLifecycleCallbacks{
+public class TickTrack extends Application implements Application.ActivityLifecycleCallbacks {
 
     public static final String COUNTER_NOTIFICATION = "TICK_TRACK_COUNTER";
     public static final String STOPWATCH_NOTIFICATION = "TICK_TRACK_STOPWATCH";
@@ -66,9 +65,9 @@ public class TickTrack extends Application implements Application.ActivityLifecy
         super.onCreate();
 
 
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context. NOTIFICATION_SERVICE ) ;
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             notificationGroupCreator(mNotificationManager);
             createCounterChannel(mNotificationManager);
@@ -83,21 +82,21 @@ public class TickTrack extends Application implements Application.ActivityLifecy
 
         }
 
-        setupCrashAnalyticsBasicData();
-        setupFirebaseCloudMessaging();
+        try {
+            setupCrashAnalyticsBasicData();
+            setupFirebaseCloudMessaging();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        System.out.println("ActivityManager: Displayed TickTrack OnCreate "+System.currentTimeMillis());
+        System.out.println("ActivityManager: Displayed TickTrack OnCreate " + System.currentTimeMillis());
 
     }
 
     private void setupFirebaseCloudMessaging() {
         FirebaseMessaging.getInstance().subscribeToTopic("update_notifications")
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        FirebaseCrashlytics.getInstance().setCustomKey("General Notifications", true);
-                    } else {
-                        FirebaseCrashlytics.getInstance().setCustomKey("General Notifications", false);
-                    }
+                    FirebaseCrashlytics.getInstance().setCustomKey("General Notifications", task.isSuccessful());
                 });
     }
 
@@ -106,17 +105,17 @@ public class TickTrack extends Application implements Application.ActivityLifecy
         String[] GroupIDs = {"Counter Group", "Timer Group", "Stopwatch Group", "General Group", "Miscellaneous Group", "Ultra Critical Group"};
         String[] groupName = {"Counter", "Timer", "Stopwatch", "General", "Miscellaneous", "Ultra Critical"};
 
-        for(int i=0; i<GroupIDs.length; i++){
-            NotificationChannelGroup notificationChannelGroup=
-                    new  NotificationChannelGroup(GroupIDs[i], groupName[i]);
+        for (int i = 0; i < GroupIDs.length; i++) {
+            NotificationChannelGroup notificationChannelGroup =
+                    new NotificationChannelGroup(GroupIDs[i], groupName[i]);
             notificationManager.createNotificationChannelGroup(notificationChannelGroup);
         }
     }
 
     private void setupCrashAnalyticsBasicData() {
-        if(new FirebaseHelper(this).isUserSignedIn()){
+        if (new FirebaseHelper(this).isUserSignedIn()) {
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-            if(account!=null){
+            if (account != null) {
                 FirebaseCrashlytics.getInstance().setUserId(Objects.requireNonNull(account.getEmail()));
             }
             FirebaseCrashlytics.getInstance().setCustomKey("isUserSignedIn", true);
@@ -127,54 +126,54 @@ public class TickTrack extends Application implements Application.ActivityLifecy
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createPushNotificationChannel(NotificationManager mNotificationManager) {
-        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel notificationChannel = new
-                NotificationChannel( PUSH_NOTIFICATION , "Push Notifications" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
-        notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 100, 100}) ;
+                NotificationChannel(PUSH_NOTIFICATION, "Push Notifications", importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.BLUE);
+        notificationChannel.enableVibration(true);
+        notificationChannel.setVibrationPattern(new long[]{100, 100, 100});
         notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
         notificationChannel.setGroup("General Group");
         notificationChannel.setDescription(PUSH_NOTIFICATION_DESCRIPTION);
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerMissedNotificationChannel(NotificationManager mNotificationManager) {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .build();
 
-        int importance = NotificationManager.IMPORTANCE_HIGH ;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel notificationChannel = new
-                NotificationChannel( TIMER_MISSED_NOTIFICATION , "Missed Timers" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. RED ) ;
-        notificationChannel.enableVibration( true ) ;
+                NotificationChannel(TIMER_MISSED_NOTIFICATION, "Missed Timers", importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.enableVibration(true);
         notificationChannel.setGroup("Timer Group");
-        notificationChannel.setVibrationPattern( new long []{ 100 , 100 , 100 , 100}) ;
+        notificationChannel.setVibrationPattern(new long[]{100, 100, 100, 100});
         notificationChannel.setDescription(TIMER_MISSED_NOTIFICATION_DESCRIPTION);
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createDataBackupRestoreChannel(NotificationManager mNotificationManager) {
 
-        int importance = NotificationManager. IMPORTANCE_MIN ;
+        int importance = NotificationManager.IMPORTANCE_MIN;
         NotificationChannel notificationChannel = new
-                NotificationChannel( DATA_BACKUP_RESTORE_NOTIFICATION , "Backup [Do Not Disable]" , importance) ;
+                NotificationChannel(DATA_BACKUP_RESTORE_NOTIFICATION, "Backup [Do Not Disable]", importance);
         notificationChannel.setGroup("Ultra Critical Group");
         notificationChannel.setDescription(DATA_BACKUP_RESTORE_NOTIFICATION_DESCRIPTION);
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
@@ -182,24 +181,24 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     private void createMiscellaneousChannel(NotificationManager mNotificationManager) {
 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .build();
 
-        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel notificationChannel = new
-                NotificationChannel( MISCELLANEOUS_NOTIFICATION , "Miscellaneous" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. YELLOW ) ;
-        notificationChannel.enableVibration( true ) ;
+                NotificationChannel(MISCELLANEOUS_NOTIFICATION, "Miscellaneous", importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.YELLOW);
+        notificationChannel.enableVibration(true);
         notificationChannel.setGroup("Miscellaneous Group");
         notificationChannel.setDescription(MISCELLANEOUS_NOTIFICATION_DESCRIPTION);
-        notificationChannel.setVibrationPattern( new long []{ 200 , 200 , 200 , 200 }) ;
+        notificationChannel.setVibrationPattern(new long[]{200, 200, 200, 200});
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
@@ -207,86 +206,86 @@ public class TickTrack extends Application implements Application.ActivityLifecy
     private void createCounterChannel(NotificationManager mNotificationManager) {
 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes. CONTENT_TYPE_SONIFICATION )
-                .setUsage(AudioAttributes. USAGE_ALARM )
-                .build() ;
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .build();
 
-        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel notificationChannel = new
-                NotificationChannel( COUNTER_NOTIFICATION , "Counter" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
-        notificationChannel.enableVibration( true ) ;
+                NotificationChannel(COUNTER_NOTIFICATION, "Counter", importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.BLUE);
+        notificationChannel.enableVibration(true);
         notificationChannel.setGroup("Counter Group");
         notificationChannel.setDescription(COUNTER_NOTIFICATION_DESCRIPTION);
-        notificationChannel.setVibrationPattern( new long []{ 100 , 100 , 100}) ;
+        notificationChannel.setVibrationPattern(new long[]{100, 100, 100});
 
 //            notificationChannel.setSound(sound , audioAttributes) ;
 
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerChannel(NotificationManager mNotificationManager) {
 
-        int importance = NotificationManager.IMPORTANCE_MIN ;
+        int importance = NotificationManager.IMPORTANCE_MIN;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Ongoing Timer [Do Not Disable]" , importance) ;
+                NotificationChannel(TIMER_RUNNING_NOTIFICATION, "Ongoing Timer [Do Not Disable]", importance);
         notificationChannel.setDescription(TIMER_RUNNING_NOTIFICATION_DESCRIPTION);
         notificationChannel.setGroup("Ultra Critical Group");
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTimerCompleteChannel(NotificationManager mNotificationManager) {
 
-        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel notificationChannel = new
-                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Ringing Timer [Do Not Disable]" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. GREEN ) ;
-        notificationChannel.enableVibration( true ) ;
+                NotificationChannel(TIMER_COMPLETE_NOTIFICATION, "Ringing Timer [Do Not Disable]", importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.GREEN);
+        notificationChannel.enableVibration(true);
         notificationChannel.setGroup("Ultra Critical Group");
         notificationChannel.setDescription(TIMER_COMPLETE_NOTIFICATION_DESCRIPTION);
-        notificationChannel.setVibrationPattern( new long []{ 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 , 200 }) ;
+        notificationChannel.setVibrationPattern(new long[]{200, 200, 200, 200, 200, 200, 200, 200, 200});
 
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createStopwatchChannel(NotificationManager mNotificationManager) {
 
-        int importance = NotificationManager.IMPORTANCE_MIN ;
+        int importance = NotificationManager.IMPORTANCE_MIN;
         NotificationChannel notificationChannel = new
-                NotificationChannel( STOPWATCH_NOTIFICATION , "Stopwatch" , importance) ;
+                NotificationChannel(STOPWATCH_NOTIFICATION, "Stopwatch", importance);
         notificationChannel.setDescription(STOPWATCH_NOTIFICATION_DESCRIPTION);
         notificationChannel.setGroup("Stopwatch Group");
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createGeneralChannel(NotificationManager mNotificationManager) {
 
-        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel notificationChannel = new
-                NotificationChannel( GENERAL_NOTIFICATION , "TickTrack Notification" , importance) ;
-        notificationChannel.enableLights( true ) ;
-        notificationChannel.setLightColor(Color. BLUE ) ;
-        notificationChannel.enableVibration( true ) ;
-        notificationChannel.setVibrationPattern( new long []{ 100 , 100, 100}) ;
+                NotificationChannel(GENERAL_NOTIFICATION, "TickTrack Notification", importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.BLUE);
+        notificationChannel.enableVibration(true);
+        notificationChannel.setVibrationPattern(new long[]{100, 100, 100});
         notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
         notificationChannel.setGroup("General Group");
         notificationChannel.setDescription(GENERAL_NOTIFICATION_DESCRIPTION);
         assert mNotificationManager != null;
-        mNotificationManager.createNotificationChannel(notificationChannel) ;
+        mNotificationManager.createNotificationChannel(notificationChannel);
 
     }
 
@@ -324,12 +323,12 @@ public class TickTrack extends Application implements Application.ActivityLifecy
         Intent restartService = new Intent(getApplicationContext(), CloudNotificationService.class);
         PendingIntent pendingIntent = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getService(getApplicationContext(),91825,restartService,PendingIntent.FLAG_MUTABLE);
+            pendingIntent = PendingIntent.getService(getApplicationContext(), 91825, restartService, PendingIntent.FLAG_MUTABLE);
         } else {
-            pendingIntent = PendingIntent.getService(getApplicationContext(),91825,restartService,PendingIntent.FLAG_ONE_SHOT);
+            pendingIntent = PendingIntent.getService(getApplicationContext(), 91825, restartService, PendingIntent.FLAG_ONE_SHOT);
         }
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME,5000,pendingIntent);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME, 5000, pendingIntent);
 
     }
 }

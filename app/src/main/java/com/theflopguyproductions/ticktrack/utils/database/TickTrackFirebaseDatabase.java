@@ -12,7 +12,6 @@ import androidx.core.os.BuildCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.theflopguyproductions.ticktrack.BuildConfig;
 import com.theflopguyproductions.ticktrack.counter.CounterBackupData;
 import com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver;
 import com.theflopguyproductions.ticktrack.settings.SettingsData;
@@ -25,10 +24,10 @@ import java.util.Random;
 
 public class TickTrackFirebaseDatabase {
 
-    private SharedPreferences sharedPreferences;
-    private Context context;
+    private final SharedPreferences sharedPreferences;
+    private final Context context;
 
-    public SharedPreferences getSharedPref(Context context){
+    public SharedPreferences getSharedPref(Context context) {
         Context storageContext;
         if (BuildCompat.isAtLeastN()) {
             final Context deviceContext = context.createDeviceProtectedStorageContext();
@@ -43,6 +42,7 @@ public class TickTrackFirebaseDatabase {
         return storageContext
                 .getSharedPreferences("TickTrackData", Context.MODE_PRIVATE);
     }
+
     public TickTrackFirebaseDatabase(Context context) {
         this.context = context;
         Context storageContext;
@@ -61,261 +61,303 @@ public class TickTrackFirebaseDatabase {
 
     }
 
-    public void storeCurrentUserEmail(String email){
+    public void storeCurrentUserEmail(String email) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("currentUserEmail", email);
         editor.apply();
     }
-    public String getCurrentUserEmail(){
-        return sharedPreferences.getString("currentUserEmail","Add an account");
+
+    public String getCurrentUserEmail() {
+        return sharedPreferences.getString("currentUserEmail", "Add an account");
     }
 
-    public void setPreferencesDataBackup(boolean id){
+    public void setPreferencesDataBackup(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("preferencesDataBackup", id);
         editor.apply();
     }
 
-    public void setRestoreInitMode(int value){
+    public void setRestoreInitMode(int value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("restoreInitMode", value);
         editor.apply();
     }
-    public int isRestoreInitMode(){
-        return sharedPreferences.getInt("restoreInitMode",0);
+
+    public int isRestoreInitMode() {
+        return sharedPreferences.getInt("restoreInitMode", 0);
     }
-    public void setRestoreMode(boolean value){
+
+    public void setRestoreMode(boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("restoreMode", value);
         editor.apply();
     }
-    public boolean isRestoreMode(){
-        return sharedPreferences.getBoolean("restoreMode",false);
+
+    public boolean isRestoreMode() {
+        return sharedPreferences.getBoolean("restoreMode", false);
     }
 
-    public void setBackupMode(boolean value){
+    public void setBackupMode(boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("backupMode", value);
         editor.apply();
     }
-    public boolean isBackupMode(){
+
+    public boolean isBackupMode() {
         return sharedPreferences.getBoolean("backupMode", false);
     }
 
-    public void setCounterDataRestore(boolean id){
+    public void setCounterDataRestore(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundCounterDataBackup", id);
         editor.apply();
     }
-    public boolean isCounterDataRestored(){
-        return sharedPreferences.getBoolean("foundCounterDataBackup",false);
+
+    public boolean isCounterDataRestored() {
+        return sharedPreferences.getBoolean("foundCounterDataBackup", false);
     }
-    public void setTimerDataRestore(boolean id){
+
+    public void setTimerDataRestore(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundTimerDataBackup", id);
         editor.apply();
     }
-    public boolean isTimerDataRestored(){
-        return sharedPreferences.getBoolean("foundTimerDataBackup",false);
+
+    public boolean isTimerDataRestored() {
+        return sharedPreferences.getBoolean("foundTimerDataBackup", false);
     }
-    public void setCounterDataRestoreError(boolean id){
+
+    public void setCounterDataRestoreError(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundCounterDataBackupError", id);
         editor.apply();
     }
-    public boolean isCounterDataRestoreError(){
-        return sharedPreferences.getBoolean("foundCounterDataBackupError",false);
+
+    public boolean isCounterDataRestoreError() {
+        return sharedPreferences.getBoolean("foundCounterDataBackupError", false);
     }
-    public void setTimerDataBackupError(boolean id){
+
+    public void setTimerDataBackupError(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundTimerDataBackupError", id);
         editor.apply();
     }
-    public boolean isTimerDataRestoreError(){
-        return sharedPreferences.getBoolean("foundTimerDataBackupError",false);
+
+    public boolean isTimerDataRestoreError() {
+        return sharedPreferences.getBoolean("foundTimerDataBackupError", false);
     }
 
-    public void foundPreferencesDataBackup(boolean id){
+    public void foundPreferencesDataBackup(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("foundPreferencesDataBackup", id);
         editor.apply();
     }
 
-    public boolean hasPreferencesDataBackup(){
-        return sharedPreferences.getBoolean("foundPreferencesDataBackup",false);
+    public boolean hasPreferencesDataBackup() {
+        return sharedPreferences.getBoolean("foundPreferencesDataBackup", false);
     }
 
-    public void setRestoreThemeMode(int mode){
+    public void setRestoreThemeMode(int mode) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("restoreThemeMode", mode);
         editor.apply();
     }
-    public int getRestoreThemeMode(){
-        return sharedPreferences.getInt("restoreThemeMode",-1);
+
+    public int getRestoreThemeMode() {
+        return sharedPreferences.getInt("restoreThemeMode", -1);
     }
-    public void completeTimerDataRestore(boolean id){
+
+    public void completeTimerDataRestore(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("completeTimerDataRestore", id);
         editor.apply();
     }
-    public boolean isTimerDataRestoreComplete(){
-        return sharedPreferences.getBoolean("completeTimerDataRestore",false);
+
+    public boolean isTimerDataRestoreComplete() {
+        return sharedPreferences.getBoolean("completeTimerDataRestore", false);
     }
-    public void completePreferencesDataRestore(boolean id){
+
+    public void completePreferencesDataRestore(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("completePreferencesDataRestore", id);
         editor.apply();
     }
-    public boolean isPreferencesDataRestoreComplete(){
-        return sharedPreferences.getBoolean("completePreferencesDataRestore",false);
+
+    public boolean isPreferencesDataRestoreComplete() {
+        return sharedPreferences.getBoolean("completePreferencesDataRestore", false);
     }
 
-    public void storeRetrievedTimerCount(int id){
+    public void storeRetrievedTimerCount(int id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("retrievedTimerCount", id);
         editor.apply();
     }
-    public int getRetrievedTimerCount(){
-        return sharedPreferences.getInt("retrievedTimerCount",-1);
+
+    public int getRetrievedTimerCount() {
+        return sharedPreferences.getInt("retrievedTimerCount", -1);
     }
-    public void storeRetrievedCounterCount(int id){
+
+    public void storeRetrievedCounterCount(int id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("retrievedCounterCount", id);
         editor.apply();
     }
-    public int getRetrievedCounterCount(){
-        return sharedPreferences.getInt("retrievedCounterCount",-1);
+
+    public int getRetrievedCounterCount() {
+        return sharedPreferences.getInt("retrievedCounterCount", -1);
     }
-    public void storeRetrievedLastBackupTime(long timeStamp){
+
+    public void storeRetrievedLastBackupTime(long timeStamp) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong("retrievedLastBackupTime", timeStamp);
         editor.apply();
     }
-    public long getRetrievedLastBackupTime(){
+
+    public long getRetrievedLastBackupTime() {
         return sharedPreferences.getLong("retrievedLastBackupTime", -1);
     }
-    public void storeSettingsRestoredData(ArrayList<SettingsData> settingsData){
+
+    public void storeSettingsRestoredData(ArrayList<SettingsData> settingsData) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(settingsData);
         editor.putString("settingsRestoreData", json);
         editor.apply();
     }
-    public ArrayList<SettingsData> retrieveSettingsRestoredData(){
+
+    public ArrayList<SettingsData> retrieveSettingsRestoredData() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("settingsRestoreData", null);
-        Type type = new TypeToken<ArrayList<SettingsData>>() {}.getType();
+        Type type = new TypeToken<ArrayList<SettingsData>>() {
+        }.getType();
         ArrayList<SettingsData> settingsData = gson.fromJson(json, type);
-        if(settingsData == null){
+        if (settingsData == null) {
             settingsData = new ArrayList<>();
         }
         return settingsData;
     }
 
-    public void setRestoreCompleteStatus(int mode){
+    public void setRestoreCompleteStatus(int mode) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("RestoreCompleteStatus", mode);
         editor.apply();
     }
-    public int getRestoreCompleteStatus(){
-        return sharedPreferences.getInt("RestoreCompleteStatus",0);
+
+    public int getRestoreCompleteStatus() {
+        return sharedPreferences.getInt("RestoreCompleteStatus", 0);
     }
 
-    public void setCounterDownloadStatus(int mode){
+    public void setCounterDownloadStatus(int mode) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CounterDownloadStatus", mode);
         editor.apply();
     }
-    public int getCounterDownloadStatus(){
-        return sharedPreferences.getInt("CounterDownloadStatus",0);
+
+    public int getCounterDownloadStatus() {
+        return sharedPreferences.getInt("CounterDownloadStatus", 0);
     }
-    public void setTimerDownloadStatus(int mode){
+
+    public void setTimerDownloadStatus(int mode) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("TimerDownloadStatus", mode);
         editor.apply();
     }
-    public int getTimerDownloadStatus(){
-        return sharedPreferences.getInt("TimerDownloadStatus",0);
+
+    public int getTimerDownloadStatus() {
+        return sharedPreferences.getInt("TimerDownloadStatus", 0);
     }
 
-    public void storeBackupTimerList(ArrayList<TimerBackupData> timerDataArrayList){
+    public void storeBackupTimerList(ArrayList<TimerBackupData> timerDataArrayList) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(timerDataArrayList);
         editor.putString("TimerBackupData", json);
         editor.apply();
     }
-    public ArrayList<TimerBackupData> retrieveBackupTimerList(){
+
+    public ArrayList<TimerBackupData> retrieveBackupTimerList() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerBackupData", null);
-        Type type = new TypeToken<ArrayList<TimerBackupData>>() {}.getType();
+        Type type = new TypeToken<ArrayList<TimerBackupData>>() {
+        }.getType();
         ArrayList<TimerBackupData> timerDataArrayList = gson.fromJson(json, type);
-        if(timerDataArrayList == null){
+        if (timerDataArrayList == null) {
             timerDataArrayList = new ArrayList<>();
         }
         return timerDataArrayList;
     }
-    public void storeBackupCounterList(ArrayList<CounterBackupData> counterBackupData){
+
+    public void storeBackupCounterList(ArrayList<CounterBackupData> counterBackupData) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(counterBackupData);
         editor.putString("CounterBackupData", json);
         editor.apply();
     }
-    public ArrayList<CounterBackupData> retrieveBackupCounterList(){
+
+    public ArrayList<CounterBackupData> retrieveBackupCounterList() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("TimerBackupData", null);
-        Type type = new TypeToken<ArrayList<CounterBackupData>>() {}.getType();
+        Type type = new TypeToken<ArrayList<CounterBackupData>>() {
+        }.getType();
         ArrayList<CounterBackupData> counterBackupData = gson.fromJson(json, type);
-        if(counterBackupData == null){
+        if (counterBackupData == null) {
             counterBackupData = new ArrayList<>();
         }
         return counterBackupData;
     }
 
-    public void storeCounterRestoreString(String counterData){
+    public void storeCounterRestoreString(String counterData) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("counterRestoreString", counterData);
         editor.apply();
     }
-    public String getCounterRestoreString(){
+
+    public String getCounterRestoreString() {
         return sharedPreferences.getString("counterRestoreString", null);
     }
-    public void storeTimerRestoreString(String timerData){
+
+    public void storeTimerRestoreString(String timerData) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("timerRestoreString", timerData);
         editor.apply();
     }
-    public String getTimerRestoreString(){
+
+    public String getTimerRestoreString() {
         return sharedPreferences.getString("timerRestoreString", null);
     }
 
-    public void setCounterBackupComplete(boolean value){
+    public void setCounterBackupComplete(boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("counterBackupComplete", value);
         editor.apply();
     }
-    public boolean isCounterBackupComplete(){
+
+    public boolean isCounterBackupComplete() {
         return sharedPreferences.getBoolean("counterBackupComplete", false);
     }
-    public void setTimerBackupComplete(boolean value){
+
+    public void setTimerBackupComplete(boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("timerBackupComplete", value);
         editor.apply();
     }
-    public boolean isTimerBackupComplete(){
+
+    public boolean isTimerBackupComplete() {
         return sharedPreferences.getBoolean("timerBackupComplete", false);
     }
-    public void setSettingsBackupComplete(boolean value){
+
+    public void setSettingsBackupComplete(boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("settingsBackupComplete", value);
         editor.apply();
     }
-    public boolean isSettingsBackupComplete(){
+
+    public boolean isSettingsBackupComplete() {
         return sharedPreferences.getBoolean("settingsBackupComplete", false);
     }
 
-    public void setBackUpAlarm(boolean isNowBackup){
+    public void setBackUpAlarm(boolean isNowBackup) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -326,11 +368,11 @@ public class TickTrackFirebaseDatabase {
         int localHourPicked = new TickTrackDatabase(context).getBackupHour();
         int localMinutePicked = new TickTrackDatabase(context).getBackupMinute();
 
-        if(localHourPicked==-1){
+        if (localHourPicked == -1) {
             new TickTrackDatabase(context).storeBackupHour(hourRandom);
             localHourPicked = hourRandom;
         }
-        if(localMinutePicked==-1){
+        if (localMinutePicked == -1) {
             new TickTrackDatabase(context).storeBackupMinute(minuteRandom);
             localMinutePicked = minuteRandom;
         }
@@ -341,37 +383,36 @@ public class TickTrackFirebaseDatabase {
 
         int intervalRange = new TickTrackDatabase(context).getSyncFrequency();
         long intervalTimeInMillis;
-        if(intervalRange== SettingsData.Frequency.DAILY.getCode()){
-            if(Calendar.getInstance().after(calendar)){
+        if (intervalRange == SettingsData.Frequency.DAILY.getCode()) {
+            if (Calendar.getInstance().after(calendar)) {
                 calendar.add(Calendar.DATE, 1);
             }
-            intervalTimeInMillis = 24*60*60*1000L;
-        } else if(intervalRange== SettingsData.Frequency.MONTHLY.getCode()){
-            // TODO: Hourly Debug
-//            int dateRandom = r.nextInt(26)+1;
-//            new TickTrackDatabase(context).storeBackupDate(dateRandom);
-//            calendar.set(Calendar.DAY_OF_MONTH, dateRandom);
-//
-//            if(Calendar.getInstance().after(calendar)){
-//                calendar.add(Calendar.MONTH, 1);
-//            }
-//            intervalTimeInMillis = 30*24*60*60*1000L;
-        } else if(intervalRange== SettingsData.Frequency.WEEKLY.getCode()){
+            intervalTimeInMillis = 24 * 60 * 60 * 1000L;
+        } else if (intervalRange == SettingsData.Frequency.MONTHLY.getCode()) {
+            int dateRandom = r.nextInt(26) + 1;
+            new TickTrackDatabase(context).storeBackupDate(dateRandom);
+            calendar.set(Calendar.DAY_OF_MONTH, dateRandom);
 
-            int dayOfWeekRandom = r.nextInt(6)+1;
+            if (Calendar.getInstance().after(calendar)) {
+                calendar.add(Calendar.MONTH, 1);
+            }
+            intervalTimeInMillis = 30 * 24 * 60 * 60 * 1000L;
+        } else if (intervalRange == SettingsData.Frequency.WEEKLY.getCode()) {
+
+            int dayOfWeekRandom = r.nextInt(6) + 1;
             new TickTrackDatabase(context).storeBackupDay(dayOfWeekRandom);
 
             calendar.set(Calendar.DAY_OF_WEEK, dayOfWeekRandom);
 
-            if(Calendar.getInstance().after(calendar)){
+            if (Calendar.getInstance().after(calendar)) {
                 calendar.add(Calendar.WEEK_OF_YEAR, 1);
             }
-            intervalTimeInMillis = 7*24*60*60*1000L;
+            intervalTimeInMillis = 7 * 24 * 60 * 60 * 1000L;
         } else {
-            if(Calendar.getInstance().after(calendar)){
+            if (Calendar.getInstance().after(calendar)) {
                 calendar.add(Calendar.DATE, 1);
             }
-            intervalTimeInMillis = 24*60*60*1000L;
+            intervalTimeInMillis = 24 * 60 * 60 * 1000L;
         }
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -388,21 +429,22 @@ public class TickTrackFirebaseDatabase {
         // TODO: Hourly Debug
         alarmManager.setInexactRepeating(
                 AlarmManager.RTC,
-//                calendar.getTimeInMillis(),
-                System.currentTimeMillis()+(1000*60L), // A minute later backup TimeFrame For Debug
-//                intervalTimeInMillis,
-                AlarmManager.INTERVAL_HOUR,
+                calendar.getTimeInMillis(),
+//                System.currentTimeMillis()+(1000*60L), // A minute later backup TimeFrame For Debug
+                intervalTimeInMillis,
+//                AlarmManager.INTERVAL_HOUR,
                 alarmPendingIntent
         );
 
-        if(isNowBackup){
+        if (isNowBackup) {
             Intent intentNow = new Intent(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
             intentNow.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver");
             intentNow.setPackage("com.theflopguyproductions.ticktrack");
             context.sendBroadcast(intentNow);
         }
     }
-    public void cancelBackUpAlarm(){
+
+    public void cancelBackUpAlarm() {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, BackupScheduleReceiver.class);
         intent.setAction(BackupScheduleReceiver.START_BACKUP_SCHEDULE);
@@ -416,13 +458,14 @@ public class TickTrackFirebaseDatabase {
         alarmManager.cancel(alarmPendingIntent);
     }
 
-    public void setDriveLinkFail(boolean id){
+    public void setDriveLinkFail(boolean id) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("setDriveLinkFail", id);
         editor.apply();
     }
-    public boolean isDriveLinkFail(){
-        return sharedPreferences.getBoolean("setDriveLinkFail",false);
+
+    public boolean isDriveLinkFail() {
+        return sharedPreferences.getBoolean("setDriveLinkFail", false);
     }
 
     public void setRetryAlarm() {
@@ -438,7 +481,7 @@ public class TickTrackFirebaseDatabase {
         }
         alarmManager.setExact(
                 AlarmManager.RTC,
-                System.currentTimeMillis()+(1000*60*5),
+                System.currentTimeMillis() + (1000 * 60 * 5),
                 alarmPendingIntent);
     }
 
@@ -449,7 +492,7 @@ public class TickTrackFirebaseDatabase {
     }
 
     public boolean isBackupFailedMode() {
-        return sharedPreferences.getBoolean("setBackupFailedMode",false);
+        return sharedPreferences.getBoolean("setBackupFailedMode", false);
     }
 
     public void setPreviousVersion(int b) {
@@ -459,6 +502,6 @@ public class TickTrackFirebaseDatabase {
     }
 
     public int getPreviousVersion() {
-        return sharedPreferences.getInt("setBackupFailedMode",15);
+        return sharedPreferences.getInt("setBackupFailedMode", 15);
     }
 }

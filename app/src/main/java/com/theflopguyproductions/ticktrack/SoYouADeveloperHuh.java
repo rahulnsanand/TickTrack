@@ -43,7 +43,6 @@ import com.theflopguyproductions.ticktrack.about.AboutActivity;
 import com.theflopguyproductions.ticktrack.application.TickTrack;
 import com.theflopguyproductions.ticktrack.contributors.ContributorsActivity;
 import com.theflopguyproductions.ticktrack.dialogs.DeleteTimer;
-import com.theflopguyproductions.ticktrack.receivers.BackupScheduleReceiver;
 import com.theflopguyproductions.ticktrack.receivers.BootReceiver;
 import com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver;
 import com.theflopguyproductions.ticktrack.screensaver.ScreensaverActivity;
@@ -66,7 +65,6 @@ import com.theflopguyproductions.ticktrack.utils.helpers.AutoStartPermissionHelp
 import com.theflopguyproductions.ticktrack.utils.helpers.PowerSaverHelper;
 import com.theflopguyproductions.ticktrack.utils.helpers.TickTrackThemeSetter;
 
-import java.util.Calendar;
 import java.util.Objects;
 
 public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerCreatorFragment.QuickTimerCreateListener, TimerRecyclerFragment.RootLayoutClickListener {
@@ -258,11 +256,11 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
             goToStartUpActivity(3, true);
         } else if (tickTrackDatabase.retrieveFirstLaunch()) {
             goToStartUpActivity(1, false);
-        } else if(tickTrackDatabase.retrieveStartUpFragmentID()==4){
+        } else if (tickTrackDatabase.retrieveStartUpFragmentID() == 4) {
             goToStartUpActivity(4, false);
         } else if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED){
-            if(!tickTrackDatabase.isNotificationFragmentComplete()){
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED) {
+            if (!tickTrackDatabase.isNotificationFragmentComplete()) {
                 goToStartUpActivity(5, false);
             }
         } else if (PowerSaverHelper.getIfAppIsWhiteListedFromBatteryOptimizations(this, getPackageName())
@@ -270,7 +268,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
             goToStartUpActivity(6, false);
         } else if (AutoStartPermissionHelper.getInstance().isAutoStartPermissionAvailable(this) && !tickTrackDatabase.isAutoStart()) {
             goToStartUpActivity(7, false);
-        }else {
+        } else {
             if (isMyServiceRunning(this)) {
                 stopNotificationService();
             }
@@ -338,7 +336,6 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
             }
 
 
-
         }
         System.out.println("ActivityManager: Displayed SoYouDev onResume " + System.currentTimeMillis());
     }
@@ -378,6 +375,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
             startService(intent);
         }
     }
+
     private void startBackupService(Context context) {
         TickTrackFirebaseDatabase tickTrackFirebaseDatabase = new TickTrackFirebaseDatabase(context);
         tickTrackFirebaseDatabase.setBackupMode(true);
@@ -467,34 +465,34 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
         int syncFrequency = tickTrackDatabase.getSyncFrequency();
         long intervalDuration;
-        if(syncFrequency== SettingsData.Frequency.DAILY.getCode()){
-            intervalDuration = 24*60*60*1000L;
-        } else if(syncFrequency== SettingsData.Frequency.MONTHLY.getCode()){
-            intervalDuration = AlarmManager.INTERVAL_HOUR;
+        if (syncFrequency == SettingsData.Frequency.DAILY.getCode()) {
+            intervalDuration = 24 * 60 * 60 * 1000L;
+        } else if (syncFrequency == SettingsData.Frequency.MONTHLY.getCode()) {
+//            intervalDuration = AlarmManager.INTERVAL_HOUR;
 // TODO: Hourly Debug
-//            intervalDuration = 30*24*60*60*1000L;
+            intervalDuration = 30 * 24 * 60 * 60 * 1000L;
 
-        } else if(syncFrequency== SettingsData.Frequency.WEEKLY.getCode()){
-            intervalDuration = 7*24*60*60*1000L;
+        } else if (syncFrequency == SettingsData.Frequency.WEEKLY.getCode()) {
+            intervalDuration = 7 * 24 * 60 * 60 * 1000L;
         } else {
-            intervalDuration = 24*60*60*1000L;
+            intervalDuration = 24 * 60 * 60 * 1000L;
         }
 
         FirebaseHelper firebaseHelper = new FirebaseHelper(this);
 
-        System.out.println(intervalDuration+" INTERVAL DURATION");
-        System.out.println((System.currentTimeMillis() - tickTrackDatabase.getLastBackupSystemTime())+"Difference DURATION");
-        System.out.println(firebaseHelper.isUserSignedIn()+" User Signed In");
-        System.out.println(isMyServiceRunning(BackupRestoreService.class, this)+" IS MY SERVICE RUNNING");
+        System.out.println(intervalDuration + " INTERVAL DURATION");
+        System.out.println((System.currentTimeMillis() - tickTrackDatabase.getLastBackupSystemTime()) + "Difference DURATION");
+        System.out.println(firebaseHelper.isUserSignedIn() + " User Signed In");
+        System.out.println(isMyServiceRunning(BackupRestoreService.class, this) + " IS MY SERVICE RUNNING");
 
-        if((System.currentTimeMillis() - tickTrackDatabase.getLastBackupSystemTime()) > (intervalDuration+(60L*1000L*15L))){
+        if ((System.currentTimeMillis() - tickTrackDatabase.getLastBackupSystemTime()) > (intervalDuration + (60L * 1000L * 15L))) {
 
-            if(isMyServiceRunning(BackupRestoreService.class, this)){
+            if (isMyServiceRunning(BackupRestoreService.class, this)) {
                 stopBackupService();
             }
 
-            if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, this)){
-                setupBackupFailedDialog();
+            if (firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, this)) {
+//                setupBackupFailedDialog();
                 startBackupService(this);
             }
         }
@@ -504,8 +502,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         String versionName = BuildConfig.VERSION_NAME;
 
         if (versionCode > tickTrackDatabase.getUpdateVersionCode()) {
-            if(firebaseHelper.isUserSignedIn()){
-                if(isMyServiceRunning(BackupRestoreService.class, this)){
+            if (firebaseHelper.isUserSignedIn()) {
+                if (isMyServiceRunning(BackupRestoreService.class, this)) {
                     stopBackupService();
                 }
                 Intent intentNow = new Intent(BootReceiver.UPDATE_COMPLETE_CUSTOM);
@@ -566,18 +564,19 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
         System.out.println("ON STOP MAIN ACTIVITY");
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, CounterMilestoneReceiver.class);
-        intent.setAction(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
+        Intent intent = new Intent(CounterMilestoneReceiver.ACTION_COUNTER_MILESTONE_REMINDER);
+        intent.setClassName("com.theflopguyproductions.ticktrack", "com.theflopguyproductions.ticktrack.receivers.CounterMilestoneReceiver");
+        intent.setPackage("com.theflopguyproductions.ticktrack");
         PendingIntent alarmPendingIntent = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, PendingIntent.FLAG_MUTABLE);
         } else {
             alarmPendingIntent = PendingIntent.getBroadcast(this, 321, intent, 0);
         }
-        alarmManager.setInexactRepeating (
+        alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 INTERVAL_DAY,
-                INTERVAL_DAY*7L,
+                INTERVAL_DAY * 7L,
                 alarmPendingIntent
         );
     }
@@ -625,7 +624,8 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
 
     private NotificationManagerCompat notificationManagerCompat;
     NotificationCompat.Builder notificationBuilder;
-    private void setupCustomNotification(){
+
+    private void setupCustomNotification() {
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
@@ -668,7 +668,7 @@ public class SoYouADeveloperHuh extends AppCompatActivity implements QuickTimerC
                 .setAutoCancel(true);
 
 
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notificationBuilder.setChannelId(TickTrack.STOPWATCH_NOTIFICATION);
         }
 

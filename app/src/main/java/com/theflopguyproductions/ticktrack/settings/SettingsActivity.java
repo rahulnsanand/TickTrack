@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -32,9 +31,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +38,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.theflopguyproductions.ticktrack.R;
@@ -68,14 +63,8 @@ import com.theflopguyproductions.ticktrack.widgets.shortcuts.QuickTimerWidget;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.ScreensaverWidget;
 import com.theflopguyproductions.ticktrack.widgets.shortcuts.StopwatchWidget;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -124,12 +113,12 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        if(firebaseHelper.isUserSignedIn()){
+        if (firebaseHelper.isUserSignedIn()) {
             setupEmailText();
         }
         refreshTheme();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED){
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED) {
             notificationsLayout.setVisibility(View.GONE);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -140,9 +129,10 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) ->  {
+    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = (sharedPreferences, s) -> {
         databaseChangeListener();
     };
+
     private void databaseChangeListener() {
         setupEmailText();
         checkAccountAvailable();
@@ -164,8 +154,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupAccountBusy() {
-        if(isMyServiceRunning(getApplicationContext())){
-            if(tickTrackDatabase.getThemeMode()==1){
+        if (isMyServiceRunning(getApplicationContext())) {
+            if (tickTrackDatabase.getThemeMode() == 1) {
                 switchAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
                 disconnectAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
                 switchAccountTitle.setTextColor(getResources().getColor(R.color.roboto_calendar_current_day_ring));
@@ -177,7 +167,7 @@ public class SettingsActivity extends AppCompatActivity {
                 disconnectAccountTitle.setTextColor(getResources().getColor(R.color.roboto_calendar_day_of_the_week_font));
             }
         } else {
-            if(tickTrackDatabase.getThemeMode()==1){
+            if (tickTrackDatabase.getThemeMode() == 1) {
                 switchAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
                 disconnectAccountOptionLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
                 switchAccountTitle.setTextColor(getResources().getColor(R.color.DarkText));
@@ -192,14 +182,15 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void checkAccountAvailable() {
-        if(firebaseHelper.isUserSignedIn()){
+        if (firebaseHelper.isUserSignedIn()) {
             setupAccountEnabled();
         } else {
             setupAccountDisabled();
         }
     }
-    private void setupAccountDisabled(){
-        if(tickTrackDatabase.getThemeMode()==1){
+
+    private void setupAccountDisabled() {
+        if (tickTrackDatabase.getThemeMode() == 1) {
             syncDataLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             includeDataLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
 
@@ -225,8 +216,9 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(activity, "Sign in required", Toast.LENGTH_SHORT).show();
         });
     }
-    private void setupAccountEnabled(){
-        if(tickTrackDatabase.getThemeMode()==1){
+
+    private void setupAccountEnabled() {
+        if (tickTrackDatabase.getThemeMode() == 1) {
             syncDataLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
             includeDataLayout.setBackgroundResource(R.drawable.clickable_layout_light_background);
 
@@ -250,31 +242,32 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupLastBackupText() {
-        if(tickTrackDatabase.getLastBackupSystemTime()!=-1){
-            syncDataLastSync.setText("Last sync "+ TimeAgo.getTimeAgo(tickTrackDatabase.getLastBackupSystemTime()));
+        if (tickTrackDatabase.getLastBackupSystemTime() != -1) {
+            syncDataLastSync.setText("Last sync " + TimeAgo.getTimeAgo(tickTrackDatabase.getLastBackupSystemTime()));
         } else {
             syncDataLastSync.setText("No sync yet");
         }
     }
-    private void setupSyncFreqOptionText(){
+
+    private void setupSyncFreqOptionText() {
         String frequencyOption = "";
         int opt = tickTrackDatabase.getSyncFrequency();
-        if(opt==1){
+        if (opt == 1) {
             int dateOfMonth = tickTrackDatabase.getBackupDate();
-//            frequencyOption = "Every "+dateOfMonth+getDayOfMonthSuffix(dateOfMonth)+" of the Month";
+            frequencyOption = "Every " + dateOfMonth + getDayOfMonthSuffix(dateOfMonth) + " of the Month";
 
             // TODO: EVERY HOUR DEBUG
-            frequencyOption = "Next backup";
+//            frequencyOption = "Next backup";
 
             monthlyButton.setChecked(true);
-        } else if (opt ==2){
-            System.out.println(tickTrackDatabase.getBackupDay()+" BACKUP DAY FOUND");
+        } else if (opt == 2) {
+            System.out.println(tickTrackDatabase.getBackupDay() + " BACKUP DAY FOUND");
 
             String dayOfWeek = getDayOfWeek(tickTrackDatabase.getBackupDay());
 
-            frequencyOption = "Every "+dayOfWeek;
+            frequencyOption = "Every " + dayOfWeek;
             weeklyButton.setChecked(true);
-        } else if (opt==3){
+        } else if (opt == 3) {
             frequencyOption = "Daily";
             dailyButton.setChecked(true);
         } else {
@@ -283,41 +276,47 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 //        //TODO DELETE
-        long nextBackupTimestamp = tickTrackDatabase.getLastBackupSystemTime()+1000*60*60L;
-        Timestamp stamp = new Timestamp(nextBackupTimestamp);
-        int backupHour = stamp.getHours();
-        int backupMinute =stamp.getMinutes();
+//        long nextBackupTimestamp = tickTrackDatabase.getLastBackupSystemTime()+1000*60*60L;
+//        Timestamp stamp = new Timestamp(nextBackupTimestamp);
+//        int backupHour = stamp.getHours();
+//        int backupMinute =stamp.getMinutes();
 
-//        int backupHour = tickTrackDatabase.getBackupHour();
-//        int backupMinute = tickTrackDatabase.getBackupMinute();
+        int backupHour = tickTrackDatabase.getBackupHour();
+        int backupMinute = tickTrackDatabase.getBackupMinute();
         String timeOfBackup = " at around ";
-        if(backupHour<=12){
-            if(backupHour==0){
-                timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d am", backupHour,backupMinute);
-            } else if(backupHour==12){
-                timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d pm", backupHour,backupMinute);
-            } else{
-                timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d am", backupHour,backupMinute);
+        if (backupHour <= 12) {
+            if (backupHour == 0) {
+                timeOfBackup += String.format(Locale.getDefault(), "%02d:%02d am", backupHour, backupMinute);
+            } else if (backupHour == 12) {
+                timeOfBackup += String.format(Locale.getDefault(), "%02d:%02d pm", backupHour, backupMinute);
+            } else {
+                timeOfBackup += String.format(Locale.getDefault(), "%02d:%02d am", backupHour, backupMinute);
             }
         } else {
-            backupHour = backupHour-12;
-            timeOfBackup += String.format(Locale.getDefault(),"%02d:%02d pm",backupHour,backupMinute);
+            backupHour = backupHour - 12;
+            timeOfBackup += String.format(Locale.getDefault(), "%02d:%02d pm", backupHour, backupMinute);
         }
 
-        syncDataFrequency.setText(frequencyOption+timeOfBackup);
+        syncDataFrequency.setText(frequencyOption + timeOfBackup);
     }
+
     String getDayOfMonthSuffix(final int n) {
         checkArgument(n >= 1 && n <= 31, "illegal day of month: " + n);
         if (n >= 11 && n <= 13) {
             return "th";
         }
         switch (n % 10) {
-            case 1:  return "st";
-            case 2:  return "nd";
-            case 3:  return "rd";
-            default: return "th";
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
         }
     }
+
     private String getDayOfWeek(int value) {
         String day = "";
         switch (value) {
@@ -346,25 +345,26 @@ public class SettingsActivity extends AppCompatActivity {
         return day;
     }
 
-    private void setupDataOptionsText(){
+    private void setupDataOptionsText() {
         ArrayList<Integer> optionsBackup = tickTrackDatabase.getBackupDataOptions();
         String options = "";
-        if(optionsBackup.contains(1)){
+        if (optionsBackup.contains(1)) {
             options += "Preferences";
         }
-        if(optionsBackup.contains(2)){
+        if (optionsBackup.contains(2)) {
             timerCheckBox.setChecked(true);
             options += ", Timers";
         }
-        if(optionsBackup.contains(3)){
+        if (optionsBackup.contains(3)) {
             counterCheckBox.setChecked(true);
             options += ", Counters";
         }
         includeDataValue.setText(options);
     }
+
     private void setupThemeText() {
         int themeMode = tickTrackDatabase.getThemeMode();
-        if(themeMode==1){
+        if (themeMode == 1) {
             themeName.setText("Light Mode");
             lightButton.setChecked(true);
         } else {
@@ -372,6 +372,7 @@ public class SettingsActivity extends AppCompatActivity {
             darkButton.setChecked(true);
         }
     }
+
     private void refreshTheme() {
         TickTrackThemeSetter.settingsActivityTheme(activity, themeTitle, themeName, settingsScrollView, themeLayout,
                 tickTrackDatabase, backupGoogleTitle, googleAccountLayout, switchAccountOptionLayout, disconnectAccountOptionLayout, switchAccountTitle, disconnectAccountTitle,
@@ -409,8 +410,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private boolean isSyncOptionOpen = false;
+
     private void toggleSyncOptionsLayout() {
-        if(isSyncOptionOpen){
+        if (isSyncOptionOpen) {
             syncFreqOptionsLayout.setVisibility(View.GONE);
             isSyncOptionOpen = false;
         } else {
@@ -421,8 +423,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private boolean isAccountOptionsOpen = false;
+
     private void toggleGoogleAccountOptionsLayout() {
-        if(isAccountOptionsOpen){
+        if (isAccountOptionsOpen) {
             accountOptionsLayout.setVisibility(View.GONE);
             setupEmailText();
             isAccountOptionsOpen = false;
@@ -434,8 +437,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private boolean isDataOptionsOpen = false;
+
     private void toggleDataOptionsLayout() {
-        if(isDataOptionsOpen){
+        if (isDataOptionsOpen) {
             backupDataOptionsLayout.setVisibility(View.GONE);
             setupDataOptionsText();
             isDataOptionsOpen = false;
@@ -448,9 +452,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private boolean isThemeOptionsOpen = false;
-    private void toggleThemeOptionsLayout(){
+
+    private void toggleThemeOptionsLayout() {
         removeAllCheck();
-        if(isThemeOptionsOpen){
+        if (isThemeOptionsOpen) {
             themeOptionsLayout.setVisibility(View.GONE);
             isThemeOptionsOpen = false;
         } else {
@@ -462,54 +467,51 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void toggleOthersClose() {
 
-        if(isDataOptionsOpen){
+        if (isDataOptionsOpen) {
             toggleDataOptionsLayout();
         }
-        if(isSyncOptionOpen){
+        if (isSyncOptionOpen) {
             toggleSyncOptionsLayout();
         }
-        if(isAccountOptionsOpen){
+        if (isAccountOptionsOpen) {
             toggleGoogleAccountOptionsLayout();
         }
-        if(isClockVisible){
+        if (isClockVisible) {
             setupClockOptionsToggle();
         }
-        if(isThemeOptionsOpen){
+        if (isThemeOptionsOpen) {
             toggleThemeOptionsLayout();
         }
     }
 
     private void setupHapticData() {
-        if(tickTrackDatabase.isHapticEnabled()){
-            hapticSwitch.setChecked(true);
-        } else {
-            hapticSwitch.setChecked(false);
-        }
+        hapticSwitch.setChecked(tickTrackDatabase.isHapticEnabled());
     }
 
     private int clockStyle = -1;
     private boolean isClockVisible = false;
+
     private void setupClockStyle() {
-        if(clockStyle==-1){
+        if (clockStyle == -1) {
             clockStyle = tickTrackDatabase.getScreenSaverClock();
         }
         removeAllCheck();
-        if(clockStyle==1){
+        if (clockStyle == 1) {
             unordinaryImageCheck.setVisibility(View.VISIBLE);
             clockStyleValue.setText("Unordinary");
-        } else if (clockStyle==2){
+        } else if (clockStyle == 2) {
             oxygenyImageCheck.setVisibility(View.VISIBLE);
             clockStyleValue.setText("Oxygeny");
-        } else if (clockStyle==3){
+        } else if (clockStyle == 3) {
             minimalImageCheck.setVisibility(View.VISIBLE);
             clockStyleValue.setText("Truly Minimal");
-        } else if (clockStyle==4){
+        } else if (clockStyle == 4) {
             simplisticImageCheck.setVisibility(View.VISIBLE);
             clockStyleValue.setText("Simplistic");
-        } else if (clockStyle==5){
+        } else if (clockStyle == 5) {
             romanImageCheck.setVisibility(View.VISIBLE);
             clockStyleValue.setText("Roman");
-        } else if (clockStyle==6){
+        } else if (clockStyle == 6) {
             funkyImageCheck.setVisibility(View.VISIBLE);
             clockStyleValue.setText("Funky");
         } else {
@@ -518,6 +520,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
         tickTrackDatabase.storeScreenSaverClock(clockStyle);
     }
+
     private void removeAllCheck() {
         unordinaryImageCheck.setVisibility(View.INVISIBLE);
         oxygenyImageCheck.setVisibility(View.INVISIBLE);
@@ -526,46 +529,48 @@ public class SettingsActivity extends AppCompatActivity {
         romanImageCheck.setVisibility(View.INVISIBLE);
         funkyImageCheck.setVisibility(View.INVISIBLE);
     }
-    private void setOnClickListeners(){
+
+    private void setOnClickListeners() {
         unordinaryImage.setOnClickListener(view -> {
-            clockStyle=1;
+            clockStyle = 1;
             setupClockStyle();
             setupSettingsChangeTime();
         });
         oxygenyImage.setOnClickListener(view -> {
-            clockStyle=2;
+            clockStyle = 2;
             setupClockStyle();
             setupSettingsChangeTime();
         });
         minimalImage.setOnClickListener(view -> {
-            clockStyle=3;
+            clockStyle = 3;
             setupClockStyle();
             setupSettingsChangeTime();
         });
         simplisticImage.setOnClickListener(view -> {
-            clockStyle=4;
+            clockStyle = 4;
             setupClockStyle();
             setupSettingsChangeTime();
         });
         romanImage.setOnClickListener(view -> {
-            clockStyle=5;
+            clockStyle = 5;
             setupClockStyle();
             setupSettingsChangeTime();
         });
         funkyImage.setOnClickListener(view -> {
-            clockStyle=6;
+            clockStyle = 6;
             setupClockStyle();
             setupSettingsChangeTime();
         });
     }
+
     private void setupClockOptionsToggle() {
-        if(isClockVisible){
+        if (isClockVisible) {
             clockOptionsLayout.setVisibility(View.GONE);
-            isClockVisible=false;
+            isClockVisible = false;
         } else {
             toggleOthersClose();
             clockOptionsLayout.setVisibility(View.VISIBLE);
-            isClockVisible=true;
+            isClockVisible = true;
         }
     }
 
@@ -574,11 +579,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupCounterSum() {
-        if(tickTrackDatabase.isSumEnabled()){
-            displaySumSwitch.setChecked(true);
-        } else {
-            displaySumSwitch.setChecked(false);
-        }
+        displaySumSwitch.setChecked(tickTrackDatabase.isSumEnabled());
     }
 
     private void initVariables() {
@@ -666,12 +667,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         retrySyncLayoutAccount = findViewById(R.id.retrySyncLayoutAccount);
 
-        if(AutoStartPermissionHelper.getInstance().isAutoStartPermissionMaybeAvailable(this)){
+        if (AutoStartPermissionHelper.getInstance().isAutoStartPermissionMaybeAvailable(this)) {
             autostartLayout.setVisibility(View.VISIBLE);
             autostartLayout.setOnClickListener(view -> {
                 boolean resultCode = AutoStartPermissionHelper.getInstance().getAutoStartPermission(this);
-                if(!resultCode){
-                    if(AutoStartPermissionHelper.getInstance().isAutoStartPermissionMaybeAvailable(this)){
+                if (!resultCode) {
+                    if (AutoStartPermissionHelper.getInstance().isAutoStartPermissionMaybeAvailable(this)) {
                         Intent intent = new Intent();
                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
@@ -692,7 +693,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED){
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) == PackageManager.PERMISSION_GRANTED) {
             notificationsLayout.setVisibility(View.GONE);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -736,7 +737,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupRetrySync() {
-        if(tickTrackFirebaseDatabase.isDriveLinkFail()){
+        if (tickTrackFirebaseDatabase.isDriveLinkFail()) {
             retrySyncLayoutAccount.setVisibility(View.VISIBLE);
             retrySyncLayoutAccount.setOnClickListener(view -> {
                 Toast.makeText(activity, "Sync In Progress", Toast.LENGTH_SHORT).show();
@@ -766,8 +767,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private boolean isMilestone = true;
+
     private void setupMilestoneVibrate() {
-        if(tickTrackDatabase.isMilestoneVibrate()){
+        if (tickTrackDatabase.isMilestoneVibrate()) {
             milestoneSwitch.setChecked(true);
             isMilestone = true;
         } else {
@@ -775,8 +777,9 @@ public class SettingsActivity extends AppCompatActivity {
             isMilestone = false;
         }
     }
-    private void toggleMilestoneVibrate(){
-        if(isMilestone){
+
+    private void toggleMilestoneVibrate() {
+        if (isMilestone) {
             tickTrackDatabase.setMilestoneVibrate(false);
             milestoneSwitch.setChecked(false);
             isMilestone = false;
@@ -788,6 +791,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private String receivedAction = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -796,10 +800,10 @@ public class SettingsActivity extends AppCompatActivity {
         setupClickListeners();
         receivedAction = getIntent().getAction();
 
-        if(tickTrackDatabase.getThemeMode()==1){
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray) );
+        if (tickTrackDatabase.getThemeMode() == 1) {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloLightGray));
         } else {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack) );
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.HoloBlack));
         }
     }
 
@@ -843,7 +847,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void readDataExternal(int requestCode) {
         final Intent ringtone = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        if(requestCode==0){
+        if (requestCode == 0) {
             ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
         } else {
             ringtone.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
@@ -853,6 +857,7 @@ public class SettingsActivity extends AppCompatActivity {
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         startActivityForResult(ringtone, requestCode);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -861,7 +866,7 @@ public class SettingsActivity extends AppCompatActivity {
             final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
             String title = ringtone.getTitle(this);
-            if(uri!=null){
+            if (uri != null) {
                 tickTrackDatabase.storeRingtoneName(title);
                 tickTrackDatabase.storeRingtoneURI(uri.toString());
             } else {
@@ -874,7 +879,7 @@ public class SettingsActivity extends AppCompatActivity {
             final Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
             String title = ringtone.getTitle(this);
-            if(uri!=null){
+            if (uri != null) {
                 tickTrackDatabase.setMilestoneSound(title);
                 tickTrackDatabase.setMilestoneSoundUri(uri.toString());
             } else {
@@ -922,7 +927,7 @@ public class SettingsActivity extends AppCompatActivity {
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 102);
                     }
@@ -937,12 +942,12 @@ public class SettingsActivity extends AppCompatActivity {
             setupSettingsChangeTime();
         });
 
-        milestoneVibrateLayout.setOnClickListener(view ->{
+        milestoneVibrateLayout.setOnClickListener(view -> {
             toggleMilestoneVibrate();
             setupSettingsChangeTime();
         });
         milestoneSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(compoundButton.isChecked()){
+            if (compoundButton.isChecked()) {
                 tickTrackDatabase.setMilestoneVibrate(true);
                 isMilestone = true;
             } else {
@@ -961,7 +966,7 @@ public class SettingsActivity extends AppCompatActivity {
             int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 101);
                     }
@@ -983,10 +988,10 @@ public class SettingsActivity extends AppCompatActivity {
             toggleSyncOptionsLayout();
             setupSettingsChangeTime();
 
-//            //TODO DELETE THIS AFTER BACKUP DEBUG FIX
-            if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, this)){
-                startBackupService(this);
-            }
+            //TODO: DELETE THIS AFTER BACKUP DEBUG FIX
+//            if(firebaseHelper.isUserSignedIn() && !isMyServiceRunning(BackupRestoreService.class, this)){
+//                startBackupService(this);
+//            }
         });
         weeklyButton.setOnClickListener((view) -> {
             tickTrackDatabase.storeSyncFrequency(SettingsData.Frequency.WEEKLY.getCode());
@@ -1017,7 +1022,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animator) { }
+                public void onAnimationStart(Animator animator) {
+                }
+
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     refreshTheme();
@@ -1029,23 +1036,33 @@ public class SettingsActivity extends AppCompatActivity {
                     generalRootLayout.setVisibility(View.VISIBLE);
                     lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
                         @Override
-                        public void onAnimationStart(Animator animator) {}
+                        public void onAnimationStart(Animator animator) {
+                        }
+
                         @Override
                         public void onAnimationEnd(Animator animator) {
                             lottieAnimationView.removeAllAnimatorListeners();
                             lottieAnimationView.setVisibility(View.INVISIBLE);
                             sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
                         }
+
                         @Override
-                        public void onAnimationCancel(Animator animator) { }
+                        public void onAnimationCancel(Animator animator) {
+                        }
+
                         @Override
-                        public void onAnimationRepeat(Animator animator) { }
+                        public void onAnimationRepeat(Animator animator) {
+                        }
                     });
                 }
+
                 @Override
-                public void onAnimationCancel(Animator animator) { }
+                public void onAnimationCancel(Animator animator) {
+                }
+
                 @Override
-                public void onAnimationRepeat(Animator animator) { }
+                public void onAnimationRepeat(Animator animator) {
+                }
             });
             setupSettingsChangeTime();
         });
@@ -1061,7 +1078,9 @@ public class SettingsActivity extends AppCompatActivity {
             lottieAnimationView.playAnimation();
             lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animator) {}
+                public void onAnimationStart(Animator animator) {
+                }
+
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     refreshTheme();
@@ -1073,23 +1092,33 @@ public class SettingsActivity extends AppCompatActivity {
                     generalRootLayout.setVisibility(View.VISIBLE);
                     lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
                         @Override
-                        public void onAnimationStart(Animator animator) { }
+                        public void onAnimationStart(Animator animator) {
+                        }
+
                         @Override
                         public void onAnimationEnd(Animator animator) {
                             lottieAnimationView.removeAllAnimatorListeners();
                             lottieAnimationView.setVisibility(View.INVISIBLE);
                             sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
                         }
+
                         @Override
-                        public void onAnimationCancel(Animator animator) { }
+                        public void onAnimationCancel(Animator animator) {
+                        }
+
                         @Override
-                        public void onAnimationRepeat(Animator animator) { }
+                        public void onAnimationRepeat(Animator animator) {
+                        }
                     });
                 }
+
                 @Override
-                public void onAnimationCancel(Animator animator) { }
+                public void onAnimationCancel(Animator animator) {
+                }
+
                 @Override
-                public void onAnimationRepeat(Animator animator) { }
+                public void onAnimationRepeat(Animator animator) {
+                }
             });
             setupSettingsChangeTime();
         });
@@ -1100,7 +1129,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         googleAccountLayout.setOnClickListener(view -> {
-            if(firebaseHelper.isUserSignedIn() && !tickTrackFirebaseDatabase.isDriveLinkFail()){
+            if (firebaseHelper.isUserSignedIn() && !tickTrackFirebaseDatabase.isDriveLinkFail()) {
                 toggleGoogleAccountOptionsLayout();
             } else {
                 firebaseHelper.signOut(activity);
@@ -1113,10 +1142,10 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         switchAccountOptionLayout.setOnClickListener(view -> {
-            if(isMyServiceRunning(getApplicationContext())){
+            if (isMyServiceRunning(getApplicationContext())) {
                 Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
             } else {
-                if(firebaseHelper.isUserSignedIn()){
+                if (firebaseHelper.isUserSignedIn()) {
                     firebaseHelper.switchAccount(activity);
                     toggleGoogleAccountOptionsLayout();
                 }
@@ -1124,10 +1153,10 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         disconnectAccountOptionLayout.setOnClickListener(view -> {
-            if(isMyServiceRunning(this)){
+            if (isMyServiceRunning(this)) {
                 Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
             } else {
-                if(firebaseHelper.isUserSignedIn()){
+                if (firebaseHelper.isUserSignedIn()) {
                     firebaseHelper.signOut(activity);
                     toggleGoogleAccountOptionsLayout();
                     setupEmailText();
@@ -1137,19 +1166,11 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         counterCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(compoundButton.isChecked()){
-                tickTrackDatabase.setCounterDataBackup(true);
-            } else {
-                tickTrackDatabase.setCounterDataBackup(false);
-            }
+            tickTrackDatabase.setCounterDataBackup(compoundButton.isChecked());
             setupSettingsChangeTime();
         });
         timerCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(compoundButton.isChecked()){
-                tickTrackDatabase.setTimerDataBackup(true);
-            } else {
-                tickTrackDatabase.setTimerDataBackup(false);
-            }
+            tickTrackDatabase.setTimerDataBackup(compoundButton.isChecked());
             setupSettingsChangeTime();
         });
 
@@ -1158,11 +1179,7 @@ public class SettingsActivity extends AppCompatActivity {
             toggleHapticEnable();
         });
         hapticSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(compoundButton.isChecked()){
-                tickTrackDatabase.setHapticEnabled(true);
-            } else {
-                tickTrackDatabase.setHapticEnabled(false);
-            }
+            tickTrackDatabase.setHapticEnabled(compoundButton.isChecked());
             setupSettingsChangeTime();
         });
 
@@ -1173,10 +1190,10 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.dialogMessage.setText("This will permanently delete your TickTrack cloud backup");
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
-                if(isMyServiceRunning(this)){
+                if (isMyServiceRunning(this)) {
                     Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
                 } else {
-                    if(firebaseHelper.isUserSignedIn()){
+                    if (firebaseHelper.isUserSignedIn()) {
                         firebaseHelper.deleteBackup(this);
                         Toast.makeText(activity, "Deleting your backup data in background", Toast.LENGTH_SHORT).show();
                     }
@@ -1192,7 +1209,7 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.dialogMessage.setText("This will permanently delete your device TickTrack Data");
             swipeDialog.swipeButton.setOnClickListener(v -> {
                 swipeDialog.dismiss();
-                if(isMyServiceRunning(this)){
+                if (isMyServiceRunning(this)) {
                     Toast.makeText(activity, "Backup ongoing, please wait", Toast.LENGTH_SHORT).show();
                 } else {
                     new Handler().post(() -> {
@@ -1203,7 +1220,7 @@ public class SettingsActivity extends AppCompatActivity {
                         tickTrackDatabase.resetData(activity, this);
                         progressBarDialog.dismiss();
                         refreshTheme();
-                        clockStyle=-1;
+                        clockStyle = -1;
                         setupClockStyle();
                         Toast.makeText(activity, "Reset Complete", Toast.LENGTH_SHORT).show();
                     });
@@ -1212,26 +1229,18 @@ public class SettingsActivity extends AppCompatActivity {
             swipeDialog.dismissButton.setOnClickListener(view1 -> swipeDialog.dismiss());
         });
 
-        clockStyleLayout.setOnClickListener(view ->{
+        clockStyleLayout.setOnClickListener(view -> {
             setupClockOptionsToggle();
         });
 
         displaySumLayout.setOnClickListener(view -> {
-            if(tickTrackDatabase.isSumEnabled()){
-                tickTrackDatabase.setSumEnabled(false);
-            } else {
-                tickTrackDatabase.setSumEnabled(true);
-            }
+            tickTrackDatabase.setSumEnabled(!tickTrackDatabase.isSumEnabled());
             setupCounterSum();
             setupSettingsChangeTime();
         });
 
         displaySumSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(compoundButton.isChecked()){
-                tickTrackDatabase.setSumEnabled(true);
-            } else {
-                tickTrackDatabase.setSumEnabled(false);
-            }
+            tickTrackDatabase.setSumEnabled(compoundButton.isChecked());
             setupCounterSum();
             setupSettingsChangeTime();
         });
@@ -1279,15 +1288,15 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupEmailText() {
-        if(firebaseHelper.isUserSignedIn()){
-            if(tickTrackFirebaseDatabase.isDriveLinkFail()){
+        if (firebaseHelper.isUserSignedIn()) {
+            if (tickTrackFirebaseDatabase.isDriveLinkFail()) {
                 backupEmail.setText("Drive link failed, Tap to sign in again");
                 backupEmail.setTextColor(getResources().getColor(R.color.roboto_calendar_circle_1));
                 setupAccountDisabled();
             } else {
                 setupAccountEnabled();
                 backupEmail.setText(tickTrackFirebaseDatabase.getCurrentUserEmail());
-                if(tickTrackDatabase.getThemeMode()==1){
+                if (tickTrackDatabase.getThemeMode() == 1) {
                     backupEmail.setTextColor(getResources().getColor(R.color.LightDarkText));
                 } else {
                     backupEmail.setTextColor(getResources().getColor(R.color.DarkLightText));
@@ -1296,7 +1305,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         } else {
             backupEmail.setText("Add an account");
-            if(tickTrackDatabase.getThemeMode()==1){
+            if (tickTrackDatabase.getThemeMode() == 1) {
                 backupEmail.setTextColor(getResources().getColor(R.color.LightDarkText));
             } else {
                 backupEmail.setTextColor(getResources().getColor(R.color.DarkLightText));
@@ -1310,7 +1319,7 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
 
         Intent intent;
-        if(ScreensaverActivity.ACTION_SCREENSAVER_EDIT.equals(receivedAction)){
+        if (ScreensaverActivity.ACTION_SCREENSAVER_EDIT.equals(receivedAction)) {
             intent = new Intent(this, ScreensaverActivity.class);
         } else {
             intent = new Intent(this, SoYouADeveloperHuh.class);

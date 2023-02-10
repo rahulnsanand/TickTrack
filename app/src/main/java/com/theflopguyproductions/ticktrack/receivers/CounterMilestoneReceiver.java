@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class CounterMilestoneReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_COUNTER_MILESTONE_REMINDER = "ACTION_COUNTER_MILESTONE_REMINDER";
+    public static final String ACTION_COUNTER_MILESTONE_REMINDER = "com.theflopguyproductions.ticktrack.ACTION_COUNTER_MILESTONE_REMINDER";
 
     private int milestoneCount = 0;
     private long milestoneValue = 0L;
@@ -84,12 +84,12 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
             if (milestoneValue > 0) {
                 notificationBuilder.setContentText("Just " + milestoneValue + " counts more!");
                 notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
-            } else if(milestoneValue<0){
-                notificationBuilder.setContentText("Just "+Math.abs(milestoneValue)+" counts less!");
+            } else if (milestoneValue < 0) {
+                notificationBuilder.setContentText("Just " + Math.abs(milestoneValue) + " counts less!");
                 notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
             }
         } else {
-            notificationBuilder.setContentText("You've got "+milestoneCount+" counters waiting to count!");
+            notificationBuilder.setContentText("You've got " + milestoneCount + " counters waiting to count!");
             notificationManagerCompat.notify(TickTrack.GENERAL_NOTIFICATION_ID, notificationBuilder.build());
         }
 
@@ -98,10 +98,10 @@ public class CounterMilestoneReceiver extends BroadcastReceiver {
     private boolean hasMilestone() {
         ArrayList<CounterData> counterDataArrayList = tickTrackDatabase.retrieveCounterList();
         milestoneCount = 0;
-        for (int i=0; i<counterDataArrayList.size(); i++){
-            if(counterDataArrayList.get(i).isCounterSignificantExist()){
+        for (int i = 0; i < counterDataArrayList.size(); i++) {
+            if (counterDataArrayList.get(i).isCounterSignificantExist()) {
                 milestoneCount++;
-                milestoneValue = counterDataArrayList.get(i).getCounterValue()-counterDataArrayList.get(i).getCounterSignificantCount();
+                milestoneValue = counterDataArrayList.get(i).getCounterValue() - counterDataArrayList.get(i).getCounterSignificantCount();
             }
         }
         return milestoneCount > 0;

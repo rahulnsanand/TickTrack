@@ -32,7 +32,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="ACTION_COUNTER_MILESTONE_REMINDER" />
+                <action android:name="com.theflopguyproductions.ticktrack.ACTION_COUNTER_MILESTONE_REMINDER" />
             </intent-filter>
         </receiver>
 
